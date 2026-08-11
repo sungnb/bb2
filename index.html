@@ -396,6 +396,8 @@ body {
 
     box-shadow:
         0 7px 20px rgba(8, 43, 80, 0.20);
+
+    cursor: pointer;
 }
 
 .admin-button .icon {
@@ -571,6 +573,243 @@ body {
     .button {
         min-height: 70px;
     }
+}
+
+
+/* ==================================================
+   관리자 비밀번호 팝업
+================================================== */
+
+.password-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 9999;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(8, 24, 42, 0.58);
+
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+.password-overlay.show {
+    display: flex;
+}
+
+
+.password-box {
+
+    width: 100%;
+    max-width: 360px;
+
+    padding: 27px 23px 22px;
+
+    background: #ffffff;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.25);
+
+    animation:
+        passwordPopup 0.18s ease-out;
+}
+
+@keyframes passwordPopup {
+
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+.password-icon {
+
+    width: 54px;
+    height: 54px;
+
+    margin: 0 auto 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background: #e8f1ff;
+
+    font-size: 25px;
+}
+
+
+.password-title {
+
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    color: #102a43;
+}
+
+
+.password-description {
+
+    margin: 8px 0 19px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    color: #718096;
+
+    line-height: 1.5;
+}
+
+
+.password-input {
+
+    width: 100%;
+
+    height: 50px;
+
+    padding: 0 15px;
+
+    border: 1px solid #d5dfeb;
+
+    border-radius: 14px;
+
+    background: #f7f9fc;
+
+    outline: none;
+
+    font-size: 18px;
+
+    color: #172033;
+
+    text-align: center;
+
+    letter-spacing: 3px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.password-input:focus {
+
+    border-color: #1976d2;
+
+    box-shadow:
+        0 0 0 3px rgba(25,118,210,0.12);
+
+    background: #ffffff;
+}
+
+
+.remember-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin: 14px 2px 18px;
+
+    font-size: 14px;
+
+    color: #52657a;
+
+    cursor: pointer;
+}
+
+.remember-row input {
+
+    width: 18px;
+    height: 18px;
+
+    accent-color: #1976d2;
+
+    cursor: pointer;
+}
+
+
+.password-buttons {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 9px;
+}
+
+
+.password-btn {
+
+    height: 47px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.password-cancel {
+
+    background: #edf2f7;
+
+    color: #52657a;
+}
+
+
+.password-confirm {
+
+    background: #1976d2;
+
+    color: #ffffff;
+}
+
+
+.password-error {
+
+    min-height: 20px;
+
+    margin-top: 9px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #d32f2f;
 }
 
 </style>
@@ -896,10 +1135,10 @@ body {
      관리자
 ========================= -->
 
-<a
+<button
+    type="button"
     class="button admin-button"
-    href="https://docs.google.com/spreadsheets/d/1eQHscrZpAWzrOo6QJw3pmyoeUijUoTKyfMmmPRPqkaU/edit?gid=1237649201#gid=1237649201"
-    target="_top">
+    id="adminButton">
 
     <div class="button-left">
 
@@ -917,7 +1156,7 @@ body {
         ›
     </span>
 
-</a>
+</button>
 
 
 </section>
@@ -928,52 +1167,503 @@ body {
 </main>
 
 
+<!-- ==================================================
+     비밀번호 입력 팝업
+================================================== -->
+
+<div
+    class="password-overlay"
+    id="passwordOverlay">
+
+    <div
+        class="password-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="passwordTitle">
+
+        <div class="password-icon">
+            🔒
+        </div>
+
+        <h2
+            class="password-title"
+            id="passwordTitle">
+
+            관리자 확인
+
+        </h2>
+
+        <p class="password-description">
+
+            전시대 관리자 페이지입니다.<br>
+            비밀번호를 입력해 주세요.
+
+        </p>
+
+
+        <input
+            type="password"
+            id="passwordInput"
+            class="password-input"
+            inputmode="numeric"
+            autocomplete="current-password"
+            placeholder="비밀번호"
+            maxlength="20">
+
+
+        <label class="remember-row">
+
+            <input
+                type="checkbox"
+                id="rememberPassword">
+
+            <span>
+                이 기기에서 기억하기
+            </span>
+
+        </label>
+
+
+        <div class="password-buttons">
+
+            <button
+                type="button"
+                class="password-btn password-cancel"
+                id="passwordCancel">
+
+                취소
+
+            </button>
+
+            <button
+                type="button"
+                class="password-btn password-confirm"
+                id="passwordConfirm">
+
+                확인
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="password-error"
+            id="passwordError">
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
-/* =========================
-   Service Worker 등록
-   Android PWA / 오프라인
-========================= */
+/* ==================================================
+   관리자 설정
+================================================== */
 
-if ("serviceWorker" in navigator) {
+/*
+   ★★★ 관리자 비밀번호 ★★★
 
-    window.addEventListener("load", function () {
+   현재 비밀번호: 1234
 
-        navigator.serviceWorker
-            .register("./sw.js")
-            .then(function (registration) {
+   원하는 비밀번호로 변경하세요.
 
-                console.log(
-                    "Service Worker 등록 완료:",
-                    registration.scope
-                );
+   예:
+   const ADMIN_PASSWORD = "5678";
+*/
 
-            })
-            .catch(function (error) {
+const ADMIN_PASSWORD = "1234";
 
-                console.log(
-                    "Service Worker 등록 실패:",
-                    error
-                );
 
-            });
+/*
+   관리자 Google Sheets 주소
+*/
 
-    });
+const ADMIN_URL =
+    "https://docs.google.com/spreadsheets/d/1eQHscrZpAWzrOo6QJw3pmyoeUijUoTKyfMmmPRPqkaU/edit?gid=1237649201#gid=1237649201";
+
+
+/*
+   비밀번호 기억용 저장 이름
+
+   이 이름은 변경하지 않아도 됩니다.
+*/
+
+const PASSWORD_STORAGE_KEY =
+    "bukbu_admin_password_saved";
+
+
+/* ==================================================
+   요소 가져오기
+================================================== */
+
+const adminButton =
+    document.getElementById("adminButton");
+
+const passwordOverlay =
+    document.getElementById("passwordOverlay");
+
+const passwordInput =
+    document.getElementById("passwordInput");
+
+const passwordConfirm =
+    document.getElementById("passwordConfirm");
+
+const passwordCancel =
+    document.getElementById("passwordCancel");
+
+const rememberPassword =
+    document.getElementById("rememberPassword");
+
+const passwordError =
+    document.getElementById("passwordError");
+
+
+/* ==================================================
+   저장된 비밀번호 확인
+================================================== */
+
+function isPasswordSaved() {
+
+    try {
+
+        return localStorage.getItem(
+            PASSWORD_STORAGE_KEY
+        ) === "true";
+
+    } catch (error) {
+
+        return false;
+
+    }
 
 }
 
 
-/* =========================
-   뒤로가기 시 화면 보정
-========================= */
+/* ==================================================
+   관리자 페이지 열기
+================================================== */
 
-window.addEventListener("pageshow", function (event) {
+function openAdminPage() {
 
-    if (event.persisted) {
-        window.scrollTo(0, 0);
+    window.location.href = ADMIN_URL;
+
+}
+
+
+/* ==================================================
+   비밀번호 창 열기
+================================================== */
+
+function openPasswordBox() {
+
+    passwordError.textContent = "";
+
+    passwordInput.value = "";
+
+    rememberPassword.checked =
+        isPasswordSaved();
+
+    passwordOverlay.classList.add("show");
+
+    setTimeout(function() {
+
+        passwordInput.focus();
+
+    }, 100);
+
+}
+
+
+/* ==================================================
+   비밀번호 창 닫기
+================================================== */
+
+function closePasswordBox() {
+
+    passwordOverlay.classList.remove("show");
+
+    passwordInput.value = "";
+
+    passwordError.textContent = "";
+
+}
+
+
+/* ==================================================
+   비밀번호 확인
+================================================== */
+
+function checkPassword() {
+
+    const enteredPassword =
+        passwordInput.value.trim();
+
+
+    /* 비밀번호가 비어있는 경우 */
+
+    if (!enteredPassword) {
+
+        passwordError.textContent =
+            "비밀번호를 입력해 주세요.";
+
+        passwordInput.focus();
+
+        return;
+
     }
 
-});
+
+    /* 비밀번호가 맞는 경우 */
+
+    if (enteredPassword === ADMIN_PASSWORD) {
+
+
+        /*
+           '이 기기에서 기억하기'를 선택한 경우
+        */
+
+        if (rememberPassword.checked) {
+
+            try {
+
+                localStorage.setItem(
+                    PASSWORD_STORAGE_KEY,
+                    "true"
+                );
+
+            } catch (error) {
+
+                console.log(
+                    "비밀번호 저장 실패:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+           체크하지 않았다면
+           기존 저장값을 삭제
+        */
+
+        else {
+
+            try {
+
+                localStorage.removeItem(
+                    PASSWORD_STORAGE_KEY
+                );
+
+            } catch (error) {
+
+                console.log(
+                    "저장된 비밀번호 삭제 실패:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        closePasswordBox();
+
+        openAdminPage();
+
+        return;
+
+    }
+
+
+    /* 비밀번호가 틀린 경우 */
+
+    passwordError.textContent =
+        "비밀번호가 올바르지 않습니다.";
+
+    passwordInput.value = "";
+
+    passwordInput.focus();
+
+}
+
+
+/* ==================================================
+   관리자 버튼 클릭
+================================================== */
+
+adminButton.addEventListener(
+    "click",
+    function() {
+
+
+        /*
+           이미 이 기기에서 기억된 경우
+
+           비밀번호 입력 없이 바로 이동
+        */
+
+        if (isPasswordSaved()) {
+
+            openAdminPage();
+
+            return;
+
+        }
+
+
+        /*
+           기억되지 않은 경우
+           비밀번호 입력창 표시
+        */
+
+        openPasswordBox();
+
+    }
+);
+
+
+/* ==================================================
+   확인 버튼
+================================================== */
+
+passwordConfirm.addEventListener(
+    "click",
+    checkPassword
+);
+
+
+/* ==================================================
+   취소 버튼
+================================================== */
+
+passwordCancel.addEventListener(
+    "click",
+    closePasswordBox
+);
+
+
+/* ==================================================
+   Enter 키로 확인
+================================================== */
+
+passwordInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            checkPassword();
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   팝업 바깥쪽 클릭 시 닫기
+================================================== */
+
+passwordOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === passwordOverlay
+        ) {
+
+            closePasswordBox();
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   ESC 키로 닫기
+================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape" &&
+            passwordOverlay.classList.contains("show")
+        ) {
+
+            closePasswordBox();
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   Service Worker 등록
+   Android PWA / 오프라인
+================================================== */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            navigator.serviceWorker
+                .register("./sw.js")
+                .then(
+                    function(registration) {
+
+                        console.log(
+                            "Service Worker 등록 완료:",
+                            registration.scope
+                        );
+
+                    }
+                )
+                .catch(
+                    function(error) {
+
+                        console.log(
+                            "Service Worker 등록 실패:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   뒤로가기 시 화면 보정
+================================================== */
+
+window.addEventListener(
+    "pageshow",
+    function(event) {
+
+        if (event.persisted) {
+
+            window.scrollTo(0, 0);
+
+        }
+
+    }
+);
 
 </script>
 
