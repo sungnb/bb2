@@ -1326,7 +1326,7 @@ body.unlocked .page {
 <a
     class="button"
     href="https://docs.google.com/spreadsheets/d/13biGx4c_LIhM7wLaZDLdbHAs5-egmXA9Io7naDJln-w/edit#gid=1888339369"
-    onclick="openGoogleSheet(event, this.href)">
+    target="_top">
 
     <div class="button-left">
 
@@ -1383,25 +1383,6 @@ body.unlocked .page {
 
 
 <script>
-
-/* ==================================================
-   Google Sheets 직접 이동
-   삼성 휴대폰/카카오톡 등에서 링크 처리 차이를 줄입니다.
-================================================== */
-
-function openGoogleSheet(event, url) {
-
-    if (event) {
-        event.preventDefault();
-    }
-
-    if (!url) {
-        return;
-    }
-
-    window.location.assign(url);
-}
-
 
 /* ==================================================
    비밀번호 설정
@@ -1790,7 +1771,7 @@ function checkAdminPassword() {
     }
 
 
-    openGoogleSheet(null, ADMIN_URL);
+    window.location.href = ADMIN_URL;
 
 }
 
