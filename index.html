@@ -1,19 +1,336 @@
-<!-- 전시대 관리자 버튼 -->
-<button
-    type="button"
-    class="create-btn"
-    onclick="openAdminSheet()">
-    전시대 관리자
-</button>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#f3f6fa">
+    <title>전시대 임명</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px 14px 40px;
+            background: #f3f6fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Malgun Gothic", sans-serif;
+            color: #202124;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .header p {
+            margin: 7px 0 0;
+            color: #68707d;
+            font-size: 14px;
+        }
+
+        /* 카드 */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 13px;
+        }
+
+        /* 인원 버튼 */
+        .people-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+        }
+
+        .people-btn {
+            border: 0;
+            border-radius: 13px;
+            background: #edf1f5;
+            color: #333;
+            padding: 15px 5px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .people-btn.active {
+            background: #2864e8;
+            color: white;
+        }
+
+        /* 시간 */
+        .time-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="time"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d9dee7;
+            border-radius: 12px;
+            font-size: 18px;
+            background: #fff;
+        }
+
+        /* 이름 */
+        .name-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .number {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 50%;
+            background: #edf1f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #555;
+        }
+
+        .name-input {
+            width: 100%;
+            border: 1px solid #d9dee7;
+            border-radius: 11px;
+            padding: 12px 13px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .name-input:focus {
+            border-color: #2864e8;
+        }
+
+        /* 생성 버튼 */
+        .create-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 14px;
+            padding: 16px;
+            background: #111827;
+            color: white;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* 결과 */
+        .result {
+            display: none;
+        }
+
+        .result-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .result-sub {
+            text-align: center;
+            color: #697386;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .schedule-item {
+            border: 1px solid #e3e7ed;
+            border-radius: 13px;
+            padding: 13px;
+            background: #fafbfc;
+        }
+
+        .schedule-time {
+            font-size: 14px;
+            color: #2864e8;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .schedule-names {
+            font-size: 17px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        /* 공유 */
+        .share-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+            margin-top: 15px;
+        }
+
+        .share-btn {
+            border: 0;
+            border-radius: 13px;
+            padding: 14px 8px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .kakao {
+            background: #fee500;
+            color: #191919;
+        }
+
+        .copy {
+            background: #edf1f5;
+            color: #333;
+        }
+
+        .notice {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f5f7fa;
+            border-radius: 11px;
+            color: #697386;
+            font-size: 12px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>전시대 임명</h1>
+        <p>인원수와 시작 시간을 선택해 주세요</p>
+    </div>
+
+    <!-- 인원 선택 -->
+    <div class="card">
+        <div class="card-title">① 신청 인원</div>
+        <div class="people-buttons">
+            <button class="people-btn" onclick="selectPeople(5)">5명</button>
+            <button class="people-btn" onclick="selectPeople(6)">6명</button>
+            <button class="people-btn" onclick="selectPeople(7)">7명</button>
+        </div>
+    </div>
+
+    <!-- 시작 시간 -->
+    <div class="card">
+        <div class="card-title">② 시작 시간</div>
+        <div class="time-row">
+            <input type="time" id="startTime" value="10:00" onchange="updateEndInfo()">
+        </div>
+        <div class="notice" id="timeInfo">인원을 먼저 선택해 주세요.</div>
+    </div>
+
+    <!-- 이름 -->
+    <div class="card hidden" id="nameCard">
+        <div class="card-title">③ 이름을 순서대로 입력해 주세요</div>
+        <div class="name-list" id="nameList"></div>
+    </div>
+
+    <!-- 생성 -->
+    <div class="card hidden" id="createCard">
+        <button class="create-btn" onclick="makeSchedule()">전시대 임명표 만들기</button>
+        <button class="create-btn" onclick="openAdminSheet()">전시대 관리자</button>
+    </div>
+
+    <!-- 결과 -->
+    <div class="card result" id="result">
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-sub" id="resultInfo"></div>
+        <div class="schedule" id="schedule"></div>
+
+        <div class="share-buttons">
+            <button class="share-btn kakao" onclick="shareKakao()">💬 카카오톡 공유</button>
+            <button class="share-btn copy" onclick="copySchedule()">📋 내용 복사</button>
+        </div>
+
+        <div class="notice">
+            카카오톡 공유가 지원되지 않는 환경에서는 '내용 복사' 후 카카오톡에 붙여넣어 주세요.
+        </div>
+    </div>
+
+</div>
 
 <script>
-    // 전시대 관리자 구글 시트로 연결
-    function openAdminSheet() {
-        const adminSheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"; // 여기에 구글 시트 URL을 입력하세요.
-        const scheduleInfo = getShareText(); // 현재 임명표 정보를 가져옴
-        const encodedInfo = encodeURIComponent(scheduleInfo); // URL 인코딩
+    let peopleCount = 0;
 
-        // 구글 시트 URL에 임명 정보를 포함하여 열기
-        window.open(`${adminSheetUrl}?info=${encodedInfo}`, "_blank");
+    /* 인원 선택 */
+    function selectPeople(count) {
+        peopleCount = count;
+
+        document.querySelectorAll(".people-btn").forEach(btn => btn.classList.remove("active"));
+        event.currentTarget.classList.add("active");
+
+        createNameInputs();
+        updateEndInfo();
+
+        document.getElementById("nameCard").classList.remove("hidden");
+        document.getElementById("createCard").classList.remove("hidden");
+        document.getElementById("result").style.display = "none";
     }
-</script>
+
+    /* 이름 입력칸 생성 */
+    function createNameInputs() {
+        const list = document.getElementById("nameList");
+        list.innerHTML = "";
+
+        for (let i = 1; i <= peopleCount; i++) {
+            const row = document.createElement("div");
+            row.className = "name-row";
+            row.innerHTML = `
+                <div class="number">${i}</div>
+                <input class="name-input" type="text" placeholder="${i}번 이름" maxlength="20">
+            `;
+            list.appendChild(row);
+        }
+    }
+
+    /* 종료시간 정보 */
+    function updateEndInfo() {
+        if (!peopleCount) return;
+
+        const start
