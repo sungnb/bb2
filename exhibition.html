@@ -68,7 +68,7 @@ body {
 /* 인원 버튼 */
 .people-buttons {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 9px;
 }
 
@@ -284,17 +284,22 @@ body {
         <div class="people-buttons">
 
             <button class="people-btn"
-                    onclick="selectPeople(5)">
-                5명
+                    onclick="selectPeople(5, 'push', this)">
+                5명(밀기)
             </button>
 
             <button class="people-btn"
-                    onclick="selectPeople(6)">
+                    onclick="selectPeople(5, 'normal', this)">
+                5명(일반)
+            </button>
+
+            <button class="people-btn"
+                    onclick="selectPeople(6, 'normal', this)">
                 6명
             </button>
 
             <button class="people-btn"
-                    onclick="selectPeople(7)">
+                    onclick="selectPeople(7, 'normal', this)">
                 7명
             </button>
 
@@ -391,17 +396,19 @@ body {
 <script>
 
 let peopleCount = 0;
+let scheduleMode = 'push';
 
 
 /* 인원 선택 */
-function selectPeople(count) {
+function selectPeople(count, mode, button) {
 
     peopleCount = count;
+    scheduleMode = mode;
 
     document.querySelectorAll(".people-btn")
         .forEach(btn => btn.classList.remove("active"));
 
-    event.currentTarget.classList.add("active");
+    button.classList.add("active");
 
     createNameInputs();
 
@@ -658,7 +665,36 @@ function makeSchedule() {
        3·4번 : 10:20, 11:20
        5·6번 : 10:40, 11:40
     */
-    if (peopleCount === 7) {
+    if (peopleCount === 5 && scheduleMode === "normal") {
+
+        // 5명(일반) 배정
+        // 1·2 : 시작 + 0분
+        // 3·4 : 시작 + 25분
+        // 5·1 : 시작 + 50분
+        // 2·3 : 시작 + 75분
+        // 4·5 : 시작 + 95분
+        const pairs = [
+            [0, 1, 0],
+            [2, 3, 25],
+            [4, 0, 50],
+            [1, 2, 75],
+            [3, 4, 95]
+        ];
+
+        pairs.forEach(([i1, i2, offset]) => {
+            const item = document.createElement("div");
+            item.className = "schedule-item";
+
+            item.innerHTML = `
+                <div class="schedule-names">
+                    ${names[i1]}, ${names[i2]} : ${formatShortTime(startMinutes + offset)}
+                </div>
+            `;
+
+            schedule.appendChild(item);
+        });
+
+    } else if (peopleCount === 7) {
 
        const pairs = [
     [0, 1, 0],      // 1번, 2번 : 시작
@@ -745,8 +781,13 @@ function makeSchedule() {
         });
     }
 
+    let modeTitle = "";
+    if (peopleCount === 5) {
+        modeTitle = scheduleMode === "normal" ? " - 일반" : " - 밀기";
+    }
+
     document.getElementById("resultTitle").innerText =
-        `📋 전시대 임명 (${peopleCount}명)`;
+        `📋 전시대 임명 (${peopleCount}명${modeTitle})`;
 
     document.getElementById("resultInfo").innerHTML =
         `시작 : ${formatTime(startMinutes)}<br>
