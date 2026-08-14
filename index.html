@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#1976d2">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="북부전자카드">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-<link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
-<title>서울 북부 회중</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1976d2">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="북부전자카드">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
+    <title>서울 북부 회중</title>
 
-<style>
-/* CSS 코드 생략 (이전과 동일) */
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-html {
-    margin: 0;
-    padding: 0;
-    background: #f3f6fa;
-}
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Noto Sans KR", "Malgun Gothic", sans-serif;
-    background: #f3f6fa;
-    color: #172033;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* 기타 CSS 생략... */
-</style>
+    <style>
+        /* CSS 코드 생략 (이전과 동일) */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html {
+            margin: 0;
+            padding: 0;
+            background: #f3f6fa;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Noto Sans KR", "Malgun Gothic", sans-serif;
+            background: #f3f6fa;
+            color: #172033;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* 기타 CSS 생략... */
+    </style>
 </head>
 
 <body>
@@ -98,75 +97,9 @@ body {
             <!-- 기타 버튼 생략... -->
 
             <!-- 전시대 관리자 버튼 -->
-            <button type="button" class="button admin-button" id="adminButton">
+            <button type="button" class="button admin-button" id="adminButton" onclick="openAdminPage()">
                 <div class="button-left">
                     <div class="icon">⚙️</div>
                     <span class="button-text">전시대 관리자</span>
                 </div>
-                <span class="button-arrow">›</span>
-            </button>
-        </section>
-    </div>
-</main>
-
-<script>
-const PAGE_PASSWORD = "7216";
-const ADMIN_PASSWORD = "7979";
-const ADMIN_URL = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"; // 실제 구글 시트 ID로 변경
-
-// 비밀번호 확인 및 페이지 열기
-function unlockPage() {
-    document.body.classList.add("unlocked");
-    loginOverlay.classList.add("hidden");
-}
-
-// 일반 비밀번호 확인
-function checkLoginPassword() {
-    const password = loginPassword.value.trim();
-    if (!password) {
-        loginError.textContent = "비밀번호를 입력해 주세요.";
-        loginPassword.focus();
-        return;
-    }
-    if (password !== PAGE_PASSWORD) {
-        loginError.textContent = "비밀번호가 올바르지 않습니다.";
-        loginPassword.value = "";
-        loginPassword.focus();
-        return;
-    }
-    unlockPage();
-}
-
-// 관리자 로그인 창 열기
-function openAdminLogin() {
-    adminOverlay.classList.add("show");
-    adminPassword.value = "";
-    adminError.textContent = "";
-    rememberAdmin.checked = false;
-}
-
-// 관리자 비밀번호 확인
-function checkAdminPassword() {
-    const password = adminPassword.value.trim();
-    if (!password) {
-        adminError.textContent = "관리자 비밀번호를 입력해 주세요.";
-        adminPassword.focus();
-        return;
-    }
-    if (password !== ADMIN_PASSWORD) {
-        adminError.textContent = "관리자 비밀번호가 올바르지 않습니다.";
-        adminPassword.value = "";
-        adminPassword.focus();
-        return;
-    }
-    window.location.href = ADMIN_URL; // 관리자 페이지로 이동
-}
-
-// 이벤트 리스너 설정
-loginButton.addEventListener("click", checkLoginPassword);
-adminButton.addEventListener("click", openAdminLogin);
-adminLoginButton.addEventListener("click", checkAdminPassword);
-</script>
-
-</body>
-</html>
+                <span class="
