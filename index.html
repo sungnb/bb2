@@ -333,4 +333,44 @@
     function updateEndInfo() {
         if (!peopleCount) return;
 
-        const start
+        const start = document.getElementById("startTime").value;
+        if (!start) return;
+
+        let [hour, minute] = start.split(":").map(Number);
+        const endTotal = hour * 60 + minute + 120;
+
+        document.getElementById("timeInfo").innerHTML = `${formatTime(hour * 60 + minute)}부터 ${formatTime(endTotal)}까지 운영
+${peopleCount}명 · 총 2시간`;
+    }
+
+    /* 시간 표시 */
+    function formatTime(totalMinutes) {
+        totalMinutes = ((totalMinutes % 1440) + 1440) % 1440;
+        let hour = Math.floor(totalMinutes / 60);
+        let minute = totalMinutes % 60;
+
+        const ampm = hour < 12 ? "오전" : "오후";
+        let displayHour = hour % 12;
+        if (displayHour === 0) displayHour = 12;
+
+        return `${ampm} ${displayHour}:${String(minute).padStart(2, "0")}`;
+    }
+
+    /* 전시대 관리자를 클릭하면 구글 시트로 연결 */
+    function openAdminSheet() {
+        const adminSheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"; // 여기에 구글 시트 URL을 입력하세요.
+        const scheduleInfo = getShareText(); // 현재 임명표 정보를 가져옴
+        const encodedInfo = encodeURIComponent(scheduleInfo); // URL 인코딩
+
+        // 구글 시트 URL에 임명 정보를 포함하여 열기
+        window.open(`${adminSheetUrl}?info=${encodedInfo}`, "_blank");
+    }
+
+    /* 실제 임명표 생성 */
+    function makeSchedule() {
+        if (!peopleCount) {
+            alert("먼저 인원을 선택해 주세요.");
+            return;
+        }
+
+        const inputs = document.querySelectorAll
