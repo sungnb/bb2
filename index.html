@@ -1,105 +1,1922 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#1976d2">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="북부전자카드">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
-    <title>서울 북부 회중</title>
+<meta charset="UTF-8">
 
-    <style>
-        /* CSS 코드 생략 (이전과 동일) */
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        html {
-            margin: 0;
-            padding: 0;
-            background: #f3f6fa;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Noto Sans KR", "Malgun Gothic", sans-serif;
-            background: #f3f6fa;
-            color: #172033;
-            -webkit-font-smoothing: antialiased;
-        }
-        /* 기타 CSS 생략... */
-    </style>
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
+
+<meta name="theme-color" content="#1976d2">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="default">
+
+<meta name="apple-mobile-web-app-title"
+      content="북부전자카드">
+
+<link rel="manifest" href="./manifest.json">
+
+<link rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./icon-192.png">
+
+<link rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="./icon-512.png">
+
+<link rel="apple-touch-icon"
+      sizes="192x192"
+      href="./icon-192.png">
+
+<title>서울 북부 회중</title>
+
+
+<style>
+
+/* ==================================================
+   기본
+================================================== */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    background: #f3f6fa;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        sans-serif;
+
+    background: #f3f6fa;
+    color: #172033;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* ==================================================
+   메인 페이지
+================================================== */
+
+.page {
+    display: none;
+
+    width: 100%;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding-top:
+        max(28px, env(safe-area-inset-top));
+
+    padding-right:
+        max(16px, env(safe-area-inset-right));
+
+    padding-bottom:
+        max(32px, env(safe-area-inset-bottom));
+
+    padding-left:
+        max(16px, env(safe-area-inset-left));
+}
+
+body.unlocked .page {
+    display: block;
+}
+
+
+/* ==================================================
+   가운데 영역
+================================================== */
+
+.container {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+
+/* ==================================================
+   제목
+================================================== */
+
+.header {
+    padding: 8px 4px 20px;
+}
+
+.title {
+    margin: 0;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    letter-spacing: -1.3px;
+    line-height: 1.15;
+
+    color: #102a43;
+}
+
+
+/* ==================================================
+   메인 게시판
+================================================== */
+
+.main-link {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 108px;
+
+    padding: 22px 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1976d2 0%,
+            #0757b5 100%
+        );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 10px 28px rgba(7, 87, 181, 0.25);
+
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+}
+
+.main-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    min-width: 0;
+}
+
+.main-icon {
+    width: 54px;
+    height: 54px;
+
+    flex: 0 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background: rgba(255,255,255,0.17);
+
+    font-size: 27px;
+}
+
+.main-title {
+    font-size: 25px;
+    font-weight: 800;
+
+    letter-spacing: -0.7px;
+}
+
+.arrow {
+    flex: 0 0 auto;
+
+    font-size: 30px;
+    font-weight: 300;
+
+    opacity: 0.9;
+}
+
+
+/* ==================================================
+   버튼 영역
+================================================== */
+
+.buttons {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 16px;
+}
+
+
+/* ==================================================
+   일반 버튼
+================================================== */
+
+.button {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 92px;
+
+    padding: 17px;
+
+    text-decoration: none;
+
+    color: #172033;
+
+    background: #ffffff;
+
+    border: 1px solid #d9e2ec;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 3px 12px rgba(16, 42, 67, 0.07);
+
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+
+    -webkit-user-select: none;
+    user-select: none;
+
+    cursor: pointer;
+}
+
+.button-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.icon {
+    flex: 0 0 auto;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    font-size: 21px;
+
+    background: #e7f0ff;
+}
+
+.button-text {
+    font-size: 19px;
+    font-weight: 750;
+
+    letter-spacing: -0.5px;
+
+    white-space: nowrap;
+}
+
+.button-arrow {
+    flex: 0 0 auto;
+
+    font-size: 21px;
+
+    color: #9db2c8;
+
+    margin-left: 5px;
+}
+
+
+/* ==================================================
+   관리자 버튼
+================================================== */
+
+.admin-button {
+    grid-column: 1 / -1;
+
+    min-height: 76px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #123f70 0%,
+            #082b50 100%
+        );
+
+    color: #ffffff;
+
+    border: none;
+
+    box-shadow:
+        0 7px 20px rgba(8, 43, 80, 0.20);
+}
+
+.admin-button .icon {
+    background: rgba(255,255,255,0.13);
+}
+
+.admin-button .button-arrow {
+    color: #a9c0d8;
+}
+
+
+/* ==================================================
+   터치 효과
+================================================== */
+
+.button:active,
+.main-link:active {
+    transform: scale(0.97);
+}
+
+.button:hover {
+    box-shadow:
+        0 6px 18px rgba(16, 42, 67, 0.11);
+}
+
+.main-link:hover {
+    box-shadow:
+        0 12px 32px rgba(7, 87, 181, 0.30);
+}
+
+
+/* ==================================================
+   휴대폰
+================================================== */
+
+@media (max-width: 430px) {
+
+    .page {
+        padding-top:
+            max(20px, env(safe-area-inset-top));
+
+        padding-left:
+            max(13px, env(safe-area-inset-left));
+
+        padding-right:
+            max(13px, env(safe-area-inset-right));
+    }
+
+    .header {
+        padding-bottom: 17px;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .main-link {
+        min-height: 100px;
+
+        padding: 19px;
+
+        border-radius: 21px;
+    }
+
+    .main-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 15px;
+
+        font-size: 24px;
+    }
+
+    .main-title {
+        font-size: 22px;
+    }
+
+    .buttons {
+        gap: 9px;
+
+        margin-top: 13px;
+    }
+
+    .button {
+        min-height: 84px;
+
+        padding: 13px 12px;
+
+        border-radius: 17px;
+    }
+
+    .button-left {
+        gap: 9px;
+    }
+
+    .icon {
+        width: 36px;
+        height: 36px;
+
+        border-radius: 11px;
+
+        font-size: 18px;
+    }
+
+    .button-text {
+        font-size: 17px;
+    }
+
+    .button-arrow {
+        font-size: 18px;
+    }
+
+    .admin-button {
+        min-height: 68px;
+    }
+}
+
+
+/* ==================================================
+   아주 작은 화면
+================================================== */
+
+@media (max-width: 360px) {
+
+    .title {
+        font-size: 20px;
+    }
+
+    .main-title {
+        font-size: 20px;
+    }
+
+    .button {
+        min-height: 80px;
+    }
+
+    .button-text {
+        font-size: 15px;
+    }
+
+    .icon {
+        width: 33px;
+        height: 33px;
+
+        font-size: 16px;
+    }
+}
+
+
+/* ==================================================
+   비밀번호 잠금 화면
+================================================== */
+
+.password-overlay {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #102a43 0%,
+            #0b3b68 100%
+        );
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+.password-overlay.hidden {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   비밀번호 박스
+================================================== */
+
+.password-box {
+
+    width: 100%;
+    max-width: 360px;
+
+    padding: 30px 24px 23px;
+
+    background: #ffffff;
+
+    border-radius: 26px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.30);
+
+    text-align: center;
+
+    animation:
+        passwordPopup 0.22s ease-out;
+}
+
+@keyframes passwordPopup {
+
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* ==================================================
+   잠금 아이콘
+================================================== */
+
+.password-icon {
+
+    width: 62px;
+    height: 62px;
+
+    margin: 0 auto 16px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 19px;
+
+    background: #e8f1ff;
+
+    font-size: 29px;
+}
+
+
+/* ==================================================
+   제목
+================================================== */
+
+.password-title {
+
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+
+    color: #102a43;
+}
+
+
+/* ==================================================
+   설명
+================================================== */
+
+.password-description {
+
+    margin: 9px 0 20px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: #718096;
+}
+
+
+/* ==================================================
+   비밀번호 입력
+================================================== */
+
+.password-input {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d5dfeb;
+
+    border-radius: 14px;
+
+    outline: none;
+
+    background: #f7f9fc;
+
+    color: #172033;
+
+    font-size: 19px;
+
+    text-align: center;
+
+    letter-spacing: 4px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.password-input:focus {
+
+    border-color: #1976d2;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(25,118,210,0.12);
+}
+
+
+/* ==================================================
+   기억하기
+================================================== */
+
+.remember-row {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin: 15px 0 19px;
+
+    font-size: 14px;
+
+    color: #52657a;
+
+    cursor: pointer;
+}
+
+.remember-row input {
+
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: #1976d2;
+
+    cursor: pointer;
+}
+
+
+/* ==================================================
+   확인 버튼
+================================================== */
+
+.password-confirm {
+
+    width: 100%;
+
+    height: 49px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: #1976d2;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 16px rgba(25,118,210,0.22);
+
+    transition:
+        transform 0.1s ease;
+}
+
+.password-confirm:active {
+
+    transform: scale(0.97);
+}
+
+
+/* ==================================================
+   비밀번호 취소
+================================================== */
+
+.password-cancel {
+
+    width: 100%;
+
+    height: 42px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #718096;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    border-radius: 12px;
+
+    transition:
+        background 0.1s ease,
+        color 0.1s ease;
+}
+
+.password-cancel:active {
+
+    background: #f1f4f8;
+
+    color: #52657a;
+}
+
+
+/* ==================================================
+   오류 메시지
+================================================== */
+
+.password-error {
+
+    min-height: 21px;
+
+    margin-top: 10px;
+
+    font-size: 13px;
+
+    color: #d32f2f;
+}
+
+
+/* ==================================================
+   관리자 비밀번호 창
+================================================== */
+
+.admin-password-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(10,31,52,.72);
+
+    backdrop-filter: blur(5px);
+}
+
+.admin-password-overlay.show {
+    display: flex;
+}
+
+
+/* ==================================================
+   메인 페이지 나타남
+================================================== */
+
+body.unlocked .page {
+
+    animation:
+        pageAppear 0.25s ease-out;
+}
+
+@keyframes pageAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
 </head>
+
 
 <body>
 
-<!-- 비밀번호 잠금 화면 -->
-<div class="password-overlay" id="loginOverlay">
-    <div class="password-box" role="dialog" aria-modal="true">
-        <div class="password-icon">🔒</div>
-        <h2 class="password-title">서울 북부 회중</h2>
-        <p class="password-description">전자카드를 사용하려면
- 비밀번호를 입력해 주세요.</p>
-        <input type="password" id="loginPassword" class="password-input" inputmode="numeric" autocomplete="off" placeholder="비밀번호" maxlength="20">
+
+<!-- ==================================================
+     최초 접속 비밀번호
+     비밀번호: 7216
+================================================== -->
+
+<div
+    class="password-overlay"
+    id="loginOverlay">
+
+    <div
+        class="password-box"
+        role="dialog"
+        aria-modal="true">
+
+        <div class="password-icon">
+            🔒
+        </div>
+
+        <h2 class="password-title">
+            서울 북부 회중
+        </h2>
+
+        <p class="password-description">
+            전자카드를 사용하려면<br>
+            비밀번호를 입력해 주세요.
+        </p>
+
+        <input
+            type="password"
+            id="loginPassword"
+            class="password-input"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="비밀번호"
+            maxlength="20">
+
         <label class="remember-row">
-            <input type="checkbox" id="rememberLogin">
+
+            <input
+                type="checkbox"
+                id="rememberLogin">
+
+            <span>
+                이 기기에서 기억하기
+            </span>
+
+        </label>
+
+        <button
+            type="button"
+            class="password-confirm"
+            id="loginButton">
+
+            확인
+
+        </button>
+
+        <button
+            type="button"
+            class="password-cancel"
+            id="loginCancelButton">
+
+            취소
+
+        </button>
+
+        <div
+            class="password-error"
+            id="loginError">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     전시대 관리자 비밀번호
+     ★ 비밀번호: 7979
+     ★ 기존 메인 화면은 변경하지 않습니다.
+================================================== -->
+
+<div
+    class="admin-password-overlay"
+    id="adminOverlay"
+    aria-hidden="true">
+
+    <div
+        class="password-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="adminPasswordTitle">
+
+        <div class="password-icon">
+            ⚙️
+        </div>
+
+        <h2
+            class="password-title"
+            id="adminPasswordTitle">
+            전시대 관리자
+        </h2>
+
+        <p class="password-description">
+            관리자 페이지입니다.<br>
+            관리자 비밀번호를 입력해 주세요.
+        </p>
+
+        <input
+            type="password"
+            id="adminPassword"
+            class="password-input"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="관리자 비밀번호"
+            maxlength="20">
+
+        <label class="remember-row">
+            <input
+                type="checkbox"
+                id="rememberAdmin">
             <span>이 기기에서 기억하기</span>
         </label>
-        <button type="button" class="password-confirm" id="loginButton">확인</button>
-        <button type="button" class="password-cancel" id="loginCancelButton">취소</button>
-        <div class="password-error" id="loginError"></div>
+
+        <button
+            type="button"
+            class="password-confirm"
+            id="adminLoginButton">
+            확인
+        </button>
+
+        <button
+            type="button"
+            class="password-cancel"
+            id="adminCancelButton">
+            취소
+        </button>
+
+        <div
+            class="password-error"
+            id="adminError"
+            aria-live="polite">
+        </div>
+
     </div>
 </div>
 
-<!-- 관리자 비밀번호 -->
-<div class="admin-password-overlay" id="adminOverlay">
-    <div class="password-box" role="dialog" aria-modal="true">
-        <div class="password-icon">⚙️</div>
-        <h2 class="password-title">전시대 관리자</h2>
-        <p class="password-description">관리자 페이지입니다.
- 관리자 비밀번호를 입력해 주세요.</p>
-        <input type="password" id="adminPassword" class="password-input" inputmode="numeric" autocomplete="off" placeholder="관리자 비밀번호" maxlength="20">
-        <label class="remember-row">
-            <input type="checkbox" id="rememberAdmin">
-            <span>이 기기에서 기억하기</span>
-        </label>
-        <button type="button" class="password-confirm" id="adminLoginButton">확인</button>
-        <button type="button" class="password-cancel" id="adminCancelButton">취소</button>
-        <div class="password-error" id="adminError"></div>
-    </div>
-</div>
 
-<!-- 메인 페이지 -->
+<!-- ==================================================
+     메인 페이지
+================================================== -->
+
 <main class="page">
-    <div class="container">
-        <header class="header">
-            <h1 class="title">서울 북부 회중</h1>
-        </header>
 
-        <!-- 북부회중 게시판 -->
-        <a class="main-link" href="https://docs.google.com/spreadsheets/d/1Z-tXk1lHjDKJ9QfvNfPFXRUSL8awENpLzRRczfown9E/edit#gid=1903762694">
-            <div class="main-content">
-                <div class="main-icon">📋</div>
-                <div class="main-title">북부회중 게시판</div>
-            </div>
-            <span class="arrow">›</span>
-        </a>
+<div class="container">
 
-        <!-- 메뉴 -->
-        <section class="buttons">
-            <!-- 기타 버튼 생략... -->
 
-            <!-- 전시대 관리자 버튼 -->
-            <button type="button" class="button admin-button" id="adminButton" onclick="openAdminPage()">
-                <div class="button-left">
-                    <div class="icon">⚙️</div>
-                    <span class="button-text">전시대 관리자</span>
-                </div>
-                <span class="
+<header class="header">
+
+    <h1 class="title">
+        서울 북부 회중
+    </h1>
+
+</header>
+
+
+<!-- ==================================================
+     북부회중 게시판
+     
+     ★ 수정:
+     ?gid=1903762694#gid=1903762694
+     →
+     #gid=1903762694
+================================================== -->
+
+<a
+    class="main-link"
+    href="https://docs.google.com/spreadsheets/d/1Z-tXk1lHjDKJ9QfvNfPFXRUSL8awENpLzRRczfown9E/edit#gid=1903762694"
+    onclick="openGoogleSheet(event, this.href)">
+
+    <div class="main-content">
+
+        <div class="main-icon">
+            📋
+        </div>
+
+        <div class="main-title">
+            북부회중 게시판
+        </div>
+
+    </div>
+
+    <span class="arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- ==================================================
+     메뉴
+================================================== -->
+
+<section class="buttons">
+
+
+<!-- 화요일 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1Qup_YoEKWxplnGioeA5r4BQfMZP3DQBKOVzU3OCxarM/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📅
+        </div>
+
+        <span class="button-text">
+            화요일
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 수요일 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1UEdmbFROuAe1rny6-HN6998ObACrme-mhmC7QXBBUHE/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📅
+        </div>
+
+        <span class="button-text">
+            수요일
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 목요일 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1JpNcenBexX6tJVujE53o4R4G9NRwUJ_QIVk8nCKOT1w/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📅
+        </div>
+
+        <span class="button-text">
+            목요일
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 금요일 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1ixb-jhy3HEtuJ8oJvII9TRp1VwV0plR1CxFaqjYdBTo/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📅
+        </div>
+
+        <span class="button-text">
+            금요일
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 토요일 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1jF9CUYw-Hyg71YwxRRVPvWgZ0OG86CI4TIqpOXnnlUA/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📅
+        </div>
+
+        <span class="button-text">
+            토요일
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 일요일 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1LhsyRYL04sOXDxstABVhvNcJ4eG6AxnEoa3jMiAahdg/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📅
+        </div>
+
+        <span class="button-text">
+            일요일
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 전화 증거 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1axP-z7SiAx6vAr97R7SwD-0yP4Yd19JtEwoF1ApYaJY/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📞
+        </div>
+
+        <span class="button-text">
+            전화 증거
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 편지 봉사 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/1bGcu0AaT2iPOw2a3379wScaIM5s4ut-O9Umj3Fco4Uc/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            ✉️
+        </div>
+
+        <span class="button-text">
+            편지 봉사
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- 개인 봉사 -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/10uhO1PXHa4zPdxqc7oNQ_WLtlsj5w8vwZ7PIZkb35II/edit?gid=0#gid=0"
+    target="_top">
+
+    <div class="button-left">
+
+        <div class="icon">
+            👤
+        </div>
+
+        <span class="button-text">
+            개인 봉사
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- ==================================================
+     전시대 신청
+     
+     ★ 수정:
+     ?gid=1888339369#gid=1888339369
+     →
+     #gid=1888339369
+================================================== -->
+
+<a
+    class="button"
+    href="https://docs.google.com/spreadsheets/d/13biGx4c_LIhM7wLaZDLdbHAs5-egmXA9Io7naDJln-w/edit#gid=1888339369"
+    onclick="openGoogleSheet(event, this.href)">
+
+    <div class="button-left">
+
+        <div class="icon">
+            📝
+        </div>
+
+        <span class="button-text">
+            전시대 신청
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</a>
+
+
+<!-- ==================================================
+     전시대 관리자
+================================================== -->
+
+<button
+    type="button"
+    class="button admin-button"
+    id="adminButton">
+
+    <div class="button-left">
+
+        <div class="icon">
+            ⚙️
+        </div>
+
+        <span class="button-text">
+            전시대 관리자
+        </span>
+
+    </div>
+
+    <span class="button-arrow">
+        ›
+    </span>
+
+</button>
+
+
+</section>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* ==================================================
+   Google Sheets 이동
+   삼성 휴대폰/카카오톡 등에서 링크 처리 차이를 줄이기 위해
+   일반 링크(target="_top") 대신 현재 창에서 직접 이동
+================================================== */
+
+function openGoogleSheet(event, url) {
+
+    if (event) {
+        event.preventDefault();
+    }
+
+    if (!url) {
+        return;
+    }
+
+    try {
+        window.location.assign(url);
+    } catch (error) {
+        window.location.href = url;
+    }
+}
+
+
+/* ==================================================
+   비밀번호 설정
+================================================== */
+
+const PAGE_PASSWORD = "7216";
+
+const ADMIN_PASSWORD = "7979";
+
+
+/* ==================================================
+   관리자 Google Sheets 주소
+
+   ★ 수정:
+   ?gid=1237649201#gid=1237649201
+   →
+   #gid=1237649201
+================================================== */
+
+const ADMIN_URL =
+"https://docs.google.com/spreadsheets/d/1eQHscrZpAWzrOo6QJw3pmyoeUijUoTKyfMmmPRPqkaU/edit#gid=1237649201";
+
+
+/* ==================================================
+   기억하기 저장 키
+================================================== */
+
+const PAGE_REMEMBER_KEY =
+"bukbu_page_remember";
+
+const ADMIN_REMEMBER_KEY =
+"bukbu_admin_remember";
+
+
+/* ==================================================
+   일반 로그인 요소
+================================================== */
+
+const loginOverlay =
+document.getElementById("loginOverlay");
+
+const loginPassword =
+document.getElementById("loginPassword");
+
+const rememberLogin =
+document.getElementById("rememberLogin");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const loginError =
+document.getElementById("loginError");
+
+const loginCancelButton =
+document.getElementById("loginCancelButton");
+
+
+/* ==================================================
+   관리자 로그인 요소
+================================================== */
+
+const adminOverlay =
+document.getElementById("adminOverlay");
+
+const adminPassword =
+document.getElementById("adminPassword");
+
+const rememberAdmin =
+document.getElementById("rememberAdmin");
+
+const adminLoginButton =
+document.getElementById("adminLoginButton");
+
+const adminError =
+document.getElementById("adminError");
+
+const adminCancelButton =
+document.getElementById("adminCancelButton");
+
+
+/* ==================================================
+   일반 비밀번호 기억 여부
+================================================== */
+
+function pageRemembered() {
+
+    try {
+
+        return localStorage.getItem(
+            PAGE_REMEMBER_KEY
+        ) === "yes";
+
+    } catch (error) {
+
+        return false;
+
+    }
+
+}
+
+
+/* ==================================================
+   관리자 비밀번호 기억 여부
+================================================== */
+
+function adminRemembered() {
+
+    try {
+
+        return localStorage.getItem(
+            ADMIN_REMEMBER_KEY
+        ) === "yes";
+
+    } catch (error) {
+
+        return false;
+
+    }
+
+}
+
+
+/* ==================================================
+   메인 페이지 열기
+================================================== */
+
+function unlockPage() {
+
+    document.body.classList.add(
+        "unlocked"
+    );
+
+    loginOverlay.classList.add(
+        "hidden"
+    );
+
+}
+
+
+/* ==================================================
+   일반 비밀번호 확인
+================================================== */
+
+function checkLoginPassword() {
+
+    const password =
+        loginPassword.value.trim();
+
+
+    if (!password) {
+
+        loginError.textContent =
+            "비밀번호를 입력해 주세요.";
+
+        loginPassword.focus();
+
+        return;
+
+    }
+
+
+    if (password !== PAGE_PASSWORD) {
+
+        loginError.textContent =
+            "비밀번호가 올바르지 않습니다.";
+
+        loginPassword.value = "";
+
+        loginPassword.focus();
+
+        return;
+
+    }
+
+
+    if (rememberLogin.checked) {
+
+        try {
+
+            localStorage.setItem(
+                PAGE_REMEMBER_KEY,
+                "yes"
+            );
+
+        } catch (error) {
+
+            console.log(
+                "비밀번호 저장 실패",
+                error
+            );
+
+        }
+
+    } else {
+
+        try {
+
+            localStorage.removeItem(
+                PAGE_REMEMBER_KEY
+            );
+
+        } catch (error) {}
+
+    }
+
+
+    unlockPage();
+
+}
+
+
+/* ==================================================
+   일반 로그인 버튼
+================================================== */
+
+loginButton.addEventListener(
+    "click",
+    checkLoginPassword
+);
+
+
+/* ==================================================
+   일반 로그인 취소
+================================================== */
+
+function cancelLogin() {
+
+    const referrer =
+        document.referrer;
+
+    if (
+        referrer &&
+        referrer !== window.location.href
+    ) {
+
+        window.location.replace(referrer);
+
+        return;
+    }
+
+
+    if (window.history.length > 1) {
+
+        window.history.back();
+
+        return;
+    }
+
+
+    loginPassword.value = "";
+
+    loginError.textContent = "";
+
+}
+
+loginCancelButton.addEventListener(
+    "click",
+    cancelLogin
+);
+
+
+/* ==================================================
+   일반 로그인 Enter
+================================================== */
+
+loginPassword.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            checkLoginPassword();
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   전시대 관리자 비밀번호 창
+   ★ 비밀번호: 7979
+================================================== */
+
+function openAdminLogin() {
+
+    /* 관리자 버튼을 누르면 항상 비밀번호 창을 표시 */
+    adminPassword.value = "";
+    adminError.textContent = "";
+    rememberAdmin.checked = false;
+
+    adminOverlay.classList.add("show");
+    adminOverlay.setAttribute("aria-hidden", "false");
+
+    setTimeout(function() {
+        adminPassword.focus();
+    }, 120);
+}
+
+
+/* ==================================================
+   전시대 관리자 비밀번호 확인
+================================================== */
+
+function checkAdminPassword() {
+
+    const password =
+        adminPassword.value.trim();
+
+    if (!password) {
+
+        adminError.textContent =
+            "관리자 비밀번호를 입력해 주세요.";
+
+        adminPassword.focus();
+        return;
+    }
+
+    if (password !== ADMIN_PASSWORD) {
+
+        adminError.textContent =
+            "관리자 비밀번호가 올바르지 않습니다.";
+
+        adminPassword.value = "";
+        adminPassword.focus();
+        return;
+    }
+
+    /*
+       7979가 맞으면 관리자 Google 시트로 이동
+    */
+    if (rememberAdmin.checked) {
+
+        try {
+            localStorage.setItem(
+                ADMIN_REMEMBER_KEY,
+                "yes"
+            );
+        } catch (error) {
+            console.log("관리자 기억하기 저장 실패", error);
+        }
+
+    } else {
+
+        try {
+            localStorage.removeItem(
+                ADMIN_REMEMBER_KEY
+            );
+        } catch (error) {}
+
+    }
+
+    adminOverlay.classList.remove("show");
+    adminOverlay.setAttribute("aria-hidden", "true");
+
+    /*
+       삼성폰/일반 브라우저에서 현재 창으로 직접 이동
+    */
+    try {
+        window.location.assign(ADMIN_URL);
+    } catch (error) {
+        window.location.href = ADMIN_URL;
+    }
+}
+
+
+/* ==================================================
+   전시대 관리자 버튼
+================================================== */
+
+document.getElementById("adminButton").addEventListener(
+    "click",
+    function(event) {
+        event.preventDefault();
+        openAdminLogin();
+    }
+);
+
+
+/* ==================================================
+   관리자 확인 버튼
+================================================== */
+
+adminLoginButton.addEventListener(
+    "click",
+    function(event) {
+        event.preventDefault();
+        checkAdminPassword();
+    }
+);
+
+
+/* ==================================================
+   관리자 취소
+================================================== */
+
+function cancelAdminLogin() {
+
+    adminOverlay.classList.remove("show");
+    adminOverlay.setAttribute("aria-hidden", "true");
+
+    adminPassword.value = "";
+    adminError.textContent = "";
+}
+
+adminCancelButton.addEventListener(
+    "click",
+    function(event) {
+        event.preventDefault();
+        cancelAdminLogin();
+    }
+);
+
+
+/* ==================================================
+   관리자 Enter 키
+================================================== */
+
+adminPassword.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+            checkAdminPassword();
+        }
+
+        if (event.key === "Escape") {
+
+            event.preventDefault();
+            cancelAdminLogin();
+        }
+    }
+);
+
+
+/* ==================================================
+   관리자 창 바깥쪽 터치/클릭은 닫지 않음
+   → 실수로 닫히지 않게 합니다.
+================================================== */
+
+
+/* ==================================================
+   페이지 최초 실행
+================================================== */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const userAgent =
+            navigator.userAgent || "";
+
+        const isKakaoTalk =
+            /KAKAOTALK|KakaoTalk/i.test(
+                userAgent
+            );
+
+
+        /*
+           PC/일반 브라우저에서는
+           '이 기기에서 기억하기' 사용 가능
+
+           카카오톡에서는
+           매번 비밀번호 표시
+        */
+
+        if (
+            pageRemembered() &&
+            !isKakaoTalk
+        ) {
+
+            unlockPage();
+
+            return;
+
+        }
+
+
+        setTimeout(
+            function() {
+
+                loginPassword.focus();
+
+            },
+            250
+        );
+
+    }
+);
+
+
+/* ==================================================
+   뒤로가기 / BFCache 대응
+================================================== */
+
+window.addEventListener(
+    "pageshow",
+    function(event) {
+
+        if (event.persisted) {
+
+            window.scrollTo(0, 0);
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>
