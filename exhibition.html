@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#f3f6fa">
+<title>전시대 임명</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    padding: 20px 14px 40px;
+    background: #f3f6fa;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans KR",
+        "Malgun Gothic",
+        sans-serif;
+    color: #202124;
+}
+
+.container {
+    max-width: 520px;
+    margin: auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.header p {
+    margin: 7px 0 0;
+    color: #68707d;
+    font-size: 14px;
+}
+
+/* 카드 */
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+/* 인원 버튼 */
+.people-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+}
+
+.people-btn {
+    border: 0;
+    border-radius: 13px;
+    background: #edf1f5;
+    color: #333;
+    padding: 15px 5px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.people-btn.active {
+    background: #2864e8;
+    color: white;
+}
+
+/* 시간 */
+.time-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="time"] {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d9dee7;
+    border-radius: 12px;
+    font-size: 18px;
+    background: #fff;
+}
+
+/* 이름 */
+.name-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.number {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    background: #edf1f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #555;
+}
+
+.name-input {
+    width: 100%;
+    border: 1px solid #d9dee7;
+    border-radius: 11px;
+    padding: 12px 13px;
+    font-size: 16px;
+    outline: none;
+}
+
+.name-input:focus {
+    border-color: #2864e8;
+}
+
+/* 생성 버튼 */
+.create-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+    padding: 16px;
+    background: #111827;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* 결과 */
+.result {
+    display: none;
+}
+
+.result-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.result-sub {
+    text-align: center;
+    color: #697386;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.schedule-item {
+    border: 1px solid #e3e7ed;
+    border-radius: 13px;
+    padding: 13px;
+    background: #fafbfc;
+}
+
+.schedule-time {
+    font-size: 14px;
+    color: #2864e8;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.schedule-names {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.5;
+}
+
+/* 공유 */
+.share-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 15px;
+}
+
+.share-btn {
+    border: 0;
+    border-radius: 13px;
+    padding: 14px 8px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.kakao {
+    background: #fee500;
+    color: #191919;
+}
+
+.copy {
+    background: #edf1f5;
+    color: #333;
+}
+
+.notice {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f5f7fa;
+    border-radius: 11px;
+    color: #697386;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>전시대 임명</h1>
+        <p>인원수와 시작 시간을 선택해 주세요</p>
+    </div>
+
+    <!-- 인원 선택 -->
+    <div class="card">
+
+        <div class="card-title">① 신청 인원</div>
+
+        <div class="people-buttons">
+
+            <button class="people-btn"
+                    onclick="selectPeople(5)">
+                5명
+            </button>
+
+            <button class="people-btn"
+                    onclick="selectPeople(6)">
+                6명
+            </button>
+
+            <button class="people-btn"
+                    onclick="selectPeople(7)">
+                7명
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- 시작 시간 -->
+    <div class="card">
+
+        <div class="card-title">② 시작 시간</div>
+
+        <div class="time-row">
+            <input type="time"
+                   id="startTime"
+                   value="10:00"
+                   onchange="updateEndInfo()">
+        </div>
+
+        <div class="notice" id="timeInfo">
+            인원을 먼저 선택해 주세요.
+        </div>
+
+    </div>
+
+
+    <!-- 이름 -->
+    <div class="card hidden" id="nameCard">
+
+        <div class="card-title">
+            ③ 이름을 순서대로 입력해 주세요
+        </div>
+
+        <div class="name-list" id="nameList"></div>
+
+    </div>
+
+
+    <!-- 생성 -->
+    <div class="card hidden" id="createCard">
+
+        <button class="create-btn"
+                onclick="makeSchedule()">
+            전시대 임명표 만들기
+        </button>
+
+    </div>
+
+
+    <!-- 결과 -->
+    <div class="card result" id="result">
+
+        <div class="result-title" id="resultTitle"></div>
+
+        <div class="result-sub" id="resultInfo"></div>
+
+        <div class="schedule"
+             id="schedule"></div>
+
+
+        <div class="share-buttons">
+
+            <button class="share-btn kakao"
+                    onclick="shareKakao()">
+                💬 카카오톡 공유
+            </button>
+
+            <button class="share-btn copy"
+                    onclick="copySchedule()">
+                📋 내용 복사
+            </button>
+
+        </div>
+
+        <div class="notice">
+            카카오톡 공유가 지원되지 않는 환경에서는
+            '내용 복사' 후 카카오톡에 붙여넣어 주세요.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let peopleCount = 0;
+
+
+/* 인원 선택 */
+function selectPeople(count) {
+
+    peopleCount = count;
+
+    document.querySelectorAll(".people-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+    event.currentTarget.classList.add("active");
+
+    createNameInputs();
+
+    updateEndInfo();
+
+    document.getElementById("nameCard")
+        .classList.remove("hidden");
+
+    document.getElementById("createCard")
+        .classList.remove("hidden");
+
+    document.getElementById("result")
+        .style.display = "none";
+}
+
+
+/* 이름 입력칸 생성 */
+function createNameInputs() {
+
+    const list = document.getElementById("nameList");
+
+    list.innerHTML = "";
+
+    for (let i = 1; i <= peopleCount; i++) {
+
+        const row = document.createElement("div");
+
+        row.className = "name-row";
+
+        row.innerHTML = `
+            <div class="number">${i}</div>
+            <input
+                class="name-input"
+                type="text"
+                placeholder="${i}번 이름"
+                maxlength="20">
+        `;
+
+        list.appendChild(row);
+    }
+}
+
+
+/* 운영시간 / 배정 규칙
+   - 전체 운영시간: 항상 2시간
+   - 5명: 12분 간격으로 순환 시작시각을 만들고,
+          각 사람의 2회 참여를 기본으로 하되 시작자(1번)는
+          2시간을 정확히 닫기 위해 마지막 순환 시각에 한 번 더 표시
+   - 6명: 10분 간격
+   - 7명: 10분 간격
+*/
+
+/* 종료시간 정보 */
+function updateEndInfo() {
+
+    if (!peopleCount) return;
+
+    const start =
+        document.getElementById("startTime").value;
+
+    if (!start) return;
+
+    let [hour, minute] =
+        start.split(":").map(Number);
+
+    const endTotal =
+        hour * 60 + minute + 120;
+
+    document.getElementById("timeInfo").innerHTML =
+        `${formatTime(hour * 60 + minute)}부터 ${formatTime(endTotal)}까지 운영<br>
+         ${peopleCount}명 · 총 2시간`;
+}
+
+
+/* 시간 표시 */
+function formatTime(totalMinutes) {
+
+    totalMinutes =
+        ((totalMinutes % 1440) + 1440) % 1440;
+
+    let hour =
+        Math.floor(totalMinutes / 60);
+
+    let minute =
+        totalMinutes % 60;
+
+    const ampm =
+        hour < 12 ? "오전" : "오후";
+
+    let displayHour =
+        hour % 12;
+
+    if (displayHour === 0)
+        displayHour = 12;
+
+    return `${ampm} ${displayHour}:${String(minute).padStart(2,"0")}`;
+}
+
+
+/*
+ * 실제 임명표 생성
+ *
+ * 사용자가 제시한 5명 예시를 그대로 반영:
+ *
+ * 시작 10:00
+ * 1번: 10:00, 10:48, 11:48
+ * 2번: 10:00, 11:00
+ * 3번: 10:12, 11:12
+ * 4번: 10:24, 11:24
+ * 5번: 10:36, 11:36
+ *
+ * 즉 5명은 12분 간격으로 한 명씩 순환하고,
+ * 첫 번째 사람은 10:00에 시작한 뒤 48분 후 다시 들어오며
+ * 마지막 11:48까지 연결합니다.
+ */
+function makeAssignments(names, startMinutes) {
+
+    const assignments =
+        Array.from({ length: peopleCount }, () => []);
+
+    if (peopleCount === 5) {
+
+        // 정확히 사용자가 제시한 5명 패턴
+        const offsets = [
+            [0, 48, 108],   // 1번
+            [0, 60],        // 2번
+            [12, 72],       // 3번
+            [24, 84],       // 4번
+            [36, 96]        // 5번
+        ];
+
+        offsets.forEach((list, i) => {
+            list.forEach(offset => {
+                assignments[i].push(startMinutes + offset);
+            });
+        });
+
+    } else {
+
+        // 6명/7명은 10분 간격으로 순환.
+        // 2시간 안에서 각 사람의 2회 참여를 우선 배정한다.
+        const interval = 10;
+
+        for (let i = 0; i < peopleCount; i++) {
+
+            const first =
+                startMinutes + i * interval;
+
+            const second =
+                first + 60;
+
+            if (second < startMinutes + 120) {
+                assignments[i].push(first, second);
+            } else {
+                assignments[i].push(first);
+            }
+        }
+    }
+
+    return assignments;
+}
+
+
+/* 시간표 생성 */
+function makeSchedule() {
+
+    if (!peopleCount) {
+        alert("먼저 인원을 선택해 주세요.");
+        return;
+    }
+
+    const inputs =
+        document.querySelectorAll(".name-input");
+
+    const names =
+        Array.from(inputs)
+        .map(input => input.value.trim());
+
+    for (let i = 0; i < names.length; i++) {
+
+        if (!names[i]) {
+            alert(`${i + 1}번 이름을 입력해 주세요.`);
+            inputs[i].focus();
+            return;
+        }
+    }
+
+    const startValue =
+        document.getElementById("startTime").value;
+
+    let [hour, minute] =
+        startValue.split(":").map(Number);
+
+    const startMinutes =
+        hour * 60 + minute;
+
+    const endMinutes =
+        startMinutes + 120;
+
+    const schedule =
+        document.getElementById("schedule");
+
+    schedule.innerHTML = "";
+
+    /* 6명은 2명씩 묶어서 표시
+       1·2번 : 10:00, 11:00
+       3·4번 : 10:20, 11:20
+       5·6번 : 10:40, 11:40
+    */
+    if (peopleCount === 7) {
+
+        const pairs = [
+            [0, 1, 0],    // 1번, 2번 : 시작
+            [2, 3, 15],   // 3번, 4번 : +15분
+            [4, 5, 30],   // 5번, 6번 : +15분
+            [6, 0, 45],   // 7번, 1번 : +15분
+            [1, 2, 60],   // 2번, 3번 : +15분
+            [3, 4, 80],   // 4번, 5번 : +20분
+            [5, 6, 100]   // 6번, 7번 : +20분
+        ];
+
+        pairs.forEach(([i1, i2, offset]) => {
+            const item = document.createElement("div");
+            item.className = "schedule-item";
+
+            item.innerHTML = `
+                <div class="schedule-names">
+                    ${names[i1]}, ${names[i2]} : ${formatShortTime(startMinutes + offset)}
+                </div>
+            `;
+
+            schedule.appendChild(item);
+        });
+
+    } else if (peopleCount === 6) {
+
+        const groups = [
+            [0, 1],
+            [2, 3],
+            [4, 5]
+        ];
+
+        groups.forEach((group, index) => {
+
+            const firstTime =
+                startMinutes + index * 20;
+
+            const secondTime =
+                firstTime + 60;
+
+            const item =
+                document.createElement("div");
+
+            item.className = "schedule-item";
+
+            // 사용자가 실제로 입력한 이름을 그대로 표시합니다.
+            // 임의로 1, 2, 3 등의 번호를 이름 뒤에 붙이지 않습니다.
+            const name1 = names[group[0]];
+            const name2 = names[group[1]];
+
+            item.innerHTML = `
+                <div class="schedule-names">
+                    ${name1}, ${name2} : ${formatShortTime(firstTime)}, ${formatShortTime(secondTime)}
+                </div>
+            `;
+
+            schedule.appendChild(item);
+        });
+
+    } else {
+
+        const assignments =
+            makeAssignments(names, startMinutes);
+
+        names.forEach((name, i) => {
+
+            const times =
+                assignments[i]
+                .filter(t => t < endMinutes)
+                .map(t => formatShortTime(t));
+
+            const item =
+                document.createElement("div");
+
+            item.className = "schedule-item";
+
+            item.innerHTML = `
+                <div class="schedule-names">
+                    ${i + 1}번 - ${name} : ${times.join(", ")}
+                </div>
+            `;
+
+            schedule.appendChild(item);
+        });
+    }
+
+    document.getElementById("resultTitle").innerText =
+        `📋 전시대 임명 (${peopleCount}명)`;
+
+    document.getElementById("resultInfo").innerHTML =
+        `시작 : ${formatTime(startMinutes)}<br>
+         종료 : ${formatTime(endMinutes)}`;
+
+    document.getElementById("result")
+        .style.display = "block";
+
+    setTimeout(() => {
+        document.getElementById("result")
+            .scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+    }, 100);
+}
+
+
+/* 결과에 표시할 시간: 오전/오후 없이 10:00 형태 */
+function formatShortTime(totalMinutes) {
+
+    totalMinutes =
+        ((totalMinutes % 1440) + 1440) % 1440;
+
+    const hour =
+        Math.floor(totalMinutes / 60);
+
+    const minute =
+        totalMinutes % 60;
+
+    return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+}
+
+/* 공유용 텍스트 */
+function getShareText() {
+
+    const info =
+        document.getElementById("resultInfo").innerText;
+
+    const items =
+        document.querySelectorAll(".schedule-item");
+
+    let text =
+        `📋 전시대 임명 (${peopleCount}명)\n`;
+
+    text += info.replace(/<br\s*\/?\s*>/gi, "\n").replace(/<[^>]*>/g, "") + "\n";
+
+    items.forEach((item) => {
+
+        const line =
+            item.querySelector(".schedule-names").innerText;
+
+        text += line + "\n";
+    });
+
+    return text;
+}
+
+
+/* 카카오톡 공유 */
+async function shareKakao() {
+
+    const text = getShareText();
+
+    if (navigator.share) {
+
+        try {
+
+            await navigator.share({
+                title: "전시대 임명표",
+                text: text
+            });
+
+        } catch (error) {
+
+            console.log("공유 취소");
+
+        }
+
+    } else {
+
+        await copySchedule();
+
+        alert(
+            "공유 기능을 지원하지 않는 환경입니다.\n\n" +
+            "임명표가 복사되었습니다.\n" +
+            "카카오톡에 붙여넣어 주세요."
+        );
+    }
+}
+
+
+/* 복사 */
+async function copySchedule() {
+
+    const text = getShareText();
+
+    try {
+
+        await navigator.clipboard.writeText(text);
+
+        alert("전시대 임명표가 복사되었습니다.");
+
+    } catch (error) {
+
+        const textarea =
+            document.createElement("textarea");
+
+        textarea.value = text;
+
+        document.body.appendChild(textarea);
+
+        textarea.select();
+
+        document.execCommand("copy");
+
+        textarea.remove();
+
+        alert("전시대 임명표가 복사되었습니다.");
+    }
+}
+
+</script>
+
+</body>
+</html>
