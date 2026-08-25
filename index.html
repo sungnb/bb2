@@ -874,11 +874,135 @@ body.unlocked .page {
 .admin-choice-link .choice-arrow{font-size:25px;color:#6f88a3}
 .admin-choice-cancel{width:100%;min-height:48px;margin-top:14px;border:0;border-radius:14px;background:#f1f3f5;color:#172033;font-size:16px;font-weight:700;cursor:pointer}
 
+/* ==================================================
+   화면 테마 설정
+   - 오른쪽 상단 ⚙️ 버튼
+   - 화면 배경만 변경
+   - 기존 메뉴/자료 카드 색상은 그대로 유지
+================================================== */
+
+.settings-wrap{
+    position:fixed;
+    top:max(12px, env(safe-area-inset-top));
+    right:max(14px, env(safe-area-inset-right));
+    z-index:9000;
+}
+
+.settings-button{
+    width:42px;
+    height:42px;
+    border:1px solid rgba(157,178,200,.35);
+    border-radius:14px;
+    background:rgba(255,255,255,.88);
+    color:#52657a;
+    font-size:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(16,42,67,.10);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+}
+
+.settings-button:active{
+    transform:scale(.94);
+}
+
+.settings-menu{
+    display:none;
+    position:absolute;
+    top:49px;
+    right:0;
+    width:158px;
+    padding:7px;
+    background:#fff;
+    border:1px solid #d9e2ec;
+    border-radius:16px;
+    box-shadow:0 12px 30px rgba(16,42,67,.16);
+}
+
+.settings-menu.show{
+    display:block;
+}
+
+.theme-option{
+    width:100%;
+    min-height:42px;
+    border:0;
+    border-radius:11px;
+    background:transparent;
+    color:#172033;
+    font-size:15px;
+    font-weight:700;
+    text-align:left;
+    padding:0 12px;
+    cursor:pointer;
+}
+
+.theme-option:active{
+    background:#eef3f8;
+}
+
+/* 어두운 화면: 배경만 변경 */
+body.dark-theme,
+html.dark-theme{
+    background:#18212b;
+}
+
+body.dark-theme{
+    color:#172033;
+}
+
+/* 어두운 화면에서 상단 회중 제목은 흰색 */
+body.dark-theme .title{
+    color:#ffffff;
+}
+
+/* 설정 버튼/메뉴는 어두운 배경에서 읽기 좋게 */
+body.dark-theme .settings-button{
+    background:rgba(38,49,61,.94);
+    color:#e9eef3;
+    border-color:rgba(255,255,255,.12);
+}
+
+body.dark-theme .settings-menu{
+    background:#26313d;
+    border-color:#3b4856;
+}
+
+body.dark-theme .theme-option{
+    color:#f0f3f6;
+}
+
+body.dark-theme .theme-option:active{
+    background:#334150;
+}
+
 </style>
 </head>
 
 
 <body>
+
+<!-- ==================================================
+     화면 설정
+     화면 배경만 밝게/어둡게 변경
+================================================== -->
+<div class="settings-wrap" id="settingsWrap">
+    <button
+        type="button"
+        class="settings-button"
+        id="settingsButton"
+        aria-label="화면 설정"
+        aria-expanded="false">⚙️</button>
+
+    <div class="settings-menu" id="settingsMenu">
+        <button type="button" class="theme-option" id="lightThemeButton">☀️ 밝게</button>
+        <button type="button" class="theme-option" id="darkThemeButton">🌙 어둡게</button>
+    </div>
+</div>
+
 
 
 <!-- ==================================================
@@ -1405,6 +1529,70 @@ body.unlocked .page {
 
 
 <script>
+
+
+/* ==================================================
+   화면 테마 설정
+   - localStorage에 선택 상태 저장
+   - 페이지를 다시 열어도 유지
+   - 메뉴/자료 기능에는 영향 없음
+================================================== */
+
+const THEME_KEY = "bukbu_theme";
+
+const settingsButton = document.getElementById("settingsButton");
+const settingsMenu = document.getElementById("settingsMenu");
+const lightThemeButton = document.getElementById("lightThemeButton");
+const darkThemeButton = document.getElementById("darkThemeButton");
+
+function applyTheme(theme) {
+    const isDark = theme === "dark";
+
+    document.body.classList.toggle("dark-theme", isDark);
+    document.documentElement.classList.toggle("dark-theme", isDark);
+
+    try {
+        localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+    } catch (error) {}
+
+    settingsMenu.classList.remove("show");
+    settingsButton.setAttribute("aria-expanded", "false");
+}
+
+function loadTheme() {
+    let theme = "light";
+
+    try {
+        theme = localStorage.getItem(THEME_KEY) || "light";
+    } catch (error) {}
+
+    applyTheme(theme);
+}
+
+settingsButton.addEventListener("click", function(event) {
+    event.stopPropagation();
+
+    const open = settingsMenu.classList.toggle("show");
+    settingsButton.setAttribute("aria-expanded", open ? "true" : "false");
+});
+
+lightThemeButton.addEventListener("click", function() {
+    applyTheme("light");
+});
+
+darkThemeButton.addEventListener("click", function() {
+    applyTheme("dark");
+});
+
+document.addEventListener("click", function(event) {
+    if (!document.getElementById("settingsWrap").contains(event.target)) {
+        settingsMenu.classList.remove("show");
+        settingsButton.setAttribute("aria-expanded", "false");
+    }
+});
+
+/* 가장 먼저 테마 적용 */
+loadTheme();
 
 /* ==================================================
    Google Sheets 이동
