@@ -154,6 +154,8 @@ body {
     padding: 12px 13px;
     font-size: 16px;
     outline: none;
+    background: #fff;
+    color: #202124;
 }
 
 .name-input:focus {
@@ -259,6 +261,109 @@ body {
 .hidden {
     display: none !important;
 }
+
+
+/* ==================================================
+   화면 테마 설정
+   - 기존 디자인은 그대로 유지
+   - 어둡게 선택 시 전시대 임명 화면 전체 적용
+   - 선택 상태는 localStorage에 저장
+================================================== */
+
+html.dark-theme,
+body.dark-theme {
+    background: #18212b;
+    color: #f0f3f6;
+}
+
+body.dark-theme .header h1 {
+    color: #ffffff;
+}
+
+body.dark-theme .header p {
+    color: #aeb9c6;
+}
+
+body.dark-theme .card {
+    background: #26313d;
+    box-shadow: 0 4px 15px rgba(0,0,0,.25);
+}
+
+body.dark-theme .card-title {
+    color: #ffffff;
+}
+
+body.dark-theme .people-btn {
+    background: #354251;
+    color: #e9eef3;
+}
+
+body.dark-theme .people-btn.active {
+    background: #2864e8;
+    color: #ffffff;
+}
+
+body.dark-theme .time-select {
+    background-color: #202b36;
+    color: #f0f3f6;
+    border-color: #455260;
+}
+
+body.dark-theme .time-select:focus {
+    border-color: #2864e8;
+}
+
+body.dark-theme .number {
+    background: #354251;
+    color: #dce4eb;
+}
+
+body.dark-theme .name-input {
+    background: #202b36;
+    color: #f0f3f6;
+    border-color: #455260;
+}
+
+body.dark-theme .name-input::placeholder {
+    color: #8e9baa;
+}
+
+body.dark-theme .create-btn {
+    background: #101820;
+    color: #ffffff;
+}
+
+body.dark-theme .result-title {
+    color: #ffffff;
+}
+
+body.dark-theme .result-sub {
+    color: #aeb9c6;
+}
+
+body.dark-theme .schedule-item {
+    background: #202b36;
+    border-color: #3d4a58;
+}
+
+body.dark-theme .schedule-names {
+    color: #f0f3f6;
+}
+
+body.dark-theme .schedule-time {
+    color: #70a7ff;
+}
+
+body.dark-theme .copy {
+    background: #354251;
+    color: #f0f3f6;
+}
+
+body.dark-theme .notice {
+    background: #202b36;
+    color: #aeb9c6;
+}
+
 
 @media (max-width: 360px) {
     .time-row { gap: 6px; }
@@ -399,6 +504,56 @@ let peopleCount = 0;
 let scheduleMode = 'push';
 
 
+/* ==================================================
+   화면 테마
+   - 기존 전시대 임명 기능에는 영향 없음
+   - 메인 화면에서 저장된 어두운 테마를 그대로 적용
+================================================== */
+
+const THEME_KEY = "bukbu_theme";
+
+function loadTheme() {
+
+    let theme = "light";
+
+    try {
+        theme = localStorage.getItem(THEME_KEY) || "light";
+    } catch (error) {
+        theme = "light";
+    }
+
+    const isDark = theme === "dark";
+
+    document.body.classList.toggle(
+        "dark-theme",
+        isDark
+    );
+
+    document.documentElement.classList.toggle(
+        "dark-theme",
+        isDark
+    );
+
+    /*
+       전시대 임명 페이지에서도
+       브라우저 상단 색상이 함께 맞도록 적용
+    */
+    const themeColor =
+        document.querySelector('meta[name="theme-color"]');
+
+    if (themeColor) {
+        themeColor.setAttribute(
+            "content",
+            isDark ? "#18212b" : "#f3f6fa"
+        );
+    }
+}
+
+
+/* 페이지가 열릴 때 저장된 테마 적용 */
+loadTheme();
+
+
 /* 인원 선택 */
 function selectPeople(count, mode, button) {
 
@@ -460,6 +615,7 @@ function createNameInputs() {
    - 6명: 10분 간격
    - 7명: 10분 간격
 */
+
 
 /* 시간 선택 버튼 초기화 */
 function initTimeSelectors() {
@@ -578,13 +734,12 @@ function makeAssignments(names, startMinutes) {
 
     if (peopleCount === 5) {
 
-        // 정확히 사용자가 제시한 5명 패턴
         const offsets = [
-            [0, 48, 108],   // 1번
-            [0, 60],        // 2번
-            [12, 72],       // 3번
-            [24, 84],       // 4번
-            [36, 96]        // 5번
+            [0, 48, 108],
+            [0, 60],
+            [12, 72],
+            [24, 84],
+            [36, 96]
         ];
 
         offsets.forEach((list, i) => {
@@ -595,8 +750,6 @@ function makeAssignments(names, startMinutes) {
 
     } else {
 
-        // 6명/7명은 10분 간격으로 순환.
-        // 2시간 안에서 각 사람의 2회 참여를 우선 배정한다.
         const interval = 10;
 
         for (let i = 0; i < peopleCount; i++) {
@@ -660,19 +813,8 @@ function makeSchedule() {
 
     schedule.innerHTML = "";
 
-    /* 6명은 2명씩 묶어서 표시
-       1·2번 : 10:00, 11:00
-       3·4번 : 10:20, 11:20
-       5·6번 : 10:40, 11:40
-    */
     if (peopleCount === 5 && scheduleMode === "normal") {
 
-        // 5명(일반) 배정
-        // 1·2 : 시작 + 0분
-        // 3·4 : 시작 + 25분
-        // 5·1 : 시작 + 50분
-        // 2·3 : 시작 + 75분
-        // 4·5 : 시작 + 95분
         const pairs = [
             [0, 1, 0],
             [2, 3, 25],
@@ -696,15 +838,15 @@ function makeSchedule() {
 
     } else if (peopleCount === 7) {
 
-       const pairs = [
-    [0, 1, 0],      // 1번, 2번 : 시작
-    [2, 3, 20],     // 3번, 4번 : +20분
-    [4, 5, 40],     // 5번, 6번 : +40분
-    [6, 0, 60],     // 7번, 1번 : +60분
-    [1, 2, 75],     // 2번, 3번 : +75분
-    [3, 4, 90],     // 4번, 5번 : +90분
-    [5, 6, 105]     // 6번, 7번 : +105분
-];
+        const pairs = [
+            [0, 1, 0],
+            [2, 3, 20],
+            [4, 5, 40],
+            [6, 0, 60],
+            [1, 2, 75],
+            [3, 4, 90],
+            [5, 6, 105]
+        ];
 
         pairs.forEach(([i1, i2, offset]) => {
             const item = document.createElement("div");
@@ -740,8 +882,6 @@ function makeSchedule() {
 
             item.className = "schedule-item";
 
-            // 사용자가 실제로 입력한 이름을 그대로 표시합니다.
-            // 임의로 1, 2, 3 등의 번호를 이름 뒤에 붙이지 않습니다.
             const name1 = names[group[0]];
             const name2 = names[group[1]];
 
@@ -782,8 +922,12 @@ function makeSchedule() {
     }
 
     let modeTitle = "";
+
     if (peopleCount === 5) {
-        modeTitle = scheduleMode === "normal" ? " - 일반" : " - 밀기";
+        modeTitle =
+            scheduleMode === "normal"
+            ? " - 일반"
+            : " - 밀기";
     }
 
     document.getElementById("resultTitle").innerText =
@@ -820,6 +964,7 @@ function formatShortTime(totalMinutes) {
 
     return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 }
+
 
 /* 공유용 텍스트 */
 function getShareText() {
