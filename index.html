@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no,
-               viewport-fit=cover">
+   content="width=device-width,
+            initial-scale=1.0,
+            maximum-scale=1.0,
+            user-scalable=no,
+            viewport-fit=cover">
 
 <meta name="theme-color" content="#1976d2">
 
@@ -17,10 +18,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <meta name="apple-mobile-web-app-status-bar-style"
-      content="default">
+   content="default">
 
 <meta name="apple-mobile-web-app-title"
-      content="북부전자카드">
+   content="북부전자카드">
 
 <link rel="manifest" href="./manifest.json">
 
@@ -39,7 +40,6 @@
       href="./icon-192.png">
 
 <title>서울 북부 회중</title>
-
 
 <style>
 
@@ -133,13 +133,15 @@ body.unlocked .page {
 .title {
     margin: 0;
 
-    font-size: 25px;
+    font-size: calc(25px * var(--font-scale, 1));
     font-weight: 800;
 
     letter-spacing: -1.3px;
     line-height: 1.15;
 
     color: #102a43;
+
+    transition: font-size 0.15s ease;
 }
 
 
@@ -208,10 +210,12 @@ body.unlocked .page {
 }
 
 .main-title {
-    font-size: 25px;
+    font-size: calc(25px * var(--font-scale, 1));
     font-weight: 800;
 
     letter-spacing: -0.7px;
+
+    transition: font-size 0.15s ease;
 }
 
 .arrow {
@@ -306,12 +310,14 @@ body.unlocked .page {
 }
 
 .button-text {
-    font-size: 19px;
+    font-size: calc(19px * var(--font-scale, 1));
     font-weight: 750;
 
     letter-spacing: -0.5px;
 
     white-space: nowrap;
+
+    transition: font-size 0.15s ease;
 }
 
 .button-arrow {
@@ -400,7 +406,7 @@ body.unlocked .page {
     }
 
     .title {
-        font-size: 22px;
+        font-size: calc(22px * var(--font-scale, 1));
     }
 
     .main-link {
@@ -421,7 +427,7 @@ body.unlocked .page {
     }
 
     .main-title {
-        font-size: 22px;
+        font-size: calc(22px * var(--font-scale, 1));
     }
 
     .buttons {
@@ -452,7 +458,7 @@ body.unlocked .page {
     }
 
     .button-text {
-        font-size: 17px;
+        font-size: calc(17px * var(--font-scale, 1));
     }
 
     .button-arrow {
@@ -472,11 +478,11 @@ body.unlocked .page {
 @media (max-width: 360px) {
 
     .title {
-        font-size: 20px;
+        font-size: calc(20px * var(--font-scale, 1));
     }
 
     .main-title {
-        font-size: 20px;
+        font-size: calc(20px * var(--font-scale, 1));
     }
 
     .button {
@@ -484,7 +490,7 @@ body.unlocked .page {
     }
 
     .button-text {
-        font-size: 15px;
+        font-size: calc(15px * var(--font-scale, 1));
     }
 
     .icon {
@@ -914,7 +920,7 @@ body.unlocked .page {
     position:absolute;
     top:49px;
     right:0;
-    width:158px;
+    width:190px;
     padding:7px;
     background:#fff;
     border:1px solid #d9e2ec;
@@ -926,7 +932,8 @@ body.unlocked .page {
     display:block;
 }
 
-.theme-option{
+.theme-option,
+.font-size-option{
     width:100%;
     min-height:42px;
     border:0;
@@ -940,8 +947,58 @@ body.unlocked .page {
     cursor:pointer;
 }
 
-.theme-option:active{
+.theme-option:active,
+.font-size-option:active{
     background:#eef3f8;
+}
+
+.font-size-option{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.font-size-icon{
+    flex:0 0 auto;
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    background:#e7f0ff;
+    color:#172033;
+    font-size:18px;
+    font-weight:800;
+}
+
+.font-size-panel{
+    display:none;
+    padding:5px 11px 10px;
+}
+
+.font-size-panel.show{
+    display:block;
+}
+
+.font-size-labels{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:3px;
+    color:#6b7c8f;
+    font-size:11px;
+    font-weight:600;
+}
+
+.font-size-range{
+    display:block;
+    width:100%;
+    height:24px;
+    margin:0;
+    padding:0;
+    cursor:pointer;
+    accent-color:#52657a;
 }
 
 /* 어두운 화면: 배경만 변경 */
@@ -971,17 +1028,32 @@ body.dark-theme .settings-menu{
     border-color:#3b4856;
 }
 
-body.dark-theme .theme-option{
+body.dark-theme .theme-option,
+body.dark-theme .font-size-option{
     color:#f0f3f6;
 }
 
-body.dark-theme .theme-option:active{
+body.dark-theme .theme-option:active,
+body.dark-theme .font-size-option:active{
     background:#334150;
 }
 
-</style>
-</head>
+body.dark-theme .font-size-icon{
+    background:#334150;
+    color:#f0f3f6;
+}
 
+body.dark-theme .font-size-labels{
+    color:#aebdcc;
+}
+
+body.dark-theme .font-size-range{
+    accent-color:#d7e1eb;
+}
+
+</style>
+
+</head>
 
 <body>
 
@@ -989,6 +1061,7 @@ body.dark-theme .theme-option:active{
      화면 설정
      화면 배경만 밝게/어둡게 변경
 ================================================== -->
+
 <div class="settings-wrap" id="settingsWrap">
     <button
         type="button"
@@ -997,13 +1070,51 @@ body.dark-theme .theme-option:active{
         aria-label="화면 설정"
         aria-expanded="false">⚙️</button>
 
-    <div class="settings-menu" id="settingsMenu">
-        <button type="button" class="theme-option" id="lightThemeButton">☀️ 밝게</button>
-        <button type="button" class="theme-option" id="darkThemeButton">🌙 어둡게</button>
+```
+<div class="settings-menu" id="settingsMenu">
+    <button type="button" class="theme-option" id="lightThemeButton">☀️ 밝게</button>
+    <button type="button" class="theme-option" id="darkThemeButton">🌙 어둡게</button>
+
+    <button
+        type="button"
+        class="font-size-option"
+        id="fontSizeButton"
+        aria-expanded="false">
+
+        <span class="font-size-icon">A</span>
+        <span>글자 크기</span>
+
+    </button>
+
+    <div
+        class="font-size-panel"
+        id="fontSizePanel">
+
+        <div class="font-size-labels">
+
+            <span>80%</span>
+
+            <span id="fontSizeValue">100%</span>
+
+            <span>150%</span>
+
+        </div>
+
+        <input
+            type="range"
+            class="font-size-range"
+            id="fontSizeRange"
+            min="0.80"
+            max="1.50"
+            step="0.05"
+            value="1"
+            aria-label="글자 크기 조절">
+
     </div>
 </div>
+```
 
-
+</div>
 
 <!-- ==================================================
      최초 접속 비밀번호
@@ -1014,72 +1125,73 @@ body.dark-theme .theme-option:active{
     class="password-overlay"
     id="loginOverlay">
 
-    <div
-        class="password-box"
-        role="dialog"
-        aria-modal="true">
+```
+<div
+    class="password-box"
+    role="dialog"
+    aria-modal="true">
 
-        <div class="password-icon">
-            🔒
-        </div>
+    <div class="password-icon">
+        🔒
+    </div>
 
-        <h2 class="password-title">
-            서울 북부 회중
-        </h2>
+    <h2 class="password-title">
+        서울 북부 회중
+    </h2>
 
-        <p class="password-description">
-            전자카드를 사용하려면<br>
-            비밀번호를 입력해 주세요.
-        </p>
+    <p class="password-description">
+        전자카드를 사용하려면<br>
+        비밀번호를 입력해 주세요.
+    </p>
+
+    <input
+        type="password"
+        id="loginPassword"
+        class="password-input"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="비밀번호"
+        maxlength="20">
+
+    <label class="remember-row">
 
         <input
-            type="password"
-            id="loginPassword"
-            class="password-input"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="비밀번호"
-            maxlength="20">
+            type="checkbox"
+            id="rememberLogin">
 
-        <label class="remember-row">
+        <span>
+            이 기기에서 기억하기
+        </span>
 
-            <input
-                type="checkbox"
-                id="rememberLogin">
+    </label>
 
-            <span>
-                이 기기에서 기억하기
-            </span>
+    <button
+        type="button"
+        class="password-confirm"
+        id="loginButton">
 
-        </label>
+        확인
 
-        <button
-            type="button"
-            class="password-confirm"
-            id="loginButton">
+    </button>
 
-            확인
+    <button
+        type="button"
+        class="password-cancel"
+        id="loginCancelButton">
 
-        </button>
+        취소
 
-        <button
-            type="button"
-            class="password-cancel"
-            id="loginCancelButton">
+    </button>
 
-            취소
-
-        </button>
-
-        <div
-            class="password-error"
-            id="loginError">
-        </div>
-
+    <div
+        class="password-error"
+        id="loginError">
     </div>
 
 </div>
+```
 
+</div>
 
 <!-- ==================================================
      전시대 관리자 비밀번호
@@ -1092,69 +1204,71 @@ body.dark-theme .theme-option:active{
     id="adminOverlay"
     aria-hidden="true">
 
-    <div
-        class="password-box"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="adminPasswordTitle">
+```
+<div
+    class="password-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="adminPasswordTitle">
 
-        <div class="password-icon">
-            ⚙️
-        </div>
-
-        <h2
-            class="password-title"
-            id="adminPasswordTitle">
-            전시대 관리자
-        </h2>
-
-        <p class="password-description">
-            관리자 페이지입니다.<br>
-            관리자 비밀번호를 입력해 주세요.
-        </p>
-
-        <input
-            type="password"
-            id="adminPassword"
-            class="password-input"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="관리자 비밀번호"
-            maxlength="20">
-
-        <label class="remember-row">
-            <input
-                type="checkbox"
-                id="rememberAdmin">
-            <span>이 기기에서 기억하기</span>
-        </label>
-
-        <button
-            type="button"
-            class="password-confirm"
-            id="adminLoginButton">
-            확인
-        </button>
-
-        <button
-            type="button"
-            class="password-cancel"
-            id="adminCancelButton">
-            취소
-        </button>
-
-        <div
-            class="password-error"
-            id="adminError"
-            aria-live="polite">
-        </div>
-
+    <div class="password-icon">
+        ⚙️
     </div>
+
+    <h2
+        class="password-title"
+        id="adminPasswordTitle">
+        전시대 관리자
+    </h2>
+
+    <p class="password-description">
+        관리자 페이지입니다.<br>
+        관리자 비밀번호를 입력해 주세요.
+    </p>
+
+    <input
+        type="password"
+        id="adminPassword"
+        class="password-input"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="관리자 비밀번호"
+        maxlength="20">
+
+    <label class="remember-row">
+        <input
+            type="checkbox"
+            id="rememberAdmin">
+        <span>이 기기에서 기억하기</span>
+    </label>
+
+    <button
+        type="button"
+        class="password-confirm"
+        id="adminLoginButton">
+        확인
+    </button>
+
+    <button
+        type="button"
+        class="password-cancel"
+        id="adminCancelButton">
+        취소
+    </button>
+
+    <div
+        class="password-error"
+        id="adminError"
+        aria-live="polite">
+    </div>
+
+</div>
+```
+
 </div>
 
-
-
 <!-- 관리자 비밀번호 확인 후 선택 화면 -->
+
 <div class="admin-choice-overlay" id="adminChoiceOverlay" aria-hidden="true">
   <div class="admin-choice-box" role="dialog" aria-modal="true">
     <h2 class="admin-choice-title">전시대 관리자</h2>
@@ -1176,15 +1290,15 @@ body.dark-theme .theme-option:active{
 
 <div class="container">
 
-
 <header class="header">
 
-    <h1 class="title">
-        서울 북부 회중
-    </h1>
+```
+<h1 class="title">
+    서울 북부 회중
+</h1>
+```
 
 </header>
-
 
 <!-- ==================================================
      북부회중 게시판
@@ -1196,28 +1310,29 @@ body.dark-theme .theme-option:active{
 ================================================== -->
 
 <a
-    class="main-link"
-    href="https://docs.google.com/spreadsheets/d/1Z-tXk1lHjDKJ9QfvNfPFXRUSL8awENpLzRRczfown9E/edit#gid=1903762694"
-    onclick="openGoogleSheet(event, this.href)">
+ class="main-link"
+ href="https://docs.google.com/spreadsheets/d/1Z-tXk1lHjDKJ9QfvNfPFXRUSL8awENpLzRRczfown9E/edit#gid=1903762694"
+ onclick="openGoogleSheet(event, this.href)">
 
-    <div class="main-content">
+```
+<div class="main-content">
 
-        <div class="main-icon">
-            📋
-        </div>
-
-        <div class="main-title">
-            북부회중 게시판
-        </div>
-
+    <div class="main-icon">
+        📋
     </div>
 
-    <span class="arrow">
-        ›
-    </span>
+    <div class="main-title">
+        북부회중 게시판
+    </div>
+
+</div>
+
+<span class="arrow">
+    ›
+</span>
+```
 
 </a>
-
 
 <!-- ==================================================
      메뉴
@@ -1225,240 +1340,248 @@ body.dark-theme .theme-option:active{
 
 <section class="buttons">
 
-
 <!-- 화요일 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1Qup_YoEKWxplnGioeA5r4BQfMZP3DQBKOVzU3OCxarM/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1Qup_YoEKWxplnGioeA5r4BQfMZP3DQBKOVzU3OCxarM/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📅
-        </div>
-
-        <span class="button-text">
-            화요일
-        </span>
-
+    <div class="icon">
+        📅
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        화요일
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 수요일 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1UEdmbFROuAe1rny6-HN6998ObACrme-mhmC7QXBBUHE/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1UEdmbFROuAe1rny6-HN6998ObACrme-mhmC7QXBBUHE/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📅
-        </div>
-
-        <span class="button-text">
-            수요일
-        </span>
-
+    <div class="icon">
+        📅
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        수요일
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 목요일 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1JpNcenBexX6tJVujE53o4R4G9NRwUJ_QIVk8nCKOT1w/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1JpNcenBexX6tJVujE53o4R4G9NRwUJ_QIVk8nCKOT1w/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📅
-        </div>
-
-        <span class="button-text">
-            목요일
-        </span>
-
+    <div class="icon">
+        📅
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        목요일
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 금요일 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1ixb-jhy3HEtuJ8oJvII9TRp1VwV0plR1CxFaqjYdBTo/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1ixb-jhy3HEtuJ8oJvII9TRp1VwV0plR1CxFaqjYdBTo/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📅
-        </div>
-
-        <span class="button-text">
-            금요일
-        </span>
-
+    <div class="icon">
+        📅
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        금요일
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 토요일 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1jF9CUYw-Hyg71YwxRRVPvWgZ0OG86CI4TIqpOXnnlUA/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1jF9CUYw-Hyg71YwxRRVPvWgZ0OG86CI4TIqpOXnnlUA/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📅
-        </div>
-
-        <span class="button-text">
-            토요일
-        </span>
-
+    <div class="icon">
+        📅
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        토요일
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 일요일 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1LhsyRYL04sOXDxstABVhvNcJ4eG6AxnEoa3jMiAahdg/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1LhsyRYL04sOXDxstABVhvNcJ4eG6AxnEoa3jMiAahdg/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📅
-        </div>
-
-        <span class="button-text">
-            일요일
-        </span>
-
+    <div class="icon">
+        📅
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        일요일
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 전화 증거 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1axP-z7SiAx6vAr97R7SwD-0yP4Yd19JtEwoF1ApYaJY/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1axP-z7SiAx6vAr97R7SwD-0yP4Yd19JtEwoF1ApYaJY/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📞
-        </div>
-
-        <span class="button-text">
-            전화 증거
-        </span>
-
+    <div class="icon">
+        📞
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        전화 증거
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 편지 봉사 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/1bGcu0AaT2iPOw2a3379wScaIM5s4ut-O9Umj3Fco4Uc/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/1bGcu0AaT2iPOw2a3379wScaIM5s4ut-O9Umj3Fco4Uc/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            ✉️
-        </div>
-
-        <span class="button-text">
-            편지 봉사
-        </span>
-
+    <div class="icon">
+        ✉️
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        편지 봉사
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- 개인 봉사 -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/10uhO1PXHa4zPdxqc7oNQ_WLtlsj5w8vwZ7PIZkb35II/edit?gid=0#gid=0"
-    target="_top">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/10uhO1PXHa4zPdxqc7oNQ_WLtlsj5w8vwZ7PIZkb35II/edit?gid=0#gid=0"
+ target="_top">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            👤
-        </div>
-
-        <span class="button-text">
-            개인 봉사
-        </span>
-
+    <div class="icon">
+        👤
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        개인 봉사
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- ==================================================
      전시대 신청
@@ -1470,63 +1593,64 @@ body.dark-theme .theme-option:active{
 ================================================== -->
 
 <a
-    class="button"
-    href="https://docs.google.com/spreadsheets/d/13biGx4c_LIhM7wLaZDLdbHAs5-egmXA9Io7naDJln-w/edit#gid=1888339369"
-    onclick="openGoogleSheet(event, this.href)">
+ class="button"
+ href="https://docs.google.com/spreadsheets/d/13biGx4c_LIhM7wLaZDLdbHAs5-egmXA9Io7naDJln-w/edit#gid=1888339369"
+ onclick="openGoogleSheet(event, this.href)">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            📝
-        </div>
-
-        <span class="button-text">
-            전시대 신청
-        </span>
-
+    <div class="icon">
+        📝
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        전시대 신청
     </span>
 
-</a>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</a>
 
 <!-- ==================================================
      전시대 관리자
 ================================================== -->
 
 <button
-    type="button"
-    class="button admin-button"
-    id="adminButton">
+ type="button"
+ class="button admin-button"
+ id="adminButton">
 
-    <div class="button-left">
+```
+<div class="button-left">
 
-        <div class="icon">
-            ⚙️
-        </div>
-
-        <span class="button-text">
-            전시대 관리자
-        </span>
-
+    <div class="icon">
+        ⚙️
     </div>
 
-    <span class="button-arrow">
-        ›
+    <span class="button-text">
+        전시대 관리자
     </span>
 
-</button>
+</div>
 
+<span class="button-arrow">
+    ›
+</span>
+```
+
+</button>
 
 </section>
 
 </div>
 
 </main>
-
 
 <script>
 
@@ -1539,11 +1663,19 @@ body.dark-theme .theme-option:active{
 ================================================== */
 
 const THEME_KEY = "bukbu_theme";
+const FONT_SIZE_KEY = "bukbu_font_size";
 
 const settingsButton = document.getElementById("settingsButton");
 const settingsMenu = document.getElementById("settingsMenu");
+const settingsWrap = document.getElementById("settingsWrap");
+
 const lightThemeButton = document.getElementById("lightThemeButton");
 const darkThemeButton = document.getElementById("darkThemeButton");
+
+const fontSizeButton = document.getElementById("fontSizeButton");
+const fontSizePanel = document.getElementById("fontSizePanel");
+const fontSizeRange = document.getElementById("fontSizeRange");
+const fontSizeValue = document.getElementById("fontSizeValue");
 
 function applyTheme(theme) {
     const isDark = theme === "dark";
@@ -1552,11 +1684,24 @@ function applyTheme(theme) {
     document.documentElement.classList.toggle("dark-theme", isDark);
 
     try {
-        localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+        localStorage.setItem(
+            THEME_KEY,
+            isDark ? "dark" : "light"
+        );
     } catch (error) {}
 
     settingsMenu.classList.remove("show");
-    settingsButton.setAttribute("aria-expanded", "false");
+    fontSizePanel.classList.remove("show");
+
+    settingsButton.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    fontSizeButton.setAttribute(
+        "aria-expanded",
+        "false"
+    );
 }
 
 function loadTheme() {
@@ -1566,33 +1711,200 @@ function loadTheme() {
         theme = localStorage.getItem(THEME_KEY) || "light";
     } catch (error) {}
 
-    applyTheme(theme);
+    if (theme !== "dark") {
+        theme = "light";
+    }
+
+    document.body.classList.toggle(
+        "dark-theme",
+        theme === "dark"
+    );
+
+    document.documentElement.classList.toggle(
+        "dark-theme",
+        theme === "dark"
+    );
 }
+
+
+/* ==================================================
+   글자 크기
+================================================== */
+
+function applyFontSize(value, save = true) {
+
+    let size = Number(value);
+
+    if (!Number.isFinite(size)) {
+        size = 1;
+    }
+
+    size = Math.min(
+        1.50,
+        Math.max(
+            0.80,
+            size
+        )
+    );
+
+    document.documentElement.style.setProperty(
+        "--font-scale",
+        size
+    );
+
+    fontSizeRange.value =
+        String(size);
+
+    fontSizeValue.textContent =
+        Math.round(size * 100) + "%";
+
+    if (save) {
+
+        try {
+
+            localStorage.setItem(
+                FONT_SIZE_KEY,
+                String(size)
+            );
+
+        } catch (error) {}
+
+    }
+}
+
+
+function loadFontSize() {
+
+    let fontSize = 1;
+
+    try {
+
+        const savedSize =
+            localStorage.getItem(
+                FONT_SIZE_KEY
+            );
+
+        if (savedSize !== null) {
+            fontSize = Number(savedSize);
+        }
+
+    } catch (error) {}
+
+    applyFontSize(
+        fontSize,
+        false
+    );
+}
+
+
+/* ==================================================
+   설정 버튼
+================================================== */
 
 settingsButton.addEventListener("click", function(event) {
     event.stopPropagation();
 
-    const open = settingsMenu.classList.toggle("show");
-    settingsButton.setAttribute("aria-expanded", open ? "true" : "false");
+    const open =
+        settingsMenu.classList.toggle("show");
+
+    settingsButton.setAttribute(
+        "aria-expanded",
+        open ? "true" : "false"
+    );
+
+    if (!open) {
+
+        fontSizePanel.classList.remove("show");
+
+        fontSizeButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
 });
+
+
+/* ==================================================
+   밝게
+================================================== */
 
 lightThemeButton.addEventListener("click", function() {
     applyTheme("light");
 });
 
+
+/* ==================================================
+   어둡게
+================================================== */
+
 darkThemeButton.addEventListener("click", function() {
     applyTheme("dark");
 });
 
-document.addEventListener("click", function(event) {
-    if (!document.getElementById("settingsWrap").contains(event.target)) {
-        settingsMenu.classList.remove("show");
-        settingsButton.setAttribute("aria-expanded", "false");
-    }
+
+/* ==================================================
+   글자 크기 열기/닫기
+================================================== */
+
+fontSizeButton.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+    const open =
+        fontSizePanel.classList.toggle("show");
+
+    fontSizeButton.setAttribute(
+        "aria-expanded",
+        open ? "true" : "false"
+    );
+
 });
 
-/* 가장 먼저 테마 적용 */
+
+/* ==================================================
+   글자 크기 조절
+================================================== */
+
+fontSizeRange.addEventListener("input", function() {
+
+    applyFontSize(this.value);
+
+});
+
+
+/* ==================================================
+   설정 바깥쪽 클릭
+================================================== */
+
+document.addEventListener("click", function(event) {
+
+    if (!settingsWrap.contains(event.target)) {
+
+        settingsMenu.classList.remove("show");
+
+        fontSizePanel.classList.remove("show");
+
+        settingsButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        fontSizeButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+
+});
+
+
+/* 가장 먼저 테마와 글자 크기 적용 */
+
 loadTheme();
+loadFontSize();
+
 
 /* ==================================================
    Google Sheets 이동
@@ -2153,7 +2465,6 @@ window.addEventListener(
 );
 
 </script>
-
 
 </body>
 </html>
