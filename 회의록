@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1f6f5b">
+<title>회의록</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo",
+               "Malgun Gothic",sans-serif;
+  background:#f4f6f5;
+  color:#202624;
+  line-height:1.7;
+}
+header{
+  position:sticky;top:0;z-index:20;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid #e2e7e4;
+}
+.header-inner{
+  max-width:900px;margin:auto;padding:14px 16px 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.back{
+  width:42px;height:42px;border:0;border-radius:12px;
+  background:#eef3f1;color:#1f6f5b;font-size:23px;
+  cursor:pointer;
+}
+.title-wrap{flex:1;min-width:0}
+.title{font-size:21px;font-weight:800;letter-spacing:-.03em}
+.subtitle{font-size:12px;color:#75807c}
+.refresh{
+  border:0;background:#1f6f5b;color:#fff;border-radius:11px;
+  padding:9px 12px;font-size:13px;font-weight:700;cursor:pointer;
+}
+main{max-width:900px;margin:auto;padding:16px 12px 70px}
+.toolbar{
+  display:flex;gap:8px;margin:4px 0 16px;
+}
+.search{
+  flex:1;min-width:0;border:1px solid #dfe5e2;border-radius:13px;
+  background:#fff;padding:12px 14px;font-size:15px;outline:none;
+}
+.select{
+  border:1px solid #dfe5e2;border-radius:13px;background:#fff;
+  padding:0 10px;font-size:14px;color:#39423f;outline:none;
+}
+.status{
+  margin:0 2px 12px;color:#6f7975;font-size:13px;
+}
+.month{
+  margin:24px 0 10px;font-size:17px;font-weight:800;color:#1f6f5b;
+}
+.card{
+  background:#fff;border:1px solid #e3e8e5;border-radius:17px;
+  margin-bottom:12px;overflow:hidden;
+  box-shadow:0 3px 12px rgba(26,45,37,.05);
+}
+.card-head{
+  padding:15px 15px 13px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.date-badge{
+  width:50px;min-width:50px;text-align:center;border-radius:12px;
+  background:#edf5f1;padding:6px 3px;color:#1f6f5b;
+}
+.date-badge .mon{font-size:11px;font-weight:700}
+.date-badge .day{font-size:21px;font-weight:850;line-height:1.15}
+.card-main{flex:1;min-width:0}
+.card-date{font-size:13px;color:#68736e;font-weight:700}
+.card-title{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+.meta{font-size:12px;color:#7b8581;margin-top:3px}
+.chev{font-size:18px;color:#8a9590;padding-top:4px;transition:.2s}
+.card.open .chev{transform:rotate(180deg)}
+.content{
+  display:none;border-top:1px solid #edf0ef;padding:15px;
+}
+.card.open .content{display:block}
+.section-title{
+  font-size:13px;font-weight:800;color:#1f6f5b;
+  margin:0 0 7px;
+}
+.info{
+  background:#f7f9f8;border-radius:12px;padding:10px 12px;
+  margin-bottom:14px;font-size:13px;
+}
+.info div{margin:2px 0}
+.info b{color:#46514d}
+.agenda,.body-text{font-size:14px}
+.agenda ul{margin:0 0 16px;padding-left:20px}
+.body-text p{margin:0 0 10px}
+.body-text ul{margin:5px 0 12px;padding-left:20px}
+.body-text li{margin:2px 0}
+.empty,.loading,.error{
+  background:#fff;border:1px solid #e3e8e5;border-radius:16px;
+  padding:24px 16px;text-align:center;color:#727d78;
+}
+.error{color:#a14b4b}
+.top{
+  position:fixed;right:16px;bottom:18px;width:46px;height:46px;
+  border:0;border-radius:50%;background:#1f6f5b;color:#fff;
+  font-size:19px;box-shadow:0 4px 15px rgba(0,0,0,.15);
+  display:none;cursor:pointer;
+}
+@media (min-width:700px){
+  main{padding-left:18px;padding-right:18px}
+  .card-head{padding:18px}
+  .content{padding:18px 22px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
+    <div class="title-wrap">
+      <div class="title">회의록</div>
+      <div class="subtitle">서울북부회중 회의 기록</div>
+    </div>
+    <button class="refresh" onclick="loadMinutes()">새로고침</button>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input id="search" class="search" type="search" placeholder="회의록 검색..." oninput="render()">
+    <select id="year" class="select" onchange="render()">
+      <option value="all">전체</option>
+    </select>
+  </div>
+  <div id="status" class="status">회의록을 불러오는 중입니다.</div>
+  <div id="list" class="loading">잠시만 기다려 주세요.</div>
+</main>
+
+<button id="topBtn" class="top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/*
+ * ============================================================
+ * Google Docs 연결 설정
+ * ============================================================
+ * 아래 GOOGLE_DOC_ID는 현재 사용하신 구글 독스 문서입니다.
+ *
+ * 가장 안정적인 방법은 Google Apps Script 웹 앱을 하나 만들어
+ * 구글 독스 내용을 JSON으로 제공하는 것입니다.
+ *
+ * GAS_WEB_APP_URL을 나중에 입력하면 됩니다.
+ * 비워 두면 아래 DEMO_DATA가 아니라 문서 연결 안내가 표시됩니다.
+ */
+const GOOGLE_DOC_ID = "16o-peMEXPHSBDDaLeiv9HnyPAYMJFjzglMLTwQPrGXk";
+const GAS_WEB_APP_URL = ""; // 예: https://script.google.com/macros/s/....../exec
+
+let meetings = [];
+
+const DEMO_DATA = [
+  {
+    date:"2026-08-04",
+    title:"서울북부회중 임시장로모임",
+    place:"삼양 왕국회관 2층",
+    time:"21:20",
+    attendees:"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+    absentees:"임채원(위임)",
+    startPrayer:"-",
+    endPrayer:"-",
+    agenda:[
+      "세계적인 활동을 위해 회중에서 결의한 월 헌금액",
+      "PSS 식사비",
+      "9월 특별강연연사",
+      "회중의 필요"
+    ],
+    content:[
+      ["세계적인 활동을 위해 회중에서 결의한 월 헌금액","80만원으로 장로의 회가 결정, 차주 평일 집회때 결의"],
+      ["PSS 식사비","특별한 목적을 위한 기금으로 결의"],
+      ["9월 특별강연연사","정지원 형제 임명"],
+      ["회중의 필요","순회대회 및 지역대회 복습 임명 - 그리스도인 생활과 봉사 집회 감독자가 임명"]
+    ]
+  },
+  {
+    date:"2026-07-18",
+    title:"서울북부회중 임시장로모임",
+    place:"삼양 왕국회관 2층",
+    time:"21:20",
+    attendees:"김경수, 남동완, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
+    absentees:"박대기, 성지운(강연), 임채원(위임)",
+    startPrayer:"-",
+    endPrayer:"-",
+    agenda:["미침례 전도인 문답","회중 야유회"],
+    content:[
+      ["미침례 전도인 문답 장로 선정","최한솔 관심자: 남동완 형제, 추요식 형제"],
+      ["회중 야유회","김경수 형제가 선 조사후 추후 논의, 26년 10월 중 계획"]
+    ]
+  }
+];
+
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g,s=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[s]));
+}
+
+function parseDate(s){
+  const m=String(s||"").match(/(\d{4})[.\-년\s]+(\d{1,2})[.\-월\s]+(\d{1,2})/);
+  if(!m) return null;
+  return `${m[1]}-${String(m[2]).padStart(2,"0")}-${String(m[3]).padStart(2,"0")}`;
+}
+
+function fmtDate(s){
+  const d=new Date(s+"T00:00:00");
+  if(isNaN(d)) return s;
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+}
+
+function monthKey(s){
+  const d=new Date(s+"T00:00:00");
+  return isNaN(d) ? "기타" : `${d.getFullYear()}년 ${d.getMonth()+1}월`;
+}
+
+function normalize(raw){
+  return (Array.isArray(raw)?raw:[]).map(x=>{
+    const date=parseDate(x.date || x.datetime || x.일시 || "");
+    return {
+      date:date || x.date || "",
+      title:x.title || x.제목 || "서울북부회중 회의록",
+      place:x.place || x.회의장소 || "",
+      time:x.time || "",
+      attendees:x.attendees || x.참석자 || "",
+      absentees:x.absentees || x.불참자 || "",
+      startPrayer:x.startPrayer || x.시작기도 || "",
+      endPrayer:x.endPrayer || x.마치는기도 || "",
+      agenda:x.agenda || x.안건 || [],
+      content:x.content || x.회의내용 || []
+    };
+  }).filter(x=>x.date);
+}
+
+function buildYears(){
+  const sel=document.getElementById("year");
+  const current=sel.value;
+  const years=[...new Set(meetings.map(x=>x.date.slice(0,4)))].sort((a,b)=>b-a);
+  sel.innerHTML='<option value="all">전체</option>'+years.map(y=>`<option value="${y}">${y}년</option>`).join("");
+  sel.value=years.includes(current)?current:"all";
+}
+
+function render(){
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const y=document.getElementById("year").value;
+  const list=document.getElementById("list");
+
+  let data=meetings.filter(m=>{
+    const hay=JSON.stringify(m).toLowerCase();
+    return (!q || hay.includes(q)) && (y==="all" || m.date.startsWith(y));
+  });
+
+  data.sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById("status").textContent =
+    `총 ${data.length}건 · 최신 회의록이 먼저 표시됩니다.`;
+
+  if(!data.length){
+    list.innerHTML='<div class="empty">검색 조건에 맞는 회의록이 없습니다.</div>';
+    return;
+  }
+
+  let lastMonth="";
+  list.innerHTML=data.map((m,i)=>{
+    const mk=monthKey(m.date);
+    const month=mk!==lastMonth ? `<div class="month">${esc(mk)}</div>` : "";
+    lastMonth=mk;
+
+    const d=new Date(m.date+"T00:00:00");
+    const day=isNaN(d)?"":d.getDate();
+    const mon=isNaN(d)?"":d.getMonth()+1;
+
+    const info=[
+      m.place?`<div><b>📍 회의 장소</b> ${esc(m.place)}</div>`:"",
+      m.time?`<div><b>🕘 일시</b> ${esc(m.time)}</div>`:"",
+      m.attendees?`<div><b>👥 참석자</b> ${esc(m.attendees)}</div>`:"",
+      m.absentees?`<div><b>불참자</b> ${esc(m.absentees)}</div>`:"",
+      m.startPrayer?`<div><b>시작 기도</b> ${esc(m.startPrayer)}</div>`:"",
+      m.endPrayer?`<div><b>마치는 기도</b> ${esc(m.endPrayer)}</div>`:""
+    ].filter(Boolean).join("");
+
+    const agenda=Array.isArray(m.agenda)
+      ? `<div class="section-title">안건</div><div class="agenda"><ul>${m.agenda.map(a=>`<li>${esc(a)}</li>`).join("")}</ul></div>`:"";
+
+    const content=Array.isArray(m.content)
+      ? `<div class="section-title">회의 내용</div><div class="body-text">${
+          m.content.map(item=>{
+            if(Array.isArray(item)) return `<p><strong>${esc(item[0])}</strong><br>${esc(item[1])}</p>`;
+            return `<p>${esc(item)}</p>`;
+          }).join("")
+        }</div>`:"";
+
+    return `${month}
+      <article class="card" id="m${i}">
+        <div class="card-head" onclick="toggleCard(this.parentElement)">
+          <div class="date-badge"><div class="mon">${mon}월</div><div class="day">${day}</div></div>
+          <div class="card-main">
+            <div class="card-date">${esc(fmtDate(m.date))}</div>
+            <div class="card-title">${esc(m.title)}</div>
+            <div class="meta">${m.place?esc(m.place):""}${m.time?" · "+esc(m.time):""}</div>
+          </div>
+          <div class="chev">⌄</div>
+        </div>
+        <div class="content">
+          ${info?`<div class="info">${info}</div>`:""}
+          ${agenda}
+          ${content}
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function toggleCard(card){
+  card.classList.toggle("open");
+}
+
+async function loadMinutes(){
+  document.getElementById("list").innerHTML='<div class="loading">회의록을 불러오는 중입니다.</div>';
+  document.getElementById("status").textContent="불러오는 중입니다.";
+
+  if(!GAS_WEB_APP_URL){
+    meetings=DEMO_DATA.slice();
+    buildYears();
+    render();
+    document.getElementById("status").textContent =
+      "현재는 미리보기입니다. GAS 웹 앱 주소를 연결하면 구글 독스와 자동 연동됩니다.";
+    return;
+  }
+
+  try{
+    const res=await fetch(GAS_WEB_APP_URL,{cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data=await res.json();
+    meetings=normalize(data);
+    buildYears();
+    render();
+  }catch(e){
+    console.error(e);
+    document.getElementById("list").innerHTML=
+      '<div class="error">회의록을 불러오지 못했습니다.<br>구글 독스 연결 설정을 확인해 주세요.</div>';
+    document.getElementById("status").textContent="연결 오류";
+  }
+}
+
+function goBack(){
+  if(history.length>1) history.back();
+  else location.href="index.html";
+}
+
+window.addEventListener("scroll",()=>{
+  document.getElementById("topBtn").style.display=scrollY>400?"block":"none";
+});
+
+loadMinutes();
+</script>
+</body>
+</html>
