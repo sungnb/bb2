@@ -230,7 +230,7 @@ body{
 
 table{
   width:100%;
-  min-width:680px;
+  min-width:100%;
   border-collapse:separate;
   border-spacing:0;
   font-size:calc(14px * var(--font-scale));
@@ -850,10 +850,11 @@ function goHome(){
 
 /* =========================================================
    Google Sheets Apps Script API
+   새 주소
 ========================================================= */
 
 const SHEET_API =
-"https://script.google.com/macros/s/AKfycbypV0ta1xMxg5CyAXkzEnow3YMftU4R4KCYssCZ8PoGdq3UomYYRrNT-RFsQWNiI9cA8g/exec";
+"https://script.google.com/macros/s/AKfycbzRt8FkKk4bALMGK7bKvVLcSU36kIH_pHKETK7_-RnDQwO-gB4R1Yopfen0jeAiM_LodQ/exec";
 
 
 /* =========================================================
@@ -874,14 +875,18 @@ function esc(value){
 /* =========================================================
    Google Sheets 셀 읽기
 
-   실제 Sheets JSON 구조 기준
+   새 시트 구조
 
+   A = 0
    B = 1
+   C = 2
    D = 3
-   F = 5
-   H = 7
-   J = 9
-   L = 11
+
+   실제 사용
+
+   B = 날짜 / 제목 / 안내
+   C = 봉사자1
+   D = 봉사자2
 ========================================================= */
 
 function cell(row,index){
@@ -903,20 +908,11 @@ function makeTable(
   weekend
 ){
 
-  const headers =
-    weekend
-
-    ? [
-        "날짜",
-        "봉사자1",
-        "봉사자2",
-              ]
-
-    : [
-        "날짜",
-        "봉사자1",
-        "봉사자2",
-              ];
+  const headers = [
+    "날짜",
+    "봉사자1",
+    "봉사자2"
+  ];
 
 
   let body = "";
@@ -930,15 +926,9 @@ function makeTable(
 
         cell(row,1),
 
-        cell(row,3),
+        cell(row,2),
 
-        cell(row,5),
-
-        cell(row,7),
-
-        cell(row,9),
-
-        cell(row,11)
+        cell(row,3)
 
       ];
 
@@ -1053,7 +1043,7 @@ function buildSheet(data){
 
       if(
         value.includes(
-          "내부, 외부 경비"
+          "안내 봉사 임명"
         )
       ){
 
@@ -1077,10 +1067,9 @@ function buildSheet(data){
       /* 평일 집회 */
 
       if(
-        cell(row,3)
-          .includes(
-            "평일 집회"
-          )
+        value.includes(
+          "평일 집회"
+        )
       ){
 
         weekdayIndex = index;
@@ -1091,10 +1080,9 @@ function buildSheet(data){
       /* 주말 집회 */
 
       if(
-        cell(row,3)
-          .includes(
-            "주말 집회"
-          )
+        value.includes(
+          "주말 집회"
+        )
       ){
 
         weekendIndex = index;
@@ -1123,13 +1111,7 @@ function buildSheet(data){
         )
       ){
 
-        group =
-          value +
-          (
-            cell(row,8)
-              ? " " + cell(row,8)
-              : ""
-          );
+        group = value;
 
       }
 
@@ -1157,7 +1139,7 @@ function buildSheet(data){
 
         esc(
           title ||
-          "내부, 외부 경비 & 주차 안내 봉사 임명"
+          "왕국회관 안내 봉사 임명"
         ) +
 
       '</h1>' +
@@ -1180,7 +1162,7 @@ function buildSheet(data){
         "평일 집회(화)",
         rows.slice(
           weekdayIndex,
-          weekdayIndex + 6
+          weekdayIndex + 7
         ),
         false
       );
