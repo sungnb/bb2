@@ -16,7 +16,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   background:#f3f5f4;
   color:#26302d;
-  font-size:15px;
+  font-size:var(--app-font-size, 15px);
   line-height:1.65;
 }
 
@@ -274,18 +274,16 @@ main{
 .content-item{
   position:relative;
   padding-left:18px;
-  margin-bottom:15px;
+  margin-bottom:10px;
 }
 
 .content-item::before{
-  content:"";
+  content:"●";
   position:absolute;
-  left:3px;
-  top:8px;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#607795;
+  left:0;
+  top:0;
+  color:#607795;
+  font-size:11px;
 }
 
 .content-topic{
@@ -430,13 +428,6 @@ body.dark .content-detail{color:#c8d1cd}
 
 
 <script>
-
-/* ============================================================
-   회의록 데이터 직접 내장
-
-   Apps Script / fetch 사용 안 함
-   아래 15개 데이터만 화면에 표시
-============================================================ */
 
 const meetings = [
 
@@ -743,10 +734,6 @@ const meetings = [
 ];
 
 
-/* ============================================================
-   HTML 문자 보호
-============================================================ */
-
 function esc(value){
 
   return String(value ?? "")
@@ -758,10 +745,6 @@ function esc(value){
 
 }
 
-
-/* ============================================================
-   날짜
-============================================================ */
 
 function getMonthDay(date){
 
@@ -808,10 +791,6 @@ function getTime(datetime){
 }
 
 
-/* ============================================================
-   연도
-============================================================ */
-
 function buildYears(){
 
   const select = document.getElementById("year");
@@ -828,10 +807,6 @@ function buildYears(){
 
 }
 
-
-/* ============================================================
-   정보
-============================================================ */
 
 function infoRow(label,value){
 
@@ -853,19 +828,27 @@ function infoRow(label,value){
 }
 
 
-/* ============================================================
-   안건
-============================================================ */
+/* 안건: 줄바꿈마다 각각 ● 항목으로 분리 */
 
 function renderAgenda(agenda){
 
   if(!Array.isArray(agenda) || !agenda.length) return "";
 
+  const items = agenda
+    .flatMap(item =>
+      String(item ?? "")
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(line => line !== "")
+    );
+
+  if(!items.length) return "";
+
   return `
     <div class="section-label">안건</div>
 
     <ul class="bullet-list">
-      ${agenda.map(item=>`
+      ${items.map(item=>`
         <li>${esc(item)}</li>
       `).join("")}
     </ul>
@@ -874,9 +857,7 @@ function renderAgenda(agenda){
 }
 
 
-/* ============================================================
-   회의 내용
-============================================================ */
+/* 회의 내용: 줄바꿈마다 각각 ● 항목으로 분리 */
 
 function renderContent(content){
 
@@ -887,25 +868,26 @@ function renderContent(content){
 
     <div class="content-list">
 
-      ${content.map(item=>`
+      ${content.map(item=>{
 
-        <div class="content-item">
+        const lines = String(item.detail ?? "")
+          .split(/\r?\n/)
+          .map(line => line.trim())
+          .filter(line => line !== "");
 
-          ${item.topic ? `
-            <div class="content-topic">
-              ${esc(item.topic)}
-            </div>
-          ` : ""}
+        return lines.map(line=>`
 
-          ${item.detail ? `
+          <div class="content-item">
+
             <div class="content-detail">
-              ${esc(item.detail)}
+              ${esc(line)}
             </div>
-          ` : ""}
 
-        </div>
+          </div>
 
-      `).join("")}
+        `).join("");
+
+      }).join("")}
 
     </div>
   `;
@@ -913,20 +895,12 @@ function renderContent(content){
 }
 
 
-/* ============================================================
-   카드
-============================================================ */
-
 function toggleCard(card){
 
   card.classList.toggle("open");
 
 }
 
-
-/* ============================================================
-   렌더링
-============================================================ */
 
 function render(){
 
@@ -1086,10 +1060,6 @@ function render(){
 }
 
 
-/* ============================================================
-   뒤로가기
-============================================================ */
-
 function goBack(){
 
   if(history.length > 1){
@@ -1101,10 +1071,6 @@ function goBack(){
 }
 
 
-/* ============================================================
-   맨 위 버튼
-============================================================ */
-
 window.addEventListener("scroll",()=>{
 
   document.getElementById("topButton").style.display =
@@ -1113,13 +1079,47 @@ window.addEventListener("scroll",()=>{
 });
 
 
-/* ============================================================
-   시작
+/* 메인화면 밝게/어둡게 및 글자 크기 설정 연동 */
 
-   fetch 없음
-   Apps Script 호출 없음
-   직접 입력된 meetings 15개만 표시
-============================================================ */
+function applyMainSettings(){
+
+  const savedTheme =
+    localStorage.getItem("theme") ||
+    localStorage.getItem("appTheme") ||
+    localStorage.getItem("darkMode");
+
+  const isDark =
+    savedTheme === "dark" ||
+    savedTheme === "true";
+
+  document.body.classList.toggle("dark", isDark);
+
+
+  const savedFontSize =
+    localStorage.getItem("fontSize") ||
+    localStorage.getItem("appFontSize") ||
+    localStorage.getItem("textSize");
+
+  if(savedFontSize){
+
+    const size = parseFloat(savedFontSize);
+
+    if(!isNaN(size)){
+      document.documentElement.style.setProperty(
+        "--app-font-size",
+        size + "px"
+      );
+    }
+
+  }
+
+}
+
+
+window.addEventListener("storage", applyMainSettings);
+
+applyMainSettings();
+
 
 buildYears();
 render();
