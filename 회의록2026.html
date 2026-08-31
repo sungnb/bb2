@@ -13,6 +13,18 @@
   name="theme-color"
   content="#1f6f5b">
 
+<meta
+  http-equiv="Cache-Control"
+  content="no-cache, no-store, must-revalidate">
+
+<meta
+  http-equiv="Pragma"
+  content="no-cache">
+
+<meta
+  http-equiv="Expires"
+  content="0">
+
 <title>회의록</title>
 
 
@@ -328,14 +340,7 @@ main{
 
 
 /* ============================================================
-   왼쪽 날짜
-
-   예:
-
-   ┌─────┐
-   │ 8월 │
-   │ 4일 │
-   └─────┘
+   날짜 배지
    ============================================================ */
 
 .date-badge{
@@ -383,7 +388,7 @@ main{
 
 
 /* ============================================================
-   오른쪽 제목과 날짜
+   제목
    ============================================================ */
 
 .card-main{
@@ -531,9 +536,6 @@ main{
 
 /* ============================================================
    섹션 제목
-
-   안건
-   회의 내용
    ============================================================ */
 
 .section-title{
@@ -570,8 +572,7 @@ main{
 
 .agenda ul{
 
-  margin:
-    0;
+  margin:0;
 
   padding-left:22px;
 
@@ -924,7 +925,7 @@ body.dark .subtitle{
 
     <button
       class="refresh"
-      onclick="loadMinutes()">
+      onclick="loadMinutes(true)">
 
       새로고침
 
@@ -1047,12 +1048,6 @@ function esc(value){
 
 /* ============================================================
    날짜 정규화
-
-   2026년 8월 4일
-   2026-08-04
-   2026. 8. 4.
-
-   모두 YYYY-MM-DD로 변환
    ============================================================ */
 
 function parseDate(value){
@@ -1079,7 +1074,9 @@ function parseDate(value){
 
 
   if(!match){
+
     return "";
+
   }
 
 
@@ -1098,26 +1095,85 @@ function parseDate(value){
 
 /* ============================================================
    날짜 얻기
-
-   m.date가 없거나 형식이 달라도
-   datetime에서 날짜를 다시 찾음
    ============================================================ */
 
 function getMeetingDate(m){
 
   const direct =
-    parseDate(
-      m.date
-    );
+    parseDate(m.date);
 
 
   if(direct){
+
     return direct;
+
   }
 
 
   return parseDate(
     m.datetime
+  );
+
+}
+
+
+/* ============================================================
+   중복 회의 제거
+
+   같은 날짜 + 같은 제목이면 하나만 유지
+   ============================================================ */
+
+function removeDuplicates(data){
+
+  const map =
+    new Map();
+
+
+  data.forEach(
+
+    function(m){
+
+      const date =
+        getMeetingDate(m);
+
+
+      const title =
+        String(
+          m.title || ""
+        )
+        .trim();
+
+
+      const key =
+        date +
+        "||" +
+        title;
+
+
+      /*
+       같은 날짜와 제목이 있으면
+       나중 데이터로 교체
+      */
+
+      map.set(
+        key,
+        {
+
+          ...m,
+
+          _date:
+            date
+
+        }
+      );
+
+    }
+
+  );
+
+
+  return Array.from(
+    map.values()
   );
 
 }
@@ -1137,26 +1193,26 @@ function monthKey(date){
 
 
   if(!match){
+
     return "기타";
+
   }
 
 
   return (
+
     Number(match[1]) +
     "년 " +
     Number(match[2]) +
     "월"
+
   );
 
 }
 
 
 /* ============================================================
-   전체 날짜 표시
-
-   2026-08-04
-   ↓
-   2026년 8월 4일
+   날짜 표시
    ============================================================ */
 
 function fmtDate(date){
@@ -1169,7 +1225,9 @@ function fmtDate(date){
 
 
   if(!match){
+
     return date || "";
+
   }
 
 
@@ -1188,7 +1246,7 @@ function fmtDate(date){
 
 
 /* ============================================================
-   날짜에서 월 / 일
+   월 / 일
    ============================================================ */
 
 function getMonthDay(date){
@@ -1203,8 +1261,10 @@ function getMonthDay(date){
   if(!match){
 
     return {
+
       month:"",
       day:""
+
     };
 
   }
@@ -1236,6 +1296,7 @@ function applySettings(){
   let theme =
     "light";
 
+
   let size =
     1;
 
@@ -1263,9 +1324,7 @@ function applySettings(){
   if(
 
     !Number.isFinite(size) ||
-
     size < .8 ||
-
     size > 1.5
 
   ){
@@ -1349,6 +1408,7 @@ function buildYears(){
               const date =
                 getMeetingDate(m);
 
+
               return date
                 ? date.slice(0,4)
                 : "";
@@ -1405,7 +1465,7 @@ function buildYears(){
 
 
 /* ============================================================
-   카드 열기 / 닫기
+   카드 열기
    ============================================================ */
 
 function toggleCard(card){
@@ -1418,14 +1478,16 @@ function toggleCard(card){
 
 
 /* ============================================================
-   기본 정보 행 만들기
+   기본 정보
    ============================================================ */
 
 function infoRow(label,value){
 
   if(
+
     !value ||
     !String(value).trim()
+
   ){
 
     return "";
@@ -1474,25 +1536,14 @@ function render(){
 
   let data =
     meetings
-      .map(
-
-        function(m){
-
-          return {
-
-            ...m,
-
-            _date:
-              getMeetingDate(m)
-
-          };
-
-        }
-
-      )
       .filter(
 
         function(m){
+
+          const date =
+            m._date ||
+            getMeetingDate(m);
+
 
           const text =
             JSON.stringify(m)
@@ -1510,10 +1561,8 @@ function render(){
 
             year === "all" ||
 
-            String(
-              m._date || ""
-            )
-            .startsWith(year);
+            String(date)
+              .startsWith(year);
 
 
           return (
@@ -1585,7 +1634,8 @@ function render(){
         function(m,index){
 
           const date =
-            m._date;
+            m._date ||
+            getMeetingDate(m);
 
 
           const month =
@@ -1623,19 +1673,6 @@ function render(){
           }
 
 
-          /* ==================================================
-             기본 정보
-
-             표시 순서
-
-             1. 일시
-             2. 회의 장소
-             3. 참석자
-             4. 불참자
-             5. 시작 기도
-             6. 마치는 기도
-             ================================================== */
-
           const info =
 
             infoRow(
@@ -1669,10 +1706,6 @@ function render(){
             );
 
 
-          /* ==================================================
-             안건
-             ================================================== */
-
           const agenda =
 
             Array.isArray(
@@ -1695,10 +1728,7 @@ function render(){
                       .filter(
                         function(item){
 
-                          return (
-                            String(item || "")
-                              .trim()
-                          );
+                          return String(item || "").trim();
 
                         }
                       )
@@ -1725,10 +1755,6 @@ function render(){
 
               : "";
 
-
-          /* ==================================================
-             회의 내용
-             ================================================== */
 
           const content =
 
@@ -1824,20 +1850,6 @@ function render(){
               : "";
 
 
-          /* ==================================================
-             최종 카드
-
-             접힌 상태
-
-             왼쪽
-             8월
-             4일
-
-             오른쪽
-             서울북부회중 임시장로모임
-             2026년 8월 4일
-             ================================================== */
-
           return `
 
             ${monthHtml}
@@ -1853,8 +1865,6 @@ function render(){
                 onclick="toggleCard(this.parentElement)">
 
 
-                <!-- 왼쪽 날짜 -->
-
                 <div class="date-badge">
 
                   <div class="mon">
@@ -1867,8 +1877,6 @@ function render(){
 
                 </div>
 
-
-                <!-- 오른쪽 제목 + 전체 날짜 -->
 
                 <div class="card-main">
 
@@ -1883,8 +1891,6 @@ function render(){
                 </div>
 
 
-                <!-- 화살표 -->
-
                 <div class="chev">
                   ⌄
                 </div>
@@ -1893,12 +1899,8 @@ function render(){
               </div>
 
 
-              <!-- 펼쳐지는 내용 -->
-
               <div class="content">
 
-
-                <!-- 기본 정보 -->
 
                 ${
 
@@ -1917,12 +1919,8 @@ function render(){
                 }
 
 
-                <!-- 안건 -->
-
                 ${agenda}
 
-
-                <!-- 회의 내용 -->
 
                 ${content}
 
@@ -1944,9 +1942,14 @@ function render(){
 
 /* ============================================================
    회의록 불러오기
+
+   핵심:
+   - 캐시 완전 방지
+   - 매번 고유한 URL 생성
+   - 중복 회의 제거
    ============================================================ */
 
-async function loadMinutes(){
+async function loadMinutes(force){
 
   const list =
     document.getElementById(
@@ -1955,7 +1958,13 @@ async function loadMinutes(){
 
 
   list.innerHTML =
-    '<div class="loading">구글 독스의 전체 회의록을 불러오는 중입니다…</div>';
+    '<div class="loading">구글 독스의 최신 회의록을 불러오는 중입니다…</div>';
+
+
+  document
+    .getElementById("status")
+    .textContent =
+      "최신 데이터를 확인하는 중입니다…";
 
 
   if(
@@ -1966,12 +1975,6 @@ async function loadMinutes(){
       '<div class="error">Google Apps Script 주소가 설정되지 않았습니다.</div>';
 
 
-    document
-      .getElementById("status")
-      .textContent =
-        "연결 설정 필요";
-
-
     return;
 
   }
@@ -1979,25 +1982,65 @@ async function loadMinutes(){
 
   try{
 
+
+    /* ========================================================
+       캐시 방지용 URL
+
+       Date.now() + Math.random()
+
+       매 요청마다 완전히 다른 URL 생성
+       ======================================================== */
+
     const separator =
       GAS_WEB_APP_URL.includes("?")
         ? "&"
         : "?";
 
 
+    const requestUrl =
+
+      GAS_WEB_APP_URL +
+
+      separator +
+
+      "_ts=" +
+
+      Date.now() +
+
+      "&_r=" +
+
+      Math.random()
+        .toString(36)
+        .substring(2);
+
+
+    console.log(
+      "회의록 요청 URL:",
+      requestUrl
+    );
+
+
     const res =
       await fetch(
 
-        GAS_WEB_APP_URL +
-
-        separator +
-
-        "t=" +
-
-        Date.now(),
+        requestUrl,
 
         {
-          cache:"no-store"
+
+          method:"GET",
+
+          cache:"no-store",
+
+          headers:{
+
+            "Cache-Control":
+              "no-cache, no-store, max-age=0",
+
+            "Pragma":
+              "no-cache"
+
+          }
+
         }
 
       );
@@ -2017,6 +2060,12 @@ async function loadMinutes(){
       await res.json();
 
 
+    console.log(
+      "GAS 전체 응답:",
+      json
+    );
+
+
     if(
       !json.success
     ){
@@ -2032,7 +2081,7 @@ async function loadMinutes(){
     }
 
 
-    meetings =
+    const rawMeetings =
 
       Array.isArray(
         json.meetings
@@ -2043,17 +2092,116 @@ async function loadMinutes(){
         : [];
 
 
+    console.log(
+      "API 원본 회의 수:",
+      rawMeetings.length
+    );
+
+
+    /* ========================================================
+       중복 제거
+
+       동일 날짜 + 동일 제목
+       ======================================================== */
+
+    meetings =
+      removeDuplicates(
+        rawMeetings
+      );
+
+
+    console.log(
+      "중복 제거 후 회의 수:",
+      meetings.length
+    );
+
+
+    /* ========================================================
+       최신 날짜순 정렬 전 날짜 없는 항목 확인
+       ======================================================== */
+
+    meetings =
+      meetings.filter(
+
+        function(m){
+
+          return (
+            m._date ||
+            getMeetingDate(m)
+          );
+
+        }
+
+      );
+
+
+    console.log(
+      "최종 표시 회의 수:",
+      meetings.length
+    );
+
+
     buildYears();
 
 
     render();
 
 
+    /*
+      GAS가 보내준 count와
+      실제 배열 길이를 확인
+    */
+
+    const apiCount =
+      Number(
+        json.count
+      );
+
+
+    const actualCount =
+      meetings.length;
+
+
+    document
+      .getElementById("status")
+      .textContent =
+
+        `총 ${actualCount}건 · 최신 회의록이 먼저 표시됩니다.`;
+
+
+    if(
+
+      Number.isFinite(apiCount) &&
+      apiCount !== actualCount
+
+    ){
+
+      console.warn(
+
+        "API count와 실제 표시 수가 다릅니다.",
+
+        {
+
+          apiCount:
+            apiCount,
+
+          actualCount:
+            actualCount
+
+        }
+
+      );
+
+    }
+
   }
 
   catch(e){
 
-    console.error(e);
+    console.error(
+      "회의록 로딩 오류:",
+      e
+    );
 
 
     list.innerHTML = `
@@ -2062,7 +2210,7 @@ async function loadMinutes(){
 
         회의록을 불러오지 못했습니다.
 
-        <br>
+        <br><br>
 
         ${esc(e.message)}
 
@@ -2126,10 +2274,35 @@ window.addEventListener(
 
 
 /* ============================================================
+   페이지 복귀시 최신 데이터 다시 확인
+
+   휴대폰 Safari / Chrome 캐시 대응
+   ============================================================ */
+
+window.addEventListener(
+
+  "pageshow",
+
+  function(event){
+
+    if(
+      event.persisted
+    ){
+
+      loadMinutes(true);
+
+    }
+
+  }
+
+);
+
+
+/* ============================================================
    시작
    ============================================================ */
 
-loadMinutes();
+loadMinutes(true);
 
 </script>
 
