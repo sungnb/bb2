@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#286b5b">
 
 <title>회의록 2026</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -392,10 +393,32 @@ body.dark .content-detail{color:#c8d1cd}
 body.dark .content-subline::before{
   color:#aab9b3;
 }
+
+.auth-screen{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:#f3f5f4}
+.auth-box{width:min(420px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.auth-icon{font-size:38px;margin-bottom:8px}.auth-title{font-size:22px;font-weight:850;color:#286b5b}
+.auth-text{margin:8px 0 20px;font-size:13px;color:#68756f;line-height:1.6}.auth-status{margin-top:14px;font-size:13px;color:#68756f;min-height:22px}
+.auth-email{margin-top:8px;font-size:12px;color:#286b5b;word-break:break-all}
+body.dark .auth-screen{background:#121715}.auth-box{background:#fff}
+body.dark .auth-box{background:#1a211e;border-color:#35403b}.body.dark .auth-title{color:#91d0bb}
+body.dark .auth-text,body.dark .auth-status{color:#a9b4af}
+
 </style>
 </head>
 
 <body>
+
+<div id="authScreen" class="auth-screen">
+  <div class="auth-box">
+    <div class="auth-icon">🔐</div>
+    <div class="auth-title">회의록</div>
+    <div class="auth-text">승인된 Google 계정으로 로그인해야<br>회의록을 볼 수 있습니다.</div>
+    <div id="googleButton"></div>
+    <div id="authStatus" class="auth-status">Google 계정 확인 중...</div>
+    <div id="authEmail" class="auth-email"></div>
+  </div>
+</div>
+
 
 <header>
   <div class="header-inner">
@@ -450,310 +473,68 @@ body.dark .content-subline::before{
    회의록 데이터 직접 내장
 ============================================================ */
 
-const meetings = [
+const meetings = [];
+let authenticatedEmail = "";
 
-{
-  "date":"2026-02-21",
-  "title":"서울북부회중 정기장로모임",
-  "datetime":"2026년 2월 21일 15:00",
-  "place":"봉사모임 장소",
-  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 임채원, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"공근욱 형제",
-  "endPrayer":"성낙봉 형제",
-  "agenda":[
-    "순회 감독자의 회중 방문 보고 검토\n10~20대 형제들을 체계적으로 돕기 위한 단계적 계획 수립\n회중 직책 조정 및 집단편성 관련 논의\n정시에 집회를 마치기 위한 방안\n기념식 준비 관련 임명\n회중의 필요 수집\n1월 광고 및 유의사항 중 11~13항 검토\n재해 대비 마련에 대해 검토\n안내인 훈련\n의학 정보가 담긴 문서: 다음번 장로 모임에서 「돌보십시오」 제10장 3항을 검토\n왕국회관에서 안전하게 일함: 작업 안전의 중요성에 관해 논의(S-147_s-Kr_KO_202602)"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"기념식 준비 관련 임명\n사회자, 표상물 준비및 기도, 표상물 안내\r: 사회자 - 추요식 형제(시작 기도 겸임)\n: 표상물 준비(잔, 접시, 식탁보 포함) - 포도주 정지원 형제, 빵 공근욱 형제\r: 표상물 기도 - 포도주 기도 정지원 형제, 빵 기도 김경수 형제\n: 표상물 안내 - 정성일 형제가 임명\n순회 감독자의 회중 방문 보고 검토\n10~20대 형제들을 체계적으로 돕기 위한 단계적 계획 수립\r: 정지후 형제 (현재 - 연단 보조, 연단부 보조 업무)\r [일반 파트] \r 가까워 지는 것을 목표 - 1.연구 참여 2.개인 교제 3.청소년 모임\r [영적 파트]\r 회중 업무 - 1. 관련 업무에 대한 설명(정지원 형제, 추요식 형제) 2. 형제들의 업무 설명\r 봉사 - 모든 장로들과 봉사 계획\r 교제 - 유지 보수 참여\n회중 직책 조정 및 집단편성 관련 논의\n공근욱 형제의 전출(4월말) 고려\n야외 봉사 집단 편성 및 하위 항목외 직책 - 4월말 재 편성\n회중 직책 조정\n: 공개강연 조정자 - 김경수 형제 (3월 1일자 임명 변경)\r: 안내인 감독자 - 성낙봉 형제 (3월 1일자 임명 변경)\r: 회계의 종 - 남동완 형제 (4월 1일자 임명 변경)\n: 일요일 오후 봉사 인도 - 임채원 형제 (3월 1일자 임명 변경)\r: 토요일 오후 줌봉사 인도 - 정성일 형제 (3월 1일자 임명 변경)\n정시에 집회를 마치기 위한 방안\n집회 마지막 프로 (회중 성서 연구, 파수대 연구) - 21:05 마칠 수 있도록\n정성일 형제가 타임 오바시 사인\n집회 사회자 소개말 및 칭찬 1분 이내\n왕국회관에서 안전하게 일함: 작업 안전의 중요성에 관해 논의(S-147_s-Kr_KO_202602)\n「돌보십시오」 제13장 1, 13항과 「왕국 회관에서의 인명 보호 및 손실 방지」(S-283) 3-13항에 나오는 내용을 살펴봄\n북부왕국회관 관련 브리핑 - 2,3층 내부 출입 금지, 3월 2일 대청소\n회중의 필요 수집\n다음 모임에서 다루기로\n1월 광고 및 유의사항 중 11~13항 검토\n재해 대비 마련에 대해 검토\r: 「하돌」 제11장 3항 검토\n안내인 훈련\r: 추후 상반기에 안전 훈련 모임(안내인 훈련)계획\n의학 정보가 담긴 문서\r: 「돌보십시오」 제10장 3항 검토"
-    }
-  ]
-},
 
-{
-  "date":"2026-02-28",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 2월 28일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 임채원, 정성일, 추요식",
-  "absentees":"",
-  "startPrayer":"-",
-  "endPrayer":"성낙봉 형제",
-  "agenda":[
-    "혜화 왕국회관 운영위원회 위원 및 사회자 선정\n2026년 3월 2일 대청소 지원자\n대도시 캠페인"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"혜화 왕국회관 운영위원회 위원 및 사회자 선정\n: 2026년 3월 2일 대청소에는 박대기 형제가 참석후 운영위 사회자 선정 결과에 따라 추후에 운영위원회 위원 선정\n2026년 3월 2일 대청소 지원자\n: 집단별로 1명 이상씩 추천\n대도시 캠페인\n: 봉사 위원회 우선 검토"
-    }
-  ]
-},
+/* ============================================================
+   승인된 Google 계정 인증
+============================================================ */
+const MEETINGS_API = "https://YOUR-WORKER.workers.dev/";
+const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
-{
-  "date":"2026-03-07",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 3월 7일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "혜화 왕국회관 운영위원회 위원 보고\n대도시 캠페인"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"혜화 왕국회관 운영 위원회 위원 보고\n청소 \r: 미사용 화분 폐기, 외부 돌계단 청소, 화단 정리, 1층 전시대 보관 장소 도배 및 등 교체\r: 앞으로 대문 페인트 칠 예정\n운영 위원회 조정자 \r: 조정자 선출 위원회에 위임 할 것인지, 3개 회중 전체 장로 모임 통해 선출할 것인지 결정\r: 서울북부회중 장로의 회 운영 위원회에 운영 위원회 조정자 선출 위임\n운영 위원회 위원 선출\r: LDC 소통 및 전자기기 사용 용이한 젊은 형제 선출 요망\r: 서울북부회중 운영 위원회 - 성낙봉 형제, 정지원 형제\n대도시 캠페인\n가능 여부\r: 10일을 계획하여 신청\n담당자 선정\n: 구역 담당자 - 성낙봉 형제\r: 인원 담당자 - 추요식 형제\n후대\r: 찬조금 계좌 생성하여 인도자가 기금으로 게스트 점심 후대"
-    }
-  ]
-},
+function setAuthStatus(message, isError=false){
+  const el=document.getElementById("authStatus");
+  if(el){el.textContent=message;el.style.color=isError?"#b33a3a":"";}
+}
+function showAuthScreen(){document.getElementById("authScreen").style.display="flex";}
+function hideAuthScreen(){document.getElementById("authScreen").style.display="none";}
 
-{
-  "date":"2026-03-21",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 3월 21일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"공근욱, 김경수, 박대기, 성낙봉, 성지운, 왕건식, 임채원, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "회중 회계\n무활동자 돕는 마련\n오순자 자매 유가족 찬조금"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"회중 회계\n입금 주기 변경\r: 월 2회 이상 입금 하기로 장로의 회가 승인함.\n무활동자 돕는 마련\n담당 장로가 연락하여 기념식 초대 및 소재 파악후 서기에게 보고\n오순자 자매 유가족 찬조금\n집단별 식사비 - 30만원씩, 편지 봉사 부대 비용 - 50만원, 장로 식사비 30만원(총 200만원)"
-    }
-  ]
-},
+async function handleGoogleCredential(response){
+  try{
+    setAuthStatus("접근 권한을 확인하고 있습니다...");
+    const result=await fetch(MEETINGS_API,{
+      method:"GET",
+      headers:{"Authorization":"Bearer "+response.credential},
+      cache:"no-store"
+    });
+    const data=await result.json().catch(()=>({}));
+    if(!result.ok || !data.success) throw new Error(data.error||"접근 권한이 없습니다.");
 
-{
-  "date":"2026-04-04",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 4월 4일 21:10",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"공근욱, 김경수, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "회중 비상연락망\n회중의 필요\n다음 임시 장로모임"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"회중 비상연락망\n집단 감독자가 모든 집단 성원들의 비상 연락망을 재 수집\r: 비상 연락망의 대상이 개인정보 보호법하에 동의 여부 필수 확인\n회중의 필요\n안건: 합당한 관심을 기울이십시오(적절한 개인적 관심과 참견을 구분)\n다음 임시 장로모임\n2026년 4월 11일 토요일 집회 후 삼양 왕국회관 2층"
-    }
-  ]
-},
+    authenticatedEmail=data.email||"";
+    document.getElementById("authEmail").textContent=authenticatedEmail;
+    meetings.length=0;
+    meetings.push(...(Array.isArray(data.meetings)?data.meetings:[]));
 
-{
-  "date":"2026-04-11",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 4월 11일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "회중 직책\n다음 임시 장로모임"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"회중 직책\n회계의 종 \r: 2026.05.01 일자로 남동완 형제가 임명 수행, 부재시 정지원 형제가 대신 수행\n다음 임시 장로모임\n2026년 4월 19일 일요일 15:00 봉사모임 장소"
-    }
-  ]
-},
-
-{
-  "date":"2026-04-19",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 4월 19일 15:00",
-  "place":"봉사모임 장소",
-  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"추요식 형제",
-  "endPrayer":"성지운 형제",
-  "agenda":[
-    "순회 방문 준비\n회중의 필요\n부가적인 특권\n회중 직책\n순회 대회 청소 연락 담당자\n파이오니아 학교 간식\n지역 대회 버스 대절\n방문 연사를 위한 후대\n대도시 캠페인"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"순회 방문 준비\n장로 모임 의제\r: 회중을 도울 수 있는 형제 자매들의 지원 요청\n추천\r: 장로 - 상황 검토 후 재 논의\r: 봉사의 종 - 없음\n양치는 방문\r: 박현주 자매, 배성주 형제, 조숙희 자매, 장애영 자매, 김경자 자매, 이규자 자매\n회중의 필요\n순회 대회 복습 - 5월 11일주, 김경수 형제\n우울한 자매들의 어려움을 살펴봄 - 남동완 형제\n청소년들의 믿음 홀로서기(청소년 시기의 어려움과 홀로서기의 중요성) - 성낙봉 형제\n합당한 관심을 기울이십시오(적절한 개인적 관심과 참견을 구분) - 추후 필요시 준비\nS-417 말라리아를 예방하고 치료하는 일에서 생명에 대한 존중심을 나타내십시오 - 내년에 다루기로\n부가적인 특권\n김지인 형제\r: 봉사 모임에서 기도 임명, AV부 보조 업무, 전시대 관리\n회중 직책 (5월 1일자로 적용)\n공근욱 형제의 전출로 인한 직책 변경\r: 전시대 관리 - 김경수 형제\r: 화요일 봉사 인도 - 추요식 형제\n집단 감독자\r: 왕건식 형제, 박대기 형제, 남동완 형제, 김경수 형제\n파수대 사회자, 보조자\r: 왕건식 형제, 추요식 형제\n순회 대회 청소 연락 담당자\n공근욱 형제\n파이오니아 학교 간식\n7/13 일주 - 회중적으로 제공 하기로\n지역 대회 버스 대절\n특별한 목적을 위한 기금으로 선정하여 회중에 알리고 수요조사 재시행\n방문 연사를 위한 후대\n실제 경비(거리, 숙박)\r: 수도권: 30,000원\r: 서울 외곽, 남양주, 의정부, 일산: 30,000원~50,000원\r: 수원, 인천, 오산, 평택, 호평, 천안: 70,000원\r: 강원, 충청: 100,000원\r: 대구, 부산, 광주: 120,000원\n대도시 캠페인\n대도시 캠페인으로 인해 5월 집단 봉사는 생략\n캠페인 일자별 인도자 선정 - 성낙봉 형제"
-    }
-  ]
-},
-
-{
-  "date":"2026-05-05",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 5월 5일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 박대기, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "전원 추천여부\n집단 감독자 선정\n양떼를 돌봄\n온라인 게시판 관리자"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"전원 추천여부\n공근욱 형제, 최상은 자매 장로 및 정규 파이오니아로 봉사하도록 추천.\n집단 감독자 선정\nA집단 감독자: 남동완 형제.\n양떼를 돌봄\n장애영 자매의 의료 상황에 따라 장로들이 통화와 문자 등으로 관심을 기울이기로 결정.\n온라인 게시판 관리자\n성낙봉 형제가 관리 담당."
-    }
-  ]
-},
-
-{
-  "date":"2026-05-12",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 5월 12일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"임채원(병가)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "집단 편성표\n혜화동회관 운영위 보고\n베델 연사 신청\n지역 대회 대절 버스\n도움이 필요한 전도인"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"집단 편성표\n새로 이사온 이희원 자매 포함\n장로 형제들이 각자 검토후 5월 16일 토요일까지 검토후 이견이 없다면 제안 대로 결정\n차지원 자매를 돕기 위한 목적으로 조순득 자매와 동집단 편성 요청\n혜화동회관 운영위 보고\n회의 내용(결정 아님)\n● 혜화동 왕국회관 청소 배정\n왕국회관을 봉사모임 장소로 사용하고 있는 중앙과 성북에서 청소하기로 하며, 추후 변경 사항이 있으면 다시상의하기로 함 홀수달엔 성북회중, 짝수달엔 중앙회중이 청소함\n(단 전체 청소는 모든 회중이 참여함)\n● 회중별 목표잔고 이상의 헌금을 관리 하는방법\n회중 목표잔고가 넘으면 지부로 보낼지 결의를 하지만 추후 혜화동 왕국회관의 대수선을 염두에 두고 목표잔고가 넘어도 회중비용으로 기금을 보관하여 보류하기로함\n(추후 대면으로 추가 설명 하기로 함)\n● 인터넷(딜라이브) 및 전화 해지\n인터넷(딜라이브)는 4월29일자로 해지 완료 하였으며, 전화 1층,2층 해지 하기로함\n● 회중별 운영위원회 관리비 입금방법 동일하게\n현재 회중마다 운영비용을 통장에 표시방법이 상의하여 앞으로는 매월 10일에 자동이체로 예를들면 \"운영비용중앙\" 이렇게 통장에 표시되게 하여 보내기로함\n● 운영위원회 목표 잔고 조정\n현재 600만원의 목표잔고를 1,500만원으로 상향 조정함\n(추후 대면으로 추가 설명 하기로 함)\n● 왕국회관 CCTV 설치\n10년이상 사용한 CCTV를 새롭게 설치 하기로 함\n● 수도 배관 및 기타 제거작업\n왕국회관 2층, 3층을 사용하지 않는 동안 부과된 전기, 수도, 가스 비용이 상당하여 이에 문제가 되는 가스시설, 상수도시설, 씽크대 및 기타 불필요한 시설들을 제거 하기로함\n베델 연사 신청\n초대 하는 것으로 결정\n지역 대회 대절 버스\n보류\n도움이 필요한 전도인\n한상욱 형제\r: 해설에 적극적으로 참여할 수 있도록 권장"
-    }
-  ]
-},
-
-{
-  "date":"2026-05-30",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 5월 30일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"박대기(지방 일정), 임채원(위임)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "대도시 캠페인 보고\n재혼할 수 있는 성경적 자유\n집단 편성 조정\n무활동자 돕는 마련\n지역 대회 청소 담당"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"대도시 캠페인 보고\n추요식 형제, 성낙봉 형제 위임\n재혼할 수 있는 성경적 자유\n박현주 자매: 재혼할 수 있는 성경적 자유가 없음.\n오미경 자매: 재혼할 수 있는 성경적 자유가 있음. (전남편 결혼)\n집단 편성 조정\n조애선 자매와 구양숙 자매 교차(조애선 자매 돕기 위해): 정성일 형제 연락\n이희원 자매 집단 편성과 새로운 전도인 광고 여부 연락: 성지운 형제 연락\n무활동자 돕는 마련\n홍진민 형제 - 믿지 않는 이성과 교제중: 왕건식 형제, 임채원 형제 함께 돕기로 결정.\n지역 대회 청소 담당\n성낙봉 형제"
-    }
-  ]
-},
-
-{
-  "date":"2026-06-13",
-  "title":"서울북부회중 장로모임 w/순회감독자",
-  "datetime":"2026년 6월 13일 14:30",
-  "place":"봉사 모임 장소",
-  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"임채원(위임)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "회중적 필요"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"회중적 필요\n봉사 모임\n조직, 기도 포함 5-7분 길이\n경험담 할 수 있지만 미리 광고해서는 안됨\n집회 후 봉사 모임을 가질 경우 바로 하는 것이 아닌, 관심자들을 환영하고 필요를 돌본 후 봉사 모임 진행할\n부가적인 일을 수행하는 형제들 배려\n지역대회를 지원하는 형제들, 병원교섭 위원회 형제들, 환자 방문단 형제들\n회중 업무를 수행하는데 배려해 줄 것을 부탁\n젊은형제들(10대 20대)의 체계적 훈련 프로그램을 검토\n목표를 제안\n어떻게 구체적으로 도울 것인지\n약한 전도인들과 노약자분들을 잘 지원하고 도움\n회중 지원 요청\n3,40대 파이오니아 요청\n집 값정보 요청"
-    }
-  ]
-},
-
-{
-  "date":"2026-06-20",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 6월 20일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"박대기, 성지운(지방), 임채원(위임)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "이정임 자매 관련 요청 사항\n홍진민 형제 만남 결과 보고"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"이정임 자매 관련 요청 사항\n장로들이 돈암 회중 출신 자매들에게 제안 ( 매주 월 or 금 중 이 자매를 방문할 수 있다고 각 집단별로 제안할 수 있음)\n(이정임 자매 아들인 이태영 형제가 북부 회중에 돈암 회중 출신 자매들이 어머니를 방문해 격려할 수 있도록 직접 요청함. 이정임 자매가 현재 선망 증세가 있다고 주장. 하여 어머니를 잘 알고 있는 돈암 회중 출신 자매들이 방문해 이야기를 나누며 어머니가 기억력을 잘 유지하면서 회복할 수 있도록 격려해 주기를 바라고 있음.)\n홍진민 형제 만남 결과 보고\n두 명의 장로(봉사위원, 집단감독자)가 방문해 홍 형제와 함께 미침례 전도인의 요구 조건 10가지를 다시 한번 살펴보기로 함.\n조정자 형제가 최근 홍진민 형제를 만나 대화를 나누었으며, 홍 형제 본인의 주장으 로는 여자친구와 흡연 문제와 관련해 깨끗한 양심을 가지고 있다고 함."
-    }
-  ]
-},
-
-{
-  "date":"2026-07-07",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 7월 7일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"임채원(위임)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "PSS 간식 지원\n홍진민 형제 집단 편성"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"PSS 간식 지원\n책임자: 김경수 형제\n7월 16일 목요일 서울북부회중 간식 지원일 결정\n홍진민 형제 집단 편성\n추후 봉사 보고 제출시 A집단으로 배정"
-    }
-  ]
-},
-
-{
-  "date":"2026-07-18",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 7월 18일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"박대기, 성지운(강연), 임채원(위임)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "미침례 전도인 문답\n회중 야유회"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"미침례 전도인 문답 장로 선정\n최한솔 관심자: 남동완 형제, 추요식 형제\n회중 야유회\n김경수 형제가 선 조사후 추후 논의, 26년 10월 중 계획"
-    }
-  ]
-},
-
-{
-  "date":"2026-08-04",
-  "title":"서울북부회중 임시장로모임",
-  "datetime":"2026년 8월 4일 21:20",
-  "place":"삼양 왕국회관 2층",
-  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
-  "absentees":"임채원(위임)",
-  "startPrayer":"-",
-  "endPrayer":"-",
-  "agenda":[
-    "세계적인 활동을 위해 회중에서 결의한 월 헌금액\nPSS 식사비\n9월 특별강연연사\n회중의 필요"
-  ],
-  "content":[
-    {
-      "topic":"회의 내용",
-      "detail":"세계적인 활동을 위해 회중에서 결의한 월 헌금액\n80만원으로 장로의 회가 결정, 차주 평일 집회때 결의\nPSS 식사비\n특별한 목적을 위한 기금으로 결의\n9월 특별강연연사\n정지원 형제 임명\n회중의 필요\n순회대회 및 지역대회 복습 임명 - 그리스도인 생활과 봉사 집회 감독자가 임명"
-    }
-  ]
+    hideAuthScreen();
+    buildYears();
+    render();
+  }catch(error){
+    console.error(error);
+    setAuthStatus(error.message||"로그인에 실패했습니다.",true);
+  }
 }
 
-];
-
+function initGoogleLogin(){
+  if(!window.google || !google.accounts || !google.accounts.id){
+    setTimeout(initGoogleLogin,300);
+    return;
+  }
+  if(GOOGLE_CLIENT_ID.includes("YOUR_GOOGLE_CLIENT_ID") || MEETINGS_API.includes("YOUR-WORKER")){
+    setAuthStatus("설정이 필요합니다: Google Client ID와 Worker 주소를 입력하세요.",true);
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id:GOOGLE_CLIENT_ID,
+    callback:handleGoogleCredential,
+    auto_select:false,
+    cancel_on_tap_outside:true
+  });
+  google.accounts.id.renderButton(document.getElementById("googleButton"),{
+    theme:"outline",size:"large",width:280,text:"signin_with",shape:"rect"
+  });
+  setAuthStatus("Google 계정으로 로그인해 주세요.");
+}
 
 /* ============================================================
    HTML 문자 보호
@@ -1198,8 +979,8 @@ window.addEventListener("scroll",()=>{
 ============================================================ */
 
 applyMainSettings();
-buildYears();
-render();
+showAuthScreen();
+initGoogleLogin();
 
 </script>
 
