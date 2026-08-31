@@ -11,7 +11,7 @@
 
 <meta name="theme-color" content="#286b5b">
 
-<title>회의록</title>
+<title>회의록 2026</title>
 
 
 <style>
@@ -168,6 +168,15 @@ header{
 }
 
 
+.refresh:active,
+.back:active,
+.top-button:active{
+
+  transform:scale(.96);
+
+}
+
+
 /* ============================================================
    본문
 ============================================================ */
@@ -304,11 +313,11 @@ main{
   margin:
     22px 0 9px;
 
-  padding-left:2px;
+  padding-left:4px;
 
   font-size:14px;
 
-  font-weight:800;
+  font-weight:850;
 
   color:#286b5b;
 
@@ -344,7 +353,7 @@ main{
 
 .card-head{
 
-  padding:11px 12px;
+  padding:12px 13px;
 
   display:flex;
 
@@ -359,24 +368,26 @@ main{
 }
 
 
+.card-head:active{
+
+  background:#fafcfb;
+
+}
+
+
 /* ============================================================
    날짜 박스
-
-   ┌──────┐
-   │ 8월  │
-   │ 4일  │
-   └──────┘
 ============================================================ */
 
 .date-badge{
 
-  width:52px;
+  width:54px;
 
-  min-width:52px;
+  min-width:54px;
 
-  height:52px;
+  height:54px;
 
-  border-radius:11px;
+  border-radius:12px;
 
   background:#edf5f2;
 
@@ -420,7 +431,7 @@ main{
 
 
 /* ============================================================
-   오른쪽 제목
+   제목 영역
 ============================================================ */
 
 .card-main{
@@ -474,9 +485,9 @@ main{
 
   color:#74807b;
 
-  font-size:15px;
+  font-size:16px;
 
-  transition:transform .2s;
+  transition:transform .25s ease;
 
 }
 
@@ -499,7 +510,7 @@ main{
   border-top:
     1px solid #e6ece9;
 
-  padding:13px 13px 18px;
+  padding:14px 13px 20px;
 
 }
 
@@ -512,18 +523,24 @@ main{
 
 
 /* ============================================================
-   기본 정보
+   기본 정보 박스
+
+   회색 바탕
+   검은색 텍스트
 ============================================================ */
 
 .info-box{
 
-  background:#f6f8f7;
+  background:#f1f3f3;
 
-  border-radius:11px;
+  border:
+    1px solid #e0e4e3;
 
-  padding:8px 11px;
+  border-radius:12px;
 
-  margin-bottom:16px;
+  padding:9px 12px;
+
+  margin-bottom:17px;
 
 }
 
@@ -532,29 +549,37 @@ main{
 
   display:grid;
 
-  grid-template-columns:76px 1fr;
+  grid-template-columns:78px 1fr;
 
   gap:8px;
 
-  padding:5px 0;
+  padding:6px 0;
 
   font-size:13px;
 
 }
 
 
+.info-row + .info-row{
+
+  border-top:
+    1px solid rgba(0,0,0,.045);
+
+}
+
+
 .info-label{
 
-  font-weight:800;
+  font-weight:850;
 
-  color:#51605a;
+  color:#303634;
 
 }
 
 
 .info-value{
 
-  color:#303a36;
+  color:#171b19;
 
   word-break:break-word;
 
@@ -564,41 +589,55 @@ main{
 /* ============================================================
    섹션 버튼
 
-   안건
+   안건 / 회의 내용
+
+   청록 바탕
+   흰색 글자
 ============================================================ */
 
 .section-label{
 
-  display:inline-flex;
+  width:100%;
+
+  display:flex;
 
   align-items:center;
 
-  margin:12px 0 9px;
+  justify-content:center;
 
-  padding:6px 12px;
+  margin:18px 0 10px;
 
-  border-radius:8px;
+  padding:9px 14px;
 
-  background:#e7f2ee;
+  border-radius:10px;
 
-  color:#286b5b;
+  background:#4f9383;
+
+  color:#ffffff;
 
   font-size:14px;
 
-  font-weight:900;
+  font-weight:850;
+
+  letter-spacing:-0.02em;
+
+  box-shadow:
+    0 2px 5px rgba(40,107,91,.12);
 
 }
 
 
 /* ============================================================
    회의 내용 버튼
+
+   동일한 청록 계열
 ============================================================ */
 
 .section-label.content-label{
 
-  background:#edf0f7;
+  background:#3f8878;
 
-  color:#4c607f;
+  color:#ffffff;
 
 }
 
@@ -609,9 +648,9 @@ main{
 
 .bullet-list{
 
-  margin:0 0 15px;
+  margin:0 0 6px;
 
-  padding:0;
+  padding:4px 4px 2px;
 
   list-style:none;
 
@@ -622,13 +661,20 @@ main{
 
   position:relative;
 
-  padding-left:18px;
+  padding:9px 10px 9px 22px;
 
-  margin:8px 0;
+  margin:5px 0;
+
+  background:#f8faf9;
+
+  border:
+    1px solid #edf1ef;
+
+  border-radius:9px;
 
   font-size:14px;
 
-  color:#36403c;
+  color:#303936;
 
   word-break:break-word;
 
@@ -641,9 +687,9 @@ main{
 
   position:absolute;
 
-  left:3px;
+  left:10px;
 
-  top:.72em;
+  top:1.15em;
 
   width:7px;
 
@@ -664,7 +710,7 @@ main{
 
   margin:0;
 
-  padding:0;
+  padding:4px 4px 0;
 
   list-style:none;
 
@@ -675,9 +721,16 @@ main{
 
   position:relative;
 
-  padding-left:18px;
+  padding:12px 12px 12px 23px;
 
-  margin-bottom:15px;
+  margin-bottom:9px;
+
+  background:#f8faf9;
+
+  border:
+    1px solid #edf1ef;
+
+  border-radius:10px;
 
 }
 
@@ -688,9 +741,9 @@ main{
 
   position:absolute;
 
-  left:3px;
+  left:10px;
 
-  top:8px;
+  top:19px;
 
   width:7px;
 
@@ -698,20 +751,20 @@ main{
 
   border-radius:50%;
 
-  background:#607795;
+  background:#3f8878;
 
 }
 
 
 .content-topic{
 
-  margin-bottom:5px;
+  margin-bottom:6px;
 
   font-size:14px;
 
-  font-weight:800;
+  font-weight:850;
 
-  color:#37414d;
+  color:#27312e;
 
 }
 
@@ -786,7 +839,7 @@ main{
 
   .card-content{
 
-    padding:16px 18px 22px;
+    padding:18px 20px 24px;
 
   }
 
@@ -794,7 +847,7 @@ main{
 
 
 /* ============================================================
-   다크 모드 대응
+   다크 모드
 ============================================================ */
 
 body.dark{
@@ -860,6 +913,13 @@ body.dark .card{
 }
 
 
+body.dark .card-head:active{
+
+  background:#202924;
+
+}
+
+
 body.dark .card-title{
 
   color:#eef3f0;
@@ -890,44 +950,90 @@ body.dark .card-content{
 }
 
 
+/* 기본 정보 다크 */
+
 body.dark .info-box{
 
-  background:#222b27;
+  background:#2a302e;
+
+  border-color:#3a4540;
+
+}
+
+
+body.dark .info-row + .info-row{
+
+  border-color:rgba(255,255,255,.06);
 
 }
 
 
 body.dark .info-label{
 
-  color:#bdcbc5;
+  color:#f1f3f2;
 
 }
 
 
 body.dark .info-value{
 
-  color:#edf3f0;
+  color:#ffffff;
 
 }
 
 
+/* 섹션 버튼 */
+
+body.dark .section-label{
+
+  background:#4f9383;
+
+  color:white;
+
+}
+
+
+body.dark .section-label.content-label{
+
+  background:#3f8878;
+
+  color:white;
+
+}
+
+
+/* 목록 */
+
 body.dark .bullet-list li{
 
-  color:#d7e0dc;
+  background:#222b27;
+
+  border-color:#303b36;
+
+  color:#e1e8e4;
+
+}
+
+
+body.dark .content-item{
+
+  background:#222b27;
+
+  border-color:#303b36;
 
 }
 
 
 body.dark .content-topic{
 
-  color:#dce5e9;
+  color:#f0f5f2;
 
 }
 
 
 body.dark .content-detail{
 
-  color:#c8d1cd;
+  color:#cfd8d4;
 
 }
 
@@ -952,7 +1058,7 @@ body.dark .error{
 
 
 <!-- ============================================================
-     상단
+     상단 헤더
 ============================================================ -->
 
 <header>
@@ -1004,6 +1110,8 @@ body.dark .error{
 <main>
 
 
+  <!-- 검색 -->
+
   <div class="toolbar">
 
 
@@ -1014,6 +1122,8 @@ body.dark .error{
       placeholder="회의록 검색..."
       oninput="render()">
 
+
+    <!-- 연도 -->
 
     <select
       id="year"
@@ -1030,6 +1140,8 @@ body.dark .error{
   </div>
 
 
+  <!-- 상태 -->
+
   <div
     id="status"
     class="status">
@@ -1038,6 +1150,8 @@ body.dark .error{
 
   </div>
 
+
+  <!-- 회의록 목록 -->
 
   <div
     id="list"
@@ -1051,6 +1165,8 @@ body.dark .error{
 </main>
 
 
+<!-- 맨 위 -->
+
 <button
   id="topButton"
   class="top-button"
@@ -1062,6 +1178,7 @@ body.dark .error{
 
 
 <script>
+
 
 /* ============================================================
    Google Apps Script 웹앱 주소
@@ -1097,12 +1214,6 @@ function esc(value){
 
 /* ============================================================
    날짜 변환
-
-   2026-08-04
-   2026년 8월 4일
-   2026. 8. 4.
-
-   → 2026-08-04
 ============================================================ */
 
 function parseDate(value){
@@ -1153,7 +1264,7 @@ function parseDate(value){
 
 
 /* ============================================================
-   회의 날짜 가져오기
+   회의 날짜
 ============================================================ */
 
 function getMeetingDate(meeting){
@@ -1290,12 +1401,6 @@ function formatDate(date){
 
 /* ============================================================
    시간 표시
-
-   2026년 8월 4일 21:20
-   → 오후 9:20
-
-   15:00
-   → 오후 3:00
 ============================================================ */
 
 function getTime(datetime){
@@ -1369,12 +1474,7 @@ function getTime(datetime){
 /* ============================================================
    중복 제거
 
-   ★ 중요 ★
-
-   같은 날짜의 회의록은 하나만 남깁니다.
-
-   Apps Script 응답에 중복 데이터가 있어도
-   휴대폰 화면에서 같은 날짜가 여러 번 나타나지 않도록 합니다.
+   같은 날짜의 회의록은 하나만 표시
 ============================================================ */
 
 function removeDuplicates(data){
@@ -1397,13 +1497,6 @@ function removeDuplicates(data){
 
       }
 
-
-      /*
-       같은 날짜 = 같은 회의록으로 처리
-
-       Google Docs 원본의 회의록은
-       날짜별로 하나씩 표시
-      */
 
       if(!map.has(date)){
 
@@ -1566,7 +1659,7 @@ function toggleCard(card){
 
 
 /* ============================================================
-   정보 행
+   기본 정보 행
 ============================================================ */
 
 function infoRow(label,value){
@@ -1606,13 +1699,7 @@ function infoRow(label,value){
 
 
 /* ============================================================
-   안건 추출
-
-   API agenda가 비어 있는 경우
-
-   회의 내용의 앞부분을 임의로 복제하지 않습니다.
-
-   Apps Script가 agenda를 제공하면 그대로 표시합니다.
+   안건 렌더링
 ============================================================ */
 
 function renderAgenda(agenda){
@@ -1634,12 +1721,14 @@ function renderAgenda(agenda){
     agenda
 
       .filter(
+
         function(item){
 
           return String(item || "")
             .trim();
 
         }
+
       );
 
 
@@ -1652,9 +1741,15 @@ function renderAgenda(agenda){
 
   return `
 
+
+    <!-- 안건 강조 버튼 -->
+
     <div class="section-label">
+
       안건
+
     </div>
+
 
     <ul class="bullet-list">
 
@@ -1669,7 +1764,9 @@ function renderAgenda(agenda){
               return `
 
                 <li>
+
                   ${esc(item)}
+
                 </li>
 
               `;
@@ -1735,9 +1832,15 @@ function renderContent(content){
 
   return `
 
+
+    <!-- 회의 내용 강조 버튼 -->
+
     <div class="section-label content-label">
+
       회의 내용
+
     </div>
+
 
     <div class="content-list">
 
@@ -1829,6 +1932,7 @@ function renderContent(content){
 
 function render(){
 
+
   const search =
     document
       .getElementById("search")
@@ -1895,9 +1999,11 @@ function render(){
     function(a,b){
 
       return (
+
         b._date.localeCompare(
           a._date
         )
+
       );
 
     }
@@ -1935,6 +2041,7 @@ function render(){
 
 
   list.innerHTML =
+
     data
 
       .map(
@@ -2050,6 +2157,7 @@ function render(){
 
           return `
 
+
             ${monthHtml}
 
 
@@ -2058,21 +2166,17 @@ function render(){
               id="meeting-${index}">
 
 
-              <!-- ============================================
-                   카드 상단
-
-                   ┌──────┐
-                   │ 8월  │ 서울북부회중 임시장로모임
-                   │ 4일  │ 오후 9:20
-                   └──────┘
-              ============================================= -->
+              <!-- 카드 상단 -->
 
               <div
                 class="card-head"
                 onclick="toggleCard(this.parentElement)">
 
 
+                <!-- 날짜 -->
+
                 <div class="date-badge">
+
 
                   <div class="badge-month">
 
@@ -2087,8 +2191,11 @@ function render(){
 
                   </div>
 
+
                 </div>
 
+
+                <!-- 제목 -->
 
                 <div class="card-main">
 
@@ -2114,6 +2221,8 @@ function render(){
                 </div>
 
 
+                <!-- 화살표 -->
+
                 <div class="chevron">
 
                   ⌄
@@ -2124,12 +2233,12 @@ function render(){
               </div>
 
 
-              <!-- ============================================
-                   펼쳐지는 내용
-              ============================================= -->
+              <!-- 펼쳐지는 내용 -->
 
               <div class="card-content">
 
+
+                <!-- 기본 정보 -->
 
                 ${
 
@@ -2150,8 +2259,12 @@ function render(){
                 }
 
 
+                <!-- 안건 -->
+
                 ${agendaHtml}
 
+
+                <!-- 회의 내용 -->
 
                 ${contentHtml}
 
@@ -2208,11 +2321,7 @@ async function loadMinutes(){
     }
 
 
-    /*
-      캐시 방지용 시간값
-
-      기존 API 주소는 그대로 사용
-    */
+    /* 캐시 방지 */
 
     const separator =
       GAS_WEB_APP_URL.includes("?")
@@ -2267,9 +2376,7 @@ async function loadMinutes(){
     }
 
 
-    /* ========================================================
-       Apps Script 원본 데이터
-    ======================================================== */
+    /* 원본 데이터 */
 
     const rawMeetings =
 
@@ -2288,18 +2395,7 @@ async function loadMinutes(){
     );
 
 
-    /* ========================================================
-       중요
-
-       날짜 기준 중복 제거
-
-       예:
-       2026-08-04가 여러 번 와도
-       화면에는 한 개만 표시
-
-       따라서 같은 회의록이 중복되어
-       21개로 표시되는 문제를 방지
-    ======================================================== */
+    /* 날짜 기준 중복 제거 */
 
     meetings =
       removeDuplicates(
@@ -2320,16 +2416,14 @@ async function loadMinutes(){
 
         function(meeting){
 
-          return (
-            meeting._date
-          );
+          return meeting._date;
 
         }
 
       );
 
 
-    /* 연도 목록 */
+    /* 연도 생성 */
 
     buildYears();
 
