@@ -1,1033 +1,401 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#286b5b">
 
 <title>회의록 2026</title>
 
-
 <style>
-
-/* ============================================================
-   기본 설정
-============================================================ */
-
-:root{
-  --font-scale:1;
-}
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html{
-  scroll-behavior:smooth;
-  font-size:calc(16px * var(--font-scale));
-}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
 
 body{
-
   margin:0;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans KR",
-    "Apple SD Gothic Neo",
-    "Malgun Gothic",
-    sans-serif;
-
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   background:#f3f5f4;
-
   color:#26302d;
-
   font-size:15px;
-
   line-height:1.65;
-
 }
-
-
-/* ============================================================
-   상단 헤더
-============================================================ */
 
 header{
-
   position:sticky;
-
   top:0;
-
   z-index:100;
-
-  background:
-    rgba(255,255,255,.96);
-
-  backdrop-filter:
-    blur(12px);
-
-  border-bottom:
-    1px solid #dce4e0;
-
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #dce4e0;
 }
-
 
 .header-inner{
-
   max-width:900px;
-
   margin:auto;
-
   padding:10px 14px;
-
   display:flex;
-
   align-items:center;
-
   gap:10px;
-
 }
-
 
 .back{
-
   width:42px;
-
   height:42px;
-
   border:0;
-
   border-radius:12px;
-
   background:#edf3f0;
-
   color:#286b5b;
-
   font-size:25px;
-
   font-weight:bold;
-
   cursor:pointer;
-
 }
 
-
-.title-area{
-
-  flex:1;
-
-  min-width:0;
-
-}
-
+.title-area{flex:1;min-width:0}
 
 .page-title{
-
   font-size:21px;
-
   font-weight:800;
-
-  letter-spacing:-0.04em;
-
+  letter-spacing:-.04em;
 }
-
 
 .page-subtitle{
-
   margin-top:1px;
-
   font-size:11px;
-
   color:#7a8580;
-
 }
-
-
-.refresh{
-
-  border:0;
-
-  border-radius:10px;
-
-  padding:9px 12px;
-
-  background:#286b5b;
-
-  color:white;
-
-  font-size:12px;
-
-  font-weight:700;
-
-  cursor:pointer;
-
-}
-
-
-/* ============================================================
-   본문
-============================================================ */
 
 main{
-
   max-width:900px;
-
   margin:auto;
-
   padding:14px 12px 80px;
-
 }
-
-
-/* ============================================================
-   검색 영역
-============================================================ */
 
 .toolbar{
-
   display:flex;
-
   gap:8px;
-
   margin-bottom:8px;
-
 }
-
 
 .search{
-
   flex:1;
-
   min-width:0;
-
   height:42px;
-
   padding:0 13px;
-
-  border:
-    1px solid #d7e0dc;
-
+  border:1px solid #d7e0dc;
   border-radius:11px;
-
   background:white;
-
   font-size:14px;
-
   outline:none;
-
 }
-
-
-.search:focus{
-
-  border-color:#5d9889;
-
-}
-
 
 .select{
-
-  width:82px;
-
+  width:76px;
   height:42px;
-
   padding:0 8px;
-
-  border:
-    1px solid #d7e0dc;
-
+  border:1px solid #d7e0dc;
   border-radius:11px;
-
   background:white;
-
   font-size:13px;
-
-  outline:none;
-
 }
-
-
-/* ============================================================
-   상태
-============================================================ */
 
 .status{
-
   margin:8px 2px 12px;
-
   font-size:12px;
-
   color:#74807b;
-
 }
-
-
-/* ============================================================
-   로딩 / 오류
-============================================================ */
-
-.loading,
-.empty,
-.error{
-
-  background:white;
-
-  border:
-    1px solid #dce4e0;
-
-  border-radius:14px;
-
-  padding:22px 16px;
-
-  color:#6d7873;
-
-}
-
-
-.error{
-
-  color:#a14d4d;
-
-}
-
-
-/* ============================================================
-   월 제목
-============================================================ */
 
 .month-title{
-
-  margin:
-    22px 0 9px;
-
+  margin:22px 0 9px;
   padding-left:2px;
-
   font-size:14px;
-
   font-weight:800;
-
   color:#286b5b;
-
 }
-
-
-/* ============================================================
-   회의록 카드
-============================================================ */
 
 .card{
-
   margin-bottom:10px;
-
   background:white;
-
-  border:
-    1px solid #d9e2de;
-
+  border:1px solid #d9e2de;
   border-radius:15px;
-
   overflow:hidden;
-
-  box-shadow:
-    0 2px 7px rgba(0,0,0,.035);
-
+  box-shadow:0 2px 7px rgba(0,0,0,.035);
 }
-
-
-/* ============================================================
-   카드 헤더
-============================================================ */
 
 .card-head{
-
   padding:11px 12px;
-
   display:flex;
-
   align-items:center;
-
   gap:12px;
-
   cursor:pointer;
-
   user-select:none;
-
 }
-
-
-/* ============================================================
-   날짜 박스
-============================================================ */
 
 .date-badge{
-
   width:52px;
-
   min-width:52px;
-
   height:52px;
-
   border-radius:11px;
-
   background:#edf5f2;
-
   color:#286b5b;
-
   display:flex;
-
   flex-direction:column;
-
   align-items:center;
-
   justify-content:center;
-
   text-align:center;
-
 }
-
 
 .badge-month{
-
   font-size:11px;
-
   font-weight:700;
-
   line-height:1.2;
-
 }
-
 
 .badge-day{
-
   margin-top:1px;
-
   font-size:19px;
-
   font-weight:850;
-
   line-height:1.15;
-
 }
 
-
-/* ============================================================
-   오른쪽 제목
-============================================================ */
-
-.card-main{
-
-  flex:1;
-
-  min-width:0;
-
-}
-
+.card-main{flex:1;min-width:0}
 
 .card-title{
-
   font-size:15px;
-
   font-weight:800;
-
   color:#27312e;
-
   line-height:1.4;
-
-  letter-spacing:-0.02em;
-
+  letter-spacing:-.02em;
   word-break:keep-all;
-
 }
-
 
 .card-time{
-
   margin-top:3px;
-
   font-size:13px;
-
   color:#68756f;
-
   font-weight:600;
-
 }
-
-
-/* ============================================================
-   화살표
-============================================================ */
 
 .chevron{
-
   width:20px;
-
   text-align:center;
-
   color:#74807b;
-
   font-size:15px;
-
   transition:transform .2s;
-
 }
 
-
-.card.open .chevron{
-
-  transform:rotate(180deg);
-
-}
-
-
-/* ============================================================
-   펼쳐지는 영역
-============================================================ */
+.card.open .chevron{transform:rotate(180deg)}
 
 .card-content{
-
   display:none;
-
-  border-top:
-    1px solid #e6ece9;
-
+  border-top:1px solid #e6ece9;
   padding:13px 13px 18px;
-
 }
 
-
-.card.open .card-content{
-
-  display:block;
-
-}
-
-
-/* ============================================================
-   기본 정보
-============================================================ */
+.card.open .card-content{display:block}
 
 .info-box{
-
   background:#f6f8f7;
-
   border-radius:11px;
-
   padding:8px 11px;
-
   margin-bottom:16px;
-
 }
-
 
 .info-row{
-
   display:grid;
-
   grid-template-columns:76px 1fr;
-
   gap:8px;
-
   padding:5px 0;
-
   font-size:13px;
-
 }
-
 
 .info-label{
-
   font-weight:800;
-
   color:#51605a;
-
 }
-
 
 .info-value{
-
   color:#303a36;
-
   word-break:break-word;
-
 }
-
-
-/* ============================================================
-   섹션 제목 버튼 스타일
-============================================================ */
 
 .section-label{
-
-  display:flex;
-
+  display:inline-flex;
   align-items:center;
-
-  justify-content:center;
-
-  width:100%;
-
-  margin:18px 0 10px;
-
-  padding:9px 14px;
-
-  border-radius:10px;
-
-  background:#e4f2ed;
-
-  border:1px solid #d0e6de;
-
+  margin:12px 0 9px;
+  padding:7px 14px;
+  border-radius:9px;
+  background:#e4f1ec;
   color:#286b5b;
-
+  border:1px solid #d0e5dc;
+  box-shadow:0 2px 5px rgba(40,107,91,.08);
   font-size:14px;
-
   font-weight:900;
-
-  letter-spacing:-0.02em;
-
-  box-shadow:
-    0 2px 5px rgba(40,107,91,.06);
-
 }
-
-
-/* 회의 내용 */
 
 .section-label.content-label{
-
-  background:#edf1f8;
-
-  border-color:#dce4f0;
-
-  color:#526782;
-
+  background:#ebeff7;
+  color:#4c607f;
+  border-color:#dce3ef;
+  box-shadow:0 2px 5px rgba(76,96,127,.08);
 }
 
-
-/* ============================================================
-   안건 목록
-============================================================ */
+.bullet-list,
+.content-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
 
 .bullet-list{
-
-  margin:0 0 8px;
-
-  padding:0;
-
-  list-style:none;
-
+  margin-bottom:15px;
 }
-
 
 .bullet-list li{
-
   position:relative;
-
-  padding-left:22px;
-
-  margin:11px 0;
-
+  padding-left:18px;
+  margin:8px 0;
   font-size:14px;
-
   color:#36403c;
-
   white-space:pre-wrap;
-
   word-break:break-word;
-
 }
-
 
 .bullet-list li::before{
-
   content:"";
-
   position:absolute;
-
-  left:4px;
-
+  left:3px;
   top:.72em;
-
-  width:8px;
-
-  height:8px;
-
+  width:7px;
+  height:7px;
   border-radius:50%;
-
   background:#3b8472;
-
 }
-
-
-/* ============================================================
-   회의 내용
-============================================================ */
-
-.content-list{
-
-  margin:0;
-
-  padding:0;
-
-  list-style:none;
-
-}
-
 
 .content-item{
-
   position:relative;
-
-  padding-left:22px;
-
-  margin-bottom:13px;
-
+  padding-left:18px;
+  margin-bottom:15px;
 }
-
 
 .content-item::before{
-
   content:"";
-
   position:absolute;
-
-  left:4px;
-
-  top:9px;
-
-  width:8px;
-
-  height:8px;
-
+  left:3px;
+  top:8px;
+  width:7px;
+  height:7px;
   border-radius:50%;
-
   background:#607795;
-
 }
-
 
 .content-topic{
-
-  margin-bottom:4px;
-
+  margin-bottom:5px;
   font-size:14px;
-
-  font-weight:850;
-
+  font-weight:800;
   color:#37414d;
-
-  white-space:pre-wrap;
-
-  word-break:break-word;
-
 }
-
 
 .content-detail{
-
   font-size:14px;
-
   color:#46504c;
-
   white-space:pre-wrap;
-
   word-break:break-word;
-
 }
 
-
-/* ============================================================
-   맨 위 버튼
-============================================================ */
+.empty{
+  background:white;
+  border:1px solid #dce4e0;
+  border-radius:14px;
+  padding:22px 16px;
+  color:#6d7873;
+}
 
 .top-button{
-
   position:fixed;
-
   right:16px;
-
   bottom:18px;
-
   width:45px;
-
   height:45px;
-
   border:0;
-
   border-radius:50%;
-
   background:#286b5b;
-
   color:white;
-
   font-size:19px;
-
-  box-shadow:
-    0 4px 14px rgba(0,0,0,.18);
-
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
   display:none;
-
   cursor:pointer;
-
 }
-
-
-/* ============================================================
-   PC
-============================================================ */
 
 @media(min-width:700px){
-
-  main{
-
-    padding-left:20px;
-    padding-right:20px;
-
-  }
-
-  .card-head{
-
-    padding:15px 17px;
-
-  }
-
-  .card-content{
-
-    padding:16px 18px 22px;
-
-  }
-
+  main{padding-left:20px;padding-right:20px}
+  .card-head{padding:15px 17px}
+  .card-content{padding:16px 18px 22px}
 }
-
-
-/* ============================================================
-   다크 모드
-============================================================ */
 
 body.dark{
-
   background:#121715;
-
   color:#edf3f0;
-
 }
-
 
 body.dark header{
-
-  background:
-    rgba(25,31,28,.97);
-
+  background:rgba(25,31,28,.97);
   border-color:#303a36;
-
 }
 
-
-body.dark .page-title{
-
-  color:#f0f5f2;
-
-}
-
-
-body.dark .page-subtitle{
-
-  color:#9ba7a1;
-
-}
-
+body.dark .page-title{color:#f0f5f2}
+body.dark .page-subtitle{color:#9ba7a1}
 
 body.dark .back{
-
   background:#26332e;
-
   color:#8fd0b9;
-
 }
-
 
 body.dark .search,
 body.dark .select{
-
   background:#1c2421;
-
   color:#edf3f0;
-
   border-color:#394640;
-
 }
-
 
 body.dark .card{
-
   background:#1a211e;
-
   border-color:#35403b;
-
 }
 
-
-body.dark .card-title{
-
-  color:#eef3f0;
-
-}
-
-
-body.dark .card-time{
-
-  color:#a9b4af;
-
-}
-
+body.dark .card-title{color:#eef3f0}
+body.dark .card-time{color:#a9b4af}
 
 body.dark .date-badge{
-
   background:#24352e;
-
   color:#91d0bb;
-
 }
 
-
-body.dark .card-content{
-
-  border-color:#303a36;
-
-}
-
-
-body.dark .info-box{
-
-  background:#222b27;
-
-}
-
-
-body.dark .info-label{
-
-  color:#bdcbc5;
-
-}
-
-
-body.dark .info-value{
-
-  color:#edf3f0;
-
-}
-
-
-body.dark .section-label{
-
-  background:#20342d;
-
-  border-color:#345548;
-
-  color:#91d0bb;
-
-}
-
-
-body.dark .section-label.content-label{
-
-  background:#252e3c;
-
-  border-color:#3b4759;
-
-  color:#aebfda;
-
-}
-
-
-body.dark .bullet-list li{
-
-  color:#d7e0dc;
-
-}
-
-
-body.dark .content-topic{
-
-  color:#dce5e9;
-
-}
-
-
-body.dark .content-detail{
-
-  color:#c8d1cd;
-
-}
-
-
-body.dark .loading,
-body.dark .empty,
-body.dark .error{
-
-  background:#1a211e;
-
-  border-color:#35403b;
-
-}
-
+body.dark .card-content{border-color:#303a36}
+body.dark .info-box{background:#222b27}
+body.dark .info-label{color:#bdcbc5}
+body.dark .info-value{color:#edf3f0}
+body.dark .bullet-list li{color:#d7e0dc}
+body.dark .content-topic{color:#dce5e9}
+body.dark .content-detail{color:#c8d1cd}
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
   <div class="header-inner">
 
-    <button
-      class="back"
-      onclick="goBack()"
-      aria-label="뒤로가기">
-
-      ‹
-
-    </button>
-
+    <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
 
     <div class="title-area">
-
-      <div class="page-title">
-        회의록
-      </div>
-
-      <div class="page-subtitle">
-        서울북부회중 회의 기록
-      </div>
-
+      <div class="page-title">회의록</div>
+      <div class="page-subtitle">서울북부회중 회의 기록 · 2026</div>
     </div>
 
-
-    <button
-      class="refresh"
-      onclick="loadMinutes()">
-
-      새로고침
-
-    </button>
-
   </div>
-
 </header>
 
-
 <main>
-
 
   <div class="toolbar">
 
@@ -1038,170 +406,350 @@ body.dark .error{
       placeholder="회의록 검색..."
       oninput="render()">
 
-
     <select
       id="year"
       class="select"
       onchange="render()">
-
-      <option value="all">
-        전체
-      </option>
-
+      <option value="all">전체</option>
     </select>
 
   </div>
 
+  <div id="status" class="status"></div>
 
-  <div
-    id="status"
-    class="status">
-
-    회의록을 불러오는 중입니다.
-
-  </div>
-
-
-  <div
-    id="list"
-    class="loading">
-
-    잠시만 기다려 주세요.
-
-  </div>
-
+  <div id="list"></div>
 
 </main>
-
 
 <button
   id="topButton"
   class="top-button"
   onclick="window.scrollTo({top:0,behavior:'smooth'})">
-
   ↑
-
 </button>
 
 
 <script>
 
 /* ============================================================
-   Google Apps Script
+   회의록 데이터 직접 내장
+
+   Apps Script / fetch 사용 안 함
+   아래 15개 데이터만 화면에 표시
 ============================================================ */
 
-const GAS_WEB_APP_URL =
-"https://script.google.com/macros/s/AKfycbxweQpbKaFVLVTIrqbDsrlekMv_2loBJMMQP0wX5UYYo-CewqXNmR2l3iDBidC8wHon/exec";
+const meetings = [
 
-
-/* ============================================================
-   데이터
-============================================================ */
-
-let meetings = [];
-
-
-/* ============================================================
-   메인 화면 설정 적용
-
-   밝게 / 어둡게
-   글자 크기
-============================================================ */
-
-function applySettings(){
-
-  const theme =
-
-    localStorage.getItem("theme") ||
-    localStorage.getItem("darkMode") ||
-    localStorage.getItem("appearance");
-
-
-  if(
-
-    theme === "dark" ||
-    theme === "true" ||
-    theme === "1"
-
-  ){
-
-    document.body.classList.add("dark");
-
-  }
-
-  else{
-
-    document.body.classList.remove("dark");
-
-  }
-
-
-  const savedScale =
-
-    localStorage.getItem("fontScale") ||
-    localStorage.getItem("fontSizeScale") ||
-    localStorage.getItem("textScale");
-
-
-  if(savedScale){
-
-    let scale = Number(savedScale);
-
-
-    if(scale > 2){
-
-      scale = scale / 100;
-
+{
+  "date":"2026-02-21",
+  "title":"서울북부회중 정기장로모임",
+  "datetime":"2026년 2월 21일 15:00",
+  "place":"봉사모임 장소",
+  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 임채원, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"공근욱 형제",
+  "endPrayer":"성낙봉 형제",
+  "agenda":[
+    "순회 감독자의 회중 방문 보고 검토\n10~20대 형제들을 체계적으로 돕기 위한 단계적 계획 수립\n회중 직책 조정 및 집단편성 관련 논의\n정시에 집회를 마치기 위한 방안\n기념식 준비 관련 임명\n회중의 필요 수집\n1월 광고 및 유의사항 중 11~13항 검토\n재해 대비 마련에 대해 검토\n안내인 훈련\n의학 정보가 담긴 문서: 다음번 장로 모임에서 「돌보십시오」 제10장 3항을 검토\n왕국회관에서 안전하게 일함: 작업 안전의 중요성에 관해 논의(S-147_s-Kr_KO_202602)"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"기념식 준비 관련 임명\n사회자, 표상물 준비및 기도, 표상물 안내\r: 사회자 - 추요식 형제(시작 기도 겸임)\n: 표상물 준비(잔, 접시, 식탁보 포함) - 포도주 정지원 형제, 빵 공근욱 형제\r: 표상물 기도 - 포도주 기도 정지원 형제, 빵 기도 김경수 형제\n: 표상물 안내 - 정성일 형제가 임명\n순회 감독자의 회중 방문 보고 검토\n10~20대 형제들을 체계적으로 돕기 위한 단계적 계획 수립\r: 정지후 형제 (현재 - 연단 보조, 연단부 보조 업무)\r [일반 파트] \r 가까워 지는 것을 목표 - 1.연구 참여 2.개인 교제 3.청소년 모임\r [영적 파트]\r 회중 업무 - 1. 관련 업무에 대한 설명(정지원 형제, 추요식 형제) 2. 형제들의 업무 설명\r 봉사 - 모든 장로들과 봉사 계획\r 교제 - 유지 보수 참여\n회중 직책 조정 및 집단편성 관련 논의\n공근욱 형제의 전출(4월말) 고려\n야외 봉사 집단 편성 및 하위 항목외 직책 - 4월말 재 편성\n회중 직책 조정\n: 공개강연 조정자 - 김경수 형제 (3월 1일자 임명 변경)\r: 안내인 감독자 - 성낙봉 형제 (3월 1일자 임명 변경)\r: 회계의 종 - 남동완 형제 (4월 1일자 임명 변경)\n: 일요일 오후 봉사 인도 - 임채원 형제 (3월 1일자 임명 변경)\r: 토요일 오후 줌봉사 인도 - 정성일 형제 (3월 1일자 임명 변경)\n정시에 집회를 마치기 위한 방안\n집회 마지막 프로 (회중 성서 연구, 파수대 연구) - 21:05 마칠 수 있도록\n정성일 형제가 타임 오바시 사인\n집회 사회자 소개말 및 칭찬 1분 이내\n왕국회관에서 안전하게 일함: 작업 안전의 중요성에 관해 논의(S-147_s-Kr_KO_202602)\n「돌보십시오」 제13장 1, 13항과 「왕국 회관에서의 인명 보호 및 손실 방지」(S-283) 3-13항에 나오는 내용을 살펴봄\n북부왕국회관 관련 브리핑 - 2,3층 내부 출입 금지, 3월 2일 대청소\n회중의 필요 수집\n다음 모임에서 다루기로\n1월 광고 및 유의사항 중 11~13항 검토\n재해 대비 마련에 대해 검토\r: 「하돌」 제11장 3항 검토\n안내인 훈련\r: 추후 상반기에 안전 훈련 모임(안내인 훈련)계획\n의학 정보가 담긴 문서\r: 「돌보십시오」 제10장 3항 검토"
     }
+  ]
+},
 
-
-    if(
-
-      !isNaN(scale) &&
-      scale >= 0.8 &&
-      scale <= 1.5
-
-    ){
-
-      document.documentElement.style.setProperty(
-
-        "--font-scale",
-
-        scale
-
-      );
-
+{
+  "date":"2026-02-28",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 2월 28일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 임채원, 정성일, 추요식",
+  "absentees":"",
+  "startPrayer":"-",
+  "endPrayer":"성낙봉 형제",
+  "agenda":[
+    "혜화 왕국회관 운영위원회 위원 및 사회자 선정\n2026년 3월 2일 대청소 지원자\n대도시 캠페인"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"혜화 왕국회관 운영위원회 위원 및 사회자 선정\n: 2026년 3월 2일 대청소에는 박대기 형제가 참석후 운영위 사회자 선정 결과에 따라 추후에 운영위원회 위원 선정\n2026년 3월 2일 대청소 지원자\n: 집단별로 1명 이상씩 추천\n대도시 캠페인\n: 봉사 위원회 우선 검토"
     }
+  ]
+},
 
-  }
+{
+  "date":"2026-03-07",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 3월 7일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "혜화 왕국회관 운영위원회 위원 보고\n대도시 캠페인"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"혜화 왕국회관 운영 위원회 위원 보고\n청소 \r: 미사용 화분 폐기, 외부 돌계단 청소, 화단 정리, 1층 전시대 보관 장소 도배 및 등 교체\r: 앞으로 대문 페인트 칠 예정\n운영 위원회 조정자 \r: 조정자 선출 위원회에 위임 할 것인지, 3개 회중 전체 장로 모임 통해 선출할 것인지 결정\r: 서울북부회중 장로의 회 운영 위원회에 운영 위원회 조정자 선출 위임\n운영 위원회 위원 선출\r: LDC 소통 및 전자기기 사용 용이한 젊은 형제 선출 요망\r: 서울북부회중 운영 위원회 - 성낙봉 형제, 정지원 형제\n대도시 캠페인\n가능 여부\r: 10일을 계획하여 신청\n담당자 선정\n: 구역 담당자 - 성낙봉 형제\r: 인원 담당자 - 추요식 형제\n후대\r: 찬조금 계좌 생성하여 인도자가 기금으로 게스트 점심 후대"
+    }
+  ]
+},
 
+{
+  "date":"2026-03-21",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 3월 21일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"공근욱, 김경수, 박대기, 성낙봉, 성지운, 왕건식, 임채원, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "회중 회계\n무활동자 돕는 마련\n오순자 자매 유가족 찬조금"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"회중 회계\n입금 주기 변경\r: 월 2회 이상 입금 하기로 장로의 회가 승인함.\n무활동자 돕는 마련\n담당 장로가 연락하여 기념식 초대 및 소재 파악후 서기에게 보고\n오순자 자매 유가족 찬조금\n집단별 식사비 - 30만원씩, 편지 봉사 부대 비용 - 50만원, 장로 식사비 30만원(총 200만원)"
+    }
+  ]
+},
+
+{
+  "date":"2026-04-04",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 4월 4일 21:10",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"공근욱, 김경수, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "회중 비상연락망\n회중의 필요\n다음 임시 장로모임"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"회중 비상연락망\n집단 감독자가 모든 집단 성원들의 비상 연락망을 재 수집\r: 비상 연락망의 대상이 개인정보 보호법하에 동의 여부 필수 확인\n회중의 필요\n안건: 합당한 관심을 기울이십시오(적절한 개인적 관심과 참견을 구분)\n다음 임시 장로모임\n2026년 4월 11일 토요일 집회 후 삼양 왕국회관 2층"
+    }
+  ]
+},
+
+{
+  "date":"2026-04-11",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 4월 11일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "회중 직책\n다음 임시 장로모임"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"회중 직책\n회계의 종 \r: 2026.05.01 일자로 남동완 형제가 임명 수행, 부재시 정지원 형제가 대신 수행\n다음 임시 장로모임\n2026년 4월 19일 일요일 15:00 봉사모임 장소"
+    }
+  ]
+},
+
+{
+  "date":"2026-04-19",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 4월 19일 15:00",
+  "place":"봉사모임 장소",
+  "attendees":"공근욱, 김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"추요식 형제",
+  "endPrayer":"성지운 형제",
+  "agenda":[
+    "순회 방문 준비\n회중의 필요\n부가적인 특권\n회중 직책\n순회 대회 청소 연락 담당자\n파이오니아 학교 간식\n지역 대회 버스 대절\n방문 연사를 위한 후대\n대도시 캠페인"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"순회 방문 준비\n장로 모임 의제\r: 회중을 도울 수 있는 형제 자매들의 지원 요청\n추천\r: 장로 - 상황 검토 후 재 논의\r: 봉사의 종 - 없음\n양치는 방문\r: 박현주 자매, 배성주 형제, 조숙희 자매, 장애영 자매, 김경자 자매, 이규자 자매\n회중의 필요\n순회 대회 복습 - 5월 11일주, 김경수 형제\n우울한 자매들의 어려움을 살펴봄 - 남동완 형제\n청소년들의 믿음 홀로서기(청소년 시기의 어려움과 홀로서기의 중요성) - 성낙봉 형제\n합당한 관심을 기울이십시오(적절한 개인적 관심과 참견을 구분) - 추후 필요시 준비\nS-417 말라리아를 예방하고 치료하는 일에서 생명에 대한 존중심을 나타내십시오 - 내년에 다루기로\n부가적인 특권\n김지인 형제\r: 봉사 모임에서 기도 임명, AV부 보조 업무, 전시대 관리\n회중 직책 (5월 1일자로 적용)\n공근욱 형제의 전출로 인한 직책 변경\r: 전시대 관리 - 김경수 형제\r: 화요일 봉사 인도 - 추요식 형제\n집단 감독자\r: 왕건식 형제, 박대기 형제, 남동완 형제, 김경수 형제\n파수대 사회자, 보조자\r: 왕건식 형제, 추요식 형제\n순회 대회 청소 연락 담당자\n공근욱 형제\n파이오니아 학교 간식\n7/13 일주 - 회중적으로 제공 하기로\n지역 대회 버스 대절\n특별한 목적을 위한 기금으로 선정하여 회중에 알리고 수요조사 재시행\n방문 연사를 위한 후대\n실제 경비(거리, 숙박)\r: 수도권: 30,000원\r: 서울 외곽, 남양주, 의정부, 일산: 30,000원~50,000원\r: 수원, 인천, 오산, 평택, 호평, 천안: 70,000원\r: 강원, 충청: 100,000원\r: 대구, 부산, 광주: 120,000원\n대도시 캠페인\n대도시 캠페인으로 인해 5월 집단 봉사는 생략\n캠페인 일자별 인도자 선정 - 성낙봉 형제"
+    }
+  ]
+},
+
+{
+  "date":"2026-05-05",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 5월 5일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 박대기, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "전원 추천여부\n집단 감독자 선정\n양떼를 돌봄\n온라인 게시판 관리자"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"전원 추천여부\n공근욱 형제, 최상은 자매 장로 및 정규 파이오니아로 봉사하도록 추천.\n집단 감독자 선정\nA집단 감독자: 남동완 형제.\n양떼를 돌봄\n장애영 자매의 의료 상황에 따라 장로들이 통화와 문자 등으로 관심을 기울이기로 결정.\n온라인 게시판 관리자\n성낙봉 형제가 관리 담당."
+    }
+  ]
+},
+
+{
+  "date":"2026-05-12",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 5월 12일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"임채원(병가)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "집단 편성표\n혜화동회관 운영위 보고\n베델 연사 신청\n지역 대회 대절 버스\n도움이 필요한 전도인"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"집단 편성표\n새로 이사온 이희원 자매 포함\n장로 형제들이 각자 검토후 5월 16일 토요일까지 검토후 이견이 없다면 제안 대로 결정\n차지원 자매를 돕기 위한 목적으로 조순득 자매와 동집단 편성 요청\n혜화동회관 운영위 보고\n회의 내용(결정 아님)\n● 혜화동 왕국회관 청소 배정\n왕국회관을 봉사모임 장소로 사용하고 있는 중앙과 성북에서 청소하기로 하며, 추후 변경 사항이 있으면 다시상의하기로 함 홀수달엔 성북회중, 짝수달엔 중앙회중이 청소함\n(단 전체 청소는 모든 회중이 참여함)\n● 회중별 목표잔고 이상의 헌금을 관리 하는방법\n회중 목표잔고가 넘으면 지부로 보낼지 결의를 하지만 추후 혜화동 왕국회관의 대수선을 염두에 두고 목표잔고가 넘어도 회중비용으로 기금을 보관하여 보류하기로함\n(추후 대면으로 추가 설명 하기로 함)\n● 인터넷(딜라이브) 및 전화 해지\n인터넷(딜라이브)는 4월29일자로 해지 완료 하였으며, 전화 1층,2층 해지 하기로함\n● 회중별 운영위원회 관리비 입금방법 동일하게\n현재 회중마다 운영비용을 통장에 표시방법이 상의하여 앞으로는 매월 10일에 자동이체로 예를들면 \"운영비용중앙\" 이렇게 통장에 표시되게 하여 보내기로함\n● 운영위원회 목표 잔고 조정\n현재 600만원의 목표잔고를 1,500만원으로 상향 조정함\n(추후 대면으로 추가 설명 하기로 함)\n● 왕국회관 CCTV 설치\n10년이상 사용한 CCTV를 새롭게 설치 하기로 함\n● 수도 배관 및 기타 제거작업\n왕국회관 2층, 3층을 사용하지 않는 동안 부과된 전기, 수도, 가스 비용이 상당하여 이에 문제가 되는 가스시설, 상수도시설, 씽크대 및 기타 불필요한 시설들을 제거 하기로함\n베델 연사 신청\n초대 하는 것으로 결정\n지역 대회 대절 버스\n보류\n도움이 필요한 전도인\n한상욱 형제\r: 해설에 적극적으로 참여할 수 있도록 권장"
+    }
+  ]
+},
+
+{
+  "date":"2026-05-30",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 5월 30일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"박대기(지방 일정), 임채원(위임)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "대도시 캠페인 보고\n재혼할 수 있는 성경적 자유\n집단 편성 조정\n무활동자 돕는 마련\n지역 대회 청소 담당"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"대도시 캠페인 보고\n추요식 형제, 성낙봉 형제 위임\n재혼할 수 있는 성경적 자유\n박현주 자매: 재혼할 수 있는 성경적 자유가 없음.\n오미경 자매: 재혼할 수 있는 성경적 자유가 있음. (전남편 결혼)\n집단 편성 조정\n조애선 자매와 구양숙 자매 교차(조애선 자매 돕기 위해): 정성일 형제 연락\n이희원 자매 집단 편성과 새로운 전도인 광고 여부 연락: 성지운 형제 연락\n무활동자 돕는 마련\n홍진민 형제 - 믿지 않는 이성과 교제중: 왕건식 형제, 임채원 형제 함께 돕기로 결정.\n지역 대회 청소 담당\n성낙봉 형제"
+    }
+  ]
+},
+
+{
+  "date":"2026-06-13",
+  "title":"서울북부회중 장로모임 w/순회감독자",
+  "datetime":"2026년 6월 13일 14:30",
+  "place":"봉사 모임 장소",
+  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"임채원(위임)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "회중적 필요"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"회중적 필요\n봉사 모임\n조직, 기도 포함 5-7분 길이\n경험담 할 수 있지만 미리 광고해서는 안됨\n집회 후 봉사 모임을 가질 경우 바로 하는 것이 아닌, 관심자들을 환영하고 필요를 돌본 후 봉사 모임 진행할\n부가적인 일을 수행하는 형제들 배려\n지역대회를 지원하는 형제들, 병원교섭 위원회 형제들, 환자 방문단 형제들\n회중 업무를 수행하는데 배려해 줄 것을 부탁\n젊은형제들(10대 20대)의 체계적 훈련 프로그램을 검토\n목표를 제안\n어떻게 구체적으로 도울 것인지\n약한 전도인들과 노약자분들을 잘 지원하고 도움\n회중 지원 요청\n3,40대 파이오니아 요청\n집 값정보 요청"
+    }
+  ]
+},
+
+{
+  "date":"2026-06-20",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 6월 20일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"박대기, 성지운(지방), 임채원(위임)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "이정임 자매 관련 요청 사항\n홍진민 형제 만남 결과 보고"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"이정임 자매 관련 요청 사항\n장로들이 돈암 회중 출신 자매들에게 제안 ( 매주 월 or 금 중 이 자매를 방문할 수 있다고 각 집단별로 제안할 수 있음)\n(이정임 자매 아들인 이태영 형제가 북부 회중에 돈암 회중 출신 자매들이 어머니를 방문해 격려할 수 있도록 직접 요청함. 이정임 자매가 현재 선망 증세가 있다고 주장. 하여 어머니를 잘 알고 있는 돈암 회중 출신 자매들이 방문해 이야기를 나누며 어머니가 기억력을 잘 유지하면서 회복할 수 있도록 격려해 주기를 바라고 있음.)\n홍진민 형제 만남 결과 보고\n두 명의 장로(봉사위원, 집단감독자)가 방문해 홍 형제와 함께 미침례 전도인의 요구 조건 10가지를 다시 한번 살펴보기로 함.\n조정자 형제가 최근 홍진민 형제를 만나 대화를 나누었으며, 홍 형제 본인의 주장으 로는 여자친구와 흡연 문제와 관련해 깨끗한 양심을 가지고 있다고 함."
+    }
+  ]
+},
+
+{
+  "date":"2026-07-07",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 7월 7일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"임채원(위임)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "PSS 간식 지원\n홍진민 형제 집단 편성"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"PSS 간식 지원\n책임자: 김경수 형제\n7월 16일 목요일 서울북부회중 간식 지원일 결정\n홍진민 형제 집단 편성\n추후 봉사 보고 제출시 A집단으로 배정"
+    }
+  ]
+},
+
+{
+  "date":"2026-07-18",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 7월 18일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 성낙봉, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"박대기, 성지운(강연), 임채원(위임)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "미침례 전도인 문답\n회중 야유회"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"미침례 전도인 문답 장로 선정\n최한솔 관심자: 남동완 형제, 추요식 형제\n회중 야유회\n김경수 형제가 선 조사후 추후 논의, 26년 10월 중 계획"
+    }
+  ]
+},
+
+{
+  "date":"2026-08-04",
+  "title":"서울북부회중 임시장로모임",
+  "datetime":"2026년 8월 4일 21:20",
+  "place":"삼양 왕국회관 2층",
+  "attendees":"김경수, 남동완, 박대기, 성낙봉, 성지운, 왕건식, 정성일, 정지원, 추요식",
+  "absentees":"임채원(위임)",
+  "startPrayer":"-",
+  "endPrayer":"-",
+  "agenda":[
+    "세계적인 활동을 위해 회중에서 결의한 월 헌금액\nPSS 식사비\n9월 특별강연연사\n회중의 필요"
+  ],
+  "content":[
+    {
+      "topic":"회의 내용",
+      "detail":"세계적인 활동을 위해 회중에서 결의한 월 헌금액\n80만원으로 장로의 회가 결정, 차주 평일 집회때 결의\nPSS 식사비\n특별한 목적을 위한 기금으로 결의\n9월 특별강연연사\n정지원 형제 임명\n회중의 필요\n순회대회 및 지역대회 복습 임명 - 그리스도인 생활과 봉사 집회 감독자가 임명"
+    }
+  ]
 }
 
-
-applySettings();
-
-
-window.addEventListener(
-
-  "storage",
-
-  function(){
-
-    applySettings();
-
-  }
-
-);
+];
 
 
 /* ============================================================
-   HTML 보호
+   HTML 문자 보호
 ============================================================ */
 
 function esc(value){
 
   return String(value ?? "")
-
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -1215,88 +763,15 @@ function esc(value){
    날짜
 ============================================================ */
 
-function parseDate(value){
-
-  const text =
-    String(value || "").trim();
-
-
-  let match =
-    text.match(
-      /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/
-    );
-
-
-  if(!match){
-
-    match =
-      text.match(
-        /(\d{4})\s*[.\-\/]\s*(\d{1,2})\s*[.\-\/]\s*(\d{1,2})/
-      );
-
-  }
-
-
-  if(!match){
-
-    return "";
-
-  }
-
-
-  return (
-
-    match[1] +
-
-    "-" +
-
-    String(match[2]).padStart(2,"0") +
-
-    "-" +
-
-    String(match[3]).padStart(2,"0")
-
-  );
-
-}
-
-
-function getMeetingDate(meeting){
-
-  return (
-
-    parseDate(meeting.date) ||
-
-    parseDate(meeting.datetime)
-
-  );
-
-}
-
-
 function getMonthDay(date){
 
-  const match =
-    String(date || "")
-      .match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const match = String(date).match(/^(\d{4})-(\d{2})-(\d{2})$/);
 
-
-  if(!match){
-
-    return {
-      month:"",
-      day:""
-    };
-
-  }
-
+  if(!match) return {month:"",day:""};
 
   return {
-
     month:String(Number(match[2])),
-
     day:String(Number(match[3]))
-
   };
 
 }
@@ -1304,125 +779,31 @@ function getMonthDay(date){
 
 function getMonthTitle(date){
 
-  const match =
-    String(date || "")
-      .match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const match = String(date).match(/^(\d{4})-(\d{2})-(\d{2})$/);
 
+  if(!match) return "기타";
 
-  if(!match){
-
-    return "기타";
-
-  }
-
-
-  return (
-
-    Number(match[1]) +
-
-    "년 " +
-
-    Number(match[2]) +
-
-    "월"
-
-  );
+  return Number(match[1]) + "년 " + Number(match[2]) + "월";
 
 }
 
-
-function formatDate(date){
-
-  const match =
-    String(date || "")
-      .match(/^(\d{4})-(\d{2})-(\d{2})$/);
-
-
-  if(!match){
-
-    return "";
-
-  }
-
-
-  return (
-
-    Number(match[1]) +
-
-    "년 " +
-
-    Number(match[2]) +
-
-    "월 " +
-
-    Number(match[3]) +
-
-    "일"
-
-  );
-
-}
-
-
-/* ============================================================
-   시간
-============================================================ */
 
 function getTime(datetime){
 
-  const text =
-    String(datetime || "").trim();
+  const match = String(datetime || "").match(/(\d{1,2}):(\d{2})/);
 
+  if(!match) return "";
 
-  const match =
-    text.match(/(\d{1,2}):(\d{2})/);
+  let hour = Number(match[1]);
+  const minute = match[2];
 
+  const period = hour >= 12 ? "오후" : "오전";
 
-  if(!match){
+  let displayHour = hour % 12;
 
-    return "";
+  if(displayHour === 0) displayHour = 12;
 
-  }
-
-
-  let hour =
-    Number(match[1]);
-
-
-  const minute =
-    match[2];
-
-
-  const period =
-    hour >= 12
-      ? "오후"
-      : "오전";
-
-
-  let displayHour =
-    hour % 12;
-
-
-  if(displayHour === 0){
-
-    displayHour = 12;
-
-  }
-
-
-  return (
-
-    period +
-
-    " " +
-
-    displayHour +
-
-    ":" +
-
-    minute
-
-  );
+  return period + " " + displayHour + ":" + minute;
 
 }
 
@@ -1433,93 +814,101 @@ function getTime(datetime){
 
 function buildYears(){
 
-  const select =
-    document.getElementById("year");
+  const select = document.getElementById("year");
 
+  const years = [...new Set(
+    meetings.map(m => m.date.slice(0,4))
+  )].sort((a,b)=>Number(b)-Number(a));
 
-  const current =
-    select.value;
+  select.innerHTML = '<option value="all">전체</option>';
 
-
-  const years =
-
-    [
-
-      ...new Set(
-
-        meetings
-
-          .map(
-            meeting =>
-              String(meeting._date || "").slice(0,4)
-          )
-
-          .filter(Boolean)
-
-      )
-
-    ]
-
-    .sort(
-      (a,b) => Number(b) - Number(a)
-    );
-
-
-  select.innerHTML =
-    '<option value="all">전체</option>';
-
-
-  years.forEach(
-
-    year => {
-
-      select.innerHTML +=
-
-        '<option value="' +
-
-        esc(year) +
-
-        '">' +
-
-        esc(year) +
-
-        '년</option>';
-
-    }
-
-  );
-
-
-  select.value =
-
-    years.includes(current) ||
-    current === "all"
-
-      ? current
-
-      : "all";
+  years.forEach(year=>{
+    select.innerHTML += `<option value="${year}">${year}년</option>`;
+  });
 
 }
 
 
 /* ============================================================
-   뒤로가기
+   정보
 ============================================================ */
 
-function goBack(){
+function infoRow(label,value){
 
-  if(history.length > 1){
-
-    history.back();
-
+  if(
+    value === undefined ||
+    value === null ||
+    String(value).trim() === ""
+  ){
+    return "";
   }
 
-  else{
+  return `
+    <div class="info-row">
+      <div class="info-label">${esc(label)}</div>
+      <div class="info-value">${esc(value)}</div>
+    </div>
+  `;
 
-    location.href =
-      "index.html";
+}
 
-  }
+
+/* ============================================================
+   안건
+============================================================ */
+
+function renderAgenda(agenda){
+
+  if(!Array.isArray(agenda) || !agenda.length) return "";
+
+  return `
+    <div class="section-label">안건</div>
+
+    <ul class="bullet-list">
+      ${agenda.map(item=>`
+        <li>${esc(item)}</li>
+      `).join("")}
+    </ul>
+  `;
+
+}
+
+
+/* ============================================================
+   회의 내용
+============================================================ */
+
+function renderContent(content){
+
+  if(!Array.isArray(content) || !content.length) return "";
+
+  return `
+    <div class="section-label content-label">회의 내용</div>
+
+    <div class="content-list">
+
+      ${content.map(item=>`
+
+        <div class="content-item">
+
+          ${item.topic ? `
+            <div class="content-topic">
+              ${esc(item.topic)}
+            </div>
+          ` : ""}
+
+          ${item.detail ? `
+            <div class="content-detail">
+              ${esc(item.detail)}
+            </div>
+          ` : ""}
+
+        </div>
+
+      `).join("")}
+
+    </div>
+  `;
 
 }
 
@@ -1536,429 +925,48 @@ function toggleCard(card){
 
 
 /* ============================================================
-   기본 정보
-============================================================ */
-
-function infoRow(label,value){
-
-  if(
-
-    value === undefined ||
-    value === null ||
-    String(value).trim() === ""
-
-  ){
-
-    return "";
-
-  }
-
-
-  return `
-
-    <div class="info-row">
-
-      <div class="info-label">
-        ${esc(label)}
-      </div>
-
-      <div class="info-value">
-        ${esc(value)}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   안건 분리
-
-   Apps Script에서 배열 하나에
-   여러 줄이 들어와도 각각의 줄을
-   ● 하나씩 표시
-============================================================ */
-
-function splitAgendaItems(agenda){
-
-  if(!Array.isArray(agenda)){
-
-    return [];
-
-  }
-
-
-  const result = [];
-
-
-  agenda.forEach(
-
-    item => {
-
-      String(item || "")
-
-        .replace(/\r/g,"")
-
-        .split("\n")
-
-        .forEach(
-
-          line => {
-
-            const text =
-              line
-                .trim()
-                .replace(/^[●•ㆍ\-]\s*/,"");
-
-
-            if(text){
-
-              result.push(text);
-
-            }
-
-          }
-
-        );
-
-    }
-
-  );
-
-
-  return result;
-
-}
-
-
-/* ============================================================
-   안건 표시
-============================================================ */
-
-function renderAgenda(agenda){
-
-  const items =
-    splitAgendaItems(agenda);
-
-
-  if(!items.length){
-
-    return "";
-
-  }
-
-
-  return `
-
-    <div class="section-label">
-      안건
-    </div>
-
-    <ul class="bullet-list">
-
-      ${
-
-        items
-
-          .map(
-
-            item => `
-
-              <li>
-                ${esc(item)}
-              </li>
-
-            `
-
-          )
-
-          .join("")
-
-      }
-
-    </ul>
-
-  `;
-
-}
-
-
-/* ============================================================
-   회의 내용 분리
-
-   원본 Google Docs의
-   각 항목을 개별 ● 항목으로 표시
-
-   줄바꿈 전체를 하나의 덩어리로
-   표시하지 않음
-============================================================ */
-
-function splitContentItems(content){
-
-  if(!Array.isArray(content)){
-
-    return [];
-
-  }
-
-
-  const result = [];
-
-
-  content.forEach(
-
-    item => {
-
-
-      const topic =
-        String(item?.topic || "")
-          .trim();
-
-
-      const detail =
-        String(item?.detail || "")
-          .replace(/\r/g,"")
-          .trim();
-
-
-      /*
-       topic이 실제 제목이고
-       detail이 여러 줄이면
-       각 줄을 하나의 회의 내용 항목으로 표시
-      */
-
-      if(detail){
-
-        const lines =
-          detail
-            .split("\n")
-            .map(line => line.trim())
-            .filter(Boolean);
-
-
-        lines.forEach(
-
-          (line,index) => {
-
-
-            const clean =
-              line.replace(/^[●•ㆍ]\s*/,"");
-
-
-            /*
-             첫 번째 "회의 내용"이라는
-             불필요한 제목은 제외
-            */
-
-            if(
-
-              clean === "회의 내용"
-
-            ){
-
-              return;
-
-            }
-
-
-            result.push({
-
-              topic:
-
-                index === 0 &&
-
-                topic &&
-                topic !== "회의 내용"
-
-                  ? topic
-
-                  : "",
-
-              detail:clean
-
-            });
-
-          }
-
-        );
-
-      }
-
-      else if(
-
-        topic &&
-        topic !== "회의 내용"
-
-      ){
-
-        result.push({
-
-          topic:"",
-          detail:topic
-
-        });
-
-      }
-
-    }
-
-  );
-
-
-  return result;
-
-}
-
-
-/* ============================================================
-   회의 내용 표시
-============================================================ */
-
-function renderContent(content){
-
-  const items =
-    splitContentItems(content);
-
-
-  if(!items.length){
-
-    return "";
-
-  }
-
-
-  return `
-
-    <div class="section-label content-label">
-      회의 내용
-    </div>
-
-    <div class="content-list">
-
-      ${
-
-        items
-
-          .map(
-
-            item => `
-
-              <div class="content-item">
-
-                ${
-
-                  item.topic
-
-                    ? `
-
-                      <div class="content-topic">
-                        ${esc(item.topic)}
-                      </div>
-
-                    `
-
-                    : ""
-
-                }
-
-                <div class="content-detail">
-                  ${esc(item.detail)}
-                </div>
-
-              </div>
-
-            `
-
-          )
-
-          .join("")
-
-      }
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   화면 표시
+   렌더링
 ============================================================ */
 
 function render(){
 
   const search =
-    document
-      .getElementById("search")
+    document.getElementById("search")
       .value
       .trim()
       .toLowerCase();
 
-
   const selectedYear =
-    document
-      .getElementById("year")
-      .value;
+    document.getElementById("year").value;
 
 
-  let data =
+  let data = meetings.filter(meeting=>{
 
-    meetings.filter(
+    const searchText =
+      JSON.stringify(meeting).toLowerCase();
 
-      meeting => {
+    const matchSearch =
+      !search || searchText.includes(search);
 
+    const matchYear =
+      selectedYear === "all" ||
+      meeting.date.startsWith(selectedYear);
 
-        const searchText =
-          JSON.stringify(meeting)
-            .toLowerCase();
+    return matchSearch && matchYear;
 
-
-        const matchSearch =
-
-          !search ||
-
-          searchText.includes(search);
+  });
 
 
-        const matchYear =
-
-          selectedYear === "all" ||
-
-          meeting._date.startsWith(selectedYear);
-
-
-        return (
-
-          matchSearch &&
-          matchYear
-
-        );
-
-      }
-
-    );
-
-
-  data.sort(
-
-    (a,b) =>
-      b._date.localeCompare(a._date)
-
+  data.sort((a,b)=>
+    b.date.localeCompare(a.date)
   );
 
 
-  document
-    .getElementById("status")
-    .textContent =
-
-      `총 ${data.length}건 · 최신 회의록이 먼저 표시됩니다.`;
+  document.getElementById("status").textContent =
+    `총 ${data.length}건 · 최신 회의록이 먼저 표시됩니다.`;
 
 
-  const list =
-    document.getElementById("list");
+  const list = document.getElementById("list");
 
 
   if(!data.length){
@@ -1974,359 +982,120 @@ function render(){
   let previousMonth = "";
 
 
-  list.innerHTML =
+  list.innerHTML = data.map((meeting,index)=>{
 
-    data
+    const monthDay =
+      getMonthDay(meeting.date);
 
-      .map(
+    const monthTitle =
+      getMonthTitle(meeting.date);
 
-        (meeting,index) => {
 
+    let monthHtml = "";
 
-          const date =
-            meeting._date;
 
+    if(previousMonth !== monthTitle){
 
-          const monthDay =
-            getMonthDay(date);
+      monthHtml = `
+        <div class="month-title">
+          ${monthTitle}
+        </div>
+      `;
 
+      previousMonth = monthTitle;
 
-          const monthTitle =
-            getMonthTitle(date);
+    }
 
 
-          let monthHtml = "";
+    const info =
 
+      infoRow("일시",meeting.datetime) +
 
-          if(previousMonth !== monthTitle){
+      infoRow("회의 장소",meeting.place) +
 
-            monthHtml = `
+      infoRow("참석자",meeting.attendees) +
 
-              <div class="month-title">
-                ${esc(monthTitle)}
-              </div>
+      infoRow("불참자",meeting.absentees) +
 
-            `;
+      infoRow("시작 기도",meeting.startPrayer) +
 
+      infoRow("마치는 기도",meeting.endPrayer);
 
-            previousMonth =
-              monthTitle;
 
-          }
+    return `
 
+      ${monthHtml}
 
-          const info =
+      <article class="card" id="meeting-${index}">
 
-            infoRow(
-              "일시",
-              meeting.datetime ||
-              formatDate(date)
-            )
+        <div
+          class="card-head"
+          onclick="toggleCard(this.parentElement)">
 
-            +
+          <div class="date-badge">
 
-            infoRow(
-              "회의 장소",
-              meeting.place
-            )
+            <div class="badge-month">
+              ${monthDay.month}월
+            </div>
 
-            +
+            <div class="badge-day">
+              ${monthDay.day}일
+            </div>
 
-            infoRow(
-              "참석자",
-              meeting.attendees
-            )
+          </div>
 
-            +
 
-            infoRow(
-              "불참자",
-              meeting.absentees
-            )
+          <div class="card-main">
 
-            +
+            <div class="card-title">
+              ${esc(meeting.title)}
+            </div>
 
-            infoRow(
-              "시작 기도",
-              meeting.startPrayer
-            )
+            <div class="card-time">
+              ${getTime(meeting.datetime)}
+            </div>
 
-            +
+          </div>
 
-            infoRow(
-              "마치는 기도",
-              meeting.endPrayer
-            );
 
+          <div class="chevron">
+            ⌄
+          </div>
 
-          const agendaHtml =
-            renderAgenda(
-              meeting.agenda
-            );
+        </div>
 
 
-          const contentHtml =
-            renderContent(
-              meeting.content
-            );
+        <div class="card-content">
 
+          <div class="info-box">
+            ${info}
+          </div>
 
-          return `
+          ${renderAgenda(meeting.agenda)}
 
-            ${monthHtml}
+          ${renderContent(meeting.content)}
 
+        </div>
 
-            <article
-              class="card"
-              id="meeting-${index}">
+      </article>
 
+    `;
 
-              <div
-                class="card-head"
-                onclick="toggleCard(this.parentElement)">
-
-
-                <div class="date-badge">
-
-                  <div class="badge-month">
-                    ${esc(monthDay.month)}월
-                  </div>
-
-                  <div class="badge-day">
-                    ${esc(monthDay.day)}일
-                  </div>
-
-                </div>
-
-
-                <div class="card-main">
-
-                  <div class="card-title">
-                    ${esc(meeting.title)}
-                  </div>
-
-                  <div class="card-time">
-                    ${esc(getTime(meeting.datetime))}
-                  </div>
-
-                </div>
-
-
-                <div class="chevron">
-                  ⌄
-                </div>
-
-
-              </div>
-
-
-              <div class="card-content">
-
-
-                ${
-
-                  info
-
-                    ? `
-
-                      <div class="info-box">
-                        ${info}
-                      </div>
-
-                    `
-
-                    : ""
-
-                }
-
-
-                ${agendaHtml}
-
-
-                ${contentHtml}
-
-
-              </div>
-
-
-            </article>
-
-          `;
-
-        }
-
-      )
-
-      .join("");
+  }).join("");
 
 }
 
 
 /* ============================================================
-   회의록 불러오기
+   뒤로가기
 ============================================================ */
 
-async function loadMinutes(){
-
-
-  const list =
-    document.getElementById("list");
-
-
-  list.innerHTML =
-    '<div class="loading">회의록을 불러오는 중입니다...</div>';
-
-
-  document
-    .getElementById("status")
-    .textContent =
-      "최신 데이터를 확인하는 중입니다.";
-
-
-  try{
-
-
-    const separator =
-
-      GAS_WEB_APP_URL.includes("?")
-
-        ? "&"
-
-        : "?";
-
-
-    const requestUrl =
-
-      GAS_WEB_APP_URL +
-
-      separator +
-
-      "t=" +
-
-      Date.now();
-
-
-    const response =
-      await fetch(
-
-        requestUrl,
-
-        {
-          method:"GET",
-          redirect:"follow",
-          cache:"no-store"
-        }
-
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-
-        "HTTP " +
-        response.status
-
-      );
-
-    }
-
-
-    const json =
-      await response.json();
-
-
-    if(!json.success){
-
-      throw new Error(
-
-        json.error ||
-        "회의록 데이터를 가져오지 못했습니다."
-
-      );
-
-    }
-
-
-    const rawMeetings =
-
-      Array.isArray(json.meetings)
-
-        ? json.meetings
-
-        : [];
-
-
-    /*
-      Apps Script의 데이터를 그대로 사용
-
-      날짜별 중복 제거 없음
-
-      API count와 화면 수가 동일하도록 처리
-    */
-
-    meetings =
-
-      rawMeetings
-
-        .map(
-
-          meeting => ({
-
-            ...meeting,
-
-            _date:
-              getMeetingDate(meeting)
-
-          })
-
-        )
-
-        .filter(
-
-          meeting =>
-            meeting._date
-
-        );
-
-
-    buildYears();
-
-
-    render();
-
-
-  }
-
-  catch(error){
-
-
-    console.error(
-      "회의록 불러오기 오류:",
-      error
-    );
-
-
-    list.innerHTML = `
-
-      <div class="error">
-
-        회의록을 불러오지 못했습니다.
-
-        <br><br>
-
-        ${esc(error.message)}
-
-      </div>
-
-    `;
-
-
-    document
-      .getElementById("status")
-      .textContent =
-        "불러오기 실패";
-
+function goBack(){
+
+  if(history.length > 1){
+    history.back();
+  }else{
+    location.href = "index.html";
   }
 
 }
@@ -2336,38 +1105,26 @@ async function loadMinutes(){
    맨 위 버튼
 ============================================================ */
 
-window.addEventListener(
+window.addEventListener("scroll",()=>{
 
-  "scroll",
+  document.getElementById("topButton").style.display =
+    window.scrollY > 500 ? "block" : "none";
 
-  function(){
-
-    const button =
-      document.getElementById("topButton");
-
-
-    button.style.display =
-
-      window.scrollY > 500
-
-        ? "block"
-
-        : "none";
-
-  }
-
-);
+});
 
 
 /* ============================================================
    시작
+
+   fetch 없음
+   Apps Script 호출 없음
+   직접 입력된 meetings 15개만 표시
 ============================================================ */
 
-loadMinutes();
-
+buildYears();
+render();
 
 </script>
-
 
 </body>
 </html>
