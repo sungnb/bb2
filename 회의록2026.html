@@ -407,6 +407,8 @@ body.dark .content-subline::before{
 }
 
 .auth-screen{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:#f3f5f4}
+.auth-home-button{position:fixed;top:16px;left:16px;z-index:10001;width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:22px;font-weight:bold;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+body.dark .auth-home-button{background:#24352e;color:#91d0bb}
 .auth-box{width:min(420px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.08)}
 .auth-icon{font-size:38px;margin-bottom:8px}.auth-title{font-size:22px;font-weight:850;color:#286b5b}
 .auth-text{margin:8px 0 20px;font-size:13px;color:#68756f;line-height:1.6}.auth-status{margin-top:14px;font-size:13px;color:#68756f;min-height:22px}
@@ -421,6 +423,7 @@ body.dark .auth-text,body.dark .auth-status{color:#a9b4af}
 <body>
 
 <div id="authScreen" class="auth-screen">
+  <button class="auth-home-button" onclick="goHome()" aria-label="홈으로">⌂</button>
   <div class="auth-box">
     <div class="auth-icon">🔐</div>
     <div class="auth-title">회의록</div>
