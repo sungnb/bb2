@@ -45,14 +45,10 @@ body{
   background:#f4f6f5;
   color:#202624;
 
-  line-height:1.7;
+  line-height:1.65;
 
   font-size:
     calc(16px * var(--font-scale,1));
-
-  transition:
-    background .2s,
-    color .2s;
 
   text-align:left;
 }
@@ -69,7 +65,7 @@ header{
   z-index:20;
 
   background:
-    rgba(255,255,255,.96);
+    rgba(255,255,255,.97);
 
   backdrop-filter:
     blur(10px);
@@ -183,7 +179,7 @@ main{
   margin:auto;
 
   padding:
-    14px 12px 70px;
+    14px 12px 80px;
 
 }
 
@@ -242,7 +238,7 @@ main{
   color:#39423f;
 
   padding:
-    0 9px;
+    0 10px;
 
   font-size:
     calc(14px * var(--font-scale,1));
@@ -262,6 +258,8 @@ main{
   font-size:
     calc(13px * var(--font-scale,1));
 
+  text-align:left;
+
 }
 
 
@@ -272,7 +270,7 @@ main{
 .month{
 
   margin:
-    22px 0 9px;
+    24px 0 10px;
 
   font-size:
     calc(17px * var(--font-scale,1));
@@ -280,6 +278,8 @@ main{
   font-weight:800;
 
   color:#1f6f5b;
+
+  text-align:left;
 
 }
 
@@ -297,7 +297,7 @@ main{
 
   border-radius:17px;
 
-  margin-bottom:11px;
+  margin-bottom:12px;
 
   overflow:hidden;
 
@@ -322,24 +322,26 @@ main{
 
   align-items:center;
 
-  gap:11px;
+  gap:12px;
+
+  text-align:left;
 
 }
 
 
 /* ============================================================
-   날짜
+   날짜 박스
    ============================================================ */
 
 .date-badge{
 
-  width:56px;
+  width:58px;
 
-  min-width:56px;
+  min-width:58px;
 
-  text-align:center;
+  height:58px;
 
-  border-radius:12px;
+  border-radius:13px;
 
   background:#edf5f1;
 
@@ -347,6 +349,14 @@ main{
     6px 3px;
 
   color:#1f6f5b;
+
+  text-align:center;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
 
 }
 
@@ -358,7 +368,7 @@ main{
 
   font-weight:700;
 
-  line-height:1.3;
+  line-height:1.25;
 
 }
 
@@ -370,13 +380,13 @@ main{
 
   font-weight:850;
 
-  line-height:1.15;
+  line-height:1.2;
 
 }
 
 
 /* ============================================================
-   제목
+   카드 제목 영역
    ============================================================ */
 
 .card-main{
@@ -384,6 +394,8 @@ main{
   flex:1;
 
   min-width:0;
+
+  text-align:left;
 
 }
 
@@ -403,10 +415,12 @@ main{
 
   word-break:keep-all;
 
+  text-align:left;
+
 }
 
 
-.card-date{
+.card-time{
 
   font-size:
     calc(13px * var(--font-scale,1));
@@ -416,6 +430,8 @@ main{
   font-weight:600;
 
   margin-top:3px;
+
+  text-align:left;
 
 }
 
@@ -428,7 +444,7 @@ main{
 
   flex:none;
 
-  font-size:18px;
+  font-size:19px;
 
   color:#8a9590;
 
@@ -456,7 +472,9 @@ main{
   border-top:
     1px solid #edf0ef;
 
-  padding:14px;
+  padding:18px 15px 20px;
+
+  text-align:left;
 
 }
 
@@ -476,48 +494,66 @@ main{
 
   background:#f7f9f8;
 
-  border-radius:12px;
+  border-radius:13px;
 
   padding:
-    10px 12px;
+    13px 14px;
 
-  margin-bottom:18px;
+  margin-bottom:22px;
 
-  font-size:
-    calc(14px * var(--font-scale,1));
+  text-align:left;
 
 }
 
 
 .info-row{
 
-  display:grid;
-
-  grid-template-columns:
-    90px 1fr;
-
-  gap:8px;
-
   padding:
-    4px 0;
+    8px 0;
+
+  border-bottom:
+    1px solid #e9eeeb;
+
+  text-align:left;
+
+}
+
+
+.info-row:last-child{
+
+  border-bottom:0;
 
 }
 
 
 .info-label{
 
-  color:#46514d;
+  color:#1f6f5b;
 
-  font-weight:800;
+  font-size:
+    calc(13px * var(--font-scale,1));
+
+  font-weight:850;
+
+  margin-bottom:2px;
+
+  text-align:left;
 
 }
 
 
 .info-value{
 
-  min-width:0;
+  color:#343d39;
+
+  font-size:
+    calc(14px * var(--font-scale,1));
 
   word-break:break-word;
+
+  white-space:pre-wrap;
+
+  text-align:left;
 
 }
 
@@ -529,48 +565,76 @@ main{
 .section-title{
 
   font-size:
-    calc(15px * var(--font-scale,1));
+    calc(17px * var(--font-scale,1));
 
   font-weight:900;
 
   color:#1f6f5b;
 
   margin:
-    22px 0 9px;
+    26px 0 13px;
 
-  padding-left:8px;
+  padding-left:10px;
 
   border-left:
-    3px solid #1f6f5b;
+    4px solid #1f6f5b;
+
+  line-height:1.4;
+
+  text-align:left;
 
 }
 
 
 /* ============================================================
-   안건
+   안건 목록
    ============================================================ */
 
-.agenda{
-
-  font-size:
-    calc(14px * var(--font-scale,1));
-
-}
-
-
-.agenda ul{
+.agenda-list{
 
   margin:0;
 
-  padding-left:22px;
+  padding:0;
+
+  list-style:none;
+
+  text-align:left;
 
 }
 
 
-.agenda li{
+.agenda-item{
+
+  position:relative;
+
+  padding-left:19px;
 
   margin:
-    5px 0;
+    0 0 11px;
+
+  font-size:
+    calc(15px * var(--font-scale,1));
+
+  color:#303936;
+
+  text-align:left;
+
+}
+
+
+.agenda-item::before{
+
+  content:"●";
+
+  position:absolute;
+
+  left:0;
+
+  top:0;
+
+  color:#1f6f5b;
+
+  font-size:11px;
 
 }
 
@@ -579,34 +643,122 @@ main{
    회의 내용
    ============================================================ */
 
-.body-text{
+.meeting-content{
+
+  text-align:left;
+
+}
+
+
+.content-item{
+
+  position:relative;
+
+  padding-left:19px;
+
+  margin:
+    0 0 22px;
+
+  text-align:left;
+
+}
+
+
+.content-item::before{
+
+  content:"●";
+
+  position:absolute;
+
+  left:0;
+
+  top:3px;
+
+  color:#1f6f5b;
+
+  font-size:11px;
+
+}
+
+
+.content-topic{
+
+  font-size:
+    calc(15px * var(--font-scale,1));
+
+  font-weight:850;
+
+  color:#293531;
+
+  line-height:1.55;
+
+  text-align:left;
+
+}
+
+
+.content-detail{
+
+  margin-top:6px;
+
+  color:#515b56;
 
   font-size:
     calc(14px * var(--font-scale,1));
 
-}
-
-
-.topic{
-
-  font-weight:800;
-
-  margin:
-    15px 0 5px;
-
-  color:#293531;
-
-}
-
-
-.detail{
+  line-height:1.75;
 
   white-space:pre-wrap;
 
+  word-break:break-word;
+
+  text-align:left;
+
+}
+
+
+/* ============================================================
+   내용만 있고 제목이 없는 경우
+   ============================================================ */
+
+.content-detail-only{
+
+  position:relative;
+
+  padding-left:19px;
+
   margin:
-    0 0 14px;
+    0 0 18px;
 
   color:#414a46;
+
+  font-size:
+    calc(14px * var(--font-scale,1));
+
+  line-height:1.75;
+
+  white-space:pre-wrap;
+
+  word-break:break-word;
+
+  text-align:left;
+
+}
+
+
+.content-detail-only::before{
+
+  content:"●";
+
+  position:absolute;
+
+  left:0;
+
+  top:2px;
+
+  color:#1f6f5b;
+
+  font-size:11px;
 
 }
 
@@ -630,6 +782,8 @@ main{
     24px 16px;
 
   color:#727d78;
+
+  text-align:left;
 
 }
 
@@ -698,7 +852,7 @@ main{
   .content{
 
     padding:
-      18px 22px;
+      22px 24px 25px;
 
   }
 
@@ -721,7 +875,7 @@ body.dark{
 body.dark header{
 
   background:
-    rgba(24,29,27,.96);
+    rgba(24,29,27,.97);
 
   border-color:#303936;
 
@@ -792,7 +946,7 @@ body.dark .card-title{
 }
 
 
-body.dark .card-date{
+body.dark .card-time{
 
   color:#a8b3ae;
 
@@ -813,9 +967,16 @@ body.dark .info{
 }
 
 
+body.dark .info-row{
+
+  border-color:#303936;
+
+}
+
+
 body.dark .info-label{
 
-  color:#dce8e3;
+  color:#8ed0b8;
 
 }
 
@@ -836,14 +997,23 @@ body.dark .section-title{
 }
 
 
-body.dark .topic{
+body.dark .agenda-item{
 
-  color:#dce8e3;
+  color:#dce5e0;
 
 }
 
 
-body.dark .detail{
+body.dark .content-topic{
+
+  color:#edf3f0;
+
+}
+
+
+body.dark .content-detail,
+
+body.dark .content-detail-only{
 
   color:#c7d0cc;
 
@@ -1015,9 +1185,7 @@ function esc(value){
 
   return String(value ?? "")
     .replace(
-
       /[&<>"']/g,
-
       function(s){
 
         return {
@@ -1031,21 +1199,13 @@ function esc(value){
         }[s];
 
       }
-
     );
 
 }
 
 
 /* ============================================================
-   날짜 정규화
-
-   지원 형식:
-
-   2026년 8월 4일
-   2026-08-04
-   2026. 8. 4.
-   2026/08/04
+   날짜 변환
    ============================================================ */
 
 function parseDate(value){
@@ -1072,25 +1232,17 @@ function parseDate(value){
 
 
   if(!match){
-
     return "";
-
   }
 
 
   return (
 
     match[1] +
-
     "-" +
-
-    String(match[2])
-      .padStart(2,"0") +
-
+    String(match[2]).padStart(2,"0") +
     "-" +
-
-    String(match[3])
-      .padStart(2,"0")
+    String(match[3]).padStart(2,"0")
 
   );
 
@@ -1098,108 +1250,22 @@ function parseDate(value){
 
 
 /* ============================================================
-   회의 날짜 얻기
-
-   date 우선
-   없으면 datetime에서 추출
+   회의 날짜
    ============================================================ */
 
 function getMeetingDate(m){
 
   const direct =
-    parseDate(
-      m.date
-    );
+    parseDate(m.date);
 
 
   if(direct){
-
     return direct;
-
   }
 
 
   return parseDate(
     m.datetime
-  );
-
-}
-
-
-/* ============================================================
-   중복 회의록 제거
-
-   날짜 + 제목 + 내용 일부를 기준으로 판단
-
-   같은 날짜에 다른 회의가 있을 가능성을 고려하여
-   단순히 날짜만으로 중복 제거하지 않습니다.
-   ============================================================ */
-
-function removeDuplicates(data){
-
-  const seen =
-    new Set();
-
-
-  return data.filter(
-
-    function(m){
-
-      const date =
-        m._date ||
-        getMeetingDate(m);
-
-
-      const title =
-        String(
-          m.title || ""
-        )
-        .trim();
-
-
-      const firstContent =
-
-        Array.isArray(m.content) &&
-
-        m.content.length
-
-          ? String(
-              m.content[0].detail || ""
-            )
-            .trim()
-            .slice(0,200)
-
-          : "";
-
-
-      const key =
-
-        date +
-
-        "|" +
-
-        title +
-
-        "|" +
-
-        firstContent;
-
-
-      if(
-        seen.has(key)
-      ){
-
-        return false;
-
-      }
-
-
-      seen.add(key);
-
-      return true;
-
-    }
-
   );
 
 }
@@ -1219,20 +1285,15 @@ function monthKey(date){
 
 
   if(!match){
-
     return "기타";
-
   }
 
 
   return (
 
     Number(match[1]) +
-
     "년 " +
-
     Number(match[2]) +
-
     "월"
 
   );
@@ -1241,7 +1302,7 @@ function monthKey(date){
 
 
 /* ============================================================
-   전체 날짜 표시
+   전체 날짜
    ============================================================ */
 
 function fmtDate(date){
@@ -1254,24 +1315,17 @@ function fmtDate(date){
 
 
   if(!match){
-
     return date || "";
-
   }
 
 
   return (
 
     Number(match[1]) +
-
     "년 " +
-
     Number(match[2]) +
-
     "월 " +
-
     Number(match[3]) +
-
     "일"
 
   );
@@ -1280,7 +1334,7 @@ function fmtDate(date){
 
 
 /* ============================================================
-   날짜에서 월 / 일
+   월 / 일
    ============================================================ */
 
 function getMonthDay(date){
@@ -1307,16 +1361,74 @@ function getMonthDay(date){
   return {
 
     month:
-      String(
-        Number(match[2])
-      ),
+      String(Number(match[2])),
 
     day:
-      String(
-        Number(match[3])
-      )
+      String(Number(match[3]))
 
   };
+
+}
+
+
+/* ============================================================
+   시간 표시
+
+   2026년 8월 4일 21:20
+   ↓
+   오후 9:20
+   ============================================================ */
+
+function getTime(datetime){
+
+  const text =
+    String(datetime || "")
+      .trim();
+
+
+  const match =
+    text.match(
+      /(\d{1,2}):(\d{2})/
+    );
+
+
+  if(!match){
+    return "";
+  }
+
+
+  let hour =
+    Number(match[1]);
+
+
+  const minute =
+    match[2];
+
+
+  const period =
+    hour < 12
+      ? "오전"
+      : "오후";
+
+
+  hour =
+    hour % 12;
+
+
+  if(hour === 0){
+    hour = 12;
+  }
+
+
+  return (
+
+    period +
+    " " +
+    hour +
+    ":" +
+    minute
+
+  );
 
 }
 
@@ -1345,11 +1457,9 @@ function applySettings(){
 
     size =
       Number(
-
         localStorage.getItem(
           FONT_SIZE_KEY
         ) || 1
-
       );
 
   }
@@ -1399,9 +1509,7 @@ applySettings();
 
 function goBack(){
 
-  if(
-    history.length > 1
-  ){
+  if(history.length > 1){
 
     history.back();
 
@@ -1418,7 +1526,7 @@ function goBack(){
 
 
 /* ============================================================
-   연도 목록 생성
+   연도 목록
    ============================================================ */
 
 function buildYears(){
@@ -1434,46 +1542,34 @@ function buildYears(){
 
 
   const years =
-
     [
 
       ...new Set(
 
         meetings
           .map(
-
             function(m){
 
               const date =
-                m._date ||
                 getMeetingDate(m);
-
 
               return date
                 ? date.slice(0,4)
                 : "";
 
             }
-
           )
 
       )
 
     ]
-
     .filter(Boolean)
-
     .sort(
-
       function(a,b){
 
-        return (
-          Number(b) -
-          Number(a)
-        );
+        return Number(b) - Number(a);
 
       }
-
     );
 
 
@@ -1483,43 +1579,33 @@ function buildYears(){
 
     years
       .map(
-
         function(year){
 
           return (
 
             '<option value="' +
-
             esc(year) +
-
             '">' +
-
             esc(year) +
-
             '년</option>'
 
           );
 
         }
-
       )
-
       .join("");
 
 
   select.value =
-
     years.includes(old)
-
       ? old
-
       : "all";
 
 }
 
 
 /* ============================================================
-   카드 열기 / 닫기
+   카드 열기
    ============================================================ */
 
 function toggleCard(card){
@@ -1532,7 +1618,7 @@ function toggleCard(card){
 
 
 /* ============================================================
-   기본 정보 행 만들기
+   기본 정보
    ============================================================ */
 
 function infoRow(label,value){
@@ -1570,7 +1656,7 @@ function infoRow(label,value){
 
 
 /* ============================================================
-   회의록 렌더링
+   회의록 화면 표시
    ============================================================ */
 
 function render(){
@@ -1590,11 +1676,8 @@ function render(){
 
 
   let data =
-
     meetings
-
       .map(
-
         function(m){
 
           return {
@@ -1602,19 +1685,13 @@ function render(){
             ...m,
 
             _date:
-
-              m._date ||
-
               getMeetingDate(m)
 
           };
 
         }
-
       )
-
       .filter(
-
         function(m){
 
           const text =
@@ -1640,38 +1717,29 @@ function render(){
 
 
           return (
-
             matchSearch &&
-
             matchYear
-
           );
 
         }
-
       );
 
 
-  /* 최신 날짜 먼저 */
+  /* 최신 회의 먼저 */
 
   data.sort(
-
     function(a,b){
 
       return String(
         b._date || ""
       )
-
       .localeCompare(
-
         String(
           a._date || ""
         )
-
       );
 
     }
-
   );
 
 
@@ -1705,23 +1773,15 @@ function render(){
   list.innerHTML =
 
     data
-
       .map(
-
         function(m,index){
 
           const date =
             m._date;
 
 
-          const month =
-            getMonthDay(date)
-              .month;
-
-
-          const day =
-            getMonthDay(date)
-              .day;
+          const md =
+            getMonthDay(date);
 
 
           const currentMonth =
@@ -1736,11 +1796,13 @@ function render(){
             currentMonth !== lastMonth
           ){
 
-            monthHtml =
+            monthHtml = `
 
-              `<div class="month">
+              <div class="month">
                 ${esc(currentMonth)}
-              </div>`;
+              </div>
+
+            `;
 
 
             lastMonth =
@@ -1790,13 +1852,26 @@ function render(){
              안건
              ================================================== */
 
+          const validAgenda =
+            Array.isArray(m.agenda)
+
+              ? m.agenda.filter(
+                  function(item){
+
+                    return String(
+                      item || ""
+                    )
+                    .trim();
+
+                  }
+                )
+
+              : [];
+
+
           const agenda =
 
-            Array.isArray(
-              m.agenda
-            ) &&
-
-            m.agenda.length
+            validAgenda.length
 
               ? `
 
@@ -1804,46 +1879,25 @@ function render(){
                   안건
                 </div>
 
-                <div class="agenda">
+                <ul class="agenda-list">
 
-                  <ul>
+                  ${validAgenda
+                    .map(
+                      function(item){
 
-                    ${m.agenda
+                        return `
 
-                      .filter(
+                          <li class="agenda-item">
+                            ${esc(item)}
+                          </li>
 
-                        function(item){
+                        `;
 
-                          return String(
-                            item || ""
-                          )
-                          .trim();
+                      }
+                    )
+                    .join("")}
 
-                        }
-
-                      )
-
-                      .map(
-
-                        function(item){
-
-                          return `
-
-                            <li>
-                              ${esc(item)}
-                            </li>
-
-                          `;
-
-                        }
-
-                      )
-
-                      .join("")}
-
-                  </ul>
-
-                </div>
+                </ul>
 
               `
 
@@ -1854,13 +1908,33 @@ function render(){
              회의 내용
              ================================================== */
 
-          const content =
+          const validContent =
+            Array.isArray(m.content)
 
-            Array.isArray(
-              m.content
-            ) &&
+              ? m.content.filter(
+                  function(item){
 
-            m.content.length
+                    return (
+
+                      String(
+                        item.topic || ""
+                      ).trim() ||
+
+                      String(
+                        item.detail || ""
+                      ).trim()
+
+                    );
+
+                  }
+                )
+
+              : [];
+
+
+          const meetingContent =
+
+            validContent.length
 
               ? `
 
@@ -1868,12 +1942,10 @@ function render(){
                   회의 내용
                 </div>
 
-                <div class="body-text">
+                <div class="meeting-content">
 
-                  ${m.content
-
+                  ${validContent
                     .map(
-
                       function(item){
 
                         const topic =
@@ -1890,60 +1962,53 @@ function render(){
                           .trim();
 
 
-                        if(
+                        /* 제목 + 상세 내용 */
 
-                          !topic &&
+                        if(topic){
 
-                          !detail
+                          return `
 
-                        ){
+                            <div class="content-item">
 
-                          return "";
+                              <div class="content-topic">
+                                ${esc(topic)}
+                              </div>
+
+                              ${
+
+                                detail
+
+                                  ? `
+
+                                    <div class="content-detail">
+                                      ${esc(detail)}
+                                    </div>
+
+                                  `
+
+                                  : ""
+
+                              }
+
+                            </div>
+
+                          `;
 
                         }
 
 
+                        /* 상세 내용만 */
+
                         return `
 
-                          ${
-
-                            topic
-
-                              ? `
-
-                                <div class="topic">
-                                  ${esc(topic)}
-                                </div>
-
-                              `
-
-                              : ""
-
-                          }
-
-
-                          ${
-
-                            detail
-
-                              ? `
-
-                                <div class="detail">
-                                  ${esc(detail)}
-                                </div>
-
-                              `
-
-                              : ""
-
-                          }
+                          <div class="content-detail-only">
+                            ${esc(detail)}
+                          </div>
 
                         `;
 
                       }
-
                     )
-
                     .join("")}
 
                 </div>
@@ -1954,7 +2019,7 @@ function render(){
 
 
           /* ==================================================
-             최종 카드
+             카드
              ================================================== */
 
           return `
@@ -1964,7 +2029,7 @@ function render(){
 
             <article
               class="card"
-              id="m${index}">
+              id="meeting-${index}">
 
 
               <div
@@ -1972,31 +2037,50 @@ function render(){
                 onclick="toggleCard(this.parentElement)">
 
 
+                <!-- 날짜 -->
+
                 <div class="date-badge">
 
                   <div class="mon">
-                    ${esc(month)}월
+                    ${esc(md.month)}월
                   </div>
 
                   <div class="day">
-                    ${esc(day)}일
+                    ${esc(md.day)}일
                   </div>
 
                 </div>
 
+
+                <!-- 제목 -->
 
                 <div class="card-main">
 
                   <div class="card-title">
-                    ${esc(m.title)}
+                    ${esc(m.title || "회의록")}
                   </div>
 
-                  <div class="card-date">
-                    ${esc(fmtDate(date))}
-                  </div>
+
+                  ${
+
+                    getTime(m.datetime)
+
+                      ? `
+
+                        <div class="card-time">
+                          ${esc(getTime(m.datetime))}
+                        </div>
+
+                      `
+
+                      : ""
+
+                  }
 
                 </div>
 
+
+                <!-- 화살표 -->
 
                 <div class="chev">
                   ⌄
@@ -2005,6 +2089,8 @@ function render(){
 
               </div>
 
+
+              <!-- 펼친 내용 -->
 
               <div class="content">
 
@@ -2029,7 +2115,7 @@ function render(){
                 ${agenda}
 
 
-                ${content}
+                ${meetingContent}
 
 
               </div>
@@ -2040,9 +2126,7 @@ function render(){
           `;
 
         }
-
       )
-
       .join("");
 
 }
@@ -2050,11 +2134,6 @@ function render(){
 
 /* ============================================================
    회의록 불러오기
-
-   Google Apps Script 최신 데이터 호출
-
-   매번 t=현재시간을 추가하여
-   브라우저 / GitHub Pages 캐시 영향을 최소화합니다.
    ============================================================ */
 
 async function loadMinutes(){
@@ -2094,10 +2173,6 @@ async function loadMinutes(){
 
   try{
 
-    /* ========================================================
-       캐시 방지 URL
-       ======================================================== */
-
     const separator =
       GAS_WEB_APP_URL.includes("?")
         ? "&"
@@ -2115,16 +2190,6 @@ async function loadMinutes(){
       Date.now();
 
 
-    console.log(
-      "회의록 요청:",
-      requestUrl
-    );
-
-
-    /* ========================================================
-       Google Apps Script 호출
-       ======================================================== */
-
     const res =
       await fetch(
 
@@ -2132,9 +2197,7 @@ async function loadMinutes(){
 
         {
           method:"GET",
-
           cache:"no-store"
-
         }
 
       );
@@ -2150,18 +2213,8 @@ async function loadMinutes(){
     }
 
 
-    /* ========================================================
-       JSON 응답
-       ======================================================== */
-
     const json =
       await res.json();
-
-
-    console.log(
-      "회의록 API 응답:",
-      json
-    );
 
 
     if(!json.success){
@@ -2178,10 +2231,19 @@ async function loadMinutes(){
 
 
     /* ========================================================
-       API 회의록 배열
+       중요
+
+       Apps Script에서 받은 meetings 배열만 그대로 사용
+
+       기존 데이터 병합 없음
+       샘플 데이터 없음
+       localStorage 데이터 없음
+
+       따라서 Apps Script가 15개면
+       화면도 정확히 15개
        ======================================================== */
 
-    const rawMeetings =
+    meetings =
 
       Array.isArray(
         json.meetings
@@ -2192,91 +2254,21 @@ async function loadMinutes(){
         : [];
 
 
-    console.log(
-      "API 원본 회의록 수:",
-      rawMeetings.length
-    );
-
-
-    /* ========================================================
-       날짜 정규화
-
-       모든 회의에 _date 생성
-       ======================================================== */
-
-    const normalizedMeetings =
-
-      rawMeetings
-
-        .map(
-
-          function(m){
-
-            return {
-
-              ...m,
-
-              _date:
-                getMeetingDate(m)
-
-            };
-
-          }
-
-        );
-
-
-    /* ========================================================
-       날짜 없는 데이터 제거
-       ======================================================== */
-
-    const validMeetings =
-
-      normalizedMeetings
-
-        .filter(
-
-          function(m){
-
-            return !!m._date;
-
-          }
-
-        );
-
-
-    console.log(
-      "날짜 정상 회의록 수:",
-      validMeetings.length
-    );
-
-
-    /* ========================================================
-       중복 제거
-       ======================================================== */
+    /* 날짜 없는 항목 제거 */
 
     meetings =
-      removeDuplicates(
-        validMeetings
+
+      meetings.filter(
+        function(m){
+
+          return !!getMeetingDate(m);
+
+        }
       );
 
 
-    console.log(
-      "최종 표시 회의록 수:",
-      meetings.length
-    );
-
-
-    /* ========================================================
-       연도 목록 생성
-       ======================================================== */
-
     buildYears();
 
-
-    /* ========================================================
-       화면 표시
-       ======================================================== */
 
     render();
 
@@ -2300,11 +2292,6 @@ async function loadMinutes(){
         <br><br>
 
         ${esc(e.message)}
-
-        <br><br>
-
-        인터넷 연결 또는
-        Google Apps Script 배포 상태를 확인해 주세요.
 
       </div>
 
