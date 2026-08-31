@@ -16,7 +16,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   background:#f3f5f4;
   color:#26302d;
-  font-size:var(--app-font-size, 15px);
+  font-size:15px;
   line-height:1.65;
 }
 
@@ -261,20 +261,18 @@ main{
 }
 
 .bullet-list li::before{
-  content:"";
+  content:"●";
   position:absolute;
-  left:3px;
-  top:.72em;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#3b8472;
+  left:0;
+  top:0;
+  color:#3b8472;
+  font-size:10px;
 }
 
 .content-item{
   position:relative;
   padding-left:18px;
-  margin-bottom:10px;
+  margin-bottom:15px;
 }
 
 .content-item::before{
@@ -283,7 +281,7 @@ main{
   left:0;
   top:0;
   color:#607795;
-  font-size:11px;
+  font-size:10px;
 }
 
 .content-topic{
@@ -298,6 +296,21 @@ main{
   color:#46504c;
   white-space:pre-wrap;
   word-break:break-word;
+}
+
+.content-subline{
+  position:relative;
+  padding-left:14px;
+  margin:4px 0;
+}
+
+.content-subline::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:0;
+  font-size:8px;
+  color:#7c8d87;
 }
 
 .empty{
@@ -375,6 +388,10 @@ body.dark .info-value{color:#edf3f0}
 body.dark .bullet-list li{color:#d7e0dc}
 body.dark .content-topic{color:#dce5e9}
 body.dark .content-detail{color:#c8d1cd}
+
+body.dark .content-subline::before{
+  color:#aab9b3;
+}
 </style>
 </head>
 
@@ -428,6 +445,10 @@ body.dark .content-detail{color:#c8d1cd}
 
 
 <script>
+
+/* ============================================================
+   회의록 데이터 직접 내장
+============================================================ */
 
 const meetings = [
 
@@ -734,6 +755,10 @@ const meetings = [
 ];
 
 
+/* ============================================================
+   HTML 문자 보호
+============================================================ */
+
 function esc(value){
 
   return String(value ?? "")
@@ -745,6 +770,64 @@ function esc(value){
 
 }
 
+
+/* ============================================================
+   메인화면 설정 연결
+============================================================ */
+
+function applyMainSettings(){
+
+  const darkValues = ["dark","true","1","enabled"];
+
+  const themeKeys = [
+    "theme",
+    "darkMode",
+    "dark-mode",
+    "mode",
+    "appearance"
+  ];
+
+  for(const key of themeKeys){
+
+    const value = localStorage.getItem(key);
+
+    if(value && darkValues.includes(String(value).toLowerCase())){
+      document.body.classList.add("dark");
+      break;
+    }
+
+  }
+
+  const fontKeys = [
+    "fontSize",
+    "font-size",
+    "textSize",
+    "text-size"
+  ];
+
+  for(const key of fontKeys){
+
+    const value = localStorage.getItem(key);
+
+    if(!value) continue;
+
+    const number = parseFloat(value);
+
+    if(!isNaN(number)){
+      document.documentElement.style.fontSize = number + "px";
+      break;
+    }
+
+  }
+
+}
+
+window.addEventListener("storage", applyMainSettings);
+
+
+/* ============================================================
+   날짜
+============================================================ */
 
 function getMonthDay(date){
 
@@ -791,6 +874,10 @@ function getTime(datetime){
 }
 
 
+/* ============================================================
+   연도
+============================================================ */
+
 function buildYears(){
 
   const select = document.getElementById("year");
@@ -807,6 +894,10 @@ function buildYears(){
 
 }
 
+
+/* ============================================================
+   정보
+============================================================ */
 
 function infoRow(label,value){
 
@@ -828,28 +919,25 @@ function infoRow(label,value){
 }
 
 
-/* 안건: 줄바꿈마다 각각 ● 항목으로 분리 */
+/* ============================================================
+   안건
+============================================================ */
 
 function renderAgenda(agenda){
 
   if(!Array.isArray(agenda) || !agenda.length) return "";
 
   const items = agenda
-    .flatMap(item =>
-      String(item ?? "")
-        .split(/\r?\n/)
-        .map(line => line.trim())
-        .filter(line => line !== "")
-    );
-
-  if(!items.length) return "";
+    .flatMap(item => String(item).split(/\r?\n/))
+    .map(item => item.trim())
+    .filter(Boolean);
 
   return `
     <div class="section-label">안건</div>
 
     <ul class="bullet-list">
       ${items.map(item=>`
-        <li>${esc(item)}</li>
+        <li>${esc(item.replace(/^●\s*/,""))}</li>
       `).join("")}
     </ul>
   `;
@@ -857,7 +945,9 @@ function renderAgenda(agenda){
 }
 
 
-/* 회의 내용: 줄바꿈마다 각각 ● 항목으로 분리 */
+/* ============================================================
+   회의 내용
+============================================================ */
 
 function renderContent(content){
 
@@ -870,22 +960,30 @@ function renderContent(content){
 
       ${content.map(item=>{
 
-        const lines = String(item.detail ?? "")
+        const lines = String(item.detail || "")
           .split(/\r?\n/)
           .map(line => line.trim())
-          .filter(line => line !== "");
+          .filter(Boolean);
 
-        return lines.map(line=>`
+        return `
 
           <div class="content-item">
 
-            <div class="content-detail">
-              ${esc(line)}
-            </div>
+            ${item.topic && item.topic !== "회의 내용" ? `
+              <div class="content-topic">
+                ${esc(item.topic)}
+              </div>
+            ` : ""}
+
+            ${lines.map(line=>`
+              <div class="content-subline">
+                ${esc(line.replace(/^●\s*/,""))}
+              </div>
+            `).join("")}
 
           </div>
 
-        `).join("");
+        `;
 
       }).join("")}
 
@@ -895,12 +993,20 @@ function renderContent(content){
 }
 
 
+/* ============================================================
+   카드
+============================================================ */
+
 function toggleCard(card){
 
   card.classList.toggle("open");
 
 }
 
+
+/* ============================================================
+   렌더링
+============================================================ */
 
 function render(){
 
@@ -1060,6 +1166,10 @@ function render(){
 }
 
 
+/* ============================================================
+   뒤로가기
+============================================================ */
+
 function goBack(){
 
   if(history.length > 1){
@@ -1071,6 +1181,10 @@ function goBack(){
 }
 
 
+/* ============================================================
+   맨 위 버튼
+============================================================ */
+
 window.addEventListener("scroll",()=>{
 
   document.getElementById("topButton").style.display =
@@ -1079,48 +1193,11 @@ window.addEventListener("scroll",()=>{
 });
 
 
-/* 메인화면 밝게/어둡게 및 글자 크기 설정 연동 */
-
-function applyMainSettings(){
-
-  const savedTheme =
-    localStorage.getItem("theme") ||
-    localStorage.getItem("appTheme") ||
-    localStorage.getItem("darkMode");
-
-  const isDark =
-    savedTheme === "dark" ||
-    savedTheme === "true";
-
-  document.body.classList.toggle("dark", isDark);
-
-
-  const savedFontSize =
-    localStorage.getItem("fontSize") ||
-    localStorage.getItem("appFontSize") ||
-    localStorage.getItem("textSize");
-
-  if(savedFontSize){
-
-    const size = parseFloat(savedFontSize);
-
-    if(!isNaN(size)){
-      document.documentElement.style.setProperty(
-        "--app-font-size",
-        size + "px"
-      );
-    }
-
-  }
-
-}
-
-
-window.addEventListener("storage", applyMainSettings);
+/* ============================================================
+   시작
+============================================================ */
 
 applyMainSettings();
-
-
 buildYears();
 render();
 
