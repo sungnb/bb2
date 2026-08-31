@@ -1280,18 +1280,48 @@ async function loadSheet(){
       "sheetContent"
     );
 
+  /*
+     최신 Google Sheets 자료를 먼저 확인한 뒤
+     화면에 표시합니다.
+
+     이전 자료는 화면에 사용하지 않습니다.
+     따라서 Sheets가 변경되었는데도
+     예전 자료를 최신 자료로 착각하는 일이 없습니다.
+
+     속도 개선:
+     - Date.now()를 붙여 매번 새로운 URL을 만들지 않습니다.
+     - no-store를 제거하여 브라우저/네트워크의
+       정상적인 연결 재사용을 허용합니다.
+     - AbortController로 비정상적으로 오래 걸리는
+       요청을 적절히 종료합니다.
+  */
+
+  const controller =
+    new AbortController();
+
+  const timeout =
+    setTimeout(
+      function(){
+        controller.abort();
+      },
+      30000
+    );
+
 
   try{
 
     const response =
       await fetch(
-        SHEET_API +
-        "?t=" +
-        Date.now(),
+        SHEET_API,
         {
-          cache:"no-store"
+          method:"GET",
+          cache:"no-cache",
+          signal:controller.signal
         }
       );
+
+
+    clearTimeout(timeout);
 
 
     if(!response.ok){
@@ -1322,6 +1352,10 @@ async function loadSheet(){
     }
 
 
+    /*
+       최신 자료를 정상적으로 확인한 경우에만
+       화면을 변경합니다.
+    */
     target.innerHTML =
       buildSheet(
         json.data
@@ -1330,7 +1364,29 @@ async function loadSheet(){
 
   }catch(error){
 
+    clearTimeout(timeout);
+
     console.error(error);
+
+
+    /*
+       최신 자료를 확인하지 못했으므로
+       이전 자료를 보여주지 않습니다.
+    */
+    let message =
+      '❌ 최신 자료를 가져오지 못했습니다.';
+
+    if(error && error.name === "AbortError"){
+
+      message +=
+        '<br><br>Google Sheets 응답이 너무 오래 걸리고 있습니다.';
+
+    }else{
+
+      message +=
+        '<br><br>Google Sheets 연결을 확인해 주세요.';
+
+    }
 
 
     target.innerHTML =
@@ -1339,11 +1395,7 @@ async function loadSheet(){
 
         '<div class="warning">' +
 
-          '❌ 자료를 가져오지 못했습니다.' +
-
-          '<br><br>' +
-
-          'Google Sheets 연결을 확인해 주세요.' +
+          message +
 
         '</div>' +
 
