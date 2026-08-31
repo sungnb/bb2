@@ -39,6 +39,17 @@ header{
   gap:10px;
 }
 
+.home-button{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:12px;
+  background:#edf3f0;
+  color:#286b5b;
+  font-size:22px;
+  font-weight:bold;
+  cursor:pointer;
+}
 .back{
   width:42px;
   height:42px;
@@ -357,6 +368,7 @@ body.dark header{
 body.dark .page-title{color:#f0f5f2}
 body.dark .page-subtitle{color:#9ba7a1}
 
+body.dark .home-button,
 body.dark .back{
   background:#26332e;
   color:#8fd0b9;
@@ -423,6 +435,7 @@ body.dark .auth-text,body.dark .auth-status{color:#a9b4af}
 <header>
   <div class="header-inner">
 
+    <button class="home-button" onclick="goHome()" aria-label="홈으로">⌂</button>
     <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
 
     <div class="title-area">
@@ -950,6 +963,10 @@ function render(){
 /* ============================================================
    뒤로가기
 ============================================================ */
+
+function goHome(){
+  location.href = "index.html";
+}
 
 function goBack(){
 
