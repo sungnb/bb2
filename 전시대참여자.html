@@ -25,7 +25,9 @@ body {
     "Segoe UI",
     "Noto Sans KR",
     sans-serif;
+
   color: #ffffff;
+
   background:
     linear-gradient(
       135deg,
@@ -41,20 +43,38 @@ body {
 
 .header {
   width: 100%;
-  padding: 28px 20px;
+
+  padding:
+    28px 20px;
+
   text-align: center;
+
   background:
     rgba(18, 31, 42, 0.88);
+
   border-bottom:
     1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
+
+  backdrop-filter:
+    blur(10px);
 }
 
 .header h1 {
   margin: 0;
+
   font-size: 30px;
+
   font-weight: 700;
+
   letter-spacing: -1px;
+}
+
+.reference-date {
+  margin-top: 8px;
+
+  font-size: 14px;
+
+  opacity: 0.7;
 }
 
 
@@ -64,8 +84,11 @@ body {
 
 .container {
   width: 100%;
+
   max-width: 1400px;
+
   margin: 0 auto;
+
   padding:
     25px
     20px
@@ -79,27 +102,45 @@ body {
 
 .actions {
   display: flex;
+
   justify-content: flex-end;
+
   gap: 10px;
+
   margin-bottom: 28px;
 }
 
 .action-button {
   border: none;
+
   border-radius: 10px;
-  padding: 11px 18px;
+
+  padding:
+    11px 18px;
+
   font-size: 14px;
+
   font-weight: 600;
+
   cursor: pointer;
+
   color: #ffffff;
+
   background:
     rgba(255,255,255,0.12);
-  transition: 0.2s;
+
+  transition:
+    background 0.2s,
+    transform 0.1s;
 }
 
 .action-button:hover {
   background:
     rgba(255,255,255,0.20);
+}
+
+.action-button:active {
+  transform: scale(0.97);
 }
 
 
@@ -113,27 +154,37 @@ body {
 
 .section-title {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   margin-bottom: 18px;
+
   padding-bottom: 12px;
+
   border-bottom:
     1px solid rgba(255,255,255,0.15);
 }
 
 .section-title h2 {
   margin: 0;
+
   font-size: 23px;
+
   font-weight: 700;
 }
 
 .total-count {
   padding:
-    6px
-    12px;
+    6px 12px;
+
   border-radius: 20px;
+
   font-size: 14px;
+
   font-weight: 600;
+
   background:
     rgba(255,255,255,0.10);
 }
@@ -145,8 +196,10 @@ body {
 
 .group-grid {
   display: grid;
+
   grid-template-columns:
     repeat(4, minmax(0, 1fr));
+
   gap: 16px;
 }
 
@@ -159,11 +212,15 @@ body {
 .other-card,
 .reference-card {
   overflow: hidden;
+
   border-radius: 16px;
+
   border:
     1px solid rgba(255,255,255,0.10);
+
   background:
     rgba(255,255,255,0.08);
+
   box-shadow:
     0 10px 30px rgba(0,0,0,0.12);
 }
@@ -175,24 +232,30 @@ body {
 
 .group-header {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   padding:
-    14px
-    16px;
+    14px 16px;
+
   background:
     rgba(255,255,255,0.08);
+
   border-bottom:
     1px solid rgba(255,255,255,0.08);
 }
 
 .group-name {
   font-size: 16px;
+
   font-weight: 700;
 }
 
 .group-count {
   font-size: 14px;
+
   opacity: 0.85;
 }
 
@@ -203,23 +266,33 @@ body {
 
 .name-list {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 8px;
+
   padding: 14px;
+
   min-height: 64px;
 }
 
 .name {
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
+
   padding:
-    8px
-    12px;
+    8px 12px;
+
   border-radius: 8px;
+
   font-size: 14px;
+
   background:
     rgba(255,255,255,0.09);
+
   border:
     1px solid rgba(255,255,255,0.06);
 }
@@ -231,9 +304,13 @@ body {
 
 .empty-message {
   width: 100%;
+
   padding: 18px;
+
   text-align: center;
-  color: rgba(255,255,255,0.55);
+
+  color:
+    rgba(255,255,255,0.55);
 }
 
 
@@ -242,14 +319,16 @@ body {
 ========================================================= */
 
 .reference-list {
-  padding: 8px 18px;
+  padding:
+    8px 18px;
 }
 
 .reference-item {
   padding:
-    14px
-    4px;
+    14px 4px;
+
   line-height: 1.7;
+
   border-bottom:
     1px solid rgba(255,255,255,0.08);
 }
@@ -265,14 +344,18 @@ body {
 
 .loading,
 .error {
-  padding: 80px 20px;
+  padding:
+    80px 20px;
+
   text-align: center;
+
   color:
     rgba(255,255,255,0.7);
 }
 
 .error {
-  color: #ffb4b4;
+  color:
+    #ffb4b4;
 }
 
 
@@ -311,6 +394,28 @@ body {
     font-size: 20px;
   }
 
+  .action-button {
+    padding:
+      10px 15px;
+  }
+
+}
+
+
+/* =========================================================
+   작은 화면에서 버튼
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .actions {
+    justify-content: space-between;
+  }
+
+  .action-button {
+    flex: 1;
+  }
+
 }
 
 </style>
@@ -330,6 +435,11 @@ body {
     전시대 참여자
   </h1>
 
+  <div
+    id="referenceDate"
+    class="reference-date">
+  </div>
+
 </header>
 
 
@@ -341,22 +451,22 @@ body {
 <main class="container">
 
 
-  <!-- 버튼 -->
+  <!-- =======================================================
+       버튼
+  ======================================================= -->
 
   <div class="actions">
 
     <button
       class="action-button"
-      onclick="loadData()"
-    >
+      onclick="loadData()">
       새로고침
     </button>
 
 
     <button
       class="action-button"
-      onclick="goBack()"
-    >
+      onclick="goBack()">
       뒤로가기
     </button>
 
@@ -364,7 +474,9 @@ body {
 
 
 
-  <!-- 데이터 출력 -->
+  <!-- =======================================================
+       데이터 출력
+  ======================================================= -->
 
   <div id="app">
 
@@ -382,7 +494,7 @@ body {
 <script>
 
 /* =========================================================
-   API 주소
+   Apps Script API 주소
 ========================================================= */
 
 const API_URL =
@@ -390,18 +502,15 @@ const API_URL =
 
 
 /* =========================================================
-   집단 목록
+   집단
 ========================================================= */
 
 const GROUPS = [
-
   "A집단",
   "B집단",
   "C집단",
   "D집단"
-
 ];
-
 
 
 /* =========================================================
@@ -418,17 +527,14 @@ document.addEventListener(
 );
 
 
-
 /* =========================================================
    데이터 불러오기
 ========================================================= */
 
 async function loadData() {
 
-
   const app =
     document.getElementById("app");
-
 
   app.innerHTML = `
     <div class="loading">
@@ -439,10 +545,9 @@ async function loadData() {
 
   try {
 
-
-    /* -----------------------------------------------------
+    /* -------------------------------------------------------
        API 호출
-    ----------------------------------------------------- */
+    ------------------------------------------------------- */
 
     const response =
       await fetch(
@@ -462,70 +567,41 @@ async function loadData() {
     }
 
 
+    /* -------------------------------------------------------
+       JSON 변환
+    ------------------------------------------------------- */
+
     const data =
       await response.json();
 
 
-
-    /* -----------------------------------------------------
-       콘솔에서 실제 데이터 확인
-    ----------------------------------------------------- */
-
     console.log(
-      "================================="
-    );
-
-    console.log(
-      "전시대 참여자 전체 API 응답"
-    );
-
-    console.log(data);
-
-    console.log(
-      "participants:",
-      data.participants
-    );
-
-    console.log(
-      "otherParticipants:",
-      data.otherParticipants
-    );
-
-    console.log(
-      "nonParticipants:",
-      data.nonParticipants
-    );
-
-    console.log(
-      "references:",
-      data.references
-    );
-
-    console.log(
-      "================================="
+      "전시대 참여자 API:",
+      data
     );
 
 
+    /* -------------------------------------------------------
+       API 오류 확인
+    ------------------------------------------------------- */
 
-    /* -----------------------------------------------------
-       성공 여부
-    ----------------------------------------------------- */
-
-    if (!data.success) {
+    if (
+      !data ||
+      data.success !== true
+    ) {
 
       throw new Error(
-        data.message ||
-        data.error ||
+        data?.message ||
+        data?.error ||
         "데이터를 가져오지 못했습니다."
       );
 
     }
 
 
-
-    /* -----------------------------------------------------
+    /* -------------------------------------------------------
        화면 출력
-    ----------------------------------------------------- */
+    ------------------------------------------------------- */
 
     renderData(data);
 
@@ -533,7 +609,6 @@ async function loadData() {
   }
 
   catch (error) {
-
 
     console.error(
       "데이터 로드 오류:",
@@ -556,12 +631,9 @@ async function loadData() {
 
     `;
 
-
   }
 
-
 }
-
 
 
 /* =========================================================
@@ -571,9 +643,8 @@ async function loadData() {
 function renderData(data) {
 
 
-
   /* =======================================================
-     데이터 배열 준비
+     API 데이터 그대로 사용
   ======================================================= */
 
   const participants =
@@ -600,49 +671,34 @@ function renderData(data) {
       : [];
 
 
-
   /* =======================================================
-     확인 로그
+     기준일
   ======================================================= */
 
-  console.log(
-    "참여자 수:",
-    participants.length
-  );
+  const referenceDate =
+    data.referenceDate || "";
 
 
-  console.log(
-    "타 회중 참여자 수:",
-    otherParticipants.length
-  );
+  document.getElementById(
+    "referenceDate"
+  ).textContent =
+    referenceDate;
 
 
-  console.log(
-    "미 참여자 수:",
-    nonParticipants.length
-  );
-
-
-  console.log(
-    "참조 수:",
-    references.length
-  );
-
-
+  /* =======================================================
+     화면 HTML
+  ======================================================= */
 
   let html = "";
 
 
-
   /* =======================================================
      참여자
-     기존 방식 유지
   ======================================================= */
 
   html += `
 
     <section class="section">
-
 
       <div class="section-title">
 
@@ -662,10 +718,8 @@ function renderData(data) {
   `;
 
 
-
   GROUPS.forEach(
     function(group) {
-
 
       const people =
         participants.filter(
@@ -679,18 +733,15 @@ function renderData(data) {
         );
 
 
-
       html += `
 
         <div class="group-card">
 
-
           <div class="group-header">
 
             <span class="group-name">
-              ${group}
+              ${escapeHtml(group)}
             </span>
-
 
             <span class="group-count">
               ${people.length}명
@@ -699,15 +750,14 @@ function renderData(data) {
           </div>
 
 
-
           <div class="name-list">
 
       `;
 
 
-
-      if (people.length === 0) {
-
+      if (
+        people.length === 0
+      ) {
 
         html += `
 
@@ -717,15 +767,12 @@ function renderData(data) {
 
         `;
 
-
       }
 
       else {
 
-
         people.forEach(
           function(person) {
-
 
             html += `
 
@@ -735,58 +782,46 @@ function renderData(data) {
 
             `;
 
-
           }
         );
 
-
       }
-
 
 
       html += `
 
           </div>
 
-
         </div>
 
       `;
 
-
     }
   );
-
 
 
   html += `
 
       </div>
 
-
     </section>
 
   `;
 
 
-
-
   /* =======================================================
      타 회중 참여자
-     ★ 이번 테스트 핵심 부분
   ======================================================= */
 
   html += `
 
     <section class="section">
 
-
       <div class="section-title">
 
         <h2>
           타 회중 참여자
         </h2>
-
 
         <div class="total-count">
           ${otherParticipants.length}명
@@ -797,176 +832,53 @@ function renderData(data) {
 
       <div class="other-card">
 
-
         <div class="name-list">
 
   `;
 
 
-
-  /* -------------------------------------------------------
-     타 회중 참여자 없음
-  ------------------------------------------------------- */
-
   if (
-    !Array.isArray(
-      data.otherParticipants
-    )
-  ) {
-
-
-    html += `
-
-      <div class="empty-message">
-
-        otherParticipants 데이터가
-        배열이 아닙니다.
-
-      </div>
-
-    `;
-
-
-  }
-
-
-  else if (
     otherParticipants.length === 0
   ) {
 
-
     html += `
 
       <div class="empty-message">
-
         타 회중 참여자가 없습니다.
-
       </div>
 
     `;
 
-
   }
-
-
-  /* -------------------------------------------------------
-     타 회중 참여자 직접 출력
-  ------------------------------------------------------- */
 
   else {
 
-
     otherParticipants.forEach(
-      function(person, index) {
+      function(person) {
 
+        html += `
 
-        console.log(
-          "타 회중 참여자 #" +
-          (index + 1),
-          person
-        );
+          <div class="name">
+            ${escapeHtml(person.name)}
+          </div>
 
-
-        let name = "";
-
-
-        /* 문자열 */
-
-        if (
-          typeof person === "string"
-        ) {
-
-          name = person;
-
-        }
-
-
-        /* 객체 */
-
-        else if (
-          person &&
-          typeof person === "object"
-        ) {
-
-
-          if (person.name) {
-
-            name =
-              person.name;
-
-          }
-
-          else if (person.Name) {
-
-            name =
-              person.Name;
-
-          }
-
-          else if (person.이름) {
-
-            name =
-              person.이름;
-
-          }
-
-
-        }
-
-
-
-        /* 실제 화면 출력 */
-
-        if (name) {
-
-
-          html += `
-
-            <div class="name">
-
-              ${escapeHtml(name)}
-
-            </div>
-
-          `;
-
-
-        }
-
-
-        else {
-
-
-          console.warn(
-            "타 회중 참여자 이름을 찾지 못함:",
-            person
-          );
-
-
-        }
-
+        `;
 
       }
     );
 
-
   }
-
 
 
   html += `
 
         </div>
 
-
       </div>
-
 
     </section>
 
   `;
-
-
 
 
   /* =======================================================
@@ -977,13 +889,11 @@ function renderData(data) {
 
     <section class="section">
 
-
       <div class="section-title">
 
         <h2>
           미 참여자
         </h2>
-
 
         <div class="total-count">
           ${nonParticipants.length}명
@@ -997,10 +907,8 @@ function renderData(data) {
   `;
 
 
-
   GROUPS.forEach(
     function(group) {
-
 
       const people =
         nonParticipants.filter(
@@ -1014,18 +922,15 @@ function renderData(data) {
         );
 
 
-
       html += `
 
         <div class="group-card">
 
-
           <div class="group-header">
 
             <span class="group-name">
-              ${group}
+              ${escapeHtml(group)}
             </span>
-
 
             <span class="group-count">
               ${people.length}명
@@ -1034,17 +939,14 @@ function renderData(data) {
           </div>
 
 
-
           <div class="name-list">
 
       `;
 
 
-
       if (
         people.length === 0
       ) {
-
 
         html += `
 
@@ -1054,95 +956,79 @@ function renderData(data) {
 
         `;
 
-
       }
 
       else {
 
-
         people.forEach(
           function(person) {
-
 
             html += `
 
               <div class="name">
-
-                ${escapeHtml(
-                  person.name
-                )}
-
+                ${escapeHtml(person.name)}
               </div>
 
             `;
 
-
           }
         );
 
-
       }
-
 
 
       html += `
 
           </div>
 
-
         </div>
 
       `;
-
 
     }
   );
 
 
-
   html += `
 
       </div>
-
 
     </section>
 
   `;
 
 
-
-
   /* =======================================================
-     참조
+     참고 사항
   ======================================================= */
 
   html += `
 
     <section class="section">
 
-
       <div class="section-title">
 
         <h2>
-          참조
+          참고 사항
         </h2>
+
+        <div class="total-count">
+          ${references.length}건
+        </div>
 
       </div>
 
 
       <div class="reference-card">
 
-
         <div class="reference-list">
 
   `;
 
 
-
   if (
     references.length === 0
   ) {
-
 
     html += `
 
@@ -1152,104 +1038,48 @@ function renderData(data) {
 
     `;
 
-
   }
 
-
   else {
-
 
     references.forEach(
       function(reference) {
 
+        html += `
 
-        let text = "";
+          <div class="reference-item">
+            ${escapeHtml(reference)}
+          </div>
 
-
-
-        if (
-          typeof reference === "string"
-        ) {
-
-          text =
-            reference;
-
-        }
-
-
-        else if (
-          reference &&
-          reference.text
-        ) {
-
-          text =
-            reference.text;
-
-        }
-
-
-        else if (
-          reference &&
-          reference.name
-        ) {
-
-          text =
-            reference.name;
-
-        }
-
-
-        if (text) {
-
-
-          html += `
-
-            <div class="reference-item">
-
-              ${escapeHtml(text)}
-
-            </div>
-
-          `;
-
-
-        }
-
+        `;
 
       }
     );
 
-
   }
-
 
 
   html += `
 
         </div>
 
-
       </div>
-
 
     </section>
 
   `;
 
 
-
-
   /* =======================================================
      화면 적용
   ======================================================= */
 
-  document.getElementById("app")
-    .innerHTML =
-      html;
-
+  document.getElementById(
+    "app"
+  ).innerHTML =
+    html;
 
 }
-
 
 
 /* =========================================================
@@ -1270,7 +1100,6 @@ function normalizeGroup(group) {
 }
 
 
-
 /* =========================================================
    HTML 문자 처리
 ========================================================= */
@@ -1278,7 +1107,7 @@ function normalizeGroup(group) {
 function escapeHtml(text) {
 
   return String(
-    text || ""
+    text ?? ""
   )
 
   .replace(
@@ -1307,7 +1136,6 @@ function escapeHtml(text) {
   );
 
 }
-
 
 
 /* =========================================================
