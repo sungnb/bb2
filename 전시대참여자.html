@@ -11,211 +11,164 @@
   box-sizing: border-box;
 }
 
-html,
 body {
   margin: 0;
-  padding: 0;
-}
-
-body {
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     "Noto Sans KR",
     sans-serif;
-
   background: #172532;
-  color: #eef3f8;
+  color: #ffffff;
 }
 
-.page-header {
-  background: #2b3b4b;
-  border-bottom: 1px solid #405264;
-  padding: 20px 15px;
+.header {
+  padding: 28px 20px;
   text-align: center;
+  background: #22313f;
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
-.page-header h1 {
+.header h1 {
   margin: 0;
-  font-size: 30px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 30px 18px 70px;
+  padding: 25px 20px 60px;
 }
 
-/* 버튼 */
-
-.top-actions {
+.actions {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 42px;
+  margin-bottom: 35px;
 }
 
-.action-button {
+button {
   border: none;
   border-radius: 10px;
-  padding: 13px 24px;
+  padding: 12px 22px;
+  font-size: 15px;
+  cursor: pointer;
   background: #536477;
   color: white;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
 }
 
-.action-button:hover {
-  background: #64778b;
+button:hover {
+  opacity: .9;
 }
-
-/* 섹션 */
 
 .section {
-  margin-bottom: 55px;
+  margin-bottom: 45px;
 }
 
 .section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  border-bottom: 2px solid #425365;
-
-  padding-bottom: 14px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255,255,255,.15);
 }
 
 .section-title h2 {
   margin: 0;
-  font-size: 26px;
+  font-size: 23px;
 }
 
 .total-count {
-  font-size: 20px;
-  font-weight: 800;
-  color: #dce5ee;
+  font-size: 17px;
+  font-weight: 700;
+  color: #d5dde5;
 }
-
-/* 집단 */
 
 .group-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 16px;
 }
 
-.group-card {
-  background: #2a3949;
-  border: 1px solid #425568;
-  border-radius: 16px;
+.group-card,
+.other-card,
+.reference-card {
+  background: #293949;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
   overflow: hidden;
-  min-height: 150px;
 }
 
 .group-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 17px 20px;
-
-  background: #536477;
-}
-
-.group-name {
-  font-size: 19px;
-  font-weight: 800;
-}
-
-.group-count {
-  font-size: 16px;
+  padding: 14px 17px;
+  background: #3c5063;
   font-weight: 700;
 }
 
-/* 이름 */
+.group-name {
+  font-size: 17px;
+}
+
+.group-count {
+  font-size: 15px;
+  opacity: .9;
+}
 
 .name-list {
-  padding: 16px;
-
+  padding: 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-height: 65px;
 }
 
 .name-tag {
   display: inline-block;
-
   padding: 8px 12px;
-
-  background: #344353;
-  border: 1px solid #46596c;
-
-  border-radius: 7px;
-
-  font-size: 15px;
-  font-weight: 600;
+  background: #354758;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  font-size: 14px;
 }
 
 .empty-message {
   width: 100%;
-  padding: 20px 5px;
   text-align: center;
-  color: #aebdcc;
+  padding: 12px;
+  color: #9eabb6;
 }
 
-/* 타 회중 */
-
-.other-card {
-  background: #2a3949;
-  border: 1px solid #425568;
-  border-radius: 16px;
-}
-
-/* 참조 */
-
-.reference-card {
-  background: #2a3949;
-  border: 1px solid #425568;
-  border-radius: 16px;
-  padding: 8px 20px;
+.reference-list {
+  padding: 5px 20px;
 }
 
 .reference-item {
-  padding: 16px 0;
-  border-bottom: 1px solid #405264;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255,255,255,.1);
   line-height: 1.7;
-  font-size: 16px;
 }
 
 .reference-item:last-child {
   border-bottom: none;
 }
 
-/* 로딩 */
-
 .loading {
-  padding: 80px 20px;
   text-align: center;
-  color: #b7c4d0;
-  font-size: 18px;
+  padding: 80px 20px;
+  color: #aebbc7;
 }
-
-/* 오류 */
 
 .error {
-  background: #4a2c32;
-  border: 1px solid #8b4b55;
-  border-radius: 12px;
-  padding: 25px;
   text-align: center;
-  color: #ffd7dc;
+  padding: 50px 20px;
+  color: #ffb7b7;
 }
-
-/* 모바일 */
 
 @media (max-width: 1000px) {
   .group-grid {
@@ -224,70 +177,47 @@ body {
 }
 
 @media (max-width: 600px) {
-
-  .page-header h1 {
-    font-size: 25px;
-  }
-
-  .container {
-    padding: 22px 12px 50px;
-  }
-
   .group-grid {
     grid-template-columns: 1fr;
   }
 
-  .section-title h2 {
-    font-size: 23px;
+  .header h1 {
+    font-size: 24px;
   }
-
 }
 </style>
 </head>
 
 <body>
 
-<header class="page-header">
-  <h1>👥 전시대 참여자</h1>
-</header>
+<div class="header">
+  <h1>전시대 참여자</h1>
+</div>
 
-<main class="container">
+<div class="container">
 
-  <div class="top-actions">
-
-    <button
-      class="action-button"
-      onclick="loadData()"
-    >
-      🔄 새로고침
-    </button>
-
-    <button
-      class="action-button"
-      onclick="goBack()"
-    >
-      ← 뒤로가기
-    </button>
-
+  <div class="actions">
+    <button onclick="loadData()">새로고침</button>
+    <button onclick="goBack()">뒤로가기</button>
   </div>
 
   <div id="app">
     <div class="loading">
-      전시대 참여자 정보를 불러오는 중입니다...
+      데이터를 불러오는 중입니다...
     </div>
   </div>
 
-</main>
+</div>
 
 
 <script>
 
 /* =========================================================
-   Apps Script 주소
+   API 주소
 ========================================================= */
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbyku3nq77mmD-RvRKv01w8psb5VZs3JMJIQwkliR5LynYf5_9JYlNhgTjRxHBcuGAqs/exec";
+"https://script.google.com/macros/s/AKfycbyku3nq77mmD-RvRKv01w8psb5VZs3JMJIQwkliR5LynYf5_9JYlNhgTjRxHBcuGAqs/exec";
 
 
 const GROUPS = [
@@ -298,52 +228,39 @@ const GROUPS = [
 ];
 
 
-const app =
-  document.getElementById("app");
-
-
 /* =========================================================
    데이터 불러오기
 ========================================================= */
 
 async function loadData() {
 
+  const app =
+    document.getElementById("app");
+
+
+  app.innerHTML = `
+    <div class="loading">
+      데이터를 불러오는 중입니다...
+    </div>
+  `;
+
+
   try {
-
-    app.innerHTML = `
-      <div class="loading">
-        전시대 참여자 정보를 불러오는 중입니다...
-      </div>
-    `;
-
 
     const response =
       await fetch(
-        API_URL + "?t=" + Date.now(),
-        {
-          method: "GET",
-          cache: "no-store"
-        }
+        API_URL + "?t=" + Date.now()
       );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "서버 오류: " + response.status
-      );
-
-    }
 
 
     const data =
       await response.json();
 
 
-    console.log("API DATA:", data);
+    console.log("받은 데이터:", data);
 
 
-    if (data.success === false) {
+    if (!data.success) {
 
       throw new Error(
         data.message ||
@@ -361,9 +278,10 @@ async function loadData() {
 
     console.error(error);
 
+
     app.innerHTML = `
       <div class="error">
-        <strong>데이터를 불러오지 못했습니다.</strong>
+        데이터를 불러오는 중 오류가 발생했습니다.
         <br><br>
         ${escapeHtml(error.message)}
       </div>
@@ -375,52 +293,34 @@ async function loadData() {
 
 
 /* =========================================================
-   배열 확인
-========================================================= */
-
-function safeArray(value) {
-
-  return Array.isArray(value)
-    ? value
-    : [];
-
-}
-
-
-/* =========================================================
-   집단명 정리
-========================================================= */
-
-function normalizeGroup(group) {
-
-  return String(group || "")
-    .replace(/\s/g, "")
-    .trim();
-
-}
-
-
-/* =========================================================
-   화면 생성
+   전체 화면 생성
 ========================================================= */
 
 function renderData(data) {
 
 
   const participants =
-    safeArray(data.participants);
+    Array.isArray(data.participants)
+      ? data.participants
+      : [];
 
 
   const otherParticipants =
-    safeArray(data.otherParticipants);
+    Array.isArray(data.otherParticipants)
+      ? data.otherParticipants
+      : [];
 
 
   const nonParticipants =
-    safeArray(data.nonParticipants);
+    Array.isArray(data.nonParticipants)
+      ? data.nonParticipants
+      : [];
 
 
   const references =
-    safeArray(data.references);
+    Array.isArray(data.references)
+      ? data.references
+      : [];
 
 
   let html = "";
@@ -431,46 +331,39 @@ function renderData(data) {
   ======================================================= */
 
   html += `
-  <section class="section">
+    <section class="section">
 
-    <div class="section-title">
-
-      <h2>참여자</h2>
-
-      <div class="total-count">
-        ${participants.length}명
+      <div class="section-title">
+        <h2>참여자</h2>
+        <div class="total-count">
+          ${participants.length}명
+        </div>
       </div>
 
-    </div>
-
-    <div class="group-grid">
+      <div class="group-grid">
   `;
 
 
-  GROUPS.forEach(group => {
+  GROUPS.forEach(function(group) {
 
     const people =
-      participants.filter(person =>
-        normalizeGroup(person.group) === normalizeGroup(group)
-      );
+      participants.filter(function(person) {
+
+        return normalizeGroup(person.group) ===
+          normalizeGroup(group);
+
+      });
 
 
     html += `
-    <div class="group-card">
+      <div class="group-card">
 
-      <div class="group-header">
-
-        <div class="group-name">
-          ${group}
+        <div class="group-header">
+          <span class="group-name">${group}</span>
+          <span class="group-count">${people.length}명</span>
         </div>
 
-        <div class="group-count">
-          ${people.length}명
-        </div>
-
-      </div>
-
-      <div class="name-list">
+        <div class="name-list">
     `;
 
 
@@ -484,7 +377,7 @@ function renderData(data) {
 
     } else {
 
-      people.forEach(person => {
+      people.forEach(function(person) {
 
         html += `
           <span class="name-tag">
@@ -498,18 +391,18 @@ function renderData(data) {
 
 
     html += `
-      </div>
+        </div>
 
-    </div>
+      </div>
     `;
 
   });
 
 
   html += `
-    </div>
+      </div>
 
-  </section>
+    </section>
   `;
 
 
@@ -518,21 +411,18 @@ function renderData(data) {
   ======================================================= */
 
   html += `
-  <section class="section">
+    <section class="section">
 
-    <div class="section-title">
-
-      <h2>타 회중 참여자</h2>
-
-      <div class="total-count">
-        ${otherParticipants.length}명
+      <div class="section-title">
+        <h2>타 회중 참여자</h2>
+        <div class="total-count">
+          ${otherParticipants.length}명
+        </div>
       </div>
 
-    </div>
+      <div class="other-card">
 
-    <div class="other-card">
-
-      <div class="name-list">
+        <div class="name-list">
   `;
 
 
@@ -546,7 +436,7 @@ function renderData(data) {
 
   } else {
 
-    otherParticipants.forEach(person => {
+    otherParticipants.forEach(function(person) {
 
       const name =
         typeof person === "string"
@@ -570,11 +460,11 @@ function renderData(data) {
 
 
   html += `
+        </div>
+
       </div>
 
-    </div>
-
-  </section>
+    </section>
   `;
 
 
@@ -583,46 +473,39 @@ function renderData(data) {
   ======================================================= */
 
   html += `
-  <section class="section">
+    <section class="section">
 
-    <div class="section-title">
-
-      <h2>미 참여자</h2>
-
-      <div class="total-count">
-        ${nonParticipants.length}명
+      <div class="section-title">
+        <h2>미 참여자</h2>
+        <div class="total-count">
+          ${nonParticipants.length}명
+        </div>
       </div>
 
-    </div>
-
-    <div class="group-grid">
+      <div class="group-grid">
   `;
 
 
-  GROUPS.forEach(group => {
+  GROUPS.forEach(function(group) {
 
     const people =
-      nonParticipants.filter(person =>
-        normalizeGroup(person.group) === normalizeGroup(group)
-      );
+      nonParticipants.filter(function(person) {
+
+        return normalizeGroup(person.group) ===
+          normalizeGroup(group);
+
+      });
 
 
     html += `
-    <div class="group-card">
+      <div class="group-card">
 
-      <div class="group-header">
-
-        <div class="group-name">
-          ${group}
+        <div class="group-header">
+          <span class="group-name">${group}</span>
+          <span class="group-count">${people.length}명</span>
         </div>
 
-        <div class="group-count">
-          ${people.length}명
-        </div>
-
-      </div>
-
-      <div class="name-list">
+        <div class="name-list">
     `;
 
 
@@ -636,7 +519,7 @@ function renderData(data) {
 
     } else {
 
-      people.forEach(person => {
+      people.forEach(function(person) {
 
         html += `
           <span class="name-tag">
@@ -650,18 +533,18 @@ function renderData(data) {
 
 
     html += `
-      </div>
+        </div>
 
-    </div>
+      </div>
     `;
 
   });
 
 
   html += `
-    </div>
+      </div>
 
-  </section>
+    </section>
   `;
 
 
@@ -670,15 +553,15 @@ function renderData(data) {
   ======================================================= */
 
   html += `
-  <section class="section">
+    <section class="section">
 
-    <div class="section-title">
+      <div class="section-title">
+        <h2>참조</h2>
+      </div>
 
-      <h2>참조</h2>
+      <div class="reference-card">
 
-    </div>
-
-    <div class="reference-card">
+        <div class="reference-list">
   `;
 
 
@@ -692,7 +575,7 @@ function renderData(data) {
 
   } else {
 
-    references.forEach(reference => {
+    references.forEach(function(reference) {
 
       let text = "";
 
@@ -728,39 +611,35 @@ function renderData(data) {
 
 
   html += `
-    </div>
+        </div>
 
-  </section>
+      </div>
+
+    </section>
   `;
 
 
-  app.innerHTML = html;
+  document.getElementById("app").innerHTML =
+    html;
 
 }
 
 
 /* =========================================================
-   뒤로가기
+   집단명 정리
 ========================================================= */
 
-function goBack() {
+function normalizeGroup(group) {
 
-  if (document.referrer) {
-
-    history.back();
-
-  } else {
-
-    window.location.href =
-      "전시대관리자.html";
-
-  }
+  return String(group || "")
+    .replace(/\s+/g, "")
+    .trim();
 
 }
 
 
 /* =========================================================
-   HTML 보안
+   HTML 문자 처리
 ========================================================= */
 
 function escapeHtml(text) {
@@ -776,10 +655,37 @@ function escapeHtml(text) {
 
 
 /* =========================================================
+   뒤로가기
+========================================================= */
+
+function goBack() {
+
+  if (history.length > 1) {
+
+    history.back();
+
+  } else {
+
+    window.location.href =
+      "전시대관리자.html";
+
+  }
+
+}
+
+
+/* =========================================================
    시작
 ========================================================= */
 
-loadData();
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadData();
+
+  }
+);
 
 </script>
 
