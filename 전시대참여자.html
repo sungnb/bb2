@@ -1,230 +1,776 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전시대 참여자 관리</title>
+<meta charset="UTF-8">
 
-```
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>전시대 참여자</title>
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background-color: #f5f5f5;
-    }
 
-    header {
-        background-color: #2c3e50;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .container {
-        max-width: 800px;
-        margin: 30px auto;
-        padding: 20px;
-    }
+body {
+  margin: 0;
+  font-family:
+    Arial,
+    "Noto Sans KR",
+    sans-serif;
 
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+  background: #f4f6f8;
+  color: #222;
+}
 
-    input {
-        width: 70%;
-        padding: 10px;
-        font-size: 16px;
-    }
 
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #3498db;
-        color: white;
-        font-size: 15px;
-    }
+/* ================================
+   상단
+================================ */
 
-    button:hover {
-        background-color: #2980b9;
-    }
+header {
+  background: #2f3e4e;
+  color: white;
 
-    .participant {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-    }
+  padding: 18px 20px;
 
-    .delete-btn {
-        background-color: #e74c3c;
-    }
+  text-align: center;
 
-    .back-btn {
-        background-color: #7f8c8d;
-    }
+  box-shadow:
+    0 2px 6px
+    rgba(0,0,0,0.15);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+
+/* ================================
+   본문
+================================ */
+
+.container {
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 20px;
+}
+
+
+/* ================================
+   통계
+================================ */
+
+.stats {
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 18px;
+
+  margin-bottom: 20px;
+
+  text-align: center;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0,0,0,0.08);
+}
+
+
+/* ================================
+   검색
+================================ */
+
+.search-box {
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  width: 100%;
+
+  padding: 13px 15px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #4a90e2;
+}
+
+
+/* ================================
+   집단 카드
+================================ */
+
+.groups {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(210px, 1fr)
+    );
+
+  gap: 18px;
+
+}
+
+
+.group-card {
+
+  background: white;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0,0,0,0.08);
+
+}
+
+
+.group-title {
+
+  background: #4a6572;
+
+  color: white;
+
+  padding: 13px;
+
+  text-align: center;
+
+  font-weight: bold;
+
+  font-size: 17px;
+
+}
+
+
+.participant {
+
+  padding: 11px 15px;
+
+  border-bottom:
+    1px solid #eeeeee;
+
+  font-size: 16px;
+
+}
+
+
+.participant:last-child {
+
+  border-bottom: none;
+
+}
+
+
+.empty {
+
+  padding: 15px;
+
+  text-align: center;
+
+  color: #888;
+
+}
+
+
+/* ================================
+   로딩
+================================ */
+
+.loading {
+
+  text-align: center;
+
+  padding: 50px 20px;
+
+  font-size: 17px;
+
+  color: #666;
+
+}
+
+
+/* ================================
+   오류
+================================ */
+
+.error {
+
+  background: white;
+
+  color: #c62828;
+
+  padding: 25px;
+
+  border-radius: 12px;
+
+  text-align: center;
+
+}
+
+
+/* ================================
+   돌아가기
+================================ */
+
+.back-area {
+
+  margin-top: 25px;
+
+  text-align: center;
+
+}
+
+
+.back-button {
+
+  border: none;
+
+  background: #607d8b;
+
+  color: white;
+
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+}
+
+
+.back-button:hover {
+
+  opacity: 0.9;
+
+}
+
+
+/* ================================
+   모바일
+================================ */
+
+@media (max-width: 600px) {
+
+  .container {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  .groups {
+    grid-template-columns: 1fr;
+  }
+
+}
+
 </style>
-```
 
 </head>
 
+
 <body>
 
+
+<!-- ================================
+     제목
+================================ -->
+
 <header>
-    <h1>👥 전시대 참여자 관리</h1>
+
+  <h1>
+    👥 전시대 참여자
+  </h1>
+
 </header>
+
+
 
 <div class="container">
 
-```
-<div class="card">
-    <h2>참여자 추가</h2>
+
+  <!-- 전체 인원 -->
+
+  <div
+    id="stats"
+    class="stats"
+  >
+
+    참여자 명단을 불러오는 중...
+
+  </div>
+
+
+
+  <!-- 검색 -->
+
+  <div
+    class="search-box"
+  >
 
     <input
-        type="text"
-        id="participantName"
-        placeholder="참여자 이름을 입력하세요"
+      type="text"
+      id="searchInput"
+      placeholder="🔍 이름 검색"
+      oninput="searchParticipants()"
     >
 
-    <button onclick="addParticipant()">
-        추가
+  </div>
+
+
+
+  <!-- 참여자 목록 -->
+
+  <div
+    id="content"
+    class="loading"
+  >
+
+    참여자 명단을 불러오는 중입니다...
+
+  </div>
+
+
+
+  <!-- 돌아가기 -->
+
+  <div
+    class="back-area"
+  >
+
+    <button
+      class="back-button"
+      onclick="history.back()"
+    >
+
+      ← 돌아가기
+
     </button>
+
+  </div>
+
+
 </div>
 
 
-<div class="card">
-    <h2>참여자 목록</h2>
-
-    <div id="participantList"></div>
-</div>
-
-
-<button
-    class="back-btn"
-    onclick="location.href='전시대관리자.html'"
->
-    ← 전시대 관리자로 돌아가기
-</button>
-```
-
-</div>
 
 <script>
 
-let participants =
-    JSON.parse(localStorage.getItem("participants")) || [];
+
+// ============================================
+// Google Apps Script 웹앱 주소
+// ============================================
+//
+// 아래 주소를 실제 배포한 URL로 변경하세요.
+//
+// 예:
+// https://script.google.com/macros/s/AKfycbxxxxxxx/exec
+//
+// ============================================
+
+const API_URL =
+  "여기에_구글앱스스크립트_URL";
 
 
-function renderParticipants() {
 
-    const list =
-        document.getElementById("participantList");
+// ============================================
+// 전체 참여자 저장
+// ============================================
 
-    list.innerHTML = "";
+let allParticipants = [];
 
 
-    if (participants.length === 0) {
 
-        list.innerHTML =
-            "<p>등록된 참여자가 없습니다.</p>";
+// ============================================
+// 참여자 데이터 불러오기
+// ============================================
 
-        return;
+async function loadParticipants() {
+
+  try {
+
+    const response =
+      await fetch(API_URL);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "서버 응답 오류: " +
+        response.status
+      );
+
     }
 
 
-    participants.forEach((name, index) => {
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "participant";
+    const data =
+      await response.json();
 
 
-        div.innerHTML = `
-            <span>${name}</span>
+    if (!data.success) {
 
-            <button
-                class="delete-btn"
-                onclick="deleteParticipant(${index})"
-            >
-                삭제
-            </button>
+      throw new Error(
+        "참여자 데이터를 불러올 수 없습니다."
+      );
+
+    }
+
+
+    // 데이터 저장
+
+    allParticipants =
+      data.participants || [];
+
+
+    // 화면 표시
+
+    displayParticipants(
+      allParticipants
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "참여자 불러오기 오류:",
+      error
+    );
+
+
+    document
+      .getElementById("stats")
+      .textContent =
+      "데이터를 불러오지 못했습니다";
+
+
+    document
+      .getElementById("content")
+      .className =
+      "error";
+
+
+    document
+      .getElementById("content")
+      .innerHTML =
+      `
+        <strong>
+          참여자 데이터를 불러올 수 없습니다.
+        </strong>
+
+        <br><br>
+
+        ${error.message}
+      `;
+
+  }
+
+}
+
+
+
+// ============================================
+// 화면 표시
+// ============================================
+
+function displayParticipants(participants) {
+
+
+  // 집단 생성
+
+  const groups = {
+
+    "A집단": [],
+
+    "B집단": [],
+
+    "C집단": [],
+
+    "D집단": []
+
+  };
+
+
+
+  // 집단별 분류
+
+  participants.forEach(
+    function(person) {
+
+      if (
+        groups[person.group]
+      ) {
+
+        groups[person.group]
+          .push(
+            person.name
+          );
+
+      }
+
+    }
+  );
+
+
+
+  // 전체 참여자 수
+
+  document
+    .getElementById("stats")
+    .innerHTML =
+    `
+      전체 전시대 참여자
+      <br>
+      <span
+        style="
+          font-size:28px;
+          color:#4a6572;
+        "
+      >
+        ${participants.length}명
+      </span>
+    `;
+
+
+
+  let html =
+    `<div class="groups">`;
+
+
+
+  // A~D집단 표시
+
+  Object.keys(groups)
+    .forEach(
+      function(groupName) {
+
+
+        const people =
+          groups[groupName];
+
+
+        html += `
+
+          <div class="group-card">
+
+            <div class="group-title">
+
+              ${groupName}
+
+              (${people.length}명)
+
+            </div>
+
         `;
 
 
-        list.appendChild(div);
 
-    });
+        if (
+          people.length === 0
+        ) {
 
-}
+          html += `
 
+            <div class="empty">
 
-function addParticipant() {
+              참여자가 없습니다.
 
-    const input =
-        document.getElementById("participantName");
+            </div>
 
-    const name =
-        input.value.trim();
+          `;
 
-
-    if (!name) {
-
-        alert("참여자 이름을 입력하세요.");
-
-        return;
-    }
+        }
 
 
-    participants.push(name);
+
+        // 이름 출력
+
+        people.forEach(
+          function(name, index) {
+
+            html += `
+
+              <div
+                class="participant"
+              >
+
+                ${index + 1}.
+                ${escapeHtml(name)}
+
+              </div>
+
+            `;
+
+          }
+        );
 
 
-    localStorage.setItem(
-        "participants",
-        JSON.stringify(participants)
+
+        html += `
+
+          </div>
+
+        `;
+
+
+      }
     );
 
 
-    input.value = "";
+
+  html +=
+    `</div>`;
 
 
-    renderParticipants();
-
-}
-
-
-function deleteParticipant(index) {
-
-    if (!confirm("삭제하시겠습니까?")) {
-        return;
-    }
-
-
-    participants.splice(index, 1);
-
-
-    localStorage.setItem(
-        "participants",
-        JSON.stringify(participants)
+  const content =
+    document.getElementById(
+      "content"
     );
 
 
-    renderParticipants();
+  content.className = "";
+
+  content.innerHTML =
+    html;
 
 }
 
 
-renderParticipants();
+
+// ============================================
+// 이름 검색
+// ============================================
+
+function searchParticipants() {
+
+
+  const keyword =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim();
+
+
+  // 검색어 없으면 전체 표시
+
+  if (!keyword) {
+
+    displayParticipants(
+      allParticipants
+    );
+
+    return;
+
+  }
+
+
+  // 이름 검색
+
+  const filtered =
+    allParticipants.filter(
+      function(person) {
+
+        return (
+          person.name
+            .includes(keyword)
+        );
+
+      }
+    );
+
+
+  displayParticipants(
+    filtered
+  );
+
+
+
+  // 검색 결과 표시
+
+  document
+    .getElementById("stats")
+    .innerHTML =
+    `
+      "<strong>${escapeHtml(keyword)}</strong>"
+      검색 결과
+
+      <br>
+
+      <span
+        style="
+          font-size:28px;
+          color:#4a6572;
+        "
+      >
+
+        ${filtered.length}명
+
+      </span>
+    `;
+
+}
+
+
+
+// ============================================
+// HTML 문자 보호
+// ============================================
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+
+  div.textContent =
+    text;
+
+
+  return div.innerHTML;
+
+}
+
+
+
+// ============================================
+// 시작
+// ============================================
+
+loadParticipants();
+
 
 </script>
 
+
 </body>
+
 </html>
