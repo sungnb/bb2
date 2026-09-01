@@ -20,7 +20,9 @@ body {
   color: #e9eef5;
 }
 
-/* 상단 */
+/* =========================
+   상단 제목
+========================= */
 
 header {
   background: #1d2d3d;
@@ -32,10 +34,11 @@ header {
 header h1 {
   margin: 0;
   font-size: 24px;
-  font-weight: 700;
 }
 
-/* 메인 */
+/* =========================
+   메인
+========================= */
 
 .container {
   width: min(1100px, 94%);
@@ -43,139 +46,15 @@ header h1 {
   padding: 25px 0 40px;
 }
 
-/* 통계 */
-
-.stats {
-  background: #2d3b4b;
-  border: 1px solid #435466;
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 18px;
-  text-align: center;
-}
-
-.stats-title {
-  font-size: 15px;
-  color: #b9c5d1;
-  margin-bottom: 6px;
-}
-
-.stats-count {
-  font-size: 30px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-/* 검색 */
-
-.search-box {
-  margin-bottom: 20px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 15px 18px;
-  border: 1px solid #435466;
-  border-radius: 12px;
-  background: #243242;
-  color: white;
-  font-size: 16px;
-  outline: none;
-}
-
-.search-box input::placeholder {
-  color: #8fa0b0;
-}
-
-.search-box input:focus {
-  border-color: #6d849b;
-}
-
-/* 집단 */
-
-.groups {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-/* 집단 카드 */
-
-.group-card {
-  background: #243242;
-  border: 1px solid #435466;
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-/* 집단 제목 */
-
-.group-title {
-  background: #435466;
-  padding: 14px;
-  text-align: center;
-  font-size: 17px;
-  font-weight: bold;
-  color: white;
-}
-
-/* 참여자 */
-
-.participant {
-  display: flex;
-  align-items: center;
-  padding: 12px 15px;
-  border-bottom: 1px solid #344454;
-  font-size: 16px;
-}
-
-.participant:last-child {
-  border-bottom: none;
-}
-
-.number {
-  display: inline-block;
-  width: 32px;
-  color: #8fa0b0;
-  font-size: 13px;
-}
-
-/* 없음 */
-
-.empty {
-  padding: 20px;
-  text-align: center;
-  color: #8fa0b0;
-}
-
-/* 로딩 */
-
-.loading {
-  background: #243242;
-  border-radius: 14px;
-  padding: 50px 20px;
-  text-align: center;
-  color: #b9c5d1;
-}
-
-/* 오류 */
-
-.error {
-  background: #3a2930;
-  border: 1px solid #73414d;
-  border-radius: 14px;
-  padding: 30px;
-  text-align: center;
-  color: #ffb8c0;
-}
-
-/* 버튼 */
+/* =========================
+   버튼
+========================= */
 
 .button-area {
-  margin-top: 25px;
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
 .action-button {
@@ -193,15 +72,140 @@ header h1 {
   background: #53677a;
 }
 
-/* 태블릿 */
+/* =========================
+   섹션
+========================= */
+
+.section {
+  margin-bottom: 35px;
+}
+
+.section-title {
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #435466;
+}
+
+/* =========================
+   집단
+========================= */
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.group-card {
+  background: #243242;
+  border: 1px solid #435466;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.group-title {
+  background: #435466;
+  padding: 14px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #344454;
+  font-size: 16px;
+}
+
+.participant:last-child {
+  border-bottom: none;
+}
+
+.number {
+  width: 30px;
+  color: #8fa0b0;
+  font-size: 13px;
+}
+
+/* =========================
+   타 회중 참여자
+========================= */
+
+.other-list {
+  background: #243242;
+  border: 1px solid #435466;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.other-person {
+  padding: 14px 18px;
+  border-bottom: 1px solid #344454;
+}
+
+.other-person:last-child {
+  border-bottom: none;
+}
+
+/* =========================
+   참조
+========================= */
+
+.reference-box {
+  background: #243242;
+  border: 1px solid #435466;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.reference-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #344454;
+}
+
+.reference-item:last-child {
+  border-bottom: none;
+}
+
+/* =========================
+   빈 데이터
+========================= */
+
+.empty {
+  background: #243242;
+  border: 1px solid #435466;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  color: #8fa0b0;
+}
+
+/* =========================
+   로딩
+========================= */
+
+.loading {
+  text-align: center;
+  padding: 30px;
+  color: #b9c5d1;
+}
+
+/* =========================
+   모바일
+========================= */
 
 @media (max-width: 900px) {
+
   .groups {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-/* 모바일 */
+}
 
 @media (max-width: 600px) {
 
@@ -222,51 +226,18 @@ header h1 {
 </style>
 </head>
 
+
 <body>
 
 <header>
   <h1>👥 전시대 참여자</h1>
 </header>
 
+
 <div class="container">
 
-  <!-- 전체 참여자 수 -->
-  <div id="stats" class="stats">
+  <!-- 버튼을 제목 바로 아래로 이동 -->
 
-    <div class="stats-title">
-      전체 전시대 참여자
-    </div>
-
-    <div class="stats-count">
-      불러오는 중...
-    </div>
-
-  </div>
-
-
-  <!-- 이름 검색 -->
-  <div class="search-box">
-
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="🔍 이름을 검색하세요"
-      oninput="searchParticipants()"
-    >
-
-  </div>
-
-
-  <!-- 참여자 목록 -->
-  <div
-    id="content"
-    class="loading"
-  >
-    참여자 명단을 불러오는 중입니다...
-  </div>
-
-
-  <!-- 버튼 -->
   <div class="button-area">
 
     <button
@@ -280,39 +251,148 @@ header h1 {
       class="action-button"
       onclick="history.back()"
     >
-      ← 돌아가기
+      ← 뒤로가기
     </button>
 
   </div>
+
+
+  <!-- =========================
+       참여자
+  ========================= -->
+
+  <section class="section">
+
+    <div class="section-title">
+      참여자
+    </div>
+
+    <div
+      id="participantsContent"
+      class="loading"
+    >
+      참여자 명단을 불러오는 중입니다...
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       타 회중 참여자
+  ========================= -->
+
+  <section class="section">
+
+    <div class="section-title">
+      타 회중 참여자
+    </div>
+
+    <div
+      id="otherParticipants"
+      class="other-list"
+    >
+
+      <div class="other-person">
+        참여자가 없습니다.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       미 참여자
+  ========================= -->
+
+  <section class="section">
+
+    <div class="section-title">
+      미 참여자
+    </div>
+
+    <div
+      id="nonParticipantsContent"
+    >
+
+      <div class="groups">
+
+        <div class="group-card">
+          <div class="group-title">A집단</div>
+          <div class="empty">참여자 없음</div>
+        </div>
+
+        <div class="group-card">
+          <div class="group-title">B집단</div>
+          <div class="empty">참여자 없음</div>
+        </div>
+
+        <div class="group-card">
+          <div class="group-title">C집단</div>
+          <div class="empty">참여자 없음</div>
+        </div>
+
+        <div class="group-card">
+          <div class="group-title">D집단</div>
+          <div class="empty">참여자 없음</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       참조
+  ========================= -->
+
+  <section class="section">
+
+    <div class="section-title">
+      참조
+    </div>
+
+    <div class="reference-box">
+
+      <div class="reference-item">
+        내용1
+      </div>
+
+      <div class="reference-item">
+        내용2
+      </div>
+
+    </div>
+
+  </section>
+
 
 </div>
 
 
 <script>
 
-/* =========================================================
-   Google Apps Script API 주소
-========================================================= */
+/* ==========================================
+   API 주소
+========================================== */
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbyku3nq77mmD-RvRKv01w8psb5VZs3JMJIQwkliR5LynYf5_9JYlNhgTjRxHBcuGAqs/exec";
 
 
-/* 전체 참여자 */
-
-let allParticipants = [];
-
-
-/* =========================================================
-   참여자 데이터 불러오기
-========================================================= */
+/* ==========================================
+   참여자 불러오기
+========================================== */
 
 async function loadParticipants() {
 
   const content =
-    document.getElementById("content");
+    document.getElementById(
+      "participantsContent"
+    );
 
-  content.className = "loading";
 
   content.innerHTML =
     "참여자 명단을 불러오는 중입니다...";
@@ -323,10 +403,14 @@ async function loadParticipants() {
     const response =
       await fetch(API_URL);
 
+
     if (!response.ok) {
+
       throw new Error(
-        "서버 응답 오류: " + response.status
+        "서버 오류: " +
+        response.status
       );
+
     }
 
 
@@ -334,59 +418,25 @@ async function loadParticipants() {
       await response.json();
 
 
-    if (!data.success) {
-      throw new Error(
-        "참여자 데이터를 불러올 수 없습니다."
-      );
-    }
-
-
-    allParticipants =
+    const participants =
       data.participants || [];
 
 
     displayParticipants(
-      allParticipants
+      participants
     );
 
 
   } catch (error) {
 
-    console.error(
-      "참여자 불러오기 오류:",
-      error
-    );
+    console.error(error);
 
-
-    document
-      .getElementById("stats")
-      .innerHTML =
-      `
-        <div class="stats-title">
-          오류 발생
-        </div>
-
-        <div class="stats-count" style="font-size:18px">
-          데이터를 불러올 수 없습니다
-        </div>
-      `;
-
-
-    content.className = "error";
 
     content.innerHTML =
       `
-        <strong>
+        <div class="empty">
           참여자 데이터를 불러오지 못했습니다.
-        </strong>
-
-        <br><br>
-
-        ${escapeHtml(error.message)}
-
-        <br><br>
-
-        Google Apps Script 배포 설정을 확인하세요.
+        </div>
       `;
 
   }
@@ -394,218 +444,124 @@ async function loadParticipants() {
 }
 
 
-/* =========================================================
-   참여자 화면 표시
-========================================================= */
+/* ==========================================
+   참여자 표시
+========================================== */
 
 function displayParticipants(participants) {
 
 
   const groups = {
+
     "A집단": [],
     "B집단": [],
     "C집단": [],
     "D집단": []
+
   };
 
 
-  /* 집단별 분류 */
+  participants.forEach(
+    function(person) {
 
-  participants.forEach(function(person) {
+      if (groups[person.group]) {
 
-    if (groups[person.group]) {
+        groups[person.group].push(
+          person.name
+        );
 
-      groups[person.group].push(
-        person.name
-      );
+      }
 
     }
+  );
 
-  });
-
-
-  /* 전체 인원 */
-
-  document
-    .getElementById("stats")
-    .innerHTML =
-    `
-      <div class="stats-title">
-        전체 전시대 참여자
-      </div>
-
-      <div class="stats-count">
-        ${participants.length}명
-      </div>
-    `;
-
-
-  /* 목록 생성 */
 
   let html =
     `<div class="groups">`;
 
 
   Object.keys(groups)
-    .forEach(function(groupName) {
+    .forEach(
+      function(groupName) {
 
+        const people =
+          groups[groupName];
 
-      const people =
-        groups[groupName];
-
-
-      html += `
-
-        <div class="group-card">
-
-          <div class="group-title">
-
-            ${groupName}
-            (${people.length}명)
-
-          </div>
-
-      `;
-
-
-      /* 참여자가 없을 경우 */
-
-      if (people.length === 0) {
 
         html += `
 
-          <div class="empty">
-            참여자가 없습니다.
-          </div>
+          <div class="group-card">
+
+            <div class="group-title">
+
+              ${groupName}
+
+            </div>
 
         `;
 
-      }
 
-
-      /* 참여자 출력 */
-
-      people.forEach(
-        function(name, index) {
+        if (people.length === 0) {
 
           html += `
 
-            <div class="participant">
-
-              <span class="number">
-                ${index + 1}.
-              </span>
-
-              <span>
-                ${escapeHtml(name)}
-              </span>
-
+            <div class="empty">
+              참여자가 없습니다.
             </div>
 
           `;
 
         }
-      );
 
 
-      html += `
-        </div>
-      `;
+        people.forEach(
+          function(name, index) {
+
+            html += `
+
+              <div class="participant">
+
+                <span class="number">
+                  ${index + 1}.
+                </span>
+
+                <span>
+                  ${escapeHtml(name)}
+                </span>
+
+              </div>
+
+            `;
+
+          }
+        );
 
 
-    });
+        html += `
+          </div>
+        `;
+
+      }
+    );
 
 
   html +=
     `</div>`;
 
 
-  const content =
-    document.getElementById("content");
-
-
-  content.className = "";
-
-  content.innerHTML =
+  document
+    .getElementById(
+      "participantsContent"
+    )
+    .innerHTML =
     html;
 
 }
 
 
-/* =========================================================
-   이름 검색
-========================================================= */
-
-function searchParticipants() {
-
-
-  const keyword =
-    document
-      .getElementById("searchInput")
-      .value
-      .trim();
-
-
-  /* 검색어 없음 */
-
-  if (!keyword) {
-
-    displayParticipants(
-      allParticipants
-    );
-
-    return;
-
-  }
-
-
-  /* 검색 */
-
-  const filtered =
-    allParticipants.filter(
-      function(person) {
-
-        return person.name.includes(
-          keyword
-        );
-
-      }
-    );
-
-
-  displayParticipants(
-    filtered
-  );
-
-
-  /* 검색 결과 */
-
-  document
-    .getElementById("stats")
-    .innerHTML =
-    `
-
-      <div class="stats-title">
-
-        "${escapeHtml(keyword)}"
-        검색 결과
-
-      </div>
-
-      <div class="stats-count">
-
-        ${filtered.length}명
-
-      </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   HTML 문자 보호
-========================================================= */
+/* ==========================================
+   HTML 보호
+========================================== */
 
 function escapeHtml(text) {
 
@@ -620,9 +576,9 @@ function escapeHtml(text) {
 }
 
 
-/* =========================================================
+/* ==========================================
    시작
-========================================================= */
+========================================== */
 
 loadParticipants();
 
