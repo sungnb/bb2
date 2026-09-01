@@ -1,28 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>전시대 참여자</title>
 
-
 <style>
-
-/* ============================================================
-   기본
-============================================================ */
-
 * {
   box-sizing: border-box;
 }
-
 
 html,
 body {
@@ -30,9 +17,7 @@ body {
   padding: 0;
 }
 
-
 body {
-
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -41,573 +26,232 @@ body {
     sans-serif;
 
   background: #172532;
-
-  color: #e8edf3;
-
+  color: #eef3f8;
 }
-
-
-/* ============================================================
-   상단 제목
-============================================================ */
 
 .page-header {
-
-  width: 100%;
-
   background: #2b3b4b;
-
-  border-bottom:
-    1px solid #405264;
-
-  padding:
-    20px 15px;
-
+  border-bottom: 1px solid #405264;
+  padding: 20px 15px;
   text-align: center;
-
 }
-
 
 .page-header h1 {
-
   margin: 0;
-
   font-size: 30px;
-
   font-weight: 800;
-
-  color: #eef3f8;
-
 }
-
-
-/* ============================================================
-   전체 영역
-============================================================ */
 
 .container {
-
-  width: 100%;
-
   max-width: 1400px;
-
   margin: 0 auto;
-
-  padding:
-    30px 15px 60px;
-
+  padding: 30px 18px 70px;
 }
 
-
-/* ============================================================
-   버튼
-============================================================ */
+/* 버튼 */
 
 .top-actions {
-
   display: flex;
-
   justify-content: center;
-
-  align-items: center;
-
   gap: 12px;
-
-  margin-bottom: 40px;
-
+  margin-bottom: 42px;
 }
-
 
 .action-button {
-
   border: none;
-
-  border-radius: 12px;
-
-  padding:
-    16px 28px;
-
+  border-radius: 10px;
+  padding: 13px 24px;
   background: #536477;
-
-  color: #edf2f7;
-
-  font-size: 18px;
-
+  color: white;
+  font-size: 16px;
   font-weight: 700;
-
   cursor: pointer;
-
 }
-
 
 .action-button:hover {
-
-  background: #63768a;
-
+  background: #64778b;
 }
 
-
-.action-button:active {
-
-  transform:
-    scale(0.98);
-
-}
-
-
-/* ============================================================
-   섹션
-============================================================ */
+/* 섹션 */
 
 .section {
-
   margin-bottom: 55px;
-
 }
-
 
 .section-title {
-
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
+
+  border-bottom: 2px solid #425365;
 
   padding-bottom: 14px;
-
-  margin-bottom: 52px;
-
-  border-bottom:
-    2px solid #425365;
-
+  margin-bottom: 28px;
 }
-
 
 .section-title h2 {
-
   margin: 0;
-
-  font-size: 27px;
-
-  font-weight: 800;
-
-  color: #edf2f7;
-
+  font-size: 26px;
 }
-
 
 .total-count {
-
-  font-size: 21px;
-
+  font-size: 20px;
   font-weight: 800;
-
   color: #dce5ee;
-
 }
 
-
-/* ============================================================
-   집단 카드
-============================================================ */
+/* 집단 */
 
 .group-grid {
-
   display: grid;
-
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-
 }
-
-
-/* ============================================================
-   카드
-============================================================ */
 
 .group-card {
-
   background: #2a3949;
-
-  border:
-    1px solid #425568;
-
-  border-radius: 18px;
-
+  border: 1px solid #425568;
+  border-radius: 16px;
   overflow: hidden;
-
-  min-height: 155px;
-
+  min-height: 150px;
 }
-
 
 .group-header {
-
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
 
-  padding:
-    20px 24px;
+  padding: 17px 20px;
 
   background: #536477;
-
-  border-bottom:
-    1px solid #607286;
-
 }
-
 
 .group-name {
-
-  font-size: 21px;
-
+  font-size: 19px;
   font-weight: 800;
-
-  color: #eef3f8;
-
 }
-
 
 .group-count {
-
   font-size: 16px;
-
   font-weight: 700;
-
-  color: #e2e8f0;
-
 }
 
-
-/* ============================================================
-   이름 목록
-============================================================ */
+/* 이름 */
 
 .name-list {
-
   padding: 16px;
 
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 8px;
-
-  align-content: flex-start;
-
 }
 
+.name-tag {
+  display: inline-block;
 
-.name {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding:
-    8px 12px;
+  padding: 8px 12px;
 
   background: #344353;
-
-  border:
-    1px solid #46596c;
+  border: 1px solid #46596c;
 
   border-radius: 7px;
 
-  color: #edf2f7;
-
-  font-size: 16px;
-
+  font-size: 15px;
   font-weight: 600;
-
-  white-space: nowrap;
-
 }
-
 
 .empty-message {
-
   width: 100%;
-
-  padding:
-    18px 10px;
-
+  padding: 20px 5px;
   text-align: center;
-
   color: #aebdcc;
-
-  font-size: 17px;
-
 }
 
-
-/* ============================================================
-   타 회중 참여자 카드
-============================================================ */
+/* 타 회중 */
 
 .other-card {
-
   background: #2a3949;
-
-  border:
-    1px solid #425568;
-
-  border-radius: 18px;
-
-  min-height: 80px;
-
+  border: 1px solid #425568;
+  border-radius: 16px;
 }
 
-
-/* ============================================================
-   참조
-============================================================ */
+/* 참조 */
 
 .reference-card {
-
   background: #2a3949;
-
-  border:
-    1px solid #425568;
-
-  border-radius: 18px;
-
-  padding:
-    12px 20px;
-
+  border: 1px solid #425568;
+  border-radius: 16px;
+  padding: 8px 20px;
 }
-
 
 .reference-item {
-
-  padding:
-    15px 0;
-
-  font-size: 17px;
-
-  font-weight: 500;
-
+  padding: 16px 0;
+  border-bottom: 1px solid #405264;
   line-height: 1.7;
-
-  color: #e5ebf1;
-
-  border-bottom:
-    1px solid #3a4b5d;
-
+  font-size: 16px;
 }
-
 
 .reference-item:last-child {
-
   border-bottom: none;
-
 }
 
-
-/* ============================================================
-   로딩
-============================================================ */
+/* 로딩 */
 
 .loading {
-
-  padding:
-    100px 20px;
-
+  padding: 80px 20px;
   text-align: center;
-
   color: #b7c4d0;
-
   font-size: 18px;
-
 }
 
-
-/* ============================================================
-   오류
-============================================================ */
+/* 오류 */
 
 .error {
-
   background: #4a2c32;
-
-  border:
-    1px solid #8b4b55;
-
-  border-radius: 14px;
-
+  border: 1px solid #8b4b55;
+  border-radius: 12px;
   padding: 25px;
-
   text-align: center;
-
   color: #ffd7dc;
-
-  font-size: 17px;
-
 }
 
-
-/* ============================================================
-   태블릿
-============================================================ */
+/* 모바일 */
 
 @media (max-width: 1000px) {
-
   .group-grid {
-
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, 1fr);
   }
-
 }
-
-
-/* ============================================================
-   모바일
-============================================================ */
 
 @media (max-width: 600px) {
 
   .page-header h1 {
-
     font-size: 25px;
-
   }
-
 
   .container {
-
-    padding:
-      22px 12px 40px;
-
+    padding: 22px 12px 50px;
   }
-
-
-  .top-actions {
-
-    margin-bottom: 30px;
-
-  }
-
-
-  .action-button {
-
-    padding:
-      13px 20px;
-
-    font-size: 16px;
-
-  }
-
-
-  .section {
-
-    margin-bottom: 40px;
-
-  }
-
-
-  .section-title {
-
-    margin-bottom: 20px;
-
-  }
-
-
-  .section-title h2 {
-
-    font-size: 23px;
-
-  }
-
-
-  .total-count {
-
-    font-size: 18px;
-
-  }
-
 
   .group-grid {
-
-    grid-template-columns:
-      1fr;
-
-    gap: 14px;
-
+    grid-template-columns: 1fr;
   }
 
-
-  .group-card {
-
-    border-radius: 14px;
-
-  }
-
-
-  .group-header {
-
-    padding:
-      16px 18px;
-
-  }
-
-
-  .group-name {
-
-    font-size: 19px;
-
-  }
-
-
-  .name {
-
-    font-size: 15px;
-
+  .section-title h2 {
+    font-size: 23px;
   }
 
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- ============================================================
-     제목
-============================================================ -->
-
 <header class="page-header">
-
-  <h1>
-    👥 전시대 참여자
-  </h1>
-
+  <h1>👥 전시대 참여자</h1>
 </header>
 
-
-
-<!-- ============================================================
-     본문
-============================================================ -->
-
 <main class="container">
-
-
-  <!-- ==========================================================
-       버튼
-  =========================================================== -->
 
   <div class="top-actions">
 
@@ -618,7 +262,6 @@ body {
       🔄 새로고침
     </button>
 
-
     <button
       class="action-button"
       onclick="goBack()"
@@ -628,93 +271,57 @@ body {
 
   </div>
 
-
-
-  <!-- ==========================================================
-       데이터 영역
-  =========================================================== -->
-
   <div id="app">
-
     <div class="loading">
       전시대 참여자 정보를 불러오는 중입니다...
     </div>
-
   </div>
-
 
 </main>
 
 
-
 <script>
 
-
-// ============================================================
-// Apps Script API
-// ============================================================
+/* =========================================================
+   Apps Script 주소
+========================================================= */
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbyku3nq77mmD-RvRKv01w8psb5VZs3JMJIQwkliR5LynYf5_9JYlNhgTjRxHBcuGAqs/exec";
 
 
-// ============================================================
-// 화면 영역
-// ============================================================
+const GROUPS = [
+  "A집단",
+  "B집단",
+  "C집단",
+  "D집단"
+];
+
 
 const app =
   document.getElementById("app");
 
 
-// ============================================================
-// 집단 목록
-// ============================================================
-
-const GROUPS = [
-
-  "A집단",
-
-  "B집단",
-
-  "C집단",
-
-  "D집단"
-
-];
-
-
-
-// ============================================================
-// 데이터 불러오기
-// ============================================================
+/* =========================================================
+   데이터 불러오기
+========================================================= */
 
 async function loadData() {
 
   try {
 
     app.innerHTML = `
-
       <div class="loading">
         전시대 참여자 정보를 불러오는 중입니다...
       </div>
-
     `;
-
-
-    // 캐시 방지
-
-    const url =
-      API_URL +
-      "?t=" +
-      Date.now();
 
 
     const response =
       await fetch(
-        url,
+        API_URL + "?t=" + Date.now(),
         {
           method: "GET",
-
           cache: "no-store"
         }
       );
@@ -723,8 +330,7 @@ async function loadData() {
     if (!response.ok) {
 
       throw new Error(
-        "서버 응답 오류: " +
-        response.status
+        "서버 오류: " + response.status
       );
 
     }
@@ -734,58 +340,19 @@ async function loadData() {
       await response.json();
 
 
-    // ========================================================
-    // 브라우저 콘솔 확인용
-    // ========================================================
+    console.log("API DATA:", data);
 
-    console.log(
-      "전체 API 데이터:",
-      data
-    );
-
-
-    console.log(
-      "participants:",
-      data.participants
-    );
-
-
-    console.log(
-      "otherParticipants:",
-      data.otherParticipants
-    );
-
-
-    console.log(
-      "nonParticipants:",
-      data.nonParticipants
-    );
-
-
-    console.log(
-      "references:",
-      data.references
-    );
-
-
-    // ========================================================
-    // 성공 여부 확인
-    // ========================================================
 
     if (data.success === false) {
 
       throw new Error(
         data.message ||
         data.error ||
-        "데이터를 불러오지 못했습니다."
+        "데이터를 가져오지 못했습니다."
       );
 
     }
 
-
-    // ========================================================
-    // 화면 출력
-    // ========================================================
 
     renderData(data);
 
@@ -794,21 +361,12 @@ async function loadData() {
 
     console.error(error);
 
-
     app.innerHTML = `
-
       <div class="error">
-
-        <strong>
-          데이터를 불러오지 못했습니다.
-        </strong>
-
+        <strong>데이터를 불러오지 못했습니다.</strong>
         <br><br>
-
         ${escapeHtml(error.message)}
-
       </div>
-
     `;
 
   }
@@ -816,163 +374,122 @@ async function loadData() {
 }
 
 
+/* =========================================================
+   배열 확인
+========================================================= */
 
-// ============================================================
-// 안전하게 배열 가져오기
-// ============================================================
+function safeArray(value) {
 
-function getArray(value) {
-
-  if (Array.isArray(value)) {
-
-    return value;
-
-  }
-
-  return [];
+  return Array.isArray(value)
+    ? value
+    : [];
 
 }
 
 
+/* =========================================================
+   집단명 정리
+========================================================= */
 
-// ============================================================
-// 화면 출력
-// ============================================================
+function normalizeGroup(group) {
+
+  return String(group || "")
+    .replace(/\s/g, "")
+    .trim();
+
+}
+
+
+/* =========================================================
+   화면 생성
+========================================================= */
 
 function renderData(data) {
 
 
-  // ==========================================================
-  // 실제 API 배열
-  //
-  // counts 값을 사용하지 않습니다.
-  // 실제 가져온 명단의 길이를 직접 계산합니다.
-  // ==========================================================
-
-
   const participants =
-    getArray(
-      data.participants
-    );
+    safeArray(data.participants);
 
 
   const otherParticipants =
-    getArray(
-      data.otherParticipants
-    );
+    safeArray(data.otherParticipants);
 
 
   const nonParticipants =
-    getArray(
-      data.nonParticipants
-    );
+    safeArray(data.nonParticipants);
 
 
   const references =
-    getArray(
-      data.references
-    );
+    safeArray(data.references);
 
 
   let html = "";
 
 
-
-  // ==========================================================
-  // 참여자
-  // ==========================================================
+  /* =======================================================
+     참여자
+  ======================================================= */
 
   html += `
+  <section class="section">
 
-    <section class="section">
+    <div class="section-title">
 
-      <div class="section-title">
+      <h2>참여자</h2>
 
-        <h2>
-          참여자
-        </h2>
-
-        <div class="total-count">
-          ${participants.length}명
-        </div>
-
+      <div class="total-count">
+        ${participants.length}명
       </div>
 
+    </div>
 
-      <div class="group-grid">
-
+    <div class="group-grid">
   `;
 
 
-  GROUPS.forEach(function(group) {
-
+  GROUPS.forEach(group => {
 
     const people =
-      participants.filter(
-        function(person) {
-
-          return normalizeGroup(
-            person.group
-          ) === group;
-
-        }
+      participants.filter(person =>
+        normalizeGroup(person.group) === normalizeGroup(group)
       );
 
 
     html += `
+    <div class="group-card">
 
-      <div class="group-card">
+      <div class="group-header">
 
-
-        <div class="group-header">
-
-          <div class="group-name">
-
-            ${group}
-
-          </div>
-
-
-          <div class="group-count">
-
-            ${people.length}명
-
-          </div>
-
+        <div class="group-name">
+          ${group}
         </div>
 
+        <div class="group-count">
+          ${people.length}명
+        </div>
 
-        <div class="name-list">
+      </div>
 
+      <div class="name-list">
     `;
 
 
     if (people.length === 0) {
 
       html += `
-
         <div class="empty-message">
-
           참여자가 없습니다.
-
         </div>
-
       `;
 
     } else {
 
-      people.forEach(function(person) {
+      people.forEach(person => {
 
         html += `
-
-          <div class="name">
-
-            ${escapeHtml(
-              person.name
-            )}
-
-          </div>
-
+          <span class="name-tag">
+            ${escapeHtml(person.name)}
+          </span>
         `;
 
       });
@@ -981,212 +498,150 @@ function renderData(data) {
 
 
     html += `
-
-        </div>
-
       </div>
 
+    </div>
     `;
 
   });
 
 
   html += `
+    </div>
 
-      </div>
-
-    </section>
-
+  </section>
   `;
 
 
-
-  // ==========================================================
-  // 타 회중 참여자
-  // ==========================================================
+  /* =======================================================
+     타 회중 참여자
+  ======================================================= */
 
   html += `
+  <section class="section">
 
-    <section class="section">
+    <div class="section-title">
 
-      <div class="section-title">
+      <h2>타 회중 참여자</h2>
 
-        <h2>
-          타 회중 참여자
-        </h2>
-
-        <div class="total-count">
-
-          ${otherParticipants.length}명
-
-        </div>
-
+      <div class="total-count">
+        ${otherParticipants.length}명
       </div>
 
+    </div>
 
-      <div class="other-card">
+    <div class="other-card">
 
-        <div class="name-list">
-
+      <div class="name-list">
   `;
 
 
   if (otherParticipants.length === 0) {
 
     html += `
-
       <div class="empty-message">
-
         참여자가 없습니다.
-
       </div>
-
     `;
 
   } else {
 
-    otherParticipants.forEach(
-      function(person) {
+    otherParticipants.forEach(person => {
 
-        // 혹시 문자열로 넘어와도 처리
-
-        const name =
-          typeof person === "string"
-
-            ? person
-
-            : person.name;
+      const name =
+        typeof person === "string"
+          ? person
+          : person.name;
 
 
-        if (name) {
+      if (name) {
 
-          html += `
-
-            <div class="name">
-
-              ${escapeHtml(name)}
-
-            </div>
-
-          `;
-
-        }
+        html += `
+          <span class="name-tag">
+            ${escapeHtml(name)}
+          </span>
+        `;
 
       }
-    );
+
+    });
 
   }
 
 
   html += `
-
-        </div>
-
       </div>
 
-    </section>
+    </div>
 
+  </section>
   `;
 
 
-
-  // ==========================================================
-  // 미 참여자
-  // ==========================================================
+  /* =======================================================
+     미 참여자
+  ======================================================= */
 
   html += `
+  <section class="section">
 
-    <section class="section">
+    <div class="section-title">
 
-      <div class="section-title">
+      <h2>미 참여자</h2>
 
-        <h2>
-          미 참여자
-        </h2>
-
-        <div class="total-count">
-
-          ${nonParticipants.length}명
-
-        </div>
-
+      <div class="total-count">
+        ${nonParticipants.length}명
       </div>
 
+    </div>
 
-      <div class="group-grid">
-
+    <div class="group-grid">
   `;
 
 
-  GROUPS.forEach(function(group) {
-
+  GROUPS.forEach(group => {
 
     const people =
-      nonParticipants.filter(
-        function(person) {
-
-          return normalizeGroup(
-            person.group
-          ) === group;
-
-        }
+      nonParticipants.filter(person =>
+        normalizeGroup(person.group) === normalizeGroup(group)
       );
 
 
     html += `
+    <div class="group-card">
 
-      <div class="group-card">
+      <div class="group-header">
 
-
-        <div class="group-header">
-
-          <div class="group-name">
-
-            ${group}
-
-          </div>
-
-
-          <div class="group-count">
-
-            ${people.length}명
-
-          </div>
-
+        <div class="group-name">
+          ${group}
         </div>
 
+        <div class="group-count">
+          ${people.length}명
+        </div>
 
-        <div class="name-list">
+      </div>
 
+      <div class="name-list">
     `;
 
 
     if (people.length === 0) {
 
       html += `
-
         <div class="empty-message">
-
-          참여자 없음
-
+          참여자가 없습니다.
         </div>
-
       `;
 
     } else {
 
-      people.forEach(function(person) {
+      people.forEach(person => {
 
         html += `
-
-          <div class="name">
-
-            ${escapeHtml(
-              person.name
-            )}
-
-          </div>
-
+          <span class="name-tag">
+            ${escapeHtml(person.name)}
+          </span>
         `;
 
       });
@@ -1195,165 +650,104 @@ function renderData(data) {
 
 
     html += `
-
-        </div>
-
       </div>
 
+    </div>
     `;
 
   });
 
 
   html += `
+    </div>
 
-      </div>
-
-    </section>
-
+  </section>
   `;
 
 
-
-  // ==========================================================
-  // 참조
-  // ==========================================================
+  /* =======================================================
+     참조
+  ======================================================= */
 
   html += `
+  <section class="section">
 
-    <section class="section">
+    <div class="section-title">
 
-      <div class="section-title">
+      <h2>참조</h2>
 
-        <h2>
-          참조
-        </h2>
+    </div>
 
-      </div>
-
-
-      <div class="reference-card">
-
+    <div class="reference-card">
   `;
 
 
   if (references.length === 0) {
 
     html += `
-
       <div class="empty-message">
-
         참고 사항이 없습니다.
-
       </div>
-
     `;
 
   } else {
 
-    references.forEach(
-      function(reference) {
+    references.forEach(reference => {
 
-        // 문자열 또는 객체 모두 처리
-
-        let text = "";
+      let text = "";
 
 
-        if (
-          typeof reference === "string"
-        ) {
+      if (typeof reference === "string") {
 
-          text = reference;
+        text = reference;
 
-        } else if (
-          reference &&
-          reference.text
-        ) {
+      } else if (reference && reference.text) {
 
-          text = reference.text;
+        text = reference.text;
 
-        } else if (
-          reference &&
-          reference.name
-        ) {
+      } else if (reference && reference.name) {
 
-          text = reference.name;
-
-        }
-
-
-        if (text) {
-
-          html += `
-
-            <div class="reference-item">
-
-              ${escapeHtml(text)}
-
-            </div>
-
-          `;
-
-        }
+        text = reference.name;
 
       }
-    );
+
+
+      if (text) {
+
+        html += `
+          <div class="reference-item">
+            ${escapeHtml(text)}
+          </div>
+        `;
+
+      }
+
+    });
 
   }
 
 
   html += `
+    </div>
 
-      </div>
-
-    </section>
-
+  </section>
   `;
 
 
-
-  // ==========================================================
-  // 화면 적용
-  // ==========================================================
-
-  app.innerHTML =
-    html;
-
+  app.innerHTML = html;
 
 }
 
 
-
-// ============================================================
-// 집단명 정리
-// ============================================================
-
-function normalizeGroup(group) {
-
-  return String(
-    group || ""
-  )
-
-  .replace(/\s+/g, "")
-
-  .trim();
-
-}
-
-
-
-// ============================================================
-// 뒤로가기
-// ============================================================
+/* =========================================================
+   뒤로가기
+========================================================= */
 
 function goBack() {
 
+  if (document.referrer) {
 
-  if (
-    window.history.length > 1
-  ) {
-
-    window.history.back();
+    history.back();
 
   } else {
 
@@ -1362,58 +756,32 @@ function goBack() {
 
   }
 
-
 }
 
 
-
-// ============================================================
-// HTML 문자 보호
-// ============================================================
+/* =========================================================
+   HTML 보안
+========================================================= */
 
 function escapeHtml(text) {
 
   return String(text || "")
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 
-
-// ============================================================
-// 최초 실행
-// ============================================================
+/* =========================================================
+   시작
+========================================================= */
 
 loadData();
 
-
 </script>
 
-
 </body>
-
 </html>
