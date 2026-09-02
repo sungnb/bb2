@@ -37,6 +37,10 @@
       --font-size-base: 16px;
     }
 
+    /* =========================
+       밝은 화면
+    ========================= */
+
     body.light {
       --bg-main: #eef3f7;
       --bg-gradient-1: #f4f7fa;
@@ -59,10 +63,6 @@
       --button-hover: #ccd9e3;
 
       --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    }
-
-    html {
-      font-size: var(--font-size-base);
     }
 
     body {
@@ -132,6 +132,7 @@
 
     /* =========================
        설정 버튼
+       전시대 참여자와 동일한 느낌
     ========================= */
 
     .settings-button {
@@ -163,6 +164,7 @@
 
     /* =========================
        설정 패널
+       전시대 참여자 설정창과 같은 구조
     ========================= */
 
     .settings-panel {
@@ -172,7 +174,8 @@
       right: 0;
       top: 62px;
 
-      width: 230px;
+      width: 250px;
+
       z-index: 1000;
 
       padding: 18px;
@@ -181,7 +184,9 @@
       border-radius: 14px;
 
       background: var(--panel-bg);
-      box-shadow: var(--shadow);
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.28);
 
       text-align: left;
     }
@@ -191,10 +196,12 @@
     }
 
     .settings-title {
-      margin-bottom: 12px;
+      margin-bottom: 16px;
 
-      font-size: 15px;
-      font-weight: 800;
+      font-size: 16px;
+      font-weight: 900;
+
+      color: var(--text-main);
     }
 
     .settings-row {
@@ -202,12 +209,18 @@
       justify-content: space-between;
       align-items: center;
 
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .settings-row:last-child {
+      margin-bottom: 0;
     }
 
     .settings-label {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
+
+      white-space: nowrap;
     }
 
     .theme-buttons {
@@ -225,7 +238,13 @@
       background: var(--button-bg);
       color: var(--text-main);
 
+      font-size: 13px;
+      font-weight: 700;
+
       cursor: pointer;
+
+      transition:
+        background 0.2s ease;
     }
 
     .theme-buttons button:hover,
@@ -305,7 +324,6 @@
 
     .schedule-table-wrap {
       width: 100%;
-      overflow-x: auto;
 
       border: 1px solid var(--table-border);
       border-radius: 11px;
@@ -315,6 +333,7 @@
 
     .schedule-table {
       width: 100%;
+
       border-collapse: collapse;
       table-layout: fixed;
 
@@ -363,21 +382,22 @@
       border-bottom: none;
     }
 
-    .schedule-table tbody tr {
-      transition: background 0.15s ease;
-    }
-
     .schedule-table tbody tr:hover {
       background: rgba(255, 255, 255, 0.035);
     }
 
     /* =========================
        집단 청소 및 내부 안내인
+       
+       ★ 주차 안내와 동일한 형태
+       ★ 제목 좌측 정렬
+       ★ C집단 박스
+       ★ 큰 글씨 제거
     ========================= */
 
     .cleaning-section {
       margin-top: 14px;
-      padding: 26px 18px 30px;
+      padding: 16px;
 
       border: 1px solid var(--panel-border);
       border-radius: 20px;
@@ -385,30 +405,37 @@
       background: var(--panel-bg);
       box-shadow: var(--shadow);
 
-      text-align: center;
+      overflow: hidden;
     }
 
     .cleaning-title {
-      margin: 0;
+      margin: 0 0 12px;
 
-      font-size: clamp(20px, 3vw, 25px);
+      font-size: clamp(19px, 3vw, 24px);
       font-weight: 900;
-      letter-spacing: -0.8px;
+      letter-spacing: -0.7px;
+
+      text-align: left;
     }
 
-    .cleaning-group {
-      margin-top: 14px;
+    .cleaning-box {
+      width: 100%;
 
-      font-size: clamp(52px, 10vw, 88px);
-      line-height: 1;
+      padding: 13px 15px;
 
-      font-weight: 1000;
-      letter-spacing: -3px;
+      border: 1px solid var(--table-border);
+      border-radius: 10px;
 
-      color: var(--accent);
+      background: var(--table-bg);
 
-      text-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.12);
+      color: var(--text-main);
+
+      text-align: left;
+
+      font-size: 16px;
+      line-height: 1.5;
+
+      font-weight: 800;
     }
 
     /* =========================
@@ -424,6 +451,8 @@
 
       background: var(--panel-bg);
       box-shadow: var(--shadow);
+
+      overflow: hidden;
     }
 
     .parking-text {
@@ -454,6 +483,8 @@
 
       background: var(--panel-bg);
       box-shadow: var(--shadow);
+
+      overflow: hidden;
     }
 
     .notice-list {
@@ -517,10 +548,11 @@
     }
 
     /* =========================
-       반응형
+       모바일
     ========================= */
 
     @media (max-width: 700px) {
+
       .page {
         padding: 14px 10px 35px;
       }
@@ -534,6 +566,10 @@
         height: 46px;
 
         font-size: 21px;
+      }
+
+      .settings-panel {
+        width: 235px;
       }
 
       .actions {
@@ -562,12 +598,10 @@
         padding: 8px 5px;
       }
 
-      .cleaning-section {
-        padding: 23px 12px 27px;
-      }
+      .cleaning-box {
+        padding: 12px 13px;
 
-      .cleaning-group {
-        font-size: clamp(54px, 18vw, 78px);
+        font-size: 15px;
       }
 
       .notice-item {
@@ -607,7 +641,10 @@
       불러오는 중...
     </div>
 
-    <!-- 설정 패널 -->
+
+    <!-- =========================
+         설정창
+    ========================== -->
 
     <div
       id="settingsPanel"
@@ -618,6 +655,7 @@
         화면 설정
       </div>
 
+
       <div class="settings-row">
 
         <span class="settings-label">
@@ -625,16 +663,23 @@
         </span>
 
         <div class="theme-buttons">
-          <button onclick="setTheme('dark')">
+
+          <button
+            onclick="setTheme('dark')"
+          >
             어둡게
           </button>
 
-          <button onclick="setTheme('light')">
+          <button
+            onclick="setTheme('light')"
+          >
             밝게
           </button>
+
         </div>
 
       </div>
+
 
       <div class="settings-row">
 
@@ -643,17 +688,25 @@
         </span>
 
         <div class="font-buttons">
-          <button onclick="changeFontSize(-1)">
+
+          <button
+            onclick="changeFontSize(-1)"
+          >
             A-
           </button>
 
-          <button onclick="changeFontSize(0)">
+          <button
+            onclick="changeFontSize(0)"
+          >
             기본
           </button>
 
-          <button onclick="changeFontSize(1)">
+          <button
+            onclick="changeFontSize(1)"
+          >
             A+
           </button>
+
         </div>
 
       </div>
@@ -687,7 +740,7 @@
 
 
   <!-- =========================
-       실제 데이터
+       데이터 표시
   ========================== -->
 
   <main id="content">
@@ -707,8 +760,7 @@
    * ==========================================================
    * 안내 봉사 API
    *
-   * 사용자가 직접 확인하여 입력한 정확한 URL입니다.
-   * 임의로 변경하지 마십시오.
+   * 사용자가 직접 확인한 정확한 URL
    * ==========================================================
    */
 
@@ -718,7 +770,7 @@
 
   /*
    * ==========================================================
-   * 페이지 시작
+   * 시작
    * ==========================================================
    */
 
@@ -736,7 +788,7 @@
 
   /*
    * ==========================================================
-   * 데이터 불러오기
+   * API 데이터 가져오기
    * ==========================================================
    */
 
@@ -745,11 +797,13 @@
     const content =
       document.getElementById("content");
 
+
     content.innerHTML = `
       <div class="loading">
         안내 봉사 정보를 불러오는 중입니다...
       </div>
     `;
+
 
     try {
 
@@ -762,13 +816,16 @@
           }
         );
 
+
       if (!response.ok) {
 
         throw new Error(
-          "서버 응답 오류: " + response.status
+          "서버 응답 오류: " +
+          response.status
         );
 
       }
+
 
       const result =
         await response.json();
@@ -798,6 +855,7 @@
         "안내 데이터 오류:",
         error
       );
+
 
       content.innerHTML = `
         <div class="error">
@@ -832,43 +890,20 @@
 
   /*
    * ==========================================================
-   * 전체 화면 출력
+   * 데이터 표시
    * ==========================================================
    */
 
   function renderData(result) {
-
-    /*
-     * API에서 byNumber를 우선 사용합니다.
-     *
-     * 현재 안내 시트:
-     *
-     * 1     → 월
-     * 2-2   → 평일 1번째
-     * 2-3   → 평일 2번째
-     * 2-4   → 평일 3번째
-     * 2-5   → 평일 4번째
-     * 2-6   → 평일 5번째
-     *
-     * 3-2   → 주말 1번째
-     * 3-3   → 주말 2번째
-     * 3-4   → 주말 3번째
-     * 3-5   → 주말 4번째
-     * 3-6   → 빈 행이므로 표시하지 않음
-     *
-     * 4     → 외부 주차 안내
-     * 5     → 집단 청소 및 내부 안내인
-     * 6~11  → 안내사항
-     */
 
     const byNumber =
       result.byNumber || {};
 
 
     /*
-     * --------------------------
+     * =========================
      * 월
-     * --------------------------
+     * =========================
      */
 
     const month =
@@ -878,20 +913,26 @@
         "b"
       );
 
+
     document.getElementById(
       "month"
     ).textContent =
-      month || result.month || "";
+      month ||
+      result.month ||
+      "";
 
 
     /*
-     * --------------------------
-     * 평일
-     * --------------------------
+     * =========================
+     * 평일 집회
+     *
+     * 2-1 = 헤더이므로 제외
+     * 2-2 ~ 2-6만 표시
+     * =========================
      */
 
-    const weekdayRows =
-      [];
+    const weekdayRows = [];
+
 
     for (
       let i = 2;
@@ -902,12 +943,15 @@
       const number =
         "2-" + i;
 
+
       const row =
         byNumber[number];
+
 
       if (!row) {
         continue;
       }
+
 
       const date =
         cleanText(row.b);
@@ -918,11 +962,6 @@
       const volunteer2 =
         cleanText(row.d);
 
-
-      /*
-       * 날짜와 봉사자 모두 없는 완전 빈 행은
-       * 화면에 표시하지 않습니다.
-       */
 
       if (
         !date &&
@@ -943,13 +982,17 @@
 
 
     /*
-     * --------------------------
-     * 주말
-     * --------------------------
+     * =========================
+     * 주말 집회
+     *
+     * 3-1 = 헤더이므로 제외
+     * 3-2 ~ 3-6
+     * 빈 3-6은 자동 제외
+     * =========================
      */
 
-    const weekendRows =
-      [];
+    const weekendRows = [];
+
 
     for (
       let i = 2;
@@ -960,12 +1003,15 @@
       const number =
         "3-" + i;
 
+
       const row =
         byNumber[number];
+
 
       if (!row) {
         continue;
       }
+
 
       const date =
         cleanText(row.b);
@@ -996,36 +1042,44 @@
 
 
     /*
-     * --------------------------
+     * =========================
      * 집단 청소 및 내부 안내인
-     * --------------------------
+     *
+     * 5-D열의 C집단을 사용
+     *
+     * B열의
+     * [집단 청소 및 내부 안내인] : C집단
+     *
+     * 전체 문장은 표시하지 않음
+     * =========================
      */
 
     const cleaningRow =
       byNumber["5"] || {};
 
-    /*
-     * B열 전체 문장
-     * "[집단 청소 및 내부 안내인] : C집단"
-     * 은 사용하지 않습니다.
-     *
-     * D열에 있는 C집단을 우선 사용합니다.
-     */
 
     let cleaningGroup =
-      cleanText(cleaningRow.d);
+      cleanText(
+        cleaningRow.d
+      );
+
 
     /*
-     * D열이 비어 있는 경우를 대비하여
-     * B열에서 콜론 뒤의 집단명만 추출합니다.
+     * D열이 없을 경우
+     * B열에서 ":" 뒤만 추출
      */
 
     if (!cleaningGroup) {
 
       const cleaningText =
-        cleanText(cleaningRow.b);
+        cleanText(
+          cleaningRow.b
+        );
 
-      if (cleaningText.includes(":")) {
+
+      if (
+        cleaningText.includes(":")
+      ) {
 
         cleaningGroup =
           cleaningText
@@ -1040,26 +1094,29 @@
 
 
     /*
-     * --------------------------
+     * =========================
      * 주차 안내
-     * --------------------------
+     * =========================
      */
 
     const parkingRow =
       byNumber["4"] || {};
 
+
     const parkingText =
-      cleanText(parkingRow.b);
+      cleanText(
+        parkingRow.b
+      );
 
 
     /*
-     * --------------------------
+     * =========================
      * 안내사항 6~11
-     * --------------------------
+     * =========================
      */
 
-    const notices =
-      [];
+    const notices = [];
+
 
     for (
       let i = 6;
@@ -1070,20 +1127,25 @@
       const row =
         byNumber[String(i)];
 
+
       if (!row) {
         continue;
       }
 
-      const parts =
-        [
-          cleanText(row.b),
-          cleanText(row.c),
-          cleanText(row.d)
-        ].filter(Boolean);
 
-      if (parts.length === 0) {
+      const parts = [
+        cleanText(row.b),
+        cleanText(row.c),
+        cleanText(row.d)
+      ].filter(Boolean);
+
+
+      if (
+        parts.length === 0
+      ) {
         continue;
       }
+
 
       notices.push(
         parts.join(" ")
@@ -1094,15 +1156,17 @@
 
     /*
      * ==========================================================
-     * 화면 생성
+     * 화면
      *
      * 중요:
-     * 평일 우측 "5회"
-     * 주말 우측 "4회"
-     * 안내 "1건"
-     * 안내 "6건"
      *
-     * 등의 카운트/배지는 전부 만들지 않습니다.
+     * 평일 우측 5회 삭제
+     * 주말 우측 4회 삭제
+     * 안내
+     * 1건
+     * 6건
+     *
+     * 전부 표시하지 않음
      * ==========================================================
      */
 
@@ -1110,9 +1174,9 @@
 
 
     /*
-     * --------------------------
-     * 평일 집회
-     * --------------------------
+     * =========================
+     * 평일
+     * =========================
      */
 
     html += `
@@ -1131,9 +1195,9 @@
 
 
     /*
-     * --------------------------
-     * 주말 집회
-     * --------------------------
+     * =========================
+     * 주말
+     * =========================
      */
 
     html += `
@@ -1152,21 +1216,14 @@
 
 
     /*
-     * --------------------------
+     * =========================
      * 집단 청소 및 내부 안내인
-     * --------------------------
      *
-     * 여기서는
-     *
-     * [집단 청소 및 내부 안내인] : C집단
-     *
-     * 문장을 출력하지 않고
-     *
-     * 제목
-     * +
-     * 큰 C집단
-     *
-     * 만 출력합니다.
+     * ★ 주차 안내와 같은 구조
+     * ★ 좌측 정렬
+     * ★ C집단만 박스 안에 표시
+     * ★ 크기를 기존의 절반 수준으로 축소
+     * =========================
      */
 
     if (cleaningGroup) {
@@ -1178,8 +1235,10 @@
             집단 청소 및 내부 안내인
           </h2>
 
-          <div class="cleaning-group">
-            ${escapeHtml(cleaningGroup)}
+          <div class="cleaning-box">
+            ${escapeHtml(
+              cleaningGroup
+            )}
           </div>
 
         </section>
@@ -1189,9 +1248,9 @@
 
 
     /*
-     * --------------------------
-     * 외부 주차 안내
-     * --------------------------
+     * =========================
+     * 주차 안내
+     * =========================
      */
 
     if (parkingText) {
@@ -1204,7 +1263,9 @@
           </h2>
 
           <div class="parking-text">
-            ${escapeHtml(parkingText)}
+            ${escapeHtml(
+              parkingText
+            )}
           </div>
 
         </section>
@@ -1214,12 +1275,14 @@
 
 
     /*
-     * --------------------------
+     * =========================
      * 안내사항
-     * --------------------------
+     * =========================
      */
 
-    if (notices.length > 0) {
+    if (
+      notices.length > 0
+    ) {
 
       html += `
         <section class="notice-section">
@@ -1237,7 +1300,9 @@
 
           html += `
             <div class="notice-item">
-              ${escapeHtml(notice)}
+              ${escapeHtml(
+                notice
+              )}
             </div>
           `;
 
@@ -1255,7 +1320,7 @@
 
 
     /*
-     * 화면에 적용
+     * 실제 출력
      */
 
     document.getElementById(
@@ -1267,11 +1332,13 @@
 
   /*
    * ==========================================================
-   * 집회 표 생성
+   * 집회 표
    * ==========================================================
    */
 
-  function createScheduleTable(rows) {
+  function createScheduleTable(
+    rows
+  ) {
 
     if (
       !rows ||
@@ -1284,11 +1351,13 @@
           <table class="schedule-table">
 
             <thead>
+
               <tr>
                 <th>날짜</th>
                 <th>봉사자1</th>
                 <th>봉사자2</th>
               </tr>
+
             </thead>
 
             <tbody>
@@ -1375,7 +1444,7 @@
 
   /*
    * ==========================================================
-   * 특정 셀 가져오기
+   * 셀 가져오기
    * ==========================================================
    */
 
@@ -1392,6 +1461,7 @@
       return "";
     }
 
+
     return cleanText(
       byNumber[number][column]
     );
@@ -1405,7 +1475,9 @@
    * ==========================================================
    */
 
-  function cleanText(value) {
+  function cleanText(
+    value
+  ) {
 
     if (
       value === null ||
@@ -1415,6 +1487,7 @@
       return "";
 
     }
+
 
     return String(value)
       .replace(/\r\n/g, "\n")
@@ -1426,11 +1499,13 @@
 
   /*
    * ==========================================================
-   * HTML 특수문자 보호
+   * HTML 보호
    * ==========================================================
    */
 
-  function escapeHtml(value) {
+  function escapeHtml(
+    value
+  ) {
 
     return String(
       value === null ||
@@ -1438,11 +1513,26 @@
         ? ""
         : value
     )
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
 
   }
 
@@ -1473,7 +1563,7 @@
 
   /*
    * ==========================================================
-   * 설정 패널
+   * 설정창 열기 / 닫기
    * ==========================================================
    */
 
@@ -1484,6 +1574,7 @@
         "settingsPanel"
       );
 
+
     panel.classList.toggle(
       "show"
     );
@@ -1493,13 +1584,17 @@
 
   /*
    * ==========================================================
-   * 테마 변경
+   * 테마
    * ==========================================================
    */
 
-  function setTheme(theme) {
+  function setTheme(
+    theme
+  ) {
 
-    if (theme === "light") {
+    if (
+      theme === "light"
+    ) {
 
       document.body.classList.add(
         "light"
@@ -1512,6 +1607,7 @@
       );
 
     }
+
 
     localStorage.setItem(
       "guideTheme",
@@ -1527,10 +1623,13 @@
    * ==========================================================
    */
 
-  function changeFontSize(direction) {
+  function changeFontSize(
+    direction
+  ) {
 
     const root =
       document.documentElement;
+
 
     let current =
       parseInt(
@@ -1541,7 +1640,9 @@
       );
 
 
-    if (direction === 0) {
+    if (
+      direction === 0
+    ) {
 
       current = 16;
 
@@ -1551,10 +1652,6 @@
 
     }
 
-
-    /*
-     * 너무 작거나 커지지 않도록 제한
-     */
 
     current =
       Math.max(
@@ -1624,7 +1721,7 @@
 
   /*
    * ==========================================================
-   * 설정 패널 바깥 클릭 시 닫기
+   * 설정창 바깥을 누르면 닫기
    * ==========================================================
    */
 
