@@ -71,6 +71,7 @@ body {
 
 .reference-date {
   margin-top: 8px;
+  transform: translateX(15px);
 
   font-size: 14px;
 
@@ -533,9 +534,13 @@ body.light .settings-button:hover {
 body.light .group-card,
 body.light .other-card,
 body.light .reference-card {
-  border-color: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.14);
   background: rgba(255,255,255,0.90);
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+body.light .group-card {
+  border-color: rgba(0,0,0,0.20);
 }
 
 body.light .group-header {
@@ -545,7 +550,7 @@ body.light .group-header {
 
 body.light .name {
   background: rgba(0,0,0,0.04);
-  border-color: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.12);
 }
 
 body.light .total-count {
@@ -564,7 +569,7 @@ body.light .reference-date {
 }
 
 body.light .reference-item {
-  border-bottom-color: rgba(0,0,0,0.08);
+  border-bottom-color: rgba(0,0,0,0.12);
 }
 
 body.light .settings-panel {
@@ -644,8 +649,8 @@ body.light .settings-button {
     <div class="settings-title">설정</div>
 
     <div class="settings-row">
-      <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
       <button id="lightButton" onclick="setTheme('light')">☀️ 밝게</button>
+      <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
     </div>
 
     <div class="font-size-row">
