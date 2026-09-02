@@ -418,6 +418,202 @@ body {
 
 }
 
+
+/* =========================================================
+   설정 / 밝게·어둡게 / 글자 크기
+========================================================= */
+
+.settings-button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.12);
+  z-index: 10;
+}
+
+.settings-panel {
+  display: none;
+  position: absolute;
+  top: 66px;
+  right: 18px;
+  width: 220px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(18,31,42,0.97);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  z-index: 20;
+  text-align: left;
+}
+
+.settings-panel.show {
+  display: block;
+}
+
+.settings-title {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.settings-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.settings-row button {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 6px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.10);
+  font-size: 13px;
+}
+
+.settings-row button.active {
+  background: rgba(255,255,255,0.22);
+}
+
+.font-size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.font-size-row button {
+  width: 38px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.10);
+  font-size: 16px;
+}
+
+.font-size-value {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* 밝게 */
+body.light {
+  color: #222222;
+  background: linear-gradient(135deg, #f4f7fa, #ffffff);
+}
+
+body.light .header {
+  background: rgba(255,255,255,0.92);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+body.light .action-button,
+body.light .settings-button {
+  color: #222222;
+  background: rgba(0,0,0,0.07);
+}
+
+body.light .action-button:hover,
+body.light .settings-button:hover {
+  background: rgba(0,0,0,0.12);
+}
+
+body.light .group-card,
+body.light .other-card,
+body.light .reference-card {
+  border-color: rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.90);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+body.light .group-header {
+  background: rgba(0,0,0,0.04);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+body.light .name {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.06);
+}
+
+body.light .total-count {
+  background: rgba(0,0,0,0.06);
+}
+
+body.light .section-title {
+  border-bottom-color: rgba(0,0,0,0.12);
+}
+
+body.light .empty-message,
+body.light .loading,
+body.light .error,
+body.light .reference-date {
+  color: rgba(0,0,0,0.55);
+}
+
+body.light .reference-item {
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+body.light .settings-panel {
+  background: rgba(255,255,255,0.98);
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #222222;
+}
+
+body.light .settings-row button,
+body.light .font-size-row button {
+  color: #222222;
+  background: rgba(0,0,0,0.06);
+}
+
+body.light .settings-row button.active {
+  background: rgba(0,0,0,0.13);
+}
+
+body.light .settings-button {
+  background: rgba(0,0,0,0.06);
+}
+
+/* 타이틀 옆 전시대 신청자 아이콘 */
+.title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  font-size: 26px;
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  .settings-button {
+    top: 12px;
+    right: 12px;
+  }
+
+  .settings-panel {
+    top: 58px;
+    right: 12px;
+  }
+
+  .title-icon {
+    font-size: 22px;
+  }
+}
+
 </style>
 </head>
 
@@ -432,8 +628,33 @@ body {
 <header class="header">
 
   <h1>
+    <span class="title-icon" aria-label="전시대 신청자">👥</span>
     전시대 참여자
   </h1>
+
+  <button
+    class="settings-button"
+    onclick="toggleSettings()"
+    aria-label="설정">
+    ⚙️
+  </button>
+
+  <div id="settingsPanel" class="settings-panel">
+
+    <div class="settings-title">설정</div>
+
+    <div class="settings-row">
+      <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
+      <button id="lightButton" onclick="setTheme('light')">☀️ 밝게</button>
+    </div>
+
+    <div class="font-size-row">
+      <button onclick="changeFontSize(-5)">−</button>
+      <div id="fontSizeValue" class="font-size-value">100%</div>
+      <button onclick="changeFontSize(5)">＋</button>
+    </div>
+
+  </div>
 
   <div
     id="referenceDate"
@@ -1160,6 +1381,117 @@ function goBack() {
   }
 
 }
+
+
+/* =========================================================
+   설정 기능
+========================================================= */
+
+const SETTINGS_THEME_KEY = "전시대참여자_theme";
+const SETTINGS_FONT_KEY = "전시대참여자_fontSize";
+
+function applySettings() {
+
+  const theme =
+    localStorage.getItem(SETTINGS_THEME_KEY) || "dark";
+
+  const fontSize =
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
+
+  document.body.classList.toggle(
+    "light",
+    theme === "light"
+  );
+
+  document.body.style.setProperty(
+    "--font-scale",
+    fontSize / 100
+  );
+
+  document.body.style.zoom =
+    String(fontSize / 100);
+
+  document.getElementById("fontSizeValue").textContent =
+    fontSize + "%";
+
+  document.getElementById("darkButton").classList.toggle(
+    "active",
+    theme === "dark"
+  );
+
+  document.getElementById("lightButton").classList.toggle(
+    "active",
+    theme === "light"
+  );
+}
+
+function setTheme(theme) {
+
+  localStorage.setItem(
+    SETTINGS_THEME_KEY,
+    theme
+  );
+
+  applySettings();
+}
+
+function changeFontSize(amount) {
+
+  let fontSize =
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
+
+  fontSize += amount;
+
+  if (fontSize < 80) fontSize = 80;
+  if (fontSize > 150) fontSize = 150;
+
+  localStorage.setItem(
+    SETTINGS_FONT_KEY,
+    fontSize
+  );
+
+  applySettings();
+}
+
+function toggleSettings() {
+
+  document.getElementById(
+    "settingsPanel"
+  ).classList.toggle("show");
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    applySettings();
+
+  }
+);
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+    const panel =
+      document.getElementById("settingsPanel");
+
+    const button =
+      document.querySelector(".settings-button");
+
+    if (
+      panel &&
+      panel.classList.contains("show") &&
+      !panel.contains(event.target) &&
+      !button.contains(event.target)
+    ) {
+
+      panel.classList.remove("show");
+
+    }
+
+  }
+);
 
 </script>
 
