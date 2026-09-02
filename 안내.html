@@ -3,512 +3,796 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>외부 안내 봉사</title>
 
 <style>
-  :root {
-    --font-scale: 1;
+
+/* =========================================================
+   기본
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    sans-serif;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #16222e,
+      #263b4a
+    );
+}
+
+
+/* =========================================================
+   상단
+========================================================= */
+
+.header {
+  width: 100%;
+
+  padding:
+    28px 20px;
+
+  text-align: center;
+
+  background:
+    rgba(18, 31, 42, 0.88);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:
+    blur(10px);
+}
+
+.header h1 {
+  margin: 0;
+
+  font-size: 30px;
+
+  font-weight: 700;
+
+  letter-spacing: -1px;
+}
+
+.reference-date {
+  margin-top: 8px;
+  transform: translateX(15px);
+
+  font-size: 14px;
+
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   컨테이너
+========================================================= */
+
+.container {
+  width: 100%;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding:
+    25px
+    20px
+    70px;
+}
+
+
+/* =========================================================
+   버튼
+========================================================= */
+
+.actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-bottom: 28px;
+}
+
+.action-button {
+  border: none;
+
+  border-radius: 10px;
+
+  padding:
+    11px 18px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  color: #ffffff;
+
+  background:
+    rgba(255,255,255,0.12);
+
+  transition:
+    background 0.2s,
+    transform 0.1s;
+}
+
+.action-button:hover {
+  background:
+    rgba(255,255,255,0.20);
+}
+
+.action-button:active {
+  transform: scale(0.97);
+}
+
+
+/* =========================================================
+   섹션
+========================================================= */
+
+.section {
+  margin-bottom: 42px;
+}
+
+.section-title {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+
+  padding-bottom: 12px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.15);
+}
+
+.section-title h2 {
+  margin: 0;
+
+  font-size: 23px;
+
+  font-weight: 700;
+}
+
+.total-count {
+  padding:
+    6px 12px;
+
+  border-radius: 20px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  background:
+    rgba(255,255,255,0.10);
+}
+
+
+/* =========================================================
+   집단 그리드
+========================================================= */
+
+.group-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+
+/* =========================================================
+   카드
+========================================================= */
+
+.group-card,
+.other-card,
+.reference-card {
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  border:
+    1px solid rgba(255,255,255,0.10);
+
+  background:
+    rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.12);
+}
+
+
+/* =========================================================
+   집단 카드 제목
+========================================================= */
+
+.group-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding:
+    14px 16px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.group-name {
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.group-count {
+  font-size: 14px;
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   이름 목록
+========================================================= */
+
+.name-list {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  padding: 14px;
+
+  min-height: 64px;
+}
+
+.name {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    8px 12px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  background:
+    rgba(255,255,255,0.09);
+
+  border:
+    1px solid rgba(255,255,255,0.06);
+}
+
+
+/* =========================================================
+   빈 데이터
+========================================================= */
+
+.empty-message {
+  width: 100%;
+
+  padding: 18px;
+
+  text-align: center;
+
+  color:
+    rgba(255,255,255,0.55);
+}
+
+
+/* =========================================================
+   참고사항
+========================================================= */
+
+.reference-list {
+  padding:
+    8px 18px;
+}
+
+.reference-item {
+  padding:
+    14px 4px;
+
+  line-height: 1.7;
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.reference-item:last-child {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   로딩 / 오류
+========================================================= */
+
+.loading,
+.error {
+  padding:
+    80px 20px;
+
+  text-align: center;
+
+  color:
+    rgba(255,255,255,0.7);
+}
+
+.error {
+  color:
+    #ffb4b4;
+}
+
+
+/* =========================================================
+   모바일
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .group-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
-  * {
-    box-sizing: border-box;
-  }
+}
 
-  body {
-    margin: 0;
-    padding: 20px;
-    font-family: Arial, "Noto Sans KR", sans-serif;
-    background: #f5f5f5;
-    color: #222;
-    font-size: calc(16px * var(--font-scale));
-    transition: background 0.2s, color 0.2s;
-  }
 
-  body.dark {
-    background: #1e1e1e;
-    color: #eee;
-  }
+@media (max-width: 600px) {
 
-  .top-bar {
-    max-width: 900px;
-    margin: 0 auto 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .top-bar button {
-    border: 0;
-    border-radius: 8px;
-    padding: 9px 13px;
-    cursor: pointer;
-    background: #e0e0e0;
-    color: #222;
-  }
-
-  body.dark .top-bar button {
-    background: #444;
-    color: #fff;
+  .header h1 {
+    font-size: 25px;
   }
 
   .container {
-    max-width: 900px;
-    margin: 0 auto;
+    padding:
+      20px
+      14px
+      60px;
   }
 
-  .title {
-    font-size: calc(28px * var(--font-scale));
-    font-weight: bold;
-    text-align: center;
-    margin: 10px 0 5px;
+  .group-grid {
+    grid-template-columns: 1fr;
   }
 
-  .month {
-    text-align: center;
-    font-size: calc(20px * var(--font-scale));
-    font-weight: bold;
-    margin-bottom: 25px;
+  .section-title h2 {
+    font-size: 20px;
   }
 
-  .section {
-    margin-bottom: 25px;
+  .action-button {
+    padding:
+      10px 15px;
   }
 
-  .section h3 {
-    margin: 0 0 10px;
-    padding: 11px 14px;
-    border-radius: 8px;
-    background: #333;
-    color: #fff;
-    font-size: calc(20px * var(--font-scale));
+}
+
+
+/* =========================================================
+   작은 화면에서 버튼
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .actions {
+    justify-content: space-between;
   }
 
-  body.dark .section h3 {
-    background: #555;
+  .action-button {
+    flex: 1;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
+}
+
+
+/* =========================================================
+   설정 / 밝게·어둡게 / 글자 크기
+========================================================= */
+
+.settings-button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.12);
+  z-index: 10;
+}
+
+.settings-panel {
+  display: none;
+  position: absolute;
+  top: 66px;
+  right: 18px;
+  width: 220px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(18,31,42,0.97);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  z-index: 20;
+  text-align: left;
+}
+
+.settings-panel.show {
+  display: block;
+}
+
+.settings-title {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.settings-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.settings-row button {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 6px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.10);
+  font-size: 13px;
+}
+
+.settings-row button.active {
+  background: rgba(255,255,255,0.22);
+}
+
+.font-size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.font-size-row button {
+  width: 38px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.10);
+  font-size: 16px;
+}
+
+.font-size-value {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   밝게
+========================================================= */
+
+body.light {
+  color: #222222;
+  background: linear-gradient(135deg, #f4f7fa, #ffffff);
+}
+
+body.light .header {
+  background: rgba(255,255,255,0.92);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+body.light .action-button,
+body.light .settings-button {
+  color: #222222;
+  background: rgba(0,0,0,0.07);
+}
+
+body.light .action-button:hover,
+body.light .settings-button:hover {
+  background: rgba(0,0,0,0.12);
+}
+
+body.light .group-card,
+body.light .other-card,
+body.light .reference-card {
+  border-color: rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.90);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+body.light .group-card {
+  border-color: rgba(0,0,0,0.20);
+}
+
+body.light .group-header {
+  background: rgba(0,0,0,0.04);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+body.light .name {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.12);
+}
+
+body.light .total-count {
+  background: rgba(0,0,0,0.06);
+}
+
+body.light .section-title {
+  border-bottom-color: rgba(0,0,0,0.12);
+}
+
+body.light .empty-message,
+body.light .loading,
+body.light .error,
+body.light .reference-date {
+  color: rgba(0,0,0,0.55);
+}
+
+body.light .reference-item {
+  border-bottom-color: rgba(0,0,0,0.12);
+}
+
+body.light .settings-panel {
+  background: rgba(255,255,255,0.98);
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #222222;
+}
+
+body.light .settings-row button,
+body.light .font-size-row button {
+  color: #222222;
+  background: rgba(0,0,0,0.06);
+}
+
+body.light .settings-row button.active {
+  background: rgba(0,0,0,0.13);
+}
+
+body.light .settings-button {
+  background: rgba(0,0,0,0.06);
+}
+
+
+/* =========================================================
+   안내 아이콘
+========================================================= */
+
+.title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  font-size: 26px;
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+
+  .settings-button {
+    top: 12px;
+    right: 12px;
   }
 
-  body.dark table {
-    background: #292929;
+  .settings-panel {
+    top: 58px;
+    right: 12px;
   }
 
-  th,
-  td {
-    border: 1px solid #ccc;
-    padding: 11px 8px;
-    text-align: center;
-    vertical-align: middle;
+  .title-icon {
+    font-size: 22px;
   }
 
-  body.dark th,
-  body.dark td {
-    border-color: #555;
-  }
+}
 
-  th {
-    background: #eee;
-    font-weight: bold;
-  }
-
-  body.dark th {
-    background: #3a3a3a;
-  }
-
-  td {
-    font-size: calc(17px * var(--font-scale));
-  }
-
-  .notice,
-  .cleaning {
-    margin: 12px 0;
-    padding: 13px 15px;
-    border-radius: 8px;
-    line-height: 1.6;
-    background: #fff;
-    border: 1px solid #ddd;
-  }
-
-  body.dark .notice,
-  body.dark .cleaning {
-    background: #292929;
-    border-color: #555;
-  }
-
-  .cleaning {
-    font-weight: bold;
-  }
-
-  .loading {
-    text-align: center;
-    padding: 50px 10px;
-    font-size: calc(18px * var(--font-scale));
-  }
-
-  .error {
-    text-align: center;
-    padding: 30px 10px;
-    color: #c62828;
-    line-height: 1.7;
-  }
-
-  body.dark .error {
-    color: #ff8a80;
-  }
-
-  @media (max-width: 600px) {
-    body {
-      padding: 12px;
-    }
-
-    .top-bar {
-      flex-wrap: wrap;
-    }
-
-    th,
-    td {
-      padding: 9px 5px;
-    }
-
-    .title {
-      font-size: calc(24px * var(--font-scale));
-    }
-
-    .section h3 {
-      font-size: calc(18px * var(--font-scale));
-    }
-  }
 </style>
 </head>
 
+
 <body>
 
-<div class="top-bar">
-  <button onclick="goHome()">← 홈</button>
 
-  <div>
-    <button onclick="changeFontSize('0.9')">가</button>
-    <button onclick="changeFontSize('1')">가</button>
-    <button onclick="changeFontSize('1.15')">가</button>
-    <button onclick="toggleTheme()">☾</button>
+<!-- =========================================================
+     상단
+========================================================= -->
+
+<header class="header">
+
+  <h1>
+    <span class="title-icon" aria-label="외부 안내 봉사">👥</span>
+    외부 안내 봉사
+  </h1>
+
+  <button
+    class="settings-button"
+    onclick="toggleSettings()"
+    aria-label="설정">
+    ⚙️
+  </button>
+
+  <div id="settingsPanel" class="settings-panel">
+
+    <div class="settings-title">설정</div>
+
+    <div class="settings-row">
+      <button id="lightButton" onclick="setTheme('light')">
+        ☀️ 밝게
+      </button>
+
+      <button id="darkButton" onclick="setTheme('dark')">
+        🌙 어둡게
+      </button>
+    </div>
+
+    <div class="font-size-row">
+
+      <button onclick="changeFontSize(-5)">
+        −
+      </button>
+
+      <div
+        id="fontSizeValue"
+        class="font-size-value">
+        100%
+      </div>
+
+      <button onclick="changeFontSize(5)">
+        ＋
+      </button>
+
+    </div>
+
   </div>
-</div>
 
-<div class="container">
-  <div id="sheetData">
+  <div
+    id="referenceDate"
+    class="reference-date">
+  </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     본문
+========================================================= -->
+
+<main class="container">
+
+
+  <!-- =======================================================
+       버튼
+  ======================================================= -->
+
+  <div class="actions">
+
+    <button
+      class="action-button"
+      onclick="loadData()">
+      새로고침
+    </button>
+
+
+    <button
+      class="action-button"
+      onclick="goBack()">
+      뒤로가기
+    </button>
+
+  </div>
+
+
+
+  <!-- =======================================================
+       데이터 출력
+  ======================================================= -->
+
+  <div id="app">
+
     <div class="loading">
       안내 봉사 정보를 불러오는 중입니다...
     </div>
+
   </div>
-</div>
+
+
+</main>
+
 
 
 <script>
 
 /* =========================================================
-   안내 봉사 Apps Script 주소
-   ========================================================= */
-const SHEET_API =
-"https://script.google.com/macros/s/AKfycbxYCCbRtORRr-sMHKOK_PMexORdAbOhFbCjhq7q6zdZBoo22eSltMmdWZM2B_BNnZHtSw/exec";
+   안내 봉사 Apps Script API 주소
+========================================================= */
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbxYCCbRtORRr-sMHKOK_PMexORdAbFbCjhq7q6zdZBoo22eSltMmdWZM2B_BNnZHtSw/exec";
+
+
+/* =========================================================
+   시작
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadData();
+
+  }
+);
 
 
 /* =========================================================
    번호로 데이터 가져오기
-   ========================================================= */
+========================================================= */
+
 function getByNumber(byNumber, number) {
-  if (!byNumber) return null;
+
+  if (!byNumber) {
+    return null;
+  }
 
   return byNumber[String(number)] || null;
+
 }
 
 
 /* =========================================================
-   HTML 특수문자 처리
-   ========================================================= */
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+   데이터 불러오기
+========================================================= */
 
+async function loadData() {
 
-/* =========================================================
-   평일 / 주말 집회 표
-   ========================================================= */
-function makeMeetingTable(title, byNumber, prefix) {
+  const app =
+    document.getElementById("app");
 
-  const rows = [];
-
-  /*
-   * 평일
-   * 2-1 = 제목
-   * 2-2 ~ 2-6 = 실제 데이터
-   *
-   * 주말
-   * 3-1 = 제목
-   * 3-2 ~ 3-6 = 실제 데이터
-   */
-
-  for (let i = 2; i <= 6; i++) {
-
-    const item = getByNumber(
-      byNumber,
-      `${prefix}-${i}`
-    );
-
-    if (!item) continue;
-
-    const date = item.b || "";
-    const volunteer1 = item.c || "";
-    const volunteer2 = item.d || "";
-
-    /*
-     * 완전히 빈 행은 표시하지 않음
-     */
-    if (
-      !date &&
-      !volunteer1 &&
-      !volunteer2
-    ) {
-      continue;
-    }
-
-    rows.push(`
-      <tr>
-        <td>${escapeHtml(date)}</td>
-        <td>${escapeHtml(volunteer1)}</td>
-        <td>${escapeHtml(volunteer2)}</td>
-      </tr>
-    `);
-  }
-
-  if (rows.length === 0) {
-    return "";
-  }
-
-  return `
-    <div class="section">
-
-      <h3>
-        ${escapeHtml(title)}
-      </h3>
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>날짜</th>
-            <th>봉사자1</th>
-            <th>봉사자2</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          ${rows.join("")}
-        </tbody>
-
-      </table>
-
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   화면 만들기
-   ========================================================= */
-function buildSheet(json) {
-
-  const byNumber = json.byNumber || {};
-
-  let html = "";
-
-
-  /* -------------------------------------------------------
-     1번 : 월
-     ------------------------------------------------------- */
-  const monthItem = getByNumber(
-    byNumber,
-    "1"
-  );
-
-  const month = monthItem
-    ? monthItem.b
-    : "";
-
-
-  html += `
-    <div class="title">
-      외부 안내 봉사
-    </div>
-  `;
-
-
-  if (month) {
-
-    html += `
-      <div class="month">
-        ${escapeHtml(month)}
-      </div>
-    `;
-  }
-
-
-  /* -------------------------------------------------------
-     2-2 ~ 2-6 : 평일 집회
-     ------------------------------------------------------- */
-  html += makeMeetingTable(
-    "평일 집회(화)",
-    byNumber,
-    "2"
-  );
-
-
-  /* -------------------------------------------------------
-     3-2 ~ 3-6 : 주말 집회
-     ------------------------------------------------------- */
-  html += makeMeetingTable(
-    "주말 집회(토)",
-    byNumber,
-    "3"
-  );
-
-
-  /* -------------------------------------------------------
-     4번 : 외부 주차 안내
-     ------------------------------------------------------- */
-  const parking = getByNumber(
-    byNumber,
-    "4"
-  );
-
-  if (
-    parking &&
-    parking.b
-  ) {
-
-    html += `
-      <div class="notice">
-        ${escapeHtml(parking.b)}
-      </div>
-    `;
-  }
-
-
-  /* -------------------------------------------------------
-     5번 : 집단 청소 및 내부 안내인
-     ------------------------------------------------------- */
-  const cleaning = getByNumber(
-    byNumber,
-    "5"
-  );
-
-  if (cleaning) {
-
-    const text1 = cleaning.b || "";
-    const text2 = cleaning.c || "";
-    const text3 = cleaning.d || "";
-
-    if (
-      text1 ||
-      text2 ||
-      text3
-    ) {
-
-      html += `
-        <div class="cleaning">
-
-          ${
-            text1
-              ? `<div>${escapeHtml(text1)}</div>`
-              : ""
-          }
-
-          ${
-            text2
-              ? `<div>${escapeHtml(text2)}</div>`
-              : ""
-          }
-
-          ${
-            text3
-              ? `<div>${escapeHtml(text3)}</div>`
-              : ""
-          }
-
-        </div>
-      `;
-    }
-  }
-
-
-  /* -------------------------------------------------------
-     6 ~ 11번 : 안내사항
-     ------------------------------------------------------- */
-  for (
-    let i = 6;
-    i <= 11;
-    i++
-  ) {
-
-    const item = getByNumber(
-      byNumber,
-      String(i)
-    );
-
-    if (!item) continue;
-
-    const text = [
-      item.b,
-      item.c,
-      item.d
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    if (!text) continue;
-
-
-    html += `
-      <div class="notice">
-        ${escapeHtml(text)}
-      </div>
-    `;
-  }
-
-
-  return html;
-}
-
-
-/* =========================================================
-   안내 봉사 데이터 불러오기
-   ========================================================= */
-async function loadSheet() {
-
-  const target =
-    document.getElementById("sheetData");
-
-
-  if (!target) {
-
-    console.error(
-      "sheetData 요소를 찾을 수 없습니다."
-    );
-
-    return;
-  }
-
-
-  target.innerHTML = `
+  app.innerHTML = `
     <div class="loading">
       안내 봉사 정보를 불러오는 중입니다...
     </div>
@@ -517,195 +801,927 @@ async function loadSheet() {
 
   try {
 
+    /* -------------------------------------------------------
+       API 호출
+    ------------------------------------------------------- */
+
     const response =
       await fetch(
-        SHEET_API,
-        {
-          method: "GET",
-          cache: "no-store"
-        }
+        API_URL +
+        "?t=" +
+        Date.now()
       );
 
 
     if (!response.ok) {
 
       throw new Error(
-        `HTTP ${response.status}`
+        "서버 응답 오류: " +
+        response.status
       );
+
     }
 
 
-    const json =
+    /* -------------------------------------------------------
+       JSON
+    ------------------------------------------------------- */
+
+    const data =
       await response.json();
 
 
     console.log(
       "안내 봉사 API:",
-      json
+      data
     );
 
 
-    if (!json.success) {
+    /* -------------------------------------------------------
+       API 성공 여부
+    ------------------------------------------------------- */
+
+    if (
+      !data ||
+      data.success !== true
+    ) {
 
       throw new Error(
-        json.error ||
-        "안내 봉사 데이터를 불러오지 못했습니다."
+        data?.message ||
+        data?.error ||
+        "안내 봉사 데이터를 가져오지 못했습니다."
       );
+
     }
 
 
-    /*
-     * 이번 Apps Script는
-     * 기존 data 배열 검색 방식이 아니라
-     * byNumber를 사용함
-     */
-    if (!json.byNumber) {
+    /* -------------------------------------------------------
+       번호 기반 데이터 확인
+    ------------------------------------------------------- */
+
+    if (
+      !data.byNumber
+    ) {
 
       throw new Error(
         "번호 기반 데이터(byNumber)가 없습니다."
       );
+
     }
 
 
-    /*
-     * 최소한 월 / 평일 / 주말 데이터가
-     * 존재하는지 확인
-     */
-    if (
-      !getByNumber(json.byNumber, "1")
-    ) {
+    /* -------------------------------------------------------
+       화면 출력
+    ------------------------------------------------------- */
 
-      throw new Error(
-        "1번 월 정보가 없습니다."
-      );
-    }
+    renderData(data);
 
 
-    target.innerHTML =
-      buildSheet(json);
+  }
 
-
-  } catch (error) {
+  catch (error) {
 
     console.error(
-      "안내 봉사 불러오기 오류:",
+      "안내 봉사 데이터 로드 오류:",
       error
     );
 
 
-    target.innerHTML = `
+    app.innerHTML = `
+
       <div class="error">
 
         안내 봉사 정보를
-        불러오지 못했습니다.
-
-        <br>
-
-        잠시 후 다시 시도해 주세요.
+        불러오는 중 오류가 발생했습니다.
 
         <br><br>
 
-        <small>
-          ${escapeHtml(error.message)}
-        </small>
+        ${escapeHtml(error.message)}
 
       </div>
+
     `;
+
   }
+
 }
 
 
 /* =========================================================
-   테마 변경
-   ========================================================= */
-function toggleTheme() {
+   전체 화면 출력
+========================================================= */
 
-  document.body.classList.toggle(
-    "dark"
-  );
+function renderData(data) {
+
+  const byNumber =
+    data.byNumber || {};
 
 
-  const isDark =
-    document.body.classList.contains(
-      "dark"
+  /* =======================================================
+     1번 : 월
+  ======================================================= */
+
+  const monthItem =
+    getByNumber(
+      byNumber,
+      "1"
     );
 
 
-  localStorage.setItem(
-    "theme",
-    isDark
-      ? "dark"
-      : "light"
-  );
+  const month =
+    monthItem
+      ? monthItem.b || ""
+      : "";
+
+
+  document.getElementById(
+    "referenceDate"
+  ).textContent =
+    month;
+
+
+  let html = "";
+
+
+  /* =======================================================
+     2번 : 평일 집회
+  ======================================================= */
+
+  const weekdayRows = [];
+
+
+  for (
+    let i = 2;
+    i <= 6;
+    i++
+  ) {
+
+    const item =
+      getByNumber(
+        byNumber,
+        "2-" + i
+      );
+
+
+    if (!item) {
+      continue;
+    }
+
+
+    const date =
+      item.b || "";
+
+    const volunteer1 =
+      item.c || "";
+
+    const volunteer2 =
+      item.d || "";
+
+
+    /* 완전히 빈 행은 제외 */
+
+    if (
+      !date &&
+      !volunteer1 &&
+      !volunteer2
+    ) {
+      continue;
+    }
+
+
+    weekdayRows.push({
+      number: "2-" + i,
+      date: date,
+      volunteer1: volunteer1,
+      volunteer2: volunteer2
+    });
+
+  }
+
+
+  /* =======================================================
+     평일 화면
+  ======================================================= */
+
+  html += `
+
+    <section class="section">
+
+      <div class="section-title">
+
+        <h2>
+          평일 집회(화)
+        </h2>
+
+        <div class="total-count">
+          ${weekdayRows.length}회
+        </div>
+
+      </div>
+
+
+      <div class="reference-card">
+
+        <div class="reference-list">
+
+  `;
+
+
+  if (
+    weekdayRows.length === 0
+  ) {
+
+    html += `
+
+      <div class="empty-message">
+        평일 집회 일정이 없습니다.
+      </div>
+
+    `;
+
+  }
+
+  else {
+
+    weekdayRows.forEach(
+      function(row) {
+
+        html += `
+
+          <div class="reference-item">
+
+            <strong>
+              ${escapeHtml(row.date)}
+            </strong>
+
+            <br>
+
+            봉사자1 :
+            ${escapeHtml(row.volunteer1 || "없음")}
+
+            <br>
+
+            봉사자2 :
+            ${escapeHtml(row.volunteer2 || "없음")}
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+
+  html += `
+
+        </div>
+
+      </div>
+
+    </section>
+
+  `;
+
+
+  /* =======================================================
+     3번 : 주말 집회
+  ======================================================= */
+
+  const weekendRows = [];
+
+
+  for (
+    let i = 2;
+    i <= 6;
+    i++
+  ) {
+
+    const item =
+      getByNumber(
+        byNumber,
+        "3-" + i
+      );
+
+
+    if (!item) {
+      continue;
+    }
+
+
+    const date =
+      item.b || "";
+
+    const volunteer1 =
+      item.c || "";
+
+    const volunteer2 =
+      item.d || "";
+
+
+    if (
+      !date &&
+      !volunteer1 &&
+      !volunteer2
+    ) {
+      continue;
+    }
+
+
+    weekendRows.push({
+      number: "3-" + i,
+      date: date,
+      volunteer1: volunteer1,
+      volunteer2: volunteer2
+    });
+
+  }
+
+
+  /* =======================================================
+     주말 화면
+  ======================================================= */
+
+  html += `
+
+    <section class="section">
+
+      <div class="section-title">
+
+        <h2>
+          주말 집회(토)
+        </h2>
+
+        <div class="total-count">
+          ${weekendRows.length}회
+        </div>
+
+      </div>
+
+
+      <div class="reference-card">
+
+        <div class="reference-list">
+
+  `;
+
+
+  if (
+    weekendRows.length === 0
+  ) {
+
+    html += `
+
+      <div class="empty-message">
+        주말 집회 일정이 없습니다.
+      </div>
+
+    `;
+
+  }
+
+  else {
+
+    weekendRows.forEach(
+      function(row) {
+
+        html += `
+
+          <div class="reference-item">
+
+            <strong>
+              ${escapeHtml(row.date)}
+            </strong>
+
+            <br>
+
+            봉사자1 :
+            ${escapeHtml(row.volunteer1 || "없음")}
+
+            <br>
+
+            봉사자2 :
+            ${escapeHtml(row.volunteer2 || "없음")}
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+
+  html += `
+
+        </div>
+
+      </div>
+
+    </section>
+
+  `;
+
+
+  /* =======================================================
+     4번 : 외부 주차 안내
+  ======================================================= */
+
+  const parking =
+    getByNumber(
+      byNumber,
+      "4"
+    );
+
+
+  if (
+    parking &&
+    parking.b
+  ) {
+
+    html += `
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <h2>
+            외부 주차 안내
+          </h2>
+
+          <div class="total-count">
+            안내
+          </div>
+
+        </div>
+
+
+        <div class="reference-card">
+
+          <div class="reference-list">
+
+            <div class="reference-item">
+
+              ${escapeHtml(parking.b)}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    `;
+
+  }
+
+
+  /* =======================================================
+     5번 : 집단 청소 및 내부 안내인
+  ======================================================= */
+
+  const cleaning =
+    getByNumber(
+      byNumber,
+      "5"
+    );
+
+
+  if (
+    cleaning
+  ) {
+
+    const text1 =
+      cleaning.b || "";
+
+    const text2 =
+      cleaning.c || "";
+
+    const text3 =
+      cleaning.d || "";
+
+
+    const cleaningTexts = [
+      text1,
+      text2,
+      text3
+    ].filter(Boolean);
+
+
+    if (
+      cleaningTexts.length > 0
+    ) {
+
+      html += `
+
+        <section class="section">
+
+          <div class="section-title">
+
+            <h2>
+              집단 청소 및 내부 안내인
+            </h2>
+
+            <div class="total-count">
+              1건
+            </div>
+
+          </div>
+
+
+          <div class="reference-card">
+
+            <div class="reference-list">
+
+      `;
+
+
+      cleaningTexts.forEach(
+        function(text) {
+
+          html += `
+
+            <div class="reference-item">
+              ${escapeHtml(text)}
+            </div>
+
+          `;
+
+        }
+      );
+
+
+      html += `
+
+            </div>
+
+          </div>
+
+        </section>
+
+      `;
+
+    }
+
+  }
+
+
+  /* =======================================================
+     6 ~ 11번 : 안내사항
+  ======================================================= */
+
+  const notices = [];
+
+
+  for (
+    let i = 6;
+    i <= 11;
+    i++
+  ) {
+
+    const item =
+      getByNumber(
+        byNumber,
+        String(i)
+      );
+
+
+    if (!item) {
+      continue;
+    }
+
+
+    const texts = [
+      item.b || "",
+      item.c || "",
+      item.d || ""
+    ].filter(Boolean);
+
+
+    const text =
+      texts.join(" ");
+
+
+    if (!text) {
+      continue;
+    }
+
+
+    notices.push({
+      number: String(i),
+      text: text
+    });
+
+  }
+
+
+  /* =======================================================
+     안내사항 화면
+  ======================================================= */
+
+  if (
+    notices.length > 0
+  ) {
+
+    html += `
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <h2>
+            안내사항
+          </h2>
+
+          <div class="total-count">
+            ${notices.length}건
+          </div>
+
+        </div>
+
+
+        <div class="reference-card">
+
+          <div class="reference-list">
+
+    `;
+
+
+    notices.forEach(
+      function(item) {
+
+        html += `
+
+          <div class="reference-item">
+
+            ${escapeHtml(item.text)}
+
+          </div>
+
+        `;
+
+      }
+    );
+
+
+    html += `
+
+          </div>
+
+        </div>
+
+      </section>
+
+    `;
+
+  }
+
+
+  /* =======================================================
+     화면 적용
+  ======================================================= */
+
+  document.getElementById(
+    "app"
+  ).innerHTML =
+    html;
+
 }
 
 
 /* =========================================================
-   글자 크기 변경
-   ========================================================= */
-function changeFontSize(size) {
+   HTML 문자 처리
+========================================================= */
 
-  document.documentElement.style.setProperty(
+function escapeHtml(text) {
+
+  return String(
+    text ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* =========================================================
+   뒤로가기
+========================================================= */
+
+function goBack() {
+
+  if (
+    window.history.length > 1
+  ) {
+
+    window.history.back();
+
+  }
+
+  else {
+
+    window.location.href =
+      "전시대관리자.html";
+
+  }
+
+}
+
+
+/* =========================================================
+   설정
+========================================================= */
+
+const SETTINGS_THEME_KEY =
+  "외부안내봉사_theme";
+
+const SETTINGS_FONT_KEY =
+  "외부안내봉사_fontSize";
+
+
+function applySettings() {
+
+  const theme =
+    localStorage.getItem(
+      SETTINGS_THEME_KEY
+    ) || "dark";
+
+
+  const fontSize =
+    Number(
+      localStorage.getItem(
+        SETTINGS_FONT_KEY
+      )
+    ) || 100;
+
+
+  document.body.classList.toggle(
+    "light",
+    theme === "light"
+  );
+
+
+  document.body.style.setProperty(
     "--font-scale",
-    size
+    fontSize / 100
   );
+
+
+  document.body.style.zoom =
+    String(
+      fontSize / 100
+    );
+
+
+  document.getElementById(
+    "fontSizeValue"
+  ).textContent =
+    fontSize + "%";
+
+
+  document.getElementById(
+    "darkButton"
+  ).classList.toggle(
+    "active",
+    theme === "dark"
+  );
+
+
+  document.getElementById(
+    "lightButton"
+  ).classList.toggle(
+    "active",
+    theme === "light"
+  );
+
+}
+
+
+function setTheme(theme) {
+
+  localStorage.setItem(
+    SETTINGS_THEME_KEY,
+    theme
+  );
+
+  applySettings();
+
+}
+
+
+function changeFontSize(amount) {
+
+  let fontSize =
+    Number(
+      localStorage.getItem(
+        SETTINGS_FONT_KEY
+      )
+    ) || 100;
+
+
+  fontSize += amount;
+
+
+  if (
+    fontSize < 80
+  ) {
+    fontSize = 80;
+  }
+
+
+  if (
+    fontSize > 150
+  ) {
+    fontSize = 150;
+  }
 
 
   localStorage.setItem(
-    "fontScale",
-    size
+    SETTINGS_FONT_KEY,
+    fontSize
   );
+
+
+  applySettings();
+
 }
 
 
-/* =========================================================
-   홈으로
-   ========================================================= */
-function goHome() {
+function toggleSettings() {
 
-  history.back();
+  document.getElementById(
+    "settingsPanel"
+  ).classList.toggle(
+    "show"
+  );
+
 }
 
 
-/* =========================================================
-   페이지 시작
-   ========================================================= */
 document.addEventListener(
   "DOMContentLoaded",
-  () => {
+  function() {
 
-    const savedTheme =
-      localStorage.getItem(
-        "theme"
+    applySettings();
+
+  }
+);
+
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+    const panel =
+      document.getElementById(
+        "settingsPanel"
+      );
+
+    const button =
+      document.querySelector(
+        ".settings-button"
       );
 
 
     if (
-      savedTheme === "dark"
+      panel &&
+      panel.classList.contains("show") &&
+      !panel.contains(event.target) &&
+      !button.contains(event.target)
     ) {
 
-      document.body.classList.add(
-        "dark"
+      panel.classList.remove(
+        "show"
       );
+
     }
 
-
-    const savedFontScale =
-      localStorage.getItem(
-        "fontScale"
-      );
-
-
-    if (savedFontScale) {
-
-      document.documentElement.style.setProperty(
-        "--font-scale",
-        savedFontScale
-      );
-    }
-
-
-    loadSheet();
   }
 );
 
