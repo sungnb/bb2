@@ -1,1422 +1,290 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
-               user-scalable=no, viewport-fit=cover">
-
-<meta name="theme-color" content="#f3f6fa">
-
-<title>외부 안내 봉사</title>
-
-<style>
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html{
-  margin:0;
-  padding:0;
-  background:#f3f6fa;
-  --font-scale:1;
-}
-
-body{
-  margin:0;
-  padding:20px 13px 40px;
-  min-height:100vh;
-  background:#f3f6fa;
-  color:#172033;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans KR",
-    "Malgun Gothic",
-    sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-
-.container{
-  width:100%;
-  max-width:760px;
-  margin:0 auto;
-}
-
-/* 상단 */
-
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:16px;
-}
-
-.back-button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:42px;
-  padding:0 14px;
-  border:1px solid #d9e2ec;
-  border-radius:13px;
-  background:#fff;
-  color:#172033;
-  font-size:calc(15px * var(--font-scale));
-  font-weight:800;
-  cursor:pointer;
-}
-
-.settings-wrap{
-  position:relative;
-}
-
-.settings-button{
-  width:42px;
-  height:42px;
-  border:1px solid #d9e2ec;
-  border-radius:13px;
-  background:#fff;
-  color:#52657a;
-  font-size:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:0 3px 12px rgba(16,42,67,.07);
-}
-
-.settings-menu{
-  display:none;
-  position:absolute;
-  right:0;
-  top:49px;
-  width:190px;
-  padding:7px;
-  background:#fff;
-  border:1px solid #d9e2ec;
-  border-radius:16px;
-  box-shadow:0 12px 30px rgba(16,42,67,.16);
-  z-index:20;
-}
-
-.settings-menu.show{
-  display:block;
-}
-
-.theme-option,
-.font-size-option{
-  width:100%;
-  min-height:42px;
-  border:0;
-  border-radius:11px;
-  background:transparent;
-  color:#172033;
-  font-size:15px;
-  font-weight:700;
-  text-align:left;
-  padding:0 12px;
-  cursor:pointer;
-}
-
-.font-size-option{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.font-size-icon{
-  width:30px;
-  height:30px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:9px;
-  background:#e7f0ff;
-  font-size:18px;
-  font-weight:800;
-}
-
-.font-size-panel{
-  display:none;
-  padding:5px 7px 9px;
-}
-
-.font-size-panel.show{
-  display:block;
-}
-
-.font-size-control{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-}
-
-.font-size-arrow{
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:11px;
-  background:#eef3f8;
-  color:#172033;
-  font-size:24px;
-  font-weight:700;
-  line-height:1;
-  cursor:pointer;
-}
-
-.font-size-current{
-  flex:1;
-  text-align:center;
-  font-size:16px;
-  font-weight:800;
-  color:#172033;
-}
-
-
-/* 제목 */
-
-.header{
-  padding:4px 3px 17px;
-}
-
-.title{
-  margin:0;
-  font-size:calc(27px * var(--font-scale));
-  font-weight:800;
-  letter-spacing:-1px;
-  line-height:1.2;
-  color:#102a43;
-}
-
-.subtitle{
-  margin:7px 0 0;
-  font-size:calc(14px * var(--font-scale));
-  color:#68707d;
-  line-height:1.5;
-}
-
-
-/* 카드 */
-
-.card{
-  background:#fff;
-  border:1px solid #dfe6ee;
-  border-radius:20px;
-  margin-bottom:14px;
-  padding:15px;
-  box-shadow:0 4px 15px rgba(16,42,67,.06);
-  overflow:hidden;
-}
-
-.section-title{
-  font-size:calc(18px * var(--font-scale));
-  font-weight:800;
-  margin:2px 2px 13px;
-  color:#17324d;
-}
-
-
-/* 표 */
-
-.table-wrap{
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-}
-
-table{
-  width:100%;
-  min-width:100%;
-  border-collapse:separate;
-  border-spacing:0;
-  font-size:calc(14px * var(--font-scale));
-  text-align:center;
-}
-
-th,
-td{
-  padding:10px 8px;
-  border-right:1px solid #dfe6ee;
-  border-bottom:1px solid #dfe6ee;
-  vertical-align:middle;
-  line-height:1.4;
-}
-
-th{
-  background:#f1f5f9;
-  font-weight:800;
-  color:#30465d;
-  white-space:nowrap;
-}
-
-td{
-  background:#fff;
-  font-weight:650;
-}
-
-td:first-child,
-th:first-child{
-  border-left:1px solid #dfe6ee;
-}
-
-thead tr:first-child th:first-child{
-  border-top-left-radius:10px;
-}
-
-thead tr:first-child th:last-child{
-  border-top-right-radius:10px;
-}
-
-tbody tr:last-child td:first-child{
-  border-bottom-left-radius:10px;
-}
-
-tbody tr:last-child td:last-child{
-  border-bottom-right-radius:10px;
-}
-
-
-/* 안내문 */
-
-.note{
-  margin-top:13px;
-  padding:13px 14px;
-  background:#f6f8fb;
-  border-radius:13px;
-  font-size:calc(13px * var(--font-scale));
-  line-height:1.65;
-  color:#596b7d;
-}
-
-.info-title{
-  font-size:calc(17px * var(--font-scale));
-  font-weight:800;
-  margin:0 0 10px;
-  color:#17324d;
-}
-
-.info-line{
-  font-size:calc(14px * var(--font-scale));
-  line-height:1.7;
-  margin:7px 0;
-  color:#44566a;
-}
-
-.warning{
-  margin-top:12px;
-  padding:13px 14px;
-  border-radius:13px;
-  background:#fff8e6;
-  color:#705515;
-  font-size:calc(13px * var(--font-scale));
-  line-height:1.65;
-}
-
-
-/* 모바일 */
-
-@media(max-width:430px){
-
-  body{
-    padding:16px 11px 34px;
-  }
-
-  .title{
-    font-size:calc(23px * var(--font-scale));
-  }
-
-  .subtitle{
-    font-size:calc(13px * var(--font-scale));
-  }
-
-  .card{
-    padding:12px;
-    border-radius:17px;
-  }
-
-  .section-title{
-    font-size:calc(17px * var(--font-scale));
-  }
-
-  th,
-  td{
-    padding:9px 7px;
-    font-size:calc(13px * var(--font-scale));
-  }
-
-}
-
-
-/* 어두운 화면 */
-
-body.dark-theme,
-html.dark-theme{
-  background:#18212b;
-  color:#f0f3f6;
-}
-
-body.dark-theme .back-button,
-body.dark-theme .settings-button,
-body.dark-theme .settings-menu,
-body.dark-theme .card{
-  background:#26313d;
-  border-color:#3b4856;
-  color:#f0f3f6;
-}
-
-body.dark-theme .title,
-body.dark-theme .section-title,
-body.dark-theme .info-title{
-  color:#fff;
-}
-
-body.dark-theme .subtitle{
-  color:#aeb9c6;
-}
-
-body.dark-theme th{
-  background:#334150;
-  color:#e9eef3;
-  border-color:#465564;
-}
-
-body.dark-theme td{
-  background:#202b36;
-  color:#f0f3f6;
-  border-color:#3d4a58;
-}
-
-body.dark-theme .note{
-  background:#202b36;
-  color:#aeb9c6;
-}
-
-body.dark-theme .info-line{
-  color:#d2dbe4;
-}
-
-body.dark-theme .warning{
-  background:#3d3422;
-  color:#f0d98b;
-}
-
-body.dark-theme .theme-option,
-body.dark-theme .font-size-option{
-  color:#f0f3f6;
-}
-
-body.dark-theme .font-size-icon,
-body.dark-theme .font-size-arrow{
-  background:#334150;
-  color:#f0f3f6;
-}
-
-body.dark-theme .font-size-current{
-  color:#fff;
-}
-
-</style>
-</head>
-
-
-<body>
-
-<div class="container">
-
-  <!-- 상단 -->
-
-  <div class="topbar">
-
-    <button
-      class="back-button"
-      type="button"
-      onclick="goHome()">
-      🏠 홈
-    </button>
-
-
-    <div
-      class="settings-wrap"
-      id="settingsWrap">
-
-      <button
-        class="settings-button"
-        id="settingsButton"
-        type="button">
-        ⚙️
-      </button>
-
-
-      <div
-        class="settings-menu"
-        id="settingsMenu">
-
-        <button
-          class="theme-option"
-          id="lightThemeButton"
-          type="button">
-          ☀️ 밝게
-        </button>
-
-
-        <button
-          class="theme-option"
-          id="darkThemeButton"
-          type="button">
-          🌙 어둡게
-        </button>
-
-
-        <button
-          class="font-size-option"
-          id="fontSizeButton"
-          type="button">
-
-          <span class="font-size-icon">
-            A
-          </span>
-
-          <span>
-            글자 크기
-          </span>
-
-        </button>
-
-
-        <div
-          class="font-size-panel"
-          id="fontSizePanel">
-
-          <div class="font-size-control">
-
-            <button
-              class="font-size-arrow"
-              id="fontSizeDecrease"
-              type="button">
-              ‹
-            </button>
-
-
-            <span
-              class="font-size-current"
-              id="fontSizeValue">
-              100%
-            </span>
-
-
-            <button
-              class="font-size-arrow"
-              id="fontSizeIncrease"
-              type="button">
-              ›
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- Google Sheets 자료가 들어오는 곳 -->
-
-  <main id="sheetContent">
-
-    <section class="card">
-
-      <div
-        style="
-          text-align:center;
-          padding:28px 10px;
-          font-size:16px;
-          font-weight:700;
-        ">
-
-        자료를 불러오는 중입니다...
-
-      </div>
-
-    </section>
-
-  </main>
-
-</div>
-
-
 <script>
-
-/* =========================================================
-   설정
-========================================================= */
-
-const THEME_KEY = "bukbu_theme";
-
-const FONT_SIZE_KEY = "bukbu_font_size";
+/* =========================
+   안내 봉사 API
+   ========================= */
+const SHEET_API =
+"https://script.google.com/macros/s/AKfycbxYCCbRtORRr-sMHKOK_PMexORdAbOhFbCjhq7q6zdZBoo22eSltMmdWZM2B_BNnZHtSw/exec";
 
 
-const settingsButton =
-  document.getElementById("settingsButton");
-
-const settingsMenu =
-  document.getElementById("settingsMenu");
-
-const settingsWrap =
-  document.getElementById("settingsWrap");
-
-const fontSizeButton =
-  document.getElementById("fontSizeButton");
-
-const fontSizePanel =
-  document.getElementById("fontSizePanel");
-
-const fontSizeValue =
-  document.getElementById("fontSizeValue");
+/* =========================
+   공통 유틸
+   ========================= */
+function getByNumber(byNumber, number) {
+  if (!byNumber) return null;
+  return byNumber[String(number)] || null;
+}
 
 
-/* =========================================================
-   밝게 / 어둡게
-========================================================= */
+/* =========================
+   집회 봉사자 표
+   ========================= */
+function makeMeetingTable(title, byNumber, prefix, maxNumber) {
+  let rows = [];
 
-function applyTheme(theme, save = true){
+  for (let i = 2; i <= maxNumber; i++) {
+    const item = getByNumber(byNumber, `${prefix}-${i}`);
 
-  const dark = theme === "dark";
+    if (!item) continue;
 
-  document.body.classList.toggle(
-    "dark-theme",
-    dark
+    const date = item.b || "";
+    const volunteer1 = item.c || "";
+    const volunteer2 = item.d || "";
+
+    // 완전히 비어 있는 행은 표시하지 않음
+    if (!date && !volunteer1 && !volunteer2) continue;
+
+    rows.push(`
+      <tr>
+        <td>${escapeHtml(date)}</td>
+        <td>${escapeHtml(volunteer1)}</td>
+        <td>${escapeHtml(volunteer2)}</td>
+      </tr>
+    `);
+  }
+
+  if (rows.length === 0) return "";
+
+  return `
+    <div class="section">
+      <h3>${escapeHtml(title)}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>봉사자1</th>
+            <th>봉사자2</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+
+/* =========================
+   HTML 안전 처리
+   ========================= */
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================
+   안내 화면 생성
+   ========================= */
+function buildSheet(json) {
+  const byNumber = json.byNumber || {};
+
+  const monthItem = getByNumber(byNumber, "1");
+  const month = monthItem ? monthItem.b : "";
+
+  const parking = getByNumber(byNumber, "4");
+  const cleaning = getByNumber(byNumber, "5");
+
+  let html = "";
+
+  /* 제목 */
+  html += `
+    <div class="title">
+      외부 안내 봉사
+    </div>
+  `;
+
+  /* 월 */
+  if (month) {
+    html += `
+      <div class="month">
+        ${escapeHtml(month)}
+      </div>
+    `;
+  }
+
+  /* 평일 집회 */
+  html += makeMeetingTable(
+    "평일 집회(화)",
+    byNumber,
+    "2",
+    6
   );
 
-  document.documentElement.classList.toggle(
-    "dark-theme",
-    dark
+  /* 주말 집회 */
+  html += makeMeetingTable(
+    "주말 집회(토)",
+    byNumber,
+    "3",
+    6
   );
 
-  if(save){
+  /* 외부 주차 안내 */
+  if (parking && parking.b) {
+    html += `
+      <div class="notice">
+        ${escapeHtml(parking.b)}
+      </div>
+    `;
+  }
 
-    try{
+  /* 집단 청소 및 내부 안내인 */
+  if (cleaning) {
+    const text1 = cleaning.b || "";
+    const text2 = cleaning.c || "";
+    const text3 = cleaning.d || "";
 
-      localStorage.setItem(
-        THEME_KEY,
-        dark ? "dark" : "light"
+    if (text1 || text2 || text3) {
+      html += `
+        <div class="cleaning">
+          ${text1 ? `<div>${escapeHtml(text1)}</div>` : ""}
+          ${text2 ? `<div>${escapeHtml(text2)}</div>` : ""}
+          ${text3 ? `<div>${escapeHtml(text3)}</div>` : ""}
+        </div>
+      `;
+    }
+  }
+
+  /* 번호 6~11 안내사항 */
+  for (let i = 6; i <= 11; i++) {
+    const item = getByNumber(byNumber, String(i));
+
+    if (!item) continue;
+
+    const text = [item.b, item.c, item.d]
+      .filter(Boolean)
+      .join(" ");
+
+    if (!text) continue;
+
+    html += `
+      <div class="notice">
+        ${escapeHtml(text)}
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+
+/* =========================
+   데이터 불러오기
+   ========================= */
+async function loadSheet() {
+  const target = document.getElementById("sheetData");
+
+  if (!target) {
+    console.error("sheetData 요소를 찾을 수 없습니다.");
+    return;
+  }
+
+  target.innerHTML = `
+    <div class="loading">
+      안내 봉사 정보를 불러오는 중입니다...
+    </div>
+  `;
+
+  try {
+    const response = await fetch(SHEET_API, {
+      method: "GET",
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    console.log("안내 봉사 API:", json);
+
+    if (!json.success) {
+      throw new Error(
+        json.error || "안내 봉사 데이터를 불러오지 못했습니다."
       );
+    }
 
-    }catch(e){}
+    if (!json.byNumber) {
+      throw new Error(
+        "번호 기반 안내 봉사 데이터(byNumber)가 없습니다."
+      );
+    }
 
+    if (!getByNumber(json.byNumber, "1")) {
+      throw new Error("1번 월 정보가 없습니다.");
+    }
+
+    target.innerHTML = buildSheet(json);
+
+  } catch (error) {
+    console.error("안내 봉사 불러오기 오류:", error);
+
+    target.innerHTML = `
+      <div class="error">
+        안내 봉사 정보를 불러오지 못했습니다.<br>
+        잠시 후 다시 시도해 주세요.
+      </div>
+    `;
   }
-
 }
 
 
-function loadTheme(){
+/* =========================
+   테마
+   ========================= */
+function toggleTheme() {
+  document.body.classList.toggle("dark");
 
-  let theme = "light";
-
-  try{
-
-    theme =
-      localStorage.getItem(THEME_KEY)
-      || "light";
-
-  }catch(e){}
-
-  applyTheme(theme,false);
-
+  const isDark = document.body.classList.contains("dark");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
 }
 
 
-/* =========================================================
+/* =========================
    글자 크기
-   최소 80%
-   최대 150%
-   5%씩 변경
-========================================================= */
-
-function applyFontSize(value,save=true){
-
-  let size = Number(value);
-
-  if(!Number.isFinite(size)){
-    size = 1;
-  }
-
-  size =
-    Math.min(
-      1.5,
-      Math.max(
-        0.8,
-        size
-      )
-    );
-
-  size =
-    Math.round(size * 20) / 20;
-
-
+   ========================= */
+function changeFontSize(size) {
   document.documentElement.style.setProperty(
     "--font-scale",
     size
   );
 
-
-  fontSizeValue.textContent =
-    Math.round(size * 100) + "%";
-
-
-  if(save){
-
-    try{
-
-      localStorage.setItem(
-        FONT_SIZE_KEY,
-        String(size)
-      );
-
-    }catch(e){}
-
-  }
-
+  localStorage.setItem("fontScale", size);
 }
 
 
-function loadFontSize(){
-
-  let size = 1;
-
-  try{
-
-    const value =
-      localStorage.getItem(FONT_SIZE_KEY);
-
-    if(value !== null){
-      size = Number(value);
-    }
-
-  }catch(e){}
-
-  applyFontSize(size,false);
-
+/* =========================
+   홈으로
+   ========================= */
+function goHome() {
+  history.back();
 }
 
 
-/* =========================================================
-   설정 버튼
-========================================================= */
-
-settingsButton.addEventListener(
-  "click",
-  function(e){
-
-    e.stopPropagation();
-
-    settingsMenu.classList.toggle("show");
-
-  }
-);
-
-
-fontSizeButton.addEventListener(
-  "click",
-  function(e){
-
-    e.stopPropagation();
-
-    fontSizePanel.classList.toggle("show");
-
-  }
-);
-
-
-document
-  .getElementById("lightThemeButton")
-  .addEventListener(
-    "click",
-    function(){
-
-      applyTheme("light");
-
-      settingsMenu.classList.remove("show");
-
-    }
-  );
-
-
-document
-  .getElementById("darkThemeButton")
-  .addEventListener(
-    "click",
-    function(){
-
-      applyTheme("dark");
-
-      settingsMenu.classList.remove("show");
-
-    }
-  );
-
-
-document
-  .getElementById("fontSizeDecrease")
-  .addEventListener(
-    "click",
-    function(e){
-
-      e.stopPropagation();
-
-      let size =
-        Number(
-          localStorage.getItem(
-            FONT_SIZE_KEY
-          )
-        );
-
-      if(!Number.isFinite(size)){
-        size = 1;
-      }
-
-      applyFontSize(
-        size - 0.05
-      );
-
-    }
-  );
-
-
-document
-  .getElementById("fontSizeIncrease")
-  .addEventListener(
-    "click",
-    function(e){
-
-      e.stopPropagation();
-
-      let size =
-        Number(
-          localStorage.getItem(
-            FONT_SIZE_KEY
-          )
-        );
-
-      if(!Number.isFinite(size)){
-        size = 1;
-      }
-
-      applyFontSize(
-        size + 0.05
-      );
-
-    }
-  );
-
-
-document.addEventListener(
-  "click",
-  function(e){
-
-    if(!settingsWrap.contains(e.target)){
-
-      settingsMenu.classList.remove(
-        "show"
-      );
-
-      fontSizePanel.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   홈
-========================================================= */
-
-function goHome(){
-
-  window.location.href =
-    "./index.html";
-
-}
-
-
-/* =========================================================
-   Google Sheets Apps Script API
-   새 주소
-========================================================= */
-
-const SHEET_API =
-"https://script.google.com/macros/s/AKfycbzRt8FkKk4bALMGK7bKvVLcSU36kIH_pHKETK7_-RnDQwO-gB4R1Yopfen0jeAiM_LodQ/exec";
-
-
-/* =========================================================
-   HTML 문자 안전 처리
-========================================================= */
-
-function esc(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
-
-}
-
-
-/* =========================================================
-   Google Sheets 셀 읽기
-
-   새 시트 구조
-
-   A = 0
-   B = 1
-   C = 2
-   D = 3
-
-   실제 사용
-
-   B = 날짜 / 제목 / 안내
-   C = 봉사자1
-   D = 봉사자2
-========================================================= */
-
-function cell(row,index){
-
-  return String(
-    (row || [])[index] ?? ""
-  ).trim();
-
-}
-
-
-/* =========================================================
-   집회 표
-========================================================= */
-
-function makeTable(
-  title,
-  rows,
-  weekend
-){
-
-  const headers = [
-    "날짜",
-    "봉사자1",
-    "봉사자2"
-  ];
-
-
-  let body = "";
-
-
-  rows
-    .slice(2)
-    .forEach(function(row){
-
-      const values = [
-
-        cell(row,1),
-
-        cell(row,2),
-
-        cell(row,3)
-
-      ];
-
-
-      if(values.some(Boolean)){
-
-        body +=
-          "<tr>" +
-
-          values
-            .map(function(value){
-
-              return (
-                "<td>" +
-                esc(value) +
-                "</td>"
-              );
-
-            })
-            .join("") +
-
-          "</tr>";
-
-      }
-
-    });
-
-
-  return (
-
-    '<section class="card">' +
-
-      '<div class="section-title">' +
-        esc(title) +
-      '</div>' +
-
-      '<div class="table-wrap">' +
-
-        '<table>' +
-
-          '<thead>' +
-
-            '<tr>' +
-
-              headers
-                .map(function(header){
-
-                  return (
-                    "<th>" +
-                    esc(header) +
-                    "</th>"
-                  );
-
-                })
-                .join("") +
-
-            '</tr>' +
-
-          '</thead>' +
-
-          '<tbody>' +
-
-            body +
-
-          '</tbody>' +
-
-        '</table>' +
-
-      '</div>' +
-
-    '</section>'
-
-  );
-
-}
-
-
-/* =========================================================
-   Google Sheets 전체 자료 구성
-========================================================= */
-
-function buildSheet(data){
-
-  const rows =
-    data || [];
-
-
-  let title = "";
-
-  let month = "";
-
-  let weekdayIndex = -1;
-
-  let weekendIndex = -1;
-
-  let note = "";
-
-  let group = "";
-
-
-  const info = [];
-
-
-  rows.forEach(
-    function(row,index){
-
-      const value =
-        cell(row,1);
-
-
-      /* 제목 */
-
-      if(
-        value.includes(
-          "안내 봉사 임명"
-        )
-      ){
-
-        title = value;
-
-      }
-
-
-      /* 월 */
-
-      if(
-        /^20\d{2}년\s*\d{1,2}월$/
-          .test(value)
-      ){
-
-        month = value;
-
-      }
-
-
-      /* 평일 집회 */
-
-      if(
-        value.includes(
-          "평일 집회"
-        )
-      ){
-
-        weekdayIndex = index;
-
-      }
-
-
-      /* 주말 집회 */
-
-      if(
-        value.includes(
-          "주말 집회"
-        )
-      ){
-
-        weekendIndex = index;
-
-      }
-
-
-      /* 외부 주차 안내 */
-
-      if(
-        value.startsWith(
-          "※ 외부 주차 안내"
-        )
-      ){
-
-        note = value;
-
-      }
-
-
-      /* 집단 청소 */
-
-      if(
-        value.includes(
-          "[집단 청소 및 내부 안내인]"
-        )
-      ){
-
-        group = value;
-
-      }
-
-
-      /* 하단 안내 */
-
-      if(
-        value.startsWith("●") ||
-        value.startsWith("※ 청중석")
-      ){
-
-        info.push(value);
-
-      }
-
-    }
-  );
-
-
-  let output =
-
-    '<header class="header">' +
-
-      '<h1 class="title">' +
-
-        esc(
-          title ||
-          "왕국회관 안내 봉사 임명"
-        ) +
-
-      '</h1>' +
-
-      '<p class="subtitle">' +
-
-        esc(month) +
-
-      '</p>' +
-
-    '</header>';
-
-
-  /* 평일 */
-
-  if(weekdayIndex >= 0){
-
-    output +=
-      makeTable(
-        "평일 집회(화)",
-        rows.slice(
-          weekdayIndex,
-          weekdayIndex + 7
-        ),
-        false
-      );
-
+/* =========================
+   초기화
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
   }
 
+  const savedFontScale = localStorage.getItem("fontScale");
 
-  /* 주말 */
-
-  if(weekendIndex >= 0){
-
-    output +=
-      makeTable(
-        "주말 집회(토)",
-        rows.slice(
-          weekendIndex,
-          weekendIndex + 7
-        ),
-        true
-      );
-
-  }
-
-
-  /* 외부 주차 안내 */
-
-  if(note){
-
-    output +=
-
-      '<section class="card">' +
-
-        '<div class="warning">' +
-
-          esc(note) +
-
-        '</div>' +
-
-      '</section>';
-
-  }
-
-
-  /* 하단 안내 */
-
-  if(
-    group ||
-    info.length
-  ){
-
-    output +=
-
-      '<section class="card">' +
-
-        '<h2 class="info-title">' +
-
-          esc(group) +
-
-        '</h2>';
-
-
-    info.forEach(
-      function(text){
-
-        if(
-          text.startsWith(
-            "※ 청중석"
-          )
-        ){
-
-          output +=
-
-            '<div class="note">' +
-
-              esc(text) +
-
-            '</div>';
-
-        }else{
-
-          output +=
-
-            '<p class="info-line">' +
-
-              esc(text) +
-
-            '</p>';
-
-        }
-
-      }
+  if (savedFontScale) {
+    document.documentElement.style.setProperty(
+      "--font-scale",
+      savedFontScale
     );
-
-
-    output +=
-
-      '</section>';
-
   }
 
-
-  return output;
-
-}
-
-
-/* =========================================================
-   Google Sheets에서 자료 가져오기
-========================================================= */
-
-async function loadSheet(){
-
-  const target =
-    document.getElementById(
-      "sheetContent"
-    );
-
-  /*
-     최신 Google Sheets 자료를 먼저 확인한 뒤
-     화면에 표시합니다.
-
-     이전 자료는 화면에 사용하지 않습니다.
-     따라서 Sheets가 변경되었는데도
-     예전 자료를 최신 자료로 착각하는 일이 없습니다.
-
-     속도 개선:
-     - Date.now()를 붙여 매번 새로운 URL을 만들지 않습니다.
-     - no-store를 제거하여 브라우저/네트워크의
-       정상적인 연결 재사용을 허용합니다.
-     - AbortController로 비정상적으로 오래 걸리는
-       요청을 적절히 종료합니다.
-  */
-
-  const controller =
-    new AbortController();
-
-  const timeout =
-    setTimeout(
-      function(){
-        controller.abort();
-      },
-      30000
-    );
-
-
-  try{
-
-    const response =
-      await fetch(
-        SHEET_API,
-        {
-          method:"GET",
-          cache:"no-cache",
-          signal:controller.signal
-        }
-      );
-
-
-    clearTimeout(timeout);
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const json =
-      await response.json();
-
-
-    if(
-      !json.success ||
-      !Array.isArray(
-        json.data
-      )
-    ){
-
-      throw new Error(
-        "Google Sheets 응답 형식 오류"
-      );
-
-    }
-
-
-    /*
-       최신 자료를 정상적으로 확인한 경우에만
-       화면을 변경합니다.
-    */
-    target.innerHTML =
-      buildSheet(
-        json.data
-      );
-
-
-  }catch(error){
-
-    clearTimeout(timeout);
-
-    console.error(error);
-
-
-    /*
-       최신 자료를 확인하지 못했으므로
-       이전 자료를 보여주지 않습니다.
-    */
-    let message =
-      '❌ 최신 자료를 가져오지 못했습니다.';
-
-    if(error && error.name === "AbortError"){
-
-      message +=
-        '<br><br>Google Sheets 응답이 너무 오래 걸리고 있습니다.';
-
-    }else{
-
-      message +=
-        '<br><br>Google Sheets 연결을 확인해 주세요.';
-
-    }
-
-
-    target.innerHTML =
-
-      '<section class="card">' +
-
-        '<div class="warning">' +
-
-          message +
-
-        '</div>' +
-
-      '</section>';
-
-  }
-
-}
-
-
-/* =========================================================
-   시작
-========================================================= */
-
-loadTheme();
-
-loadFontSize();
-
-loadSheet();
-
+  loadSheet();
+});
 </script>
-
-</body>
-</html>
