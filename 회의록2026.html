@@ -78,1191 +78,410 @@ body.dark .settings-row button,body.dark .font-size-row button{background:#26332
 @media(max-width:600px){.page-title{font-size:28px}.card-title{font-size:17px}.date-box{flex-basis:60px;width:60px;min-width:60px;padding-right:11px}.date-month{font-size:12px}.date-day{font-size:17px}.meeting-item{font-size:14px;line-height:1.35!important;margin-bottom:8px!important}.part-label{font-size:14px;font-weight:900;padding:8px 9px;text-align:left}.part-body{font-size:14px;padding:8px 9px}.meeting-item.agenda .part-label,.meeting-item.content .part-label{font-size:14.5px;font-weight:900}}
 body{transform-origin:top left}
 
-/* Google 계정 변경 버튼 */
-.account-button{
-  border:0;
-  background:transparent;
-  font-size:20px;
-  cursor:pointer;
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.15s
-}
-.account-button:hover{background:rgba(40,107,91,.10)}
-.account-button:active{transform:scale(.95)}
-body.dark .account-button:hover{background:rgba(145,208,187,.12)}
-
 /* 계정 변경 안내창 */
-#accountChangeGate{
-  position:fixed;
-  inset:0;
-  z-index:1100;
-  background:rgba(18,23,21,.48);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  backdrop-filter:blur(3px)
-}
-.account-change-box{
-  width:min(390px,100%);
-  background:#fff;
-  border:1px solid #d9e2de;
-  border-radius:18px;
-  padding:28px 22px;
-  text-align:center;
-  box-shadow:0 12px 40px rgba(0,0,0,.18)
-}
-.account-change-title{
-  font-size:20px;
-  font-weight:900;
-  color:#286b5b;
-  margin-bottom:8px
-}
-.account-change-message{
-  font-size:14px;
-  color:#66736d;
-  line-height:1.55;
-  margin-bottom:18px;
-  white-space:pre-line
-}
-#accountChangeGoogleButton{
-  display:flex;
-  justify-content:center;
-  min-height:44px
-}
-.account-change-close{
-  margin-top:14px;
-  border:1px solid #d4ddd9;
-  background:#f5f7f6;
-  color:#52605a;
-  border-radius:10px;
-  padding:9px 18px;
-  font-size:13px;
-  cursor:pointer
-}
-body.dark .account-change-box{
-  background:#1a211e;
-  border-color:#35403b
-}
+#accountChangeGate{position:fixed;inset:0;z-index:1100;background:rgba(18,23,21,.48);display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px)}
+.account-change-box{width:min(390px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.account-change-title{font-size:20px;font-weight:900;color:#286b5b;margin-bottom:8px}
+.account-change-message{font-size:14px;color:#66736d;line-height:1.55;margin-bottom:18px}
+#accountChangeGoogleButton{display:flex;justify-content:center;min-height:44px}
+.account-change-close{margin-top:14px;border:1px solid #d4ddd9;background:#f5f7f6;color:#52605a;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer}
+body.dark .account-change-box{background:#1a211e;border-color:#35403b}
 body.dark .account-change-title{color:#91d0bb}
 body.dark .account-change-message{color:#a9b4af}
-body.dark .account-change-close{
-  background:#242d29;
-  border-color:#3b4742;
-  color:#c3ccc8
-}
+body.dark .account-change-close{background:#242d29;border-color:#3b4742;color:#c3ccc8}
 
 /* 인증 대기 화면 */
-#authGate{
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  background:#f3f5f4;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px
-}
-.auth-box{
-  width:min(380px,100%);
-  background:#fff;
-  border:1px solid #d9e2de;
-  border-radius:18px;
-  padding:28px 22px;
-  text-align:center;
-  box-shadow:0 8px 30px rgba(0,0,0,.08)
-}
-.auth-title{
-  font-size:23px;
-  font-weight:900;
-  color:#286b5b;
-  margin-bottom:8px
-}
-.auth-message{
-  font-size:14px;
-  color:#66736d;
-  line-height:1.5;
-  margin-bottom:18px;
-  white-space:pre-line
-}
-#googleButton{
-  display:flex;
-  justify-content:center;
-  min-height:44px
-}
-.auth-error{
-  margin-top:14px;
-  color:#b33a3a;
-  font-size:13px;
-  line-height:1.5
-}
+#authGate{position:fixed;inset:0;z-index:1000;background:#f3f5f4;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-box{width:min(380px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.auth-title{font-size:23px;font-weight:900;color:#286b5b;margin-bottom:8px}
+.auth-message{font-size:14px;color:#66736d;line-height:1.5;margin-bottom:18px}
+#googleButton{display:flex;justify-content:center;min-height:44px}
+.auth-error{margin-top:14px;color:#b33a3a;font-size:13px;line-height:1.5}
 body.dark #authGate{background:#121715}
-body.dark .auth-box{
-  background:#1a211e;
-  border-color:#35403b
-}
+body.dark .auth-box{background:#1a211e;border-color:#35403b}
 body.dark .auth-title{color:#91d0bb}
 body.dark .auth-message{color:#a9b4af}
-.auth-back{
-  position:absolute;
-  top:14px;
-  left:14px;
-  width:42px;
-  height:42px;
-  border:0;
-  border-radius:12px;
-  background:#edf3f0;
-  color:#286b5b;
-  font-size:27px;
-  font-weight:bold;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:2
-}
-.auth-lock{
-  font-size:42px;
-  line-height:1;
-  margin-bottom:12px
-}
-body.dark .auth-back{
-  background:#26332e;
-  color:#8fd0b9
-}
-
-/* 권한 거부 후 다시 계정 선택 */
-.retry-account-button{
-  display:none;
-  margin:16px auto 0;
-  border:0;
-  border-radius:10px;
-  padding:11px 18px;
-  background:#286b5b;
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer
-}
-.retry-account-button:active{
-  transform:scale(.98)
-}
+.auth-back{position:absolute;top:14px;left:14px;width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:27px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.auth-lock{font-size:42px;line-height:1;margin-bottom:12px}
+body.dark .auth-back{background:#26332e;color:#8fd0b9}
 </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-     Google 인증 화면
-     처음부터 사용자가 Google 계정을 선택하도록 합니다.
-========================================================= -->
+<!-- Google 인증이 완료될 때까지 회의록 화면을 잠급니다. -->
 <div id="authGate">
-
-  <button
-    class="auth-back"
-    onclick="goBack()"
-    aria-label="뒤로가기"
-    title="뒤로가기">‹</button>
-
+  <button class="auth-back" onclick="goBack()" aria-label="뒤로가기" title="뒤로가기">‹</button>
   <div class="auth-box">
-
     <div class="auth-lock" aria-hidden="true">🔐</div>
-
     <div class="auth-title">회의록 2026</div>
-
-    <div id="authMessage" class="auth-message">
-      사용할 Google 계정을 선택해 주세요.
-    </div>
-
+    <div id="authMessage" class="auth-message">Google 계정을 확인하고 있습니다...</div>
     <div id="googleButton"></div>
-
-    <!-- 권한 거부 시 표시 -->
-    <button
-      id="retryAccountButton"
-      class="retry-account-button"
-      onclick="retryGoogleAccount()">
-      다른 Google 계정 선택
-    </button>
-
     <div id="authError" class="auth-error"></div>
-
   </div>
 </div>
 
-
-<!-- =========================================================
-     현재 Google 계정을 바꾸는 화면
-========================================================= -->
+<!-- 현재 Google 계정을 바꾸는 화면 -->
 <div id="accountChangeGate">
-
   <div class="account-change-box">
-
-    <div class="account-change-title">
-      Google 계정 변경
-    </div>
-
+    <div class="account-change-title">Google 계정 변경</div>
     <div id="accountChangeMessage" class="account-change-message">
       다른 Google 계정으로 회의록에 로그인할 수 있습니다.
     </div>
-
     <div id="accountChangeGoogleButton"></div>
-
-    <button
-      class="account-change-close"
-      onclick="closeAccountChange()">
-      취소
-    </button>
-
+    <button class="account-change-close" onclick="closeAccountChange()">취소</button>
   </div>
 </div>
 
-
 <header>
-
   <div class="header-inner">
-
-    <button
-      class="back"
-      onclick="goBack()"
-      aria-label="뒤로가기">
-      ‹
-    </button>
-
+    <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
     <div class="title-area">
-
-      <div class="page-title">
-        회의록
-      </div>
-
-      <div class="page-subtitle">
-        서울북부회중 회의 기록 · 2026
-      </div>
-
+      <div class="page-title">회의록</div>
+      <div class="page-subtitle">서울북부회중 회의 기록 · 2026</div>
     </div>
-
-    <button
-      id="accountButton"
-      class="account-button"
-      onclick="changeGoogleAccount()"
-      aria-label="Google 계정 변경"
-      title="Google 계정 변경">
-      👤
-    </button>
-
-    <button
-      class="settings-button"
-      onclick="toggleSettings()"
-      aria-label="설정">
-      ⚙️
-    </button>
-
+    <button class="settings-button" onclick="toggleSettings()" aria-label="설정">⚙️</button>
     <div id="settingsPanel" class="settings-panel">
-
-      <div class="settings-title">
-        설정
-      </div>
-
+      <div class="settings-title">설정</div>
       <div class="settings-row">
-
-        <button
-          id="lightButton"
-          onclick="setTheme('light')">
-          ☀️ 밝게
-        </button>
-
-        <button
-          id="darkButton"
-          onclick="setTheme('dark')">
-          🌙 어둡게
-        </button>
-
+        <button id="lightButton" onclick="setTheme('light')">☀️ 밝게</button>
+        <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
       </div>
-
       <div class="font-size-row">
-
-        <button onclick="changeFontSize(-5)">
-          −
-        </button>
-
-        <div
-          id="fontSizeValue"
-          class="font-size-value">
-          100%
-        </div>
-
-        <button onclick="changeFontSize(5)">
-          ＋
-        </button>
-
+        <button onclick="changeFontSize(-5)">−</button>
+        <div id="fontSizeValue" class="font-size-value">100%</div>
+        <button onclick="changeFontSize(5)">＋</button>
       </div>
-
     </div>
-
   </div>
-
 </header>
 
-
 <main>
-
   <div class="toolbar">
-
-    <input
-      id="search"
-      class="search"
-      type="search"
-      placeholder="회의록 검색..."
-      oninput="render()">
-
+    <input id="search" class="search" type="search" placeholder="회의록 검색..." oninput="render()">
   </div>
-
-  <div id="status" class="status">
-    Google 계정 선택 후 회의록을 불러옵니다...
-  </div>
-
+  <div id="status" class="status">Google 인증 후 회의록을 불러옵니다...</div>
   <div id="list"></div>
-
 </main>
 
-
-<button
-  id="topButton"
-  class="top-button"
-  onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  ↑
-</button>
-
+<button id="topButton" class="top-button" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-
 /* =========================================================
    Apps Script 주소 / Google OAuth Client ID
 ========================================================= */
 
 const API_URL =
- "https://script.google.com/macros/s/AKfycbzuuIojKWFanU0l9j982uM8FF6iGb_02E5dPcrjPh5-GwTDm6vrxPHAxZLqOqaF3d1Z/exec";
+  "https://script.google.com/macros/s/AKfycbzuuIojKWFanU0l9j982uM8FF6iGb_02E5dPcrjPh5-GwTDm6vrxPHAxZLqOqaF3d1Z/exec";
 
 const GOOGLE_CLIENT_ID =
- "710102597374-s5vk3qqmm81onhiqiihj5kcbhjkhl00f.apps.googleusercontent.com";
-  
+  "710102597374-s5vk3qqmm81onhiihj5kcbhjkhl00f.apps.googleusercontent.com";
 
 let meetings = [];
 let groupedMeetings = [];
-
 let googleAuthFinished = false;
-
-let currentGoogleEmail = "";
-
-let accountChangeMode = false;
-
 
 /* =========================================================
    시작
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function() {
-
   applySettings();
-
   startGoogleAuthentication();
-
 });
 
-
 /* =========================================================
-   Google 인증 시작
+   Google 자동 인증
+   - 기존 Google 세션이 있고 이전에 이 앱을 승인했다면
+     자동으로 ID 토큰을 받을 수 있습니다.
+   - 자동 인증이 안 되면 아래 Google 버튼이 표시됩니다.
 ========================================================= */
 
 function startGoogleAuthentication() {
+  const message = document.getElementById("authMessage");
+  const error = document.getElementById("authError");
 
-  const message =
-    document.getElementById("authMessage");
-
-  const error =
-    document.getElementById("authError");
-
-  const retry =
-    document.getElementById("retryAccountButton");
-
-
-  message.textContent =
-    "사용할 Google 계정을 선택해 주세요.";
-
+  message.textContent = "Google 계정을 선택해 주세요.";
   error.textContent = "";
 
-  if (retry) {
-    retry.style.display = "none";
-  }
-
-
-  const waitForGoogle =
-    setInterval(function() {
-
-      if (
-        window.google &&
-        google.accounts &&
-        google.accounts.id
-      ) {
-
-        clearInterval(waitForGoogle);
-
-        initializeGoogleIdentity();
-
-      }
-
-    },100);
-
-
-  setTimeout(function() {
-
-    clearInterval(waitForGoogle);
-
-    if (!googleAuthFinished) {
-
-      if (
-        window.google &&
-        google.accounts &&
-        google.accounts.id
-      ) {
-
-        renderGoogleButton();
-
-      } else {
-
-        message.textContent =
-          "Google 로그인 기능을 불러오지 못했습니다.\n잠시 후 다시 시도해 주세요.";
-
-      }
-
-    }
-
-  },7000);
-
-}
-
-
-/* =========================================================
-   Google Identity 초기화
-========================================================= */
-
-function initializeGoogleIdentity() {
-
-  google.accounts.id.initialize({
-
-    client_id: GOOGLE_CLIENT_ID,
-
-    /*
-     * 자동 계정 선택 금지
-     */
-    auto_select: false,
-
-    /*
-     * 버튼에서 자동 계정 선택 금지
-     */
-    button_auto_select: false,
-
-    /*
-     * FedCM을 사용하지 않고
-     * 직접 Google 로그인 버튼을 표시합니다.
-     */
-    use_fedcm_for_button: false,
-
-    callback: handleGoogleCredential
-
-  });
-
-
-  /*
-   * 자동 prompt()를 호출하지 않습니다.
-   *
-   * 사용자가 직접 Google 로그인 버튼을 누릅니다.
-   */
-  renderGoogleButton();
-
-}
-
-
-/* =========================================================
-   Google 로그인 버튼
-========================================================= */
-
-function renderGoogleButton() {
-
-  if (
-    !window.google ||
-    !google.accounts ||
-    !google.accounts.id
-  ) {
-    return;
-  }
-
-
-  const container =
-    document.getElementById("googleButton");
-
-
-  if (!container) {
-    return;
-  }
-
-
-  /*
-   * 기존 버튼을 제거합니다.
-   */
-  container.innerHTML = "";
-
-
-  container.dataset.rendered = "1";
-
-
-  google.accounts.id.renderButton(
-
-    container,
-
-    {
-
-      type: "standard",
-
-      theme:
-        document.body.classList.contains("dark")
-          ? "filled_black"
-          : "outline",
-
-      size: "large",
-
-      text: "signin_with",
-
-      shape: "rectangular",
-
-      logo_alignment: "left",
-
-      width: 300,
-
-      locale: "ko"
-
-    }
-
-  );
-
-}
-
-
-/* =========================================================
-   Google 계정 변경
-========================================================= */
-
-function changeGoogleAccount() {
-
-  if (
-    !window.google ||
-    !google.accounts ||
-    !google.accounts.id
-  ) {
-
-    alert(
-      "Google 로그인 기능을 아직 불러오지 못했습니다.\n잠시 후 다시 시도해 주세요."
-    );
-
-    return;
-
-  }
-
-
-  accountChangeMode = true;
-
-  googleAuthFinished = false;
-
-
-  const gate =
-    document.getElementById(
-      "accountChangeGate"
-    );
-
-  const message =
-    document.getElementById(
-      "accountChangeMessage"
-    );
-
-  const button =
-    document.getElementById(
-      "accountChangeGoogleButton"
-    );
-
-
-  if (gate) {
-    gate.style.display = "flex";
-  }
-
-
-  if (message) {
-
-    message.textContent =
-      currentGoogleEmail
-
-        ? "현재 로그인: " +
-          currentGoogleEmail +
-          "\n\n다른 Google 계정을 선택해 주세요."
-
-        : "다른 Google 계정을 선택해 주세요.";
-
-  }
-
-
-  if (button) {
-
-    button.innerHTML = "";
-
-  }
-
-
-  /*
-   * 기존 계정을 자동으로 다시 사용하지 않도록 합니다.
-   */
-  google.accounts.id.disableAutoSelect();
-
-
-  /*
-   * 계정 변경용 Google 버튼을 표시합니다.
-   */
-  google.accounts.id.renderButton(
-
-    button,
-
-    {
-
-      theme:
-        document.body.classList.contains("dark")
-          ? "filled_black"
-          : "outline",
-
-      size: "large",
-
-      type: "standard",
-
-      text: "signin_with",
-
-      shape: "rectangular",
-
-      width: 280,
-
-      locale: "ko"
-
-    }
-
-  );
-
-}
-
-
-/* =========================================================
-   계정 변경 창 닫기
-========================================================= */
-
-function closeAccountChange() {
-
-  accountChangeMode = false;
-
-
-  const gate =
-    document.getElementById(
-      "accountChangeGate"
-    );
-
-
-  if (gate) {
-    gate.style.display = "none";
-  }
-
-
-  /*
-   * 자동 선택은 다시 켜지 않습니다.
-   */
-  if (
-    window.google &&
-    google.accounts &&
-    google.accounts.id
-  ) {
-
-    google.accounts.id.disableAutoSelect();
-
-  }
-
-}
-
-
-/* =========================================================
-   권한 거부 후 다른 계정 선택
-========================================================= */
-
-function retryGoogleAccount() {
-
-  const message =
-    document.getElementById("authMessage");
-
-  const error =
-    document.getElementById("authError");
-
-  const retry =
-    document.getElementById("retryAccountButton");
-
-
-  googleAuthFinished = false;
-
-
-  if (message) {
-
-    message.textContent =
-      "다른 Google 계정을 선택해 주세요.";
-
-  }
-
-
-  if (error) {
-
-    error.textContent = "";
-
-  }
-
-
-  if (retry) {
-
-    retry.style.display = "none";
-
-  }
-
-
-  /*
-   * 현재 계정을 자동으로 다시 사용하지 않도록 합니다.
-   */
-  if (
-    window.google &&
-    google.accounts &&
-    google.accounts.id
-  ) {
-
-    google.accounts.id.disableAutoSelect();
-
-  }
-
-
-  /*
-   * Google 로그인 버튼을 새로 표시합니다.
-   */
-  renderGoogleButton();
-
-}
-
-
-/* =========================================================
-   Google ID Token을 Apps Script로 전달
-========================================================= */
-
-async function handleGoogleCredential(response) {
-
-  const message =
-    document.getElementById("authMessage");
-
-  const error =
-    document.getElementById("authError");
-
-  const retry =
-    document.getElementById("retryAccountButton");
-
-
-  if (
-    !response ||
-    !response.credential
-  ) {
-
-    error.textContent =
-      "Google 인증 정보를 받지 못했습니다.";
-
-    renderGoogleButton();
-
-    return;
-
-  }
-
-
-  message.textContent =
-    "선택한 Google 계정을 확인하고 있습니다...";
-
-  error.textContent = "";
-
-
-  if (retry) {
-    retry.style.display = "none";
-  }
-
-
-  try {
-
-    const body =
-      "credential=" +
-      encodeURIComponent(
-        response.credential
-      );
-
-
-    const result =
-      await fetch(
-
-        API_URL,
-
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "Content-Type":
-              "application/x-www-form-urlencoded;charset=UTF-8"
-
-          },
-
-          body: body
-
-        }
-
-      );
-
-
-    if (!result.ok) {
-
-      throw new Error(
-        "인증 서버 응답 오류: " +
-        result.status
-      );
-
-    }
-
-
-    const data =
-      await result.json();
-
-
-    console.log(
-      "Google 인증 결과:",
-      data
-    );
-
-
-    /*
-     * Google 자체 인증 실패
-     */
-    if (
-      !data ||
-      data.authenticated !== true
-    ) {
-
-      throw new Error(
-
-        data?.message ||
-        "Google 인증에 실패했습니다."
-
-      );
-
-    }
-
-
-    /* =====================================================
-       권한 없음
-    ===================================================== */
-
-    if (data.authorized !== true) {
-
-      googleAuthFinished = true;
-
-
-      /*
-       * 서버에서 이메일을 보내주는 경우 표시합니다.
-       */
-      if (data.email) {
-
-        currentGoogleEmail =
-          data.email;
-
-      }
-
-
-      const deniedMessage =
-        data.message ||
-        "이 Google 계정은 회의록 열람 권한이 없습니다.";
-
-
-      message.textContent =
-        "접근 권한이 없습니다.";
-
-
-      error.textContent =
-        deniedMessage;
-
-
-      /*
-       * 다른 Google 계정 선택 버튼 표시
-       */
-      if (retry) {
-
-        retry.style.display =
-          "inline-block";
-
-      }
-
-
-      /*
-       * 계정 변경 창에서 거부된 경우
-       */
-      if (accountChangeMode) {
-
-        const changeMessage =
-          document.getElementById(
-            "accountChangeMessage"
-          );
-
-
-        if (changeMessage) {
-
-          changeMessage.textContent =
-            deniedMessage +
-            "\n\n다른 Google 계정을 선택해 주세요.";
-
-        }
-
-      }
-
-
-      /*
-       * 자동 계정 선택을 계속 막습니다.
-       */
-      if (
-        window.google &&
-        google.accounts &&
-        google.accounts.id
-      ) {
-
-        google.accounts.id.disableAutoSelect();
-
-      }
-
-
-      return;
-
-    }
-
-
-    /* =====================================================
-       인증 + 권한 성공
-    ===================================================== */
-
-    googleAuthFinished = true;
-
-
-    currentGoogleEmail =
-      data.email || "";
-
-
-    /*
-     * 계정 변경 창에서 성공한 경우
-     */
-    if (accountChangeMode) {
-
-      accountChangeMode = false;
-
-
-      const gate =
-        document.getElementById(
-          "accountChangeGate"
-        );
-
-
-      if (gate) {
-
-        gate.style.display = "none";
-
-      }
-
-    }
-
-
-    /*
-     * 성공 후에도 자동 계정 선택을 사용하지 않습니다.
-     */
+  const waitForGoogle = setInterval(function() {
     if (
       window.google &&
       google.accounts &&
       google.accounts.id
     ) {
+      clearInterval(waitForGoogle);
+      initializeGoogleIdentity();
+    }
+  }, 100);
 
-      google.accounts.id.disableAutoSelect();
+  setTimeout(function() {
+    clearInterval(waitForGoogle);
 
+    if (!googleAuthFinished) {
+      message.textContent =
+        "Google 로그인 기능을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+    }
+  }, 10000);
+}
+
+function initializeGoogleIdentity() {
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+
+    /* 보안 방식: 자동 계정 선택/자동 FedCM/prompt 사용 안 함 */
+    auto_select: false,
+    use_fedcm_for_button: false,
+
+    callback: handleGoogleCredential
+  });
+
+  /* 자동 prompt()는 사용하지 않고 Google 계정 선택 버튼만 표시합니다. */
+  renderGoogleButton();
+}
+
+function renderGoogleButton() {
+  if (
+    !window.google ||
+    !google.accounts ||
+    !google.accounts.id
+  ) {
+    return;
+  }
+
+  const container = document.getElementById("googleButton");
+
+  if (container.dataset.rendered === "1") {
+    return;
+  }
+
+  container.dataset.rendered = "1";
+
+  google.accounts.id.renderButton(
+    container,
+    {
+      type: "standard",
+      theme: "outline",
+      size: "large",
+      text: "signin_with",
+      shape: "rectangular",
+      logo_alignment: "left",
+      width: 300
+    }
+  );
+}
+
+/* =========================================================
+   Google ID Token을 Apps Script로 전달
+========================================================= */
+
+let currentGoogleEmail = "";
+let accountChangeMode = false;
+
+/* =========================================================
+   Google 계정 변경
+   - 현재 자동 선택을 잠시 끕니다.
+   - 새 Google 계정의 ID Token을 다시 서버에 보내
+     서버에서 허용된 계정인지 확인합니다.
+========================================================= */
+function changeGoogleAccount() {
+  if (!window.google || !google.accounts || !google.accounts.id) {
+    alert("Google 로그인 기능을 아직 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    return;
+  }
+
+  accountChangeMode = true;
+  googleAuthFinished = false;
+
+  const gate = document.getElementById("accountChangeGate");
+  const message = document.getElementById("accountChangeMessage");
+  const button = document.getElementById("accountChangeGoogleButton");
+
+  if (gate) gate.style.display = "flex";
+  if (message) {
+    message.textContent = currentGoogleEmail
+      ? `현재 로그인: ${currentGoogleEmail}\n\n다른 Google 계정을 선택해 주세요.`
+      : "다른 Google 계정을 선택해 주세요.";
+  }
+  if (button) button.innerHTML = "";
+
+  /*
+   * 명시적으로 계정을 바꾸는 경우에는 자동 선택을 끕니다.
+   *
+   * 여기서는 prompt()를 다시 호출하지 않습니다.
+   * 계정 변경용 Google 버튼 자체가 Google 계정 선택/로그인을
+   * 처리하도록 합니다. prompt()까지 함께 호출하면 일부 환경에서
+   * OAuth 오류 화면으로 이동하는 경우가 있기 때문입니다.
+   */
+  google.accounts.id.disableAutoSelect();
+
+  google.accounts.id.renderButton(button, {
+    theme: document.body.classList.contains("dark") ? "filled_black" : "outline",
+    size: "large",
+    type: "standard",
+    text: "signin_with",
+    shape: "rectangular",
+    width: 280,
+    locale: "ko"
+  });
+}
+
+function closeAccountChange() {
+  accountChangeMode = false;
+  const gate = document.getElementById("accountChangeGate");
+  if (gate) gate.style.display = "none";
+
+  /* 일반 로그인도 자동 계정 선택을 사용하지 않습니다. */
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.disableAutoSelect();
+  }
+}
+
+async function handleGoogleCredential(response) {
+  const message = document.getElementById("authMessage");
+  const error = document.getElementById("authError");
+
+  if (!response || !response.credential) {
+    error.textContent = "Google 인증 정보를 받지 못했습니다.";
+    renderGoogleButton();
+    return;
+  }
+
+  message.textContent = "인증된 Google 계정을 확인하고 있습니다...";
+  error.textContent = "";
+
+  try {
+    const body =
+      "credential=" +
+      encodeURIComponent(response.credential);
+
+    const result = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: body
+    });
+
+    if (!result.ok) {
+      throw new Error(
+        "인증 서버 응답 오류: " + result.status
+      );
     }
 
+    const data = await result.json();
 
-    /* =====================================================
-       회의록 데이터 처리
-    ===================================================== */
+    console.log("Google 인증 결과:", data);
 
+    if (
+      !data ||
+      data.authenticated !== true
+    ) {
+      throw new Error(
+        data?.message ||
+        "Google 인증에 실패했습니다."
+      );
+    }
+
+    if (data.authorized !== true) {
+      googleAuthFinished = true;
+      if (accountChangeMode) {
+        const changeMessage = document.getElementById("accountChangeMessage");
+        if (changeMessage) {
+          changeMessage.textContent = data.message || "이 Google 계정은 회의록 열람 권한이 없습니다.";
+        }
+      }
+      message.textContent = "접근 권한이 없습니다.";
+      error.textContent =
+        data.message ||
+        "이 Google 계정은 회의록 열람 권한이 없습니다.";
+      return;
+    }
+
+    googleAuthFinished = true;
+    currentGoogleEmail = data.email || "";
+
+    if (accountChangeMode) {
+      accountChangeMode = false;
+      const gate = document.getElementById("accountChangeGate");
+      if (gate) gate.style.display = "none";
+
+      /* 계정 변경 후에도 자동 계정 선택은 사용하지 않습니다. */
+      if (window.google && google.accounts && google.accounts.id) {
+        google.accounts.id.disableAutoSelect();
+      }
+    }
+
+    /*
+     * 인증 성공 후에만 회의록 데이터를 사용합니다.
+     * 여기서 반환된 meetings만 화면에 넣습니다.
+     */
     let rows = [];
 
-
     if (Array.isArray(data.rows)) {
-
       rows = data.rows;
-
-    }
-
-    else if (Array.isArray(data.meetings)) {
-
+    } else if (Array.isArray(data.meetings)) {
       rows = data.meetings;
-
-    }
-
-    else if (Array.isArray(data.records)) {
-
+    } else if (Array.isArray(data.records)) {
       rows = data.records;
-
-    }
-
-    else if (Array.isArray(data.data)) {
-
+    } else if (Array.isArray(data.data)) {
       rows = data.data;
-
-    }
-
-    else if (Array.isArray(data.values)) {
-
+    } else if (Array.isArray(data.values)) {
       rows = data.values;
-
     }
 
-
-    meetings =
-      normalizeRows(rows);
-
-
-    groupedMeetings =
-      buildMeetings(meetings);
-
+    meetings = normalizeRows(rows);
+    groupedMeetings = buildMeetings(meetings);
 
     if (meetings.length === 0) {
-
       throw new Error(
         "번호가 있는 회의록 자료를 찾지 못했습니다."
       );
-
     }
 
+    message.textContent = "인증이 완료되었습니다.";
 
-    message.textContent =
-      "인증이 완료되었습니다.";
-
-
-    document.getElementById(
-      "status"
-    ).textContent =
+    document.getElementById("status").textContent =
       "회의록을 불러오는 중입니다...";
 
-
-    /*
-     * 인증 성공한 경우에만
-     * 회의록 화면을 열어줍니다.
-     */
-    document.getElementById(
-      "authGate"
-    ).style.display = "none";
-
+    document.getElementById("authGate").style.display = "none";
 
     render();
 
-
   } catch (err) {
-
-    console.error(
-      "Google 인증/회의록 오류:",
-      err
-    );
-
+    console.error("Google 인증/회의록 오류:", err);
 
     message.textContent =
       "인증 또는 회의록 불러오기에 실패했습니다.";
-
 
     error.textContent =
       err.message ||
       "잠시 후 다시 시도해 주세요.";
 
-
-    /*
-     * 실패해도 다른 계정을 선택할 수 있게 합니다.
-     */
-    if (retry) {
-
-      retry.style.display =
-        "inline-block";
-
-    }
-
-
     renderGoogleButton();
-
   }
-
 }
-
 
 /* =========================================================
    행 하나를 회의록 데이터로 변환
 ========================================================= */
 
 function rowToObject(row) {
-
   if (Array.isArray(row)) {
-
     return {
-
       number: row[0] ?? "",
-
       title: row[1] ?? "",
-
-      detail:
-        row
-          .slice(2)
-          .filter(
-            v => clean(v) !== ""
-          )
-          .join("\n")
-
+      detail: row.slice(2).filter(v => clean(v) !== "").join("\n")
     };
-
   }
 
-
-  if (
-    row &&
-    typeof row === "object"
-  ) {
-
+  if (row && typeof row === "object") {
     const number =
-      row.number ??
-      row.no ??
-      row.번호 ??
-      row["번호"] ??
-      row.id ??
-      "";
-
+      row.number ?? row.no ?? row.번호 ?? row["번호"] ?? row.id ?? "";
 
     const title =
-      row.title ??
-      row.name ??
-      row.제목 ??
-      row["제목"] ??
-      "";
-
+      row.title ?? row.name ?? row.제목 ?? row["제목"] ?? "";
 
     let detail =
       row.detail ??
@@ -1272,1196 +491,581 @@ function rowToObject(row) {
       row["내용"] ??
       "";
 
-
-    if (
-      clean(detail) === ""
-    ) {
-
+    if (clean(detail) === "") {
       const ignored = [
-
-        "number",
-        "no",
-        "번호",
-        "id",
-        "title",
-        "name",
-        "제목"
-
+        "number","no","번호","id","title","name","제목"
       ];
 
-
-      detail =
-        Object.keys(row)
-
-          .filter(
-            key =>
-              !ignored.includes(key)
-          )
-
-          .map(
-            key => row[key]
-          )
-
-          .filter(
-            value =>
-              clean(value) !== ""
-          )
-
-          .join("\n");
-
+      detail = Object.keys(row)
+        .filter(key => !ignored.includes(key))
+        .map(key => row[key])
+        .filter(value => clean(value) !== "")
+        .join("\n");
     }
 
-
-    return {
-      number,
-      title,
-      detail
-    };
-
+    return {number,title,detail};
   }
 
-
-  return {
-    number:"",
-    title:"",
-    detail:""
-  };
-
+  return {number:"",title:"",detail:""};
 }
-
 
 /* =========================================================
    번호에서 첫 숫자 추출
 ========================================================= */
 
 function mainNumber(value) {
-
-  const s =
-    clean(value);
-
-  const match =
-    s.match(/^(\d+)/);
-
-  return match
-    ? match[1]
-    : "";
-
+  const s = clean(value);
+  const match = s.match(/^(\d+)/);
+  return match ? match[1] : "";
 }
-
 
 /* =========================================================
    데이터 정리
 ========================================================= */
 
 function normalizeRows(rows) {
-
   const result = [];
 
+  rows.forEach(function(row,index) {
+    const r = rowToObject(row);
+    const number = clean(r.number);
 
-  rows.forEach(
-    function(row,index) {
+    if (!number) return;
 
-      const r =
-        rowToObject(row);
+    const group = mainNumber(number);
 
+    if (!group) return;
 
-      const number =
-        clean(r.number);
-
-
-      if (!number) return;
-
-
-      const group =
-        mainNumber(number);
-
-
-      if (!group) return;
-
-
-      result.push({
-
-        number,
-
-        group,
-
-        title:
-          clean(r.title),
-
-        detail:
-          clean(r.detail),
-
-        index
-
-      });
-
-    }
-  );
-
+    result.push({
+      number,
+      group,
+      title: clean(r.title),
+      detail: clean(r.detail),
+      index
+    });
+  });
 
   return result;
-
 }
-
 
 /* =========================================================
    번호 제거
 ========================================================= */
 
 function removeCellNumber(text) {
+  let s = clean(text);
 
-  let s =
-    clean(text);
-
-
-  s =
-    s.replace(
-      /^\s*\d+(?:[-.]\d+)*\s*/,
-      ""
-    );
-
-
-  s =
-    s.replace(
-      /\s*\d+(?:[-.]\d+)*\s*$/,
-      ""
-    );
-
+  s = s.replace(/^\s*\d+(?:[-.]\d+)*\s*/,"");
+  s = s.replace(/\s*\d+(?:[-.]\d+)*\s*$/,"");
 
   return clean(s);
-
 }
-
 
 function displayTitle(text) {
-
   return removeCellNumber(text);
-
 }
-
 
 function displayDetail(text) {
-
   return removeCellNumber(text);
-
 }
-
 
 /* =========================================================
    날짜
 ========================================================= */
 
-function displayDate(text,number) {
-
-  let s =
-    clean(text);
-
-  const n =
-    clean(number);
-
+function displayDate(text, number) {
+  let s = clean(text);
+  const n = clean(number);
 
   if (!s) return "";
 
-
   if (n) {
-
     const escaped =
-      n.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      );
+      n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 
-
-    s =
-      s.replace(
-        new RegExp(
-          "^\\s*" +
-          escaped +
-          "\\s*"
-        ),
-        ""
-      );
-
+    s = s.replace(
+      new RegExp("^\\s*" + escaped + "\\s*"),
+      ""
+    );
   }
 
-
   return clean(s);
-
 }
-
 
 /* =========================================================
    일반 행 텍스트
 ========================================================= */
 
 function rowText(item) {
+  const title = displayTitle(item.title);
+  const detail = displayDetail(item.detail);
 
-  const title =
-    displayTitle(item.title);
-
-  const detail =
-    displayDetail(item.detail);
-
-
-  if (title && detail)
-    return title + " " + detail;
-
-
-  if (title)
-    return title;
-
-
+  if (title && detail) return title + " " + detail;
+  if (title) return title;
   return detail;
-
 }
-
 
 /* =========================================================
    회의별 그룹
 ========================================================= */
 
 function buildMeetings(items) {
-
   const groups = {};
 
-
-  items.forEach(
-    function(item) {
-
-      if (!groups[item.group]) {
-
-        groups[item.group] = [];
-
-      }
-
-
-      groups[item.group].push(item);
-
+  items.forEach(function(item) {
+    if (!groups[item.group]) {
+      groups[item.group] = [];
     }
-  );
 
+    groups[item.group].push(item);
+  });
 
   return Object.keys(groups)
+    .sort(function(a,b) {
+      return Number(a) - Number(b);
+    })
+    .map(function(groupNumber) {
 
-    .sort(
-      function(a,b) {
+      const items =
+        groups[groupNumber]
+          .slice()
+          .sort(function(a,b) {
+            return a.index - b.index;
+          });
 
-        return Number(a) - Number(b);
+      const main =
+        items.find(function(item) {
+          return item.number === groupNumber;
+        }) || items[0];
 
-      }
-    )
+      const subItems =
+        items.filter(function(item) {
+          return item !== main;
+        });
 
-    .map(
-      function(groupNumber) {
+      const dateItem =
+        subItems.find(function(item) {
+          const itemTitle = displayTitle(item.title);
 
-
-        const items =
-          groups[groupNumber]
-
-            .slice()
-
-            .sort(
-              function(a,b) {
-
-                return a.index - b.index;
-
-              }
-            );
-
-
-        const main =
-          items.find(
-            function(item) {
-
-              return (
-                item.number ===
-                groupNumber
-              );
-
-            }
-          ) || items[0];
-
-
-        const subItems =
-          items.filter(
-            function(item) {
-
-              return item !== main;
-
-            }
+          return (
+            item.number === groupNumber + "-1" ||
+            item.number === groupNumber + ".1" ||
+            itemTitle === "일시" ||
+            itemTitle.includes("일시")
           );
+        });
 
+      const title =
+        displayTitle(main.title) ||
+        rowText(main) ||
+        ("회의 기록 " + groupNumber);
 
-        const dateItem =
-          subItems.find(
-            function(item) {
+      const date =
+        dateItem
+          ? displayDate(dateItem.detail,dateItem.number) ||
+            displayDate(dateItem.title,dateItem.number)
+          : "";
 
-              const itemTitle =
-                displayTitle(
-                  item.title
-                );
+      const details =
+        subItems.filter(function(item) {
+          return item !== dateItem;
+        });
 
+      const meeting = {
+        group: groupNumber,
+        title,
+        date,
+        details,
+        index: main.index
+      };
 
-              return (
+      meeting.searchText = [
+        meeting.title,
+        meeting.date,
+        meeting.details.map(rowText).join(" ")
+      ].join(" ").toLowerCase();
 
-                item.number ===
-                  groupNumber + "-1"
+      meeting.detailHtml =
+        meeting.details.length
+          ? meeting.details.map(function(item) {
+              const itemText = rowText(item);
+              return itemText ? formatDetailHtml(itemText) : "";
+            }).join("")
+          : `
+            <div class="meeting-item">
+              회의 내용이 없습니다.
+            </div>
+          `;
 
-                ||
-
-                item.number ===
-                  groupNumber + ".1"
-
-                ||
-
-                itemTitle === "일시"
-
-                ||
-
-                itemTitle.includes("일시")
-
-              );
-
-            }
-          );
-
-
-        const title =
-          displayTitle(main.title) ||
-
-          rowText(main) ||
-
-          ("회의 기록 " +
-            groupNumber);
-
-
-        const date =
-          dateItem
-
-            ? displayDate(
-                dateItem.detail,
-                dateItem.number
-              ) ||
-
-              displayDate(
-                dateItem.title,
-                dateItem.number
-              )
-
-            : "";
-
-
-        const details =
-          subItems.filter(
-            function(item) {
-
-              return item !== dateItem;
-
-            }
-          );
-
-
-        const meeting = {
-
-          group:
-            groupNumber,
-
-          title,
-
-          date,
-
-          details,
-
-          index:
-            main.index
-
-        };
-
-
-        meeting.searchText = [
-
-          meeting.title,
-
-          meeting.date,
-
-          meeting.details
-            .map(rowText)
-            .join(" ")
-
-        ]
-
-          .join(" ")
-
-          .toLowerCase();
-
-
-        meeting.detailHtml =
-
-          meeting.details.length
-
-            ? meeting.details
-
-                .map(
-                  function(item) {
-
-                    const itemText =
-                      rowText(item);
-
-                    return itemText
-                      ? formatDetailHtml(
-                          itemText
-                        )
-                      : "";
-
-                  }
-                )
-
-                .join("")
-
-            : `
-
-              <div class="meeting-item">
-                회의 내용이 없습니다.
-              </div>
-
-            `;
-
-
-        return meeting;
-
-      }
-    );
-
+      return meeting;
+    });
 }
-
 
 /* =========================================================
    월
 ========================================================= */
 
 function getMonth(dateText) {
-
-  const text =
-    String(dateText || "");
-
+  const text = String(dateText || "");
 
   let match =
-    text.match(
-      /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/
-    );
-
+    text.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
 
   if (!match) {
-
     match =
-      text.match(
-        /(\d{1,2})\D+(\d{1,2})/
-      );
-
+      text.match(/(\d{1,2})\D+(\d{1,2})/);
   }
-
 
   if (!match) return "";
 
-
   return (
-
-    match.length === 4
-      ? match[2]
-      : match[1]
-
+    match.length === 4 ? match[2] : match[1]
   ) + "월";
-
 }
-
 
 /* =========================================================
    일
 ========================================================= */
 
 function getDay(dateText) {
-
-  const text =
-    String(dateText || "");
-
+  const text = String(dateText || "");
 
   let match =
-    text.match(
-      /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/
-    );
-
+    text.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
 
   if (!match) {
-
     match =
-      text.match(
-        /(\d{1,2})\D+(\d{1,2})/
-      );
-
+      text.match(/(\d{1,2})\D+(\d{1,2})/);
   }
-
 
   if (!match) return "";
 
-
   const day =
-    match.length === 4
-      ? match[3]
-      : match[2];
-
+    match.length === 4 ? match[3] : match[2];
 
   return day + "일";
-
 }
-
 
 /* =========================================================
    화면 표시용 내용 HTML
 ========================================================= */
 
 function formatDetailHtml(text) {
-
-  const cleaned =
-    displayDetail(text);
-
+  const cleaned = displayDetail(text);
 
   if (!cleaned) return "";
-
 
   const partPattern =
     /^\s*(참석자|불참자|시작기도|안건|회의\s*내용)\s*[:：]?\s*([\s\S]*)$/i;
 
-
-  const lines =
-    cleaned.split(/\n/);
-
-
+  const lines = cleaned.split(/\n/);
   const parts = [];
-
   let current = null;
 
+  lines.forEach(function(line) {
+    const match = line.match(partPattern);
 
-  lines.forEach(
-    function(line) {
+    if (match) {
+      if (current) parts.push(current);
 
-      const match =
-        line.match(partPattern);
+      const label =
+        match[1].replace(/\s+/g," ").trim();
 
+      let type = "";
 
-      if (match) {
+      if (label === "안건") {
+        type = "agenda";
+      } else if (label === "회의 내용") {
+        type = "content";
+      }
 
-        if (current)
-          parts.push(current);
+      current = {
+        label,
+        type,
+        body: match[2] || ""
+      };
 
-
-        const label =
-          match[1]
-            .replace(/\s+/g," ")
-            .trim();
-
-
-        let type = "";
-
-
-        if (label === "안건") {
-
-          type = "agenda";
-
-        }
-
-        else if (
-          label === "회의 내용"
-        ) {
-
-          type = "content";
-
-        }
-
-
+    } else {
+      if (current) {
+        current.body +=
+          (current.body ? "\n" : "") + line;
+      } else if (line.trim()) {
         current = {
-
-          label,
-
-          type,
-
-          body:
-            match[2] || ""
-
+          label:"",
+          type:"",
+          body:line
         };
-
-
       }
-
-      else {
-
-        if (current) {
-
-          current.body +=
-            (current.body ? "\n" : "") +
-            line;
-
-        }
-
-        else if (line.trim()) {
-
-          current = {
-
-            label:"",
-
-            type:"",
-
-            body:line
-
-          };
-
-        }
-
-      }
-
     }
-  );
+  });
 
-
-  if (current)
-    parts.push(current);
-
+  if (current) parts.push(current);
 
   if (!parts.length) {
-
     return `
-
       <div class="meeting-item">
-
-        <div class="part-body">
-          ${escapeHtml(cleaned)}
-        </div>
-
+        <div class="part-body">${escapeHtml(cleaned)}</div>
       </div>
-
     `;
-
   }
 
+  return parts.map(function(part) {
+    const body = clean(part.body);
 
-  return parts
+    if (!body && !part.label) return "";
 
-    .map(
-      function(part) {
-
-        const body =
-          clean(part.body);
-
-
-        if (
-          !body &&
-          !part.label
-        )
-          return "";
-
-
-        return `
-
-          <div class="meeting-item ${part.type}">
-
-            ${
-              part.label
-
-                ? `
-                  <div class="part-label">
-                    ${escapeHtml(part.label)}
-                  </div>
-                `
-
-                : ""
-            }
-
-            ${
-              body
-
-                ? `
-                  <div class="part-body">
-                    ${escapeHtml(body)}
-                  </div>
-                `
-
-                : ""
-            }
-
-          </div>
-
-        `;
-
-      }
-    )
-
-    .join("");
-
+    return `
+      <div class="meeting-item ${part.type}">
+        ${
+          part.label
+            ? `<div class="part-label">${escapeHtml(part.label)}</div>`
+            : ""
+        }
+        ${
+          body
+            ? `<div class="part-body">${escapeHtml(body)}</div>`
+            : ""
+        }
+      </div>
+    `;
+  }).join("");
 }
-
 
 /* =========================================================
    화면 출력
 ========================================================= */
 
 function render() {
-
   const query =
-    clean(
-      document.getElementById(
-        "search"
-      ).value
-    ).toLowerCase();
-
+    clean(document.getElementById("search").value).toLowerCase();
 
   const allMeetings =
     groupedMeetings.length
-
       ? groupedMeetings
-
       : buildMeetings(meetings);
 
-
   const filtered =
-    allMeetings.filter(
-      function(meeting) {
+    allMeetings.filter(function(meeting) {
+      const searchable = [
+        meeting.title,
+        meeting.date,
+        meeting.details.map(rowText).join(" ")
+      ].join(" ").toLowerCase();
 
-        const searchable = [
+      return !query || searchable.includes(query);
+    });
 
-          meeting.title,
+  document.getElementById("status").textContent =
+    "총 " + filtered.length + "개 회의록 · 최신 시트 자료";
 
-          meeting.date,
+  const list = document.getElementById("list");
 
-          meeting.details
-            .map(rowText)
-            .join(" ")
-
-        ]
-
-          .join(" ")
-
-          .toLowerCase();
-
-
-        return (
-          !query ||
-          searchable.includes(query)
-        );
-
-      }
-    );
-
-
-  document.getElementById(
-    "status"
-  ).textContent =
-
-    "총 " +
-    filtered.length +
-    "개 회의록 · 최신 시트 자료";
-
-
-  const list =
-    document.getElementById(
-      "list"
-    );
-
-
-  if (
-    filtered.length === 0
-  ) {
-
+  if (filtered.length === 0) {
     list.innerHTML = `
-
       <div class="empty">
         회의록이 없습니다.
       </div>
-
     `;
-
     return;
-
   }
 
-
   list.innerHTML =
+    filtered.map(function(meeting) {
 
-    filtered
-
-      .map(
-        function(meeting) {
-
-
-          const detailHtml =
-
-            meeting.details.length
-
-              ? meeting.details
-
-                  .map(
-                    function(item) {
-
-                      const text =
-                        rowText(item);
-
-                      return text
-                        ? formatDetailHtml(
-                            text
-                          )
-                        : "";
-
-                    }
-                  )
-
-                  .join("")
-
-              : `
-
-                <div class="meeting-item">
-                  회의 내용이 없습니다.
-                </div>
-
-              `;
-
-
-          const month =
-            getMonth(
-              meeting.date
-            );
-
-
-          const day =
-            getDay(
-              meeting.date
-            );
-
-
-          return `
-
-            <article class="card">
-
-              <div
-                class="card-head"
-                onclick="toggleCard(this.parentElement)"
-              >
-
-                ${
-                  meeting.date
-
-                    ? `
-
-                      <div class="date-box">
-
-                        <span class="date-month">
-                          ${escapeHtml(month)}
-                        </span>
-
-                        <span class="date-day">
-                          ${escapeHtml(day)}
-                        </span>
-
-                      </div>
-
-                    `
-
-                    : ""
-                }
-
-
-                <div class="card-main">
-
-                  <div class="card-title">
-                    ${escapeHtml(meeting.title)}
-                  </div>
-
-                </div>
-
-
-                <div class="chevron">
-                  ⌄
-                </div>
-
-              </div>
-
-
-              <div class="card-content">
-
-                ${detailHtml}
-
-              </div>
-
-            </article>
-
+      const detailHtml =
+        meeting.details.length
+          ? meeting.details.map(function(item) {
+              const text = rowText(item);
+              return text ? formatDetailHtml(text) : "";
+            }).join("")
+          : `
+            <div class="meeting-item">
+              회의 내용이 없습니다.
+            </div>
           `;
 
-        }
-      )
+      const month = getMonth(meeting.date);
+      const day = getDay(meeting.date);
 
-      .join("");
+      return `
+        <article class="card">
+          <div class="card-head"
+               onclick="toggleCard(this.parentElement)">
 
+            ${
+              meeting.date
+              ? `
+                <div class="date-box">
+                  <span class="date-month">
+                    ${escapeHtml(month)}
+                  </span>
+                  <span class="date-day">
+                    ${escapeHtml(day)}
+                  </span>
+                </div>
+              `
+              : ""
+            }
+
+            <div class="card-main">
+              <div class="card-title">
+                ${escapeHtml(meeting.title)}
+              </div>
+            </div>
+
+            <div class="chevron">⌄</div>
+          </div>
+
+          <div class="card-content">
+            ${detailHtml}
+          </div>
+        </article>
+      `;
+    }).join("");
 }
-
 
 /* =========================================================
    카드
 ========================================================= */
 
 function toggleCard(card) {
-
-  card.classList.toggle(
-    "open"
-  );
-
+  card.classList.toggle("open");
 }
-
 
 /* =========================================================
    HTML 문자 처리
 ========================================================= */
 
 function escapeHtml(text) {
-
   return String(text ?? "")
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
-
 
 /* =========================================================
    공백 정리
 ========================================================= */
 
 function clean(value) {
-
   return String(value ?? "")
-
-    .replace(
-      /\u00a0/g,
-      " "
-    )
-
+    .replace(/\u00a0/g," ")
     .trim();
-
 }
-
 
 /* =========================================================
    뒤로가기
 ========================================================= */
 
 function goBack() {
-
-  if (
-    window.history.length > 1
-  ) {
-
+  if (window.history.length > 1) {
     window.history.back();
-
+  } else {
+    window.location.href = "전시대관리자.html";
   }
-
-  else {
-
-    window.location.href =
-      "전시대관리자.html";
-
-  }
-
 }
-
 
 /* =========================================================
    설정
 ========================================================= */
 
-const SETTINGS_THEME_KEY =
-  "회의록2026_theme";
-
-const SETTINGS_FONT_KEY =
-  "회의록2026_fontSize";
-
+const SETTINGS_THEME_KEY = "회의록2026_theme";
+const SETTINGS_FONT_KEY = "회의록2026_fontSize";
 
 function applySettings() {
-
   const theme =
-    localStorage.getItem(
-      SETTINGS_THEME_KEY
-    ) || "dark";
-
+    localStorage.getItem(SETTINGS_THEME_KEY) || "dark";
 
   const fontSize =
-    Number(
-      localStorage.getItem(
-        SETTINGS_FONT_KEY
-      )
-    ) || 100;
-
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
   document.body.classList.toggle(
     "dark",
     theme === "dark"
   );
 
-
   document.body.style.zoom =
     String(fontSize / 100);
 
-
-  document.getElementById(
-    "fontSizeValue"
-  ).textContent =
+  document.getElementById("fontSizeValue").textContent =
     fontSize + "%";
-
 }
 
-
 function setTheme(theme) {
-
   localStorage.setItem(
     SETTINGS_THEME_KEY,
     theme
   );
 
-
   applySettings();
-
 }
 
-
 function changeFontSize(amount) {
-
   let fontSize =
-
-    Number(
-      localStorage.getItem(
-        SETTINGS_FONT_KEY
-      )
-    ) || 100;
-
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
   fontSize += amount;
 
-
-  if (fontSize < 80)
-    fontSize = 80;
-
-
-  if (fontSize > 150)
-    fontSize = 150;
-
+  if (fontSize < 80) fontSize = 80;
+  if (fontSize > 150) fontSize = 150;
 
   localStorage.setItem(
     SETTINGS_FONT_KEY,
     fontSize
   );
 
-
   applySettings();
-
 }
-
 
 /* =========================================================
    설정 열기
 ========================================================= */
 
 function toggleSettings() {
-
-  document
-    .getElementById(
-      "settingsPanel"
-    )
+  document.getElementById("settingsPanel")
     .classList.toggle("show");
-
 }
 
+document.addEventListener("click",function(event) {
+  const panel =
+    document.getElementById("settingsPanel");
 
-document.addEventListener(
-  "click",
-  function(event) {
+  const button =
+    document.querySelector(".settings-button");
 
-    const panel =
-      document.getElementById(
-        "settingsPanel"
-      );
-
-
-    const button =
-      document.querySelector(
-        ".settings-button"
-      );
-
-
-    if (
-
-      panel &&
-
-      panel.classList.contains(
-        "show"
-      ) &&
-
-      !panel.contains(
-        event.target
-      ) &&
-
-      !button.contains(
-        event.target
-      )
-
-    ) {
-
-      panel.classList.remove(
-        "show"
-      );
-
-    }
-
+  if (
+    panel &&
+    panel.classList.contains("show") &&
+    !panel.contains(event.target) &&
+    !button.contains(event.target)
+  ) {
+    panel.classList.remove("show");
   }
-);
-
+});
 
 /* =========================================================
    위로가기
 ========================================================= */
 
-window.addEventListener(
-  "scroll",
-  function() {
-
-    document.getElementById(
-      "topButton"
-    ).style.display =
-
-      window.scrollY > 500
-        ? "block"
-        : "none";
-
-  }
-);
-
+window.addEventListener("scroll",function() {
+  document.getElementById("topButton").style.display =
+    window.scrollY > 500 ? "block" : "none";
+});
 </script>
 
 </body>
 </html>
+
+이것이 전에사용하든 방식입니다
+이것을 왜 보여주냐면 이것에는 회의록 부분은 정확하게 가져왔기 때문입니다
+이방법을 다시 검토해 보고
+그렇다고 보안방법은 지금 방법을 고수 해야 합니다
+지금 방법에는 
+회의록 우측에 사람모양 아이콘이 생겼으며
+펼쳤을때는 좌측정렬이 되어있지않습니다
+그러니
+결론은 보안방식은 지금방식
+다른 자져오는 방식은 올려준 방식
+당연히 주소는 정확하게 가져어거
