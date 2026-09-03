@@ -480,6 +480,8 @@ main {
   color: #36403c;
 
   line-height: 1.35 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 
   text-align: left !important;
 
@@ -492,6 +494,11 @@ main {
 /* =========================================================
    내용 전체
 ========================================================= */
+
+.detail strong,
+.meeting-item strong {
+  font-weight: 900;
+}
 
 .detail {
 
@@ -749,6 +756,8 @@ body.dark .font-size-row button {
     font-size: 14px;
 
     line-height: 1.35 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 
 }
@@ -1444,7 +1453,7 @@ function displayTitle(text) {
 
 function displayDetail(text) {
 
-  return clean(
+  return removeCellNumber(
     text
   );
 
@@ -1834,6 +1843,25 @@ function getDay(dateText) {
 
 
 /* =========================================================
+   화면 표시용 내용 HTML
+   안건 / 회의 내용을 굵게 강조
+========================================================= */
+
+function formatDetailHtml(text) {
+
+  const cleaned = displayDetail(text);
+
+  if (!cleaned) {
+    return "";
+  }
+
+  return escapeHtml(cleaned)
+    .replace(/(^|\\n)(안건)(?=\\s|:|：|$)/g, "$1<strong>$2</strong>")
+    .replace(/(^|\\n)(회의 내용)(?=\\s|:|：|$)/g, "$1<strong>$2</strong>");
+}
+
+
+/* =========================================================
    화면 출력
 ========================================================= */
 
@@ -1951,7 +1979,7 @@ function render() {
                         <div
                           class="meeting-item">
 
-                          ${escapeHtml(
+                          ${formatDetailHtml(
                             text
                           )}
 
