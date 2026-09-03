@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
 
 <meta charset="UTF-8">
@@ -45,8 +46,9 @@ body {
   color: #26302d;
 
   font-size: 15px;
-
   line-height: 1.35;
+
+  text-align: left !important;
 }
 
 
@@ -64,7 +66,10 @@ header {
   backdrop-filter: blur(12px);
 
   border-bottom: 1px solid #dce4e0;
+
+  text-align: left !important;
 }
+
 
 .header-inner {
   max-width: 900px;
@@ -78,7 +83,10 @@ header {
   align-items: center;
 
   gap: 10px;
+
+  text-align: left !important;
 }
+
 
 .back,
 .settings-button {
@@ -105,10 +113,15 @@ header {
   font-size: 20px;
 }
 
+
 .title-area {
   flex: 1;
+
   min-width: 0;
+
+  text-align: left !important;
 }
+
 
 .page-title {
 
@@ -117,7 +130,10 @@ header {
   font-weight: 800;
 
   letter-spacing: -.04em;
+
+  text-align: left !important;
 }
+
 
 .page-subtitle {
 
@@ -126,6 +142,8 @@ header {
   font-size: 11px;
 
   color: #7a8580;
+
+  text-align: left !important;
 }
 
 
@@ -153,22 +171,28 @@ header {
 
   border: 1px solid #d9e2de;
 
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.12);
+  box-shadow: 0 8px 25px rgba(0,0,0,.12);
 
   z-index: 200;
+
+  text-align: left !important;
 }
+
 
 .settings-panel.show {
   display: block;
 }
+
 
 .settings-title {
 
   font-weight: 800;
 
   margin-bottom: 10px;
+
+  text-align: left !important;
 }
+
 
 .settings-row {
 
@@ -177,7 +201,10 @@ header {
   gap: 8px;
 
   margin-bottom: 10px;
+
+  text-align: left !important;
 }
+
 
 .settings-row button,
 .font-size-row button {
@@ -195,10 +222,11 @@ header {
   cursor: pointer;
 }
 
-.settings-row button {
 
+.settings-row button {
   flex: 1;
 }
+
 
 .font-size-row {
 
@@ -207,18 +235,21 @@ header {
   align-items: center;
 
   gap: 8px;
+
+  text-align: left !important;
 }
+
 
 .font-size-row button {
-
   width: 38px;
 }
+
 
 .font-size-value {
 
   flex: 1;
 
-  text-align: center;
+  text-align: left !important;
 }
 
 
@@ -233,7 +264,14 @@ main {
   margin: auto;
 
   padding: 14px 12px 80px;
+
+  text-align: left !important;
 }
+
+
+/* =========================================================
+   검색
+========================================================= */
 
 .toolbar {
 
@@ -242,7 +280,10 @@ main {
   gap: 8px;
 
   margin-bottom: 8px;
+
+  text-align: left !important;
 }
+
 
 .search {
 
@@ -263,7 +304,10 @@ main {
   font-size: 14px;
 
   outline: none;
+
+  text-align: left !important;
 }
+
 
 .status {
 
@@ -272,12 +316,22 @@ main {
   font-size: 12px;
 
   color: #74807b;
+
+  text-align: left !important;
 }
 
 
 /* =========================================================
    회의 카드
 ========================================================= */
+
+.meeting-group {
+
+  margin: 18px 0 14px;
+
+  text-align: left !important;
+}
+
 
 .card {
 
@@ -291,77 +345,73 @@ main {
 
   overflow: hidden;
 
-  box-shadow:
-    0 2px 7px rgba(0,0,0,.035);
+  box-shadow: 0 2px 7px rgba(0,0,0,.035);
+
+  text-align: left !important;
 }
 
 
 /* =========================================================
-   제목 영역
-
-   날짜 → 왼쪽
-   제목 → 오른쪽
+   카드 제목 부분
 ========================================================= */
 
 .card-head {
 
-  padding: 13px 13px;
+  padding: 11px 12px;
 
   display: flex;
 
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 
   cursor: pointer;
 
   user-select: none;
 
-  text-align: left;
+  text-align: left !important;
 }
 
 
-/* =========================================================
-   날짜판
-
-   기존보다 넓게
-   2월
-   21일
-========================================================= */
+/* 날짜 */
 
 .date-box {
 
-  flex: 0 0 58px;
+  flex: 0 0 64px;
 
-  width: 58px;
+  width: 64px;
 
-  min-width: 58px;
+  min-width: 64px;
 
-  padding-right: 11px;
+  padding: 5px 4px;
 
-  border-right: 1px solid #e2e9e6;
+  color: #286b5b;
 
-  text-align: center;
+  background: #edf5f2;
+
+  border-radius: 10px;
 
   line-height: 1.15;
+
+  text-align: left !important;
+
+  overflow: hidden;
 }
 
-.date-month {
 
-  display: block;
+.date-month {
 
   font-size: 12px;
 
   font-weight: 700;
 
-  color: #74807b;
-
   white-space: nowrap;
+
+  text-align: left !important;
 }
 
-.date-day {
 
-  display: block;
+.date-day {
 
   margin-top: 3px;
 
@@ -369,15 +419,13 @@ main {
 
   font-weight: 900;
 
-  color: #286b5b;
-
   white-space: nowrap;
+
+  text-align: left !important;
 }
 
 
-/* =========================================================
-   제목
-========================================================= */
+/* 제목 */
 
 .card-main {
 
@@ -385,8 +433,9 @@ main {
 
   min-width: 0;
 
-  text-align: left;
+  text-align: left !important;
 }
+
 
 .card-title {
 
@@ -402,13 +451,27 @@ main {
 
   letter-spacing: -.03em;
 
-  text-align: left;
+  text-align: left !important;
 }
 
 
-/* =========================================================
-   화살표
-========================================================= */
+.card-preview {
+
+  margin-top: 4px;
+
+  font-size: 13px;
+
+  color: #68756f;
+
+  font-weight: 500;
+
+  white-space: pre-wrap;
+
+  overflow: hidden;
+
+  text-align: left !important;
+}
+
 
 .chevron {
 
@@ -416,25 +479,23 @@ main {
 
   min-width: 20px;
 
-  text-align: center;
-
   color: #74807b;
 
-  font-size: 16px;
+  font-size: 15px;
 
-  transition:
-    transform .2s;
+  transition: transform .2s;
+
+  text-align: left !important;
 }
 
-.card.open .chevron {
 
-  transform:
-    rotate(180deg);
+.card.open .chevron {
+  transform: rotate(180deg);
 }
 
 
 /* =========================================================
-   펼쳐지는 내용
+   회의 내용
 ========================================================= */
 
 .card-content {
@@ -443,29 +504,81 @@ main {
 
   border-top: 1px solid #e6ece9;
 
-  padding: 12px 14px 16px;
+  padding: 12px 13px 16px;
 
-  text-align: left;
-
-  line-height: 1.35;
+  text-align: left !important;
 }
 
-.card.open .card-content {
 
+.card.open .card-content {
   display: block;
 }
 
 
-/* =========================================================
-   ★ 실제 회의록 항목
-
-   항목 간격 0
-   padding 0
-   margin 0
-   왼쪽 정렬
-========================================================= */
+/*
+   항목 간격을 최대한 붙입니다.
+*/
 
 .meeting-item {
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+
+  border: 0 !important;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+
+  font-size: 14px;
+
+  color: #36403c;
+
+  line-height: 1.35;
+
+  text-align: left !important;
+}
+
+
+/* 마지막 줄도 동일 */
+
+.meeting-item:last-child {
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+
+}
+
+
+/* 안건 / 회의 내용 */
+
+.section-title {
+
+  display: block;
+
+  margin: 8px 0 0 0 !important;
+
+  padding: 0 !important;
+
+  font-size: 15px;
+
+  font-weight: 900;
+
+  color: #286b5b;
+
+  line-height: 1.35;
+
+  text-align: left !important;
+}
+
+
+/*
+   안건/회의내용 바로 다음 내용
+*/
+
+.section-content {
 
   display: block;
 
@@ -473,48 +586,16 @@ main {
 
   padding: 0 !important;
 
-  border-bottom: 0 !important;
+  white-space: pre-wrap;
 
-  font-size: 14px;
-
-  color: #36403c;
-
-  line-height: 1.35 !important;
+  word-break: break-word;
 
   text-align: left !important;
-
-  white-space: pre-wrap;
-
-  word-break: break-word;
 }
 
 
 /* =========================================================
-   내용 전체
-========================================================= */
-
-.detail {
-
-  margin: 0;
-
-  padding: 0;
-
-  font-size: 14px;
-
-  color: #36403c;
-
-  line-height: 1.35;
-
-  text-align: left;
-
-  white-space: pre-wrap;
-
-  word-break: break-word;
-}
-
-
-/* =========================================================
-   빈 화면
+   빈 화면 / 오류
 ========================================================= */
 
 .empty {
@@ -529,12 +610,15 @@ main {
 
   color: #6d7873;
 
-  text-align: left;
+  text-align: left !important;
 }
+
 
 .error {
 
   color: #b33a3a;
+
+  text-align: left !important;
 }
 
 
@@ -564,8 +648,7 @@ main {
 
   font-size: 19px;
 
-  box-shadow:
-    0 4px 14px rgba(0,0,0,.18);
+  box-shadow: 0 4px 14px rgba(0,0,0,.18);
 
   display: none;
 
@@ -584,23 +667,24 @@ body.dark {
   color: #edf3f0;
 }
 
+
 body.dark header {
 
-  background:
-    rgba(25,31,28,.97);
+  background: rgba(25,31,28,.97);
 
   border-color: #303a36;
 }
 
-body.dark .page-title {
 
+body.dark .page-title {
   color: #f0f5f2;
 }
 
-body.dark .page-subtitle {
 
+body.dark .page-subtitle {
   color: #9ba7a1;
 }
+
 
 body.dark .back,
 body.dark .settings-button {
@@ -609,6 +693,7 @@ body.dark .settings-button {
 
   color: #8fd0b9;
 }
+
 
 body.dark .search {
 
@@ -619,6 +704,7 @@ body.dark .search {
   border-color: #394640;
 }
 
+
 body.dark .card {
 
   background: #1a211e;
@@ -626,41 +712,53 @@ body.dark .card {
   border-color: #35403b;
 }
 
-body.dark .card-title {
 
+body.dark .card-title {
   color: #eef3f0;
 }
 
-body.dark .date-box {
 
-  border-color: #303a36;
-}
-
-body.dark .date-month {
-
+body.dark .card-preview {
   color: #a9b4af;
 }
 
-body.dark .date-day {
+
+body.dark .date-box {
+
+  background: #24352e;
 
   color: #91d0bb;
 }
+
 
 body.dark .card-content {
 
   border-color: #303a36;
 }
 
-body.dark .detail,
+
 body.dark .meeting-item {
 
   color: #d7e0dc;
 }
 
-body.dark .status {
 
+body.dark .section-title {
+
+  color: #91d0bb;
+}
+
+
+body.dark .section-content {
+
+  color: #d7e0dc;
+}
+
+
+body.dark .status {
   color: #a9b4af;
 }
+
 
 body.dark .settings-panel {
 
@@ -670,6 +768,7 @@ body.dark .settings-panel {
 
   color: #edf3f0;
 }
+
 
 body.dark .settings-row button,
 body.dark .font-size-row button {
@@ -684,7 +783,7 @@ body.dark .font-size-row button {
    PC
 ========================================================= */
 
-@media(min-width:700px) {
+@media (min-width:700px) {
 
   main {
 
@@ -700,8 +799,7 @@ body.dark .font-size-row button {
 
   .card-content {
 
-    padding:
-      14px 18px 18px;
+    padding: 14px 18px 18px;
   }
 
 }
@@ -711,57 +809,22 @@ body.dark .font-size-row button {
    휴대폰
 ========================================================= */
 
-@media(max-width:600px) {
+@media (max-width:600px) {
 
   .page-title {
-
     font-size: 19px;
   }
 
-  .card-title {
-
-    font-size: 17px;
+  .toolbar {
+    gap: 6px;
   }
 
-  .date-box {
-
-    flex-basis: 60px;
-
-    width: 60px;
-
-    min-width: 60px;
-
-    padding-right: 11px;
-  }
-
-  .date-month {
-
-    font-size: 12px;
-  }
-
-  .date-day {
-
-    font-size: 17px;
-  }
-
-  .meeting-item {
-
-    font-size: 14px;
-
-    line-height: 1.35 !important;
+  .settings-panel {
+    right: 10px;
   }
 
 }
 
-
-/* =========================================================
-   글자 크기 확대
-========================================================= */
-
-body {
-
-  transform-origin: top left;
-}
 
 </style>
 
@@ -784,25 +847,18 @@ body {
       class="back"
       onclick="goBack()"
       aria-label="뒤로가기">
-
       ‹
-
     </button>
 
 
     <div class="title-area">
 
       <div class="page-title">
-
         회의록
-
       </div>
 
-
       <div class="page-subtitle">
-
         서울북부회중 회의 기록 · 2026
-
       </div>
 
     </div>
@@ -812,11 +868,11 @@ body {
       class="settings-button"
       onclick="toggleSettings()"
       aria-label="설정">
-
       ⚙️
-
     </button>
 
+
+    <!-- 설정 -->
 
     <div
       id="settingsPanel"
@@ -824,68 +880,53 @@ body {
 
 
       <div class="settings-title">
-
         설정
-
       </div>
 
 
       <div class="settings-row">
 
-
         <button
           id="lightButton"
           onclick="setTheme('light')">
-
           ☀️ 밝게
-
         </button>
 
 
         <button
           id="darkButton"
           onclick="setTheme('dark')">
-
           🌙 어둡게
-
         </button>
-
 
       </div>
 
 
       <div class="font-size-row">
 
-
         <button
           onclick="changeFontSize(-5)">
-
           −
-
         </button>
 
 
         <div
           id="fontSizeValue"
           class="font-size-value">
-
           100%
-
         </div>
 
 
         <button
           onclick="changeFontSize(5)">
-
           ＋
-
         </button>
-
 
       </div>
 
 
     </div>
+
 
   </div>
 
@@ -901,7 +942,6 @@ body {
 
   <div class="toolbar">
 
-
     <input
       id="search"
       class="search"
@@ -909,16 +949,13 @@ body {
       placeholder="회의록 검색..."
       oninput="render()">
 
-
   </div>
 
 
   <div
     id="status"
     class="status">
-
     회의록을 불러오는 중입니다...
-
   </div>
 
 
@@ -935,12 +972,10 @@ body {
 <button
   id="topButton"
   class="top-button"
-  onclick="
-    window.scrollTo({
-      top:0,
-      behavior:'smooth'
-    })
-  ">
+  onclick="window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  })">
 
   ↑
 
@@ -984,9 +1019,7 @@ document.addEventListener(
 async function loadData() {
 
   const status =
-    document.getElementById(
-      "status"
-    );
+    document.getElementById("status");
 
 
   status.textContent =
@@ -1041,58 +1074,33 @@ async function loadData() {
     let rows = [];
 
 
-    if (
-      Array.isArray(
-        data.rows
-      )
-    ) {
+    if (Array.isArray(data.rows)) {
 
-      rows =
-        data.rows;
+      rows = data.rows;
 
     }
 
-    else if (
-      Array.isArray(
-        data.meetings
-      )
-    ) {
+    else if (Array.isArray(data.meetings)) {
 
-      rows =
-        data.meetings;
+      rows = data.meetings;
 
     }
 
-    else if (
-      Array.isArray(
-        data.records
-      )
-    ) {
+    else if (Array.isArray(data.records)) {
 
-      rows =
-        data.records;
+      rows = data.records;
 
     }
 
-    else if (
-      Array.isArray(
-        data.data
-      )
-    ) {
+    else if (Array.isArray(data.data)) {
 
-      rows =
-        data.data;
+      rows = data.data;
 
     }
 
-    else if (
-      Array.isArray(
-        data.values
-      )
-    ) {
+    else if (Array.isArray(data.values)) {
 
-      rows =
-        data.values;
+      rows = data.values;
 
     }
 
@@ -1102,8 +1110,7 @@ async function loadData() {
       Array.isArray(data)
     ) {
 
-      rows =
-        data;
+      rows = data;
 
     }
 
@@ -1112,9 +1119,7 @@ async function loadData() {
       normalizeRows(rows);
 
 
-    if (
-      meetings.length === 0
-    ) {
+    if (meetings.length === 0) {
 
       throw new Error(
         "번호가 있는 회의록 자료를 찾지 못했습니다."
@@ -1151,9 +1156,7 @@ async function loadData() {
 
         <br><br>
 
-        ${escapeHtml(
-          error.message
-        )}
+        ${escapeHtml(error.message)}
 
       </div>
 
@@ -1165,16 +1168,15 @@ async function loadData() {
 
 
 /* =========================================================
-   행 하나를 회의록 데이터로 변환
+   행 하나를 데이터로 변환
 ========================================================= */
 
 function rowToObject(row) {
 
 
-  if (
-    Array.isArray(row)
-  ) {
+  /* 배열 */
 
+  if (Array.isArray(row)) {
 
     return {
 
@@ -1188,8 +1190,7 @@ function rowToObject(row) {
         row
           .slice(2)
           .filter(
-            v =>
-              clean(v) !== ""
+            v => clean(v) !== ""
           )
           .join("\n")
 
@@ -1197,6 +1198,8 @@ function rowToObject(row) {
 
   }
 
+
+  /* 객체 */
 
   if (
     row &&
@@ -1230,6 +1233,11 @@ function rowToObject(row) {
       "";
 
 
+    /*
+       내용 필드가 없을 경우
+       나머지 값을 내용으로 사용
+    */
+
     if (
       clean(detail) === ""
     ) {
@@ -1253,14 +1261,11 @@ function rowToObject(row) {
 
           .filter(
             key =>
-              !ignored.includes(
-                key
-              )
+              !ignored.includes(key)
           )
 
           .map(
-            key =>
-              row[key]
+            key => row[key]
           )
 
           .filter(
@@ -1276,9 +1281,7 @@ function rowToObject(row) {
     return {
 
       number,
-
       title,
-
       detail
 
     };
@@ -1289,9 +1292,7 @@ function rowToObject(row) {
   return {
 
     number: "",
-
     title: "",
-
     detail: ""
 
   };
@@ -1300,7 +1301,7 @@ function rowToObject(row) {
 
 
 /* =========================================================
-   번호에서 첫 숫자 추출
+   메인 번호
 ========================================================= */
 
 function mainNumber(value) {
@@ -1310,9 +1311,7 @@ function mainNumber(value) {
 
 
   const match =
-    s.match(
-      /^(\d+)/
-    );
+    s.match(/^(\d+)/);
 
 
   return match
@@ -1332,38 +1331,28 @@ function normalizeRows(rows) {
 
 
   rows.forEach(
-    function(row,index) {
+    function(row, index) {
 
 
       const r =
-        rowToObject(
-          row
-        );
+        rowToObject(row);
 
 
       const number =
-        clean(
-          r.number
-        );
+        clean(r.number);
 
 
       if (!number) {
-
         return;
-
       }
 
 
       const group =
-        mainNumber(
-          number
-        );
+        mainNumber(number);
 
 
       if (!group) {
-
         return;
-
       }
 
 
@@ -1374,14 +1363,10 @@ function normalizeRows(rows) {
         group,
 
         title:
-          clean(
-            r.title
-          ),
+          clean(r.title),
 
         detail:
-          clean(
-            r.detail
-          ),
+          clean(r.detail),
 
         index
 
@@ -1397,7 +1382,21 @@ function normalizeRows(rows) {
 
 
 /* =========================================================
-   번호 제거
+   일반적인 회의록 제목인지 확인
+========================================================= */
+
+function isGenericTitle(text) {
+
+  return /^회의록\s*\d+(?:[-.]\d+)?$/i
+    .test(
+      clean(text)
+    );
+
+}
+
+
+/* =========================================================
+   셀 번호 제거
 ========================================================= */
 
 function removeCellNumber(text) {
@@ -1406,12 +1405,29 @@ function removeCellNumber(text) {
     clean(text);
 
 
+  /*
+     앞쪽 셀 번호 제거
+
+     예:
+     1 제목
+     1-1 일시
+     1.1 일시
+  */
+
   s =
     s.replace(
       /^\s*\d+(?:[-.]\d+)*\s*/,
       ""
     );
 
+
+  /*
+     뒤쪽 셀 번호 제거
+
+     예:
+     제목 1
+     제목 1-1
+  */
 
   s =
     s.replace(
@@ -1426,38 +1442,31 @@ function removeCellNumber(text) {
 
 
 /* =========================================================
-   제목
+   화면용 제목
 ========================================================= */
 
 function displayTitle(text) {
 
-  return removeCellNumber(
-    text
-  );
+  return removeCellNumber(text);
 
 }
 
 
 /* =========================================================
-   내용
+   화면용 내용
+
+   중요:
+   날짜의 숫자는 삭제하지 않습니다.
+
+   대신 해당 행의 실제 셀 번호가
+   내용 앞에 붙은 경우만 삭제합니다.
 ========================================================= */
 
-function displayDetail(text) {
+function displayDetail(
+  text,
+  number
+) {
 
-  return clean(
-    text
-  );
-
-}
-
-
-/* =========================================================
-   날짜
-
-   날짜 앞에 붙은 셀 번호만 제거
-========================================================= */
-
-function displayDate(text, number) {
 
   let s =
     clean(text);
@@ -1468,10 +1477,179 @@ function displayDate(text, number) {
 
 
   if (!s) {
-
     return "";
+  }
+
+
+  if (n) {
+
+
+    const escaped =
+      n.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      );
+
+
+    /*
+       1-6
+       1.6
+       같은 실제 행 번호만
+       내용 앞에서 제거
+    */
+
+    s =
+      s.replace(
+        new RegExp(
+          "^\\s*" +
+          escaped +
+          "\\s*"
+        ),
+        ""
+      );
+
+
+    /*
+       16처럼 붙어 오는 경우도 처리
+    */
+
+    const compact =
+      n.replace(
+        /[.-]/g,
+        ""
+      );
+
+
+    if (
+      compact &&
+      compact !== n
+    ) {
+
+
+      const escapedCompact =
+        compact.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          "\\$&"
+        );
+
+
+      s =
+        s.replace(
+          new RegExp(
+            "^\\s*" +
+            escapedCompact +
+            "\\s*"
+          ),
+          ""
+        );
+
+    }
 
   }
+
+
+  /*
+     불필요하게 여러 개 들어간
+     빈 줄은 하나로 정리
+  */
+
+  s =
+    s.replace(
+      /\r\n/g,
+      "\n"
+    );
+
+
+  s =
+    s.replace(
+      /\n[ \t]*\n+/g,
+      "\n"
+    );
+
+
+  return clean(s);
+
+}
+
+
+/* =========================================================
+   한 행의 일반적인 표시 내용
+========================================================= */
+
+function rowText(item) {
+
+
+  const title =
+    displayTitle(
+      item.title
+    );
+
+
+  const detail =
+    displayDetail(
+      item.detail,
+      item.number
+    );
+
+
+  if (
+    title &&
+    !isGenericTitle(title) &&
+    detail
+  ) {
+
+    return (
+      title +
+      " " +
+      detail
+    );
+
+  }
+
+
+  if (
+    title &&
+    !isGenericTitle(title)
+  ) {
+
+    return title;
+
+  }
+
+
+  return detail;
+
+}
+
+
+/* =========================================================
+   날짜
+========================================================= */
+
+function displayDate(
+  text,
+  number
+) {
+
+
+  let s =
+    clean(text);
+
+
+  const n =
+    clean(number);
+
+
+  if (!s) {
+    return "";
+  }
+
+
+  /*
+     날짜는 2026. 9. 3.
+     처럼 숫자로 시작할 수 있으므로
+     일반 숫자 제거를 하지 않습니다.
+  */
 
 
   if (n) {
@@ -1503,51 +1681,7 @@ function displayDate(text, number) {
 
 
 /* =========================================================
-   일반 행 텍스트
-========================================================= */
-
-function rowText(item) {
-
-  const title =
-    displayTitle(
-      item.title
-    );
-
-
-  const detail =
-    displayDetail(
-      item.detail
-    );
-
-
-  if (
-    title &&
-    detail
-  ) {
-
-    return (
-      title +
-      " " +
-      detail
-    );
-
-  }
-
-
-  if (title) {
-
-    return title;
-
-  }
-
-
-  return detail;
-
-}
-
-
-/* =========================================================
-   회의별 그룹
+   회의 여러 개로 묶기
 ========================================================= */
 
 function buildMeetings(items) {
@@ -1559,12 +1693,9 @@ function buildMeetings(items) {
     function(item) {
 
 
-      if (
-        !groups[item.group]
-      ) {
+      if (!groups[item.group]) {
 
-        groups[item.group] =
-          [];
+        groups[item.group] = [];
 
       }
 
@@ -1590,6 +1721,7 @@ function buildMeetings(items) {
       }
     )
 
+
     .map(
       function(groupNumber) {
 
@@ -1609,6 +1741,11 @@ function buildMeetings(items) {
             );
 
 
+        /*
+           정확히 1번, 2번, 3번...
+           행을 회의 제목으로 사용
+        */
+
         const main =
           items.find(
             function(item) {
@@ -1619,7 +1756,8 @@ function buildMeetings(items) {
               );
 
             }
-          ) ||
+          )
+          ||
           items[0];
 
 
@@ -1627,16 +1765,15 @@ function buildMeetings(items) {
           items.filter(
             function(item) {
 
-              return (
-                item !==
-                main
-              );
+              return item !== main;
 
             }
           );
 
 
-        /* 날짜 행 */
+        /*
+           일시 행 찾기
+        */
 
         const dateItem =
           subItems.find(
@@ -1652,25 +1789,20 @@ function buildMeetings(items) {
               return (
 
                 item.number ===
-                groupNumber +
-                "-1"
+                groupNumber + "-1"
 
                 ||
 
                 item.number ===
-                groupNumber +
-                ".1"
+                groupNumber + ".1"
 
                 ||
 
-                itemTitle ===
-                "일시"
+                itemTitle === "일시"
 
                 ||
 
-                itemTitle.includes(
-                  "일시"
-                )
+                itemTitle.includes("일시")
 
               );
 
@@ -1678,40 +1810,60 @@ function buildMeetings(items) {
           );
 
 
+        /*
+           회의 제목
+        */
+
         const title =
           displayTitle(
             main.title
-          ) ||
-          rowText(main) ||
+          )
+          ||
+          rowText(main)
+          ||
           (
             "회의 기록 " +
             groupNumber
           );
 
 
+        /*
+           날짜
+        */
+
         const date =
           dateItem
 
-            ? displayDate(
-                dateItem.detail,
-                dateItem.number
-              ) ||
-              displayDate(
-                dateItem.title,
-                dateItem.number
-              )
+          ?
 
-            : "";
+          (
+            displayDate(
+              dateItem.detail,
+              dateItem.number
+            )
+            ||
 
+            displayDate(
+              dateItem.title,
+              dateItem.number
+            )
+          )
+
+          :
+
+          "";
+
+
+        /*
+           날짜 행은
+           본문에서 제외
+        */
 
         const details =
           subItems.filter(
             function(item) {
 
-              return (
-                item !==
-                dateItem
-              );
+              return item !== dateItem;
 
             }
           );
@@ -1740,95 +1892,121 @@ function buildMeetings(items) {
 
 
 /* =========================================================
-   월
+   날짜 표시 HTML
 ========================================================= */
 
-function getMonth(dateText) {
+function makeDateHtml(date) {
 
-  const text =
-    String(
-      dateText || ""
-    );
+
+  if (!date) {
+    return "";
+  }
+
+
+  let text =
+    clean(date);
+
+
+  /*
+     2026. 2. 21.
+     2026-02-21
+     2월 21일
+     등을 최대한 간단하게 표시
+  */
 
 
   let match =
     text.match(
-      /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/
+      /(?:^|\s)(\d{4})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/
     );
 
 
-  if (!match) {
+  if (match) {
 
 
-    match =
-      text.match(
-        /(\d{1,2})\D+(\d{1,2})/
-      );
+    const month =
+      Number(match[2]);
+
+
+    const day =
+      Number(match[3]);
+
+
+    return `
+
+      <div class="date-box">
+
+        <div class="date-month">
+          ${month}월
+        </div>
+
+        <div class="date-day">
+          ${day}일
+        </div>
+
+      </div>
+
+    `;
 
   }
 
 
-  if (!match) {
+  /*
+     2월 21일 형태
+  */
 
-    return "";
-
-  }
-
-
-  return (
-    match.length === 4
-      ? match[2]
-      : match[1]
-  ) + "월";
-
-}
-
-
-/* =========================================================
-   일
-
-   반드시 21일처럼 표시
-========================================================= */
-
-function getDay(dateText) {
-
-  const text =
-    String(
-      dateText || ""
-    );
-
-
-  let match =
+  match =
     text.match(
-      /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/
+      /(\d{1,2})월\s*(\d{1,2})일/
     );
 
 
-  if (!match) {
+  if (match) {
 
 
-    match =
-      text.match(
-        /(\d{1,2})\D+(\d{1,2})/
-      );
+    const month =
+      Number(match[1]);
+
+
+    const day =
+      Number(match[2]);
+
+
+    return `
+
+      <div class="date-box">
+
+        <div class="date-month">
+          ${month}월
+        </div>
+
+        <div class="date-day">
+          ${day}일
+        </div>
+
+      </div>
+
+    `;
 
   }
 
 
-  if (!match) {
+  /*
+     날짜 형식을 찾지 못하면
+     원래 날짜를 그대로 표시
+  */
 
-    return "";
+  return `
 
-  }
+    <div class="date-box">
 
+      <div class="date-month">
+        ${escapeHtml(text)}
+      </div>
 
-  const day =
-    match.length === 4
-      ? match[3]
-      : match[2];
+    </div>
 
-
-  return day + "일";
+  `;
 
 }
 
@@ -1840,11 +2018,15 @@ function getDay(dateText) {
 function render() {
 
 
+  const search =
+    document.getElementById(
+      "search"
+    );
+
+
   const query =
     clean(
-      document.getElementById(
-        "search"
-      ).value
+      search.value
     ).toLowerCase();
 
 
@@ -1853,6 +2035,10 @@ function render() {
       meetings
     );
 
+
+  /*
+     검색
+  */
 
   const filtered =
     allMeetings.filter(
@@ -1878,14 +2064,16 @@ function render() {
 
         return (
           !query ||
-          searchable.includes(
-            query
-          )
+          searchable.includes(query)
         );
 
       }
     );
 
+
+  /*
+     상태 표시
+  */
 
   document.getElementById(
     "status"
@@ -1901,6 +2089,10 @@ function render() {
       "list"
     );
 
+
+  /*
+     자료 없음
+  */
 
   if (
     filtered.length === 0
@@ -1923,52 +2115,178 @@ function render() {
   }
 
 
+  /*
+     카드 생성
+  */
+
   list.innerHTML =
 
-    filtered.map(
-      function(meeting) {
+    filtered
+
+      .map(
+        function(meeting) {
 
 
-        const detailHtml =
+          /*
+             회의 내용 만들기
+          */
 
-          meeting.details.length
+          const detailHtml =
 
-            ? meeting.details
-                .map(
-                  function(item) {
+            meeting.details.length
+
+            ?
+
+            meeting.details
+
+              .map(
+                function(item) {
 
 
-                    const text =
-                      rowText(
-                        item
-                      );
+                  const title =
+                    displayTitle(
+                      item.title
+                    );
 
 
-                    return text
+                  const detail =
+                    displayDetail(
+                      item.detail,
+                      item.number
+                    );
 
-                      ? `
 
-                        <div
-                          class="meeting-item">
+                  /*
+                     빈 행
+                  */
 
-                          ${escapeHtml(
-                            text
-                          )}
+                  if (
+                    !title &&
+                    !detail
+                  ) {
 
-                        </div>
-
-                      `
-
-                      : "";
+                    return "";
 
                   }
-                )
-                .join("")
 
-            : `
 
-              <div
-                class="meeting-item">
+                  /*
+                     안건
+                  */
+
+                  if (
+                    title === "안건"
+                  ) {
+
+
+                    return `
+
+                      <div class="meeting-item">
+
+                        <span class="section-title">
+                          안건
+                        </span>
+
+                        ${
+                          detail
+                            ? `
+                              <div class="section-content">
+                                ${escapeHtml(detail)}
+                              </div>
+                            `
+                            : ""
+                        }
+
+                      </div>
+
+                    `;
+
+                  }
+
+
+                  /*
+                     회의 내용
+                  */
+
+                  if (
+                    title === "회의 내용"
+                  ) {
+
+
+                    return `
+
+                      <div class="meeting-item">
+
+                        <span class="section-title">
+                          회의 내용
+                        </span>
+
+                        ${
+                          detail
+                            ? `
+                              <div class="section-content">
+                                ${escapeHtml(detail)}
+                              </div>
+                            `
+                            : ""
+                        }
+
+                      </div>
+
+                    `;
+
+                  }
+
+
+                  /*
+                     일반 항목
+                  */
+
+                  let text = "";
+
+
+                  if (
+                    title &&
+                    detail
+                  ) {
+
+                    text =
+                      title +
+                      " " +
+                      detail;
+
+                  }
+
+                  else {
+
+                    text =
+                      title ||
+                      detail;
+
+                  }
+
+
+                  return `
+
+                    <div class="meeting-item">
+
+                      ${escapeHtml(text)}
+
+                    </div>
+
+                  `;
+
+                }
+              )
+
+              .join("")
+
+
+            :
+
+            `
+
+              <div class="meeting-item">
 
                 회의 내용이 없습니다.
 
@@ -1977,82 +2295,46 @@ function render() {
             `;
 
 
-        const month =
-          getMonth(
-            meeting.date
-          );
+          /*
+             카드
+          */
 
+          return `
 
-        const day =
-          getDay(
-            meeting.date
-          );
-
-
-        return `
-
-          <article
-            class="card">
-
-
-            <div
-              class="card-head"
-              onclick="
-                toggleCard(
-                  this.parentElement
-                )
-              ">
-
-
-              <!-- 날짜 : 제목 왼쪽 -->
-
-              ${
-                meeting.date
-                ? `
-
-                  <div
-                    class="date-box">
-
-
-                    <span
-                      class="date-month">
-
-                      ${escapeHtml(
-                        month
-                      )}
-
-                    </span>
-
-
-                    <span
-                      class="date-day">
-
-                      ${escapeHtml(
-                        day
-                      )}
-
-                    </span>
-
-
-                  </div>
-
-                `
-                : ""
-              }
+            <article class="card">
 
 
               <!-- 제목 -->
 
               <div
-                class="card-main">
+                class="card-head"
+                onclick="toggleCard(this.parentElement)"
+              >
 
 
-                <div
-                  class="card-title">
+                ${makeDateHtml(
+                  meeting.date
+                )}
 
-                  ${escapeHtml(
-                    meeting.title
-                  )}
+
+                <div class="card-main">
+
+
+                  <div class="card-title">
+
+                    ${escapeHtml(
+                      meeting.title
+                    )}
+
+                  </div>
+
+
+                </div>
+
+
+                <div class="chevron">
+
+                  ⌄
 
                 </div>
 
@@ -2060,36 +2342,23 @@ function render() {
               </div>
 
 
-              <!-- 화살표 -->
+              <!-- 상세 내용 -->
 
-              <div
-                class="chevron">
+              <div class="card-content">
 
-                ⌄
+                ${detailHtml}
 
               </div>
 
 
-            </div>
+            </article>
 
+          `;
 
-            <!-- 회의 내용 -->
+        }
+      )
 
-            <div
-              class="card-content">
-
-              ${detailHtml}
-
-            </div>
-
-
-          </article>
-
-        `;
-
-      }
-    )
-    .join("");
+      .join("");
 
 }
 
@@ -2205,13 +2474,19 @@ const SETTINGS_FONT_KEY =
   "회의록2026_fontSize";
 
 
+/* =========================================================
+   설정 적용
+========================================================= */
+
 function applySettings() {
 
 
   const theme =
     localStorage.getItem(
       SETTINGS_THEME_KEY
-    ) || "dark";
+    )
+    ||
+    "dark";
 
 
   const fontSize =
@@ -2219,7 +2494,9 @@ function applySettings() {
       localStorage.getItem(
         SETTINGS_FONT_KEY
       )
-    ) || 100;
+    )
+    ||
+    100;
 
 
   document.body.classList.toggle(
@@ -2234,13 +2511,25 @@ function applySettings() {
     );
 
 
-  document.getElementById(
-    "fontSizeValue"
-  ).textContent =
-    fontSize + "%";
+  const fontValue =
+    document.getElementById(
+      "fontSizeValue"
+    );
+
+
+  if (fontValue) {
+
+    fontValue.textContent =
+      fontSize + "%";
+
+  }
 
 }
 
+
+/* =========================================================
+   밝게 / 어둡게
+========================================================= */
 
 function setTheme(theme) {
 
@@ -2256,6 +2545,10 @@ function setTheme(theme) {
 }
 
 
+/* =========================================================
+   글자 크기
+========================================================= */
+
 function changeFontSize(amount) {
 
 
@@ -2264,7 +2557,9 @@ function changeFontSize(amount) {
       localStorage.getItem(
         SETTINGS_FONT_KEY
       )
-    ) || 100;
+    )
+    ||
+    100;
 
 
   fontSize += amount;
@@ -2300,7 +2595,7 @@ function changeFontSize(amount) {
 
 
 /* =========================================================
-   설정 열기
+   설정 열기 / 닫기
 ========================================================= */
 
 function toggleSettings() {
@@ -2314,6 +2609,10 @@ function toggleSettings() {
 
 }
 
+
+/* =========================================================
+   설정 외부 클릭
+========================================================= */
 
 document.addEventListener(
   "click",
@@ -2333,16 +2632,21 @@ document.addEventListener(
 
 
     if (
+
       panel &&
+
       panel.classList.contains(
         "show"
       ) &&
+
       !panel.contains(
         event.target
       ) &&
+
       !button.contains(
         event.target
       )
+
     ) {
 
 
@@ -2357,7 +2661,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   위로가기
+   위로가기 버튼
 ========================================================= */
 
 window.addEventListener(
@@ -2365,9 +2669,18 @@ window.addEventListener(
   function() {
 
 
-    document.getElementById(
-      "topButton"
-    ).style.display =
+    const button =
+      document.getElementById(
+        "topButton"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    button.style.display =
 
       window.scrollY > 500
 
@@ -2383,4 +2696,5 @@ window.addEventListener(
 
 
 </body>
+
 </html>
