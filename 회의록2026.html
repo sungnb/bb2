@@ -1,855 +1,448 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#286b5b">
-
 <title>회의록 2026</title>
 
-
 <style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
 
-/* =========================================================
-   기본
-========================================================= */
-
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  background:#f3f5f4;
+  color:#26302d;
+  font-size:15px;
+  line-height:1.65;
 }
 
-html {
-  scroll-behavior: smooth;
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #dce4e0;
 }
 
-body {
-  margin: 0;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans KR",
-    "Apple SD Gothic Neo",
-    "Malgun Gothic",
-    sans-serif;
-
-  background: #f3f5f4;
-  color: #26302d;
-
-  font-size: 15px;
-  line-height: 1.35;
-
-  text-align: left !important;
+.header-inner{
+  max-width:900px;
+  margin:auto;
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-
-
-/* =========================================================
-   상단
-========================================================= */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-
-  background: rgba(255,255,255,.96);
-
-  backdrop-filter: blur(12px);
-
-  border-bottom: 1px solid #dce4e0;
-
-  text-align: left !important;
-}
-
-
-.header-inner {
-  max-width: 900px;
-
-  margin: auto;
-
-  padding: 10px 14px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  text-align: left !important;
-}
-
 
 .back,
-.settings-button {
-
-  width: 42px;
-  height: 42px;
-
-  border: 0;
-
-  border-radius: 12px;
-
-  background: #edf3f0;
-
-  color: #286b5b;
-
-  font-size: 25px;
-
-  font-weight: bold;
-
-  cursor: pointer;
+.settings-button{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:12px;
+  background:#edf3f0;
+  color:#286b5b;
+  font-size:25px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.settings-button {
-  font-size: 20px;
+.settings-button{font-size:20px}
+
+.title-area{flex:1;min-width:0}
+
+.page-title{
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:-.04em
 }
 
-
-.title-area {
-  flex: 1;
-
-  min-width: 0;
-
-  text-align: left !important;
+.page-subtitle{
+  margin-top:1px;
+  font-size:11px;
+  color:#7a8580
 }
 
-
-.page-title {
-
-  font-size: 21px;
-
-  font-weight: 800;
-
-  letter-spacing: -.04em;
-
-  text-align: left !important;
+.settings-panel{
+  display:none;
+  position:absolute;
+  right:14px;
+  top:58px;
+  width:220px;
+  padding:14px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid #d9e2de;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  z-index:200;
 }
 
+.settings-panel.show{display:block}
 
-.page-subtitle {
-
-  margin-top: 1px;
-
-  font-size: 11px;
-
-  color: #7a8580;
-
-  text-align: left !important;
+.settings-title{
+  font-weight:800;
+  margin-bottom:10px
 }
 
-
-/* =========================================================
-   설정
-========================================================= */
-
-.settings-panel {
-
-  display: none;
-
-  position: absolute;
-
-  right: 14px;
-
-  top: 58px;
-
-  width: 220px;
-
-  padding: 14px;
-
-  border-radius: 14px;
-
-  background: #fff;
-
-  border: 1px solid #d9e2de;
-
-  box-shadow: 0 8px 25px rgba(0,0,0,.12);
-
-  z-index: 200;
-
-  text-align: left !important;
+.settings-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:10px
 }
-
-
-.settings-panel.show {
-  display: block;
-}
-
-
-.settings-title {
-
-  font-weight: 800;
-
-  margin-bottom: 10px;
-
-  text-align: left !important;
-}
-
-
-.settings-row {
-
-  display: flex;
-
-  gap: 8px;
-
-  margin-bottom: 10px;
-
-  text-align: left !important;
-}
-
 
 .settings-row button,
-.font-size-row button {
-
-  border: 0;
-
-  border-radius: 9px;
-
-  padding: 9px;
-
-  background: #edf3f0;
-
-  color: #286b5b;
-
-  cursor: pointer;
+.font-size-row button{
+  border:0;
+  border-radius:9px;
+  padding:9px;
+  background:#edf3f0;
+  color:#286b5b;
+  cursor:pointer;
 }
 
+.settings-row button{flex:1}
 
-.settings-row button {
-  flex: 1;
+.font-size-row{
+  display:flex;
+  align-items:center;
+  gap:8px
 }
 
+.font-size-row button{width:38px}
 
-.font-size-row {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  text-align: left !important;
+.font-size-value{
+  flex:1;
+  text-align:center
 }
 
-
-.font-size-row button {
-  width: 38px;
+main{
+  max-width:900px;
+  margin:auto;
+  padding:14px 12px 80px;
 }
 
-
-.font-size-value {
-
-  flex: 1;
-
-  text-align: left !important;
+.toolbar{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px
 }
 
-
-/* =========================================================
-   본문
-========================================================= */
-
-main {
-
-  max-width: 900px;
-
-  margin: auto;
-
-  padding: 14px 12px 80px;
-
-  text-align: left !important;
+.search{
+  flex:1;
+  min-width:0;
+  height:42px;
+  padding:0 13px;
+  border:1px solid #d7e0dc;
+  border-radius:11px;
+  background:white;
+  font-size:14px;
+  outline:none
 }
 
-
-/* =========================================================
-   검색
-========================================================= */
-
-.toolbar {
-
-  display: flex;
-
-  gap: 8px;
-
-  margin-bottom: 8px;
-
-  text-align: left !important;
+.status{
+  margin:8px 2px 12px;
+  font-size:12px;
+  color:#74807b
 }
 
-
-.search {
-
-  flex: 1;
-
-  min-width: 0;
-
-  height: 42px;
-
-  padding: 0 13px;
-
-  border: 1px solid #d7e0dc;
-
-  border-radius: 11px;
-
-  background: white;
-
-  font-size: 14px;
-
-  outline: none;
-
-  text-align: left !important;
+.meeting-group{
+  margin:18px 0 14px
 }
 
-
-.status {
-
-  margin: 8px 2px 12px;
-
-  font-size: 12px;
-
-  color: #74807b;
-
-  text-align: left !important;
+.card{
+  margin-bottom:10px;
+  background:white;
+  border:1px solid #d9e2de;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 2px 7px rgba(0,0,0,.035);
+  text-align:left !important;
 }
 
-
-/* =========================================================
-   회의 카드
-========================================================= */
-
-.meeting-group {
-
-  margin: 18px 0 14px;
-
-  text-align: left !important;
+.card-head{
+  padding:11px 12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  user-select:none;
+  text-align:left !important;
 }
 
-
-.card {
-
-  margin-bottom: 10px;
-
-  background: white;
-
-  border: 1px solid #d9e2de;
-
-  border-radius: 15px;
-
-  overflow: hidden;
-
-  box-shadow: 0 2px 7px rgba(0,0,0,.035);
-
-  text-align: left !important;
+.number-badge{
+  width:52px;
+  min-width:52px;
+  height:52px;
+  border-radius:11px;
+  background:#edf5f2;
+  color:#286b5b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-
-/* =========================================================
-   카드 제목 부분
-========================================================= */
-
-.card-head {
-
-  padding: 11px 12px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  cursor: pointer;
-
-  user-select: none;
-
-  text-align: left !important;
+.badge-main{
+  font-size:18px;
+  font-weight:850;
+  line-height:1.15
 }
 
-
-/* 날짜 */
-
-.date-box {
-
-  flex: 0 0 64px;
-
-  width: 64px;
-
-  min-width: 64px;
-
-  padding: 5px 4px;
-
-  color: #286b5b;
-
-  background: #edf5f2;
-
-  border-radius: 10px;
-
-  line-height: 1.15;
-
-  text-align: left !important;
-
-  overflow: hidden;
+.card-main{
+  flex:1;
+  min-width:0;
+  text-align:left !important;
 }
 
-
-.date-month {
-
-  font-size: 12px;
-
-  font-weight: 700;
-
-  white-space: nowrap;
-
-  text-align: left !important;
+.card-title{
+  font-size:18px;
+  font-weight:900;
+  color:#27312e;
+  line-height:1.45;
+  word-break:keep-all;
+  letter-spacing:-.03em;
+  text-align:left !important;
 }
 
-
-.date-day {
-
-  margin-top: 3px;
-
-  font-size: 18px;
-
-  font-weight: 900;
-
-  white-space: nowrap;
-
-  text-align: left !important;
+.card-preview{
+  margin-top:5px;
+  font-size:13px;
+  color:#68756f;
+  font-weight:500;
+  white-space:pre-wrap;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  text-align:left !important;
 }
 
-
-/* 제목 */
-
-.card-main {
-
-  flex: 1;
-
-  min-width: 0;
-
-  text-align: left !important;
+.chevron{
+  width:20px;
+  text-align:center;
+  color:#74807b;
+  font-size:15px;
+  transition:transform .2s;
 }
 
-
-.card-title {
-
-  font-size: 18px;
-
-  font-weight: 900;
-
-  color: #27312e;
-
-  line-height: 1.35;
-
-  word-break: keep-all;
-
-  letter-spacing: -.03em;
-
-  text-align: left !important;
+.card.open .chevron{
+  transform:rotate(180deg)
 }
 
-
-.card-preview {
-
-  margin-top: 4px;
-
-  font-size: 13px;
-
-  color: #68756f;
-
-  font-weight: 500;
-
-  white-space: pre-wrap;
-
-  overflow: hidden;
-
-  text-align: left !important;
+.card-content{
+  display:none;
+  border-top:1px solid #e6ece9;
+  padding:13px 13px 18px;
+  text-align:left !important;
 }
 
-
-.chevron {
-
-  width: 20px;
-
-  min-width: 20px;
-
-  color: #74807b;
-
-  font-size: 15px;
-
-  transition: transform .2s;
-
-  text-align: left !important;
-}
-
-
-.card.open .chevron {
-  transform: rotate(180deg);
+.card.open .card-content{
+  display:block
 }
 
 
 /* =========================================================
-   회의 내용
+   요청하신 부분
+   1. 항목 간격 0
+   2. 전체 왼쪽 정렬
+   3. 안건 / 회의 내용 강조
 ========================================================= */
 
-.card-content {
-
-  display: none;
-
-  border-top: 1px solid #e6ece9;
-
-  padding: 12px 13px 16px;
-
-  text-align: left !important;
+.meeting-item{
+  margin:0 !important;
+  padding:0 !important;
+  border-bottom:0;
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-size:14px;
+  color:#36403c;
+  text-align:left !important;
+  line-height:1.35 !important;
 }
 
-
-.card.open .card-content {
-  display: block;
+.meeting-item:last-child{
+  border-bottom:0
 }
 
-
-/*
-   항목 간격을 최대한 붙입니다.
-*/
-
-.meeting-item {
-
-  margin: 0 !important;
-
-  padding: 0 !important;
-
-  border: 0 !important;
-
-  white-space: pre-wrap;
-
-  word-break: break-word;
-
-  font-size: 14px;
-
-  color: #36403c;
-
-  line-height: 1.35;
-
-  text-align: left !important;
+.detail{
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-size:14px;
+  color:#36403c;
+  text-align:left !important;
 }
 
-
-/* 마지막 줄도 동일 */
-
-.meeting-item:last-child {
-
-  margin: 0 !important;
-
-  padding: 0 !important;
-
-}
-
-
-/* 안건 / 회의 내용 */
-
-.section-title {
-
-  display: block;
-
-  margin: 8px 0 0 0 !important;
-
-  padding: 0 !important;
-
-  font-size: 15px;
-
-  font-weight: 900;
-
-  color: #286b5b;
-
-  line-height: 1.35;
-
-  text-align: left !important;
-}
-
-
-/*
-   안건/회의내용 바로 다음 내용
-*/
-
-.section-content {
-
-  display: block;
-
-  margin: 0 !important;
-
-  padding: 0 !important;
-
-  white-space: pre-wrap;
-
-  word-break: break-word;
-
-  text-align: left !important;
+.section-title{
+  display:block;
+  margin:0 !important;
+  padding:0 !important;
+  font-weight:900 !important;
+  text-align:left !important;
+  line-height:1.35 !important;
+  color:#286b5b;
 }
 
 
 /* =========================================================
-   빈 화면 / 오류
+   나머지 기존 기능
 ========================================================= */
 
-.empty {
-
-  background: white;
-
-  border: 1px solid #dce4e0;
-
-  border-radius: 14px;
-
-  padding: 22px 16px;
-
-  color: #6d7873;
-
-  text-align: left !important;
+.empty{
+  background:white;
+  border:1px solid #dce4e0;
+  border-radius:14px;
+  padding:22px 16px;
+  color:#6d7873;
 }
 
-
-.error {
-
-  color: #b33a3a;
-
-  text-align: left !important;
+.error{
+  color:#b33a3a
 }
 
-
-/* =========================================================
-   위로가기
-========================================================= */
-
-.top-button {
-
-  position: fixed;
-
-  right: 16px;
-
-  bottom: 18px;
-
-  width: 45px;
-
-  height: 45px;
-
-  border: 0;
-
-  border-radius: 50%;
-
-  background: #286b5b;
-
-  color: white;
-
-  font-size: 19px;
-
-  box-shadow: 0 4px 14px rgba(0,0,0,.18);
-
-  display: none;
-
-  cursor: pointer;
+.top-button{
+  position:fixed;
+  right:16px;
+  bottom:18px;
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:50%;
+  background:#286b5b;
+  color:white;
+  font-size:19px;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+  display:none;
+  cursor:pointer;
 }
 
-
-/* =========================================================
-   어두운 화면
-========================================================= */
-
-body.dark {
-
-  background: #121715;
-
-  color: #edf3f0;
+body.dark{
+  background:#121715;
+  color:#edf3f0
 }
 
-
-body.dark header {
-
-  background: rgba(25,31,28,.97);
-
-  border-color: #303a36;
+body.dark header{
+  background:rgba(25,31,28,.97);
+  border-color:#303a36
 }
 
-
-body.dark .page-title {
-  color: #f0f5f2;
+body.dark .page-title{
+  color:#f0f5f2
 }
 
-
-body.dark .page-subtitle {
-  color: #9ba7a1;
+body.dark .page-subtitle{
+  color:#9ba7a1
 }
-
 
 body.dark .back,
-body.dark .settings-button {
-
-  background: #26332e;
-
-  color: #8fd0b9;
+body.dark .settings-button{
+  background:#26332e;
+  color:#8fd0b9
 }
 
-
-body.dark .search {
-
-  background: #1c2421;
-
-  color: #edf3f0;
-
-  border-color: #394640;
+body.dark .search{
+  background:#1c2421;
+  color:#edf3f0;
+  border-color:#394640
 }
 
-
-body.dark .card {
-
-  background: #1a211e;
-
-  border-color: #35403b;
+body.dark .card{
+  background:#1a211e;
+  border-color:#35403b
 }
 
-
-body.dark .card-title {
-  color: #eef3f0;
+body.dark .card-title{
+  color:#eef3f0
 }
 
-
-body.dark .card-preview {
-  color: #a9b4af;
+body.dark .card-preview{
+  color:#a9b4af
 }
 
-
-body.dark .date-box {
-
-  background: #24352e;
-
-  color: #91d0bb;
+body.dark .number-badge{
+  background:#24352e;
+  color:#91d0bb
 }
 
-
-body.dark .card-content {
-
-  border-color: #303a36;
+body.dark .card-content{
+  border-color:#303a36
 }
 
-
-body.dark .meeting-item {
-
-  color: #d7e0dc;
+body.dark .detail{
+  color:#d7e0dc
 }
 
-
-body.dark .section-title {
-
-  color: #91d0bb;
+body.dark .status{
+  color:#a9b4af
 }
 
-
-body.dark .section-content {
-
-  color: #d7e0dc;
+body.dark .meeting-item{
+  border-color:#303a36;
+  color:#d7e0dc
 }
 
-
-body.dark .status {
-  color: #a9b4af;
+body.dark .settings-panel{
+  background:#1a211e;
+  border-color:#35403b;
+  color:#edf3f0
 }
-
-
-body.dark .settings-panel {
-
-  background: #1a211e;
-
-  border-color: #35403b;
-
-  color: #edf3f0;
-}
-
 
 body.dark .settings-row button,
-body.dark .font-size-row button {
-
-  background: #26332e;
-
-  color: #91d0bb;
+body.dark .font-size-row button{
+  background:#26332e;
+  color:#91d0bb
 }
 
+@media(min-width:700px){
 
-/* =========================================================
-   PC
-========================================================= */
-
-@media (min-width:700px) {
-
-  main {
-
-    padding-left: 20px;
-
-    padding-right: 20px;
+  main{
+    padding-left:20px;
+    padding-right:20px
   }
 
-  .card-head {
-
-    padding: 15px 17px;
+  .card-head{
+    padding:15px 17px
   }
 
-  .card-content {
-
-    padding: 14px 18px 18px;
+  .card-content{
+    padding:16px 18px 22px
   }
 
 }
 
+@media(max-width:600px){
 
-/* =========================================================
-   휴대폰
-========================================================= */
-
-@media (max-width:600px) {
-
-  .page-title {
-    font-size: 19px;
+  .page-title{
+    font-size:19px
   }
 
-  .toolbar {
-    gap: 6px;
+  .toolbar{
+    gap:6px
   }
 
-  .settings-panel {
-    right: 10px;
+  .settings-panel{
+    right:10px
   }
 
 }
-
-
 </style>
-
 </head>
 
-
 <body>
-
-
-<!-- =======================================================
-     상단
-======================================================= -->
 
 <header>
 
   <div class="header-inner">
 
-
+    <!-- 기존 뒤로가기 -->
     <button
       class="back"
       onclick="goBack()"
       aria-label="뒤로가기">
       ‹
     </button>
-
 
     <div class="title-area">
 
@@ -863,7 +456,6 @@ body.dark .font-size-row button {
 
     </div>
 
-
     <button
       class="settings-button"
       onclick="toggleSettings()"
@@ -871,18 +463,13 @@ body.dark .font-size-row button {
       ⚙️
     </button>
 
-
-    <!-- 설정 -->
-
     <div
       id="settingsPanel"
       class="settings-panel">
 
-
       <div class="settings-title">
         설정
       </div>
-
 
       <div class="settings-row">
 
@@ -892,7 +479,6 @@ body.dark .font-size-row button {
           ☀️ 밝게
         </button>
 
-
         <button
           id="darkButton"
           onclick="setTheme('dark')">
@@ -901,14 +487,11 @@ body.dark .font-size-row button {
 
       </div>
 
-
       <div class="font-size-row">
 
-        <button
-          onclick="changeFontSize(-5)">
+        <button onclick="changeFontSize(-5)">
           −
         </button>
-
 
         <div
           id="fontSizeValue"
@@ -916,29 +499,20 @@ body.dark .font-size-row button {
           100%
         </div>
 
-
-        <button
-          onclick="changeFontSize(5)">
+        <button onclick="changeFontSize(5)">
           ＋
         </button>
 
       </div>
 
-
     </div>
-
 
   </div>
 
 </header>
 
 
-<!-- =======================================================
-     본문
-======================================================= -->
-
 <main>
-
 
   <div class="toolbar">
 
@@ -961,36 +535,25 @@ body.dark .font-size-row button {
 
   <div id="list"></div>
 
-
 </main>
 
-
-<!-- =======================================================
-     위로가기
-======================================================= -->
 
 <button
   id="topButton"
   class="top-button"
-  onclick="window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  })">
-
+  onclick="window.scrollTo({top:0,behavior:'smooth'})">
   ↑
-
 </button>
 
 
 <script>
 
-
 /* =========================================================
-   Apps Script 주소
+   Apps Script
 ========================================================= */
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbysgotaoVEulLRZPFh9BXMKiRvbi9FTUvC4qk3R9P4xbJSyydBf0EaekH3D471kRkkY/exec";
+  "https://script.google.com/macros/s/AKfycbxk62F4H4IfNhTT1v9pifW5mzIcSk-mKzgallaA_M7XNLEcgTM5kY3qL6yn0qCKJ9I/exec";
 
 
 let meetings = [];
@@ -1005,7 +568,6 @@ document.addEventListener(
   function() {
 
     applySettings();
-
     loadData();
 
   }
@@ -1021,13 +583,10 @@ async function loadData() {
   const status =
     document.getElementById("status");
 
-
   status.textContent =
     "회의록을 불러오는 중입니다...";
 
-
   try {
-
 
     const response =
       await fetch(
@@ -1035,7 +594,6 @@ async function loadData() {
         "?t=" +
         Date.now()
       );
-
 
     if (!response.ok) {
 
@@ -1045,7 +603,6 @@ async function loadData() {
       );
 
     }
-
 
     const data =
       await response.json();
@@ -1130,21 +687,17 @@ async function loadData() {
 
     render();
 
-
   }
 
   catch (error) {
-
 
     console.error(
       "회의록 데이터 로드 오류:",
       error
     );
 
-
     status.textContent =
       "자료를 가져오지 못했습니다.";
-
 
     document.getElementById(
       "list"
@@ -1168,13 +721,10 @@ async function loadData() {
 
 
 /* =========================================================
-   행 하나를 데이터로 변환
+   행 하나를 회의록 데이터로 변환
 ========================================================= */
 
 function rowToObject(row) {
-
-
-  /* 배열 */
 
   if (Array.isArray(row)) {
 
@@ -1199,13 +749,10 @@ function rowToObject(row) {
   }
 
 
-  /* 객체 */
-
   if (
     row &&
     typeof row === "object"
   ) {
-
 
     const number =
       row.number ??
@@ -1233,15 +780,7 @@ function rowToObject(row) {
       "";
 
 
-    /*
-       내용 필드가 없을 경우
-       나머지 값을 내용으로 사용
-    */
-
-    if (
-      clean(detail) === ""
-    ) {
-
+    if (clean(detail) === "") {
 
       const ignored = [
 
@@ -1301,7 +840,7 @@ function rowToObject(row) {
 
 
 /* =========================================================
-   메인 번호
+   번호에서 첫 숫자 추출
 ========================================================= */
 
 function mainNumber(value) {
@@ -1309,10 +848,8 @@ function mainNumber(value) {
   const s =
     clean(value);
 
-
   const match =
     s.match(/^(\d+)/);
-
 
   return match
     ? match[1]
@@ -1322,7 +859,7 @@ function mainNumber(value) {
 
 
 /* =========================================================
-   데이터 정리
+   회의록 데이터 정리
 ========================================================= */
 
 function normalizeRows(rows) {
@@ -1333,33 +870,26 @@ function normalizeRows(rows) {
   rows.forEach(
     function(row, index) {
 
-
       const r =
         rowToObject(row);
-
 
       const number =
         clean(r.number);
 
 
-      if (!number) {
-        return;
-      }
+      if (!number) return;
 
 
       const group =
         mainNumber(number);
 
 
-      if (!group) {
-        return;
-      }
+      if (!group) return;
 
 
       result.push({
 
         number,
-
         group,
 
         title:
@@ -1382,7 +912,7 @@ function normalizeRows(rows) {
 
 
 /* =========================================================
-   일반적인 회의록 제목인지 확인
+   제목이 단순한 회의록 번호인지 확인
 ========================================================= */
 
 function isGenericTitle(text) {
@@ -1406,13 +936,8 @@ function removeCellNumber(text) {
 
 
   /*
-     앞쪽 셀 번호 제거
-
-     예:
-     1 제목
-     1-1 일시
-     1.1 일시
-  */
+   * 앞에 붙은 셀 번호 제거
+   */
 
   s =
     s.replace(
@@ -1422,12 +947,8 @@ function removeCellNumber(text) {
 
 
   /*
-     뒤쪽 셀 번호 제거
-
-     예:
-     제목 1
-     제목 1-1
-  */
+   * 뒤에 붙은 셀 번호 제거
+   */
 
   s =
     s.replace(
@@ -1441,10 +962,6 @@ function removeCellNumber(text) {
 }
 
 
-/* =========================================================
-   화면용 제목
-========================================================= */
-
 function displayTitle(text) {
 
   return removeCellNumber(text);
@@ -1453,35 +970,110 @@ function displayTitle(text) {
 
 
 /* =========================================================
-   화면용 내용
-
-   중요:
-   날짜의 숫자는 삭제하지 않습니다.
-
-   대신 해당 행의 실제 셀 번호가
-   내용 앞에 붙은 경우만 삭제합니다.
+   셀 번호만 제거
+   날짜의 숫자는 건드리지 않음
 ========================================================= */
 
-function displayDetail(
-  text,
-  number
-) {
-
+function displayDetail(text, number) {
 
   let s =
     clean(text);
-
 
   const n =
     clean(number);
 
 
-  if (!s) {
-    return "";
+  if (!s) return "";
+
+
+  /*
+   * 셀 번호만 제거합니다.
+   */
+
+  if (n) {
+
+    const escaped =
+      n.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      );
+
+
+    s =
+      s.replace(
+        new RegExp(
+          "^\\s*" +
+          escaped +
+          "\\s*"
+        ),
+        ""
+      );
+
   }
 
 
+  /*
+   * 1-1 형태가 1.1 형태로 들어온 경우
+   */
+
+  if (n.includes("-")) {
+
+    const dotNumber =
+      n.replace(
+        /-/g,
+        "."
+      );
+
+
+    const escapedDot =
+      dotNumber.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      );
+
+
+    s =
+      s.replace(
+        new RegExp(
+          "^\\s*" +
+          escapedDot +
+          "\\s*"
+        ),
+        ""
+      );
+
+  }
+
+
+  return clean(s);
+
+}
+
+
+/* =========================================================
+   날짜
+   기존 날짜 처리 그대로 유지
+========================================================= */
+
+function displayDate(text, number) {
+
+  let s =
+    clean(text);
+
+  const n =
+    clean(number);
+
+
+  if (!s) return "";
+
+
   if (n) {
+
+    const compact =
+      n.replace(
+        /[.-]/g,
+        ""
+      );
 
 
     const escaped =
@@ -1491,12 +1083,12 @@ function displayDetail(
       );
 
 
-    /*
-       1-6
-       1.6
-       같은 실제 행 번호만
-       내용 앞에서 제거
-    */
+    const escapedCompact =
+      compact.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      );
+
 
     s =
       s.replace(
@@ -1509,29 +1101,10 @@ function displayDetail(
       );
 
 
-    /*
-       16처럼 붙어 오는 경우도 처리
-    */
-
-    const compact =
-      n.replace(
-        /[.-]/g,
-        ""
-      );
-
-
     if (
       compact &&
       compact !== n
     ) {
-
-
-      const escapedCompact =
-        compact.replace(
-          /[.*+?^${}()|[\]\\]/g,
-          "\\$&"
-        );
-
 
       s =
         s.replace(
@@ -1548,42 +1121,25 @@ function displayDetail(
   }
 
 
-  /*
-     불필요하게 여러 개 들어간
-     빈 줄은 하나로 정리
-  */
-
-  s =
-    s.replace(
-      /\r\n/g,
-      "\n"
-    );
-
-
-  s =
-    s.replace(
-      /\n[ \t]*\n+/g,
-      "\n"
-    );
-
-
   return clean(s);
 
 }
 
 
 /* =========================================================
-   한 행의 일반적인 표시 내용
+   한 행의 표시용 문자열
 ========================================================= */
 
 function rowText(item) {
 
-
   const title =
-    displayTitle(
-      item.title
-    );
+    displayTitle(item.title);
 
+
+  /*
+   * 셀 번호도 함께 전달하여
+   * 내용 앞의 셀 번호를 제거합니다.
+   */
 
   const detail =
     displayDetail(
@@ -1623,65 +1179,7 @@ function rowText(item) {
 
 
 /* =========================================================
-   날짜
-========================================================= */
-
-function displayDate(
-  text,
-  number
-) {
-
-
-  let s =
-    clean(text);
-
-
-  const n =
-    clean(number);
-
-
-  if (!s) {
-    return "";
-  }
-
-
-  /*
-     날짜는 2026. 9. 3.
-     처럼 숫자로 시작할 수 있으므로
-     일반 숫자 제거를 하지 않습니다.
-  */
-
-
-  if (n) {
-
-
-    const escaped =
-      n.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      );
-
-
-    s =
-      s.replace(
-        new RegExp(
-          "^\\s*" +
-          escaped +
-          "\\s*"
-        ),
-        ""
-      );
-
-  }
-
-
-  return clean(s);
-
-}
-
-
-/* =========================================================
-   회의 여러 개로 묶기
+   회의록 묶기
 ========================================================= */
 
 function buildMeetings(items) {
@@ -1692,8 +1190,9 @@ function buildMeetings(items) {
   items.forEach(
     function(item) {
 
-
-      if (!groups[item.group]) {
+      if (
+        !groups[item.group]
+      ) {
 
         groups[item.group] = [];
 
@@ -1711,7 +1210,7 @@ function buildMeetings(items) {
   return Object.keys(groups)
 
     .sort(
-      function(a,b) {
+      function(a, b) {
 
         return (
           Number(a) -
@@ -1721,16 +1220,14 @@ function buildMeetings(items) {
       }
     )
 
-
     .map(
       function(groupNumber) {
-
 
         const items =
           groups[groupNumber]
             .slice()
             .sort(
-              function(a,b) {
+              function(a, b) {
 
                 return (
                   a.index -
@@ -1742,9 +1239,9 @@ function buildMeetings(items) {
 
 
         /*
-           정확히 1번, 2번, 3번...
-           행을 회의 제목으로 사용
-        */
+         * 정확히 1번, 2번, 3번...
+         * 인 행을 회의 제목으로 사용
+         */
 
         const main =
           items.find(
@@ -1756,8 +1253,7 @@ function buildMeetings(items) {
               );
 
             }
-          )
-          ||
+          ) ||
           items[0];
 
 
@@ -1772,13 +1268,12 @@ function buildMeetings(items) {
 
 
         /*
-           일시 행 찾기
-        */
+         * 일시 행
+         */
 
         const dateItem =
           subItems.find(
             function(item) {
-
 
               const itemTitle =
                 displayTitle(
@@ -1798,11 +1293,14 @@ function buildMeetings(items) {
 
                 ||
 
-                itemTitle === "일시"
+                itemTitle ===
+                "일시"
 
                 ||
 
-                itemTitle.includes("일시")
+                itemTitle.includes(
+                  "일시"
+                )
 
               );
 
@@ -1810,17 +1308,11 @@ function buildMeetings(items) {
           );
 
 
-        /*
-           회의 제목
-        */
-
         const title =
           displayTitle(
             main.title
-          )
-          ||
-          rowText(main)
-          ||
+          ) ||
+          rowText(main) ||
           (
             "회의 기록 " +
             groupNumber
@@ -1828,42 +1320,38 @@ function buildMeetings(items) {
 
 
         /*
-           날짜
-        */
+         * 날짜는 기존 방식 그대로
+         */
 
         const date =
           dateItem
 
-          ?
+            ?
 
-          (
-            displayDate(
-              dateItem.detail,
-              dateItem.number
-            )
-            ||
+              displayDate(
+                dateItem.detail,
+                dateItem.number
+              )
 
-            displayDate(
-              dateItem.title,
-              dateItem.number
-            )
-          )
+              ||
 
-          :
+              displayDate(
+                dateItem.title,
+                dateItem.number
+              )
 
-          "";
+            :
 
+              "";
 
-        /*
-           날짜 행은
-           본문에서 제외
-        */
 
         const details =
           subItems.filter(
             function(item) {
 
-              return item !== dateItem;
+              return (
+                item !== dateItem
+              );
 
             }
           );
@@ -1892,141 +1380,16 @@ function buildMeetings(items) {
 
 
 /* =========================================================
-   날짜 표시 HTML
-========================================================= */
-
-function makeDateHtml(date) {
-
-
-  if (!date) {
-    return "";
-  }
-
-
-  let text =
-    clean(date);
-
-
-  /*
-     2026. 2. 21.
-     2026-02-21
-     2월 21일
-     등을 최대한 간단하게 표시
-  */
-
-
-  let match =
-    text.match(
-      /(?:^|\s)(\d{4})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/
-    );
-
-
-  if (match) {
-
-
-    const month =
-      Number(match[2]);
-
-
-    const day =
-      Number(match[3]);
-
-
-    return `
-
-      <div class="date-box">
-
-        <div class="date-month">
-          ${month}월
-        </div>
-
-        <div class="date-day">
-          ${day}일
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-
-  /*
-     2월 21일 형태
-  */
-
-  match =
-    text.match(
-      /(\d{1,2})월\s*(\d{1,2})일/
-    );
-
-
-  if (match) {
-
-
-    const month =
-      Number(match[1]);
-
-
-    const day =
-      Number(match[2]);
-
-
-    return `
-
-      <div class="date-box">
-
-        <div class="date-month">
-          ${month}월
-        </div>
-
-        <div class="date-day">
-          ${day}일
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-
-  /*
-     날짜 형식을 찾지 못하면
-     원래 날짜를 그대로 표시
-  */
-
-  return `
-
-    <div class="date-box">
-
-      <div class="date-month">
-        ${escapeHtml(text)}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
    화면 출력
 ========================================================= */
 
 function render() {
 
-
-  const search =
-    document.getElementById(
-      "search"
-    );
-
-
   const query =
     clean(
-      search.value
+      document.getElementById(
+        "search"
+      ).value
     ).toLowerCase();
 
 
@@ -2036,14 +1399,9 @@ function render() {
     );
 
 
-  /*
-     검색
-  */
-
   const filtered =
     allMeetings.filter(
       function(meeting) {
-
 
         const searchable = [
 
@@ -2058,7 +1416,6 @@ function render() {
         ]
 
           .join(" ")
-
           .toLowerCase();
 
 
@@ -2071,14 +1428,9 @@ function render() {
     );
 
 
-  /*
-     상태 표시
-  */
-
   document.getElementById(
     "status"
   ).textContent =
-
     "총 " +
     filtered.length +
     "개 회의록 · 최신 시트 자료";
@@ -2090,14 +1442,9 @@ function render() {
     );
 
 
-  /*
-     자료 없음
-  */
-
   if (
     filtered.length === 0
   ) {
-
 
     list.innerHTML = `
 
@@ -2109,18 +1456,12 @@ function render() {
 
     `;
 
-
     return;
 
   }
 
 
-  /*
-     카드 생성
-  */
-
   list.innerHTML =
-
     filtered
 
       .map(
@@ -2128,197 +1469,133 @@ function render() {
 
 
           /*
-             회의 내용 만들기
-          */
+           * 회의 상세 내용
+           */
 
           const detailHtml =
-
             meeting.details.length
 
-            ?
+              ?
 
-            meeting.details
+                meeting.details
 
-              .map(
-                function(item) {
+                  .map(
+                    function(item) {
 
-
-                  const title =
-                    displayTitle(
-                      item.title
-                    );
-
-
-                  const detail =
-                    displayDetail(
-                      item.detail,
-                      item.number
-                    );
+                      const title =
+                        displayTitle(
+                          item.title
+                        );
 
 
-                  /*
-                     빈 행
-                  */
-
-                  if (
-                    !title &&
-                    !detail
-                  ) {
-
-                    return "";
-
-                  }
+                      const detail =
+                        displayDetail(
+                          item.detail,
+                          item.number
+                        );
 
 
-                  /*
-                     안건
-                  */
+                      if (
+                        !title &&
+                        !detail
+                      ) {
 
-                  if (
-                    title === "안건"
-                  ) {
+                        return "";
 
-
-                    return `
-
-                      <div class="meeting-item">
-
-                        <span class="section-title">
-                          안건
-                        </span>
-
-                        ${
-                          detail
-                            ? `
-                              <div class="section-content">
-                                ${escapeHtml(detail)}
-                              </div>
-                            `
-                            : ""
-                        }
-
-                      </div>
-
-                    `;
-
-                  }
+                      }
 
 
-                  /*
-                     회의 내용
-                  */
+                      /*
+                       * 안건
+                       * 회의 내용
+                       * 굵게 강조
+                       */
 
-                  if (
-                    title === "회의 내용"
-                  ) {
+                      if (
+                        title === "안건" ||
+                        title === "회의 내용"
+                      ) {
 
+                        return `
 
-                    return `
+                          <div class="meeting-item">
 
-                      <div class="meeting-item">
+                            <span class="section-title">
+                              ${escapeHtml(title)}
+                            </span>
 
-                        <span class="section-title">
-                          회의 내용
-                        </span>
+                            ${
+                              detail
+                                ?
+                                  `<div>${escapeHtml(detail)}</div>`
+                                :
+                                  ""
+                            }
 
-                        ${
-                          detail
-                            ? `
-                              <div class="section-content">
-                                ${escapeHtml(detail)}
-                              </div>
-                            `
-                            : ""
-                        }
+                          </div>
 
-                      </div>
+                        `;
 
-                    `;
-
-                  }
-
-
-                  /*
-                     일반 항목
-                  */
-
-                  let text = "";
+                      }
 
 
-                  if (
-                    title &&
-                    detail
-                  ) {
+                      /*
+                       * 일반 내용
+                       */
 
-                    text =
-                      title +
-                      " " +
-                      detail;
+                      const text =
+                        title && detail
 
-                  }
+                          ?
 
-                  else {
+                            title +
+                            " " +
+                            detail
 
-                    text =
-                      title ||
-                      detail;
+                          :
 
-                  }
+                            title ||
+                            detail;
 
 
-                  return `
+                      return text
 
-                    <div class="meeting-item">
+                        ?
 
-                      ${escapeHtml(text)}
+                          `<div class="meeting-item">${escapeHtml(text)}</div>`
 
-                    </div>
+                        :
 
-                  `;
+                          "";
 
-                }
-              )
+                    }
+                  )
 
-              .join("")
+                  .join("")
 
+              :
 
-            :
+                `
 
-            `
+                  <div class="meeting-item">
 
-              <div class="meeting-item">
+                    회의 내용이 없습니다.
 
-                회의 내용이 없습니다.
+                  </div>
 
-              </div>
+                `;
 
-            `;
-
-
-          /*
-             카드
-          */
 
           return `
 
             <article class="card">
-
-
-              <!-- 제목 -->
 
               <div
                 class="card-head"
                 onclick="toggleCard(this.parentElement)"
               >
 
-
-                ${makeDateHtml(
-                  meeting.date
-                )}
-
-
                 <div class="card-main">
-
 
                   <div class="card-title">
 
@@ -2329,27 +1606,43 @@ function render() {
                   </div>
 
 
+                  ${
+                    meeting.date
+
+                      ?
+
+                        `
+
+                        <div class="card-preview">
+
+                          ${escapeHtml(
+                            meeting.date
+                          )}
+
+                        </div>
+
+                        `
+
+                      :
+
+                        ""
+                  }
+
                 </div>
 
 
                 <div class="chevron">
-
                   ⌄
-
                 </div>
-
 
               </div>
 
-
-              <!-- 상세 내용 -->
 
               <div class="card-content">
 
                 ${detailHtml}
 
               </div>
-
 
             </article>
 
@@ -2440,19 +1733,15 @@ function clean(value) {
 
 function goBack() {
 
-
   if (
     window.history.length > 1
   ) {
 
-
     window.history.back();
-
 
   }
 
   else {
-
 
     window.location.href =
       "전시대관리자.html";
@@ -2469,24 +1758,16 @@ function goBack() {
 const SETTINGS_THEME_KEY =
   "회의록2026_theme";
 
-
 const SETTINGS_FONT_KEY =
   "회의록2026_fontSize";
 
 
-/* =========================================================
-   설정 적용
-========================================================= */
-
 function applySettings() {
-
 
   const theme =
     localStorage.getItem(
       SETTINGS_THEME_KEY
-    )
-    ||
-    "dark";
+    ) || "dark";
 
 
   const fontSize =
@@ -2494,9 +1775,7 @@ function applySettings() {
       localStorage.getItem(
         SETTINGS_FONT_KEY
       )
-    )
-    ||
-    100;
+    ) || 100;
 
 
   document.body.classList.toggle(
@@ -2511,76 +1790,45 @@ function applySettings() {
     );
 
 
-  const fontValue =
-    document.getElementById(
-      "fontSizeValue"
-    );
-
-
-  if (fontValue) {
-
-    fontValue.textContent =
-      fontSize + "%";
-
-  }
+  document.getElementById(
+    "fontSizeValue"
+  ).textContent =
+    fontSize + "%";
 
 }
 
 
-/* =========================================================
-   밝게 / 어둡게
-========================================================= */
-
 function setTheme(theme) {
-
 
   localStorage.setItem(
     SETTINGS_THEME_KEY,
     theme
   );
 
-
   applySettings();
 
 }
 
 
-/* =========================================================
-   글자 크기
-========================================================= */
-
 function changeFontSize(amount) {
-
 
   let fontSize =
     Number(
       localStorage.getItem(
         SETTINGS_FONT_KEY
       )
-    )
-    ||
-    100;
+    ) || 100;
 
 
   fontSize += amount;
 
 
-  if (
-    fontSize < 80
-  ) {
-
+  if (fontSize < 80)
     fontSize = 80;
 
-  }
 
-
-  if (
-    fontSize > 150
-  ) {
-
+  if (fontSize > 150)
     fontSize = 150;
-
-  }
 
 
   localStorage.setItem(
@@ -2594,12 +1842,7 @@ function changeFontSize(amount) {
 }
 
 
-/* =========================================================
-   설정 열기 / 닫기
-========================================================= */
-
 function toggleSettings() {
-
 
   document.getElementById(
     "settingsPanel"
@@ -2611,13 +1854,12 @@ function toggleSettings() {
 
 
 /* =========================================================
-   설정 외부 클릭
+   설정창 바깥 클릭
 ========================================================= */
 
 document.addEventListener(
   "click",
   function(event) {
-
 
     const panel =
       document.getElementById(
@@ -2649,7 +1891,6 @@ document.addEventListener(
 
     ) {
 
-
       panel.classList.remove(
         "show"
       );
@@ -2661,40 +1902,24 @@ document.addEventListener(
 
 
 /* =========================================================
-   위로가기 버튼
+   위로가기
 ========================================================= */
 
 window.addEventListener(
   "scroll",
   function() {
 
-
-    const button =
-      document.getElementById(
-        "topButton"
-      );
-
-
-    if (!button) {
-      return;
-    }
-
-
-    button.style.display =
-
+    document.getElementById(
+      "topButton"
+    ).style.display =
       window.scrollY > 500
-
         ? "block"
-
         : "none";
 
   }
 );
 
-
 </script>
 
-
 </body>
-
 </html>
