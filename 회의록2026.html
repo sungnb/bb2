@@ -662,9 +662,45 @@ function isGenericTitle(text) {
 }
 
 
+/*
+  시트의 번호는 화면에 표시하지 않습니다.
+  예:
+  "1 서울북부회중 정기장로모임" → "서울북부회중 정기장로모임"
+  "서울북부회중 임시장로모임11" → "서울북부회중 임시장로모임"
+  "1-1 일시" → "일시"
+*/
+function removeCellNumber(text) {
+  let s = clean(text);
+
+  // 앞에 붙은 셀 번호 제거
+  s = s.replace(/^\s*\d+(?:[-.]\d+)*\s*/, "");
+
+  // 뒤에 붙은 셀 번호 제거
+  s = s.replace(/\s*\d+(?:[-.]\d+)*\s*$/, "");
+
+  return clean(s);
+}
+
+
+function displayTitle(text) {
+  return removeCellNumber(text);
+}
+
+
+function displayDetail(text) {
+  let s = clean(text);
+
+  // 내용의 실제 숫자(날짜, 시간, 인원수 등)는 보존해야 하므로
+  // 앞에 붙은 셀 번호만 제거합니다.
+  s = s.replace(/^\s*\d+(?:[-.]\d+)*\s*/, "");
+
+  return clean(s);
+}
+
+
 function rowText(item) {
-  const title = clean(item.title);
-  const detail = clean(item.detail);
+  const title = displayTitle(item.title);
+  const detail = displayDetail(item.detail);
 
   if (title && !isGenericTitle(title) && detail) {
     return title + " " + detail;
@@ -716,8 +752,13 @@ function buildMeetings(items) {
         );
       });
 
-      const title = rowText(main) || ("회의 기록 " + groupNumber);
-      const date = dateItem ? rowText(dateItem) : "";
+      const title = displayTitle(main.title) || rowText(main) || ("회의 기록 " + groupNumber);
+
+      // 1-1 / 2-1 행의 "내용" 셀을 실제 일시로 사용합니다.
+      // 제목 셀의 "일시" 같은 라벨은 붙이지 않고 날짜/시간 값만 정확히 표시합니다.
+      const date = dateItem
+        ? displayDetail(dateItem.detail) || displayTitle(dateItem.title)
+        : "";
 
       const details = subItems.filter(function(item) {
         return item !== dateItem;
