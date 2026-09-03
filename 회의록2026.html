@@ -1,1303 +1,388 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#286b5b">
-
 <title>회의록 2026</title>
 
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
-
-/* =========================================================
-   기본
-========================================================= */
-
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans KR",
-    "Apple SD Gothic Neo",
-    "Malgun Gothic",
-    sans-serif;
-
-  background: #f3f5f4;
-  color: #26302d;
-
-  font-size: 15px;
-
-  line-height: 1.35;
-}
-
-
-/* =========================================================
-   상단
-========================================================= */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-
-  background: rgba(255,255,255,.96);
-
-  backdrop-filter: blur(12px);
-
-  border-bottom: 1px solid #dce4e0;
-}
-
-.header-inner {
-  max-width: 900px;
-
-  margin: auto;
-
-  padding: 10px 14px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-}
-
-.back,
-.settings-button {
-
-  width: 42px;
-  height: 42px;
-
-  border: 0;
-
-  border-radius: 12px;
-
-  background: #edf3f0;
-
-  color: #286b5b;
-
-  font-size: 25px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-}
-
-.settings-button {
-  font-size: 20px;
-}
-
-.title-area {
-  flex: 1;
-  min-width: 0;
-}
-
-.page-title {
-
-  font-size: 31.5px;
-
-  font-weight: 800;
-
-  letter-spacing: -.04em;
-  text-align: center;
-}
-
-.page-subtitle {
-
-  margin-top: 1px;
-
-  font-size: 11px;
-
-  color: #7a8580;
-  text-align: center;
-}
-
-
-/* =========================================================
-   설정
-========================================================= */
-
-.settings-panel {
-
-  display: none;
-
-  position: absolute;
-
-  right: 14px;
-
-  top: 58px;
-
-  width: 220px;
-
-  padding: 14px;
-
-  border-radius: 14px;
-
-  background: #fff;
-
-  border: 1px solid #d9e2de;
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.12);
-
-  z-index: 200;
-}
-
-.settings-panel.show {
-  display: block;
-}
-
-.settings-title {
-
-  font-weight: 800;
-
-  margin-bottom: 10px;
-}
-
-.settings-row {
-
-  display: flex;
-
-  gap: 8px;
-
-  margin-bottom: 10px;
-}
-
-.settings-row button,
-.font-size-row button {
-
-  border: 0;
-
-  border-radius: 9px;
-
-  padding: 9px;
-
-  background: #edf3f0;
-
-  color: #286b5b;
-
-  cursor: pointer;
-}
-
-.settings-row button {
-
-  flex: 1;
-}
-
-.font-size-row {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-}
-
-.font-size-row button {
-
-  width: 38px;
-}
-
-.font-size-value {
-
-  flex: 1;
-
-  text-align: center;
-}
-
-
-/* =========================================================
-   본문
-========================================================= */
-
-main {
-
-  max-width: 900px;
-
-  margin: auto;
-
-  padding: 14px 12px 80px;
-}
-
-.toolbar {
-
-  display: flex;
-
-  gap: 8px;
-
-  margin-bottom: 8px;
-}
-
-.search {
-
-  flex: 1;
-
-  min-width: 0;
-
-  height: 42px;
-
-  padding: 0 13px;
-
-  border: 1px solid #d7e0dc;
-
-  border-radius: 11px;
-
-  background: white;
-
-  font-size: 14px;
-
-  outline: none;
-}
-
-.status {
-
-  margin: 8px 2px 12px;
-
-  font-size: 12px;
-
-  color: #74807b;
-}
-
-
-/* =========================================================
-   회의 카드
-========================================================= */
-
-.card {
-
-  margin-bottom: 10px;
-
-  background: white;
-
-  border: 1px solid #d9e2de;
-
-  border-radius: 15px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 2px 7px rgba(0,0,0,.035);
-}
-
-
-/* =========================================================
-   제목 영역
-
-   날짜 → 왼쪽
-   제목 → 오른쪽
-========================================================= */
-
-.card-head {
-
-  padding: 13px 13px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  cursor: pointer;
-
-  user-select: none;
-
-  text-align: left;
-}
-
-
-/* =========================================================
-   날짜판
-
-   기존보다 넓게
-   2월
-   21일
-========================================================= */
-
-.date-box {
-
-  flex: 0 0 58px;
-
-  width: 58px;
-
-  min-width: 58px;
-
-  padding-right: 11px;
-
-  border-right: 1px solid #e2e9e6;
-
-  text-align: center;
-
-  line-height: 1.15;
-}
-
-.date-month {
-
-  display: block;
-
-  font-size: 12px;
-
-  font-weight: 700;
-
-  color: #74807b;
-
-  white-space: nowrap;
-}
-
-.date-day {
-
-  display: block;
-
-  margin-top: 3px;
-
-  font-size: 18px;
-
-  font-weight: 900;
-
-  color: #286b5b;
-
-  white-space: nowrap;
-}
-
-
-/* =========================================================
-   제목
-========================================================= */
-
-.card-main {
-
-  flex: 1;
-
-  min-width: 0;
-
-  text-align: left;
-}
-
-.card-title {
-
-  font-size: 18px;
-
-  font-weight: 900;
-
-  color: #27312e;
-
-  line-height: 1.35;
-
-  word-break: keep-all;
-
-  letter-spacing: -.03em;
-
-  text-align: left;
-}
-
-
-/* =========================================================
-   화살표
-========================================================= */
-
-.chevron {
-
-  width: 20px;
-
-  min-width: 20px;
-
-  text-align: center;
-
-  color: #74807b;
-
-  font-size: 16px;
-
-  transition:
-    transform .2s;
-}
-
-.card.open .chevron {
-
-  transform:
-    rotate(180deg);
-}
-
-
-/* =========================================================
-   펼쳐지는 내용
-========================================================= */
-
-.card-content {
-
-  display: none;
-
-  border-top: 1px solid #e6ece9;
-
-  padding: 12px 14px 16px;
-
-  text-align: left;
-
-  line-height: 1.35;
-}
-
-.card.open .card-content {
-
-  display: block;
-}
-
-
-/* =========================================================
-   ★ 실제 회의록 항목
-
-   항목 간격 0
-   padding 0
-   margin 0
-   왼쪽 정렬
-========================================================= */
-
-.meeting-item {
-  display: block;
-  margin: 0 0 8px 0 !important;
-  padding: 0 !important;
-  border: 1px solid #d9e2de;
-  border-radius: 10px;
-  background: #fafcfb;
-  overflow: hidden;
-  font-size: 14px;
-  color: #36403c;
-  line-height: 1.35 !important;
-  text-align: left !important;
-  white-space: normal;
-  word-break: break-word;
-}
-
-.meeting-item:last-child {
-  margin-bottom: 0 !important;
-}
-
-.part-label {
-  display: block;
-  padding: 7px 10px;
-  background: #e5f0ec;
-  color: #286b5b;
-  font-size: 15.5px;
-  font-weight: 900;
-  line-height: 1.25;
-  text-align: left;
-  border-bottom: 1px solid #d2e1db;
-}
-
-.part-body {
-  display: block;
-  padding: 8px 10px;
-  background: #fff;
-  color: #36403c;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.35;
-  text-align: left;
-  white-space: pre-wrap;
-}
-
-.meeting-item.agenda .part-label,
-.meeting-item.content .part-label {
-  background: #d7ebe4;
-  color: #1f6654;
-  font-size: 16px;
-  font-weight: 900;
-}
-
-
-/* =========================================================
-   내용 전체
-========================================================= */
-
-.detail strong,
-.meeting-item strong {
-  font-weight: 900;
-}
-
-.detail {
-
-  margin: 0;
-
-  padding: 0;
-
-  font-size: 14px;
-
-  color: #36403c;
-
-  line-height: 1.35;
-
-  text-align: left;
-
-  white-space: pre-wrap;
-
-  word-break: break-word;
-}
-
-
-/* =========================================================
-   빈 화면
-========================================================= */
-
-.empty {
-
-  background: white;
-
-  border: 1px solid #dce4e0;
-
-  border-radius: 14px;
-
-  padding: 22px 16px;
-
-  color: #6d7873;
-
-  text-align: left;
-}
-
-.error {
-
-  color: #b33a3a;
-}
-
-
-/* =========================================================
-   위로가기
-========================================================= */
-
-.top-button {
-
-  position: fixed;
-
-  right: 16px;
-
-  bottom: 18px;
-
-  width: 45px;
-
-  height: 45px;
-
-  border: 0;
-
-  border-radius: 50%;
-
-  background: #286b5b;
-
-  color: white;
-
-  font-size: 19px;
-
-  box-shadow:
-    0 4px 14px rgba(0,0,0,.18);
-
-  display: none;
-
-  cursor: pointer;
-}
-
-
-/* =========================================================
-   어두운 화면
-========================================================= */
-
-body.dark {
-
-  background: #121715;
-
-  color: #edf3f0;
-}
-
-body.dark header {
-
-  background:
-    rgba(25,31,28,.97);
-
-  border-color: #303a36;
-}
-
-body.dark .page-title {
-
-  color: #f0f5f2;
-}
-
-body.dark .page-subtitle {
-
-  color: #9ba7a1;
-}
-
-body.dark .back,
-body.dark .settings-button {
-
-  background: #26332e;
-
-  color: #8fd0b9;
-}
-
-body.dark .search {
-
-  background: #1c2421;
-
-  color: #edf3f0;
-
-  border-color: #394640;
-}
-
-body.dark .card {
-
-  background: #1a211e;
-
-  border-color: #35403b;
-}
-
-body.dark .card-title {
-
-  color: #eef3f0;
-}
-
-body.dark .date-box {
-
-  border-color: #303a36;
-}
-
-body.dark .date-month {
-
-  color: #a9b4af;
-}
-
-body.dark .date-day {
-
-  color: #91d0bb;
-}
-
-body.dark .card-content {
-
-  border-color: #303a36;
-}
-
-body.dark .detail,
-body.dark .meeting-item {
-
-  color: #d7e0dc;
-}
-
-body.dark .meeting-item {
-  background: #18201d;
-  border-color: #35403b;
-}
-
-body.dark .part-label {
-  background: #263d35;
-  color: #91d0bb;
-  border-color: #354c44;
-}
-
-body.dark .part-body {
-  background: #1a211e;
-  color: #d7e0dc;
-}
-
-body.dark .meeting-item.agenda .part-label,
-body.dark .meeting-item.content .part-label {
-  background: #2d4b41;
-  color: #a7e0cc;
-}
-
-body.dark .status {
-
-  color: #a9b4af;
-}
-
-body.dark .settings-panel {
-
-  background: #1a211e;
-
-  border-color: #35403b;
-
-  color: #edf3f0;
-}
-
-body.dark .settings-row button,
-body.dark .font-size-row button {
-
-  background: #26332e;
-
-  color: #91d0bb;
-}
-
-
-/* =========================================================
-   PC
-========================================================= */
-
-@media(min-width:700px) {
-
-  main {
-
-    padding-left: 20px;
-
-    padding-right: 20px;
-  }
-
-  .card-head {
-
-    padding: 15px 17px;
-  }
-
-  .card-content {
-
-    padding:
-      14px 18px 18px;
-  }
-
-}
-
-
-/* =========================================================
-   휴대폰
-========================================================= */
-
-@media(max-width:600px) {
-
-  .page-title {
-
-    font-size: 28px;
-  }
-
-  .card-title {
-
-    font-size: 17px;
-  }
-
-  .date-box {
-
-    flex-basis: 60px;
-
-    width: 60px;
-
-    min-width: 60px;
-
-    padding-right: 11px;
-  }
-
-  .date-month {
-
-    font-size: 12px;
-  }
-
-  .date-day {
-
-    font-size: 17px;
-  }
-
-  .meeting-item {
-
-    font-size: 14px;
-
-    line-height: 1.35 !important;
-    margin-bottom: 8px !important;
-  }
-
-  .part-label {
-    font-size: 14px;
-    font-weight: 900;
-    padding: 8px 9px;
-    text-align: left;
-  }
-
-  .part-body {
-    font-size: 14px;
-    padding: 8px 9px;
-  }
-
-  .meeting-item.agenda .part-label,
-  .meeting-item.content .part-label {
-    font-size: 14.5px;
-    font-weight: 900;
-  }
-
-}
-
-
-/* =========================================================
-   글자 크기 확대
-========================================================= */
-
-body {
-
-  transform-origin: top left;
-}
-
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#f3f5f4;color:#26302d;font-size:15px;line-height:1.35}
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #dce4e0}
+.header-inner{max-width:900px;margin:auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.back,.settings-button{width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:25px;font-weight:bold;cursor:pointer}
+.settings-button{font-size:20px}
+.title-area{flex:1;min-width:0}
+.page-title{font-size:31.5px;font-weight:800;letter-spacing:-.04em;text-align:center}
+.page-subtitle{margin-top:1px;font-size:11px;color:#7a8580;text-align:center}
+.settings-panel{display:none;position:absolute;right:14px;top:58px;width:220px;padding:14px;border-radius:14px;background:#fff;border:1px solid #d9e2de;box-shadow:0 8px 25px rgba(0,0,0,.12);z-index:200}
+.settings-panel.show{display:block}
+.settings-title{font-weight:800;margin-bottom:10px}
+.settings-row{display:flex;gap:8px;margin-bottom:10px}
+.settings-row button,.font-size-row button{border:0;border-radius:9px;padding:9px;background:#edf3f0;color:#286b5b;cursor:pointer}
+.settings-row button{flex:1}
+.font-size-row{display:flex;align-items:center;gap:8px}
+.font-size-row button{width:38px}
+.font-size-value{flex:1;text-align:center}
+main{max-width:900px;margin:auto;padding:14px 12px 80px}
+.toolbar{display:flex;gap:8px;margin-bottom:8px}
+.search{flex:1;min-width:0;height:42px;padding:0 13px;border:1px solid #d7e0dc;border-radius:11px;background:white;font-size:14px;outline:none}
+.status{margin:8px 2px 12px;font-size:12px;color:#74807b}
+.card{margin-bottom:10px;background:white;border:1px solid #d9e2de;border-radius:15px;overflow:hidden;box-shadow:0 2px 7px rgba(0,0,0,.035)}
+.card-head{padding:13px 13px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;text-align:left}
+.date-box{flex:0 0 58px;width:58px;min-width:58px;padding-right:11px;border-right:1px solid #e2e9e6;text-align:center;line-height:1.15}
+.date-month{display:block;font-size:12px;font-weight:700;color:#74807b;white-space:nowrap}
+.date-day{display:block;margin-top:3px;font-size:18px;font-weight:900;color:#286b5b;white-space:nowrap}
+.card-main{flex:1;min-width:0;text-align:left}
+.card-title{font-size:18px;font-weight:900;color:#27312e;line-height:1.35;word-break:keep-all;letter-spacing:-.03em;text-align:left}
+.chevron{width:20px;min-width:20px;text-align:center;color:#74807b;font-size:16px;transition:transform .2s}
+.card.open .chevron{transform:rotate(180deg)}
+.card-content{display:none;border-top:1px solid #e6ece9;padding:12px 14px 16px;text-align:left;line-height:1.35}
+.card.open .card-content{display:block}
+.meeting-item{display:block;margin:0 0 8px 0!important;padding:0!important;border:1px solid #d9e2de;border-radius:10px;background:#fafcfb;overflow:hidden;font-size:14px;color:#36403c;line-height:1.35!important;text-align:left!important;white-space:normal;word-break:break-word}
+.meeting-item:last-child{margin-bottom:0!important}
+.part-label{display:block;padding:7px 10px;background:#e5f0ec;color:#286b5b;font-size:15.5px;font-weight:900;line-height:1.25;text-align:left;border-bottom:1px solid #d2e1db}
+.part-body{display:block;padding:8px 10px;background:#fff;color:#36403c;font-size:14px;font-weight:400;line-height:1.35;text-align:left;white-space:pre-wrap}
+.meeting-item.agenda .part-label,.meeting-item.content .part-label{background:#d7ebe4;color:#1f6654;font-size:16px;font-weight:900}
+.detail strong,.meeting-item strong{font-weight:900}
+.detail{margin:0;padding:0;font-size:14px;color:#36403c;line-height:1.35;text-align:left;white-space:pre-wrap;word-break:break-word}
+.empty{background:white;border:1px solid #dce4e0;border-radius:14px;padding:22px 16px;color:#6d7873;text-align:left}
+.error{color:#b33a3a}
+.top-button{position:fixed;right:16px;bottom:18px;width:45px;height:45px;border:0;border-radius:50%;background:#286b5b;color:white;font-size:19px;box-shadow:0 4px 14px rgba(0,0,0,.18);display:none;cursor:pointer}
+body.dark{background:#121715;color:#edf3f0}
+body.dark header{background:rgba(25,31,28,.97);border-color:#303a36}
+body.dark .page-title{color:#f0f5f2}
+body.dark .page-subtitle{color:#9ba7a1}
+body.dark .back,body.dark .settings-button{background:#26332e;color:#8fd0b9}
+body.dark .search{background:#1c2421;color:#edf3f0;border-color:#394640}
+body.dark .card{background:#1a211e;border-color:#35403b}
+body.dark .card-title{color:#eef3f0}
+body.dark .date-box{border-color:#303a36}
+body.dark .date-month{color:#a9b4af}
+body.dark .date-day{color:#91d0bb}
+body.dark .card-content{border-color:#303a36}
+body.dark .detail,body.dark .meeting-item{color:#d7e0dc}
+body.dark .meeting-item{background:#18201d;border-color:#35403b}
+body.dark .part-label{background:#263d35;color:#91d0bb;border-color:#354c44}
+body.dark .part-body{background:#1a211e;color:#d7e0dc}
+body.dark .meeting-item.agenda .part-label,body.dark .meeting-item.content .part-label{background:#2d4b41;color:#a7e0cc}
+body.dark .status{color:#a9b4af}
+body.dark .settings-panel{background:#1a211e;border-color:#35403b;color:#edf3f0}
+body.dark .settings-row button,body.dark .font-size-row button{background:#26332e;color:#91d0bb}
+@media(min-width:700px){main{padding-left:20px;padding-right:20px}.card-head{padding:15px 17px}.card-content{padding:14px 18px 18px}}
+@media(max-width:600px){.page-title{font-size:28px}.card-title{font-size:17px}.date-box{flex-basis:60px;width:60px;min-width:60px;padding-right:11px}.date-month{font-size:12px}.date-day{font-size:17px}.meeting-item{font-size:14px;line-height:1.35!important;margin-bottom:8px!important}.part-label{font-size:14px;font-weight:900;padding:8px 9px;text-align:left}.part-body{font-size:14px;padding:8px 9px}.meeting-item.agenda .part-label,.meeting-item.content .part-label{font-size:14.5px;font-weight:900}}
+body{transform-origin:top left}
+
+/* 인증 대기 화면 */
+#authGate{position:fixed;inset:0;z-index:1000;background:#f3f5f4;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-box{width:min(380px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.auth-title{font-size:23px;font-weight:900;color:#286b5b;margin-bottom:8px}
+.auth-message{font-size:14px;color:#66736d;line-height:1.5;margin-bottom:18px}
+#googleButton{display:flex;justify-content:center;min-height:44px}
+.auth-error{margin-top:14px;color:#b33a3a;font-size:13px;line-height:1.5}
+body.dark #authGate{background:#121715}
+body.dark .auth-box{background:#1a211e;border-color:#35403b}
+body.dark .auth-title{color:#91d0bb}
+body.dark .auth-message{color:#a9b4af}
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =======================================================
-     상단
-======================================================= -->
+<!-- Google 인증이 완료될 때까지 회의록 화면을 잠급니다. -->
+<div id="authGate">
+  <div class="auth-box">
+    <div class="auth-title">회의록 2026</div>
+    <div id="authMessage" class="auth-message">Google 계정을 확인하고 있습니다...</div>
+    <div id="googleButton"></div>
+    <div id="authError" class="auth-error"></div>
+  </div>
+</div>
 
 <header>
-
   <div class="header-inner">
-
-
-    <button
-      class="back"
-      onclick="goBack()"
-      aria-label="뒤로가기">
-
-      ‹
-
-    </button>
-
-
+    <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
     <div class="title-area">
-
-      <div class="page-title">
-
-        회의록
-
-      </div>
-
-
-      <div class="page-subtitle">
-
-        서울북부회중 회의 기록 · 2026
-
-      </div>
-
+      <div class="page-title">회의록</div>
+      <div class="page-subtitle">서울북부회중 회의 기록 · 2026</div>
     </div>
-
-
-    <button
-      class="settings-button"
-      onclick="toggleSettings()"
-      aria-label="설정">
-
-      ⚙️
-
-    </button>
-
-
-    <div
-      id="settingsPanel"
-      class="settings-panel">
-
-
-      <div class="settings-title">
-
-        설정
-
-      </div>
-
-
+    <button class="settings-button" onclick="toggleSettings()" aria-label="설정">⚙️</button>
+    <div id="settingsPanel" class="settings-panel">
+      <div class="settings-title">설정</div>
       <div class="settings-row">
-
-
-        <button
-          id="lightButton"
-          onclick="setTheme('light')">
-
-          ☀️ 밝게
-
-        </button>
-
-
-        <button
-          id="darkButton"
-          onclick="setTheme('dark')">
-
-          🌙 어둡게
-
-        </button>
-
-
+        <button id="lightButton" onclick="setTheme('light')">☀️ 밝게</button>
+        <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
       </div>
-
-
       <div class="font-size-row">
-
-
-        <button
-          onclick="changeFontSize(-5)">
-
-          −
-
-        </button>
-
-
-        <div
-          id="fontSizeValue"
-          class="font-size-value">
-
-          100%
-
-        </div>
-
-
-        <button
-          onclick="changeFontSize(5)">
-
-          ＋
-
-        </button>
-
-
+        <button onclick="changeFontSize(-5)">−</button>
+        <div id="fontSizeValue" class="font-size-value">100%</div>
+        <button onclick="changeFontSize(5)">＋</button>
       </div>
-
-
     </div>
-
   </div>
-
 </header>
 
-
-<!-- =======================================================
-     본문
-======================================================= -->
-
 <main>
-
-
   <div class="toolbar">
-
-
-    <input
-      id="search"
-      class="search"
-      type="search"
-      placeholder="회의록 검색..."
-      oninput="render()">
-
-
+    <input id="search" class="search" type="search" placeholder="회의록 검색..." oninput="render()">
   </div>
-
-
-  <div
-    id="status"
-    class="status">
-
-    회의록을 불러오는 중입니다...
-
-  </div>
-
-
+  <div id="status" class="status">Google 인증 후 회의록을 불러옵니다...</div>
   <div id="list"></div>
-
-
 </main>
 
-
-<!-- =======================================================
-     위로가기
-======================================================= -->
-
-<button
-  id="topButton"
-  class="top-button"
-  onclick="
-    window.scrollTo({
-      top:0,
-      behavior:'smooth'
-    })
-  ">
-
-  ↑
-
-</button>
-
+<button id="topButton" class="top-button" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-
-
 /* =========================================================
-   Apps Script 주소
+   Apps Script 주소 / Google OAuth Client ID
 ========================================================= */
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbysgotaoVEulLRZPFh9BXMKiRvbi9FTUvC4qk3R9P4xbJSyydBf0EaekH3D471kRkkY/exec";
 
+const GOOGLE_CLIENT_ID =
+  "710102597374-s5vk3qqmm81onhiqihj5kcbhjkh00f.apps.googleusercontent.com";
 
 let meetings = [];
 let groupedMeetings = [];
-
+let googleAuthFinished = false;
 
 /* =========================================================
    시작
 ========================================================= */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    applySettings();
-
-    loadData();
-
-  }
-);
-
+document.addEventListener("DOMContentLoaded", function() {
+  applySettings();
+  startGoogleAuthentication();
+});
 
 /* =========================================================
-   데이터 불러오기
+   Google 자동 인증
+   - 기존 Google 세션이 있고 이전에 이 앱을 승인했다면
+     자동으로 ID 토큰을 받을 수 있습니다.
+   - 자동 인증이 안 되면 아래 Google 버튼이 표시됩니다.
 ========================================================= */
 
-async function loadData() {
+function startGoogleAuthentication() {
+  const message = document.getElementById("authMessage");
+  const error = document.getElementById("authError");
 
-  const status =
-    document.getElementById(
-      "status"
-    );
+  message.textContent = "Google 계정을 확인하고 있습니다...";
+  error.textContent = "";
 
+  const waitForGoogle = setInterval(function() {
+    if (
+      window.google &&
+      google.accounts &&
+      google.accounts.id
+    ) {
+      clearInterval(waitForGoogle);
+      initializeGoogleIdentity();
+    }
+  }, 100);
 
-  status.textContent =
-    "회의록을 불러오는 중입니다...";
+  setTimeout(function() {
+    clearInterval(waitForGoogle);
 
+    if (!googleAuthFinished) {
+      message.textContent =
+        "자동 인증을 완료하지 못했습니다. 아래 버튼으로 Google 계정을 선택해 주세요.";
+      renderGoogleButton();
+    }
+  }, 7000);
+}
+
+function initializeGoogleIdentity() {
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    auto_select: true,
+    use_fedcm_for_button: true,
+    button_auto_select: true,
+    callback: handleGoogleCredential
+  });
+
+  /*
+   * 자동 인증을 먼저 시도합니다.
+   * 자동 인증 조건이 맞지 않는 경우 Google에서
+   * 필요한 인증/계정 선택 UI가 나타날 수 있습니다.
+   */
+  google.accounts.id.prompt(function(notification) {
+    if (
+      notification.isNotDisplayed() ||
+      notification.isSkippedMoment()
+    ) {
+      renderGoogleButton();
+    }
+  });
+}
+
+function renderGoogleButton() {
+  if (
+    !window.google ||
+    !google.accounts ||
+    !google.accounts.id
+  ) {
+    return;
+  }
+
+  const container = document.getElementById("googleButton");
+
+  if (container.dataset.rendered === "1") {
+    return;
+  }
+
+  container.dataset.rendered = "1";
+
+  google.accounts.id.renderButton(
+    container,
+    {
+      type: "standard",
+      theme: "outline",
+      size: "large",
+      text: "signin_with",
+      shape: "rectangular",
+      logo_alignment: "left",
+      width: 300
+    }
+  );
+}
+
+/* =========================================================
+   Google ID Token을 Apps Script로 전달
+========================================================= */
+
+async function handleGoogleCredential(response) {
+  const message = document.getElementById("authMessage");
+  const error = document.getElementById("authError");
+
+  if (!response || !response.credential) {
+    error.textContent = "Google 인증 정보를 받지 못했습니다.";
+    renderGoogleButton();
+    return;
+  }
+
+  message.textContent = "인증된 Google 계정을 확인하고 있습니다...";
+  error.textContent = "";
 
   try {
+    const body =
+      "credential=" +
+      encodeURIComponent(response.credential);
 
+    const result = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: body
+    });
 
-    const response =
-      await fetch(API_URL);
-
-
-    if (!response.ok) {
-
+    if (!result.ok) {
       throw new Error(
-        "서버 응답 오류: " +
-        response.status
+        "인증 서버 응답 오류: " + result.status
       );
-
     }
 
+    const data = await result.json();
 
-    const data =
-      await response.json();
-
-
-    console.log(
-      "회의록 API:",
-      data
-    );
-
+    console.log("Google 인증 결과:", data);
 
     if (
       !data ||
-      data.success !== true
+      data.authenticated !== true
     ) {
-
       throw new Error(
         data?.message ||
-        data?.error ||
-        "데이터를 가져오지 못했습니다."
+        "Google 인증에 실패했습니다."
       );
-
     }
 
+    if (data.authorized !== true) {
+      googleAuthFinished = true;
+      message.textContent = "접근 권한이 없습니다.";
+      error.textContent =
+        data.message ||
+        "이 Google 계정은 회의록 열람 권한이 없습니다.";
+      return;
+    }
 
+    googleAuthFinished = true;
+
+    /*
+     * 인증 성공 후에만 회의록 데이터를 사용합니다.
+     * 여기서 반환된 meetings만 화면에 넣습니다.
+     */
     let rows = [];
 
-
-    if (
-      Array.isArray(
-        data.rows
-      )
-    ) {
-
-      rows =
-        data.rows;
-
+    if (Array.isArray(data.rows)) {
+      rows = data.rows;
+    } else if (Array.isArray(data.meetings)) {
+      rows = data.meetings;
+    } else if (Array.isArray(data.records)) {
+      rows = data.records;
+    } else if (Array.isArray(data.data)) {
+      rows = data.data;
+    } else if (Array.isArray(data.values)) {
+      rows = data.values;
     }
 
-    else if (
-      Array.isArray(
-        data.meetings
-      )
-    ) {
+    meetings = normalizeRows(rows);
+    groupedMeetings = buildMeetings(meetings);
 
-      rows =
-        data.meetings;
-
-    }
-
-    else if (
-      Array.isArray(
-        data.records
-      )
-    ) {
-
-      rows =
-        data.records;
-
-    }
-
-    else if (
-      Array.isArray(
-        data.data
-      )
-    ) {
-
-      rows =
-        data.data;
-
-    }
-
-    else if (
-      Array.isArray(
-        data.values
-      )
-    ) {
-
-      rows =
-        data.values;
-
-    }
-
-
-    if (
-      rows.length === 0 &&
-      Array.isArray(data)
-    ) {
-
-      rows =
-        data;
-
-    }
-
-
-    meetings =
-      normalizeRows(rows);
-
-    // 회의별 그룹은 데이터를 받은 뒤 한 번만 만든다.
-    groupedMeetings =
-      buildMeetings(meetings);
-
-
-    if (
-      meetings.length === 0
-    ) {
-
+    if (meetings.length === 0) {
       throw new Error(
         "번호가 있는 회의록 자료를 찾지 못했습니다."
       );
-
     }
 
+    message.textContent = "인증이 완료되었습니다.";
+
+    document.getElementById("status").textContent =
+      "회의록을 불러오는 중입니다...";
+
+    document.getElementById("authGate").style.display = "none";
 
     render();
 
+  } catch (err) {
+    console.error("Google 인증/회의록 오류:", err);
 
+    message.textContent =
+      "인증 또는 회의록 불러오기에 실패했습니다.";
+
+    error.textContent =
+      err.message ||
+      "잠시 후 다시 시도해 주세요.";
+
+    renderGoogleButton();
   }
-
-  catch (error) {
-
-
-    console.error(
-      "회의록 데이터 로드 오류:",
-      error
-    );
-
-
-    status.textContent =
-      "자료를 가져오지 못했습니다.";
-
-
-    document.getElementById(
-      "list"
-    ).innerHTML = `
-
-      <div class="empty error">
-
-        ❌ 자료를 가져오지 못했습니다.
-
-        <br><br>
-
-        ${escapeHtml(
-          error.message
-        )}
-
-      </div>
-
-    `;
-
-  }
-
 }
-
 
 /* =========================================================
    행 하나를 회의록 데이터로 변환
 ========================================================= */
 
 function rowToObject(row) {
-
-
-  if (
-    Array.isArray(row)
-  ) {
-
-
+  if (Array.isArray(row)) {
     return {
-
-      number:
-        row[0] ?? "",
-
-      title:
-        row[1] ?? "",
-
-      detail:
-        row
-          .slice(2)
-          .filter(
-            v =>
-              clean(v) !== ""
-          )
-          .join("\n")
-
+      number: row[0] ?? "",
+      title: row[1] ?? "",
+      detail: row.slice(2).filter(v => clean(v) !== "").join("\n")
     };
-
   }
 
-
-  if (
-    row &&
-    typeof row === "object"
-  ) {
-
-
+  if (row && typeof row === "object") {
     const number =
-      row.number ??
-      row.no ??
-      row.번호 ??
-      row["번호"] ??
-      row.id ??
-      "";
-
+      row.number ?? row.no ?? row.번호 ?? row["번호"] ?? row.id ?? "";
 
     const title =
-      row.title ??
-      row.name ??
-      row.제목 ??
-      row["제목"] ??
-      "";
-
+      row.title ?? row.name ?? row.제목 ?? row["제목"] ?? "";
 
     let detail =
       row.detail ??
@@ -1307,659 +392,269 @@ function rowToObject(row) {
       row["내용"] ??
       "";
 
-
-    if (
-      clean(detail) === ""
-    ) {
-
-
+    if (clean(detail) === "") {
       const ignored = [
-
-        "number",
-        "no",
-        "번호",
-        "id",
-        "title",
-        "name",
-        "제목"
-
+        "number","no","번호","id","title","name","제목"
       ];
 
-
-      detail =
-        Object.keys(row)
-
-          .filter(
-            key =>
-              !ignored.includes(
-                key
-              )
-          )
-
-          .map(
-            key =>
-              row[key]
-          )
-
-          .filter(
-            value =>
-              clean(value) !== ""
-          )
-
-          .join("\n");
-
+      detail = Object.keys(row)
+        .filter(key => !ignored.includes(key))
+        .map(key => row[key])
+        .filter(value => clean(value) !== "")
+        .join("\n");
     }
 
-
-    return {
-
-      number,
-
-      title,
-
-      detail
-
-    };
-
+    return {number,title,detail};
   }
 
-
-  return {
-
-    number: "",
-
-    title: "",
-
-    detail: ""
-
-  };
-
+  return {number:"",title:"",detail:""};
 }
-
 
 /* =========================================================
    번호에서 첫 숫자 추출
 ========================================================= */
 
 function mainNumber(value) {
-
-  const s =
-    clean(value);
-
-
-  const match =
-    s.match(
-      /^(\d+)/
-    );
-
-
-  return match
-    ? match[1]
-    : "";
-
+  const s = clean(value);
+  const match = s.match(/^(\d+)/);
+  return match ? match[1] : "";
 }
-
 
 /* =========================================================
    데이터 정리
 ========================================================= */
 
 function normalizeRows(rows) {
-
   const result = [];
 
+  rows.forEach(function(row,index) {
+    const r = rowToObject(row);
+    const number = clean(r.number);
 
-  rows.forEach(
-    function(row,index) {
+    if (!number) return;
 
+    const group = mainNumber(number);
 
-      const r =
-        rowToObject(
-          row
-        );
+    if (!group) return;
 
-
-      const number =
-        clean(
-          r.number
-        );
-
-
-      if (!number) {
-
-        return;
-
-      }
-
-
-      const group =
-        mainNumber(
-          number
-        );
-
-
-      if (!group) {
-
-        return;
-
-      }
-
-
-      result.push({
-
-        number,
-
-        group,
-
-        title:
-          clean(
-            r.title
-          ),
-
-        detail:
-          clean(
-            r.detail
-          ),
-
-        index
-
-      });
-
-    }
-  );
-
+    result.push({
+      number,
+      group,
+      title: clean(r.title),
+      detail: clean(r.detail),
+      index
+    });
+  });
 
   return result;
-
 }
-
 
 /* =========================================================
    번호 제거
 ========================================================= */
 
 function removeCellNumber(text) {
+  let s = clean(text);
 
-  let s =
-    clean(text);
-
-
-  s =
-    s.replace(
-      /^\s*\d+(?:[-.]\d+)*\s*/,
-      ""
-    );
-
-
-  s =
-    s.replace(
-      /\s*\d+(?:[-.]\d+)*\s*$/,
-      ""
-    );
-
+  s = s.replace(/^\s*\d+(?:[-.]\d+)*\s*/,"");
+  s = s.replace(/\s*\d+(?:[-.]\d+)*\s*$/,"");
 
   return clean(s);
-
 }
-
-
-/* =========================================================
-   제목
-========================================================= */
 
 function displayTitle(text) {
-
-  return removeCellNumber(
-    text
-  );
-
+  return removeCellNumber(text);
 }
-
-
-/* =========================================================
-   내용
-========================================================= */
 
 function displayDetail(text) {
-
-  return removeCellNumber(
-    text
-  );
-
+  return removeCellNumber(text);
 }
-
 
 /* =========================================================
    날짜
-
-   날짜 앞에 붙은 셀 번호만 제거
 ========================================================= */
 
 function displayDate(text, number) {
+  let s = clean(text);
+  const n = clean(number);
 
-  let s =
-    clean(text);
-
-
-  const n =
-    clean(number);
-
-
-  if (!s) {
-
-    return "";
-
-  }
-
+  if (!s) return "";
 
   if (n) {
-
-
     const escaped =
-      n.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      );
+      n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 
-
-    s =
-      s.replace(
-        new RegExp(
-          "^\\s*" +
-          escaped +
-          "\\s*"
-        ),
-        ""
-      );
-
+    s = s.replace(
+      new RegExp("^\\s*" + escaped + "\\s*"),
+      ""
+    );
   }
 
-
   return clean(s);
-
 }
-
 
 /* =========================================================
    일반 행 텍스트
 ========================================================= */
 
 function rowText(item) {
+  const title = displayTitle(item.title);
+  const detail = displayDetail(item.detail);
 
-  const title =
-    displayTitle(
-      item.title
-    );
-
-
-  const detail =
-    displayDetail(
-      item.detail
-    );
-
-
-  if (
-    title &&
-    detail
-  ) {
-
-    return (
-      title +
-      " " +
-      detail
-    );
-
-  }
-
-
-  if (title) {
-
-    return title;
-
-  }
-
-
+  if (title && detail) return title + " " + detail;
+  if (title) return title;
   return detail;
-
 }
-
 
 /* =========================================================
    회의별 그룹
 ========================================================= */
 
 function buildMeetings(items) {
-
   const groups = {};
 
-
-  items.forEach(
-    function(item) {
-
-
-      if (
-        !groups[item.group]
-      ) {
-
-        groups[item.group] =
-          [];
-
-      }
-
-
-      groups[item.group].push(
-        item
-      );
-
+  items.forEach(function(item) {
+    if (!groups[item.group]) {
+      groups[item.group] = [];
     }
-  );
 
+    groups[item.group].push(item);
+  });
 
   return Object.keys(groups)
+    .sort(function(a,b) {
+      return Number(a) - Number(b);
+    })
+    .map(function(groupNumber) {
 
-    .sort(
-      function(a,b) {
+      const items =
+        groups[groupNumber]
+          .slice()
+          .sort(function(a,b) {
+            return a.index - b.index;
+          });
 
-        return (
-          Number(a) -
-          Number(b)
-        );
+      const main =
+        items.find(function(item) {
+          return item.number === groupNumber;
+        }) || items[0];
 
-      }
-    )
+      const subItems =
+        items.filter(function(item) {
+          return item !== main;
+        });
 
-    .map(
-      function(groupNumber) {
+      const dateItem =
+        subItems.find(function(item) {
+          const itemTitle = displayTitle(item.title);
 
-
-        const items =
-          groups[groupNumber]
-            .slice()
-            .sort(
-              function(a,b) {
-
-                return (
-                  a.index -
-                  b.index
-                );
-
-              }
-            );
-
-
-        const main =
-          items.find(
-            function(item) {
-
-              return (
-                item.number ===
-                groupNumber
-              );
-
-            }
-          ) ||
-          items[0];
-
-
-        const subItems =
-          items.filter(
-            function(item) {
-
-              return (
-                item !==
-                main
-              );
-
-            }
+          return (
+            item.number === groupNumber + "-1" ||
+            item.number === groupNumber + ".1" ||
+            itemTitle === "일시" ||
+            itemTitle.includes("일시")
           );
+        });
 
+      const title =
+        displayTitle(main.title) ||
+        rowText(main) ||
+        ("회의 기록 " + groupNumber);
 
-        /* 날짜 행 */
+      const date =
+        dateItem
+          ? displayDate(dateItem.detail,dateItem.number) ||
+            displayDate(dateItem.title,dateItem.number)
+          : "";
 
-        const dateItem =
-          subItems.find(
-            function(item) {
+      const details =
+        subItems.filter(function(item) {
+          return item !== dateItem;
+        });
 
+      const meeting = {
+        group: groupNumber,
+        title,
+        date,
+        details,
+        index: main.index
+      };
 
-              const itemTitle =
-                displayTitle(
-                  item.title
-                );
+      meeting.searchText = [
+        meeting.title,
+        meeting.date,
+        meeting.details.map(rowText).join(" ")
+      ].join(" ").toLowerCase();
 
+      meeting.detailHtml =
+        meeting.details.length
+          ? meeting.details.map(function(item) {
+              const itemText = rowText(item);
+              return itemText ? formatDetailHtml(itemText) : "";
+            }).join("")
+          : `
+            <div class="meeting-item">
+              회의 내용이 없습니다.
+            </div>
+          `;
 
-              return (
-
-                item.number ===
-                groupNumber +
-                "-1"
-
-                ||
-
-                item.number ===
-                groupNumber +
-                ".1"
-
-                ||
-
-                itemTitle ===
-                "일시"
-
-                ||
-
-                itemTitle.includes(
-                  "일시"
-                )
-
-              );
-
-            }
-          );
-
-
-        const title =
-          displayTitle(
-            main.title
-          ) ||
-          rowText(main) ||
-          (
-            "회의 기록 " +
-            groupNumber
-          );
-
-
-        const date =
-          dateItem
-
-            ? displayDate(
-                dateItem.detail,
-                dateItem.number
-              ) ||
-              displayDate(
-                dateItem.title,
-                dateItem.number
-              )
-
-            : "";
-
-
-        const details =
-          subItems.filter(
-            function(item) {
-
-              return (
-                item !==
-                dateItem
-              );
-
-            }
-          );
-
-
-        const meeting = {
-
-          group:
-            groupNumber,
-
-          title,
-
-          date,
-
-          details,
-
-          index:
-            main.index
-
-        };
-
-        meeting.searchText = [
-          meeting.title,
-          meeting.date,
-          meeting.details
-            .map(rowText)
-            .join(" ")
-        ]
-        .join(" ")
-        .toLowerCase();
-
-        meeting.detailHtml =
-          meeting.details.length
-            ? meeting.details
-                .map(
-                  function(item) {
-                    const itemText =
-                      rowText(item);
-
-                    return itemText
-                      ? formatDetailHtml(itemText)
-                      : "";
-                  }
-                )
-                .join("")
-            : `
-
-              <div
-                class="meeting-item">
-
-                회의 내용이 없습니다.
-
-              </div>
-
-            `;
-
-        return meeting;
-
-      }
-    );
-
+      return meeting;
+    });
 }
-
 
 /* =========================================================
    월
 ========================================================= */
 
 function getMonth(dateText) {
-
-  const text =
-    String(
-      dateText || ""
-    );
-
+  const text = String(dateText || "");
 
   let match =
-    text.match(
-      /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/
-    );
-
+    text.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
 
   if (!match) {
-
-
     match =
-      text.match(
-        /(\d{1,2})\D+(\d{1,2})/
-      );
-
+      text.match(/(\d{1,2})\D+(\d{1,2})/);
   }
 
-
-  if (!match) {
-
-    return "";
-
-  }
-
+  if (!match) return "";
 
   return (
-    match.length === 4
-      ? match[2]
-      : match[1]
+    match.length === 4 ? match[2] : match[1]
   ) + "월";
-
 }
-
 
 /* =========================================================
    일
-
-   반드시 21일처럼 표시
 ========================================================= */
 
 function getDay(dateText) {
-
-  const text =
-    String(
-      dateText || ""
-    );
-
+  const text = String(dateText || "");
 
   let match =
-    text.match(
-      /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/
-    );
-
+    text.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
 
   if (!match) {
-
-
     match =
-      text.match(
-        /(\d{1,2})\D+(\d{1,2})/
-      );
-
+      text.match(/(\d{1,2})\D+(\d{1,2})/);
   }
 
-
-  if (!match) {
-
-    return "";
-
-  }
-
+  if (!match) return "";
 
   const day =
-    match.length === 4
-      ? match[3]
-      : match[2];
-
+    match.length === 4 ? match[3] : match[2];
 
   return day + "일";
-
 }
-
 
 /* =========================================================
    화면 표시용 내용 HTML
-   안건 / 회의 내용을 굵게 강조
 ========================================================= */
 
 function formatDetailHtml(text) {
-
   const cleaned = displayDetail(text);
 
-  if (!cleaned) {
-    return "";
-  }
+  if (!cleaned) return "";
 
   const partPattern =
     /^\s*(참석자|불참자|시작기도|안건|회의\s*내용)\s*[:：]?\s*([\s\S]*)$/i;
@@ -1969,16 +664,13 @@ function formatDetailHtml(text) {
   let current = null;
 
   lines.forEach(function(line) {
-
     const match = line.match(partPattern);
 
     if (match) {
+      if (current) parts.push(current);
 
-      if (current) {
-        parts.push(current);
-      }
-
-      const label = match[1].replace(/\s+/g, " ").trim();
+      const label =
+        match[1].replace(/\s+/g," ").trim();
 
       let type = "";
 
@@ -1989,33 +681,26 @@ function formatDetailHtml(text) {
       }
 
       current = {
-        label: label,
-        type: type,
+        label,
+        type,
         body: match[2] || ""
       };
 
     } else {
-
       if (current) {
         current.body +=
           (current.body ? "\n" : "") + line;
       } else if (line.trim()) {
-
         current = {
-          label: "",
-          type: "",
-          body: line
+          label:"",
+          type:"",
+          body:line
         };
-
       }
-
     }
-
   });
 
-  if (current) {
-    parts.push(current);
-  }
+  if (current) parts.push(current);
 
   if (!parts.length) {
     return `
@@ -2026,12 +711,9 @@ function formatDetailHtml(text) {
   }
 
   return parts.map(function(part) {
-
     const body = clean(part.body);
 
-    if (!body && !part.label) {
-      return "";
-    }
+    if (!body && !part.label) return "";
 
     return `
       <div class="meeting-item ${part.type}">
@@ -2047,7 +729,6 @@ function formatDetailHtml(text) {
         }
       </div>
     `;
-
   }).join("");
 }
 
@@ -2056,534 +737,224 @@ function formatDetailHtml(text) {
 ========================================================= */
 
 function render() {
-
-
   const query =
-    clean(
-      document.getElementById(
-        "search"
-      ).value
-    ).toLowerCase();
-
+    clean(document.getElementById("search").value).toLowerCase();
 
   const allMeetings =
     groupedMeetings.length
       ? groupedMeetings
       : buildMeetings(meetings);
 
-
   const filtered =
-    allMeetings.filter(
-      function(meeting) {
+    allMeetings.filter(function(meeting) {
+      const searchable = [
+        meeting.title,
+        meeting.date,
+        meeting.details.map(rowText).join(" ")
+      ].join(" ").toLowerCase();
 
+      return !query || searchable.includes(query);
+    });
 
-        const searchable = [
+  document.getElementById("status").textContent =
+    "총 " + filtered.length + "개 회의록 · 최신 시트 자료";
 
-          meeting.title,
+  const list = document.getElementById("list");
 
-          meeting.date,
-
-          meeting.details
-            .map(rowText)
-            .join(" ")
-
-        ]
-
-          .join(" ")
-
-          .toLowerCase();
-
-
-        return (
-          !query ||
-          searchable.includes(
-            query
-          )
-        );
-
-      }
-    );
-
-
-  document.getElementById(
-    "status"
-  ).textContent =
-
-    "총 " +
-    filtered.length +
-    "개 회의록 · 최신 시트 자료";
-
-
-  const list =
-    document.getElementById(
-      "list"
-    );
-
-
-  if (
-    filtered.length === 0
-  ) {
-
-
+  if (filtered.length === 0) {
     list.innerHTML = `
-
       <div class="empty">
-
         회의록이 없습니다.
-
       </div>
-
     `;
-
-
     return;
-
   }
 
-
   list.innerHTML =
+    filtered.map(function(meeting) {
 
-    filtered.map(
-      function(meeting) {
+      const detailHtml =
+        meeting.details.length
+          ? meeting.details.map(function(item) {
+              const text = rowText(item);
+              return text ? formatDetailHtml(text) : "";
+            }).join("")
+          : `
+            <div class="meeting-item">
+              회의 내용이 없습니다.
+            </div>
+          `;
 
+      const month = getMonth(meeting.date);
+      const day = getDay(meeting.date);
 
-        const detailHtml =
+      return `
+        <article class="card">
+          <div class="card-head"
+               onclick="toggleCard(this.parentElement)">
 
-          meeting.details.length
-
-            ? meeting.details
-                .map(
-                  function(item) {
-
-
-                    const text =
-                      rowText(
-                        item
-                      );
-                    return text
-                      ? formatDetailHtml(text)
-                      : "";
-
-                  }
-                )
-                .join("")
-
-            : `
-
-              <div
-                class="meeting-item">
-
-                회의 내용이 없습니다.
-
-              </div>
-
-            `;
-
-
-        const month =
-          getMonth(
-            meeting.date
-          );
-
-
-        const day =
-          getDay(
-            meeting.date
-          );
-
-
-        return `
-
-          <article
-            class="card">
-
-
-            <div
-              class="card-head"
-              onclick="
-                toggleCard(
-                  this.parentElement
-                )
-              ">
-
-
-              <!-- 날짜 : 제목 왼쪽 -->
-
-              ${
-                meeting.date
-                ? `
-
-                  <div
-                    class="date-box">
-
-
-                    <span
-                      class="date-month">
-
-                      ${escapeHtml(
-                        month
-                      )}
-
-                    </span>
-
-
-                    <span
-                      class="date-day">
-
-                      ${escapeHtml(
-                        day
-                      )}
-
-                    </span>
-
-
-                  </div>
-
-                `
-                : ""
-              }
-
-
-              <!-- 제목 -->
-
-              <div
-                class="card-main">
-
-
-                <div
-                  class="card-title">
-
-                  ${escapeHtml(
-                    meeting.title
-                  )}
-
+            ${
+              meeting.date
+              ? `
+                <div class="date-box">
+                  <span class="date-month">
+                    ${escapeHtml(month)}
+                  </span>
+                  <span class="date-day">
+                    ${escapeHtml(day)}
+                  </span>
                 </div>
+              `
+              : ""
+            }
 
-
+            <div class="card-main">
+              <div class="card-title">
+                ${escapeHtml(meeting.title)}
               </div>
-
-
-              <!-- 화살표 -->
-
-              <div
-                class="chevron">
-
-                ⌄
-
-              </div>
-
-
             </div>
 
+            <div class="chevron">⌄</div>
+          </div>
 
-            <!-- 회의 내용 -->
-
-            <div
-              class="card-content">
-
-              ${detailHtml}
-
-            </div>
-
-
-          </article>
-
-        `;
-
-      }
-    )
-    .join("");
-
+          <div class="card-content">
+            ${detailHtml}
+          </div>
+        </article>
+      `;
+    }).join("");
 }
 
-
 /* =========================================================
-   카드 열기 / 닫기
+   카드
 ========================================================= */
 
 function toggleCard(card) {
-
-  card.classList.toggle(
-    "open"
-  );
-
+  card.classList.toggle("open");
 }
-
 
 /* =========================================================
    HTML 문자 처리
 ========================================================= */
 
 function escapeHtml(text) {
-
-  return String(
-    text ?? ""
-  )
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
+  return String(text ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
-
 
 /* =========================================================
    공백 정리
 ========================================================= */
 
 function clean(value) {
-
-  return String(
-    value ?? ""
-  )
-
-    .replace(
-      /\u00a0/g,
-      " "
-    )
-
+  return String(value ?? "")
+    .replace(/\u00a0/g," ")
     .trim();
-
 }
-
 
 /* =========================================================
    뒤로가기
 ========================================================= */
 
 function goBack() {
-
-
-  if (
-    window.history.length > 1
-  ) {
-
-
+  if (window.history.length > 1) {
     window.history.back();
-
-
+  } else {
+    window.location.href = "전시대관리자.html";
   }
-
-  else {
-
-
-    window.location.href =
-      "전시대관리자.html";
-
-  }
-
 }
-
 
 /* =========================================================
    설정
 ========================================================= */
 
-const SETTINGS_THEME_KEY =
-  "회의록2026_theme";
-
-
-const SETTINGS_FONT_KEY =
-  "회의록2026_fontSize";
-
+const SETTINGS_THEME_KEY = "회의록2026_theme";
+const SETTINGS_FONT_KEY = "회의록2026_fontSize";
 
 function applySettings() {
-
-
   const theme =
-    localStorage.getItem(
-      SETTINGS_THEME_KEY
-    ) || "dark";
-
+    localStorage.getItem(SETTINGS_THEME_KEY) || "dark";
 
   const fontSize =
-    Number(
-      localStorage.getItem(
-        SETTINGS_FONT_KEY
-      )
-    ) || 100;
-
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
   document.body.classList.toggle(
     "dark",
     theme === "dark"
   );
 
-
   document.body.style.zoom =
-    String(
-      fontSize / 100
-    );
+    String(fontSize / 100);
 
-
-  document.getElementById(
-    "fontSizeValue"
-  ).textContent =
+  document.getElementById("fontSizeValue").textContent =
     fontSize + "%";
-
 }
 
-
 function setTheme(theme) {
-
-
   localStorage.setItem(
     SETTINGS_THEME_KEY,
     theme
   );
 
-
   applySettings();
-
 }
 
-
 function changeFontSize(amount) {
-
-
   let fontSize =
-    Number(
-      localStorage.getItem(
-        SETTINGS_FONT_KEY
-      )
-    ) || 100;
-
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
   fontSize += amount;
 
-
-  if (
-    fontSize < 80
-  ) {
-
-    fontSize = 80;
-
-  }
-
-
-  if (
-    fontSize > 150
-  ) {
-
-    fontSize = 150;
-
-  }
-
+  if (fontSize < 80) fontSize = 80;
+  if (fontSize > 150) fontSize = 150;
 
   localStorage.setItem(
     SETTINGS_FONT_KEY,
     fontSize
   );
 
-
   applySettings();
-
 }
-
 
 /* =========================================================
    설정 열기
 ========================================================= */
 
 function toggleSettings() {
-
-
-  document.getElementById(
-    "settingsPanel"
-  ).classList.toggle(
-    "show"
-  );
-
+  document.getElementById("settingsPanel")
+    .classList.toggle("show");
 }
 
+document.addEventListener("click",function(event) {
+  const panel =
+    document.getElementById("settingsPanel");
 
-document.addEventListener(
-  "click",
-  function(event) {
+  const button =
+    document.querySelector(".settings-button");
 
-
-    const panel =
-      document.getElementById(
-        "settingsPanel"
-      );
-
-
-    const button =
-      document.querySelector(
-        ".settings-button"
-      );
-
-
-    if (
-      panel &&
-      panel.classList.contains(
-        "show"
-      ) &&
-      !panel.contains(
-        event.target
-      ) &&
-      !button.contains(
-        event.target
-      )
-    ) {
-
-
-      panel.classList.remove(
-        "show"
-      );
-
-    }
-
+  if (
+    panel &&
+    panel.classList.contains("show") &&
+    !panel.contains(event.target) &&
+    !button.contains(event.target)
+  ) {
+    panel.classList.remove("show");
   }
-);
-
+});
 
 /* =========================================================
    위로가기
 ========================================================= */
 
-window.addEventListener(
-  "scroll",
-  function() {
-
-
-    document.getElementById(
-      "topButton"
-    ).style.display =
-
-      window.scrollY > 500
-
-        ? "block"
-
-        : "none";
-
-  }
-);
-
-
+window.addEventListener("scroll",function() {
+  document.getElementById("topButton").style.display =
+    window.scrollY > 500 ? "block" : "none";
+});
 </script>
-
 
 </body>
 </html>
