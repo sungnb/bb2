@@ -78,6 +78,24 @@ body.dark .settings-row button,body.dark .font-size-row button{background:#26332
 @media(max-width:600px){.page-title{font-size:28px}.card-title{font-size:17px}.date-box{flex-basis:60px;width:60px;min-width:60px;padding-right:11px}.date-month{font-size:12px}.date-day{font-size:17px}.meeting-item{font-size:14px;line-height:1.35!important;margin-bottom:8px!important}.part-label{font-size:14px;font-weight:900;padding:8px 9px;text-align:left}.part-body{font-size:14px;padding:8px 9px}.meeting-item.agenda .part-label,.meeting-item.content .part-label{font-size:14.5px;font-weight:900}}
 body{transform-origin:top left}
 
+/* Google 계정 변경 버튼 */
+.account-button{border:0;background:transparent;font-size:20px;cursor:pointer;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.account-button:hover{background:rgba(40,107,91,.10)}
+.account-button:active{transform:scale(.95)}
+body.dark .account-button:hover{background:rgba(145,208,187,.12)}
+
+/* 계정 변경 안내창 */
+#accountChangeGate{position:fixed;inset:0;z-index:1100;background:rgba(18,23,21,.48);display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px)}
+.account-change-box{width:min(390px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.account-change-title{font-size:20px;font-weight:900;color:#286b5b;margin-bottom:8px}
+.account-change-message{font-size:14px;color:#66736d;line-height:1.55;margin-bottom:18px}
+#accountChangeGoogleButton{display:flex;justify-content:center;min-height:44px}
+.account-change-close{margin-top:14px;border:1px solid #d4ddd9;background:#f5f7f6;color:#52605a;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer}
+body.dark .account-change-box{background:#1a211e;border-color:#35403b}
+body.dark .account-change-title{color:#91d0bb}
+body.dark .account-change-message{color:#a9b4af}
+body.dark .account-change-close{background:#242d29;border-color:#3b4742;color:#c3ccc8}
+
 /* 인증 대기 화면 */
 #authGate{position:fixed;inset:0;z-index:1000;background:#f3f5f4;display:flex;align-items:center;justify-content:center;padding:24px}
 .auth-box{width:min(380px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.08)}
@@ -104,6 +122,18 @@ body.dark .auth-message{color:#a9b4af}
   </div>
 </div>
 
+<!-- 현재 Google 계정을 바꾸는 화면 -->
+<div id="accountChangeGate">
+  <div class="account-change-box">
+    <div class="account-change-title">Google 계정 변경</div>
+    <div id="accountChangeMessage" class="account-change-message">
+      다른 Google 계정으로 회의록에 로그인할 수 있습니다.
+    </div>
+    <div id="accountChangeGoogleButton"></div>
+    <button class="account-change-close" onclick="closeAccountChange()">취소</button>
+  </div>
+</div>
+
 <header>
   <div class="header-inner">
     <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
@@ -111,6 +141,7 @@ body.dark .auth-message{color:#a9b4af}
       <div class="page-title">회의록</div>
       <div class="page-subtitle">서울북부회중 회의 기록 · 2026</div>
     </div>
+    <button id="accountButton" class="account-button" onclick="changeGoogleAccount()" aria-label="Google 계정 변경" title="Google 계정 변경">👤</button>
     <button class="settings-button" onclick="toggleSettings()" aria-label="설정">⚙️</button>
     <div id="settingsPanel" class="settings-panel">
       <div class="settings-title">설정</div>
@@ -256,6 +287,68 @@ function renderGoogleButton() {
    Google ID Token을 Apps Script로 전달
 ========================================================= */
 
+let currentGoogleEmail = "";
+let accountChangeMode = false;
+
+/* =========================================================
+   Google 계정 변경
+   - 현재 자동 선택을 잠시 끕니다.
+   - 새 Google 계정의 ID Token을 다시 서버에 보내
+     서버에서 허용된 계정인지 확인합니다.
+========================================================= */
+function changeGoogleAccount() {
+  if (!window.google || !google.accounts || !google.accounts.id) {
+    alert("Google 로그인 기능을 아직 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    return;
+  }
+
+  accountChangeMode = true;
+  googleAuthFinished = false;
+
+  const gate = document.getElementById("accountChangeGate");
+  const message = document.getElementById("accountChangeMessage");
+  const button = document.getElementById("accountChangeGoogleButton");
+
+  if (gate) gate.style.display = "flex";
+  if (message) {
+    message.textContent = currentGoogleEmail
+      ? `현재 로그인: ${currentGoogleEmail}\n\n다른 Google 계정을 선택해 주세요.`
+      : "다른 Google 계정을 선택해 주세요.";
+  }
+  if (button) button.innerHTML = "";
+
+  /* 명시적으로 계정을 바꾸는 경우에는 자동 선택을 끕니다. */
+  google.accounts.id.disableAutoSelect();
+
+  google.accounts.id.renderButton(button, {
+    theme: document.body.classList.contains("dark") ? "filled_black" : "outline",
+    size: "large",
+    type: "standard",
+    text: "signin_with",
+    shape: "rectangular",
+    width: 280,
+    locale: "ko"
+  });
+
+  /* 계정 선택창도 요청합니다. */
+  google.accounts.id.prompt(function(notification) {
+    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+      /* 아래에 표시된 Google 버튼을 사용하면 됩니다. */
+    }
+  });
+}
+
+function closeAccountChange() {
+  accountChangeMode = false;
+  const gate = document.getElementById("accountChangeGate");
+  if (gate) gate.style.display = "none";
+
+  /* 다음 일반 로그인에서는 다시 자동 선택이 가능하도록 합니다. */
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.disableAutoSelect();
+  }
+}
+
 async function handleGoogleCredential(response) {
   const message = document.getElementById("authMessage");
   const error = document.getElementById("authError");
@@ -305,6 +398,12 @@ async function handleGoogleCredential(response) {
 
     if (data.authorized !== true) {
       googleAuthFinished = true;
+      if (accountChangeMode) {
+        const changeMessage = document.getElementById("accountChangeMessage");
+        if (changeMessage) {
+          changeMessage.textContent = data.message || "이 Google 계정은 회의록 열람 권한이 없습니다.";
+        }
+      }
       message.textContent = "접근 권한이 없습니다.";
       error.textContent =
         data.message ||
@@ -313,6 +412,18 @@ async function handleGoogleCredential(response) {
     }
 
     googleAuthFinished = true;
+    currentGoogleEmail = data.email || "";
+
+    if (accountChangeMode) {
+      accountChangeMode = false;
+      const gate = document.getElementById("accountChangeGate");
+      if (gate) gate.style.display = "none";
+
+      /* 계정 변경 후에는 선택한 계정을 다음 로그인에서 우선 사용할 수 있게 합니다. */
+      if (window.google && google.accounts && google.accounts.id) {
+        google.accounts.id.enableAutoSelect();
+      }
+    }
 
     /*
      * 인증 성공 후에만 회의록 데이터를 사용합니다.
