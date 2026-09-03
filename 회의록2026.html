@@ -466,28 +466,55 @@ main {
 ========================================================= */
 
 .meeting-item {
-
   display: block;
-
-  margin: 0 !important;
-
+  margin: 0 0 8px 0 !important;
   padding: 0 !important;
-
-  border-bottom: 0 !important;
-
+  border: 1px solid #d9e2de;
+  border-radius: 10px;
+  background: #fafcfb;
+  overflow: hidden;
   font-size: 14px;
-
   color: #36403c;
-
   line-height: 1.35 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-
   text-align: left !important;
-
-  white-space: pre-wrap;
-
+  white-space: normal;
   word-break: break-word;
+}
+
+.meeting-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+.part-label {
+  display: block;
+  padding: 7px 10px;
+  background: #e5f0ec;
+  color: #286b5b;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: left;
+  border-bottom: 1px solid #d2e1db;
+}
+
+.part-body {
+  display: block;
+  padding: 8px 10px;
+  background: #fff;
+  color: #36403c;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+.meeting-item.agenda .part-label,
+.meeting-item.content .part-label {
+  background: #d7ebe4;
+  color: #1f6654;
+  font-size: 14px;
+  font-weight: 900;
 }
 
 
@@ -664,6 +691,28 @@ body.dark .meeting-item {
   color: #d7e0dc;
 }
 
+body.dark .meeting-item {
+  background: #18201d;
+  border-color: #35403b;
+}
+
+body.dark .part-label {
+  background: #263d35;
+  color: #91d0bb;
+  border-color: #354c44;
+}
+
+body.dark .part-body {
+  background: #1a211e;
+  color: #d7e0dc;
+}
+
+body.dark .meeting-item.agenda .part-label,
+body.dark .meeting-item.content .part-label {
+  background: #2d4b41;
+  color: #a7e0cc;
+}
+
 body.dark .status {
 
   color: #a9b4af;
@@ -756,8 +805,22 @@ body.dark .font-size-row button {
     font-size: 14px;
 
     line-height: 1.35 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .part-label {
+    font-size: 12px;
+    padding: 7px 9px;
+  }
+
+  .part-body {
+    font-size: 14px;
+    padding: 8px 9px;
+  }
+
+  .meeting-item.agenda .part-label,
+  .meeting-item.content .part-label {
+    font-size: 13px;
   }
 
 }
@@ -1855,11 +1918,95 @@ function formatDetailHtml(text) {
     return "";
   }
 
-  return escapeHtml(cleaned)
-    .replace(/(^|\\n)(안건)(?=\\s|:|：|$)/g, "$1<strong>$2</strong>")
-    .replace(/(^|\\n)(회의 내용)(?=\\s|:|：|$)/g, "$1<strong>$2</strong>");
-}
+  const partPattern =
+    /^\s*(참석자|불참자|시작기도|안건|회의\s*내용)\s*[:：]?\s*([\s\S]*)$/i;
 
+  const lines = cleaned.split(/\n/);
+  const parts = [];
+  let current = null;
+
+  lines.forEach(function(line) {
+
+    const match = line.match(partPattern);
+
+    if (match) {
+
+      if (current) {
+        parts.push(current);
+      }
+
+      const label = match[1].replace(/\s+/g, " ").trim();
+
+      let type = "";
+
+      if (label === "안건") {
+        type = "agenda";
+      } else if (label === "회의 내용") {
+        type = "content";
+      }
+
+      current = {
+        label: label,
+        type: type,
+        body: match[2] || ""
+      };
+
+    } else {
+
+      if (current) {
+        current.body +=
+          (current.body ? "\n" : "") + line;
+      } else if (line.trim()) {
+
+        current = {
+          label: "",
+          type: "",
+          body: line
+        };
+
+      }
+
+    }
+
+  });
+
+  if (current) {
+    parts.push(current);
+  }
+
+  if (!parts.length) {
+    return `
+      <div class="meeting-item">
+        <div class="part-body">${escapeHtml(cleaned)}</div>
+      </div>
+    `;
+  }
+
+  return parts.map(function(part) {
+
+    const body = clean(part.body);
+
+    if (!body && !part.label) {
+      return "";
+    }
+
+    return `
+      <div class="meeting-item ${part.type}">
+        ${
+          part.label
+            ? `<div class="part-label">${escapeHtml(part.label)}</div>`
+            : ""
+        }
+        ${
+          body
+            ? `<div class="part-body">${escapeHtml(body)}</div>`
+            : ""
+        }
+      </div>
+    `;
+
+  }).join("");
+}
 
 /* =========================================================
    화면 출력
@@ -1970,23 +2117,8 @@ function render() {
                       rowText(
                         item
                       );
-
-
                     return text
-
-                      ? `
-
-                        <div
-                          class="meeting-item">
-
-                          ${formatDetailHtml(
-                            text
-                          )}
-
-                        </div>
-
-                      `
-
+                      ? formatDetailHtml(text)
                       : "";
 
                   }
