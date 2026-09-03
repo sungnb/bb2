@@ -107,6 +107,9 @@ body.dark #authGate{background:#121715}
 body.dark .auth-box{background:#1a211e;border-color:#35403b}
 body.dark .auth-title{color:#91d0bb}
 body.dark .auth-message{color:#a9b4af}
+.auth-back{position:absolute;top:14px;left:14px;width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:27px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.auth-lock{font-size:42px;line-height:1;margin-bottom:12px}
+body.dark .auth-back{background:#26332e;color:#8fd0b9}
 </style>
 </head>
 
@@ -114,7 +117,9 @@ body.dark .auth-message{color:#a9b4af}
 
 <!-- Google 인증이 완료될 때까지 회의록 화면을 잠급니다. -->
 <div id="authGate">
+  <button class="auth-back" onclick="goBack()" aria-label="뒤로가기" title="뒤로가기">‹</button>
   <div class="auth-box">
+    <div class="auth-lock" aria-hidden="true">🔐</div>
     <div class="auth-title">회의록 2026</div>
     <div id="authMessage" class="auth-message">Google 계정을 확인하고 있습니다...</div>
     <div id="googleButton"></div>
@@ -317,7 +322,14 @@ function changeGoogleAccount() {
   }
   if (button) button.innerHTML = "";
 
-  /* 명시적으로 계정을 바꾸는 경우에는 자동 선택을 끕니다. */
+  /*
+   * 명시적으로 계정을 바꾸는 경우에는 자동 선택을 끕니다.
+   *
+   * 여기서는 prompt()를 다시 호출하지 않습니다.
+   * 계정 변경용 Google 버튼 자체가 Google 계정 선택/로그인을
+   * 처리하도록 합니다. prompt()까지 함께 호출하면 일부 환경에서
+   * OAuth 오류 화면으로 이동하는 경우가 있기 때문입니다.
+   */
   google.accounts.id.disableAutoSelect();
 
   google.accounts.id.renderButton(button, {
@@ -328,13 +340,6 @@ function changeGoogleAccount() {
     shape: "rectangular",
     width: 280,
     locale: "ko"
-  });
-
-  /* 계정 선택창도 요청합니다. */
-  google.accounts.id.prompt(function(notification) {
-    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-      /* 아래에 표시된 Google 버튼을 사용하면 됩니다. */
-    }
   });
 }
 
