@@ -110,30 +110,7 @@ main{
 
 .status{margin:8px 2px 12px;font-size:12px;color:#74807b}
 
-.meeting-group{margin:22px 0 14px}
-
-.group-title{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:9px;
-  padding-left:2px;
-  font-size:15px;
-  font-weight:900;
-  color:#286b5b;
-}
-
-.group-number{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:30px;
-  height:30px;
-  padding:0 8px;
-  border-radius:9px;
-  background:#e4f1ec;
-  border:1px solid #d0e5dc;
-}
+.meeting-group{margin:18px 0 14px}
 
 .card{
   margin-bottom:10px;
@@ -168,9 +145,9 @@ main{
 
 .badge-main{font-size:18px;font-weight:850;line-height:1.15}
 .card-main{flex:1;min-width:0}
-.card-title{font-size:15px;font-weight:800;color:#27312e;line-height:1.4;word-break:keep-all}
+.card-title{font-size:18px;font-weight:900;color:#27312e;line-height:1.45;word-break:keep-all;letter-spacing:-.03em}
 .card-preview{
-  margin-top:3px;
+  margin-top:5px;
   font-size:13px;
   color:#68756f;
   font-weight:500;
@@ -198,7 +175,8 @@ main{
 }
 
 .card.open .card-content{display:block}
-.row-number{font-size:12px;color:#7a8580;margin-bottom:8px}
+.meeting-item{padding:10px 0;border-bottom:1px solid #edf1ef;white-space:pre-wrap;word-break:break-word;font-size:14px;color:#36403c}
+.meeting-item:last-child{border-bottom:0}
 .detail{white-space:pre-wrap;word-break:break-word;font-size:14px;color:#36403c}
 
 .empty{
@@ -240,9 +218,8 @@ body.dark .card-preview{color:#a9b4af}
 body.dark .number-badge{background:#24352e;color:#91d0bb}
 body.dark .card-content{border-color:#303a36}
 body.dark .detail{color:#d7e0dc}
-body.dark .row-number,
 body.dark .status{color:#a9b4af}
-body.dark .group-number{background:#24352e;border-color:#35403b;color:#91d0bb}
+body.dark .meeting-item{border-color:#303a36;color:#d7e0dc}
 body.dark .settings-panel{background:#1a211e;border-color:#35403b;color:#edf3f0}
 body.dark .settings-row button,
 body.dark .font-size-row button{background:#26332e;color:#91d0bb}
@@ -639,275 +616,197 @@ function mainNumber(value) {
 ========================================================= */
 
 function normalizeRows(rows) {
-
   const result = [];
 
-  rows.forEach(
-    function(row, index) {
+  rows.forEach(function(row, index) {
+    const r = rowToObject(row);
+    const number = clean(r.number);
 
-      const r =
-        rowToObject(row);
+    if (!number) return;
 
-      const number =
-        clean(r.number);
+    const group = mainNumber(number);
+    if (!group) return;
 
-
-      /*
-        번호가 없는 제목행 등은 제외
-      */
-
-      if (!number)
-        return;
-
-
-      const group =
-        mainNumber(number);
-
-
-      /*
-        숫자로 시작하지 않는 행은 제외
-      */
-
-      if (!group)
-        return;
-
-
-      result.push({
-
-        number,
-
-        group,
-
-        title:
-          clean(r.title),
-
-        detail:
-          clean(r.detail),
-
-        index
-
-      });
-
-    }
-  );
+    result.push({
+      number,
+      group,
+      title: clean(r.title),
+      detail: clean(r.detail),
+      index
+    });
+  });
 
   return result;
+}
 
+
+/* =========================================================
+   회의록 1개로 묶기
+
+   예:
+   1     → 회의 제목
+   1-1   → 일시
+   1-2   → 회의장소
+   1-3   → 참석자
+   1-4   → 불참자
+   1-5   → 시작기도
+   1-6   → 마치는기도
+   1-7   → 안건
+   1-8   → 회의 내용
+
+   번호는 내부에서 회의 구분용으로만 사용하고
+   화면에는 표시하지 않습니다.
+========================================================= */
+function isGenericTitle(text) {
+  return /^회의록\s*\d+(?:[-.]\d+)?$/i.test(clean(text));
+}
+
+
+function rowText(item) {
+  const title = clean(item.title);
+  const detail = clean(item.detail);
+
+  if (title && !isGenericTitle(title) && detail) {
+    return title + " " + detail;
+  }
+
+  if (title && !isGenericTitle(title)) {
+    return title;
+  }
+
+  return detail;
+}
+
+
+function buildMeetings(items) {
+  const groups = {};
+
+  items.forEach(function(item) {
+    if (!groups[item.group]) {
+      groups[item.group] = [];
+    }
+    groups[item.group].push(item);
+  });
+
+  return Object.keys(groups)
+    .sort(function(a, b) {
+      return Number(a) - Number(b);
+    })
+    .map(function(groupNumber) {
+      const items = groups[groupNumber]
+        .slice()
+        .sort(function(a, b) {
+          return a.index - b.index;
+        });
+
+      // 정확히 1번, 2번, 3번...인 행을 회의 제목으로 사용
+      const main = items.find(function(item) {
+        return item.number === groupNumber;
+      }) || items[0];
+
+      const subItems = items.filter(function(item) {
+        return item !== main;
+      });
+
+      // 1-1 / 2-1 ... 은 날짜이므로 접힌 화면에서도 함께 표시
+      const dateItem = subItems.find(function(item) {
+        return (
+          item.number === groupNumber + "-1" ||
+          item.number === groupNumber + ".1"
+        );
+      });
+
+      const title = rowText(main) || ("회의 기록 " + groupNumber);
+      const date = dateItem ? rowText(dateItem) : "";
+
+      const details = subItems.filter(function(item) {
+        return item !== dateItem;
+      });
+
+      return {
+        group: groupNumber,
+        title,
+        date,
+        details,
+        index: main.index
+      };
+    });
 }
 
 
 /* =========================================================
    화면 출력
+   - 회의 1개 = 카드 1개
+   - 번호는 화면에 표시하지 않음
 ========================================================= */
-
 function render() {
+  const query = clean(
+    document.getElementById("search").value
+  ).toLowerCase();
 
-  const query =
-    clean(
-      document.getElementById(
-        "search"
-      ).value
-    ).toLowerCase();
+  const allMeetings = buildMeetings(meetings);
 
+  const filtered = allMeetings.filter(function(meeting) {
+    const searchable = [
+      meeting.title,
+      meeting.date,
+      meeting.details.map(rowText).join(" ")
+    ].join(" ").toLowerCase();
 
-  const filtered =
-    meetings.filter(
-      function(item) {
+    return !query || searchable.includes(query);
+  });
 
-        return (
-          !query ||
+  document.getElementById("status").textContent =
+    "총 " + filtered.length + "개 회의록 · 최신 시트 자료";
 
-          [
-            item.number,
-            item.title,
-            item.detail
-          ]
-          .join(" ")
-          .toLowerCase()
-          .includes(query)
-        );
+  const list = document.getElementById("list");
 
-      }
-    );
-
-
-  /*
-    1, 1.1, 1.2...
-    2, 2.1...
-    형태로 그룹화
-  */
-
-  const groups = {};
-
-
-  filtered.forEach(
-    function(item) {
-
-      if (!groups[item.group]) {
-        groups[item.group] = [];
-      }
-
-      groups[item.group].push(item);
-
-    }
-  );
-
-
-  const groupNumbers =
-    Object.keys(groups).sort(
-      function(a, b) {
-        return Number(a) - Number(b);
-      }
-    );
-
-
-  document.getElementById(
-    "status"
-  ).textContent =
-    "총 " +
-    filtered.length +
-    "건 · 최신 시트 자료";
-
-
-  const list =
-    document.getElementById(
-      "list"
-    );
-
-
-  if (
-    filtered.length === 0
-  ) {
-
+  if (filtered.length === 0) {
     list.innerHTML = `
       <div class="empty">
         회의록이 없습니다.
       </div>
     `;
-
     return;
-
   }
 
+  list.innerHTML = filtered.map(function(meeting) {
+    const detailHtml = meeting.details.length
+      ? meeting.details.map(function(item) {
+          const text = rowText(item);
+          return text
+            ? `<div class="meeting-item">${escapeHtml(text)}</div>`
+            : "";
+        }).join("")
+      : `<div class="meeting-item">회의 내용이 없습니다.</div>`;
 
-  list.innerHTML =
-    groupNumbers
-      .map(
-        function(groupNumber) {
+    return `
+      <article class="card">
+        <div
+          class="card-head"
+          onclick="toggleCard(this.parentElement)"
+        >
+          <div class="card-main">
+            <div class="card-title">
+              ${escapeHtml(meeting.title)}
+            </div>
 
-          const items =
-            groups[groupNumber];
-
-
-          return `
-
-            <section class="meeting-group">
-
-              <div class="group-title">
-
-                <span class="group-number">
-                  ${escapeHtml(groupNumber)}
-                </span>
-
-                <span>
-                  회의록 ${escapeHtml(groupNumber)}
-                </span>
-
+            ${meeting.date ? `
+              <div class="card-preview">
+                ${escapeHtml(meeting.date)}
               </div>
+            ` : ""}
+          </div>
 
+          <div class="chevron">⌄</div>
+        </div>
 
-              ${
-                items
-                  .map(
-                    function(item) {
-
-                      return `
-
-                        <article class="card">
-
-                          <div
-                            class="card-head"
-                            onclick="toggleCard(this.parentElement)"
-                          >
-
-                            <div class="number-badge">
-
-                              <div class="badge-main">
-                                ${escapeHtml(item.number)}
-                              </div>
-
-                            </div>
-
-
-                            <div class="card-main">
-
-                              <div class="card-title">
-                                ${
-                                  escapeHtml(
-                                    item.title ||
-                                    ("회의록 " + item.number)
-                                  )
-                                }
-                              </div>
-
-                              <div class="card-preview">
-                                ${escapeHtml(item.detail)}
-                              </div>
-
-                            </div>
-
-
-                            <div class="chevron">
-                              ⌄
-                            </div>
-
-                          </div>
-
-
-                          <div class="card-content">
-
-                            <div class="row-number">
-                              번호 ${escapeHtml(item.number)}
-                            </div>
-
-
-                            ${
-                              item.title
-                                ? `
-                                  <div
-                                    class="detail"
-                                    style="font-weight:800;margin-bottom:10px"
-                                  >
-                                    ${escapeHtml(item.title)}
-                                  </div>
-                                `
-                                : ""
-                            }
-
-
-                            <div class="detail">
-                              ${escapeHtml(item.detail)}
-                            </div>
-
-                          </div>
-
-                        </article>
-
-                      `;
-
-                    }
-                  )
-                  .join("")
-              }
-
-            </section>
-
-          `;
-
-        }
-      )
-      .join("");
-
+        <div class="card-content">
+          ${detailHtml}
+        </div>
+      </article>
+    `;
+  }).join("");
 }
 
 
