@@ -688,11 +688,32 @@ function displayTitle(text) {
 
 
 function displayDetail(text) {
-  let s = clean(text);
+  return clean(text);
+}
 
-  // 내용의 실제 숫자(날짜, 시간, 인원수 등)는 보존해야 하므로
-  // 앞에 붙은 셀 번호만 제거합니다.
-  s = s.replace(/^\s*\d+(?:[-.]\d+)*\s*/, "");
+
+/*
+  일시는 날짜 자체가 2026. 9. 3.처럼 숫자로 시작할 수 있으므로
+  일반적인 숫자 제거를 하지 않습니다.
+  셀 번호가 실제 내용 앞에 붙어 있는 경우에만 제거합니다.
+*/
+function displayDate(text, number) {
+  let s = clean(text);
+  const n = clean(number);
+
+  if (!s) return "";
+
+  if (n) {
+    const compact = n.replace(/[.-]/g, "");
+    const escaped = n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const escapedCompact = compact.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    s = s.replace(new RegExp("^\\s*" + escaped + "\\s*"), "");
+
+    if (compact && compact !== n) {
+      s = s.replace(new RegExp("^\\s*" + escapedCompact + "\\s*"), "");
+    }
+  }
 
   return clean(s);
 }
@@ -744,20 +765,24 @@ function buildMeetings(items) {
         return item !== main;
       });
 
-      // 1-1 / 2-1 ... 은 날짜이므로 접힌 화면에서도 함께 표시
+      // 일시 행을 찾습니다.
+      // 번호가 1-1 / 2-1 형식이거나, 제목이 "일시"인 행을 모두 인식합니다.
       const dateItem = subItems.find(function(item) {
+        const itemTitle = displayTitle(item.title);
         return (
           item.number === groupNumber + "-1" ||
-          item.number === groupNumber + ".1"
+          item.number === groupNumber + ".1" ||
+          itemTitle === "일시" ||
+          itemTitle.includes("일시")
         );
       });
 
       const title = displayTitle(main.title) || rowText(main) || ("회의 기록 " + groupNumber);
 
-      // 1-1 / 2-1 행의 "내용" 셀을 실제 일시로 사용합니다.
-      // 제목 셀의 "일시" 같은 라벨은 붙이지 않고 날짜/시간 값만 정확히 표시합니다.
+      // 일시 행의 내용 셀을 그대로 가져옵니다.
+      // 2026. 9. 3.처럼 날짜가 숫자로 시작해도 절대 잘라내지 않습니다.
       const date = dateItem
-        ? displayDetail(dateItem.detail) || displayTitle(dateItem.title)
+        ? displayDate(dateItem.detail, dateItem.number) || displayDate(dateItem.title, dateItem.number)
         : "";
 
       const details = subItems.filter(function(item) {
