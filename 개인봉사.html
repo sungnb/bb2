@@ -6,15 +6,14 @@
 <meta name="theme-color" content="#24145f">
 <title>개인봉사</title>
 <style>
-*{box-sizing:border-box} :root{--s:1}
+*{box-sizing:border-box}:root{--s:1}
 body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;background:linear-gradient(135deg,#171329,#2d2352);color:#fff;font-size:calc(16px*var(--s))}
 .header{position:relative;padding:18px 55px;text-align:center;background:rgba(18,12,45,.94);border-bottom:1px solid #ffffff18}
 h1{margin:0;font-size:28px}.sub{font-size:13px;opacity:.65;margin-top:4px}
 button{border:0;border-radius:9px;cursor:pointer}.settings{position:absolute;right:12px;top:12px;width:40px;height:40px;background:#ffffff18;color:#fff;font-size:20px}
 .panel{display:none;position:absolute;z-index:5;right:12px;top:58px;width:220px;padding:15px;border-radius:14px;background:#17102df7;color:#fff;box-shadow:0 10px 30px #0006;text-align:left}.panel.show{display:block}.row{display:flex;gap:8px;margin:10px 0}.row button{flex:1;padding:9px;background:#ffffff15;color:inherit}.row button.active{background:#ffffff35}.font{display:flex;gap:8px;align-items:center}.font button{width:38px;height:34px;background:#ffffff15;color:inherit;font-size:18px}.font span{flex:1;text-align:center}
 .wrap{max-width:720px;margin:auto;padding:12px 10px 60px}.actions{text-align:right;margin-bottom:10px}.actions button{padding:9px 13px;background:#ffffff18;color:#fff;margin-left:6px}
-.loading{text-align:center;padding:40px 10px;opacity:.7}.error{color:#ffb4b4}
-.cards{display:flex;flex-direction:column;gap:12px}.card{overflow:hidden;border:1px solid #ffffff25;border-radius:15px;background:#ffffff0d;box-shadow:0 8px 25px #0003}
+.loading{text-align:center;padding:40px 10px;opacity:.7}.error{color:#ffb4b4}.cards{display:flex;flex-direction:column;gap:12px}.card{overflow:hidden;border:1px solid #ffffff25;border-radius:15px;background:#ffffff0d;box-shadow:0 8px 25px #0003}
 .top{display:grid;grid-template-columns:105px 1fr;min-height:92px}.num{display:flex;align-items:center;justify-content:center;background:#deebd5;border-right:1px solid #0002}.num a{font-size:calc(42px*var(--s));font-weight:900;color:#101ee6;text-decoration:underline;text-underline-offset:5px}
 .info{padding:12px 14px;display:flex;flex-direction:column;justify-content:center}.zone{font-size:calc(21px*var(--s));font-weight:800;line-height:1.2;word-break:keep-all}.house{margin-top:6px;font-size:calc(18px*var(--s));font-weight:700;color:#d8e7ff}
 .dates{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #fff2;border-bottom:1px solid #fff2}.datebox{padding:10px 12px}.datebox+.datebox{border-left:1px solid #fff2}.label{font-size:calc(12px*var(--s));opacity:.65;font-weight:700}.date{margin-top:4px;font-size:calc(16px*var(--s));font-weight:800;white-space:nowrap}.complete .date{color:#7580ff}
@@ -34,18 +33,29 @@ body.light{background:linear-gradient(135deg,#f3f6fa,#fff);color:#222}body.light
 <script>
 const ID="10uhO1PXHa4zPdxqc7oNQ_WLtlsj5w8vwZ7PIZkb35II",GID="0";
 const SHEET=`https://docs.google.com/spreadsheets/d/${ID}/edit?gid=${GID}`;
-const API=`https://docs.google.com/spreadsheets/d/${ID}/gviz/tq?tqx=out:json&gid=${GID}&range=B4:K1000`;
+const API=`https://docs.google.com/spreadsheets/d/${ID}/gviz/tq?tqx=out:json&tqx=responseHandler:handleSheetResponse&gid=${GID}&range=B4:K1000`;
+const app=document.getElementById("app"),panel=document.getElementById("panel"),light=document.getElementById("light"),dark=document.getElementById("dark"),fv=document.getElementById("fv");
 const esc=x=>String(x??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
 const val=(r,i)=>r.c[i]?.f??r.c[i]?.v??"";
-function parse(t){let a=t.indexOf("("),b=t.lastIndexOf(")");return JSON.parse(t.slice(a+1,b))}
-function date(v){if(!v)return "";let s=String(v);s=s.replace(/^Date\((\d+),\s*(\d+),\s*(\d+)\).*$/,(m,y,mo,d)=>`${y}. ${+mo+1}. ${d}`);return s}
+function date(v){if(!v)return "";let s=String(v);return s.replace(/^Date\((\d+),\s*(\d+),\s*(\d+)\).*$/,(m,y,mo,d)=>`${y}. ${+mo+1}. ${d}`)}
 function render(d){
  let rows=d.table?.rows||[],items=[];
  rows.forEach((r,i)=>{let no=val(r,2);if(no==="")return;items.push({no,zone:val(r,0),house:val(r,1),start:val(r,6),weekday:val(r,7),person:val(r,8),done:val(r,9),row:i+4})});
- if(!items.length){app.innerHTML="표시할 개인봉사 자료가 없습니다.";return}
+ if(!items.length){app.className="loading";app.innerHTML="표시할 개인봉사 자료가 없습니다.";return}
+ app.className="";
  app.innerHTML='<div class="cards">'+items.map(x=>`<article class="card"><div class="top"><div class="num"><a href="${SHEET}&range=D${x.row}" target="_blank" rel="noopener">${esc(x.no)}</a></div><div class="info"><div class="zone">${esc(x.zone)}</div><div class="house">${esc(x.house)}호</div></div></div><div class="dates"><div class="datebox"><div class="label">시작일자</div><div class="date">${esc(date(x.start))}</div></div><div class="datebox complete"><div class="label">완료일자</div><div class="date">${esc(date(x.done))}</div></div></div><div class="assign"><span class="alabel">임명인</span><span class="weekday">${esc(x.weekday)}</span><span>·</span><span class="name">${esc(x.person)}</span></div></article>`).join("")+'</div><div class="note">개인 구역 카드를 더 이상 돌볼 수 없을 경우에는 <b>추요식 형제</b>께 연락 주세요</div><div class="links"><a href="https://www.jw.org/ko/" target="_blank">JW.ORG</a><a href="https://wol.jw.org/ko/wol/h/r8/lp-ko" target="_blank">라이브러리</a></div>';
 }
-async function load(){app.className="loading";app.textContent="개인봉사 자료를 불러오는 중입니다...";try{let r=await fetch(API+"&t="+Date.now());if(!r.ok)throw Error("HTTP "+r.status);render(parse(await r.text()))}catch(e){app.className="loading error";app.innerHTML="자료를 가져오지 못했습니다.<br><small>"+esc(e.message)+"</small><br><br><button onclick="load()">다시 시도</button>"}}
+let loaded=false;
+function handleSheetResponse(d){loaded=true;render(d)}
+function load(){
+ app.className="loading";app.textContent="개인봉사 자료를 불러오는 중입니다...";loaded=false;
+ const old=document.getElementById("sheetScript");if(old)old.remove();
+ const s=document.createElement("script");s.id="sheetScript";s.src=API+"&t="+Date.now();
+ s.onerror=()=>showError("Google 스프레드시트에 연결할 수 없습니다.");
+ document.body.appendChild(s);
+ setTimeout(()=>{if(!loaded)showError("스프레드시트가 웹에서 읽을 수 있도록 공유되어 있는지 확인해 주세요.")},10000)
+}
+function showError(msg){app.className="loading error";app.innerHTML="자료를 가져오지 못했습니다.<br><small>"+esc(msg)+"</small><br><br><button onclick=\"load()\">다시 시도</button>"}
 function home(){location.href="index.html"}function toggle(){panel.classList.toggle("show")}
 function theme(t){document.body.classList.toggle("light",t==="light");localStorage.psTheme=t;light.classList.toggle("active",t==="light");dark.classList.toggle("active",t==="dark")}
 function font(n){let v=+(localStorage.psFont||100)+n;v=Math.max(80,Math.min(150,v));document.documentElement.style.setProperty("--s",v/100);fv.textContent=v+"%";localStorage.psFont=v}
