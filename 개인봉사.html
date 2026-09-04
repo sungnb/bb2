@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -9,7 +8,10 @@
 
 <style>
 *{box-sizing:border-box}
-:root{--s:1}
+
+:root{
+  --s:1
+}
 
 body{
   margin:0;
@@ -28,8 +30,16 @@ body{
   border-bottom:1px solid #ffffff18
 }
 
-h1{margin:0;font-size:28px}
-.sub{font-size:13px;opacity:.65;margin-top:4px}
+h1{
+  margin:0;
+  font-size:28px
+}
+
+.sub{
+  font-size:13px;
+  opacity:.65;
+  margin-top:4px
+}
 
 button{
   border:0;
@@ -63,7 +73,9 @@ button{
   text-align:left
 }
 
-.panel.show{display:block}
+.panel.show{
+  display:block
+}
 
 .row{
   display:flex;
@@ -78,7 +90,9 @@ button{
   color:inherit
 }
 
-.row button.active{background:#ffffff35}
+.row button.active{
+  background:#ffffff35
+}
 
 .font{
   display:flex;
@@ -123,7 +137,9 @@ button{
   opacity:.7
 }
 
-.error{color:#ffb4b4}
+.error{
+  color:#ffb4b4
+}
 
 .cards{
   display:flex;
@@ -189,7 +205,9 @@ button{
   border-bottom:1px solid #fff2
 }
 
-.datebox{padding:10px 12px}
+.datebox{
+  padding:10px 12px
+}
 
 .datebox+.datebox{
   border-left:1px solid #fff2
@@ -208,7 +226,9 @@ button{
   white-space:nowrap
 }
 
-.complete .date{color:#7580ff}
+.complete .date{
+  color:#7580ff
+}
 
 .assign{
   display:flex;
@@ -243,7 +263,9 @@ button{
   font-weight:700
 }
 
-.note b{color:#1235e8}
+.note b{
+  color:#1235e8
+}
 
 .links{
   display:grid;
@@ -263,6 +285,8 @@ button{
 .links a+a{
   border-left:1px solid #fff4
 }
+
+/* 밝은 화면 */
 
 body.light{
   background:linear-gradient(135deg,#f3f6fa,#fff);
@@ -302,13 +326,27 @@ body.light .card{
   box-shadow:0 8px 25px #00000014
 }
 
-body.light .zone{color:#222}
-body.light .house{color:#3f4c5c}
-body.light .dates{border-color:#0002}
-body.light .datebox+.datebox{border-color:#0002}
+body.light .zone{
+  color:#222
+}
+
+body.light .house{
+  color:#3f4c5c
+}
+
+body.light .dates{
+  border-color:#0002
+}
+
+body.light .datebox+.datebox{
+  border-color:#0002
+}
 
 @media(max-width:480px){
-  h1{font-size:25px}
+
+  h1{
+    font-size:25px
+  }
 
   .top{
     grid-template-columns:92px 1fr
@@ -335,7 +373,6 @@ body.light .datebox+.datebox{border-color:#0002}
   }
 }
 </style>
-
 </head>
 
 <body>
@@ -343,35 +380,62 @@ body.light .datebox+.datebox{border-color:#0002}
 <header class="header">
 
   <h1>📋 개인봉사</h1>
-  <div class="sub">개인 구역 카드</div>
 
-<button class="settings" onclick="toggle()">⚙️</button>
+  <div class="sub">
+    개인 구역 카드
+  </div>
+
+  <button class="settings" onclick="toggle()">
+    ⚙️
+  </button>
 
   <div id="panel" class="panel">
+
     <b>설정</b>
 
-```
-<div class="row">
-  <button id="light" onclick="theme('light')">☀️ 밝게</button>
-  <button id="dark" onclick="theme('dark')">🌙 어둡게</button>
-</div>
+    <div class="row">
+      <button id="light" onclick="theme('light')">
+        ☀️ 밝게
+      </button>
 
-<div class="font">
-  <button onclick="font(-5)">−</button>
-  <span id="fv">100%</span>
-  <button onclick="font(5)">＋</button>
-</div>
-```
+      <button id="dark" onclick="theme('dark')">
+        🌙 어둡게
+      </button>
+    </div>
+
+    <div class="font">
+
+      <button onclick="font(-5)">
+        −
+      </button>
+
+      <span id="fv">
+        100%
+      </span>
+
+      <button onclick="font(5)">
+        ＋
+      </button>
+
+    </div>
 
   </div>
 
 </header>
 
+
 <main class="wrap">
 
   <div class="actions">
-    <button onclick="home()">홈</button>
-    <button onclick="load()">새로고침</button>
+
+    <button onclick="home()">
+      홈
+    </button>
+
+    <button onclick="load()">
+      새로고침
+    </button>
+
   </div>
 
   <div id="app" class="loading">
@@ -380,19 +444,20 @@ body.light .datebox+.datebox{border-color:#0002}
 
 </main>
 
+
 <script>
 
-/* =========================================================
-   Apps Script 웹앱 주소
-   ========================================================= */
+/* =====================================================
+   Apps Script 주소
+   ===================================================== */
 
 const API =
 "https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyjRrEouIecIVHyvGMP-E/exec";
 
 
-/* =========================================================
+/* =====================================================
    Google Sheet
-   ========================================================= */
+   ===================================================== */
 
 const SHEET_ID =
 "1XGbksIQCRjagzCJLj-wHlBVfQf4JsMjk79ikxIMFI4o";
@@ -403,9 +468,9 @@ const SHEET =
 `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?gid=${GID}`;
 
 
-/* =========================================================
-   기본 요소
-   ========================================================= */
+/* =====================================================
+   화면 요소
+   ===================================================== */
 
 const app =
 document.getElementById("app");
@@ -423,9 +488,17 @@ const fv =
 document.getElementById("fv");
 
 
-/* =========================================================
+/* =====================================================
+   JSONP 관리
+   ===================================================== */
+
+let jsonpScript = null;
+let jsonpTimer = null;
+
+
+/* =====================================================
    HTML 특수문자 처리
-   ========================================================= */
+   ===================================================== */
 
 const esc = x =>
 String(x ?? "").replace(
@@ -440,30 +513,34 @@ String(x ?? "").replace(
 );
 
 
-/* =========================================================
-   날짜 표시
-   ========================================================= */
+/* =====================================================
+   날짜
+   ===================================================== */
 
 function date(v){
 
-  if(!v) return "";
+  if(!v){
+    return "";
+  }
 
-  let s = String(v);
-
-  return s
+  return String(v)
     .replace(/\s+/g," ")
     .trim();
-
 }
 
 
-/* =========================================================
-   Apps Script에서 받은 데이터 표시
-   ========================================================= */
+/* =====================================================
+   데이터 화면 표시
+   ===================================================== */
 
 function render(result){
 
-  if(!result || result.success !== true){
+  /* Apps Script 오류 */
+
+  if(
+    !result ||
+    result.success !== true
+  ){
 
     showError(
       result?.message ||
@@ -474,15 +551,17 @@ function render(result){
   }
 
 
+  /* 데이터 */
+
   const data =
-  Array.isArray(result.data)
-    ? result.data
-    : [];
+    Array.isArray(result.data)
+      ? result.data
+      : [];
 
 
   if(!data.length){
 
-    app.className = "loading";
+    app.className="loading";
 
     app.innerHTML =
       "표시할 개인봉사 자료가 없습니다.";
@@ -491,42 +570,23 @@ function render(result){
   }
 
 
-  /*
-   * Apps Script에서 이미
-   *
-   * number
-   * zone
-   * house
-   * weekday
-   * person
-   * startDate
-   * completeDate
-   *
-   * 순서로 보내고 있으므로
-   * 별도의 열 계산이 필요하지 않습니다.
-   */
+  app.className="";
 
 
-  app.className = "";
-
-
-  let html = '<div class="cards">';
+  let html =
+    '<div class="cards">';
 
 
   data.forEach(function(x,index){
 
     /*
-     * Google Sheet의 실제 행
-     *
-     * 첫 번째 데이터 = 4행
-     * 두 번째 데이터 = 5행
-     * ...
-     *
-     * A열의 1-1, 1-2 등의 내부 번호는
-     * 전혀 사용하지 않습니다.
-     */
+      현재 시트 데이터는
+      B4:H12에 있으므로
+      실제 행 번호는 4부터 시작
+    */
 
-    const sheetRow = index + 4;
+    const sheetRow =
+      index + 4;
 
 
     html += `
@@ -541,7 +601,9 @@ function render(result){
               href="${SHEET}&range=D${sheetRow}"
               target="_blank"
               rel="noopener"
-            >${esc(x.number)}</a>
+            >
+              ${esc(x.number)}
+            </a>
 
           </div>
 
@@ -601,7 +663,9 @@ function render(result){
             ${esc(x.weekday)}
           </span>
 
-          <span>·</span>
+          <span>
+            ·
+          </span>
 
           <span class="name">
             ${esc(x.person)}
@@ -612,43 +676,48 @@ function render(result){
       </article>
 
     `;
-
   });
 
 
   html += "</div>";
 
 
-  /* =====================================================
-     Apps Script의 B14 안내문
-     ===================================================== */
+  /* =================================================
+     공지사항 B14
+     ================================================= */
 
   const notice =
-    result.notice ||
-    "";
+    result.notice || "";
 
 
   if(notice){
 
     html += `
-      <div class="note">
-        ${esc(notice).replace(
-          "추요식 형제",
-          "<b>추요식 형제</b>"
-        )}
-      </div>
-    `;
 
+      <div class="note">
+
+        ${esc(notice)
+          .replace(
+            "추요식 형제",
+            "<b>추요식 형제</b>"
+          )
+        }
+
+      </div>
+
+    `;
   }
 
 
-  /* =====================================================
-     Apps Script의 B16 / C16
-     ===================================================== */
+  /* =================================================
+     B16 = JW.ORG
+     C16 = 라이브러리
+     ================================================= */
 
   const jworg =
     result.links?.jworg ||
     "JW.ORG";
+
 
   const library =
     result.links?.library ||
@@ -663,85 +732,189 @@ function render(result){
         href="https://www.jw.org/ko/"
         target="_blank"
         rel="noopener"
-      >${esc(jworg)}</a>
+      >
+        ${esc(jworg)}
+      </a>
+
 
       <a
         href="https://wol.jw.org/ko/wol/h/r8/lp-ko"
         target="_blank"
         rel="noopener"
-      >${esc(library)}</a>
+      >
+        ${esc(library)}
+      </a>
 
     </div>
 
   `;
 
 
-  app.innerHTML = html;
-
+  app.innerHTML =
+    html;
 }
 
 
-/* =========================================================
-   Apps Script에서 JSON 가져오기
-   ========================================================= */
+/* =====================================================
+   Apps Script JSONP 연결
+   ===================================================== */
 
-async function load(){
+function load(){
 
-  app.className = "loading";
+  app.className =
+    "loading";
 
   app.textContent =
     "개인봉사 자료를 불러오는 중입니다...";
 
 
-  try{
+  /* 기존 요청 제거 */
 
-    const response =
-      await fetch(
-        API + "?t=" + Date.now(),
-        {
-          method:"GET",
-          cache:"no-store"
-        }
+  if(jsonpScript){
+
+    jsonpScript.remove();
+
+    jsonpScript =
+      null;
+  }
+
+
+  if(jsonpTimer){
+
+    clearTimeout(jsonpTimer);
+
+    jsonpTimer =
+      null;
+  }
+
+
+  /*
+    새로운 콜백 이름 생성
+  */
+
+  const callbackName =
+    "personalServiceCallback_" +
+    Date.now();
+
+
+  /*
+    Apps Script가
+    이 함수를 호출하게 됨
+  */
+
+  window[callbackName] =
+    function(result){
+
+      cleanup();
+
+      render(result);
+
+    };
+
+
+  /*
+    script 방식으로 Apps Script 호출
+    CORS 문제를 피하기 위한 JSONP
+  */
+
+  jsonpScript =
+    document.createElement("script");
+
+
+  jsonpScript.src =
+    API +
+    "?callback=" +
+    encodeURIComponent(callbackName) +
+    "&t=" +
+    Date.now();
+
+
+  /*
+    연결 실패
+  */
+
+  jsonpScript.onerror =
+    function(){
+
+      cleanup();
+
+      showError(
+        "Apps Script에 연결할 수 없습니다.<br>" +
+        "<small>" +
+        "웹앱 배포 주소 또는 권한을 확인해 주세요." +
+        "</small>"
       );
 
+    };
 
-    if(!response.ok){
 
-      throw new Error(
-        "서버 응답 오류 (" +
-        response.status +
-        ")"
+  document.head.appendChild(
+    jsonpScript
+  );
+
+
+  /*
+    15초 이상 응답이 없으면
+    시간 초과
+  */
+
+  jsonpTimer =
+    setTimeout(function(){
+
+      cleanup();
+
+      showError(
+        "Apps Script 응답 시간이 초과되었습니다."
       );
 
+    },15000);
+
+
+  /*
+    정리
+  */
+
+  function cleanup(){
+
+    if(jsonpTimer){
+
+      clearTimeout(
+        jsonpTimer
+      );
+
+      jsonpTimer =
+        null;
     }
 
 
-    const result =
-      await response.json();
+    if(jsonpScript){
+
+      jsonpScript.remove();
+
+      jsonpScript =
+        null;
+    }
 
 
-    render(result);
+    try{
 
+      delete window[callbackName];
 
-  }catch(error){
+    }catch(e){
 
-    console.error(error);
+      window[callbackName] =
+        undefined;
 
-    showError(
-      "Apps Script에 연결할 수 없습니다.<br>" +
-      "<small>" +
-      esc(error.message) +
-      "</small>"
-    );
+    }
 
   }
 
 }
 
 
-/* =========================================================
-   오류 표시
-   ========================================================= */
+/* =====================================================
+   오류 화면
+   ===================================================== */
 
 function showError(msg){
 
@@ -765,13 +938,12 @@ function showError(msg){
     </button>
 
   `;
-
 }
 
 
-/* =========================================================
+/* =====================================================
    홈
-   ========================================================= */
+   ===================================================== */
 
 function home(){
 
@@ -781,20 +953,22 @@ function home(){
 }
 
 
-/* =========================================================
+/* =====================================================
    설정창
-   ========================================================= */
+   ===================================================== */
 
 function toggle(){
 
-  panel.classList.toggle("show");
+  panel.classList.toggle(
+    "show"
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    밝게 / 어둡게
-   ========================================================= */
+   ===================================================== */
 
 function theme(t){
 
@@ -803,12 +977,16 @@ function theme(t){
     t === "light"
   );
 
-  localStorage.psTheme = t;
+
+  localStorage.psTheme =
+    t;
+
 
   light.classList.toggle(
     "active",
     t === "light"
   );
+
 
   dark.classList.toggle(
     "active",
@@ -818,20 +996,31 @@ function theme(t){
 }
 
 
-/* =========================================================
+/* =====================================================
    글자 크기
-   ========================================================= */
+   ===================================================== */
 
 function font(n){
 
   let v =
-    +(localStorage.psFont || 100) + n;
+    +(localStorage.psFont || 100) +
+    n;
+
+
+  /*
+    최소 80%
+    최대 150%
+  */
 
   v =
     Math.max(
       80,
-      Math.min(150,v)
+      Math.min(
+        150,
+        v
+      )
     );
+
 
   document.documentElement
     .style
@@ -840,8 +1029,10 @@ function font(n){
       v / 100
     );
 
+
   fv.textContent =
     v + "%";
+
 
   localStorage.psFont =
     v;
@@ -849,20 +1040,22 @@ function font(n){
 }
 
 
-/* =========================================================
+/* =====================================================
    초기 설정
-   ========================================================= */
+   ===================================================== */
 
 theme(
-  localStorage.psTheme || "dark"
+  localStorage.psTheme ||
+  "dark"
 );
+
 
 font(0);
 
 
-/* =========================================================
-   시작
-   ========================================================= */
+/* =====================================================
+   처음 실행
+   ===================================================== */
 
 load();
 
