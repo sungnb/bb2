@@ -12,152 +12,518 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#f3f5f4;color:#26302d;font-size:15px;line-height:1.35}
-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #dce4e0}
-.header-inner{max-width:900px;margin:auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
-.back,.settings-button{width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:25px;font-weight:bold;cursor:pointer}
-.settings-button{font-size:20px}
-.title-area{flex:1;min-width:0}
-.page-title{font-size:31.5px;font-weight:800;letter-spacing:-.04em;text-align:center}
-.page-subtitle{margin-top:1px;font-size:11px;color:#7a8580;text-align:center}
-.settings-panel{display:none;position:absolute;right:14px;top:58px;width:220px;padding:14px;border-radius:14px;background:#fff;border:1px solid #d9e2de;box-shadow:0 8px 25px rgba(0,0,0,.12);z-index:200}
-.settings-panel.show{display:block}
-.settings-title{font-weight:800;margin-bottom:10px}
-.settings-row{display:flex;gap:8px;margin-bottom:10px}
-.settings-row button,.font-size-row button{border:0;border-radius:9px;padding:9px;background:#edf3f0;color:#286b5b;cursor:pointer}
-.settings-row button{flex:1}
-.font-size-row{display:flex;align-items:center;gap:8px}
-.font-size-row button{width:38px}
-.font-size-value{flex:1;text-align:center}
-main{max-width:900px;margin:auto;padding:14px 12px 80px}
-.toolbar{display:flex;gap:8px;margin-bottom:8px}
-.search{flex:1;min-width:0;height:42px;padding:0 13px;border:1px solid #d7e0dc;border-radius:11px;background:white;font-size:14px;outline:none}
-.status{margin:8px 2px 12px;font-size:12px;color:#74807b}
-.card{margin-bottom:10px;background:white;border:1px solid #d9e2de;border-radius:15px;overflow:hidden;box-shadow:0 2px 7px rgba(0,0,0,.035)}
-.card-head{padding:13px 13px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;text-align:left}
-.date-box{flex:0 0 58px;width:58px;min-width:58px;padding-right:11px;border-right:1px solid #e2e9e6;text-align:center;line-height:1.15}
-.date-month{display:block;font-size:12px;font-weight:700;color:#74807b;white-space:nowrap}
-.date-day{display:block;margin-top:3px;font-size:18px;font-weight:900;color:#286b5b;white-space:nowrap}
-.card-main{flex:1;min-width:0;text-align:left}
-.card-title{font-size:18px;font-weight:900;color:#27312e;line-height:1.35;word-break:keep-all;letter-spacing:-.03em;text-align:left}
-.chevron{width:20px;min-width:20px;text-align:center;color:#74807b;font-size:16px;transition:transform .2s}
-.card.open .chevron{transform:rotate(180deg)}
-.card-content{display:none;border-top:1px solid #e6ece9;padding:12px 14px 16px;text-align:left;line-height:1.35}
-.card.open .card-content{display:block}
-.meeting-item{display:block;margin:0 0 8px 0!important;padding:0!important;border:1px solid #d9e2de;border-radius:10px;background:#fafcfb;overflow:hidden;font-size:14px;color:#36403c;line-height:1.35!important;text-align:left!important;white-space:normal;word-break:break-word}
-.meeting-item:last-child{margin-bottom:0!important}
-.part-label{display:block;padding:7px 10px;background:#e5f0ec;color:#286b5b;font-size:15.5px;font-weight:900;line-height:1.25;text-align:left;border-bottom:1px solid #d2e1db}
-.part-body{display:block;padding:8px 10px;background:#fff;color:#36403c;font-size:14px;font-weight:400;line-height:1.35;text-align:left;white-space:pre-wrap}
-.meeting-item.agenda .part-label,.meeting-item.content .part-label{background:#d7ebe4;color:#1f6654;font-size:16px;font-weight:900}
-.detail strong,.meeting-item strong{font-weight:900}
-.detail{margin:0;padding:0;font-size:14px;color:#36403c;line-height:1.35;text-align:left;white-space:pre-wrap;word-break:break-word}
-.empty{background:white;border:1px solid #dce4e0;border-radius:14px;padding:22px 16px;color:#6d7873;text-align:left}
-.error{color:#b33a3a}
-.top-button{position:fixed;right:16px;bottom:18px;width:45px;height:45px;border:0;border-radius:50%;background:#286b5b;color:white;font-size:19px;box-shadow:0 4px 14px rgba(0,0,0,.18);display:none;cursor:pointer}
-body.dark{background:#121715;color:#edf3f0}
-body.dark header{background:rgba(25,31,28,.97);border-color:#303a36}
-body.dark .page-title{color:#f0f5f2}
-body.dark .page-subtitle{color:#9ba7a1}
-body.dark .back,body.dark .settings-button{background:#26332e;color:#8fd0b9}
-body.dark .search{background:#1c2421;color:#edf3f0;border-color:#394640}
-body.dark .card{background:#1a211e;border-color:#35403b}
-body.dark .card-title{color:#eef3f0}
-body.dark .date-box{border-color:#303a36}
-body.dark .date-month{color:#a9b4af}
-body.dark .date-day{color:#91d0bb}
-body.dark .card-content{border-color:#303a36}
-body.dark .detail,body.dark .meeting-item{color:#d7e0dc}
-body.dark .meeting-item{background:#18201d;border-color:#35403b}
-body.dark .part-label{background:#263d35;color:#91d0bb;border-color:#354c44}
-body.dark .part-body{background:#1a211e;color:#d7e0dc}
-body.dark .meeting-item.agenda .part-label,body.dark .meeting-item.content .part-label{background:#2d4b41;color:#a7e0cc}
-body.dark .status{color:#a9b4af}
-body.dark .settings-panel{background:#1a211e;border-color:#35403b;color:#edf3f0}
-body.dark .settings-row button,body.dark .font-size-row button{background:#26332e;color:#91d0bb}
-@media(min-width:700px){main{padding-left:20px;padding-right:20px}.card-head{padding:15px 17px}.card-content{padding:14px 18px 18px}}
-@media(max-width:600px){.page-title{font-size:28px}.card-title{font-size:17px}.date-box{flex-basis:60px;width:60px;min-width:60px;padding-right:11px}.date-month{font-size:12px}.date-day{font-size:17px}.meeting-item{font-size:14px;line-height:1.35!important;margin-bottom:8px!important}.part-label{font-size:14px;font-weight:900;padding:8px 9px;text-align:left}.part-body{font-size:14px;padding:8px 9px}.meeting-item.agenda .part-label,.meeting-item.content .part-label{font-size:14.5px;font-weight:900}}
-body{transform-origin:top left}
 
-/* Google 계정 변경 버튼 */
-.account-button{
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  background:#f3f5f4;
+  color:#26302d;
+  font-size:15px;
+  line-height:1.35
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #dce4e0
+}
+
+.header-inner{
+  max-width:900px;
+  margin:auto;
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.back,
+.settings-button{
+  width:42px;
+  height:42px;
   border:0;
-  background:transparent;
-  font-size:20px;
-  cursor:pointer;
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.15s
-}
-.account-button:hover{background:rgba(40,107,91,.10)}
-.account-button:active{transform:scale(.95)}
-body.dark .account-button:hover{background:rgba(145,208,187,.12)}
-
-/* 계정 변경 안내창 */
-#accountChangeGate{
-  position:fixed;
-  inset:0;
-  z-index:1100;
-  background:rgba(18,23,21,.48);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  backdrop-filter:blur(3px)
-}
-.account-change-box{
-  width:min(390px,100%);
-  background:#fff;
-  border:1px solid #d9e2de;
-  border-radius:18px;
-  padding:28px 22px;
-  text-align:center;
-  box-shadow:0 12px 40px rgba(0,0,0,.18)
-}
-.account-change-title{
-  font-size:20px;
-  font-weight:900;
+  border-radius:12px;
+  background:#edf3f0;
   color:#286b5b;
-  margin-bottom:8px
-}
-.account-change-message{
-  font-size:14px;
-  color:#66736d;
-  line-height:1.55;
-  margin-bottom:18px;
-  white-space:pre-line
-}
-#accountChangeGoogleButton{
-  display:flex;
-  justify-content:center;
-  min-height:44px
-}
-.account-change-close{
-  margin-top:14px;
-  border:1px solid #d4ddd9;
-  background:#f5f7f6;
-  color:#52605a;
-  border-radius:10px;
-  padding:9px 18px;
-  font-size:13px;
+  font-size:25px;
+  font-weight:bold;
   cursor:pointer
 }
-body.dark .account-change-box{
+
+.settings-button{
+  font-size:20px
+}
+
+.title-area{
+  flex:1;
+  min-width:0
+}
+
+.page-title{
+  font-size:31.5px;
+  font-weight:800;
+  letter-spacing:-.04em;
+  text-align:center
+}
+
+.page-subtitle{
+  margin-top:1px;
+  font-size:11px;
+  color:#7a8580;
+  text-align:center
+}
+
+.settings-panel{
+  display:none;
+  position:absolute;
+  right:14px;
+  top:58px;
+  width:220px;
+  padding:14px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid #d9e2de;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  z-index:200
+}
+
+.settings-panel.show{
+  display:block
+}
+
+.settings-title{
+  font-weight:800;
+  margin-bottom:10px
+}
+
+.settings-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:10px
+}
+
+.settings-row button,
+.font-size-row button{
+  border:0;
+  border-radius:9px;
+  padding:9px;
+  background:#edf3f0;
+  color:#286b5b;
+  cursor:pointer
+}
+
+.settings-row button{
+  flex:1
+}
+
+.font-size-row{
+  display:flex;
+  align-items:center;
+  gap:8px
+}
+
+.font-size-row button{
+  width:38px
+}
+
+.font-size-value{
+  flex:1;
+  text-align:center
+}
+
+main{
+  max-width:900px;
+  margin:auto;
+  padding:14px 12px 80px
+}
+
+.toolbar{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px
+}
+
+.search{
+  flex:1;
+  min-width:0;
+  height:42px;
+  padding:0 13px;
+  border:1px solid #d7e0dc;
+  border-radius:11px;
+  background:white;
+  font-size:14px;
+  outline:none
+}
+
+.status{
+  margin:8px 2px 12px;
+  font-size:12px;
+  color:#74807b
+}
+
+.card{
+  margin-bottom:10px;
+  background:white;
+  border:1px solid #d9e2de;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 2px 7px rgba(0,0,0,.035)
+}
+
+.card-head{
+  padding:13px 13px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  user-select:none;
+  text-align:left
+}
+
+.date-box{
+  flex:0 0 58px;
+  width:58px;
+  min-width:58px;
+  padding-right:11px;
+  border-right:1px solid #e2e9e6;
+  text-align:center;
+  line-height:1.15
+}
+
+.date-month{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#74807b;
+  white-space:nowrap
+}
+
+.date-day{
+  display:block;
+  margin-top:3px;
+  font-size:18px;
+  font-weight:900;
+  color:#286b5b;
+  white-space:nowrap
+}
+
+.card-main{
+  flex:1;
+  min-width:0;
+  text-align:left
+}
+
+.card-title{
+  font-size:18px;
+  font-weight:900;
+  color:#27312e;
+  line-height:1.35;
+  word-break:keep-all;
+  letter-spacing:-.03em;
+  text-align:left
+}
+
+.chevron{
+  width:20px;
+  min-width:20px;
+  text-align:center;
+  color:#74807b;
+  font-size:16px;
+  transition:transform .2s
+}
+
+.card.open .chevron{
+  transform:rotate(180deg)
+}
+
+.card-content{
+  display:none;
+  border-top:1px solid #e6ece9;
+  padding:12px 14px 16px;
+  text-align:left;
+  line-height:1.35
+}
+
+.card.open .card-content{
+  display:block
+}
+
+.meeting-item{
+  display:block;
+  margin:0 0 8px 0!important;
+  padding:0!important;
+  border:1px solid #d9e2de;
+  border-radius:10px;
+  background:#fafcfb;
+  overflow:hidden;
+  font-size:14px;
+  color:#36403c;
+  line-height:1.35!important;
+  text-align:left!important;
+  white-space:normal;
+  word-break:break-word
+}
+
+.meeting-item:last-child{
+  margin-bottom:0!important
+}
+
+.part-label{
+  display:block;
+  padding:7px 10px;
+  background:#e5f0ec;
+  color:#286b5b;
+  font-size:15.5px;
+  font-weight:900;
+  line-height:1.25;
+  text-align:left;
+  border-bottom:1px solid #d2e1db
+}
+
+.part-body{
+  display:block;
+  padding:8px 10px;
+  background:#fff;
+  color:#36403c;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.35;
+  text-align:left;
+  white-space:pre-wrap
+}
+
+.meeting-item.agenda .part-label,
+.meeting-item.content .part-label{
+  background:#d7ebe4;
+  color:#1f6654;
+  font-size:16px;
+  font-weight:900
+}
+
+.detail strong,
+.meeting-item strong{
+  font-weight:900
+}
+
+.detail{
+  margin:0;
+  padding:0;
+  font-size:14px;
+  color:#36403c;
+  line-height:1.35;
+  text-align:left;
+  white-space:pre-wrap;
+  word-break:break-word
+}
+
+.empty{
+  background:white;
+  border:1px solid #dce4e0;
+  border-radius:14px;
+  padding:22px 16px;
+  color:#6d7873;
+  text-align:left
+}
+
+.error{
+  color:#b33a3a
+}
+
+.top-button{
+  position:fixed;
+  right:16px;
+  bottom:18px;
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:50%;
+  background:#286b5b;
+  color:white;
+  font-size:19px;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+  display:none;
+  cursor:pointer
+}
+
+/* =========================================================
+   어두운 화면
+========================================================= */
+
+body.dark{
+  background:#121715;
+  color:#edf3f0
+}
+
+body.dark header{
+  background:rgba(25,31,28,.97);
+  border-color:#303a36
+}
+
+body.dark .page-title{
+  color:#f0f5f2
+}
+
+body.dark .page-subtitle{
+  color:#9ba7a1
+}
+
+body.dark .back,
+body.dark .settings-button{
+  background:#26332e;
+  color:#8fd0b9
+}
+
+body.dark .search{
+  background:#1c2421;
+  color:#edf3f0;
+  border-color:#394640
+}
+
+body.dark .card{
   background:#1a211e;
   border-color:#35403b
 }
-body.dark .account-change-title{color:#91d0bb}
-body.dark .account-change-message{color:#a9b4af}
-body.dark .account-change-close{
-  background:#242d29;
-  border-color:#3b4742;
-  color:#c3ccc8
+
+body.dark .card-title{
+  color:#eef3f0
 }
 
-/* 인증 대기 화면 */
+body.dark .date-box{
+  border-color:#303a36
+}
+
+body.dark .date-month{
+  color:#a9b4af
+}
+
+body.dark .date-day{
+  color:#91d0bb
+}
+
+body.dark .card-content{
+  border-color:#303a36
+}
+
+body.dark .detail,
+body.dark .meeting-item{
+  color:#d7e0dc
+}
+
+body.dark .meeting-item{
+  background:#18201d;
+  border-color:#35403b
+}
+
+body.dark .part-label{
+  background:#263d35;
+  color:#91d0bb;
+  border-color:#354c44
+}
+
+body.dark .part-body{
+  background:#1a211e;
+  color:#d7e0dc
+}
+
+body.dark .meeting-item.agenda .part-label,
+body.dark .meeting-item.content .part-label{
+  background:#2d4b41;
+  color:#a7e0cc
+}
+
+body.dark .status{
+  color:#a9b4af
+}
+
+body.dark .settings-panel{
+  background:#1a211e;
+  border-color:#35403b;
+  color:#edf3f0
+}
+
+body.dark .settings-row button,
+body.dark .font-size-row button{
+  background:#26332e;
+  color:#91d0bb
+}
+
+@media(min-width:700px){
+
+  main{
+    padding-left:20px;
+    padding-right:20px
+  }
+
+  .card-head{
+    padding:15px 17px
+  }
+
+  .card-content{
+    padding:14px 18px 18px
+  }
+}
+
+@media(max-width:600px){
+
+  .page-title{
+    font-size:28px
+  }
+
+  .card-title{
+    font-size:17px
+  }
+
+  .date-box{
+    flex-basis:60px;
+    width:60px;
+    min-width:60px;
+    padding-right:11px
+  }
+
+  .date-month{
+    font-size:12px
+  }
+
+  .date-day{
+    font-size:17px
+  }
+
+  .meeting-item{
+    font-size:14px;
+    line-height:1.35!important;
+    margin-bottom:8px!important
+  }
+
+  .part-label{
+    font-size:14px;
+    font-weight:900;
+    padding:8px 9px;
+    text-align:left
+  }
+
+  .part-body{
+    font-size:14px;
+    padding:8px 9px
+  }
+
+  .meeting-item.agenda .part-label,
+  .meeting-item.content .part-label{
+    font-size:14.5px;
+    font-weight:900
+  }
+}
+
+body{
+  transform-origin:top left
+}
+
+/* =========================================================
+   Google 인증 화면
+========================================================= */
+
 #authGate{
   position:fixed;
   inset:0;
@@ -168,6 +534,7 @@ body.dark .account-change-close{
   justify-content:center;
   padding:24px
 }
+
 .auth-box{
   width:min(380px,100%);
   background:#fff;
@@ -177,37 +544,51 @@ body.dark .account-change-close{
   text-align:center;
   box-shadow:0 8px 30px rgba(0,0,0,.08)
 }
+
 .auth-title{
   font-size:23px;
   font-weight:900;
   color:#286b5b;
   margin-bottom:8px
 }
+
 .auth-message{
   font-size:14px;
   color:#66736d;
   line-height:1.5;
-  margin-bottom:18px;
-  white-space:pre-line
+  margin-bottom:18px
 }
+
 #googleButton{
   display:flex;
   justify-content:center;
   min-height:44px
 }
+
 .auth-error{
   margin-top:14px;
   color:#b33a3a;
   font-size:13px;
   line-height:1.5
 }
-body.dark #authGate{background:#121715}
+
+body.dark #authGate{
+  background:#121715
+}
+
 body.dark .auth-box{
   background:#1a211e;
   border-color:#35403b
 }
-body.dark .auth-title{color:#91d0bb}
-body.dark .auth-message{color:#a9b4af}
+
+body.dark .auth-title{
+  color:#91d0bb
+}
+
+body.dark .auth-message{
+  color:#a9b4af
+}
+
 .auth-back{
   position:absolute;
   top:14px;
@@ -226,31 +607,16 @@ body.dark .auth-message{color:#a9b4af}
   justify-content:center;
   z-index:2
 }
+
 .auth-lock{
   font-size:42px;
   line-height:1;
   margin-bottom:12px
 }
+
 body.dark .auth-back{
   background:#26332e;
   color:#8fd0b9
-}
-
-/* 권한 거부 후 다시 계정 선택 */
-.retry-account-button{
-  display:none;
-  margin:16px auto 0;
-  border:0;
-  border-radius:10px;
-  padding:11px 18px;
-  background:#286b5b;
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer
-}
-.retry-account-button:active{
-  transform:scale(.98)
 }
 </style>
 </head>
@@ -258,36 +624,32 @@ body.dark .auth-back{
 <body>
 
 <!-- =========================================================
-     Google 인증 화면
-     처음부터 사용자가 Google 계정을 선택하도록 합니다.
+     Google 인증이 완료될 때까지 회의록을 잠급니다.
 ========================================================= -->
+
 <div id="authGate">
 
   <button
     class="auth-back"
     onclick="goBack()"
     aria-label="뒤로가기"
-    title="뒤로가기">‹</button>
+    title="뒤로가기">
+    ‹
+  </button>
 
   <div class="auth-box">
 
     <div class="auth-lock" aria-hidden="true">🔐</div>
 
-    <div class="auth-title">회의록 2026</div>
+    <div class="auth-title">
+      회의록 2026
+    </div>
 
     <div id="authMessage" class="auth-message">
-      사용할 Google 계정을 선택해 주세요.
+      Google 계정을 선택해 주세요.
     </div>
 
     <div id="googleButton"></div>
-
-    <!-- 권한 거부 시 표시 -->
-    <button
-      id="retryAccountButton"
-      class="retry-account-button"
-      onclick="retryGoogleAccount()">
-      다른 Google 계정 선택
-    </button>
 
     <div id="authError" class="auth-error"></div>
 
@@ -296,31 +658,8 @@ body.dark .auth-back{
 
 
 <!-- =========================================================
-     현재 Google 계정을 바꾸는 화면
+     실제 회의록 화면
 ========================================================= -->
-<div id="accountChangeGate">
-
-  <div class="account-change-box">
-
-    <div class="account-change-title">
-      Google 계정 변경
-    </div>
-
-    <div id="accountChangeMessage" class="account-change-message">
-      다른 Google 계정으로 회의록에 로그인할 수 있습니다.
-    </div>
-
-    <div id="accountChangeGoogleButton"></div>
-
-    <button
-      class="account-change-close"
-      onclick="closeAccountChange()">
-      취소
-    </button>
-
-  </div>
-</div>
-
 
 <header>
 
@@ -344,15 +683,6 @@ body.dark .auth-back{
       </div>
 
     </div>
-
-    <button
-      id="accountButton"
-      class="account-button"
-      onclick="changeGoogleAccount()"
-      aria-label="Google 계정 변경"
-      title="Google 계정 변경">
-      👤
-    </button>
 
     <button
       class="settings-button"
@@ -422,7 +752,7 @@ body.dark .auth-back{
   </div>
 
   <div id="status" class="status">
-    Google 계정 선택 후 회의록을 불러옵니다...
+    Google 인증 후 회의록을 불러옵니다...
   </div>
 
   <div id="list"></div>
@@ -445,29 +775,22 @@ body.dark .auth-back{
 ========================================================= */
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbx1JhHaC2IpQ1Oxw0F3CDV2v6Vph2giY9PkUH-ZfoMG_VUAaMt8qRUtjSDxJMyHuMWV/exec";
- "https://script.google.com/macros/s/AKfycbzuuIojKWFanU0l9j982uM8FF6iGb_02E5dPcrjPh5-GwTDm6vrxPHAxZLqOqaF3d1Z/exec";
+  "https://script.google.com/macros/s/AKfycbzuuIojKWFanU0l9j982uM8FF6iGb_02E5dPcrjPh5-GwTDm6vrxPHAxZLqOqaF3d1Z/exec";
 
 const GOOGLE_CLIENT_ID =
-  "710102597374-s5vk3qqmm81onhiqiihj5kcbhjkhl00f.apps.googleusercontent.com";
- "710102597374-s5vk3qqmm81onhiqiihj5kcbhjkhl00f.apps.googleusercontent.com";
+  "710102597374-s5vk3qqmm81onhiihj5kcbhjkhl00f.apps.googleusercontent.com";
 
 
 let meetings = [];
 let groupedMeetings = [];
-
 let googleAuthFinished = false;
-
-let currentGoogleEmail = "";
-
-let accountChangeMode = false;
 
 
 /* =========================================================
    시작
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function(){
 
   applySettings();
 
@@ -480,7 +803,7 @@ document.addEventListener("DOMContentLoaded", function() {
    Google 인증 시작
 ========================================================= */
 
-function startGoogleAuthentication() {
+function startGoogleAuthentication(){
 
   const message =
     document.getElementById("authMessage");
@@ -488,28 +811,20 @@ function startGoogleAuthentication() {
   const error =
     document.getElementById("authError");
 
-  const retry =
-    document.getElementById("retryAccountButton");
-
-
   message.textContent =
-    "사용할 Google 계정을 선택해 주세요.";
+    "Google 계정을 선택해 주세요.";
 
   error.textContent = "";
 
-  if (retry) {
-    retry.style.display = "none";
-  }
-
 
   const waitForGoogle =
-    setInterval(function() {
+    setInterval(function(){
 
-      if (
+      if(
         window.google &&
         google.accounts &&
         google.accounts.id
-      ) {
+      ){
 
         clearInterval(waitForGoogle);
 
@@ -520,26 +835,16 @@ function startGoogleAuthentication() {
     },100);
 
 
-  setTimeout(function() {
+  setTimeout(function(){
 
     clearInterval(waitForGoogle);
 
-    if (!googleAuthFinished) {
+    if(!googleAuthFinished){
 
-      if (
-        window.google &&
-        google.accounts &&
-        google.accounts.id
-      ) {
+      message.textContent =
+        "아래 버튼에서 Google 계정을 선택해 주세요.";
 
-        renderGoogleButton();
-
-      } else {
-
-        message.textContent =
-          "Google 로그인 기능을 불러오지 못했습니다.\n잠시 후 다시 시도해 주세요.";
-
-      }
+      renderGoogleButton();
 
     }
 
@@ -550,40 +855,29 @@ function startGoogleAuthentication() {
 
 /* =========================================================
    Google Identity 초기화
+   중요:
+   - 자동 계정 선택 사용 안 함
+   - 자동 prompt 사용 안 함
+   - 사용자가 Google 버튼을 눌러 계정을 선택
 ========================================================= */
 
-function initializeGoogleIdentity() {
+function initializeGoogleIdentity(){
 
   google.accounts.id.initialize({
 
-    client_id: GOOGLE_CLIENT_ID,
+    client_id:GOOGLE_CLIENT_ID,
 
-    /*
-     * 자동 계정 선택 금지
-     */
-    auto_select: false,
+    auto_select:false,
 
-    /*
-     * 버튼에서 자동 계정 선택 금지
-     */
-    button_auto_select: false,
+    button_auto_select:false,
 
-    /*
-     * FedCM을 사용하지 않고
-     * 직접 Google 로그인 버튼을 표시합니다.
-     */
-    use_fedcm_for_button: false,
+    use_fedcm_for_button:false,
 
-    callback: handleGoogleCredential
+    callback:handleGoogleCredential
 
   });
 
 
-  /*
-   * 자동 prompt()를 호출하지 않습니다.
-   *
-   * 사용자가 직접 Google 로그인 버튼을 누릅니다.
-   */
   renderGoogleButton();
 
 }
@@ -593,13 +887,13 @@ function initializeGoogleIdentity() {
    Google 로그인 버튼
 ========================================================= */
 
-function renderGoogleButton() {
+function renderGoogleButton(){
 
-  if (
+  if(
     !window.google ||
     !google.accounts ||
     !google.accounts.id
-  ) {
+  ){
     return;
   }
 
@@ -608,18 +902,12 @@ function renderGoogleButton() {
     document.getElementById("googleButton");
 
 
-  if (!container) {
+  if(!container){
     return;
   }
 
 
-  /*
-   * 기존 버튼을 제거합니다.
-   */
   container.innerHTML = "";
-
-
-  container.dataset.rendered = "1";
 
 
   google.accounts.id.renderButton(
@@ -628,24 +916,24 @@ function renderGoogleButton() {
 
     {
 
-      type: "standard",
+      type:"standard",
 
       theme:
         document.body.classList.contains("dark")
           ? "filled_black"
           : "outline",
 
-      size: "large",
+      size:"large",
 
-      text: "signin_with",
+      text:"signin_with",
 
-      shape: "rectangular",
+      shape:"rectangular",
 
-      logo_alignment: "left",
+      logo_alignment:"left",
 
-      width: 300,
+      width:300,
 
-      locale: "ko"
+      locale:"ko"
 
     }
 
@@ -655,153 +943,10 @@ function renderGoogleButton() {
 
 
 /* =========================================================
-   Google 계정 변경
+   Google ID Token → Apps Script
 ========================================================= */
 
-function changeGoogleAccount() {
-
-  if (
-    !window.google ||
-    !google.accounts ||
-    !google.accounts.id
-  ) {
-
-    alert(
-      "Google 로그인 기능을 아직 불러오지 못했습니다.\n잠시 후 다시 시도해 주세요."
-    );
-
-    return;
-
-  }
-
-
-  accountChangeMode = true;
-
-  googleAuthFinished = false;
-
-
-  const gate =
-    document.getElementById(
-      "accountChangeGate"
-    );
-
-  const message =
-    document.getElementById(
-      "accountChangeMessage"
-    );
-
-  const button =
-    document.getElementById(
-      "accountChangeGoogleButton"
-    );
-
-
-  if (gate) {
-    gate.style.display = "flex";
-  }
-
-
-  if (message) {
-
-    message.textContent =
-      currentGoogleEmail
-
-        ? "현재 로그인: " +
-          currentGoogleEmail +
-          "\n\n다른 Google 계정을 선택해 주세요."
-
-        : "다른 Google 계정을 선택해 주세요.";
-
-  }
-
-
-  if (button) {
-
-    button.innerHTML = "";
-
-  }
-
-
-  /*
-   * 기존 계정을 자동으로 다시 사용하지 않도록 합니다.
-   */
-  google.accounts.id.disableAutoSelect();
-
-
-  /*
-   * 계정 변경용 Google 버튼을 표시합니다.
-   */
-  google.accounts.id.renderButton(
-
-    button,
-
-    {
-
-      theme:
-        document.body.classList.contains("dark")
-          ? "filled_black"
-          : "outline",
-
-      size: "large",
-
-      type: "standard",
-
-      text: "signin_with",
-
-      shape: "rectangular",
-
-      width: 280,
-
-      locale: "ko"
-
-    }
-
-  );
-
-}
-
-
-/* =========================================================
-   계정 변경 창 닫기
-========================================================= */
-
-function closeAccountChange() {
-
-  accountChangeMode = false;
-
-
-  const gate =
-    document.getElementById(
-      "accountChangeGate"
-    );
-
-
-  if (gate) {
-    gate.style.display = "none";
-  }
-
-
-  /*
-   * 자동 선택은 다시 켜지 않습니다.
-   */
-  if (
-    window.google &&
-    google.accounts &&
-    google.accounts.id
-  ) {
-
-    google.accounts.id.disableAutoSelect();
-
-  }
-
-}
-
-
-/* =========================================================
-   권한 거부 후 다른 계정 선택
-========================================================= */
-
-function retryGoogleAccount() {
+async function handleGoogleCredential(response){
 
   const message =
     document.getElementById("authMessage");
@@ -809,77 +954,11 @@ function retryGoogleAccount() {
   const error =
     document.getElementById("authError");
 
-  const retry =
-    document.getElementById("retryAccountButton");
 
-
-  googleAuthFinished = false;
-
-
-  if (message) {
-
-    message.textContent =
-      "다른 Google 계정을 선택해 주세요.";
-
-  }
-
-
-  if (error) {
-
-    error.textContent = "";
-
-  }
-
-
-  if (retry) {
-
-    retry.style.display = "none";
-
-  }
-
-
-  /*
-   * 현재 계정을 자동으로 다시 사용하지 않도록 합니다.
-   */
-  if (
-    window.google &&
-    google.accounts &&
-    google.accounts.id
-  ) {
-
-    google.accounts.id.disableAutoSelect();
-
-  }
-
-
-  /*
-   * Google 로그인 버튼을 새로 표시합니다.
-   */
-  renderGoogleButton();
-
-}
-
-
-/* =========================================================
-   Google ID Token을 Apps Script로 전달
-========================================================= */
-
-async function handleGoogleCredential(response) {
-
-  const message =
-    document.getElementById("authMessage");
-
-  const error =
-    document.getElementById("authError");
-
-  const retry =
-    document.getElementById("retryAccountButton");
-
-
-  if (
+  if(
     !response ||
     !response.credential
-  ) {
+  ){
 
     error.textContent =
       "Google 인증 정보를 받지 못했습니다.";
@@ -887,28 +966,20 @@ async function handleGoogleCredential(response) {
     renderGoogleButton();
 
     return;
-
   }
 
 
   message.textContent =
-    "선택한 Google 계정을 확인하고 있습니다...";
+    "인증된 Google 계정을 확인하고 있습니다...";
 
   error.textContent = "";
 
 
-  if (retry) {
-    retry.style.display = "none";
-  }
-
-
-  try {
+  try{
 
     const body =
       "credential=" +
-      encodeURIComponent(
-        response.credential
-      );
+      encodeURIComponent(response.credential);
 
 
     const result =
@@ -918,23 +989,21 @@ async function handleGoogleCredential(response) {
 
         {
 
-          method: "POST",
+          method:"POST",
 
-          headers: {
-
+          headers:{
             "Content-Type":
               "application/x-www-form-urlencoded;charset=UTF-8"
-
           },
 
-          body: body
+          body:body
 
         }
 
       );
 
 
-    if (!result.ok) {
+    if(!result.ok){
 
       throw new Error(
         "인증 서버 응답 오류: " +
@@ -954,194 +1023,88 @@ async function handleGoogleCredential(response) {
     );
 
 
-    /*
-     * Google 자체 인증 실패
-     */
-    if (
+    /* -----------------------------------------------------
+       Google 자체 인증 실패
+    ----------------------------------------------------- */
+
+    if(
       !data ||
       data.authenticated !== true
-    ) {
+    ){
 
       throw new Error(
-
         data?.message ||
         "Google 인증에 실패했습니다."
-
       );
 
     }
 
 
-    /* =====================================================
-       권한 없음
-    ===================================================== */
+    /* -----------------------------------------------------
+       Google 인증은 됐지만 허용되지 않은 계정
+    ----------------------------------------------------- */
 
-    if (data.authorized !== true) {
+    if(data.authorized !== true){
 
       googleAuthFinished = true;
-
-
-      /*
-       * 서버에서 이메일을 보내주는 경우 표시합니다.
-       */
-      if (data.email) {
-
-        currentGoogleEmail =
-          data.email;
-
-      }
-
-
-      const deniedMessage =
-        data.message ||
-        "이 Google 계정은 회의록 열람 권한이 없습니다.";
-
 
       message.textContent =
         "접근 권한이 없습니다.";
 
-
       error.textContent =
-        deniedMessage;
-
-
-      /*
-       * 다른 Google 계정 선택 버튼 표시
-       */
-      if (retry) {
-
-        retry.style.display =
-          "inline-block";
-
-      }
-
+        data.message ||
+        "이 Google 계정은 회의록 열람 권한이 없습니다.";
 
       /*
-       * 계정 변경 창에서 거부된 경우
+       * 보안상 회의록 화면은 계속 잠겨 있습니다.
        */
-      if (accountChangeMode) {
-
-        const changeMessage =
-          document.getElementById(
-            "accountChangeMessage"
-          );
-
-
-        if (changeMessage) {
-
-          changeMessage.textContent =
-            deniedMessage +
-            "\n\n다른 Google 계정을 선택해 주세요.";
-
-        }
-
-      }
-
-
-      /*
-       * 자동 계정 선택을 계속 막습니다.
-       */
-      if (
-        window.google &&
-        google.accounts &&
-        google.accounts.id
-      ) {
-
-        google.accounts.id.disableAutoSelect();
-
-      }
-
 
       return;
 
     }
 
 
-    /* =====================================================
-       인증 + 권한 성공
-    ===================================================== */
+    /* -----------------------------------------------------
+       허용된 계정
+    ----------------------------------------------------- */
 
     googleAuthFinished = true;
 
 
-    currentGoogleEmail =
-      data.email || "";
-
-
     /*
-     * 계정 변경 창에서 성공한 경우
+     * Apps Script가 반환한 meetings 사용
      */
-    if (accountChangeMode) {
-
-      accountChangeMode = false;
-
-
-      const gate =
-        document.getElementById(
-          "accountChangeGate"
-        );
-
-
-      if (gate) {
-
-        gate.style.display = "none";
-
-      }
-
-    }
-
-
-    /*
-     * 성공 후에도 자동 계정 선택을 사용하지 않습니다.
-     */
-    if (
-      window.google &&
-      google.accounts &&
-      google.accounts.id
-    ) {
-
-      google.accounts.id.disableAutoSelect();
-
-    }
-
-
-    /* =====================================================
-       회의록 데이터 처리
-    ===================================================== */
 
     let rows = [];
 
 
-    if (Array.isArray(data.rows)) {
-
-      rows = data.rows;
-
-    }
-
-    else if (Array.isArray(data.meetings)) {
+    if(Array.isArray(data.meetings)){
 
       rows = data.meetings;
 
-    }
+    }else if(Array.isArray(data.rows)){
 
-    else if (Array.isArray(data.records)) {
+      rows = data.rows;
+
+    }else if(Array.isArray(data.records)){
 
       rows = data.records;
 
-    }
-
-    else if (Array.isArray(data.data)) {
+    }else if(Array.isArray(data.data)){
 
       rows = data.data;
 
-    }
-
-    else if (Array.isArray(data.values)) {
+    }else if(Array.isArray(data.values)){
 
       rows = data.values;
 
     }
 
+
+    /*
+     * 이전에 정확하게 표시되었던
+     * 회의록 정리 방식을 사용합니다.
+     */
 
     meetings =
       normalizeRows(rows);
@@ -1151,7 +1114,7 @@ async function handleGoogleCredential(response) {
       buildMeetings(meetings);
 
 
-    if (meetings.length === 0) {
+    if(meetings.length === 0){
 
       throw new Error(
         "번호가 있는 회의록 자료를 찾지 못했습니다."
@@ -1164,25 +1127,22 @@ async function handleGoogleCredential(response) {
       "인증이 완료되었습니다.";
 
 
-    document.getElementById(
-      "status"
-    ).textContent =
+    document.getElementById("status").textContent =
       "회의록을 불러오는 중입니다...";
 
 
     /*
-     * 인증 성공한 경우에만
-     * 회의록 화면을 열어줍니다.
+     * 인증 성공 후에만 잠금 화면 제거
      */
-    document.getElementById(
-      "authGate"
-    ).style.display = "none";
+
+    document.getElementById("authGate").style.display =
+      "none";
 
 
     render();
 
 
-  } catch (err) {
+  }catch(err){
 
     console.error(
       "Google 인증/회의록 오류:",
@@ -1199,17 +1159,6 @@ async function handleGoogleCredential(response) {
       "잠시 후 다시 시도해 주세요.";
 
 
-    /*
-     * 실패해도 다른 계정을 선택할 수 있게 합니다.
-     */
-    if (retry) {
-
-      retry.style.display =
-        "inline-block";
-
-    }
-
-
     renderGoogleButton();
 
   }
@@ -1221,15 +1170,15 @@ async function handleGoogleCredential(response) {
    행 하나를 회의록 데이터로 변환
 ========================================================= */
 
-function rowToObject(row) {
+function rowToObject(row){
 
-  if (Array.isArray(row)) {
+  if(Array.isArray(row)){
 
-    return {
+    return{
 
-      number: row[0] ?? "",
+      number:row[0] ?? "",
 
-      title: row[1] ?? "",
+      title:row[1] ?? "",
 
       detail:
         row
@@ -1244,10 +1193,10 @@ function rowToObject(row) {
   }
 
 
-  if (
+  if(
     row &&
     typeof row === "object"
-  ) {
+  ){
 
     const number =
       row.number ??
@@ -1275,9 +1224,7 @@ function rowToObject(row) {
       "";
 
 
-    if (
-      clean(detail) === ""
-    ) {
+    if(clean(detail) === ""){
 
       const ignored = [
 
@@ -1314,7 +1261,7 @@ function rowToObject(row) {
     }
 
 
-    return {
+    return{
       number,
       title,
       detail
@@ -1323,7 +1270,7 @@ function rowToObject(row) {
   }
 
 
-  return {
+  return{
     number:"",
     title:"",
     detail:""
@@ -1336,13 +1283,15 @@ function rowToObject(row) {
    번호에서 첫 숫자 추출
 ========================================================= */
 
-function mainNumber(value) {
+function mainNumber(value){
 
   const s =
     clean(value);
 
+
   const match =
     s.match(/^(\d+)/);
+
 
   return match
     ? match[1]
@@ -1355,50 +1304,52 @@ function mainNumber(value) {
    데이터 정리
 ========================================================= */
 
-function normalizeRows(rows) {
+function normalizeRows(rows){
 
   const result = [];
 
 
-  rows.forEach(
-    function(row,index) {
+  rows.forEach(function(row,index){
 
-      const r =
-        rowToObject(row);
-
-
-      const number =
-        clean(r.number);
+    const r =
+      rowToObject(row);
 
 
-      if (!number) return;
+    const number =
+      clean(r.number);
 
 
-      const group =
-        mainNumber(number);
-
-
-      if (!group) return;
-
-
-      result.push({
-
-        number,
-
-        group,
-
-        title:
-          clean(r.title),
-
-        detail:
-          clean(r.detail),
-
-        index
-
-      });
-
+    if(!number){
+      return;
     }
-  );
+
+
+    const group =
+      mainNumber(number);
+
+
+    if(!group){
+      return;
+    }
+
+
+    result.push({
+
+      number,
+
+      group,
+
+      title:
+        clean(r.title),
+
+      detail:
+        clean(r.detail),
+
+      index
+
+    });
+
+  });
 
 
   return result;
@@ -1410,7 +1361,7 @@ function normalizeRows(rows) {
    번호 제거
 ========================================================= */
 
-function removeCellNumber(text) {
+function removeCellNumber(text){
 
   let s =
     clean(text);
@@ -1435,14 +1386,14 @@ function removeCellNumber(text) {
 }
 
 
-function displayTitle(text) {
+function displayTitle(text){
 
   return removeCellNumber(text);
 
 }
 
 
-function displayDetail(text) {
+function displayDetail(text){
 
   return removeCellNumber(text);
 
@@ -1453,19 +1404,22 @@ function displayDetail(text) {
    날짜
 ========================================================= */
 
-function displayDate(text,number) {
+function displayDate(text,number){
 
   let s =
     clean(text);
+
 
   const n =
     clean(number);
 
 
-  if (!s) return "";
+  if(!s){
+    return "";
+  }
 
 
-  if (n) {
+  if(n){
 
     const escaped =
       n.replace(
@@ -1476,12 +1430,15 @@ function displayDate(text,number) {
 
     s =
       s.replace(
+
         new RegExp(
           "^\\s*" +
           escaped +
           "\\s*"
         ),
+
         ""
+
       );
 
   }
@@ -1496,21 +1453,28 @@ function displayDate(text,number) {
    일반 행 텍스트
 ========================================================= */
 
-function rowText(item) {
+function rowText(item){
 
   const title =
     displayTitle(item.title);
+
 
   const detail =
     displayDetail(item.detail);
 
 
-  if (title && detail)
+  if(title && detail){
+
     return title + " " + detail;
 
+  }
 
-  if (title)
+
+  if(title){
+
     return title;
+
+  }
 
 
   return detail;
@@ -1522,217 +1486,189 @@ function rowText(item) {
    회의별 그룹
 ========================================================= */
 
-function buildMeetings(items) {
+function buildMeetings(items){
 
   const groups = {};
 
 
-  items.forEach(
-    function(item) {
+  items.forEach(function(item){
 
-      if (!groups[item.group]) {
+    if(!groups[item.group]){
 
-        groups[item.group] = [];
-
-      }
-
-
-      groups[item.group].push(item);
+      groups[item.group] = [];
 
     }
-  );
+
+
+    groups[item.group].push(item);
+
+  });
 
 
   return Object.keys(groups)
 
-    .sort(
-      function(a,b) {
+    .sort(function(a,b){
 
-        return Number(a) - Number(b);
+      return Number(a) - Number(b);
 
-      }
-    )
-
-    .map(
-      function(groupNumber) {
+    })
 
 
-        const items =
-          groups[groupNumber]
+    .map(function(groupNumber){
 
-            .slice()
+      const items =
+        groups[groupNumber]
+          .slice()
+          .sort(function(a,b){
 
-            .sort(
-              function(a,b) {
+            return a.index - b.index;
 
-                return a.index - b.index;
-
-              }
-            );
+          });
 
 
-        const main =
-          items.find(
-            function(item) {
+      const main =
+        items.find(function(item){
 
-              return (
-                item.number ===
-                groupNumber
-              );
+          return item.number === groupNumber;
 
-            }
-          ) || items[0];
+        }) || items[0];
 
 
-        const subItems =
-          items.filter(
-            function(item) {
+      const subItems =
+        items.filter(function(item){
 
-              return item !== main;
+          return item !== main;
 
-            }
+        });
+
+
+      const dateItem =
+        subItems.find(function(item){
+
+          const itemTitle =
+            displayTitle(item.title);
+
+
+          return(
+
+            item.number ===
+              groupNumber + "-1"
+
+            ||
+
+            item.number ===
+              groupNumber + ".1"
+
+            ||
+
+            itemTitle === "일시"
+
+            ||
+
+            itemTitle.includes("일시")
+
           );
 
-
-        const dateItem =
-          subItems.find(
-            function(item) {
-
-              const itemTitle =
-                displayTitle(
-                  item.title
-                );
+        });
 
 
-              return (
+      const title =
+        displayTitle(main.title) ||
 
-                item.number ===
-                  groupNumber + "-1"
+        rowText(main) ||
 
-                ||
-
-                item.number ===
-                  groupNumber + ".1"
-
-                ||
-
-                itemTitle === "일시"
-
-                ||
-
-                itemTitle.includes("일시")
-
-              );
-
-            }
-          );
+        ("회의 기록 " + groupNumber);
 
 
-        const title =
-          displayTitle(main.title) ||
+      const date =
+        dateItem
 
-          rowText(main) ||
+          ? displayDate(
+              dateItem.detail,
+              dateItem.number
+            ) ||
 
-          ("회의 기록 " +
-            groupNumber);
+            displayDate(
+              dateItem.title,
+              dateItem.number
+            )
 
-
-        const date =
-          dateItem
-
-            ? displayDate(
-                dateItem.detail,
-                dateItem.number
-              ) ||
-
-              displayDate(
-                dateItem.title,
-                dateItem.number
-              )
-
-            : "";
+          : "";
 
 
-        const details =
-          subItems.filter(
-            function(item) {
+      const details =
+        subItems.filter(function(item){
 
-              return item !== dateItem;
+          return item !== dateItem;
 
-            }
-          );
+        });
 
 
-        const meeting = {
+      const meeting = {
 
-          group:
-            groupNumber,
+        group:
+          groupNumber,
 
-          title,
+        title,
 
-          date,
+        date,
 
-          details,
+        details,
 
-          index:
-            main.index
+        index:
+          main.index
 
-        };
+      };
 
 
-        meeting.searchText = [
+      meeting.searchText = [
 
-          meeting.title,
+        meeting.title,
 
-          meeting.date,
+        meeting.date,
 
-          meeting.details
-            .map(rowText)
-            .join(" ")
-
-        ]
-
+        meeting.details
+          .map(rowText)
           .join(" ")
 
-          .toLowerCase();
+      ]
+      .join(" ")
+      .toLowerCase();
 
 
-        meeting.detailHtml =
+      meeting.detailHtml =
 
-          meeting.details.length
+        meeting.details.length
 
-            ? meeting.details
+          ?
 
-                .map(
-                  function(item) {
+          meeting.details
 
-                    const itemText =
-                      rowText(item);
+            .map(function(item){
 
-                    return itemText
-                      ? formatDetailHtml(
-                          itemText
-                        )
-                      : "";
+              const itemText =
+                rowText(item);
 
-                  }
-                )
+              return itemText
+                ? formatDetailHtml(itemText)
+                : "";
 
-                .join("")
+            })
 
-            : `
+            .join("")
 
-              <div class="meeting-item">
-                회의 내용이 없습니다.
-              </div>
+          :
 
-            `;
+          `
+          <div class="meeting-item">
+            회의 내용이 없습니다.
+          </div>
+          `;
 
 
-        return meeting;
+      return meeting;
 
-      }
-    );
+    });
 
 }
 
@@ -1741,7 +1677,7 @@ function buildMeetings(items) {
    월
 ========================================================= */
 
-function getMonth(dateText) {
+function getMonth(dateText){
 
   const text =
     String(dateText || "");
@@ -1753,7 +1689,7 @@ function getMonth(dateText) {
     );
 
 
-  if (!match) {
+  if(!match){
 
     match =
       text.match(
@@ -1763,10 +1699,12 @@ function getMonth(dateText) {
   }
 
 
-  if (!match) return "";
+  if(!match){
+    return "";
+  }
 
 
-  return (
+  return(
 
     match.length === 4
       ? match[2]
@@ -1781,7 +1719,7 @@ function getMonth(dateText) {
    일
 ========================================================= */
 
-function getDay(dateText) {
+function getDay(dateText){
 
   const text =
     String(dateText || "");
@@ -1793,7 +1731,7 @@ function getDay(dateText) {
     );
 
 
-  if (!match) {
+  if(!match){
 
     match =
       text.match(
@@ -1803,7 +1741,9 @@ function getDay(dateText) {
   }
 
 
-  if (!match) return "";
+  if(!match){
+    return "";
+  }
 
 
   const day =
@@ -1821,13 +1761,15 @@ function getDay(dateText) {
    화면 표시용 내용 HTML
 ========================================================= */
 
-function formatDetailHtml(text) {
+function formatDetailHtml(text){
 
   const cleaned =
     displayDetail(text);
 
 
-  if (!cleaned) return "";
+  if(!cleaned){
+    return "";
+  }
 
 
   const partPattern =
@@ -1843,92 +1785,89 @@ function formatDetailHtml(text) {
   let current = null;
 
 
-  lines.forEach(
-    function(line) {
+  lines.forEach(function(line){
 
-      const match =
-        line.match(partPattern);
-
-
-      if (match) {
-
-        if (current)
-          parts.push(current);
+    const match =
+      line.match(partPattern);
 
 
-        const label =
-          match[1]
-            .replace(/\s+/g," ")
-            .trim();
+    if(match){
+
+      if(current){
+        parts.push(current);
+      }
 
 
-        let type = "";
+      const label =
+        match[1]
+          .replace(/\s+/g," ")
+          .trim();
 
 
-        if (label === "안건") {
-
-          type = "agenda";
-
-        }
-
-        else if (
-          label === "회의 내용"
-        ) {
-
-          type = "content";
-
-        }
+      let type = "";
 
 
-        current = {
+      if(label === "안건"){
 
-          label,
+        type = "agenda";
 
-          type,
+      }else if(label === "회의 내용"){
 
-          body:
-            match[2] || ""
-
-        };
-
+        type = "content";
 
       }
 
-      else {
 
-        if (current) {
+      current = {
 
-          current.body +=
-            (current.body ? "\n" : "") +
-            line;
+        label,
 
-        }
+        type,
 
-        else if (line.trim()) {
+        body:
+          match[2] || ""
 
-          current = {
+      };
 
-            label:"",
 
-            type:"",
+    }else{
 
-            body:line
+      if(current){
 
-          };
+        current.body +=
 
-        }
+          (
+            current.body
+              ? "\n"
+              : ""
+          ) + line;
+
+
+      }else if(line.trim()){
+
+        current = {
+
+          label:"",
+
+          type:"",
+
+          body:line
+
+        };
 
       }
 
     }
-  );
+
+  });
 
 
-  if (current)
+  if(current){
     parts.push(current);
+  }
 
 
-  if (!parts.length) {
+  if(!parts.length){
 
     return `
 
@@ -1945,58 +1884,54 @@ function formatDetailHtml(text) {
   }
 
 
-  return parts
+  return parts.map(function(part){
 
-    .map(
-      function(part) {
-
-        const body =
-          clean(part.body);
+    const body =
+      clean(part.body);
 
 
-        if (
-          !body &&
-          !part.label
-        )
-          return "";
+    if(
+      !body &&
+      !part.label
+    ){
+      return "";
+    }
 
 
-        return `
+    return `
 
-          <div class="meeting-item ${part.type}">
+      <div class="meeting-item ${part.type}">
 
-            ${
-              part.label
+        ${
+          part.label
 
-                ? `
-                  <div class="part-label">
-                    ${escapeHtml(part.label)}
-                  </div>
-                `
+            ?
 
-                : ""
-            }
+            `<div class="part-label">
+              ${escapeHtml(part.label)}
+            </div>`
 
-            ${
-              body
+            : ""
+        }
 
-                ? `
-                  <div class="part-body">
-                    ${escapeHtml(body)}
-                  </div>
-                `
 
-                : ""
-            }
+        ${
+          body
 
-          </div>
+            ?
 
-        `;
+            `<div class="part-body">
+              ${escapeHtml(body)}
+            </div>`
 
-      }
-    )
+            : ""
+        }
 
-    .join("");
+      </div>
+
+    `;
+
+  }).join("");
 
 }
 
@@ -2005,13 +1940,11 @@ function formatDetailHtml(text) {
    화면 출력
 ========================================================= */
 
-function render() {
+function render(){
 
   const query =
     clean(
-      document.getElementById(
-        "search"
-      ).value
+      document.getElementById("search").value
     ).toLowerCase();
 
 
@@ -2024,53 +1957,42 @@ function render() {
 
 
   const filtered =
-    allMeetings.filter(
-      function(meeting) {
+    allMeetings.filter(function(meeting){
 
-        const searchable = [
+      const searchable = [
 
-          meeting.title,
+        meeting.title,
 
-          meeting.date,
+        meeting.date,
 
-          meeting.details
-            .map(rowText)
-            .join(" ")
-
-        ]
-
+        meeting.details
+          .map(rowText)
           .join(" ")
 
-          .toLowerCase();
+      ]
+      .join(" ")
+      .toLowerCase();
 
 
-        return (
-          !query ||
-          searchable.includes(query)
-        );
+      return(
+        !query ||
+        searchable.includes(query)
+      );
 
-      }
-    );
+    });
 
 
-  document.getElementById(
-    "status"
-  ).textContent =
-
+  document.getElementById("status").textContent =
     "총 " +
     filtered.length +
     "개 회의록 · 최신 시트 자료";
 
 
   const list =
-    document.getElementById(
-      "list"
-    );
+    document.getElementById("list");
 
 
-  if (
-    filtered.length === 0
-  ) {
+  if(filtered.length === 0){
 
     list.innerHTML = `
 
@@ -2087,131 +2009,123 @@ function render() {
 
   list.innerHTML =
 
-    filtered
+    filtered.map(function(meeting){
 
-      .map(
-        function(meeting) {
+      const detailHtml =
 
+        meeting.details.length
 
-          const detailHtml =
+          ?
 
-            meeting.details.length
+          meeting.details
 
-              ? meeting.details
+            .map(function(item){
 
-                  .map(
-                    function(item) {
-
-                      const text =
-                        rowText(item);
-
-                      return text
-                        ? formatDetailHtml(
-                            text
-                          )
-                        : "";
-
-                    }
-                  )
-
-                  .join("")
-
-              : `
-
-                <div class="meeting-item">
-                  회의 내용이 없습니다.
-                </div>
-
-              `;
+              const text =
+                rowText(item);
 
 
-          const month =
-            getMonth(
-              meeting.date
-            );
+              return text
+                ? formatDetailHtml(text)
+                : "";
 
+            })
 
-          const day =
-            getDay(
-              meeting.date
-            );
+            .join("")
 
+          :
 
-          return `
+          `
 
-            <article class="card">
-
-              <div
-                class="card-head"
-                onclick="toggleCard(this.parentElement)"
-              >
-
-                ${
-                  meeting.date
-
-                    ? `
-
-                      <div class="date-box">
-
-                        <span class="date-month">
-                          ${escapeHtml(month)}
-                        </span>
-
-                        <span class="date-day">
-                          ${escapeHtml(day)}
-                        </span>
-
-                      </div>
-
-                    `
-
-                    : ""
-                }
-
-
-                <div class="card-main">
-
-                  <div class="card-title">
-                    ${escapeHtml(meeting.title)}
-                  </div>
-
-                </div>
-
-
-                <div class="chevron">
-                  ⌄
-                </div>
-
-              </div>
-
-
-              <div class="card-content">
-
-                ${detailHtml}
-
-              </div>
-
-            </article>
+          <div class="meeting-item">
+            회의 내용이 없습니다.
+          </div>
 
           `;
 
-        }
-      )
 
-      .join("");
+      const month =
+        getMonth(meeting.date);
+
+
+      const day =
+        getDay(meeting.date);
+
+
+      return `
+
+        <article class="card">
+
+          <div
+            class="card-head"
+            onclick="toggleCard(this.parentElement)"
+          >
+
+            ${
+              meeting.date
+
+              ?
+
+              `
+
+                <div class="date-box">
+
+                  <span class="date-month">
+                    ${escapeHtml(month)}
+                  </span>
+
+                  <span class="date-day">
+                    ${escapeHtml(day)}
+                  </span>
+
+                </div>
+
+              `
+
+              : ""
+            }
+
+
+            <div class="card-main">
+
+              <div class="card-title">
+
+                ${escapeHtml(meeting.title)}
+
+              </div>
+
+            </div>
+
+
+            <div class="chevron">
+              ⌄
+            </div>
+
+          </div>
+
+
+          <div class="card-content">
+
+            ${detailHtml}
+
+          </div>
+
+        </article>
+
+      `;
+
+    }).join("");
 
 }
 
 
 /* =========================================================
-   카드
+   카드 열기/닫기
 ========================================================= */
 
-function toggleCard(card) {
+function toggleCard(card){
 
-  card.classList.toggle(
-    "open"
-  );
+  card.classList.toggle("open");
 
 }
 
@@ -2220,7 +2134,7 @@ function toggleCard(card) {
    HTML 문자 처리
 ========================================================= */
 
-function escapeHtml(text) {
+function escapeHtml(text){
 
   return String(text ?? "")
 
@@ -2256,7 +2170,7 @@ function escapeHtml(text) {
    공백 정리
 ========================================================= */
 
-function clean(value) {
+function clean(value){
 
   return String(value ?? "")
 
@@ -2274,17 +2188,13 @@ function clean(value) {
    뒤로가기
 ========================================================= */
 
-function goBack() {
+function goBack(){
 
-  if (
-    window.history.length > 1
-  ) {
+  if(window.history.length > 1){
 
     window.history.back();
 
-  }
-
-  else {
+  }else{
 
     window.location.href =
       "전시대관리자.html";
@@ -2301,11 +2211,12 @@ function goBack() {
 const SETTINGS_THEME_KEY =
   "회의록2026_theme";
 
+
 const SETTINGS_FONT_KEY =
   "회의록2026_fontSize";
 
 
-function applySettings() {
+function applySettings(){
 
   const theme =
     localStorage.getItem(
@@ -2339,7 +2250,7 @@ function applySettings() {
 }
 
 
-function setTheme(theme) {
+function setTheme(theme){
 
   localStorage.setItem(
     SETTINGS_THEME_KEY,
@@ -2349,13 +2260,28 @@ function setTheme(theme) {
 
   applySettings();
 
+
+  /*
+   * Google 버튼도 현재 테마에 맞춰 다시 표시
+   */
+
+  if(
+    window.google &&
+    google.accounts &&
+    google.accounts.id &&
+    !googleAuthFinished
+  ){
+
+    renderGoogleButton();
+
+  }
+
 }
 
 
-function changeFontSize(amount) {
+function changeFontSize(amount){
 
   let fontSize =
-
     Number(
       localStorage.getItem(
         SETTINGS_FONT_KEY
@@ -2366,12 +2292,14 @@ function changeFontSize(amount) {
   fontSize += amount;
 
 
-  if (fontSize < 80)
+  if(fontSize < 80){
     fontSize = 80;
+  }
 
 
-  if (fontSize > 150)
+  if(fontSize > 150){
     fontSize = 150;
+  }
 
 
   localStorage.setItem(
@@ -2389,12 +2317,10 @@ function changeFontSize(amount) {
    설정 열기
 ========================================================= */
 
-function toggleSettings() {
+function toggleSettings(){
 
   document
-    .getElementById(
-      "settingsPanel"
-    )
+    .getElementById("settingsPanel")
     .classList.toggle("show");
 
 }
@@ -2402,7 +2328,7 @@ function toggleSettings() {
 
 document.addEventListener(
   "click",
-  function(event) {
+  function(event){
 
     const panel =
       document.getElementById(
@@ -2416,23 +2342,17 @@ document.addEventListener(
       );
 
 
-    if (
+    if(
 
       panel &&
 
-      panel.classList.contains(
-        "show"
-      ) &&
+      panel.classList.contains("show") &&
 
-      !panel.contains(
-        event.target
-      ) &&
+      !panel.contains(event.target) &&
 
-      !button.contains(
-        event.target
-      )
+      !button.contains(event.target)
 
-    ) {
+    ){
 
       panel.classList.remove(
         "show"
@@ -2450,7 +2370,7 @@ document.addEventListener(
 
 window.addEventListener(
   "scroll",
-  function() {
+  function(){
 
     document.getElementById(
       "topButton"
