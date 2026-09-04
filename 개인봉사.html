@@ -2,462 +2,459 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#24145f">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
 <title>개인봉사</title>
 
 <style>
-*{box-sizing:border-box}
 
-:root{
-  --s:1
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;
-  background:linear-gradient(135deg,#171329,#2d2352);
-  color:#fff;
-  font-size:calc(16px*var(--s))
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
 }
 
-.header{
-  position:relative;
-  padding:18px 55px;
-  text-align:center;
-  background:rgba(18,12,45,.94);
-  border-bottom:1px solid #ffffff18
+body {
+  background: #211b3d;
+  color: #ffffff;
+  font-family:
+    "Noto Sans KR",
+    "Malgun Gothic",
+    Arial,
+    sans-serif;
 }
 
-h1{
-  margin:0;
-  font-size:28px
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
-.sub{
-  font-size:13px;
-  opacity:.65;
-  margin-top:4px
+/* 전체 */
+
+.container {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 12px 12px 30px;
 }
 
-button{
-  border:0;
-  border-radius:9px;
-  cursor:pointer
+/* 상단 */
+
+.header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 14px;
 }
 
-.settings{
-  position:absolute;
-  right:12px;
-  top:12px;
-  width:40px;
-  height:40px;
-  background:#ffffff18;
-  color:#fff;
-  font-size:20px
+.title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -1px;
 }
 
-.panel{
-  display:none;
-  position:absolute;
-  z-index:5;
-  right:12px;
-  top:58px;
-  width:220px;
-  padding:15px;
-  border-radius:14px;
-  background:#17102df7;
-  color:#fff;
-  box-shadow:0 10px 30px #0006;
-  text-align:left
+.subtitle {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0.8;
 }
 
-.panel.show{
-  display:block
+/* 새로고침 */
+
+.refresh-area {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
-.row{
-  display:flex;
-  gap:8px;
-  margin:10px 0
+.refresh-btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 14px;
+  background: #392776;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
 }
 
-.row button{
-  flex:1;
-  padding:9px;
-  background:#ffffff15;
-  color:inherit
+.refresh-btn:active {
+  transform: scale(0.96);
 }
 
-.row button.active{
-  background:#ffffff35
+/* 로딩 */
+
+.loading {
+  text-align: center;
+  padding: 40px 10px;
+  font-size: 17px;
+  font-weight: 700;
 }
 
-.font{
-  display:flex;
-  gap:8px;
-  align-items:center
+/* 오류 */
+
+.error {
+  display: none;
+  margin: 20px 0;
+  padding: 18px;
+  border-radius: 14px;
+  background: #7b2434;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
-.font button{
-  width:38px;
-  height:34px;
-  background:#ffffff15;
-  color:inherit;
-  font-size:18px
+/* 카드 */
+
+.card {
+  display: grid;
+  grid-template-columns: 124px 1fr;
+  margin-bottom: 14px;
+
+  overflow: hidden;
+
+  background: #30294f;
+
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 18px;
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.18);
 }
 
-.font span{
-  flex:1;
-  text-align:center
+/* 번호 */
+
+.number-box {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 92px;
+
+  background: #dfeeda;
 }
 
-.wrap{
-  max-width:720px;
-  margin:auto;
-  padding:12px 10px 60px
+.number-box a {
+  color: #1537df;
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-thickness: 5px;
+  text-underline-offset: 7px;
 }
 
-.actions{
-  text-align:right;
-  margin-bottom:10px
+/* 구역 */
+
+.zone-box {
+  min-width: 0;
+  padding: 10px 16px 12px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.14);
 }
 
-.actions button{
-  padding:9px 13px;
-  background:#ffffff18;
-  color:#fff;
-  margin-left:6px
+.zone {
+  font-size: 29px;
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: -1.3px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.loading{
-  text-align:center;
-  padding:40px 10px;
-  opacity:.7
+.house {
+  margin-top: 8px;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 800;
+  color: #dce7ff;
 }
 
-.error{
-  color:#ffb4b4
+/* 날짜 영역 */
+
+.info-area {
+  grid-column: 1 / 3;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  border-bottom: 1px solid rgba(255,255,255,0.14);
 }
 
-.cards{
-  display:flex;
-  flex-direction:column;
-  gap:12px
+.info {
+  padding: 13px 15px 14px;
 }
 
-.card{
-  overflow:hidden;
-  border:1px solid #ffffff25;
-  border-radius:15px;
-  background:#ffffff0d;
-  box-shadow:0 8px 25px #0003
+.info + .info {
+  border-left: 1px solid rgba(255,255,255,0.14);
 }
 
-.top{
-  display:grid;
-  grid-template-columns:105px 1fr;
-  min-height:92px
+.label {
+  margin-bottom: 7px;
+
+  color: #bcb9c9;
+  font-size: 16px;
+  font-weight: 800;
 }
 
-.num{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#deebd5;
-  border-right:1px solid #0002
+.value {
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 900;
 }
 
-.num a{
-  font-size:calc(42px*var(--s));
-  font-weight:900;
-  color:#101ee6;
-  text-decoration:underline;
-  text-underline-offset:5px
+.complete {
+  color: #7e87ff;
 }
 
-.info{
-  padding:12px 14px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center
+/* 임명 */
+
+.appointment {
+  grid-column: 1 / 3;
+
+  padding: 13px 15px 14px;
+
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 900;
 }
 
-.zone{
-  font-size:calc(21px*var(--s));
-  font-weight:800;
-  line-height:1.2;
-  word-break:keep-all
+.appointment .day {
+  color: #ff4a4a;
 }
 
-.house{
-  margin-top:6px;
-  font-size:calc(18px*var(--s));
-  font-weight:700;
-  color:#d8e7ff
+.appointment .dot {
+  margin: 0 5px;
 }
 
-.dates{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  border-top:1px solid #fff2;
-  border-bottom:1px solid #fff2
+/* 안내 */
+
+.notice {
+  margin-top: 16px;
+  padding: 17px 16px;
+
+  background: #fff1dc;
+  color: #392f2c;
+
+  border-radius: 14px;
+
+  text-align: center;
+
+  font-size: 19px;
+  line-height: 1.45;
+  font-weight: 800;
 }
 
-.datebox{
-  padding:10px 12px
+.notice strong {
+  color: #1537df;
 }
 
-.datebox+.datebox{
-  border-left:1px solid #fff2
+/* 하단 링크 */
+
+.links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  margin-top: 12px;
 }
 
-.label{
-  font-size:calc(12px*var(--s));
-  opacity:.65;
-  font-weight:700
+.links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 62px;
+
+  background: #38227a;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 20px;
+  font-weight: 900;
 }
 
-.date{
-  margin-top:4px;
-  font-size:calc(16px*var(--s));
-  font-weight:800;
-  white-space:nowrap
+.links a + a {
+  border-left: 1px solid rgba(255,255,255,0.25);
 }
 
-.complete .date{
-  color:#7580ff
-}
+/* PC */
 
-.assign{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:11px 13px
-}
+@media (min-width: 700px) {
 
-.alabel{
-  font-size:calc(13px*var(--s));
-  font-weight:800
-}
-
-.weekday{
-  font-size:calc(15px*var(--s));
-  font-weight:800;
-  color:#ff4b4b
-}
-
-.name{
-  font-size:calc(16px*var(--s));
-  font-weight:800
-}
-
-.note{
-  margin-top:14px;
-  padding:14px;
-  border-radius:12px;
-  text-align:center;
-  background:#fff0db;
-  color:#4b3b2c;
-  font-weight:700
-}
-
-.note b{
-  color:#1235e8
-}
-
-.links{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  margin-top:10px
-}
-
-.links a{
-  padding:13px;
-  text-align:center;
-  background:#30206f;
-  color:#fff;
-  text-decoration:none;
-  font-weight:800
-}
-
-.links a+a{
-  border-left:1px solid #fff4
-}
-
-/* 밝은 화면 */
-
-body.light{
-  background:linear-gradient(135deg,#f3f6fa,#fff);
-  color:#222
-}
-
-body.light .header{
-  background:#fffffff0;
-  border-color:#0001
-}
-
-body.light .settings,
-body.light .actions button{
-  background:#0000000d;
-  color:#222
-}
-
-body.light .panel{
-  background:#fffffff8;
-  color:#222;
-  border:1px solid #0002
-}
-
-body.light .row button,
-body.light .font button{
-  background:#0000000d;
-  color:#222
-}
-
-body.light .row button.active{
-  background:#0000001f
-}
-
-body.light .card{
-  background:#ffffffe8;
-  border-color:#0002;
-  box-shadow:0 8px 25px #00000014
-}
-
-body.light .zone{
-  color:#222
-}
-
-body.light .house{
-  color:#3f4c5c
-}
-
-body.light .dates{
-  border-color:#0002
-}
-
-body.light .datebox+.datebox{
-  border-color:#0002
-}
-
-@media(max-width:480px){
-
-  h1{
-    font-size:25px
+  .container {
+    padding-top: 20px;
   }
 
-  .top{
-    grid-template-columns:92px 1fr
+  .card {
+    grid-template-columns: 145px 1fr;
   }
 
-  .num a{
-    font-size:calc(38px*var(--s))
+  .number-box a {
+    font-size: 62px;
   }
 
-  .zone{
-    font-size:calc(19px*var(--s))
+  .zone {
+    font-size: 31px;
   }
 
-  .house{
-    font-size:calc(17px*var(--s))
+  .house {
+    font-size: 25px;
   }
 
-  .date{
-    font-size:calc(14px*var(--s))
-  }
-
-  .assign{
-    gap:7px
-  }
 }
+
+/* 모바일 */
+
+@media (max-width: 520px) {
+
+  .container {
+    padding: 8px 8px 25px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .card {
+    grid-template-columns: 124px 1fr;
+    border-radius: 17px;
+    margin-bottom: 14px;
+  }
+
+  .number-box {
+    min-height: 94px;
+  }
+
+  .number-box a {
+    font-size: 50px;
+  }
+
+  .zone-box {
+    padding: 9px 15px 10px;
+  }
+
+  .zone {
+    font-size: 27px;
+  }
+
+  .house {
+    margin-top: 7px;
+    font-size: 23px;
+  }
+
+  .info {
+    padding: 12px 14px 13px;
+  }
+
+  .label {
+    font-size: 15px;
+  }
+
+  .value {
+    font-size: 21px;
+  }
+
+  .appointment {
+    padding: 12px 14px 13px;
+    font-size: 19px;
+  }
+
+  .notice {
+    font-size: 17px;
+    padding: 15px 12px;
+  }
+
+  .links a {
+    min-height: 60px;
+    font-size: 19px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<header class="header">
+<div class="container">
 
-  <h1>📋 개인봉사</h1>
-
-  <div class="sub">
-    개인 구역 카드
+  <div class="header">
+    <h1 class="title">개인봉사</h1>
+    <div class="subtitle">개인 구역 봉사 현황</div>
   </div>
 
-  <button class="settings" onclick="toggle()">
-    ⚙️
-  </button>
-
-  <div id="panel" class="panel">
-
-    <b>설정</b>
-
-    <div class="row">
-      <button id="light" onclick="theme('light')">
-        ☀️ 밝게
-      </button>
-
-      <button id="dark" onclick="theme('dark')">
-        🌙 어둡게
-      </button>
-    </div>
-
-    <div class="font">
-
-      <button onclick="font(-5)">
-        −
-      </button>
-
-      <span id="fv">
-        100%
-      </span>
-
-      <button onclick="font(5)">
-        ＋
-      </button>
-
-    </div>
-
-  </div>
-
-</header>
-
-
-<main class="wrap">
-
-  <div class="actions">
-
-    <button onclick="home()">
-      홈
-    </button>
-
-    <button onclick="load()">
+  <div class="refresh-area">
+    <button
+      type="button"
+      class="refresh-btn"
+      onclick="load()"
+    >
       새로고침
     </button>
-
   </div>
 
-  <div id="app" class="loading">
-    개인봉사 자료를 불러오는 중입니다...
+  <div id="loading" class="loading">
+    자료를 불러오는 중입니다...
   </div>
 
-</main>
+  <div id="error" class="error"></div>
+
+  <div id="cards"></div>
+
+  <div id="notice" class="notice" style="display:none;"></div>
+
+  <div id="links" class="links" style="display:none;">
+    <a
+      id="jworgLink"
+      href="https://www.jw.org/"
+      target="_blank"
+      rel="noopener"
+    >
+      JW.ORG
+    </a>
+
+    <a
+      id="libraryLink"
+      href="https://wol.jw.org/"
+      target="_blank"
+      rel="noopener"
+    >
+      라이브러리
+    </a>
+  </div>
+
+</div>
 
 
 <script>
 
-/* =====================================================
-   Apps Script 주소
-   ===================================================== */
+/* =========================================================
+   Google Apps Script 주소
+   ========================================================= */
 
 const API =
-"https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyJrEouIecIVHyvGMP-E/exec";
+"https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyjRjEouIecIVHyvGMP-E/exec";
 
 
-/* =====================================================
+/* =========================================================
    Google Sheet
-   ===================================================== */
+   ========================================================= */
 
 const SHEET_ID =
 "1XGbksIQCRjagzCJLj-wHlBVfQf4JsMjk79ikxIMFI4o";
@@ -468,90 +465,159 @@ const SHEET =
 `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?gid=${GID}`;
 
 
-/* =====================================================
-   화면 요소
-   ===================================================== */
+/* =========================================================
+   HTML 이스케이프
+   ========================================================= */
 
-const app =
-document.getElementById("app");
+function esc(value) {
 
-const panel =
-document.getElementById("panel");
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
-const light =
-document.getElementById("light");
-
-const dark =
-document.getElementById("dark");
-
-const fv =
-document.getElementById("fv");
-
-
-/* =====================================================
-   JSONP 관리
-   ===================================================== */
-
-let jsonpScript = null;
-let jsonpTimer = null;
-
-
-/* =====================================================
-   HTML 특수문자 처리
-   ===================================================== */
-
-const esc = x =>
-String(x ?? "").replace(
-  /[&<>'"]/g,
-  c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    "'":"&#39;",
-    '"':"&quot;"
-  }[c])
-);
-
-
-/* =====================================================
-   날짜
-   ===================================================== */
-
-function date(v){
-
-  if(!v){
-    return "";
-  }
-
-  return String(v)
-    .replace(/\s+/g," ")
-    .trim();
 }
 
 
-/* =====================================================
-   데이터 화면 표시
-   ===================================================== */
+/* =========================================================
+   JSONP 로드
+   ========================================================= */
 
-function render(result){
+function load() {
 
-  /* Apps Script 오류 */
+  const loading =
+    document.getElementById("loading");
 
-  if(
-    !result ||
-    result.success !== true
-  ){
+  const error =
+    document.getElementById("error");
+
+  const cards =
+    document.getElementById("cards");
+
+  const notice =
+    document.getElementById("notice");
+
+  const links =
+    document.getElementById("links");
+
+
+  loading.style.display = "block";
+
+  error.style.display = "none";
+
+  cards.innerHTML = "";
+
+  notice.style.display = "none";
+
+  links.style.display = "none";
+
+
+  const callbackName =
+    "personalVolunteerCallback_" +
+    Date.now() +
+    "_" +
+    Math.floor(Math.random() * 100000);
+
+
+  window[callbackName] =
+    function(result) {
+
+      try {
+
+        render(result);
+
+      } catch (e) {
+
+        showError(
+          "자료를 표시하는 중 오류가 발생했습니다.<br>" +
+          esc(e.message)
+        );
+
+      }
+
+      try {
+        delete window[callbackName];
+      } catch (_) {}
+
+    };
+
+
+  const script =
+    document.createElement("script");
+
+  script.src =
+    API +
+    "?callback=" +
+    encodeURIComponent(callbackName) +
+    "&_=" +
+    Date.now();
+
+
+  script.onerror =
+    function() {
+
+      showError(
+        "자료를 불러오지 못했습니다.<br>" +
+        "Apps Script 배포 주소를 확인해 주세요."
+      );
+
+      try {
+        delete window[callbackName];
+      } catch (_) {}
+
+    };
+
+
+  document.body.appendChild(script);
+
+}
+
+
+/* =========================================================
+   오류 표시
+   ========================================================= */
+
+function showError(message) {
+
+  document.getElementById("loading").style.display =
+    "none";
+
+  const error =
+    document.getElementById("error");
+
+  error.innerHTML = message;
+
+  error.style.display = "block";
+
+}
+
+
+/* =========================================================
+   자료 표시
+   ========================================================= */
+
+function render(result) {
+
+  document.getElementById("loading").style.display =
+    "none";
+
+
+  if (!result || result.success !== true) {
 
     showError(
-      result?.message ||
-      "자료를 가져오지 못했습니다."
+      esc(
+        result && result.message
+          ? result.message
+          : "자료를 불러오지 못했습니다."
+      )
     );
 
     return;
+
   }
 
-
-  /* 데이터 */
 
   const data =
     Array.isArray(result.data)
@@ -559,503 +625,265 @@ function render(result){
       : [];
 
 
-  if(!data.length){
+  const cards =
+    document.getElementById("cards");
 
-    app.className="loading";
 
-    app.innerHTML =
-      "표시할 개인봉사 자료가 없습니다.";
+  if (data.length === 0) {
 
-    return;
+    cards.innerHTML =
+      '<div class="loading">표시할 자료가 없습니다.</div>';
+
   }
 
 
-  app.className="";
-
-
-  let html =
-    '<div class="cards">';
-
-
-  data.forEach(function(x,index){
+  data.forEach(function(x) {
 
     /*
-      현재 시트 데이터는
-      B4:H12에 있으므로
-      실제 행 번호는 4부터 시작
-    */
+     * Apps Script에서 실제 시트 행 번호를
+     * x.row로 전달받습니다.
+     *
+     * 예:
+     * 135 = 4행
+     * 136 = 5행
+     * 301 = 6행
+     */
 
     const sheetRow =
-      index + 4;
+      Number(x.row);
 
 
-    html += `
+    /*
+     * 번호를 클릭하면
+     * Google Sheet의 B열 해당 행으로 이동
+     *
+     * 135 → B4
+     * 136 → B5
+     * 301 → B6
+     */
 
-      <article class="card">
+    const numberLink =
+      sheetRow >= 1
+        ? `${SHEET}#gid=${GID}&range=B${sheetRow}`
+        : SHEET;
 
-        <div class="top">
 
-          <div class="num">
+    /*
+     * 요일
+     */
 
-            <a
-              href="${SHEET}&range=D${sheetRow}"
-              target="_blank"
-              rel="noopener"
-            >
-              ${esc(x.number)}
-            </a>
+    const weekday =
+      esc(x.weekday);
 
+
+    /*
+     * 카드 생성
+     */
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+
+    card.innerHTML = `
+
+      <div class="number-box">
+
+        <a
+          href="${esc(numberLink)}"
+          target="_blank"
+          rel="noopener"
+        >
+          ${esc(x.number)}
+        </a>
+
+      </div>
+
+
+      <div class="zone-box">
+
+        <div class="zone">
+          ${esc(x.zone)}
+        </div>
+
+        <div class="house">
+          ${esc(x.house)}호
+        </div>
+
+      </div>
+
+
+      <div class="info-area">
+
+        <div class="info">
+
+          <div class="label">
+            지급일자
           </div>
 
-
-          <div class="info">
-
-            <div class="zone">
-              ${esc(x.zone)}
-            </div>
-
-            <div class="house">
-              ${esc(x.house)}호
-            </div>
-
+          <div class="value">
+            ${esc(x.startDate)}
           </div>
 
         </div>
 
 
-        <div class="dates">
+        <div class="info">
 
-          <div class="datebox">
-
-            <div class="label">
-              시작일자
-            </div>
-
-            <div class="date">
-              ${esc(date(x.startDate))}
-            </div>
-
+          <div class="label">
+            완료일자
           </div>
 
-
-          <div class="datebox complete">
-
-            <div class="label">
-              완료일자
-            </div>
-
-            <div class="date">
-              ${esc(date(x.completeDate))}
-            </div>
-
+          <div class="value complete">
+            ${esc(x.completeDate)}
           </div>
 
         </div>
 
-
-        <div class="assign">
-
-          <span class="alabel">
-            임명인
-          </span>
-
-          <span class="weekday">
-            ${esc(x.weekday)}
-          </span>
-
-          <span>
-            ·
-          </span>
-
-          <span class="name">
-            ${esc(x.person)}
-          </span>
-
-        </div>
-
-      </article>
-
-    `;
-  });
+      </div>
 
 
-  html += "</div>";
+      <div class="appointment">
 
+        <span>
+          임명
+        </span>
 
-  /* =================================================
-     공지사항 B14
-     ================================================= */
+        <span class="day">
+          ${weekday}
+        </span>
 
-  const notice =
-    result.notice || "";
+        <span class="dot">
+          ·
+        </span>
 
-
-  if(notice){
-
-    html += `
-
-      <div class="note">
-
-        ${esc(notice)
-          .replace(
-            "추요식 형제",
-            "<b>추요식 형제</b>"
-          )
-        }
+        <span>
+          ${esc(x.person)}
+        </span>
 
       </div>
 
     `;
+
+
+    cards.appendChild(card);
+
+  });
+
+
+  /* =======================================================
+     안내문
+     ======================================================= */
+
+  if (result.notice) {
+
+    const notice =
+      document.getElementById("notice");
+
+
+    let noticeText =
+      esc(result.notice);
+
+
+    /*
+     * 형제 이름만 파란색 강조
+     */
+
+    noticeText =
+      noticeText.replace(
+        "추요식 형제",
+        "<strong>추요식 형제</strong>"
+      );
+
+
+    notice.innerHTML =
+      noticeText;
+
+
+    notice.style.display =
+      "block";
+
   }
 
 
-  /* =================================================
-     B16 = JW.ORG
-     C16 = 라이브러리
-     ================================================= */
+  /* =======================================================
+     하단 링크
+     ======================================================= */
 
   const jworg =
-    result.links?.jworg ||
-    "JW.ORG";
+    result.links &&
+    result.links.jworg
+      ? result.links.jworg
+      : "";
 
 
   const library =
-    result.links?.library ||
-    "라이브러리";
+    result.links &&
+    result.links.library
+      ? result.links.library
+      : "";
 
 
-  html += `
+  const jworgLink =
+    document.getElementById("jworgLink");
 
-    <div class="links">
 
-      <a
-        href="https://www.jw.org/ko/"
-        target="_blank"
-        rel="noopener"
-      >
-        ${esc(jworg)}
-      </a>
+  const libraryLink =
+    document.getElementById("libraryLink");
 
 
-      <a
-        href="https://wol.jw.org/ko/wol/h/r8/lp-ko"
-        target="_blank"
-        rel="noopener"
-      >
-        ${esc(library)}
-      </a>
+  if (jworg) {
 
-    </div>
+    /*
+     * 시트에 실제 URL이 들어 있는 경우
+     * 그 주소를 사용합니다.
+     */
 
-  `;
+    if (
+      /^https?:\/\//i.test(jworg)
+    ) {
 
-
-  app.innerHTML =
-    html;
-}
-
-
-/* =====================================================
-   Apps Script JSONP 연결
-   ===================================================== */
-
-function load(){
-
-  app.className =
-    "loading";
-
-  app.textContent =
-    "개인봉사 자료를 불러오는 중입니다...";
-
-
-  /* 기존 요청 제거 */
-
-  if(jsonpScript){
-
-    jsonpScript.remove();
-
-    jsonpScript =
-      null;
-  }
-
-
-  if(jsonpTimer){
-
-    clearTimeout(jsonpTimer);
-
-    jsonpTimer =
-      null;
-  }
-
-
-  /*
-    새로운 콜백 이름 생성
-  */
-
-  const callbackName =
-    "personalServiceCallback_" +
-    Date.now();
-
-
-  /*
-    Apps Script가
-    이 함수를 호출하게 됨
-  */
-
-  window[callbackName] =
-    function(result){
-
-      cleanup();
-
-      render(result);
-
-    };
-
-
-  /*
-    script 방식으로 Apps Script 호출
-    CORS 문제를 피하기 위한 JSONP
-  */
-
-  jsonpScript =
-    document.createElement("script");
-
-
-  jsonpScript.src =
-    API +
-    "?callback=" +
-    encodeURIComponent(callbackName) +
-    "&t=" +
-    Date.now();
-
-
-  /*
-    연결 실패
-  */
-
-  jsonpScript.onerror =
-    function(){
-
-      cleanup();
-
-      showError(
-        "Apps Script에 연결할 수 없습니다.<br>" +
-        "<small>" +
-        "웹앱 배포 주소 또는 권한을 확인해 주세요." +
-        "</small>"
-      );
-
-    };
-
-
-  document.head.appendChild(
-    jsonpScript
-  );
-
-
-  /*
-    15초 이상 응답이 없으면
-    시간 초과
-  */
-
-  jsonpTimer =
-    setTimeout(function(){
-
-      cleanup();
-
-      showError(
-        "Apps Script 응답 시간이 초과되었습니다."
-      );
-
-    },15000);
-
-
-  /*
-    정리
-  */
-
-  function cleanup(){
-
-    if(jsonpTimer){
-
-      clearTimeout(
-        jsonpTimer
-      );
-
-      jsonpTimer =
-        null;
-    }
-
-
-    if(jsonpScript){
-
-      jsonpScript.remove();
-
-      jsonpScript =
-        null;
-    }
-
-
-    try{
-
-      delete window[callbackName];
-
-    }catch(e){
-
-      window[callbackName] =
-        undefined;
+      jworgLink.href = jworg;
 
     }
 
+    jworgLink.textContent =
+      "JW.ORG";
+
   }
 
-}
+
+  if (library) {
+
+    /*
+     * 시트에 실제 URL이 들어 있는 경우
+     * 그 주소를 사용합니다.
+     */
+
+    if (
+      /^https?:\/\//i.test(library)
+    ) {
+
+      libraryLink.href = library;
+
+    }
+
+    libraryLink.textContent =
+      "라이브러리";
+
+  }
 
 
-/* =====================================================
-   오류 화면
-   ===================================================== */
-
-function showError(msg){
-
-  app.className =
-    "loading error";
-
-  app.innerHTML = `
-
-    자료를 가져오지 못했습니다.
-
-    <br>
-
-    <small>
-      ${msg}
-    </small>
-
-    <br><br>
-
-    <button onclick="load()">
-      다시 시도
-    </button>
-
-  `;
-}
-
-
-/* =====================================================
-   홈
-   ===================================================== */
-
-function home(){
-
-  location.href =
-    "index.html";
+  document.getElementById("links").style.display =
+    "grid";
 
 }
 
 
-/* =====================================================
-   설정창
-   ===================================================== */
-
-function toggle(){
-
-  panel.classList.toggle(
-    "show"
-  );
-
-}
-
-
-/* =====================================================
-   밝게 / 어둡게
-   ===================================================== */
-
-function theme(t){
-
-  document.body.classList.toggle(
-    "light",
-    t === "light"
-  );
-
-
-  localStorage.psTheme =
-    t;
-
-
-  light.classList.toggle(
-    "active",
-    t === "light"
-  );
-
-
-  dark.classList.toggle(
-    "active",
-    t === "dark"
-  );
-
-}
-
-
-/* =====================================================
-   글자 크기
-   ===================================================== */
-
-function font(n){
-
-  let v =
-    +(localStorage.psFont || 100) +
-    n;
-
-
-  /*
-    최소 80%
-    최대 150%
-  */
-
-  v =
-    Math.max(
-      80,
-      Math.min(
-        150,
-        v
-      )
-    );
-
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--s",
-      v / 100
-    );
-
-
-  fv.textContent =
-    v + "%";
-
-
-  localStorage.psFont =
-    v;
-
-}
-
-
-/* =====================================================
-   초기 설정
-   ===================================================== */
-
-theme(
-  localStorage.psTheme ||
-  "dark"
-);
-
-
-font(0);
-
-
-/* =====================================================
-   처음 실행
-   ===================================================== */
+/* =========================================================
+   페이지 시작
+   ========================================================= */
 
 load();
 
