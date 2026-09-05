@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#24145f">
+<meta name="theme-color" content="#171329" id="themeColor">
 <title>개인봉사</title>
 
 <style>
@@ -479,7 +479,7 @@ body.light .datebox+.datebox{
 
     <div class="font">
 
-      <button onclick="font(-10)" aria-label="글자 작게">
+      <button onclick="font(-5)" aria-label="글자 작게">
         −
       </button>
 
@@ -487,7 +487,7 @@ body.light .datebox+.datebox{
         100%
       </span>
 
-      <button onclick="font(10)" aria-label="글자 크게">
+      <button onclick="font(5)" aria-label="글자 크게">
         ＋
       </button>
 
@@ -521,7 +521,8 @@ body.light .datebox+.datebox{
    ===================================================== */
 
 const API =
-"https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyJrEouIecIVHyvGMP-E/exec";
+"https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyjRrEouIecIVHyvGMP-E/exec";
+
 
 /* =====================================================
    Google Sheet
@@ -657,7 +658,7 @@ function render(result){
       Number(x.row) || (index + 4);
 
     const numberLink =
-      `${SHEET}#gid=${GID}&range=B${sheetRow}`;
+      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?gid=${GID}#gid=${GID}&range=B${sheetRow}`;
 
 
     html += `
@@ -1007,21 +1008,31 @@ function theme(t){
     t === "light"
   );
 
-
   localStorage.psTheme =
     t;
-
 
   light.classList.toggle(
     "active",
     t === "light"
   );
 
-
   dark.classList.toggle(
     "active",
     t === "dark"
   );
+
+  /* 휴대폰 브라우저 상단 상태 표시줄 배경도 테마와 맞춤 */
+  const themeColor =
+    document.getElementById("themeColor");
+
+  if(themeColor){
+    themeColor.setAttribute(
+      "content",
+      t === "light"
+        ? "#f3f6fa"
+        : "#171329"
+    );
+  }
 
 }
 
@@ -1036,21 +1047,20 @@ function font(n){
     +(localStorage.psFont || 100) +
     n;
 
-
   /*
-    최소 70%
-    최대 130%
+    최소 80%
+    최대 150%
+    5% 단위
   */
 
   v =
     Math.max(
-      70,
+      80,
       Math.min(
-        130,
+        150,
         v
       )
     );
-
 
   document.documentElement
     .style
@@ -1059,14 +1069,11 @@ function font(n){
       v / 100
     );
 
-
   fv.textContent =
     v + "%";
 
-
   localStorage.psFont =
     v;
-
 }
 
 
