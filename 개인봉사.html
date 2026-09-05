@@ -1365,11 +1365,27 @@ function render(result){
 
 
     /*
-      번호 클릭 → B셀에 실제로 걸려 있는 하이퍼링크
+      번호 클릭 → 원본에서 실제 연결된 링크
+      ---------------------------------------
+      IMPORTRANGE는 원본 셀의 링크 정보를 가져오지 못하므로
+      원본 135의 실제 링크를 우선 사용합니다.
+
+      135 실제 링크:
+      https://docs.google.com/spreadsheets/d/13iF9EDGobrhQC63Jiqwsjk8qU_KTSwUSSgvVP24herw/edit?gid=77788459#gid=77788459
     */
 
+    const actualLinks = {
+      "135":
+        "https://docs.google.com/spreadsheets/d/13iF9EDGobrhQC63Jiqwsjk8qU_KTSwUSSgvVP24herw/edit?gid=77788459#gid=77788459"
+    };
+
+    const numberKey =
+      String(x.number ?? "").trim();
+
     const numberLink =
-      x.linkUrl || "";
+      x.linkUrl ||
+      actualLinks[numberKey] ||
+      "";
 
 
     html += `
