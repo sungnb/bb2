@@ -1342,10 +1342,6 @@ function render(result){
       → B4
     */
 
-    const sheetRow =
-      Number(x.row);
-
-
     const number =
       esc(x.number);
 
@@ -1369,11 +1365,11 @@ function render(result){
 
 
     /*
-      번호 클릭 → Google Sheet B열
+      번호 클릭 → B셀에 실제로 걸려 있는 하이퍼링크
     */
 
     const numberLink =
-      `${SHEET}#gid=${GID}&range=B${sheetRow}`;
+      x.linkUrl || "";
 
 
     html += `
