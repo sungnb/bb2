@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#171a21">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>개인봉사</title>
 
@@ -38,7 +39,7 @@ html{
 body{
   margin:0;
   min-height:100vh;
-  padding-top:calc(78px + env(safe-area-inset-top));
+  padding-top:78px;
 
   background:
     radial-gradient(
@@ -74,10 +75,7 @@ body{
   right:0;
   z-index:1000;
 
-  padding:
-    calc(18px + env(safe-area-inset-top))
-    58px
-    16px;
+  padding:calc(18px + env(safe-area-inset-top)) 58px 16px;
 
   text-align:center;
 
@@ -392,11 +390,11 @@ body{
 ========================= */
 
 .num{
-  min-width:84px;
+  min-width:58px;
 
-  height:58px;
+  height:40px;
 
-  padding:0 14px;
+  padding:0 11px;
 
   display:flex;
 
@@ -773,7 +771,7 @@ body.light .bottom-nav a{
 @media(max-width:520px){
 
   body{
-    padding-top:calc(70px + env(safe-area-inset-top));
+    padding-top:70px;
   }
 
   .header{
@@ -835,8 +833,7 @@ body.light .bottom-nav a{
   }
 
   .num{
-    min-width:75px;
-    height:58px;
+    min-width:52px;
   }
 }
 </style>
@@ -911,7 +908,7 @@ body.light .bottom-nav a{
         class="font-btn"
         onclick="changeFont(-10)"
         aria-label="글자 작게">
-        ◀
+        &lt;
       </button>
 
       <div
@@ -924,7 +921,7 @@ body.light .bottom-nav a{
         class="font-btn"
         onclick="changeFont(10)"
         aria-label="글자 크게">
-        ▶
+        &gt;
       </button>
 
     </div>
@@ -1067,16 +1064,22 @@ function theme(mode){
 
     document.body.classList.add("light");
 
-    document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", "#ffffff");
-
-    document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
-      ?.setAttribute("content", "default");
-
     localStorage.setItem(
       "personalTheme",
       "light"
     );
+
+    const themeColor =
+      document.querySelector('meta[name="theme-color"]');
+    if(themeColor){
+      themeColor.setAttribute("content", "#ffffff");
+    }
+
+    const statusBar =
+      document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if(statusBar){
+      statusBar.setAttribute("content", "default");
+    }
 
     lightBtn.classList.add("active");
     darkBtn.classList.remove("active");
@@ -1085,16 +1088,22 @@ function theme(mode){
 
     document.body.classList.remove("light");
 
-    document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", "#171a21");
-
-    document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
-      ?.setAttribute("content", "black");
-
     localStorage.setItem(
       "personalTheme",
       "dark"
     );
+
+    const themeColor =
+      document.querySelector('meta[name="theme-color"]');
+    if(themeColor){
+      themeColor.setAttribute("content", "#171a21");
+    }
+
+    const statusBar =
+      document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if(statusBar){
+      statusBar.setAttribute("content", "black");
+    }
 
     darkBtn.classList.add("active");
     lightBtn.classList.remove("active");
