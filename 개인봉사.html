@@ -2,11 +2,8 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#111318">
-
 <title>개인봉사</title>
 
 <style>
@@ -14,19 +11,15 @@
   --s:1;
 
   --bg:#0f1115;
-  --bg2:#151820;
   --card:#1b1f27;
   --card2:#20252e;
-
   --line:#303641;
 
   --text:#f2f4f7;
   --muted:#aeb5c0;
 
-  --accent:#9b8cff;
-  --accent2:#7566e8;
-
-  --danger:#ff7676;
+  --accent:#8d7cf5;
+  --accent2:#6555d8;
 
   --nav:#151821;
   --navline:#303641;
@@ -48,9 +41,9 @@ body{
   background:
     radial-gradient(
       circle at top,
-      #242938 0%,
-      #151820 38%,
-      #0f1115 75%
+      #252a38 0%,
+      #171a21 40%,
+      #0f1115 78%
     );
 
   color:var(--text);
@@ -109,7 +102,9 @@ body{
   font-size:calc(13px * var(--s));
 }
 
-/* 홈 버튼 */
+/* =========================
+   HEADER BUTTONS
+========================= */
 
 .home-btn,
 .settings{
@@ -166,21 +161,22 @@ body{
   top:60px;
   right:10px;
 
-  width:220px;
+  width:245px;
 
-  padding:14px;
+  padding:15px;
 
   z-index:200;
 
   background:#20242d;
 
-  border:1px solid var(--line);
+  border:1px solid #3a404b;
+
   border-radius:16px;
 
   box-shadow:
-    0 14px 35px rgba(0,0,0,.5);
+    0 14px 35px rgba(0,0,0,.55);
 
-  text-align:left;
+  text-align:center;
 }
 
 .panel.show{
@@ -188,35 +184,120 @@ body{
 }
 
 .panel-title{
-  margin-bottom:10px;
+  margin-bottom:13px;
 
-  font-size:13px;
-  font-weight:800;
-
-  color:var(--muted);
-}
-
-.panel button{
-  width:100%;
-
-  margin:4px 0;
-  padding:10px;
-
-  border:1px solid var(--line);
-  border-radius:10px;
-
-  background:#181c23;
-
-  color:var(--text);
+  color:#dfe3e9;
 
   font-size:14px;
-  font-weight:700;
+
+  font-weight:900;
+}
+
+/* =========================
+   THEME SELECTOR
+========================= */
+
+.theme-row{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-bottom:14px;
+}
+
+.theme-btn{
+  height:42px;
+
+  border:1px solid #363c47;
+
+  border-radius:11px;
+
+  background:#171b22;
+
+  color:#e9edf2;
+
+  font-size:14px;
+
+  font-weight:800;
 
   cursor:pointer;
 }
 
-.panel button:active{
-  transform:scale(.98);
+.theme-btn:active{
+  transform:scale(.97);
+}
+
+.theme-btn.active{
+  border-color:var(--accent);
+
+  background:
+    linear-gradient(
+      135deg,
+      #302b50,
+      #24213b
+    );
+
+  color:#fff;
+}
+
+/* =========================
+   FONT SIZE
+========================= */
+
+.font-row{
+  display:grid;
+
+  grid-template-columns:52px 1fr 52px;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+.font-btn{
+  width:52px;
+  height:42px;
+
+  border:1px solid #363c47;
+
+  border-radius:11px;
+
+  background:#171b22;
+
+  color:#fff;
+
+  font-size:20px;
+
+  font-weight:900;
+
+  cursor:pointer;
+}
+
+.font-btn:active{
+  transform:scale(.95);
+}
+
+.font-size{
+  height:42px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid #363c47;
+
+  border-radius:11px;
+
+  background:#171b22;
+
+  color:#fff;
+
+  font-size:15px;
+
+  font-weight:900;
 }
 
 /* =========================
@@ -277,17 +358,15 @@ body{
     0 7px 18px rgba(0,0,0,.28);
 
   padding:15px;
-
-  transition:
-    transform .15s,
-    border-color .2s;
 }
 
 .card:active{
   transform:scale(.992);
 }
 
-/* 카드 상단 */
+/* =========================
+   CARD TOP
+========================= */
 
 .top{
   display:flex;
@@ -299,7 +378,9 @@ body{
   margin-bottom:12px;
 }
 
-/* 번호 */
+/* =========================
+   NUMBER
+========================= */
 
 .num{
   min-width:58px;
@@ -309,6 +390,7 @@ body{
   padding:0 11px;
 
   display:flex;
+
   align-items:center;
   justify-content:center;
 
@@ -316,7 +398,7 @@ body{
     linear-gradient(
       135deg,
       var(--accent2),
-      #5848bd
+      #5142b8
     );
 
   border-radius:11px;
@@ -335,7 +417,9 @@ body{
   font-weight:900;
 }
 
-/* 구역 정보 */
+/* =========================
+   INFO
+========================= */
 
 .info{
   min-width:0;
@@ -570,10 +654,6 @@ body{
   font-weight:800;
 
   white-space:nowrap;
-
-  transition:
-    background .2s,
-    color .2s;
 }
 
 .bottom-nav a + a{
@@ -586,28 +666,25 @@ body{
 
 /* =========================
    LIGHT THEME
-   설정에서 선택 가능
 ========================= */
 
 body.light{
   --bg:#f3f4f7;
-  --bg2:#ffffff;
-  --card:#ffffff;
+  --card:#fff;
   --card2:#f7f8fa;
-
   --line:#dfe2e7;
 
   --text:#20242b;
   --muted:#69717d;
 
-  --nav:#ffffff;
+  --nav:#fff;
   --navline:#dfe2e7;
 
   background:#f3f4f7;
 }
 
 body.light .header{
-  background:#ffffff;
+  background:#fff;
 }
 
 body.light .home-btn,
@@ -618,19 +695,38 @@ body.light .settings{
 }
 
 body.light .panel{
-  background:#ffffff;
+  background:#fff;
+
+  border-color:#dfe2e7;
 
   box-shadow:
     0 12px 30px rgba(0,0,0,.16);
 }
 
-body.light .panel button{
+body.light .panel-title{
+  color:#333;
+}
+
+body.light .theme-btn,
+body.light .font-btn,
+body.light .font-size{
   background:#f5f6f8;
+
+  border-color:#dfe2e7;
+
   color:#222;
 }
 
+body.light .theme-btn.active{
+  background:#eeeaff;
+
+  border-color:#7566e8;
+
+  color:#40348d;
+}
+
 body.light .card{
-  background:#ffffff;
+  background:#fff;
 
   border-color:#e1e4e8;
 
@@ -641,6 +737,7 @@ body.light .card{
 body.light .datebox,
 body.light .assign{
   background:#f6f7f9;
+
   border-color:#e2e5e9;
 }
 
@@ -653,7 +750,7 @@ body.light .name{
 }
 
 body.light .bottom-nav{
-  background:#ffffff;
+  background:#fff;
 }
 
 body.light .bottom-nav a{
@@ -703,6 +800,10 @@ body.light .bottom-nav a{
 
   .date{
     font-size:calc(13px * var(--s));
+  }
+
+  .panel{
+    width:235px;
   }
 
   .bottom-nav{
@@ -755,7 +856,10 @@ body.light .bottom-nav a{
     ⚙️
   </button>
 
-  <!-- 설정 패널 -->
+
+  <!-- =====================
+       SETTINGS PANEL
+  ====================== -->
 
   <div id="panel" class="panel">
 
@@ -763,25 +867,53 @@ body.light .bottom-nav a{
       화면 설정
     </div>
 
-    <button onclick="theme('dark')">
-      🌙 다크 모드
-    </button>
 
-    <button onclick="theme('light')">
-      ☀️ 밝은 모드
-    </button>
+    <!-- 밝게 / 어둡게 -->
 
-    <button onclick="font(0.9)">
-      A− 글자 작게
-    </button>
+    <div class="theme-row">
 
-    <button onclick="font(1)">
-      A 기본 크기
-    </button>
+      <button
+        id="lightBtn"
+        class="theme-btn"
+        onclick="theme('light')">
+        ☀️ 밝게
+      </button>
 
-    <button onclick="font(1.1)">
-      A+ 글자 크게
-    </button>
+      <button
+        id="darkBtn"
+        class="theme-btn"
+        onclick="theme('dark')">
+        🌙 어둡게
+      </button>
+
+    </div>
+
+
+    <!-- 글자 크기 -->
+
+    <div class="font-row">
+
+      <button
+        class="font-btn"
+        onclick="changeFont(-10)"
+        aria-label="글자 작게">
+        &lt;
+      </button>
+
+      <div
+        id="fontSize"
+        class="font-size">
+        100%
+      </div>
+
+      <button
+        class="font-btn"
+        onclick="changeFont(10)"
+        aria-label="글자 크게">
+        &gt;
+      </button>
+
+    </div>
 
   </div>
 
@@ -843,7 +975,7 @@ body.light .bottom-nav a{
 <script>
 
 /* ==========================================
-   Google Apps Script API
+   GOOGLE APPS SCRIPT API
 ========================================== */
 
 const API =
@@ -851,7 +983,7 @@ const API =
 
 
 /* ==========================================
-   Google Sheet
+   GOOGLE SHEET
 ========================================== */
 
 const SHEET_ID =
@@ -875,6 +1007,7 @@ function esc(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#39;");
+
 }
 
 
@@ -890,7 +1023,7 @@ function home(){
 
 
 /* ==========================================
-   SETTINGS
+   SETTINGS TOGGLE
 ========================================== */
 
 function toggle(){
@@ -909,6 +1042,13 @@ function toggle(){
 
 function theme(mode){
 
+  const lightBtn =
+    document.getElementById("lightBtn");
+
+  const darkBtn =
+    document.getElementById("darkBtn");
+
+
   if(mode === "light"){
 
     document.body.classList.add("light");
@@ -917,6 +1057,9 @@ function theme(mode){
       "personalTheme",
       "light"
     );
+
+    lightBtn.classList.add("active");
+    darkBtn.classList.remove("active");
 
   }else{
 
@@ -927,6 +1070,9 @@ function theme(mode){
       "dark"
     );
 
+    darkBtn.classList.add("active");
+    lightBtn.classList.remove("active");
+
   }
 
 }
@@ -936,14 +1082,50 @@ function theme(mode){
    FONT SIZE
 ========================================== */
 
-function font(size){
+let fontPercent = 100;
+
+
+function setFontPercent(percent){
+
+  /*
+    70% ~ 130%
+  */
+
+  fontPercent =
+    Math.max(
+      70,
+      Math.min(130, percent)
+    );
+
+
+  const scale =
+    fontPercent / 100;
+
 
   document.documentElement.style
-    .setProperty("--s", size);
+    .setProperty(
+      "--s",
+      scale
+    );
+
+
+  document.getElementById("fontSize")
+    .textContent =
+      fontPercent + "%";
+
 
   localStorage.setItem(
     "personalFont",
-    size
+    String(fontPercent)
+  );
+
+}
+
+
+function changeFont(amount){
+
+  setFontPercent(
+    fontPercent + amount
   );
 
 }
@@ -965,19 +1147,30 @@ function font(size){
       "personalFont"
     );
 
+
   if(savedTheme === "light"){
 
-    document.body.classList.add("light");
+    theme("light");
+
+  }else{
+
+    theme("dark");
 
   }
 
+
   if(savedFont){
 
-    document.documentElement.style
-      .setProperty(
-        "--s",
-        savedFont
-      );
+    const value =
+      Number(savedFont);
+
+    if(
+      Number.isFinite(value)
+    ){
+
+      setFontPercent(value);
+
+    }
 
   }
 
@@ -985,7 +1178,7 @@ function font(size){
 
 
 /* ==========================================
-   JSONP CALLBACK NAME
+   JSONP CALLBACK
 ========================================== */
 
 const callbackName =
@@ -1001,6 +1194,7 @@ function load(){
 
   const app =
     document.getElementById("app");
+
 
   app.className = "loading";
 
@@ -1025,7 +1219,9 @@ function load(){
 
         }
 
+
         render(result);
+
 
       }catch(error){
 
@@ -1041,12 +1237,14 @@ function load(){
   const script =
     document.createElement("script");
 
+
   script.src =
     API +
     "?callback=" +
     callbackName +
     "&t=" +
     Date.now();
+
 
   script.onerror =
     function(){
@@ -1072,6 +1270,7 @@ function render(result){
   const app =
     document.getElementById("app");
 
+
   const data =
     Array.isArray(result.data)
       ? result.data
@@ -1083,7 +1282,9 @@ function render(result){
     app.className = "error";
 
     app.innerHTML =
-      "<div class='error-title'>자료가 없습니다.</div>" +
+      "<div class='error-title'>" +
+      "자료가 없습니다." +
+      "</div>" +
       "개인봉사 자료를 확인해 주세요.";
 
     return;
@@ -1098,8 +1299,8 @@ function render(result){
   data.forEach(function(x){
 
     /*
-      Apps Script가 반환하는 row를
-      그대로 사용합니다.
+      Apps Script에서 반환하는
+      실제 Sheet 행 번호 사용
 
       예:
       row = 4
@@ -1133,8 +1334,7 @@ function render(result){
 
 
     /*
-      번호 클릭 시
-      구글시트 B열의 정확한 행으로 이동
+      번호 클릭 → Google Sheet B열
     */
 
     const numberLink =
@@ -1265,7 +1465,9 @@ function showError(message){
   const app =
     document.getElementById("app");
 
+
   app.className = "error";
+
 
   app.innerHTML = `
 
@@ -1273,7 +1475,10 @@ function showError(message){
       자료를 불러오지 못했습니다.
     </div>
 
-    ${esc(message || "알 수 없는 오류입니다.")}
+    ${esc(
+      message ||
+      "알 수 없는 오류입니다."
+    )}
 
   `;
 
