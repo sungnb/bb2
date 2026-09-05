@@ -457,6 +457,7 @@ body.light .datebox+.datebox{
 </style>
 </head>
 
+<!-- 개인봉사 확정 기준: 정확한 API 주소 / 기본 다크모드 / 번호는 B열 링크 -->
 <body>
 
 <header class="header">
@@ -532,6 +533,7 @@ body.light .datebox+.datebox{
 
 const API =
 "https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyJrEouIecIVHyvGMP-E/exec";
+
 
 /* =====================================================
    Google Sheet
@@ -1090,10 +1092,7 @@ function font(n){
    초기 설정
    ===================================================== */
 
-theme(
-  localStorage.psTheme ||
-  "dark"
-);
+theme("dark");
 
 
 font(0);
