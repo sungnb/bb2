@@ -42,6 +42,8 @@ body {
 ========================================================= */
 
 .header {
+  position: relative;
+
   width: 100%;
 
   padding:
@@ -421,6 +423,50 @@ body {
 
 
 /* =========================================================
+   타이틀 왼쪽 뒤로가기
+========================================================= */
+
+.title-back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: none;
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.12);
+  color: #83e8ba;
+
+  padding: 0;
+  font-family: inherit;
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1;
+
+  cursor: pointer;
+
+  z-index: 1100;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.title-back-button:hover {
+  background: rgba(255,255,255,0.20);
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
    설정 / 밝게·어둡게 / 글자 크기
 ========================================================= */
 
@@ -604,6 +650,17 @@ body.light .settings-button {
 }
 
 @media (max-width: 600px) {
+
+  .header {
+    padding-right: 55px;
+  }
+
+  .title-back-button {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+
   .settings-button {
     top: 12px;
     right: 12px;
@@ -631,6 +688,13 @@ body.light .settings-button {
 ========================================================= -->
 
 <header class="header">
+
+  <button
+    class="title-back-button"
+    onclick="goBack()"
+    aria-label="뒤로가기">
+    ◀
+  </button>
 
   <h1>
     <span class="title-icon" aria-label="전시대 신청자">👥</span>
@@ -675,27 +739,6 @@ body.light .settings-button {
 ========================================================= -->
 
 <main class="container">
-
-
-  <!-- =======================================================
-       버튼
-  ======================================================= -->
-
-  <div class="actions">
-
-    <button
-    class="action-button"
-    onclick="goBack()">
-    뒤로가기
-  </button>
-
-  <button
-    class="action-button"
-    onclick="loadData()">
-    새로고침
-  </button>
-
-  </div>
 
 
 
