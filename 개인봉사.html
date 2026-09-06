@@ -257,7 +257,7 @@ body{
 .font-row{
   display:grid;
 
-  grid-template-columns:52px 1fr 52px;
+  grid-template-columns:auto 52px 1fr 52px auto;
 
   align-items:center;
 
@@ -285,6 +285,13 @@ body{
 
 .font-btn:active{
   transform:scale(.95);
+}
+
+.font-limit{
+  white-space:nowrap;
+  color:#dfe3e9;
+  font-size:12px;
+  font-weight:800;
 }
 
 .font-size{
@@ -905,6 +912,8 @@ body.light .bottom-nav a{
 
     <div class="font-row">
 
+      <span class="font-limit">-80까지</span>
+
       <button
         class="font-btn"
         onclick="changeFont(-10)"
@@ -924,6 +933,8 @@ body.light .bottom-nav a{
         aria-label="글자 크게">
         ▶
       </button>
+
+      <span class="font-limit">+150까지</span>
 
     </div>
 
@@ -1190,13 +1201,14 @@ let fontPercent = 100;
 function setFontPercent(percent){
 
   /*
-    70% ~ 130%
+    기본 100%에서 -80% ~ +150%
+    = 20% ~ 250%
   */
 
   fontPercent =
     Math.max(
-      70,
-      Math.min(130, percent)
+      20,
+      Math.min(250, percent)
     );
 
 
@@ -1213,7 +1225,7 @@ function setFontPercent(percent){
 
   document.getElementById("fontSize")
     .textContent =
-      fontPercent + "%";
+      String(fontPercent).padStart(3, "0") + "%";
 
 
   localStorage.setItem(
