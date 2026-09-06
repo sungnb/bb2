@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#171a21">
+<meta name="theme-color" content="#171a21" id="themeColorMeta">
+<meta name="color-scheme" content="dark" id="colorSchemeMeta">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="black" id="statusBarMeta">
 <title>개인봉사</title>
 
 <style>
@@ -960,17 +961,17 @@ body.light .bottom-nav a{
   </a>
 
   <a
-    href="https://wol.jw.org/ko/"
-    target="_blank"
-    rel="noopener">
-    라이브러리
-  </a>
-
-  <a
     href="https://wol.jw.org/ko/wol/binav/r8/lp-ko"
     target="_blank"
     rel="noopener">
     성경
+  </a>
+
+  <a
+    href="https://wol.jw.org/ko/"
+    target="_blank"
+    rel="noopener">
+    라이브러리
   </a>
 
   <a
@@ -1059,55 +1060,64 @@ function theme(mode){
   const darkBtn =
     document.getElementById("darkBtn");
 
+  const themeColor =
+    document.getElementById("themeColorMeta");
 
-  if(mode === "light"){
+  const colorScheme =
+    document.getElementById("colorSchemeMeta");
 
-    document.body.classList.add("light");
+  const statusBar =
+    document.getElementById("statusBarMeta");
 
-    localStorage.setItem(
-      "personalTheme",
-      "light"
+  const isLight = mode === "light";
+
+  document.body.classList.toggle("light", isLight);
+
+  localStorage.setItem(
+    "personalTheme",
+    isLight ? "light" : "dark"
+  );
+
+  if(themeColor){
+    themeColor.setAttribute(
+      "content",
+      isLight ? "#ffffff" : "#171a21"
     );
+  }
 
-    const themeColor =
-      document.querySelector('meta[name="theme-color"]');
-    if(themeColor){
-      themeColor.setAttribute("content", "#ffffff");
-    }
-
-    const statusBar =
-      document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-    if(statusBar){
-      statusBar.setAttribute("content", "default");
-    }
-
-    lightBtn.classList.add("active");
-    darkBtn.classList.remove("active");
-
-  }else{
-
-    document.body.classList.remove("light");
-
-    localStorage.setItem(
-      "personalTheme",
-      "dark"
+  if(colorScheme){
+    colorScheme.setAttribute(
+      "content",
+      isLight ? "light" : "dark"
     );
+  }
 
-    const themeColor =
-      document.querySelector('meta[name="theme-color"]');
-    if(themeColor){
-      themeColor.setAttribute("content", "#171a21");
-    }
+  if(statusBar){
+    statusBar.setAttribute(
+      "content",
+      isLight ? "default" : "black"
+    );
+  }
 
-    const statusBar =
-      document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-    if(statusBar){
-      statusBar.setAttribute("content", "black");
-    }
+  if(lightBtn){
+    lightBtn.classList.toggle("active", isLight);
+  }
 
-    darkBtn.classList.add("active");
-    lightBtn.classList.remove("active");
+  if(darkBtn){
+    darkBtn.classList.toggle("active", !isLight);
+  }
 
+  /*
+    모바일 브라우저가 테마 색상 변경을 즉시
+    다시 읽도록 meta 요소를 재설정합니다.
+  */
+  if(themeColor){
+    const value = themeColor.getAttribute("content");
+
+    themeColor.remove();
+    document.head.appendChild(themeColor);
+
+    themeColor.setAttribute("content", value);
   }
 
 }
@@ -1436,7 +1446,7 @@ function render(result){
           <div class="info">
 
             <div class="zone">
-              ${zone}
+              ${zone}${person ? ` (${person})` : ""}
             </div>
 
             <div class="house">
@@ -1478,21 +1488,7 @@ function render(result){
         </div>
 
 
-        <div class="assign">
 
-          <span class="alabel">
-            임명
-          </span>
-
-          <span class="weekday">
-            ${weekday}
-          </span>
-
-          <span class="name">
-            ${person}
-          </span>
-
-        </div>
 
       </section>
 
