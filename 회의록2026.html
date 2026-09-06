@@ -116,6 +116,21 @@ body.dark #authGate{background:#121715}
 body.dark .auth-box{background:#1a211e;border-color:#35403b}
 body.dark .auth-title{color:#91d0bb}
 body.dark .auth-message{color:#a9b4af}
+
+/* 헤더는 밝게/어둡게 설정과 관계없이 항상 다크블루 */
+header,
+body.light header,
+body.dark header {
+  background: #18324a !important;
+  color: #fff !important;
+  backdrop-filter: none !important;
+}
+header .page-title,
+body.light header .page-title,
+body.dark header .page-title {
+  color: #fff !important;
+}
+
 </style>
 </head>
 
