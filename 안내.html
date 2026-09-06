@@ -1,2174 +1,1544 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>외부 안내 봉사</title>
+<title>전시대 참여자</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
 
-    :root {
-      --bg-main: #162331;
-      --bg-gradient-1: #172634;
-      --bg-gradient-2: #0f1b27;
+/* =========================================================
+   기본
+========================================================= */
 
-      --panel-bg: rgba(38, 53, 68, 0.92);
-      --panel-border: #3b4e61;
+* {
+  box-sizing: border-box;
+}
 
-      --table-head: #34475a;
-      --table-bg: #202f3c;
-      --table-border: #3b4d5e;
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    sans-serif;
 
-      --text-main: #ffffff;
-      --text-sub: #d7e0e8;
+  color: #ffffff;
 
-      --accent: #83e8ba;
+  background:
+    linear-gradient(
+      135deg,
+      #16222e,
+      #263b4a
+    );
+}
 
-      --button-bg: #34485b;
-      --button-hover: #41576b;
 
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+/* =========================================================
+   상단
+========================================================= */
 
-      --font-scale: 1;
-    }
+.header {
+  position: relative;
 
+  width: 100%;
 
-    /* =========================================
-       밝은 화면
-    ========================================= */
+  padding:
+    28px 20px;
 
-    body.light {
-      --bg-main: #eef3f7;
-      --bg-gradient-1: #f4f7fa;
-      --bg-gradient-2: #dfe8ef;
+  text-align: center;
 
-      --panel-bg: rgba(255, 255, 255, 0.96);
-      --panel-border: #cbd7e1;
+  background:
+    rgba(18, 31, 42, 0.88);
 
-      --table-head: #dce6ee;
-      --table-bg: #f7f9fb;
-      --table-border: #ccd7e0;
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
 
-      --text-main: #172331;
-      --text-sub: #435466;
+  backdrop-filter:
+    blur(10px);
+}
 
-      --accent: #159c67;
+.header h1 {
+  margin: 0;
 
-      --button-bg: #dce6ee;
-      --button-hover: #ccd9e3;
+  font-size: 30px;
 
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    }
+  font-weight: 700;
 
+  letter-spacing: -1px;
+}
 
-    /* =========================================
-       BODY
-    ========================================= */
+.reference-date {
+  margin-top: 8px;
+  transform: translateX(15px);
 
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
+  font-size: 14px;
 
-      font-family:
-        "Noto Sans KR",
-        "Malgun Gothic",
-        Arial,
-        sans-serif;
+  opacity: 0.7;
+}
 
-      color: var(--text-main);
 
-      background:
-        radial-gradient(
-          circle at top,
-          var(--bg-gradient-1) 0%,
-          var(--bg-gradient-2) 70%
-        );
+/* =========================================================
+   컨테이너
+========================================================= */
 
-      transition:
-        background 0.25s ease,
-        color 0.25s ease;
-    }
+.container {
+  width: 100%;
 
+  max-width: 1400px;
 
-    /* =========================================
-       전체
-    ========================================= */
+  margin: 0 auto;
 
-    .page {
-      width: 100%;
-      max-width: 1100px;
+  padding:
+    25px
+    20px
+    70px;
+}
 
-      margin: 0 auto;
 
-      padding: 22px 16px 50px;
-    }
+/* =========================================================
+   버튼
+========================================================= */
 
+.actions {
+  display: flex;
 
-    /* =========================================
-       HEADER
-    ========================================= */
+  justify-content: flex-end;
 
-    .header {
-      position: relative;
+  gap: 10px;
 
-      text-align: center;
+  margin-bottom: 28px;
+}
 
-      padding: 8px 0 20px;
-    }
+.action-button {
+  border: none;
 
+  border-radius: 10px;
 
-    .header-title {
-      margin: 0;
+  padding:
+    11px 18px;
 
-      font-size:
-        clamp(28px, 4vw, 42px);
+  font-size: 14px;
 
-      font-weight: 900;
+  font-weight: 600;
 
-      letter-spacing: -1.5px;
+  cursor: pointer;
 
-      color: var(--text-main);
-    }
+  color: #ffffff;
 
-    /* 타이틀 왼쪽 뒤로가기 */
-    .title-back-button {
-      position: absolute;
-      left: 0;
-      top: 0;
-      transform: none;
+  background:
+    rgba(255,255,255,0.12);
 
-      width: 52px;
-      height: 52px;
+  transition:
+    background 0.2s,
+    transform 0.1s;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.action-button:hover {
+  background:
+    rgba(255,255,255,0.20);
+}
 
-      border: 1px solid var(--panel-border);
-      border-radius: 18px;
+.action-button:active {
+  transform: scale(0.97);
+}
 
-      background: var(--button-bg);
-      color: var(--accent);
 
-      padding: 0;
-      font-family: inherit;
-      font-size: 23px;
-      font-weight: 900;
-      line-height: 1;
+/* =========================================================
+   섹션
+========================================================= */
 
-      cursor: pointer;
+.section {
+  margin-bottom: 42px;
+}
 
-      z-index: 1100;
+.section-title {
+  display: flex;
 
-      transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-    }
+  align-items: center;
 
-    .title-back-button:hover {
-      background: var(--button-hover);
-      transform: translateY(-1px);
-    }
+  justify-content: space-between;
 
+  margin-bottom: 18px;
 
+  padding-bottom: 12px;
 
-    .header-month {
-      margin-top: 12px;
+  border-bottom:
+    1px solid rgba(255,255,255,0.15);
+}
 
-      font-size:
-        clamp(20px, 3vw, 28px);
+.section-title h2 {
+  margin: 0;
 
-      font-weight: 800;
+  font-size: 23px;
 
-      color: var(--text-main);
-    }
+  font-weight: 700;
+}
 
+.total-count {
+  padding:
+    6px 12px;
 
-    /* =========================================
-       설정 버튼
-    ========================================= */
+  border-radius: 20px;
 
-    .settings-button {
-      position: absolute;
+  font-size: 14px;
 
-      right: 0;
-      top: 0;
+  font-weight: 600;
 
-      width: 52px;
-      height: 52px;
+  background:
+    rgba(255,255,255,0.10);
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
-      border: 1px solid var(--panel-border);
-      border-radius: 50%;
+/* =========================================================
+   집단 그리드
+========================================================= */
 
-      background: var(--button-bg);
-      color: var(--text-main);
+.group-grid {
+  display: grid;
 
-      font-size: 23px;
-      line-height: 1;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
-      cursor: pointer;
+  gap: 16px;
+}
 
-      z-index: 1100;
 
-      transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-    }
+/* =========================================================
+   카드
+========================================================= */
 
+.group-card,
+.other-card,
+.reference-card {
+  overflow: hidden;
 
-    .settings-button:hover {
-      background: var(--button-hover);
+  border-radius: 16px;
 
-      transform: rotate(15deg);
-    }
+  border:
+    1px solid rgba(255,255,255,0.10);
 
+  background:
+    rgba(255,255,255,0.08);
 
-    /* =========================================
-       설정창
-       
-       전시대 참여자와 같은 느낌의
-       작은 설정창
-    ========================================= */
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.12);
+}
 
-    .settings-panel {
-      display: none;
 
-      position: absolute;
+/* =========================================================
+   집단 카드 제목
+========================================================= */
 
-      right: 0;
-      top: 62px;
+.group-header {
+  display: flex;
 
-      width: 270px;
+  align-items: center;
 
-      padding: 16px;
+  justify-content: space-between;
 
-      border: 1px solid var(--panel-border);
-      border-radius: 12px;
+  padding:
+    14px 16px;
 
-      background: var(--panel-bg);
+  background:
+    rgba(255,255,255,0.08);
 
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.30);
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+}
 
-      z-index: 1000;
+.group-name {
+  font-size: 16px;
 
-      text-align: left;
-    }
+  font-weight: 700;
+}
 
+.group-count {
+  font-size: 14px;
 
-    .settings-panel.show {
-      display: block;
-    }
+  opacity: 0.85;
+}
 
 
-    .settings-title {
-      margin: 0 0 14px;
+/* =========================================================
+   이름 목록
+========================================================= */
 
-      color: var(--text-main);
+.name-list {
+  display: flex;
 
-      font-size: 14px;
+  flex-wrap: wrap;
 
-      font-weight: 900;
-    }
+  gap: 8px;
 
+  padding: 14px;
 
-    .settings-row {
-      display: flex;
+  min-height: 64px;
+}
 
-      align-items: center;
+.name {
+  display: inline-flex;
 
-      justify-content: space-between;
+  align-items: center;
 
-      width: 100%;
+  justify-content: center;
 
-      margin-bottom: 10px;
+  padding:
+    8px 12px;
 
-      gap: 10px;
-    }
+  border-radius: 8px;
 
+  font-size: 14px;
 
-    .settings-row:last-child {
-      margin-bottom: 0;
-    }
+  background:
+    rgba(255,255,255,0.09);
 
+  border:
+    1px solid rgba(255,255,255,0.06);
+}
 
-    .settings-label {
-      flex: 0 0 auto;
 
-      color: var(--text-main);
+/* =========================================================
+   빈 데이터
+========================================================= */
 
-      font-size: 13px;
+.empty-message {
+  width: 100%;
 
-      font-weight: 800;
+  padding: 18px;
 
-      white-space: nowrap;
-    }
+  text-align: center;
 
+  color:
+    rgba(255,255,255,0.55);
+}
 
-    /* =========================================
-       설정 버튼 그룹
-    ========================================= */
 
-    .theme-buttons,
-    .font-buttons {
-      display: flex;
+/* =========================================================
+   참고사항
+========================================================= */
 
-      align-items: center;
+.reference-list {
+  padding:
+    8px 18px;
+}
 
-      gap: 5px;
+.reference-item {
+  padding:
+    14px 4px;
 
-      flex: 0 0 auto;
-    }
+  line-height: 1.7;
 
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+}
 
-    .theme-buttons button,
-    .font-buttons button {
+.reference-item:last-child {
+  border-bottom: none;
+}
 
-      height: 36px;
 
-      min-width: 38px;
+/* =========================================================
+   로딩 / 오류
+========================================================= */
 
-      padding: 0 9px;
+.loading,
+.error {
+  padding:
+    80px 20px;
 
-      border: none;
+  text-align: center;
 
-      border-radius: 7px;
+  color:
+    rgba(255,255,255,0.7);
+}
 
-      background: var(--button-bg);
+.error {
+  color:
+    #ffb4b4;
+}
 
-      color: var(--text-main);
 
-      font-family: inherit;
+/* =========================================================
+   모바일
+========================================================= */
 
-      font-size: 12px;
+@media (max-width: 1000px) {
 
-      font-weight: 800;
+  .group-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
 
-      white-space: nowrap;
+}
 
-      cursor: pointer;
 
-      transition:
-        background 0.2s ease,
-        transform 0.15s ease;
-    }
+@media (max-width: 600px) {
 
+  .header h1 {
+    font-size: 25px;
+  }
 
-    .theme-buttons button:hover,
-    .font-buttons button:hover {
+  .container {
+    padding:
+      20px
+      14px
+      60px;
+  }
 
-      background: var(--button-hover);
+  .group-grid {
+    grid-template-columns: 1fr;
+  }
 
-      transform: translateY(-1px);
-    }
+  .section-title h2 {
+    font-size: 20px;
+  }
 
+  .action-button {
+    padding:
+      10px 15px;
+  }
 
-    /* 가운데 100% 표시 */
+}
 
-    .font-size-value {
 
-      min-width: 42px;
+/* =========================================================
+   작은 화면에서 버튼
+========================================================= */
 
-      height: 36px;
+@media (max-width: 400px) {
 
-      display: flex;
+  .actions {
+    justify-content: space-between;
+  }
 
-      align-items: center;
+  .action-button {
+    flex: 1;
+  }
 
-      justify-content: center;
+}
 
-      color: var(--text-main);
 
-      font-size: 12px;
+/* =========================================================
+   타이틀 왼쪽 뒤로가기
+========================================================= */
 
-      font-weight: 800;
-    }
+.title-back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: none;
 
+  width: 52px;
+  height: 40px;
 
-    /* =========================================
-       상단 액션
-       
-       순서:
-       뒤로가기 → 새로고침
-    ========================================= */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    .actions {
-      display: flex;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
 
-      justify-content: flex-end;
+  background: rgba(255,255,255,0.12);
+  color: #83e8ba;
 
-      gap: 10px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1;
 
-      margin-bottom: 12px;
-    }
+  cursor: pointer;
 
+  z-index: 1100;
 
-    .action-button {
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
 
-      border: 1px solid var(--panel-border);
+.title-back-button:hover {
+  background: rgba(255,255,255,0.20);
+  transform: translateY(-1px);
+}
 
-      border-radius: 10px;
 
-      padding: 11px 17px;
+/* =========================================================
+   설정 / 밝게·어둡게 / 글자 크기
+========================================================= */
 
-      background: var(--button-bg);
+.settings-button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.12);
+  z-index: 10;
+}
 
-      color: var(--text-main);
+.settings-panel {
+  display: none;
+  position: absolute;
+  top: 66px;
+  right: 18px;
+  width: 220px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(18,31,42,0.97);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  z-index: 20;
+  text-align: left;
+}
 
-      font-size: 15px;
+.settings-panel.show {
+  display: block;
+}
 
-      font-weight: 800;
+.settings-title {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
 
-      cursor: pointer;
+.settings-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
 
-      transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-    }
+.settings-row button {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 6px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.10);
+  font-size: 13px;
+}
 
+.settings-row button.active {
+  background: rgba(255,255,255,0.22);
+}
 
-    .action-button:hover {
+.font-size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
 
-      background: var(--button-hover);
+.font-size-row button {
+  width: 38px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(255,255,255,0.10);
+  font-size: 16px;
+}
 
-      transform: translateY(-1px);
-    }
+.font-size-value {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+}
 
+/* 밝게 */
+body.light {
+  color: #222222;
+  background: linear-gradient(135deg, #f4f7fa, #ffffff);
+}
 
-    /* =========================================
-       기본 SECTION
-    ========================================= */
+body.light .header {
+  background: rgba(255,255,255,0.92);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
 
-    .section {
+body.light .action-button,
+body.light .settings-button {
+  color: #222222;
+  background: rgba(0,0,0,0.07);
+}
 
-      margin-top: 14px;
+body.light .action-button:hover,
+body.light .settings-button:hover {
+  background: rgba(0,0,0,0.12);
+}
 
-      padding: 16px;
+body.light .group-card,
+body.light .other-card,
+body.light .reference-card {
+  border-color: rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.90);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
 
-      border: 1px solid var(--panel-border);
+body.light .group-card {
+  border-color: rgba(0,0,0,0.20);
+}
 
-      border-radius: 20px;
+body.light .group-header {
+  background: rgba(0,0,0,0.04);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
 
-      background: var(--panel-bg);
+body.light .name {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.12);
+}
 
-      box-shadow: var(--shadow);
+body.light .total-count {
+  background: rgba(0,0,0,0.06);
+}
 
-      overflow: hidden;
-    }
+body.light .section-title {
+  border-bottom-color: rgba(0,0,0,0.12);
+}
 
+body.light .empty-message,
+body.light .loading,
+body.light .error,
+body.light .reference-date {
+  color: rgba(0,0,0,0.55);
+}
 
-    .section-title {
+body.light .reference-item {
+  border-bottom-color: rgba(0,0,0,0.12);
+}
 
-      margin: 0 0 12px;
+body.light .settings-panel {
+  background: rgba(255,255,255,0.98);
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #222222;
+}
 
-      font-size:
-        calc(
-          clamp(19px, 3vw, 24px)
-          * var(--font-scale)
-        );
+body.light .settings-row button,
+body.light .font-size-row button {
+  color: #222222;
+  background: rgba(0,0,0,0.06);
+}
 
-      font-weight: 900;
+body.light .settings-row button.active {
+  background: rgba(0,0,0,0.13);
+}
 
-      letter-spacing: -0.7px;
-    }
+body.light .settings-button {
+  background: rgba(0,0,0,0.06);
+}
 
+/* 타이틀 옆 전시대 신청자 아이콘 */
+.title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  font-size: 26px;
+  vertical-align: middle;
+}
 
-    /* =========================================
-       집회 표
-    ========================================= */
+@media (max-width: 600px) {
 
-    .schedule-table-wrap {
+  .header {
+    padding-right: 55px;
+  }
 
-      width: 100%;
+  .title-back-button {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
 
-      border: 1px solid var(--table-border);
+  .settings-button {
+    top: 12px;
+    right: 12px;
+  }
 
-      border-radius: 11px;
+  .settings-panel {
+    top: 58px;
+    right: 12px;
+  }
 
-      overflow: hidden;
-    }
+  .title-icon {
+    font-size: 22px;
+  }
+}
 
-
-    .schedule-table {
-
-      width: 100%;
-
-      border-collapse: collapse;
-
-      table-layout: fixed;
-
-      background: var(--table-bg);
-    }
-
-
-    .schedule-table th {
-
-      height: 42px;
-
-      padding: 9px 8px;
-
-      border-right: 1px solid var(--table-border);
-
-      border-bottom: 1px solid var(--table-border);
-
-      background: var(--table-head);
-
-      color: var(--text-main);
-
-      text-align: center;
-
-      font-size:
-        calc(15px * var(--font-scale));
-
-      font-weight: 900;
-    }
-
-
-    .schedule-table td {
-
-      height: 41px;
-
-      padding: 9px 8px;
-
-      border-right: 1px solid var(--table-border);
-
-      border-bottom: 1px solid var(--table-border);
-
-      color: var(--text-main);
-
-      text-align: center;
-
-      font-size:
-        calc(15px * var(--font-scale));
-
-      font-weight: 600;
-    }
-
-
-    .schedule-table th:last-child,
-    .schedule-table td:last-child {
-
-      border-right: none;
-    }
-
-
-    .schedule-table tr:last-child td {
-
-      border-bottom: none;
-    }
-
-
-    .schedule-table tbody tr:hover {
-
-      background:
-        rgba(255, 255, 255, 0.035);
-    }
-
-
-    /* =========================================
-       주차 안내
-       
-       ★ 집단 청소보다 먼저 표시
-    ========================================= */
-
-    .parking-section {
-
-      margin-top: 14px;
-
-      padding: 16px;
-
-      border: 1px solid var(--panel-border);
-
-      border-radius: 20px;
-
-      background: var(--panel-bg);
-
-      box-shadow: var(--shadow);
-
-      overflow: hidden;
-    }
-
-
-    .parking-text {
-
-      padding: 13px 15px;
-
-      border: 1px solid var(--table-border);
-
-      border-radius: 10px;
-
-      background: var(--table-bg);
-
-      color: var(--text-main);
-
-      font-size:
-        calc(15px * var(--font-scale));
-
-      line-height: 1.65;
-
-      font-weight: 600;
-
-      text-align: left;
-    }
-
-
-    /* =========================================
-       집단 청소 및 내부 안내인
-       
-       ★ 주차 안내 다음
-       ★ 제목 좌측
-       ★ C집단 박스
-       ★ C집단 기존보다 약 2배
-    ========================================= */
-
-    .cleaning-section {
-
-      margin-top: 14px;
-
-      padding: 16px;
-
-      border: 1px solid var(--panel-border);
-
-      border-radius: 20px;
-
-      background: var(--panel-bg);
-
-      box-shadow: var(--shadow);
-
-      overflow: hidden;
-    }
-
-
-    .cleaning-title {
-
-      margin: 0 0 12px;
-
-      color: var(--text-main);
-
-      font-size:
-        calc(
-          clamp(19px, 3vw, 24px)
-          * var(--font-scale)
-        );
-
-      font-weight: 900;
-
-      letter-spacing: -0.7px;
-
-      text-align: left;
-    }
-
-
-    .cleaning-box {
-
-      width: 100%;
-
-      padding: 13px 15px;
-
-      border: 1px solid var(--table-border);
-
-      border-radius: 10px;
-
-      background: var(--table-bg);
-
-      color: var(--accent);
-
-      text-align: left;
-
-      /*
-       * 기존 16px → 약 2배
-       */
-      font-size:
-        calc(32px * var(--font-scale));
-
-      line-height: 1.35;
-
-      font-weight: 900;
-    }
-
-
-    /* =========================================
-       안내사항
-    ========================================= */
-
-    .notice-section {
-
-      margin-top: 14px;
-
-      padding: 16px;
-
-      border: 1px solid var(--panel-border);
-
-      border-radius: 20px;
-
-      background: var(--panel-bg);
-
-      box-shadow: var(--shadow);
-
-      overflow: hidden;
-    }
-
-
-    .notice-list {
-
-      overflow: hidden;
-
-      border: 1px solid var(--table-border);
-
-      border-radius: 11px;
-
-      background: var(--table-bg);
-    }
-
-
-    .notice-item {
-
-      padding: 11px 14px;
-
-      border-bottom: 1px solid var(--table-border);
-
-      color: var(--text-main);
-
-      font-size:
-        calc(15px * var(--font-scale));
-
-      line-height: 1.55;
-
-      font-weight: 600;
-    }
-
-
-    .notice-item:last-child {
-
-      border-bottom: none;
-    }
-
-
-    /* =========================================
-       로딩
-    ========================================= */
-
-    .loading {
-
-      padding: 60px 20px;
-
-      text-align: center;
-
-      color: var(--text-sub);
-
-      font-size: 17px;
-
-      font-weight: 700;
-    }
-
-
-    /* =========================================
-       오류
-    ========================================= */
-
-    .error {
-
-      margin: 30px auto;
-
-      padding: 20px;
-
-      border: 1px solid #8a4a4a;
-
-      border-radius: 12px;
-
-      background:
-        rgba(100, 30, 30, 0.3);
-
-      color: #ffb8b8;
-
-      text-align: center;
-
-      line-height: 1.6;
-    }
-
-
-    /* =========================================
-       모바일
-    ========================================= */
-
-    @media (max-width: 700px) {
-
-      .page {
-
-        padding:
-          14px
-          10px
-          35px;
-      }
-
-
-      .header {
-
-        padding-right: 55px;
-      }
-
-
-      .title-back-button {
-
-        width: 46px;
-        height: 46px;
-
-        font-size: 20px;
-      }
-
-
-      .settings-button {
-
-        width: 46px;
-        height: 46px;
-
-        font-size: 20px;
-      }
-
-
-      .settings-panel {
-
-        top: 56px;
-
-        right: 0;
-
-        width:
-          min(
-            270px,
-            calc(100vw - 24px)
-          );
-
-        padding: 15px;
-
-        border-radius: 12px;
-      }
-
-
-      .settings-title {
-
-        font-size: 14px;
-
-        margin-bottom: 12px;
-      }
-
-
-      .settings-row {
-
-        gap: 7px;
-
-        margin-bottom: 9px;
-      }
-
-
-      .settings-label {
-
-        font-size: 12px;
-      }
-
-
-      .theme-buttons,
-      .font-buttons {
-
-        gap: 4px;
-      }
-
-
-      .theme-buttons button,
-      .font-buttons button {
-
-        height: 34px;
-
-        min-width: 36px;
-
-        padding: 0 7px;
-
-        font-size: 11px;
-      }
-
-
-      .font-size-value {
-
-        height: 34px;
-
-        min-width: 40px;
-
-        font-size: 11px;
-      }
-
-
-      .actions {
-
-        justify-content: stretch;
-      }
-
-
-      .action-button {
-
-        flex: 1;
-
-        padding: 10px 8px;
-
-        font-size: 14px;
-      }
-
-
-      .section,
-      .parking-section,
-      .cleaning-section,
-      .notice-section {
-
-        padding: 12px;
-
-        border-radius: 16px;
-      }
-
-
-      .schedule-table th,
-      .schedule-table td {
-
-        font-size:
-          calc(14px * var(--font-scale));
-
-        padding:
-          8px 5px;
-      }
-
-
-      .parking-text {
-
-        font-size:
-          calc(14px * var(--font-scale));
-
-        padding:
-          12px 13px;
-      }
-
-
-      .cleaning-box {
-
-        padding:
-          12px 13px;
-
-        font-size:
-          calc(30px * var(--font-scale));
-      }
-
-
-      .notice-item {
-
-        font-size:
-          calc(14px * var(--font-scale));
-
-        padding:
-          10px 11px;
-      }
-
-    }
-
-  </style>
+</style>
 </head>
 
 
 <body>
 
 
-<div class="page">
+<!-- =========================================================
+     상단
+========================================================= -->
 
+<header class="header">
 
-  <!-- =========================================
-       헤더
-  ========================================== -->
+  <button
+    class="title-back-button"
+    onclick="goBack()"
+    aria-label="뒤로가기">
+    ◀
+  </button>
 
-  <header class="header">
+  <h1>
+    <span class="title-icon" aria-label="전시대 신청자">👥</span>
+    전시대 참여자
+  </h1>
 
+  <button
+    class="settings-button"
+    onclick="toggleSettings()"
+    aria-label="설정">
+    ⚙️
+  </button>
 
-    <button
-      class="settings-button"
-      onclick="toggleSettings()"
-      aria-label="설정"
-    >
-      ⚙
-    </button>
-    <button
-      class="title-back-button"
-      onclick="goBack()"
-      aria-label="뒤로가기"
-    >
-      ◀
-    </button>
+  <div id="settingsPanel" class="settings-panel">
 
-    <h1 class="header-title">
-      👥 외부 안내 봉사
-    </h1>
+    <div class="settings-title">설정</div>
 
-
-    <div
-      id="month"
-      class="header-month"
-    >
-      불러오는 중...
+    <div class="settings-row">
+      <button id="lightButton" onclick="setTheme('light')">☀️ 밝게</button>
+      <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
     </div>
 
-
-    <!-- =====================================
-         설정
-    ====================================== -->
-
-    <div
-      id="settingsPanel"
-      class="settings-panel"
-    >
-
-
-      <div class="settings-title">
-        설정
-      </div>
-
-
-      <!-- 화면 -->
-
-      <div class="settings-row">
-
-        <div class="settings-label">
-          화면
-        </div>
-
-
-        <div class="theme-buttons">
-
-          <button
-            type="button"
-            onclick="setTheme('light')"
-          >
-            ☀️ 밝게
-          </button>
-
-
-          <button
-            type="button"
-            onclick="setTheme('dark')"
-          >
-            🌙 어둡게
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- 글자 크기 -->
-
-      <div class="settings-row">
-
-        <div class="settings-label">
-          글자 크기
-        </div>
-
-
-        <div class="font-buttons">
-
-          <button
-            type="button"
-            onclick="changeFontSize(-1)"
-          >
-            −
-          </button>
-
-
-          <div
-            id="fontSizeValue"
-            class="font-size-value"
-          >
-            100%
-          </div>
-
-
-          <button
-            type="button"
-            onclick="changeFontSize(1)"
-          >
-            ＋
-          </button>
-
-        </div>
-
-      </div>
-
-
+    <div class="font-size-row">
+      <button onclick="changeFontSize(-5)">−</button>
+      <div id="fontSizeValue" class="font-size-value">100%</div>
+      <button onclick="changeFontSize(5)">＋</button>
     </div>
 
-  </header>
+  </div>
+
+  <div
+    id="referenceDate"
+    class="reference-date">
+  </div>
+
+</header>
 
 
-  <!-- =========================================
-       상단 버튼
-       
-       ★ 순서 변경
-       뒤로가기 → 새로고침
-  ========================================== -->
 
-<!-- =========================================
-       데이터
-  ========================================== -->
+<!-- =========================================================
+     본문
+========================================================= -->
 
-  <main id="content">
+<main class="container">
+
+
+
+  <!-- =======================================================
+       데이터 출력
+  ======================================================= -->
+
+  <div id="app">
 
     <div class="loading">
-      안내 봉사 정보를 불러오는 중입니다...
+      데이터를 불러오는 중입니다...
     </div>
 
-  </main>
+  </div>
 
 
-</div>
+</main>
 
 
 
 <script>
 
+/* =========================================================
+   Apps Script API 주소
+========================================================= */
 
-  /* =========================================================
-     안내 봉사 API
-
-     ★ 사용자가 직접 확인한 URL
-     ★ 변경하지 않음
-  ========================================================= */
-
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbxizrC1woLHdgCfASCVle2Pgrd7FkfEYvO-am-2svWb69QThZXH6qLRfcXz4vEcWUeWEQ/exec";
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbxQ0gv4Nk0b-V7lBQRutvKlgMEca7rp3GTEhZagD4bELDn0K9KOYgm7GVI4zJ8CDEiL/exec";
 
 
-  /* =========================================================
-     시작
-  ========================================================= */
+/* =========================================================
+   집단
+========================================================= */
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+const GROUPS = [
+  "A집단",
+  "B집단",
+  "C집단",
+  "D집단"
+];
 
-      loadSavedSettings();
 
-      loadData();
+/* =========================================================
+   시작
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadData();
+
+  }
+);
+
+
+/* =========================================================
+   데이터 불러오기
+========================================================= */
+
+async function loadData() {
+
+  const app =
+    document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="loading">
+      데이터를 불러오는 중입니다...
+    </div>
+  `;
+
+
+  try {
+
+    /* -------------------------------------------------------
+       API 호출
+    ------------------------------------------------------- */
+
+    const response =
+      await fetch(
+        API_URL +
+        "?t=" +
+        Date.now()
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "서버 응답 오류: " +
+        response.status
+      );
+
+    }
+
+
+    /* -------------------------------------------------------
+       JSON 변환
+    ------------------------------------------------------- */
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      "전시대 참여자 API:",
+      data
+    );
+
+
+    /* -------------------------------------------------------
+       API 오류 확인
+    ------------------------------------------------------- */
+
+    if (
+      !data ||
+      data.success !== true
+    ) {
+
+      throw new Error(
+        data?.message ||
+        data?.error ||
+        "데이터를 가져오지 못했습니다."
+      );
+
+    }
+
+
+    /* -------------------------------------------------------
+       화면 출력
+    ------------------------------------------------------- */
+
+    renderData(data);
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "데이터 로드 오류:",
+      error
+    );
+
+
+    app.innerHTML = `
+
+      <div class="error">
+
+        데이터를 불러오는 중
+        오류가 발생했습니다.
+
+        <br><br>
+
+        ${escapeHtml(error.message)}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   전체 화면 출력
+========================================================= */
+
+function renderData(data) {
+
+
+  /* =======================================================
+     API 데이터 그대로 사용
+  ======================================================= */
+
+  const participants =
+    Array.isArray(data.participants)
+      ? data.participants
+      : [];
+
+
+  const otherParticipants =
+    Array.isArray(data.otherParticipants)
+      ? data.otherParticipants
+      : [];
+
+
+  const nonParticipants =
+    Array.isArray(data.nonParticipants)
+      ? data.nonParticipants
+      : [];
+
+
+  const references =
+    Array.isArray(data.references)
+      ? data.references
+      : [];
+
+
+  /* =======================================================
+     기준일
+  ======================================================= */
+
+  const referenceDate =
+    data.referenceDate || "";
+
+
+  document.getElementById(
+    "referenceDate"
+  ).textContent =
+    referenceDate;
+
+
+  /* =======================================================
+     화면 HTML
+  ======================================================= */
+
+  let html = "";
+
+
+  /* =======================================================
+     참여자
+  ======================================================= */
+
+  html += `
+
+    <section class="section">
+
+      <div class="section-title">
+
+        <h2>
+          참여자
+        </h2>
+
+        <div class="total-count">
+          ${participants.length}명
+        </div>
+
+      </div>
+
+
+      <div class="group-grid">
+
+  `;
+
+
+  GROUPS.forEach(
+    function(group) {
+
+      const people =
+        participants.filter(
+          function(person) {
+
+            return normalizeGroup(
+              person.group
+            ) === normalizeGroup(group);
+
+          }
+        );
+
+
+      html += `
+
+        <div class="group-card">
+
+          <div class="group-header">
+
+            <span class="group-name">
+              ${escapeHtml(group)}
+            </span>
+
+            <span class="group-count">
+              ${people.length}명
+            </span>
+
+          </div>
+
+
+          <div class="name-list">
+
+      `;
+
+
+      if (
+        people.length === 0
+      ) {
+
+        html += `
+
+          <div class="empty-message">
+            참여자가 없습니다.
+          </div>
+
+        `;
+
+      }
+
+      else {
+
+        people.forEach(
+          function(person) {
+
+            html += `
+
+              <div class="name">
+                ${escapeHtml(person.name)}
+              </div>
+
+            `;
+
+          }
+        );
+
+      }
+
+
+      html += `
+
+          </div>
+
+        </div>
+
+      `;
 
     }
   );
 
 
-  /* =========================================================
-     데이터 불러오기
-  ========================================================= */
+  html += `
 
-  async function loadData() {
-
-    const content =
-      document.getElementById(
-        "content"
-      );
-
-
-    content.innerHTML = `
-      <div class="loading">
-        안내 봉사 정보를 불러오는 중입니다...
       </div>
-    `;
+
+    </section>
+
+  `;
 
 
-    try {
+  /* =======================================================
+     타 회중 참여자
+  ======================================================= */
 
-      const response =
-        await fetch(
-          API_URL,
-          {
-            method: "GET",
-            cache: "no-store"
-          }
-        );
+  html += `
 
+    <section class="section">
 
-      if (!response.ok) {
+      <div class="section-title">
 
-        throw new Error(
-          "서버 응답 오류: " +
-          response.status
-        );
+        <h2>
+          타 회중 참여자
+        </h2>
 
-      }
-
-
-      const result =
-        await response.json();
-
-
-      if (
-        !result ||
-        result.success !== true
-      ) {
-
-        throw new Error(
-          result && result.error
-            ? result.error
-            : "안내 데이터를 불러오지 못했습니다."
-        );
-
-      }
-
-
-      renderData(result);
-
-    }
-
-
-    catch (error) {
-
-      console.error(
-        "안내 데이터 오류:",
-        error
-      );
-
-
-      content.innerHTML = `
-        <div class="error">
-
-          <strong>
-            안내 봉사 정보를 불러오지 못했습니다.
-          </strong>
-
-          <br><br>
-
-          ${escapeHtml(
-            error.message ||
-            "알 수 없는 오류가 발생했습니다."
-          )}
-
-          <br><br>
-
-          <button
-            class="action-button"
-            onclick="loadData()"
-          >
-            다시 시도
-          </button>
-
+        <div class="total-count">
+          ${otherParticipants.length}명
         </div>
-      `;
 
-    }
+      </div>
 
-  }
 
+      <div class="other-card">
 
-  /* =========================================================
-     전체 데이터 표시
-  ========================================================= */
+        <div class="name-list">
 
-  function renderData(result) {
+  `;
 
 
-    const byNumber =
-      result.byNumber || {};
-
-
-    /* -----------------------------------------
-       월
-    ----------------------------------------- */
-
-    const month =
-      getCell(
-        byNumber,
-        "1",
-        "b"
-      );
-
-
-    document.getElementById(
-      "month"
-    ).textContent =
-      month ||
-      result.month ||
-      "";
-
-
-    /* -----------------------------------------
-       평일
-       2-1은 헤더이므로 제외
-       2-2 ~ 2-6
-    ----------------------------------------- */
-
-    const weekdayRows = [];
-
-
-    for (
-      let i = 2;
-      i <= 6;
-      i++
-    ) {
-
-      const row =
-        byNumber[
-          "2-" + i
-        ];
-
-
-      if (!row) {
-        continue;
-      }
-
-
-      const date =
-        cleanText(row.b);
-
-
-      const volunteer1 =
-        cleanText(row.c);
-
-
-      const volunteer2 =
-        cleanText(row.d);
-
-
-      if (
-        !date &&
-        !volunteer1 &&
-        !volunteer2
-      ) {
-
-        continue;
-
-      }
-
-
-      weekdayRows.push({
-        date,
-        volunteer1,
-        volunteer2
-      });
-
-    }
-
-
-    /* -----------------------------------------
-       주말
-       3-1은 헤더이므로 제외
-       3-2 ~ 3-6
-       빈 행은 자동 제외
-    ----------------------------------------- */
-
-    const weekendRows = [];
-
-
-    for (
-      let i = 2;
-      i <= 6;
-      i++
-    ) {
-
-      const row =
-        byNumber[
-          "3-" + i
-        ];
-
-
-      if (!row) {
-        continue;
-      }
-
-
-      const date =
-        cleanText(row.b);
-
-
-      const volunteer1 =
-        cleanText(row.c);
-
-
-      const volunteer2 =
-        cleanText(row.d);
-
-
-      if (
-        !date &&
-        !volunteer1 &&
-        !volunteer2
-      ) {
-
-        continue;
-
-      }
-
-
-      weekendRows.push({
-        date,
-        volunteer1,
-        volunteer2
-      });
-
-    }
-
-
-    /* -----------------------------------------
-       집단 청소 및 내부 안내인
-
-       5-D = C집단
-
-       B열의
-       [집단 청소 및 내부 안내인] : C집단
-       전체 문장은 사용하지 않음
-    ----------------------------------------- */
-
-    const cleaningRow =
-      byNumber["5"] || {};
-
-
-    let cleaningGroup =
-      cleanText(
-        cleaningRow.d
-      );
-
-
-    /*
-     * D열이 비어 있으면
-     * B열의 : 뒤에 있는 집단명 사용
-     */
-
-    if (!cleaningGroup) {
-
-      const cleaningText =
-        cleanText(
-          cleaningRow.b
-        );
-
-
-      if (
-        cleaningText.includes(":")
-      ) {
-
-        cleaningGroup =
-          cleaningText
-            .split(":")
-            .slice(1)
-            .join(":")
-            .trim();
-
-      }
-
-    }
-
-
-    /* -----------------------------------------
-       주차 안내
-    ----------------------------------------- */
-
-    const parkingRow =
-      byNumber["4"] || {};
-
-
-    const parkingText =
-      cleanText(
-        parkingRow.b
-      );
-
-
-    /* -----------------------------------------
-       안내사항 6~11
-    ----------------------------------------- */
-
-    const notices = [];
-
-
-    for (
-      let i = 6;
-      i <= 11;
-      i++
-    ) {
-
-      const row =
-        byNumber[
-          String(i)
-        ];
-
-
-      if (!row) {
-        continue;
-      }
-
-
-      const parts = [
-
-        cleanText(row.b),
-
-        cleanText(row.c),
-
-        cleanText(row.d)
-
-      ].filter(Boolean);
-
-
-      if (
-        parts.length === 0
-      ) {
-
-        continue;
-
-      }
-
-
-      notices.push(
-        parts.join(" ")
-      );
-
-    }
-
-
-    /* =====================================================
-       화면 구성
-    ===================================================== */
-
-    let html = "";
-
-
-    /* -----------------------------------------
-       평일
-    ----------------------------------------- */
-
-    html += `
-
-      <section class="section">
-
-        <h2 class="section-title">
-          평일 집회(화)
-        </h2>
-
-        ${createScheduleTable(
-          weekdayRows
-        )}
-
-      </section>
-
-    `;
-
-
-    /* -----------------------------------------
-       주말
-    ----------------------------------------- */
-
-    html += `
-
-      <section class="section">
-
-        <h2 class="section-title">
-          주말 집회(토)
-        </h2>
-
-        ${createScheduleTable(
-          weekendRows
-        )}
-
-      </section>
-
-    `;
-
-
-    /* -----------------------------------------
-       ★ 주차 안내
-
-       집단 청소보다 먼저
-    ----------------------------------------- */
-
-    if (parkingText) {
-
-      html += `
-
-        <section class="parking-section">
-
-          <h2 class="section-title">
-            주차 안내
-          </h2>
-
-          <div class="parking-text">
-            ${escapeHtml(
-              parkingText
-            )}
-          </div>
-
-        </section>
-
-      `;
-
-    }
-
-
-    /* -----------------------------------------
-       ★ 집단 청소 및 내부 안내인
-
-       주차 안내 다음
-
-       C집단만 표시
-    ----------------------------------------- */
-
-    if (cleaningGroup) {
-
-      html += `
-
-        <section class="cleaning-section">
-
-          <h2 class="cleaning-title">
-            집단 청소 및 내부 안내인
-          </h2>
-
-          <div class="cleaning-box">
-            ${escapeHtml(
-              cleaningGroup
-            )}
-          </div>
-
-        </section>
-
-      `;
-
-    }
-
-
-    /* -----------------------------------------
-       안내사항
-    ----------------------------------------- */
-
-    if (
-      notices.length > 0
-    ) {
-
-      html += `
-
-        <section class="notice-section">
-
-          <h2 class="section-title">
-            안내사항
-          </h2>
-
-          <div class="notice-list">
-
-      `;
-
-
-      notices.forEach(
-        function (notice) {
-
-          html += `
-
-            <div class="notice-item">
-              ${escapeHtml(
-                notice
-              )}
-            </div>
-
-          `;
-
-        }
-      );
-
-
-      html += `
-
-          </div>
-
-        </section>
-
-      `;
-
-    }
-
-
-    document.getElementById(
-      "content"
-    ).innerHTML = html;
-
-  }
-
-
-  /* =========================================================
-     집회 표 생성
-  ========================================================= */
-
-  function createScheduleTable(
-    rows
+  if (
+    otherParticipants.length === 0
   ) {
 
+    html += `
 
-    if (
-      !rows ||
-      rows.length === 0
-    ) {
-
-      return `
-
-        <div class="schedule-table-wrap">
-
-          <table class="schedule-table">
-
-            <thead>
-
-              <tr>
-                <th>날짜</th>
-                <th>봉사자1</th>
-                <th>봉사자2</th>
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              <tr>
-
-                <td colspan="3">
-                  등록된 일정이 없습니다.
-                </td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      `;
-
-    }
-
-
-    let html = `
-
-      <div class="schedule-table-wrap">
-
-        <table class="schedule-table">
-
-          <thead>
-
-            <tr>
-
-              <th>날짜</th>
-
-              <th>봉사자1</th>
-
-              <th>봉사자2</th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
+      <div class="empty-message">
+        타 회중 참여자가 없습니다.
+      </div>
 
     `;
 
+  }
 
-    rows.forEach(
-      function (row) {
+  else {
+
+    otherParticipants.forEach(
+      function(person) {
 
         html += `
 
-          <tr>
-
-            <td>
-              ${escapeHtml(
-                row.date
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                row.volunteer1
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                row.volunteer2
-              )}
-            </td>
-
-          </tr>
+          <div class="name">
+            ${escapeHtml(person.name)}
+          </div>
 
         `;
 
       }
     );
 
+  }
 
-    html += `
 
-          </tbody>
+  html += `
 
-        </table>
+        </div>
 
       </div>
 
-    `;
+    </section>
 
+  `;
 
-    return html;
 
-  }
+  /* =======================================================
+     미 참여자
+  ======================================================= */
 
+  html += `
 
-  /* =========================================================
-     셀 가져오기
-  ========================================================= */
+    <section class="section">
 
-  function getCell(
-    byNumber,
-    number,
-    column
-  ) {
+      <div class="section-title">
 
-    if (
-      !byNumber ||
-      !byNumber[number]
-    ) {
+        <h2>
+          미 참여자
+        </h2>
 
-      return "";
+        <div class="total-count">
+          ${nonParticipants.length}명
+        </div>
 
-    }
+      </div>
 
 
-    return cleanText(
-      byNumber[number][column]
-    );
+      <div class="group-grid">
 
-  }
+  `;
 
 
-  /* =========================================================
-     텍스트 정리
-  ========================================================= */
+  GROUPS.forEach(
+    function(group) {
 
-  function cleanText(
-    value
-  ) {
+      const people =
+        nonParticipants.filter(
+          function(person) {
 
-    if (
-      value === null ||
-      value === undefined
-    ) {
+            return normalizeGroup(
+              person.group
+            ) === normalizeGroup(group);
 
-      return "";
-
-    }
-
-
-    return String(value)
-      .replace(/\r\n/g, "\n")
-      .replace(/\r/g, "\n")
-      .trim();
-
-  }
-
-
-  /* =========================================================
-     HTML 보호
-  ========================================================= */
-
-  function escapeHtml(
-    value
-  ) {
-
-    return String(
-      value === null ||
-      value === undefined
-        ? ""
-        : value
-    )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-  }
-
-
-  /* =========================================================
-     뒤로가기
-  ========================================================= */
-
-  function goBack() {
-
-    if (
-      window.history.length > 1
-    ) {
-
-      window.history.back();
-
-    } else {
-
-      window.location.href =
-        "index.html";
-
-    }
-
-  }
-
-
-  /* =========================================================
-     설정창
-  ========================================================= */
-
-  function toggleSettings() {
-
-    const panel =
-      document.getElementById(
-        "settingsPanel"
-      );
-
-
-    panel.classList.toggle(
-      "show"
-    );
-
-  }
-
-
-  /* =========================================================
-     화면 테마
-  ========================================================= */
-
-  function setTheme(
-    theme
-  ) {
-
-    if (
-      theme === "light"
-    ) {
-
-      document.body.classList.add(
-        "light"
-      );
-
-    } else {
-
-      document.body.classList.remove(
-        "light"
-      );
-
-    }
-
-
-    localStorage.setItem(
-      "guideTheme",
-      theme
-    );
-
-  }
-
-
-  /* =========================================================
-     글자 크기
-
-     기본 = 100%
-     - = 90%
-     + = 110%
-
-     계속 누르면 단계별 변경
-  ========================================================= */
-
-  function changeFontSize(
-    direction
-  ) {
-
-    let scale =
-      parseInt(
-        localStorage.getItem(
-          "guideFontScale"
-        ) || "100",
-        10
-      );
-
-
-    if (
-      direction < 0
-    ) {
-
-      scale -= 10;
-
-    }
-
-
-    if (
-      direction > 0
-    ) {
-
-      scale += 10;
-
-    }
-
-
-    scale =
-      Math.max(
-        70,
-        Math.min(
-          140,
-          scale
-        )
-      );
-
-
-    const scaleValue =
-      scale / 100;
-
-
-    document.documentElement.style.setProperty(
-      "--font-scale",
-      scaleValue
-    );
-
-
-    const display =
-      document.getElementById(
-        "fontSizeValue"
-      );
-
-
-    if (display) {
-
-      display.textContent =
-        scale + "%";
-
-    }
-
-
-    localStorage.setItem(
-      "guideFontScale",
-      scale
-    );
-
-  }
-
-
-  /* =========================================================
-     저장된 설정 불러오기
-  ========================================================= */
-
-  function loadSavedSettings() {
-
-
-    /* 테마 */
-
-    const savedTheme =
-      localStorage.getItem(
-        "guideTheme"
-      );
-
-
-    if (
-      savedTheme === "light"
-    ) {
-
-      document.body.classList.add(
-        "light"
-      );
-
-    }
-
-
-    /* 글자 크기 */
-
-    const savedScale =
-      parseInt(
-        localStorage.getItem(
-          "guideFontScale"
-        ) || "100",
-        10
-      );
-
-
-    const safeScale =
-      Math.max(
-        70,
-        Math.min(
-          140,
-          savedScale
-        )
-      );
-
-
-    document.documentElement.style.setProperty(
-      "--font-scale",
-      safeScale / 100
-    );
-
-
-    const display =
-      document.getElementById(
-        "fontSizeValue"
-      );
-
-
-    if (display) {
-
-      display.textContent =
-        safeScale + "%";
-
-    }
-
-  }
-
-
-  /* =========================================================
-     설정창 바깥 클릭
-  ========================================================= */
-
-  document.addEventListener(
-    "click",
-    function (event) {
-
-      const panel =
-        document.getElementById(
-          "settingsPanel"
+          }
         );
 
 
-      const button =
-        document.querySelector(
-          ".settings-button"
-        );
+      html += `
+
+        <div class="group-card">
+
+          <div class="group-header">
+
+            <span class="group-name">
+              ${escapeHtml(group)}
+            </span>
+
+            <span class="group-count">
+              ${people.length}명
+            </span>
+
+          </div>
+
+
+          <div class="name-list">
+
+      `;
 
 
       if (
-        panel.classList.contains("show") &&
-        !panel.contains(event.target) &&
-        !button.contains(event.target)
+        people.length === 0
       ) {
 
-        panel.classList.remove(
-          "show"
+        html += `
+
+          <div class="empty-message">
+            미 참여자가 없습니다.
+          </div>
+
+        `;
+
+      }
+
+      else {
+
+        people.forEach(
+          function(person) {
+
+            html += `
+
+              <div class="name">
+                ${escapeHtml(person.name)}
+              </div>
+
+            `;
+
+          }
         );
 
       }
 
+
+      html += `
+
+          </div>
+
+        </div>
+
+      `;
+
     }
   );
+
+
+  html += `
+
+      </div>
+
+    </section>
+
+  `;
+
+
+  /* =======================================================
+     참고 사항
+  ======================================================= */
+
+  html += `
+
+    <section class="section">
+
+      <div class="section-title">
+
+        <h2>
+          참고 사항
+        </h2>
+
+        <div class="total-count">
+          ${references.length}건
+        </div>
+
+      </div>
+
+
+      <div class="reference-card">
+
+        <div class="reference-list">
+
+  `;
+
+
+  if (
+    references.length === 0
+  ) {
+
+    html += `
+
+      <div class="empty-message">
+        참고 사항이 없습니다.
+      </div>
+
+    `;
+
+  }
+
+  else {
+
+    references.forEach(
+      function(reference) {
+
+        html += `
+
+          <div class="reference-item">
+            ${escapeHtml(reference)}
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+
+  html += `
+
+        </div>
+
+      </div>
+
+    </section>
+
+  `;
+
+
+  /* =======================================================
+     화면 적용
+  ======================================================= */
+
+  document.getElementById(
+    "app"
+  ).innerHTML =
+    html;
+
+}
+
+
+/* =========================================================
+   집단명 정리
+========================================================= */
+
+function normalizeGroup(group) {
+
+  return String(
+    group || ""
+  )
+  .replace(
+    /\s+/g,
+    ""
+  )
+  .trim();
+
+}
+
+
+/* =========================================================
+   HTML 문자 처리
+========================================================= */
+
+function escapeHtml(text) {
+
+  return String(
+    text ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* =========================================================
+   뒤로가기
+========================================================= */
+
+function goBack() {
+
+  if (
+    window.history.length > 1
+  ) {
+
+    window.history.back();
+
+  }
+
+  else {
+
+    window.location.href =
+      "전시대관리자.html";
+
+  }
+
+}
+
+
+/* =========================================================
+   설정 기능
+========================================================= */
+
+const SETTINGS_THEME_KEY = "전시대참여자_theme";
+const SETTINGS_FONT_KEY = "전시대참여자_fontSize";
+
+function applySettings() {
+
+  const theme =
+    localStorage.getItem(SETTINGS_THEME_KEY) || "dark";
+
+  const fontSize =
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
+
+  document.body.classList.toggle(
+    "light",
+    theme === "light"
+  );
+
+  document.body.style.setProperty(
+    "--font-scale",
+    fontSize / 100
+  );
+
+  document.body.style.zoom =
+    String(fontSize / 100);
+
+  document.getElementById("fontSizeValue").textContent =
+    fontSize + "%";
+
+  document.getElementById("darkButton").classList.toggle(
+    "active",
+    theme === "dark"
+  );
+
+  document.getElementById("lightButton").classList.toggle(
+    "active",
+    theme === "light"
+  );
+}
+
+function setTheme(theme) {
+
+  localStorage.setItem(
+    SETTINGS_THEME_KEY,
+    theme
+  );
+
+  applySettings();
+}
+
+function changeFontSize(amount) {
+
+  let fontSize =
+    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
+
+  fontSize += amount;
+
+  if (fontSize < 80) fontSize = 80;
+  if (fontSize > 150) fontSize = 150;
+
+  localStorage.setItem(
+    SETTINGS_FONT_KEY,
+    fontSize
+  );
+
+  applySettings();
+}
+
+function toggleSettings() {
+
+  document.getElementById(
+    "settingsPanel"
+  ).classList.toggle("show");
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    applySettings();
+
+  }
+);
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+    const panel =
+      document.getElementById("settingsPanel");
+
+    const button =
+      document.querySelector(".settings-button");
+
+    if (
+      panel &&
+      panel.classList.contains("show") &&
+      !panel.contains(event.target) &&
+      !button.contains(event.target)
+    ) {
+
+      panel.classList.remove("show");
+
+    }
+
+  }
+);
 
 </script>
 
