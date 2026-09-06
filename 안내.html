@@ -135,6 +135,31 @@
       color: var(--text-main);
     }
 
+    /* 타이틀 왼쪽 뒤로가기 */
+    .title-back-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: none;
+
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+
+      padding: 8px 4px;
+      font-family: inherit;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .title-back-button:hover {
+      opacity: 0.75;
+    }
+
+
 
     .header-month {
       margin-top: 12px;
@@ -948,7 +973,13 @@
     >
       ⚙
     </button>
-
+    <button
+      class="title-back-button"
+      onclick="goBack()"
+      aria-label="뒤로가기"
+    >
+      ◀
+    </button>
 
     <h1 class="header-title">
       👥 외부 안내 봉사
@@ -1060,29 +1091,7 @@
        뒤로가기 → 새로고침
   ========================================== -->
 
-  <div class="actions">
-
-
-    <button
-      class="action-button"
-      onclick="goBack()"
-    >
-      ← 뒤로가기
-    </button>
-
-
-    <button
-      class="action-button"
-      onclick="loadData()"
-    >
-      ↻ 새로고침
-    </button>
-
-
-  </div>
-
-
-  <!-- =========================================
+<!-- =========================================
        데이터
   ========================================== -->
 
@@ -1111,7 +1120,7 @@
 
   const API_URL =
     "https://script.google.com/macros/s/AKfycbxizrC1woLHdgCfASCVle2Pgrd7FkfEYvO-am-2svWb69QThZXH6qLRfcXz4vEcWUeWEQ/exec";
-
+   
 
   /* =========================================================
      시작
