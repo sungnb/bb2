@@ -954,28 +954,32 @@ body.light .bottom-nav a{
 <nav class="bottom-nav">
 
   <a
-    href="https://www.jw.org/ko/"
+    id="serviceJworg"
+    href="#"
     target="_blank"
     rel="noopener">
     JW.ORG
   </a>
 
   <a
-    href="https://wol.jw.org/ko/wol/binav/r8/lp-ko"
+    id="serviceBible"
+    href="#"
     target="_blank"
     rel="noopener">
     성경
   </a>
 
   <a
-    href="https://wol.jw.org/ko/"
+    id="serviceLibrary"
+    href="#"
     target="_blank"
     rel="noopener">
     라이브러리
   </a>
 
   <a
-    href="https://tv.jw.org/#ko/home"
+    id="serviceBroadcast"
+    href="#"
     target="_blank"
     rel="noopener">
     JW방송
@@ -1285,6 +1289,62 @@ Date.now();
 
 
 /* ==========================================
+   SERVICE LINKS
+   Google Sheet B16:B19의 실제 하이퍼링크 사용
+========================================== */
+
+function updateServiceLinks(links){
+
+  if(!links){
+    return;
+  }
+
+  const map = {
+
+    serviceJworg:
+      links.jworg,
+
+    serviceBible:
+      links.bible,
+
+    serviceLibrary:
+      links.library,
+
+    serviceBroadcast:
+      links.broadcast
+
+  };
+
+
+  Object.keys(map).forEach(function(id){
+
+    const url =
+      map[id];
+
+    const element =
+      document.getElementById(id);
+
+    if(!element){
+      return;
+    }
+
+    if(url){
+
+      element.href =
+        url;
+
+    }else{
+
+      element.removeAttribute("href");
+
+    }
+
+  });
+
+}
+
+
+/* ==========================================
    LOAD DATA
 ========================================== */
 
@@ -1316,6 +1376,16 @@ function load(){
           );
 
         }
+
+
+        /* =========================
+           서비스 메뉴 실제 주소 연결
+           B16:B19의 하이퍼링크 사용
+        ========================= */
+
+        updateServiceLinks(
+          result.links
+        );
 
 
         render(result);
