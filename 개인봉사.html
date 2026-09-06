@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#171a21" id="themeColorMeta">
+<meta name="theme-color" content="#008f8c" id="themeColorMeta">
 <meta name="color-scheme" content="dark" id="colorSchemeMeta">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black" id="statusBarMeta">
@@ -24,6 +24,9 @@
   --accent:#8d7cf5;
   --accent2:#6555d8;
 
+  /* 밝게/어둡게와 관계없이 고정 영역에 사용하는 청녹색 */
+  --fixed-teal:#008f8c;
+  --fixed-teal-dark:#007a77;
   --nav:#151821;
   --navline:#303641;
 }
@@ -126,7 +129,7 @@ body{
   border:1px solid #ffffff18;
   border-radius:12px;
 
-  background:#ffffff0d;
+  background:var(--fixed-teal);
 
   color:#fff;
 
@@ -154,7 +157,7 @@ body{
 .home-btn:active,
 .settings:active{
   transform:scale(.94);
-  background:#ffffff1b;
+  background:var(--fixed-teal-dark);
 }
 
 /* =========================
@@ -637,12 +640,7 @@ body{
 
   height:64px;
 
-  background:
-    linear-gradient(
-      180deg,
-      #1b1f27,
-      #13161c
-    );
+  background:var(--fixed-teal);
 
   border-top:1px solid var(--navline);
 
@@ -672,11 +670,11 @@ body{
 }
 
 .bottom-nav a + a{
-  border-left:1px solid #303641;
+  border-left:1px solid rgba(255,255,255,.22);
 }
 
 .bottom-nav a:active{
-  background:#ffffff0b;
+  background:var(--fixed-teal-dark);
 }
 
 /* =========================
@@ -704,9 +702,9 @@ body.light .header{
 
 body.light .home-btn,
 body.light .settings{
-  background:#f2f3f5;
-  border-color:#e0e2e6;
-  color:#222;
+  background:var(--fixed-teal);
+  border-color:rgba(255,255,255,.35);
+  color:#fff;
 }
 
 body.light .panel{
@@ -765,11 +763,11 @@ body.light .name{
 }
 
 body.light .bottom-nav{
-  background:#fff;
+  background:var(--fixed-teal);
 }
 
 body.light .bottom-nav a{
-  color:#252a31;
+  color:#fff;
 }
 
 /* =========================
@@ -1087,7 +1085,7 @@ function theme(mode){
   if(themeColor){
     themeColor.setAttribute(
       "content",
-      isLight ? "#ffffff" : "#171a21"
+      "#008f8c"
     );
   }
 
@@ -1138,7 +1136,7 @@ function theme(mode){
     newMeta.name = "theme-color";
     newMeta.id = "themeColorMeta";
     newMeta.content =
-      isLight ? "#ffffff" : "#171a21";
+      "#008f8c";
 
     themeColor.replaceWith(newMeta);
   }
@@ -1154,7 +1152,7 @@ function theme(mode){
     if(currentTheme){
       currentTheme.setAttribute(
         "content",
-        isLight ? "#ffffff" : "#171a21"
+        "#008f8c"
       );
     }
 
