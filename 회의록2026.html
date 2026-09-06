@@ -627,10 +627,10 @@ function buildMeetings(items) {
     groups[item.group].push(item);
   });
 
-  return Object.keys(groups)
-    .sort(function(a,b) {
-      return Number(a) - Number(b);
-    })
+return Object.keys(groups)
+  .sort(function(a,b) {
+    return Number(b) - Number(a);
+  })
     .map(function(groupNumber) {
 
       const items =
