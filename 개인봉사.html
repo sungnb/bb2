@@ -1111,14 +1111,67 @@ function theme(mode){
     모바일 브라우저가 테마 색상 변경을 즉시
     다시 읽도록 meta 요소를 재설정합니다.
   */
+  /*
+    문서 전체의 시스템 색상 체계도 즉시 변경합니다.
+    모바일 브라우저가 테마 변경을 다시 읽도록
+    theme-color meta도 새 요소로 교체합니다.
+  */
+  document.documentElement.style.colorScheme =
+    isLight ? "light" : "dark";
+
+  document.documentElement.style.backgroundColor =
+    isLight ? "#f3f4f7" : "#0f1115";
+
+  document.body.style.backgroundColor =
+    isLight ? "#f3f4f7" : "#0f1115";
+
   if(themeColor){
-    const value = themeColor.getAttribute("content");
+    const newMeta =
+      document.createElement("meta");
 
-    themeColor.remove();
-    document.head.appendChild(themeColor);
+    newMeta.name = "theme-color";
+    newMeta.id = "themeColorMeta";
+    newMeta.content =
+      isLight ? "#ffffff" : "#171a21";
 
-    themeColor.setAttribute("content", value);
+    themeColor.replaceWith(newMeta);
   }
+
+  /*
+    iOS/Android에서 화면 테마 관련 설정이
+    연속으로 바뀌어도 다시 적용되도록 한 번 더 동기화합니다.
+  */
+  requestAnimationFrame(function(){
+    const currentTheme =
+      document.getElementById("themeColorMeta");
+
+    if(currentTheme){
+      currentTheme.setAttribute(
+        "content",
+        isLight ? "#ffffff" : "#171a21"
+      );
+    }
+
+    const currentColorScheme =
+      document.getElementById("colorSchemeMeta");
+
+    if(currentColorScheme){
+      currentColorScheme.setAttribute(
+        "content",
+        isLight ? "light" : "dark"
+      );
+    }
+
+    const currentStatusBar =
+      document.getElementById("statusBarMeta");
+
+    if(currentStatusBar){
+      currentStatusBar.setAttribute(
+        "content",
+        isLight ? "default" : "black"
+      );
+    }
+  });
 
 }
 
@@ -1446,7 +1499,7 @@ function render(result){
           <div class="info">
 
             <div class="zone">
-              ${zone}${person ? ` (${person})` : ""}
+              ${zone}
             </div>
 
             <div class="house">
