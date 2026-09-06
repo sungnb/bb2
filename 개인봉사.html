@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#008f8c" id="themeColorMeta">
+<meta name="theme-color" content="#173A63" id="themeColorMeta">
 <meta name="color-scheme" content="dark" id="colorSchemeMeta">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black" id="statusBarMeta">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" id="statusBarMeta">
 <title>개인봉사</title>
 
 <style>
@@ -24,9 +24,9 @@
   --accent:#8d7cf5;
   --accent2:#6555d8;
 
-  /* 밝게/어둡게와 관계없이 고정 영역에 사용하는 청녹색 */
-  --fixed-teal:#008f8c;
-  --fixed-teal-dark:#007a77;
+  /* 밝게/어둡게와 관계없이 상단/하단 고정 영역에 사용하는 다크블루 */
+  --fixed-blue:#173A63;
+  --fixed-blue-dark:#102C4A;
   --nav:#151821;
   --navline:#303641;
 }
@@ -86,8 +86,8 @@ body{
   background:
     linear-gradient(
       180deg,
-      #202431,
-      #171a21
+      #173A63,
+      #102C4A
     );
 
   border-bottom:1px solid var(--line);
@@ -129,7 +129,7 @@ body{
   border:1px solid #ffffff18;
   border-radius:12px;
 
-  background:var(--fixed-teal);
+  background:#202431;
 
   color:#fff;
 
@@ -157,7 +157,7 @@ body{
 .home-btn:active,
 .settings:active{
   transform:scale(.94);
-  background:var(--fixed-teal-dark);
+  background:var(--fixed-blue-dark);
 }
 
 /* =========================
@@ -401,11 +401,11 @@ body{
 ========================= */
 
 .num{
-  min-width:58px;
+  min-width:70px;
 
-  height:40px;
+  height:50px;
 
-  padding:0 11px;
+  padding:0 12px;
 
   display:flex;
 
@@ -640,7 +640,7 @@ body{
 
   height:64px;
 
-  background:var(--fixed-teal);
+  background:var(--fixed-blue);
 
   border-top:1px solid var(--navline);
 
@@ -674,7 +674,7 @@ body{
 }
 
 .bottom-nav a:active{
-  background:var(--fixed-teal-dark);
+  background:var(--fixed-blue-dark);
 }
 
 /* =========================
@@ -697,13 +697,27 @@ body.light{
 }
 
 body.light .header{
-  background:#fff;
+  background:
+    linear-gradient(
+      180deg,
+      #173A63,
+      #102C4A
+    );
+}
+
+/* 밝게 모드에서도 상단 고정 영역과 카드 영역은 다크 테마와 동일하게 유지 */
+body.light .header h1{
+  color:#f2f4f7;
+}
+
+body.light .sub{
+  color:#aeb5c0;
 }
 
 body.light .home-btn,
 body.light .settings{
-  background:var(--fixed-teal);
-  border-color:rgba(255,255,255,.35);
+  background:#202431;
+  border-color:#ffffff18;
   color:#fff;
 }
 
@@ -739,31 +753,72 @@ body.light .theme-btn.active{
 }
 
 body.light .card{
-  background:#fff;
+  background:
+    linear-gradient(
+      145deg,
+      #1d222b,
+      #171b22
+    );
 
-  border-color:#e1e4e8;
+  border-color:#303640;
 
   box-shadow:
-    0 5px 15px rgba(0,0,0,.08);
+    0 7px 18px rgba(0,0,0,.28);
 }
 
 body.light .datebox,
 body.light .assign{
-  background:#f6f7f9;
+  background:#14181e;
 
-  border-color:#e2e5e9;
+  border-color:#2d333d;
+}
+
+body.light .assign{
+  background:#181c23;
+  border-color:#2b313a;
+}
+
+body.light .zone{
+  color:#f2f4f7;
+}
+
+body.light .house{
+  color:#aeb5c0;
+}
+
+body.light .label{
+  color:#8f98a6;
 }
 
 body.light .date{
-  color:#252a31;
+  color:#eef1f5;
+}
+
+body.light .alabel{
+  color:#858e9b;
+}
+
+body.light .weekday{
+  color:#c5cad2;
 }
 
 body.light .name{
-  color:#222;
+  color:#fff;
+}
+
+body.light .note{
+  background:
+    linear-gradient(
+      135deg,
+      #24212f,
+      #1c1b24
+    );
+  border-color:#3b354f;
+  color:#d9d5e5;
 }
 
 body.light .bottom-nav{
-  background:var(--fixed-teal);
+  background:var(--fixed-blue);
 }
 
 body.light .bottom-nav a{
@@ -1085,7 +1140,7 @@ function theme(mode){
   if(themeColor){
     themeColor.setAttribute(
       "content",
-      "#008f8c"
+      "#173A63"
     );
   }
 
@@ -1099,7 +1154,7 @@ function theme(mode){
   if(statusBar){
     statusBar.setAttribute(
       "content",
-      isLight ? "default" : "black"
+      "black-translucent"
     );
   }
 
@@ -1136,7 +1191,7 @@ function theme(mode){
     newMeta.name = "theme-color";
     newMeta.id = "themeColorMeta";
     newMeta.content =
-      "#008f8c";
+      "#173A63";
 
     themeColor.replaceWith(newMeta);
   }
@@ -1152,7 +1207,7 @@ function theme(mode){
     if(currentTheme){
       currentTheme.setAttribute(
         "content",
-        "#008f8c"
+        "#173A63"
       );
     }
 
@@ -1172,7 +1227,7 @@ function theme(mode){
     if(currentStatusBar){
       currentStatusBar.setAttribute(
         "content",
-        isLight ? "default" : "black"
+        "black-translucent"
       );
     }
   });
@@ -1587,7 +1642,7 @@ function render(result){
           <div class="datebox">
 
             <div class="label">
-              지급일자
+              지급 일자
             </div>
 
             <div class="date">
@@ -1600,7 +1655,7 @@ function render(result){
           <div class="datebox complete">
 
             <div class="label">
-              완료 날짜
+              완료 일자
             </div>
 
             <div class="date">
