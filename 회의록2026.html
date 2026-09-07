@@ -242,6 +242,7 @@ function syncHeaderHeight() {
 }
 
 window.addEventListener("resize", syncHeaderHeight);
+window.addEventListener("orientationchange", syncHeaderHeight);
 
 document.addEventListener("DOMContentLoaded", function() {
   syncHeaderHeight();
