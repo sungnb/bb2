@@ -28,8 +28,12 @@ body {
 
   color: #ffffff;
 
-  /* 항상 다크블루 */
-  background: #18324a;
+  background:
+    linear-gradient(
+      135deg,
+      #16222e,
+      #263b4a
+    );
 }
 
 
@@ -52,7 +56,6 @@ body {
 
   text-align: center;
 
-  /* 항상 다크블루 */
   background: #18324a;
 
   border-bottom:
@@ -66,6 +69,7 @@ body {
 
 .header h1 {
   margin: 0;
+  color: #ffffff;
 
   font-size: 35px;
   line-height: 35px;
@@ -77,6 +81,7 @@ body {
 
 .reference-date {
   margin-top: 3px;
+  color: #ffffff;
 
   font-size: 17px;
   line-height: 17px;
@@ -435,7 +440,6 @@ body {
   position: absolute;
   left: 18px;
   top: 23px;
-
   transform: none;
 
   width: 42px;
@@ -446,25 +450,15 @@ body {
   justify-content: center;
 
   border: none;
-
-  /* 12px 둥근 모서리 */
   border-radius: 12px;
 
-  /* 요청한 버튼 배경 */
   background: #234563;
-
-  /* 요청한 아이콘 색상 */
-  color: #286b5b;
+  color: #ffffff;
 
   padding: 0;
-
   font-family: inherit;
-
-  /* 요청한 아이콘 크기 */
   font-size: 25px;
-
   font-weight: 900;
-
   line-height: 1;
 
   cursor: pointer;
@@ -477,7 +471,7 @@ body {
 }
 
 .title-back-button:hover {
-  background: #2a5273;
+  background: rgba(255,255,255,0.20);
   transform: translateY(-1px);
 }
 
@@ -488,52 +482,31 @@ body {
 
 .settings-button {
   position: absolute;
-
   top: 23px;
   right: 18px;
-
   width: 42px;
   height: 42px;
-
   border: none;
-  border-radius: 50%;
-
-  font-size: 20px;
-
+  border-radius: 12px;
+  font-size: 25px;
   cursor: pointer;
-
   color: #ffffff;
-
-  background:
-    rgba(255,255,255,0.12);
-
+  background: #234563;
   z-index: 10;
 }
 
 .settings-panel {
   display: none;
-
   position: absolute;
-
   top: 66px;
   right: 18px;
-
   width: 220px;
-
   padding: 16px;
-
   border-radius: 14px;
-
   background: rgba(18,31,42,0.97);
-
-  border:
-    1px solid rgba(255,255,255,0.12);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.25);
-
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
   z-index: 20;
-
   text-align: left;
 }
 
@@ -543,201 +516,146 @@ body {
 
 .settings-title {
   margin-bottom: 12px;
-
   font-size: 15px;
-
   font-weight: 700;
 }
 
 .settings-row {
   display: flex;
-
   gap: 8px;
-
   margin-bottom: 12px;
 }
 
 .settings-row button {
   flex: 1;
-
   border: none;
-
   border-radius: 8px;
-
   padding: 9px 6px;
-
   cursor: pointer;
-
   color: #ffffff;
-
-  background:
-    rgba(255,255,255,0.10);
-
+  background: rgba(255,255,255,0.10);
   font-size: 13px;
 }
 
 .settings-row button.active {
-  background:
-    rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.22);
 }
 
 .font-size-row {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 8px;
 }
 
 .font-size-row button {
   width: 38px;
   height: 34px;
-
   border: none;
-
   border-radius: 8px;
-
   cursor: pointer;
-
   color: #ffffff;
-
-  background:
-    rgba(255,255,255,0.10);
-
+  background: rgba(255,255,255,0.10);
   font-size: 16px;
 }
 
 .font-size-value {
   flex: 1;
-
   text-align: center;
-
   font-size: 14px;
 }
 
-
-/* =========================================================
-   밝게
-   ※ 배경은 다크블루 #18324a로 통일
-========================================================= */
-
+/* 밝게 */
 body.light {
-  color: #ffffff;
-
+  color: #222222;
   background: #18324a;
 }
 
 body.light .header {
   background: #18324a;
-
-  border-bottom-color:
-    rgba(255,255,255,0.08);
+  border-bottom-color: rgba(0,0,0,0.08);
 }
 
-body.light .action-button,
-body.light .settings-button {
+body.light .action-button {
   color: #222222;
+  background: rgba(0,0,0,0.07);
+}
 
-  background:
-    rgba(255,255,255,0.82);
+body.light .settings-button {
+  color: #ffffff;
+  background: #234563;
 }
 
 body.light .action-button:hover,
 body.light .settings-button:hover {
-  background:
-    rgba(255,255,255,0.95);
+  background: rgba(0,0,0,0.12);
 }
 
 body.light .group-card,
 body.light .other-card,
 body.light .reference-card {
-  border-color:
-    rgba(255,255,255,0.18);
-
-  background:
-    rgba(255,255,255,0.90);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.18);
-
-  color: #222222;
+  border-color: rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.90);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 body.light .group-card {
-  border-color:
-    rgba(255,255,255,0.22);
+  border-color: rgba(0,0,0,0.20);
 }
 
 body.light .group-header {
-  background:
-    rgba(0,0,0,0.04);
-
-  border-bottom-color:
-    rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.04);
+  border-bottom-color: rgba(0,0,0,0.08);
 }
 
 body.light .name {
-  background:
-    rgba(0,0,0,0.04);
-
-  border-color:
-    rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.12);
 }
 
 body.light .total-count {
-  background:
-    rgba(0,0,0,0.06);
+  background: rgba(0,0,0,0.06);
 }
 
 body.light .section-title {
-  border-bottom-color:
-    rgba(255,255,255,0.20);
+  border-bottom-color: rgba(0,0,0,0.12);
 }
 
 body.light .empty-message,
 body.light .loading,
-body.light .error,
+body.light .error {
+  color: rgba(0,0,0,0.55);
+}
+
+body.light .header h1,
 body.light .reference-date {
-  color:
-    rgba(255,255,255,0.70);
+  color: #ffffff;
 }
 
 body.light .reference-item {
-  border-bottom-color:
-    rgba(0,0,0,0.12);
+  border-bottom-color: rgba(0,0,0,0.12);
 }
 
 body.light .settings-panel {
-  background:
-    rgba(255,255,255,0.98);
-
-  border-color:
-    rgba(0,0,0,0.10);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.15);
-
+  background: rgba(255,255,255,0.98);
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   color: #222222;
 }
 
 body.light .settings-row button,
 body.light .font-size-row button {
   color: #222222;
-
-  background:
-    rgba(0,0,0,0.06);
+  background: rgba(0,0,0,0.06);
 }
 
 body.light .settings-row button.active {
-  background:
-    rgba(0,0,0,0.13);
+  background: rgba(0,0,0,0.13);
 }
 
 body.light .settings-button {
-  background:
-    rgba(255,255,255,0.82);
+  background: #234563;
+  color: #ffffff;
 }
 
 
@@ -754,17 +672,14 @@ body.light .settings-button {
   .title-back-button {
     left: 12px;
     top: 23px;
-
     width: 42px;
     height: 42px;
-
     font-size: 25px;
   }
 
   .settings-button {
     top: 23px;
     right: 12px;
-
     width: 42px;
     height: 42px;
   }
@@ -809,8 +724,6 @@ body.light .settings-button {
 
   <div id="settingsPanel" class="settings-panel">
 
-    <div class="settings-title">설정</div>
-
     <div class="settings-row">
       <button id="lightButton" onclick="setTheme('light')">☀️ 밝게</button>
       <button id="darkButton" onclick="setTheme('dark')">🌙 어둡게</button>
@@ -833,11 +746,13 @@ body.light .settings-button {
 </header>
 
 
+
 <!-- =========================================================
      본문
 ========================================================= -->
 
 <main class="container">
+
 
 
   <!-- =======================================================
@@ -854,6 +769,7 @@ body.light .settings-button {
 
 
 </main>
+
 
 
 <script>
@@ -1038,7 +954,7 @@ function renderData(data) {
 
   /* =======================================================
      기준일
-  ======================================================= */
+======================================================= */
 
   const referenceDate =
     data.referenceDate || "2026.8.30 기준";
@@ -1534,7 +1450,6 @@ function goBack() {
 const SETTINGS_THEME_KEY = "전시대참여자_theme";
 const SETTINGS_FONT_KEY = "전시대참여자_fontSize";
 
-
 function applySettings() {
 
   const theme =
@@ -1543,40 +1458,32 @@ function applySettings() {
   const fontSize =
     Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
-
   document.body.classList.toggle(
     "light",
     theme === "light"
   );
-
 
   document.body.style.setProperty(
     "--font-scale",
     fontSize / 100
   );
 
-
   document.body.style.zoom =
     String(fontSize / 100);
 
-
   document.getElementById("fontSizeValue").textContent =
     fontSize + "%";
-
 
   document.getElementById("darkButton").classList.toggle(
     "active",
     theme === "dark"
   );
 
-
   document.getElementById("lightButton").classList.toggle(
     "active",
     theme === "light"
   );
-
 }
-
 
 function setTheme(theme) {
 
@@ -1586,42 +1493,32 @@ function setTheme(theme) {
   );
 
   applySettings();
-
 }
-
 
 function changeFontSize(amount) {
 
   let fontSize =
     Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
-
   fontSize += amount;
-
 
   if (fontSize < 80) fontSize = 80;
   if (fontSize > 150) fontSize = 150;
-
 
   localStorage.setItem(
     SETTINGS_FONT_KEY,
     fontSize
   );
 
-
   applySettings();
-
 }
-
 
 function toggleSettings() {
 
   document.getElementById(
     "settingsPanel"
   ).classList.toggle("show");
-
 }
-
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -1632,7 +1529,6 @@ document.addEventListener(
   }
 );
 
-
 document.addEventListener(
   "click",
   function(event) {
@@ -1642,7 +1538,6 @@ document.addEventListener(
 
     const button =
       document.querySelector(".settings-button");
-
 
     if (
       panel &&
