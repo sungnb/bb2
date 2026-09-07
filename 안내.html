@@ -36,11 +36,6 @@
       --font-scale: 1;
     }
 
-
-    /* =========================================
-       밝은 화면
-    ========================================= */
-
     body.light {
       --bg-main: #eef3f7;
       --bg-gradient-1: #f4f7fa;
@@ -63,11 +58,6 @@
 
       --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
-
-
-    /* =========================================
-       BODY
-    ========================================= */
 
     body {
       margin: 0;
@@ -94,20 +84,17 @@
         color 0.25s ease;
     }
 
-
-    /* =========================================
-       전체
-    ========================================= */
-
     .page {
       width: 100%;
       max-width: 1100px;
 
       margin: 0 auto;
 
-      padding: calc(var(--header-height, 0px) + 20px) 16px 50px;
+      padding:
+        calc(var(--header-height, 0px) + 20px)
+        16px
+        50px;
     }
-
 
     /* =========================================
        HEADER
@@ -123,14 +110,14 @@
 
       text-align: center;
 
-      padding: 8px 0 20px;
+      /* 회의록처럼 상단 여백을 확보 */
+      padding: 10px 0 20px;
 
       background: #18324a !important;
       border-bottom: 1px solid #18324a;
 
       color: #ffffff;
     }
-
 
     .header-title {
       margin: 0;
@@ -144,16 +131,17 @@
       color: #ffffff !important;
     }
 
-
     /* =========================================
-       회의록과 동일한 좌측 뒤로가기 아이콘
+       왼쪽 뒤로가기
+       회의록과 같은 크기/색상
+       아이콘은 헤더 가운데 높이에 맞춰 아래쪽 배치
     ========================================= */
 
     .title-back-button {
       position: absolute;
 
       left: 14px;
-      top: 10px;
+      top: 17px;
 
       width: 42px;
       height: 42px;
@@ -184,17 +172,14 @@
         transform 0.15s ease;
     }
 
-
     .title-back-button:hover {
       background: #234563 !important;
-      transform: translateY(-1px);
+      transform: none;
     }
-
 
     .title-back-button:active {
       transform: scale(0.95);
     }
-
 
     .header-month {
       margin-top: 1px;
@@ -206,16 +191,17 @@
       color: #7a8580;
     }
 
-
     /* =========================================
-       회의록과 동일한 우측 설정 아이콘
+       오른쪽 설정
+       회의록과 같은 크기/색상
+       회전 효과 없음
     ========================================= */
 
     .settings-button {
       position: absolute;
 
       right: 14px;
-      top: 10px;
+      top: 17px;
 
       width: 42px;
       height: 42px;
@@ -242,21 +228,17 @@
       z-index: 1100;
 
       transition:
-        background 0.2s ease,
-        transform 0.15s ease;
+        background 0.2s ease;
     }
-
 
     .settings-button:hover {
       background: #234563 !important;
-      transform: rotate(15deg);
+      transform: none;
     }
-
 
     .settings-button:active {
       transform: scale(0.95);
     }
-
 
     /* =========================================
        설정창
@@ -267,12 +249,12 @@
 
       position: absolute;
 
-      right: 0;
-      top: 62px;
+      right: 14px;
+      top: 66px;
 
-      width: 270px;
+      width: 170px;
 
-      padding: 16px;
+      padding: 10px;
 
       border: 1px solid var(--panel-border);
       border-radius: 12px;
@@ -287,11 +269,9 @@
       text-align: left;
     }
 
-
     .settings-panel.show {
       display: block;
     }
-
 
     .settings-title {
       display: none;
@@ -303,7 +283,6 @@
 
       font-weight: 900;
     }
-
 
     .settings-row {
       display: flex;
@@ -319,11 +298,9 @@
       gap: 10px;
     }
 
-
     .settings-row:last-child {
       margin-bottom: 0;
     }
-
 
     .settings-label {
       display: none;
@@ -338,11 +315,6 @@
       white-space: nowrap;
     }
 
-
-    /* =========================================
-       설정 버튼 그룹
-    ========================================= */
-
     .theme-buttons,
     .font-buttons {
       display: flex;
@@ -354,10 +326,8 @@
       flex: 0 0 auto;
     }
 
-
     .theme-buttons button,
     .font-buttons button {
-
       height: 36px;
 
       min-width: 38px;
@@ -387,20 +357,14 @@
         transform 0.15s ease;
     }
 
-
     .theme-buttons button:hover,
     .font-buttons button:hover {
-
       background: var(--button-hover);
 
       transform: translateY(-1px);
     }
 
-
-    /* 가운데 100% 표시 */
-
     .font-size-value {
-
       min-width: 42px;
 
       height: 36px;
@@ -418,11 +382,6 @@
       font-weight: 800;
     }
 
-
-    /* =========================================
-       상단 액션
-    ========================================= */
-
     .actions {
       display: flex;
 
@@ -433,9 +392,7 @@
       margin-bottom: 12px;
     }
 
-
     .action-button {
-
       border: 1px solid var(--panel-border);
 
       border-radius: 10px;
@@ -457,21 +414,13 @@
         transform 0.2s ease;
     }
 
-
     .action-button:hover {
-
       background: var(--button-hover);
 
       transform: translateY(-1px);
     }
 
-
-    /* =========================================
-       기본 SECTION
-    ========================================= */
-
     .section {
-
       margin-top: 14px;
 
       padding: 16px;
@@ -487,9 +436,7 @@
       overflow: hidden;
     }
 
-
     .section-title {
-
       margin: 0 0 12px;
 
       font-size:
@@ -503,13 +450,7 @@
       letter-spacing: -0.7px;
     }
 
-
-    /* =========================================
-       집회 표
-    ========================================= */
-
     .schedule-table-wrap {
-
       width: 100%;
 
       border: 1px solid var(--table-border);
@@ -519,9 +460,7 @@
       overflow: hidden;
     }
 
-
     .schedule-table {
-
       width: 100%;
 
       border-collapse: collapse;
@@ -531,9 +470,7 @@
       background: var(--table-bg);
     }
 
-
     .schedule-table th {
-
       height: 42px;
 
       padding: 9px 8px;
@@ -554,9 +491,7 @@
       font-weight: 900;
     }
 
-
     .schedule-table td {
-
       height: 41px;
 
       padding: 9px 8px;
@@ -575,33 +510,21 @@
       font-weight: 600;
     }
 
-
     .schedule-table th:last-child,
     .schedule-table td:last-child {
-
       border-right: none;
     }
 
-
     .schedule-table tr:last-child td {
-
       border-bottom: none;
     }
 
-
     .schedule-table tbody tr:hover {
-
       background:
         rgba(255, 255, 255, 0.035);
     }
 
-
-    /* =========================================
-       주차 안내
-    ========================================= */
-
     .parking-section {
-
       margin-top: 14px;
 
       padding: 16px;
@@ -617,9 +540,7 @@
       overflow: hidden;
     }
 
-
     .parking-text {
-
       padding: 13px 15px;
 
       border: 1px solid var(--table-border);
@@ -640,13 +561,7 @@
       text-align: left;
     }
 
-
-    /* =========================================
-       집단 청소 및 내부 안내인
-    ========================================= */
-
     .cleaning-section {
-
       margin-top: 14px;
 
       padding: 16px;
@@ -662,9 +577,7 @@
       overflow: hidden;
     }
 
-
     .cleaning-title {
-
       margin: 0 0 12px;
 
       color: var(--text-main);
@@ -682,9 +595,7 @@
       text-align: left;
     }
 
-
     .cleaning-box {
-
       width: 100%;
 
       padding: 13px 15px;
@@ -707,13 +618,7 @@
       font-weight: 900;
     }
 
-
-    /* =========================================
-       안내사항
-    ========================================= */
-
     .notice-section {
-
       margin-top: 14px;
 
       padding: 16px;
@@ -729,9 +634,7 @@
       overflow: hidden;
     }
 
-
     .notice-list {
-
       overflow: hidden;
 
       border: 1px solid var(--table-border);
@@ -741,9 +644,7 @@
       background: var(--table-bg);
     }
 
-
     .notice-item {
-
       padding: 11px 14px;
 
       border-bottom: 1px solid var(--table-border);
@@ -758,19 +659,11 @@
       font-weight: 600;
     }
 
-
     .notice-item:last-child {
-
       border-bottom: none;
     }
 
-
-    /* =========================================
-       로딩
-    ========================================= */
-
     .loading {
-
       padding: 60px 20px;
 
       text-align: center;
@@ -782,13 +675,7 @@
       font-weight: 700;
     }
 
-
-    /* =========================================
-       오류
-    ========================================= */
-
     .error {
-
       margin: 30px auto;
 
       padding: 20px;
@@ -807,7 +694,6 @@
       line-height: 1.6;
     }
 
-
     /* =========================================
        모바일
     ========================================= */
@@ -815,97 +701,71 @@
     @media (max-width: 700px) {
 
       .page {
-
         padding:
           calc(var(--header-height, 0px) + 20px)
           10px
           35px;
       }
 
-
       .header {
-
         padding-left: 55px;
         padding-right: 55px;
       }
 
-
-      /* 회의록과 동일하게 42px 유지 */
-
       .title-back-button {
-
         width: 42px;
         height: 42px;
 
         left: 14px;
-        top: 10px;
+        top: 17px;
 
         font-size: 25px;
       }
 
-
       .settings-button {
-
         width: 42px;
         height: 42px;
 
         right: 14px;
-        top: 10px;
+        top: 17px;
 
         font-size: 20px;
       }
 
-
       .settings-panel {
+        top: 66px;
+        right: 14px;
 
-        top: 56px;
+        width: 170px;
 
-        right: 0;
-
-        width:
-          min(
-            270px,
-            calc(100vw - 24px)
-          );
-
-        padding: 15px;
+        padding: 10px;
 
         border-radius: 12px;
       }
 
-
       .settings-title {
-
         font-size: 14px;
 
         margin-bottom: 12px;
       }
 
-
       .settings-row {
-
         gap: 7px;
 
         margin-bottom: 9px;
       }
 
-
       .settings-label {
-
         font-size: 12px;
       }
 
-
       .theme-buttons,
       .font-buttons {
-
         gap: 4px;
       }
 
-
       .theme-buttons button,
       .font-buttons button {
-
         height: 34px;
 
         min-width: 36px;
@@ -915,9 +775,7 @@
         font-size: 11px;
       }
 
-
       .font-size-value {
-
         height: 34px;
 
         min-width: 40px;
@@ -925,15 +783,11 @@
         font-size: 11px;
       }
 
-
       .actions {
-
         justify-content: stretch;
       }
 
-
       .action-button {
-
         flex: 1;
 
         padding: 10px 8px;
@@ -941,21 +795,17 @@
         font-size: 14px;
       }
 
-
       .section,
       .parking-section,
       .cleaning-section,
       .notice-section {
-
         padding: 12px;
 
         border-radius: 16px;
       }
 
-
       .schedule-table th,
       .schedule-table td {
-
         font-size:
           calc(14px * var(--font-scale));
 
@@ -963,9 +813,7 @@
           8px 5px;
       }
 
-
       .parking-text {
-
         font-size:
           calc(14px * var(--font-scale));
 
@@ -973,9 +821,7 @@
           12px 13px;
       }
 
-
       .cleaning-box {
-
         padding:
           12px 13px;
 
@@ -983,36 +829,22 @@
           calc(30px * var(--font-scale));
       }
 
-
       .notice-item {
-
         font-size:
           calc(14px * var(--font-scale));
 
         padding:
           10px 11px;
       }
-
     }
-
   </style>
 </head>
 
-
 <body>
-
 
 <div class="page">
 
-
-  <!-- =========================================
-       헤더
-  ========================================== -->
-
   <header class="header">
-
-
-    <!-- 좌측 뒤로가기 -->
 
     <button
       class="title-back-button"
@@ -1022,9 +854,6 @@
       ‹
     </button>
 
-
-    <!-- 우측 설정 -->
-
     <button
       class="settings-button"
       onclick="toggleSettings()"
@@ -1033,11 +862,9 @@
       ⚙️
     </button>
 
-
     <h1 class="header-title">
       외부 안내 봉사
     </h1>
-
 
     <div
       id="month"
@@ -1046,30 +873,20 @@
       불러오는 중...
     </div>
 
-
-    <!-- =====================================
-         설정
-    ====================================== -->
-
     <div
       id="settingsPanel"
       class="settings-panel"
     >
 
-
       <div class="settings-title">
         설정
       </div>
-
-
-      <!-- 화면 -->
 
       <div class="settings-row">
 
         <div class="settings-label">
           화면
         </div>
-
 
         <div class="theme-buttons">
 
@@ -1079,7 +896,6 @@
           >
             ☀
           </button>
-
 
           <button
             type="button"
@@ -1092,15 +908,11 @@
 
       </div>
 
-
-      <!-- 글자 크기 -->
-
       <div class="settings-row">
 
         <div class="settings-label">
           글자 크기
         </div>
-
 
         <div class="font-buttons">
 
@@ -1111,14 +923,12 @@
             −
           </button>
 
-
           <div
             id="fontSizeValue"
             class="font-size-value"
           >
             100%
           </div>
-
 
           <button
             type="button"
@@ -1131,15 +941,9 @@
 
       </div>
 
-
     </div>
 
   </header>
-
-
-  <!-- =========================================
-       데이터
-  ========================================== -->
 
   <main id="content">
 
@@ -1149,27 +953,12 @@
 
   </main>
 
-
 </div>
-
-
 
 <script>
 
-
-  /* =========================================================
-     안내 봉사 API
-
-     기존 URL 그대로 유지
-  ========================================================= */
-
   const API_URL =
     "https://script.google.com/macros/s/AKfycbxizrC1woLHdgCfASCVle2Pgrd7FkfEYvO-am-2svWb69QThZXH6qLRfcXz4vEcWUeWEQ/exec";
-
-
-  /* =========================================================
-     시작
-  ========================================================= */
 
   document.addEventListener(
     "DOMContentLoaded",
@@ -1182,11 +971,6 @@
     }
   );
 
-
-  /* =========================================================
-     데이터 불러오기
-  ========================================================= */
-
   async function loadData() {
 
     const content =
@@ -1194,13 +978,11 @@
         "content"
       );
 
-
     content.innerHTML = `
       <div class="loading">
         안내 봉사 정보를 불러오는 중입니다...
       </div>
     `;
-
 
     try {
 
@@ -1213,7 +995,6 @@
           }
         );
 
-
       if (!response.ok) {
 
         throw new Error(
@@ -1223,10 +1004,8 @@
 
       }
 
-
       const result =
         await response.json();
-
 
       if (
         !result ||
@@ -1241,11 +1020,9 @@
 
       }
 
-
       renderData(result);
 
     }
-
 
     catch (error) {
 
@@ -1253,7 +1030,6 @@
         "안내 데이터 오류:",
         error
       );
-
 
       content.innerHTML = `
         <div class="error">
@@ -1285,21 +1061,10 @@
 
   }
 
-
-  /* =========================================================
-     전체 데이터 표시
-  ========================================================= */
-
   function renderData(result) {
-
 
     const byNumber =
       result.byNumber || {};
-
-
-    /* -----------------------------------------
-       월
-    ----------------------------------------- */
 
     const month =
       getCell(
@@ -1308,7 +1073,6 @@
         "b"
       );
 
-
     document.getElementById(
       "month"
     ).textContent =
@@ -1316,15 +1080,7 @@
       result.month ||
       "";
 
-
-    /* -----------------------------------------
-       평일
-       2-1은 헤더이므로 제외
-       2-2 ~ 2-6
-    ----------------------------------------- */
-
     const weekdayRows = [];
-
 
     for (
       let i = 2;
@@ -1337,34 +1093,26 @@
           "2-" + i
         ];
 
-
       if (!row) {
         continue;
       }
 
-
       const date =
         cleanText(row.b);
-
 
       const volunteer1 =
         cleanText(row.c);
 
-
       const volunteer2 =
         cleanText(row.d);
-
 
       if (
         !date &&
         !volunteer1 &&
         !volunteer2
       ) {
-
         continue;
-
       }
-
 
       weekdayRows.push({
         date,
@@ -1374,15 +1122,7 @@
 
     }
 
-
-    /* -----------------------------------------
-       주말
-       3-1은 헤더이므로 제외
-       3-2 ~ 3-6
-    ----------------------------------------- */
-
     const weekendRows = [];
-
 
     for (
       let i = 2;
@@ -1395,34 +1135,26 @@
           "3-" + i
         ];
 
-
       if (!row) {
         continue;
       }
 
-
       const date =
         cleanText(row.b);
-
 
       const volunteer1 =
         cleanText(row.c);
 
-
       const volunteer2 =
         cleanText(row.d);
-
 
       if (
         !date &&
         !volunteer1 &&
         !volunteer2
       ) {
-
         continue;
-
       }
-
 
       weekendRows.push({
         date,
@@ -1432,20 +1164,13 @@
 
     }
 
-
-    /* -----------------------------------------
-       집단 청소 및 내부 안내인
-    ----------------------------------------- */
-
     const cleaningRow =
       byNumber["5"] || {};
-
 
     let cleaningGroup =
       cleanText(
         cleaningRow.d
       );
-
 
     if (!cleaningGroup) {
 
@@ -1453,7 +1178,6 @@
         cleanText(
           cleaningRow.b
         );
-
 
       if (
         cleaningText.includes(":")
@@ -1470,27 +1194,15 @@
 
     }
 
-
-    /* -----------------------------------------
-       주차 안내
-    ----------------------------------------- */
-
     const parkingRow =
       byNumber["4"] || {};
-
 
     const parkingText =
       cleanText(
         parkingRow.b
       );
 
-
-    /* -----------------------------------------
-       안내사항 6~11
-    ----------------------------------------- */
-
     const notices = [];
-
 
     for (
       let i = 6;
@@ -1503,31 +1215,21 @@
           String(i)
         ];
 
-
       if (!row) {
         continue;
       }
 
-
       const parts = [
-
         cleanText(row.b),
-
         cleanText(row.c),
-
         cleanText(row.d)
-
       ].filter(Boolean);
-
 
       if (
         parts.length === 0
       ) {
-
         continue;
-
       }
-
 
       notices.push(
         parts.join(" ")
@@ -1535,17 +1237,7 @@
 
     }
 
-
-    /* =====================================================
-       화면 구성
-    ===================================================== */
-
     let html = "";
-
-
-    /* -----------------------------------------
-       평일
-    ----------------------------------------- */
 
     html += `
 
@@ -1563,11 +1255,6 @@
 
     `;
 
-
-    /* -----------------------------------------
-       주말
-    ----------------------------------------- */
-
     html += `
 
       <section class="section">
@@ -1583,11 +1270,6 @@
       </section>
 
     `;
-
-
-    /* -----------------------------------------
-       주차 안내
-    ----------------------------------------- */
 
     if (parkingText) {
 
@@ -1611,11 +1293,6 @@
 
     }
 
-
-    /* -----------------------------------------
-       집단 청소 및 내부 안내인
-    ----------------------------------------- */
-
     if (cleaningGroup) {
 
       html += `
@@ -1638,11 +1315,6 @@
 
     }
 
-
-    /* -----------------------------------------
-       안내사항
-    ----------------------------------------- */
-
     if (
       notices.length > 0
     ) {
@@ -1658,7 +1330,6 @@
           <div class="notice-list">
 
       `;
-
 
       notices.forEach(
         function (notice) {
@@ -1676,7 +1347,6 @@
         }
       );
 
-
       html += `
 
           </div>
@@ -1687,22 +1357,13 @@
 
     }
 
-
     document.getElementById(
       "content"
     ).innerHTML = html;
 
   }
 
-
-  /* =========================================================
-     집회 표 생성
-  ========================================================= */
-
-  function createScheduleTable(
-    rows
-  ) {
-
+  function createScheduleTable(rows) {
 
     if (
       !rows ||
@@ -1745,7 +1406,6 @@
 
     }
 
-
     let html = `
 
       <div class="schedule-table-wrap">
@@ -1769,7 +1429,6 @@
           <tbody>
 
     `;
-
 
     rows.forEach(
       function (row) {
@@ -1803,7 +1462,6 @@
       }
     );
 
-
     html += `
 
           </tbody>
@@ -1814,15 +1472,9 @@
 
     `;
 
-
     return html;
 
   }
-
-
-  /* =========================================================
-     셀 가져오기
-  ========================================================= */
 
   function getCell(
     byNumber,
@@ -1839,21 +1491,13 @@
 
     }
 
-
     return cleanText(
       byNumber[number][column]
     );
 
   }
 
-
-  /* =========================================================
-     텍스트 정리
-  ========================================================= */
-
-  function cleanText(
-    value
-  ) {
+  function cleanText(value) {
 
     if (
       value === null ||
@@ -1864,7 +1508,6 @@
 
     }
 
-
     return String(value)
       .replace(/\r\n/g, "\n")
       .replace(/\r/g, "\n")
@@ -1872,14 +1515,7 @@
 
   }
 
-
-  /* =========================================================
-     HTML 보호
-  ========================================================= */
-
-  function escapeHtml(
-    value
-  ) {
+  function escapeHtml(value) {
 
     return String(
       value === null ||
@@ -1910,11 +1546,6 @@
 
   }
 
-
-  /* =========================================================
-     뒤로가기
-  ========================================================= */
-
   function goBack() {
 
     if (
@@ -1932,11 +1563,6 @@
 
   }
 
-
-  /* =========================================================
-     설정창
-  ========================================================= */
-
   function toggleSettings() {
 
     const panel =
@@ -1944,21 +1570,13 @@
         "settingsPanel"
       );
 
-
     panel.classList.toggle(
       "show"
     );
 
   }
 
-
-  /* =========================================================
-     화면 테마
-  ========================================================= */
-
-  function setTheme(
-    theme
-  ) {
+  function setTheme(theme) {
 
     if (
       theme === "light"
@@ -1976,7 +1594,6 @@
 
     }
 
-
     localStorage.setItem(
       "guideTheme",
       theme
@@ -1984,14 +1601,7 @@
 
   }
 
-
-  /* =========================================================
-     글자 크기
-  ========================================================= */
-
-  function changeFontSize(
-    direction
-  ) {
+  function changeFontSize(direction) {
 
     let scale =
       parseInt(
@@ -2001,7 +1611,6 @@
         10
       );
 
-
     if (
       direction < 0
     ) {
@@ -2010,7 +1619,6 @@
 
     }
 
-
     if (
       direction > 0
     ) {
@@ -2018,7 +1626,6 @@
       scale += 10;
 
     }
-
 
     scale =
       Math.max(
@@ -2029,22 +1636,18 @@
         )
       );
 
-
     const scaleValue =
       scale / 100;
-
 
     document.documentElement.style.setProperty(
       "--font-scale",
       scaleValue
     );
 
-
     const display =
       document.getElementById(
         "fontSizeValue"
       );
-
 
     if (display) {
 
@@ -2053,7 +1656,6 @@
 
     }
 
-
     localStorage.setItem(
       "guideFontScale",
       scale
@@ -2061,21 +1663,12 @@
 
   }
 
-
-  /* =========================================================
-     저장된 설정 불러오기
-  ========================================================= */
-
   function loadSavedSettings() {
-
-
-    /* 테마 */
 
     const savedTheme =
       localStorage.getItem(
         "guideTheme"
       );
-
 
     if (
       savedTheme === "light"
@@ -2087,9 +1680,6 @@
 
     }
 
-
-    /* 글자 크기 */
-
     const savedScale =
       parseInt(
         localStorage.getItem(
@@ -2097,7 +1687,6 @@
         ) || "100",
         10
       );
-
 
     const safeScale =
       Math.max(
@@ -2108,18 +1697,15 @@
         )
       );
 
-
     document.documentElement.style.setProperty(
       "--font-scale",
       safeScale / 100
     );
 
-
     const display =
       document.getElementById(
         "fontSizeValue"
       );
-
 
     if (display) {
 
@@ -2130,11 +1716,6 @@
 
   }
 
-
-  /* =========================================================
-     설정창 바깥 클릭
-  ========================================================= */
-
   document.addEventListener(
     "click",
     function (event) {
@@ -2144,12 +1725,10 @@
           "settingsPanel"
         );
 
-
       const button =
         document.querySelector(
           ".settings-button"
         );
-
 
       if (
         panel.classList.contains("show") &&
@@ -2166,11 +1745,6 @@
     }
   );
 
-
-  /* =========================================================
-     헤더 실제 높이 자동 계산
-  ========================================================= */
-
   function syncHeaderHeight() {
 
     const header =
@@ -2178,13 +1752,10 @@
         ".header"
       );
 
-
     if (!header) return;
-
 
     const height =
       header.offsetHeight;
-
 
     document.documentElement.style.setProperty(
       "--header-height",
@@ -2193,18 +1764,15 @@
 
   }
 
-
   window.addEventListener(
     "resize",
     syncHeaderHeight
   );
 
-
   window.addEventListener(
     "orientationchange",
     syncHeaderHeight
   );
-
 
   if (
     document.fonts &&
@@ -2217,19 +1785,16 @@
 
   }
 
-
   document.addEventListener(
     "DOMContentLoaded",
     function () {
 
       syncHeaderHeight();
 
-
       const header =
         document.querySelector(
           ".header"
         );
-
 
       if (
         header &&
@@ -2244,7 +1809,6 @@
 
     }
   );
-
 
 </script>
 
