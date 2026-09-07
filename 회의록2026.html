@@ -29,7 +29,7 @@ header{position:fixed;top:0;left:0;right:0;width:100%;z-index:100;background:#18
 .font-size-row{display:flex;align-items:center;gap:8px}
 .font-size-row button{width:38px}
 .font-size-value{flex:1;text-align:center}
-main{max-width:900px;margin:auto;padding:76px 12px 80px}
+main{max-width:900px;margin:auto;padding:calc(var(--header-height, 0px) + 20px) 12px 80px}
 .toolbar{display:flex;gap:8px;margin-bottom:8px}
 .search{flex:1;min-width:0;height:42px;padding:0 13px;border:1px solid #d7e0dc;border-radius:11px;background:white;font-size:14px;outline:none}
 .status{margin:8px 2px 12px;font-size:12px;color:#74807b}
@@ -230,7 +230,21 @@ let googleAuthFinished = false;
    시작
 ========================================================= */
 
+function syncHeaderHeight() {
+  const header = document.querySelector("header");
+  if (!header) return;
+
+  const height = header.offsetHeight;
+  document.documentElement.style.setProperty(
+    "--header-height",
+    height + "px"
+  );
+}
+
+window.addEventListener("resize", syncHeaderHeight);
+
 document.addEventListener("DOMContentLoaded", function() {
+  syncHeaderHeight();
   applySettings();
   startGoogleAuthentication();
 });
