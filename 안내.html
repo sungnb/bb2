@@ -125,8 +125,10 @@
 
       padding: 8px 0 20px;
 
-      background: #18324a;
+      background: #18324a !important;
       border-bottom: 1px solid #18324a;
+
+      color: #ffffff;
     }
 
 
@@ -139,15 +141,19 @@
 
       letter-spacing: 0.04em;
 
-      color: #ffffff;
+      color: #ffffff !important;
     }
 
-    /* 타이틀 왼쪽 뒤로가기 */
+
+    /* =========================================
+       회의록과 동일한 좌측 뒤로가기 아이콘
+    ========================================= */
+
     .title-back-button {
       position: absolute;
-      left: 0;
-      top: 0;
-      transform: none;
+
+      left: 14px;
+      top: 10px;
 
       width: 42px;
       height: 42px;
@@ -156,16 +162,17 @@
       align-items: center;
       justify-content: center;
 
-      border: 1px solid #234563;
+      border: 0;
       border-radius: 12px;
 
-      background: #234563;
-      color: #286b5b;
+      background: #234563 !important;
+      color: #ffffff !important;
 
       padding: 0;
+
       font-family: inherit;
       font-size: 25px;
-      font-weight: 900;
+      font-weight: bold;
       line-height: 1;
 
       cursor: pointer;
@@ -174,14 +181,19 @@
 
       transition:
         background 0.2s ease,
-        transform 0.2s ease;
+        transform 0.15s ease;
     }
 
+
     .title-back-button:hover {
-      background: var(--button-hover);
+      background: #234563 !important;
       transform: translateY(-1px);
     }
 
+
+    .title-back-button:active {
+      transform: scale(0.95);
+    }
 
 
     .header-month {
@@ -196,14 +208,14 @@
 
 
     /* =========================================
-       설정 버튼
+       회의록과 동일한 우측 설정 아이콘
     ========================================= */
 
     .settings-button {
       position: absolute;
 
-      right: 0;
-      top: 0;
+      right: 14px;
+      top: 10px;
 
       width: 42px;
       height: 42px;
@@ -212,13 +224,17 @@
       align-items: center;
       justify-content: center;
 
-      border: 1px solid #234563;
+      border: 0;
       border-radius: 12px;
 
-      background: #234563;
-      color: #286b5b;
+      background: #234563 !important;
+      color: #ffffff !important;
 
-      font-size: 25px;
+      padding: 0;
+
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: bold;
       line-height: 1;
 
       cursor: pointer;
@@ -227,22 +243,23 @@
 
       transition:
         background 0.2s ease,
-        transform 0.2s ease;
+        transform 0.15s ease;
     }
 
 
     .settings-button:hover {
-      background: var(--button-hover);
-
+      background: #234563 !important;
       transform: rotate(15deg);
+    }
+
+
+    .settings-button:active {
+      transform: scale(0.95);
     }
 
 
     /* =========================================
        설정창
-       
-       전시대 참여자와 같은 느낌의
-       작은 설정창
     ========================================= */
 
     .settings-panel {
@@ -404,9 +421,6 @@
 
     /* =========================================
        상단 액션
-       
-       순서:
-       뒤로가기 → 새로고침
     ========================================= */
 
     .actions {
@@ -584,8 +598,6 @@
 
     /* =========================================
        주차 안내
-       
-       ★ 집단 청소보다 먼저 표시
     ========================================= */
 
     .parking-section {
@@ -631,11 +643,6 @@
 
     /* =========================================
        집단 청소 및 내부 안내인
-       
-       ★ 주차 안내 다음
-       ★ 제목 좌측
-       ★ C집단 박스
-       ★ C집단 기존보다 약 2배
     ========================================= */
 
     .cleaning-section {
@@ -692,9 +699,6 @@
 
       text-align: left;
 
-      /*
-       * 기존 16px → 약 2배
-       */
       font-size:
         calc(32px * var(--font-scale));
 
@@ -826,19 +830,27 @@
       }
 
 
+      /* 회의록과 동일하게 42px 유지 */
+
       .title-back-button {
 
-        width: 46px;
-        height: 46px;
+        width: 42px;
+        height: 42px;
 
-        font-size: 20px;
+        left: 14px;
+        top: 10px;
+
+        font-size: 25px;
       }
 
 
       .settings-button {
 
-        width: 46px;
-        height: 46px;
+        width: 42px;
+        height: 42px;
+
+        right: 14px;
+        top: 10px;
 
         font-size: 20px;
       }
@@ -1000,13 +1012,8 @@
   <header class="header">
 
 
-    <button
-      class="settings-button"
-      onclick="toggleSettings()"
-      aria-label="설정"
-    >
-      ⚙
-    </button>
+    <!-- 좌측 뒤로가기 -->
+
     <button
       class="title-back-button"
       onclick="goBack()"
@@ -1014,6 +1021,18 @@
     >
       ‹
     </button>
+
+
+    <!-- 우측 설정 -->
+
+    <button
+      class="settings-button"
+      onclick="toggleSettings()"
+      aria-label="설정"
+    >
+      ⚙️
+    </button>
+
 
     <h1 class="header-title">
       외부 안내 봉사
@@ -1119,13 +1138,6 @@
 
 
   <!-- =========================================
-       상단 버튼
-       
-       ★ 순서 변경
-       뒤로가기 → 새로고침
-  ========================================== -->
-
-<!-- =========================================
        데이터
   ========================================== -->
 
@@ -1148,8 +1160,7 @@
   /* =========================================================
      안내 봉사 API
 
-     ★ 사용자가 직접 확인한 URL
-     ★ 변경하지 않음
+     기존 URL 그대로 유지
   ========================================================= */
 
   const API_URL =
@@ -1368,7 +1379,6 @@
        주말
        3-1은 헤더이므로 제외
        3-2 ~ 3-6
-       빈 행은 자동 제외
     ----------------------------------------- */
 
     const weekendRows = [];
@@ -1425,12 +1435,6 @@
 
     /* -----------------------------------------
        집단 청소 및 내부 안내인
-
-       5-D = C집단
-
-       B열의
-       [집단 청소 및 내부 안내인] : C집단
-       전체 문장은 사용하지 않음
     ----------------------------------------- */
 
     const cleaningRow =
@@ -1442,11 +1446,6 @@
         cleaningRow.d
       );
 
-
-    /*
-     * D열이 비어 있으면
-     * B열의 : 뒤에 있는 집단명 사용
-     */
 
     if (!cleaningGroup) {
 
@@ -1587,9 +1586,7 @@
 
 
     /* -----------------------------------------
-       ★ 주차 안내
-
-       집단 청소보다 먼저
+       주차 안내
     ----------------------------------------- */
 
     if (parkingText) {
@@ -1616,11 +1613,7 @@
 
 
     /* -----------------------------------------
-       ★ 집단 청소 및 내부 안내인
-
-       주차 안내 다음
-
-       C집단만 표시
+       집단 청소 및 내부 안내인
     ----------------------------------------- */
 
     if (cleaningGroup) {
@@ -1994,12 +1987,6 @@
 
   /* =========================================================
      글자 크기
-
-     기본 = 100%
-     - = 90%
-     + = 110%
-
-     계속 누르면 단계별 변경
   ========================================================= */
 
   function changeFontSize(
@@ -2180,38 +2167,84 @@
   );
 
 
-
   /* =========================================================
      헤더 실제 높이 자동 계산
   ========================================================= */
 
   function syncHeaderHeight() {
-    const header = document.querySelector(".header");
+
+    const header =
+      document.querySelector(
+        ".header"
+      );
+
+
     if (!header) return;
 
-    const height = header.offsetHeight;
+
+    const height =
+      header.offsetHeight;
+
 
     document.documentElement.style.setProperty(
       "--header-height",
       height + "px"
     );
+
   }
 
-  window.addEventListener("resize", syncHeaderHeight);
-  window.addEventListener("orientationchange", syncHeaderHeight);
 
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(syncHeaderHeight);
+  window.addEventListener(
+    "resize",
+    syncHeaderHeight
+  );
+
+
+  window.addEventListener(
+    "orientationchange",
+    syncHeaderHeight
+  );
+
+
+  if (
+    document.fonts &&
+    document.fonts.ready
+  ) {
+
+    document.fonts.ready.then(
+      syncHeaderHeight
+    );
+
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    syncHeaderHeight();
 
-    const header = document.querySelector(".header");
-    if (header && "ResizeObserver" in window) {
-      new ResizeObserver(syncHeaderHeight).observe(header);
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      syncHeaderHeight();
+
+
+      const header =
+        document.querySelector(
+          ".header"
+        );
+
+
+      if (
+        header &&
+        "ResizeObserver" in window
+      ) {
+
+        new ResizeObserver(
+          syncHeaderHeight
+        ).observe(header);
+
+      }
+
     }
-  });
+  );
+
 
 </script>
 
