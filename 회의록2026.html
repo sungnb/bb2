@@ -13,7 +13,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#f3f5f4;color:#26302d;font-size:15px;line-height:1.35}
-header{position:sticky;top:0;z-index:100;background:#18324a;border-bottom:1px solid #18324a}
+header{position:fixed;top:0;left:0;right:0;width:100%;z-index:100;background:#18324a;border-bottom:1px solid #18324a}
 .header-inner{max-width:900px;margin:auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
 .back,.settings-button{width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:25px;font-weight:bold;cursor:pointer}
 .settings-button{font-size:20px}
@@ -29,7 +29,7 @@ header{position:sticky;top:0;z-index:100;background:#18324a;border-bottom:1px so
 .font-size-row{display:flex;align-items:center;gap:8px}
 .font-size-row button{width:38px}
 .font-size-value{flex:1;text-align:center}
-main{max-width:900px;margin:auto;padding:14px 12px 80px}
+main{max-width:900px;margin:auto;padding:76px 12px 80px}
 .toolbar{display:flex;gap:8px;margin-bottom:8px}
 .search{flex:1;min-width:0;height:42px;padding:0 13px;border:1px solid #d7e0dc;border-radius:11px;background:white;font-size:14px;outline:none}
 .status{margin:8px 2px 12px;font-size:12px;color:#74807b}
@@ -143,9 +143,12 @@ body.dark header .settings-button {
   color: #ffffff !important;
 }
   
-/* 밝은 테마에서 설정창 글자를 검정색으로 */
-body.light .font-size-value,
-body.light .font-size-row button {
+/* 밝은 테마 설정창 글자는 검정색 */
+body:not(.dark) .settings-panel,
+body:not(.dark) .settings-panel .settings-title,
+body:not(.dark) .settings-panel .settings-row button,
+body:not(.dark) .settings-panel .font-size-row button,
+body:not(.dark) .settings-panel .font-size-value {
   color: #000000 !important;
 }
   
