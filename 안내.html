@@ -105,7 +105,7 @@
 
       margin: 0 auto;
 
-      padding: 22px 16px 50px;
+      padding: calc(var(--header-height, 0px) + 20px) 16px 50px;
     }
 
 
@@ -114,25 +114,32 @@
     ========================================= */
 
     .header {
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 1000;
 
       text-align: center;
 
       padding: 8px 0 20px;
+
+      background: #18324a;
+      border-bottom: 1px solid #18324a;
     }
 
 
     .header-title {
       margin: 0;
 
-      font-size:
-        clamp(28px, 4vw, 42px);
+      font-size: 35px;
 
-      font-weight: 900;
+      font-weight: 800;
 
-      letter-spacing: -1.5px;
+      letter-spacing: 0.04em;
 
-      color: var(--text-main);
+      color: #ffffff;
     }
 
     /* 타이틀 왼쪽 뒤로가기 */
@@ -142,22 +149,22 @@
       top: 0;
       transform: none;
 
-      width: 52px;
-      height: 52px;
+      width: 42px;
+      height: 42px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border: 1px solid var(--panel-border);
-      border-radius: 18px;
+      border: 1px solid #234563;
+      border-radius: 12px;
 
-      background: var(--button-bg);
-      color: var(--accent);
+      background: #234563;
+      color: #286b5b;
 
       padding: 0;
       font-family: inherit;
-      font-size: 23px;
+      font-size: 25px;
       font-weight: 900;
       line-height: 1;
 
@@ -178,14 +185,13 @@
 
 
     .header-month {
-      margin-top: 12px;
+      margin-top: 1px;
 
-      font-size:
-        clamp(20px, 3vw, 28px);
+      font-size: 14px;
 
       font-weight: 800;
 
-      color: var(--text-main);
+      color: #7a8580;
     }
 
 
@@ -199,20 +205,20 @@
       right: 0;
       top: 0;
 
-      width: 52px;
-      height: 52px;
+      width: 42px;
+      height: 42px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border: 1px solid var(--panel-border);
-      border-radius: 50%;
+      border: 1px solid #234563;
+      border-radius: 12px;
 
-      background: var(--button-bg);
-      color: var(--text-main);
+      background: #234563;
+      color: #286b5b;
 
-      font-size: 23px;
+      font-size: 25px;
       line-height: 1;
 
       cursor: pointer;
@@ -271,6 +277,7 @@
 
 
     .settings-title {
+      display: none;
       margin: 0 0 14px;
 
       color: var(--text-main);
@@ -302,6 +309,7 @@
 
 
     .settings-label {
+      display: none;
       flex: 0 0 auto;
 
       color: var(--text-main);
@@ -805,7 +813,7 @@
       .page {
 
         padding:
-          14px
+          calc(var(--header-height, 0px) + 20px)
           10px
           35px;
       }
@@ -1004,11 +1012,11 @@
       onclick="goBack()"
       aria-label="뒤로가기"
     >
-      ◀
+      ‹
     </button>
 
     <h1 class="header-title">
-      👥 외부 안내 봉사
+      외부 안내 봉사
     </h1>
 
 
@@ -1050,7 +1058,7 @@
             type="button"
             onclick="setTheme('light')"
           >
-            ☀️ 밝게
+            ☀
           </button>
 
 
@@ -1058,7 +1066,7 @@
             type="button"
             onclick="setTheme('dark')"
           >
-            🌙 어둡게
+            🌙
           </button>
 
         </div>
@@ -2027,9 +2035,9 @@
 
     scale =
       Math.max(
-        70,
+        80,
         Math.min(
-          140,
+          150,
           scale
         )
       );
@@ -2106,9 +2114,9 @@
 
     const safeScale =
       Math.max(
-        70,
+        80,
         Math.min(
-          140,
+          150,
           savedScale
         )
       );
@@ -2170,6 +2178,40 @@
 
     }
   );
+
+
+
+  /* =========================================================
+     헤더 실제 높이 자동 계산
+  ========================================================= */
+
+  function syncHeaderHeight() {
+    const header = document.querySelector(".header");
+    if (!header) return;
+
+    const height = header.offsetHeight;
+
+    document.documentElement.style.setProperty(
+      "--header-height",
+      height + "px"
+    );
+  }
+
+  window.addEventListener("resize", syncHeaderHeight);
+  window.addEventListener("orientationchange", syncHeaderHeight);
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncHeaderHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    syncHeaderHeight();
+
+    const header = document.querySelector(".header");
+    if (header && "ResizeObserver" in window) {
+      new ResizeObserver(syncHeaderHeight).observe(header);
+    }
+  });
 
 </script>
 
