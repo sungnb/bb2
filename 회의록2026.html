@@ -2,1119 +2,1752 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#18324a">
-<title>회의록 2026</title>
-
-<!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#18324a" id="themeColorMeta">
+<meta name="color-scheme" content="dark" id="colorSchemeMeta">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" id="statusBarMeta">
+<title>개인봉사</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#f3f5f4;color:#26302d;font-size:15px;line-height:1.35}
-header{position:fixed;top:0;left:0;right:0;width:100%;z-index:100;background:#18324a;border-bottom:1px solid #18324a}
-.header-inner{max-width:900px;margin:auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
-.back,.settings-button{width:42px;height:42px;border:0;border-radius:12px;background:#edf3f0;color:#286b5b;font-size:25px;font-weight:bold;cursor:pointer}
-.settings-button{font-size:20px}
-.title-area{flex:1;min-width:0}
-.page-title{font-size:35px;font-weight:800;letter-spacing:.04em;text-align:center;color:#ffffff}
-.page-subtitle{margin-top:1px;font-size:12px;color:#7a8580;text-align:center}
-.settings-panel{display:none;position:absolute;right:14px;top:58px;width:150px;padding:10px;border-radius:14px;background:#fff;border:1px solid #d9e2de;box-shadow:0 8px 25px rgba(0,0,0,.12);z-index:200}
-.settings-panel.show{display:block}
-.settings-title{font-weight:800;margin-bottom:10px}
-.settings-row{display:flex;gap:8px;margin-bottom:10px}
-.settings-row button,.font-size-row button{border:0;border-radius:9px;padding:9px;background:#edf3f0;color:#286b5b;cursor:pointer}
-.settings-row button{flex:1}
-.font-size-row{display:flex;align-items:center;gap:8px}
-.font-size-row button{width:38px}
-.font-size-value{flex:1;text-align:center}
-main{max-width:900px;margin:auto;padding:calc(var(--header-height, 0px) + 20px) 12px 80px}
-.toolbar{display:flex;gap:8px;margin-bottom:8px}
-.search{flex:1;min-width:0;height:42px;padding:0 13px;border:1px solid #d7e0dc;border-radius:11px;background:white;font-size:14px;outline:none}
-.status{margin:8px 2px 12px;font-size:12px;color:#74807b}
-.card{margin-bottom:10px;background:white;border:1px solid #d9e2de;border-radius:15px;overflow:hidden;box-shadow:0 2px 7px rgba(0,0,0,.035)}
-.card-head{padding:13px 13px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;text-align:left}
-.date-box{flex:0 0 58px;width:58px;min-width:58px;padding-right:11px;border-right:1px solid #e2e9e6;text-align:center;line-height:1.15}
-.date-month{display:block;font-size:12px;font-weight:700;color:#74807b;white-space:nowrap}
-.date-day{display:block;margin-top:3px;font-size:18px;font-weight:900;color:#286b5b;white-space:nowrap}
-.card-main{flex:1;min-width:0;text-align:left}
-.card-title{font-size:18px;font-weight:900;color:#27312e;line-height:1.35;word-break:keep-all;letter-spacing:-.03em;text-align:left}
+:root{
+  --s:1;
+  --header-height:0px;
 
-.card.open .card-head{
-  background:#d7ebe4 !important;
+  --bg:#0f1115;
+  --card:#1b1f27;
+  --card2:#20252e;
+  --line:#303641;
+
+  --text:#f2f4f7;
+  --muted:#aeb5c0;
+
+  --accent:#8d7cf5;
+  --accent2:#6555d8;
+
+  --fixed-blue:#18324a;
+  --fixed-blue-dark:#102C4A;
+  --nav:#151821;
+  --navline:#303641;
 }
 
-body.dark .card.open .card-head{
-  background:#263d35 !important;
+*{
+  box-sizing:border-box;
 }
+
+html{
+  min-height:100%;
+  background:var(--bg);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  padding-top:0;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #252a38 0%,
+      #171a21 40%,
+      #0f1115 78%
+    );
+
+  color:var(--text);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+
+  font-size:calc(16px * var(--s));
+
+  padding-bottom:78px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+
+  z-index:1000;
+
   
-.chevron{width:20px;min-width:20px;text-align:center;color:#74807b;font-size:16px;transition:transform .2s}
-.card.open .chevron{transform:rotate(180deg)}
-.card-content{display:none;border-top:1px solid #e6ece9;padding:12px 14px 16px;text-align:left;line-height:1.35}
-.card.open .card-content{display:block}
-.meeting-item{display:block;margin:0 0 8px 0!important;padding:0!important;border:1px solid #d9e2de;border-radius:10px;background:#fafcfb;overflow:hidden;font-size:14px;color:#36403c;line-height:1.35!important;text-align:left!important;white-space:normal;word-break:break-word}
-.meeting-item:last-child{margin-bottom:0!important}
-.part-label{display:block;padding:7px 10px;background:#e5f0ec;color:#286b5b;font-size:15.5px;font-weight:900;line-height:1.25;text-align:left;border-bottom:1px solid #d2e1db}
-.part-body{display:block;padding:8px 10px;background:#fff;color:#36403c;font-size:14px;font-weight:400;line-height:1.35;text-align:left;white-space:pre-wrap}
-.meeting-item.agenda .part-label,.meeting-item.content .part-label{background:#d7ebe4;color:#1f6654;font-size:16px;font-weight:900}
-.detail strong,.meeting-item strong{font-weight:900}
-.detail{margin:0;padding:0;font-size:14px;color:#36403c;line-height:1.35;text-align:left;white-space:pre-wrap;word-break:break-word}
-.empty{background:white;border:1px solid #dce4e0;border-radius:14px;padding:22px 16px;color:#6d7873;text-align:left}
-.error{color:#b33a3a}
-.top-button{position:fixed;right:16px;bottom:18px;width:45px;height:45px;border:0;border-radius:50%;background:#286b5b;color:white;font-size:19px;box-shadow:0 4px 14px rgba(0,0,0,.18);display:none;cursor:pointer}
-body.dark{background:#121715;color:#edf3f0}
-body.dark header{background:rgba(25,31,28,.97);border-color:#303a36}
-body.dark .page-title{color:#f0f5f2}
-body.dark .page-subtitle{color:#9ba7a1}
-body.dark .back,body.dark .settings-button{background:#26332e;color:#8fd0b9}
-body.dark .search{background:#1c2421;color:#edf3f0;border-color:#394640}
-body.dark .card{background:#1a211e;border-color:#35403b}
-body.dark .card-title{color:#eef3f0}
-body.dark .date-box{border-color:#303a36}
-body.dark .date-month{color:#a9b4af}
-body.dark .date-day{color:#91d0bb}
-body.dark .card-content{border-color:#303a36}
-body.dark .detail,body.dark .meeting-item{color:#d7e0dc}
-body.dark .meeting-item{background:#18201d;border-color:#35403b}
-body.dark .part-label{background:#263d35;color:#91d0bb;border-color:#354c44}
-body.dark .part-body{background:#1a211e;color:#d7e0dc}
-body.dark .meeting-item.agenda .part-label,body.dark .meeting-item.content .part-label{background:#2d4b41;color:#a7e0cc}
-body.dark .status{color:#a9b4af}
-body.dark .settings-panel{background:#1a211e;border-color:#35403b;color:#edf3f0}
-body.dark .settings-row button,body.dark .font-size-row button{background:#26332e;color:#91d0bb}
-@media(min-width:700px){main{padding-left:20px;padding-right:20px}.card-head{padding:15px 17px}.card-content{padding:14px 18px 18px}}
-@media(max-width:600px){.page-title{font-size:35px}.card-title{font-size:17px}.date-box{flex-basis:60px;width:60px;min-width:60px;padding-right:11px}.date-month{font-size:12px}.date-day{font-size:17px}.meeting-item{font-size:14px;line-height:1.35!important;margin-bottom:8px!important}.part-label{font-size:14px;font-weight:900;padding:8px 9px;text-align:left}.part-body{font-size:14px;padding:8px 9px}.meeting-item.agenda .part-label,.meeting-item.content .part-label{font-size:14.5px;font-weight:900}}
-body{transform-origin:top left}
 
-/* Google 계정 변경 버튼 */
-.account-button{border:0;background:transparent;font-size:20px;cursor:pointer;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:.15s}
-.account-button:hover{background:rgba(40,107,91,.10)}
-.account-button:active{transform:scale(.95)}
-body.dark .account-button:hover{background:rgba(145,208,187,.12)}
+  padding:7px 58px 8px;
 
-/* 계정 변경 안내창 */
-#accountChangeGate{position:fixed;inset:0;z-index:1100;background:rgba(18,23,21,.48);display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px)}
-.account-change-box{width:min(390px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18)}
-.account-change-title{font-size:20px;font-weight:900;color:#286b5b;margin-bottom:8px}
-.account-change-message{font-size:14px;color:#66736d;line-height:1.55;margin-bottom:18px}
-#accountChangeGoogleButton{display:flex;justify-content:center;min-height:44px}
-.account-change-close{margin-top:14px;border:1px solid #d4ddd9;background:#f5f7f6;color:#52605a;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer}
-body.dark .account-change-box{background:#1a211e;border-color:#35403b}
-body.dark .account-change-title{color:#91d0bb}
-body.dark .account-change-message{color:#a9b4af}
-body.dark .account-change-close{background:#242d29;border-color:#3b4742;color:#c3ccc8}
+  text-align:center;
 
-/* 인증 대기 화면 */
-#authGate{position:fixed;inset:0;z-index:1000;background:#f3f5f4;display:flex;align-items:center;justify-content:center;padding:24px}
-.auth-box{width:min(380px,100%);background:#fff;border:1px solid #d9e2de;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.08)}
-.auth-title{font-size:23px;font-weight:900;color:#286b5b;margin-bottom:8px}
-.auth-message{font-size:14px;color:#66736d;line-height:1.5;margin-bottom:18px}
-#googleButton{display:flex;justify-content:center;min-height:44px}
-.auth-error{margin-top:14px;color:#b33a3a;font-size:13px;line-height:1.5}
-body.dark #authGate{background:#121715}
-body.dark .auth-box{background:#1a211e;border-color:#35403b}
-body.dark .auth-title{color:#91d0bb}
-body.dark .auth-message{color:#a9b4af}
+  background:#18324a !important;
 
-/* 헤더는 밝게/어둡게 설정과 관계없이 항상 다크블루 */
-header,
-body.light header,
-body.dark header {
-  background: #18324a !important;
-  color: #fff !important;
-  backdrop-filter: none !important;
-}
-header .page-title,
-body.light header .page-title,
-body.dark header .page-title {
-  color: #fff !important;
+  border-bottom:1px solid #18324a;
+
+  box-shadow:
+    0 5px 22px rgba(0,0,0,.35);
 }
 
+.header h1{
+  position:relative;
+margin:0;
 
-/* 뒤로가기/설정 버튼은 항상 #234563으로 고정 */
-header .back,
-header .settings-button,
-body.light header .back,
-body.light header .settings-button,
-body.dark header .back,
-body.dark header .settings-button {
-  background: #234563 !important;
-  color: #ffffff !important;
+  font-size:35px;
+  line-height:35px;
+
+  font-weight:800;
+
+  letter-spacing:.04em;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-align:center;
+
+  color:#f2f4f7;
 }
-  
-/* 밝은 테마 설정창 글자는 검정색 */
-body:not(.dark) .settings-panel,
-body:not(.dark) .settings-panel .settings-title,
-body:not(.dark) .settings-panel .settings-row button,
-body:not(.dark) .settings-panel .font-size-row button,
-body:not(.dark) .settings-panel .font-size-value {
-  color: #000000 !important;
+
+.sub{
+  position:relative;
+
+  margin:2px 0 0;
+
+  color:#7a8580;
+
+  font-size:12px;
+  line-height:12px;
+
+  text-align:center;
 }
-  
+
+/* =========================
+   HEADER BUTTONS
+========================= */
+
+.home-btn,
+.settings{
+  position:absolute;
+
+  top:10px;
+
+  width:42px;
+  height:42px;
+
+  border:0;
+
+  border-radius:12px;
+
+  background:#234563 !important;
+
+  color:#286b5b !important;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:25px;
+
+  line-height:1;
+
+  cursor:pointer;
+
+  transition:
+    background .2s,
+    transform .15s;
+}
+
+.home-btn{
+  left:12px;
+}
+
+.settings{
+  right:12px;
+}
+
+.home-btn:active,
+.settings:active{
+  transform:scale(.94);
+
+  background:#234563 !important;
+}
+
+/* =========================
+   SETTINGS PANEL
+========================= */
+
+.panel{
+  display:none;
+
+  position:absolute;
+
+  top:62px;
+  right:10px;
+
+  width:235px;
+
+  padding:12px;
+
+  z-index:200;
+
+  background:#20242d;
+
+  border:1px solid #3a404b;
+
+  border-radius:16px;
+
+  box-shadow:
+    0 14px 35px rgba(0,0,0,.55);
+
+  text-align:center;
+}
+
+.panel.show{
+  display:block;
+}
+
+/* =========================
+   THEME SELECTOR
+========================= */
+
+.theme-row{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-bottom:8px;
+}
+
+.theme-btn{
+  height:42px;
+
+  border:1px solid #363c47;
+
+  border-radius:11px;
+
+  background:#171b22;
+
+  color:#e9edf2;
+
+  font-size:14px;
+
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+.theme-btn:active{
+  transform:scale(.97);
+}
+
+.theme-btn.active{
+  border-color:var(--accent);
+
+  background:
+    linear-gradient(
+      135deg,
+      #302b50,
+      #24213b
+    );
+
+  color:#fff;
+}
+
+/* =========================
+   FONT SIZE
+========================= */
+
+.font-row{
+  display:grid;
+
+  grid-template-columns:52px 1fr 52px;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+.font-btn{
+  width:52px;
+  height:42px;
+
+  border:1px solid #363c47;
+
+  border-radius:11px;
+
+  background:#171b22;
+
+  color:#fff;
+
+  font-size:22px;
+
+  font-weight:900;
+
+  cursor:pointer;
+}
+
+.font-btn:active{
+  transform:scale(.95);
+}
+
+.font-size{
+  height:42px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid #363c47;
+
+  border-radius:11px;
+
+  background:#171b22;
+
+  color:#fff;
+
+  font-size:15px;
+
+  font-weight:900;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.wrap{
+  width:min(720px, calc(100% - 20px));
+
+  margin:0 auto;
+
+  padding:0 0 20px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+  padding:45px 20px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:calc(15px * var(--s));
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:12px;
+}
+
+.card{
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1d222b,
+      #171b22
+    );
+
+  border:1px solid #303640;
+
+  border-radius:17px;
+
+  box-shadow:
+    0 7px 18px rgba(0,0,0,.28);
+
+  padding:15px;
+}
+
+.card:active{
+  transform:scale(.992);
+}
+
+/* =========================
+   CARD TOP
+========================= */
+
+.top{
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  margin-bottom:12px;
+}
+
+/* =========================
+   NUMBER
+========================= */
+
+.num{
+  width:calc(50% - 5.5px);
+  min-width:0;
+
+  height:50px;
+
+  padding:0 12px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#0000FF;
+
+  border-radius:11px;
+
+  box-shadow:
+    0 5px 12px rgba(0,0,0,.25);
+}
+
+.num a{
+  color:#fff;
+
+  text-decoration:none;
+
+  font-size:calc(17px * var(--s));
+
+  font-weight:900;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.info{
+  min-width:0;
+
+  flex:1;
+}
+
+.zone{
+  color:var(--text);
+
+  font-size:calc(17px * var(--s));
+
+  font-weight:900;
+
+  line-height:1.35;
+
+  word-break:keep-all;
+}
+
+.house{
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:calc(13px * var(--s));
+}
+
+/* =========================
+   DATES
+========================= */
+
+.dates{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:9px;
+
+  margin-top:8px;
+}
+
+.datebox{
+  min-width:0;
+
+  padding:10px 11px;
+
+  background:#14181e;
+
+  border:1px solid #2d333d;
+
+  border-radius:11px;
+}
+
+.label{
+  color:#8f98a6;
+
+  font-size:calc(11px * var(--s));
+
+  font-weight:700;
+}
+
+.date{
+  margin-top:4px;
+
+  color:#eef1f5;
+
+  font-size:calc(14px * var(--s));
+
+  font-weight:800;
+
+  white-space:nowrap;
+}
+
+.complete{
+  border-color:#39414d;
+}
+
+/* =========================
+   ASSIGN
+========================= */
+
+.assign{
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  margin-top:10px;
+
+  padding:9px 11px;
+
+  background:#181c23;
+
+  border-radius:10px;
+
+  border:1px solid #2b313a;
+}
+
+.alabel{
+  color:#858e9b;
+
+  font-size:calc(11px * var(--s));
+
+  font-weight:800;
+}
+
+.weekday{
+  color:#c5cad2;
+
+  font-size:calc(13px * var(--s));
+
+  font-weight:700;
+}
+
+.name{
+  margin-left:auto;
+
+  color:#fff;
+
+  font-size:calc(14px * var(--s));
+
+  font-weight:900;
+}
+
+/* =========================
+   NOTICE
+========================= */
+
+.note{
+  margin-top:15px;
+
+  padding:14px 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #24212f,
+      #1c1b24
+    );
+
+  border:1px solid #3b354f;
+
+  border-radius:14px;
+
+  color:#d9d5e5;
+
+  font-size:calc(13px * var(--s));
+
+  line-height:1.6;
+
+  word-break:keep-all;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error{
+  padding:30px 20px;
+
+  text-align:center;
+
+  background:#20191c;
+
+  border:1px solid #493035;
+
+  border-radius:15px;
+
+  color:#ffb3b3;
+
+  line-height:1.6;
+}
+
+.error-title{
+  margin-bottom:7px;
+
+  font-weight:900;
+
+  font-size:17px;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottom-nav{
+  position:fixed;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  z-index:100;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  height:64px;
+
+  background:var(--fixed-blue);
+
+  border-top:1px solid var(--navline);
+
+  box-shadow:
+    0 -7px 24px rgba(0,0,0,.40);
+}
+
+.bottom-nav a{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-width:0;
+
+  padding:8px 4px;
+
+  color:#e9ecf1;
+
+  text-decoration:none;
+
+  font-size:calc(13px * var(--s));
+
+  font-weight:800;
+
+  white-space:nowrap;
+}
+
+.bottom-nav a + a{
+  border-left:1px solid rgba(255,255,255,.22);
+}
+
+.bottom-nav a:active{
+  background:var(--fixed-blue-dark);
+}
+
+/* =========================
+   LIGHT THEME
+========================= */
+
+body.light{
+  --bg:#f3f4f7;
+  --card:#fff;
+  --card2:#f7f8fa;
+  --line:#dfe2e7;
+
+  --text:#20242b;
+  --muted:#69717d;
+
+  --nav:#fff;
+  --navline:#dfe2e7;
+
+  background:#f3f4f7;
+}
+
+/* 밝게 모드에서도 헤더는 항상 #18324a */
+
+body.light .header{
+  background:#18324a !important;
+}
+
+body.light .header h1{
+  color:#f2f4f7;
+}
+
+body.light .sub{
+  color:#7a8580;
+}
+
+body.light .home-btn,
+body.light .settings{
+  background:#234563 !important;
+
+  border-color:transparent;
+
+  color:#286b5b !important;
+}
+
+body.light .panel{
+  background:#fff;
+
+  border-color:#dfe2e7;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.16);
+}
+
+body.light .theme-btn,
+body.light .font-btn,
+body.light .font-size{
+  background:#f5f6f8;
+
+  border-color:#dfe2e7;
+
+  color:#222;
+}
+
+body.light .theme-btn.active{
+  background:#eeeaff;
+
+  border-color:#7566e8;
+
+  color:#40348d;
+}
+
+body.light .card{
+  background:#fff;
+  border-color:#e1e4e8;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+body.light .datebox{
+  background:#f6f7f9;
+  border-color:#e2e5e9;
+}
+
+body.light .assign{
+  background:#f6f7f9;
+  border-color:#e2e5e9;
+}
+
+body.light .zone{
+  color:#20242b;
+}
+
+body.light .house{
+  color:#69717d;
+}
+
+body.light .label{
+  color:#69717d;
+}
+
+body.light .date{
+  color:#252a31;
+}
+
+body.light .alabel{
+  color:#69717d;
+}
+
+body.light .weekday{
+  color:#4f5661;
+}
+
+body.light .name{
+  color:#20242b;
+}
+
+body.light .note{
+  background:#fff;
+  border-color:#e1e4e8;
+  color:#4f5661;
+}
+
+body.light .bottom-nav{
+  background:var(--fixed-blue);
+}
+
+body.light .bottom-nav a{
+  color:#fff;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:520px){
+
+  .header{
+    padding:7px 55px 8px;
+  }
+
+  .header h1{
+    font-size:35px;
+    line-height:35px;
+  }
+
+  .sub{
+    bottom:2px;
+
+    font-size:12px;
+    line-height:12px;
+  }
+
+  .home-btn,
+  .settings{
+    top:10px;
+
+    width:42px;
+    height:42px;
+  }
+
+  .wrap{
+    width:calc(100% - 14px);
+  }
+
+  .card{
+    padding:13px;
+
+    border-radius:15px;
+  }
+
+  .zone{
+    font-size:calc(16px * var(--s));
+  }
+
+  .dates{
+    gap:7px;
+  }
+
+  .datebox{
+    padding:9px;
+  }
+
+  .date{
+    font-size:calc(13px * var(--s));
+  }
+
+  .panel{
+    width:235px;
+  }
+
+  .bottom-nav{
+    height:62px;
+  }
+
+  .bottom-nav a{
+    font-size:calc(12px * var(--s));
+  }
+}
+
+@media(max-width:360px){
+
+  .bottom-nav a{
+    font-size:calc(11px * var(--s));
+  }
+
+  .num{
+    min-width:0;
+  }
+}
 </style>
 </head>
 
-<body style="padding-top:0;">
+<body>
 
-<!-- Google 인증이 완료될 때까지 회의록 화면을 잠급니다. -->
-<div id="authGate">
-  <div class="auth-box">
-    <div class="auth-title">회의록 2026</div>
-    <div id="authMessage" class="auth-message">Google 계정을 확인하고 있습니다...</div>
-    <div id="googleButton"></div>
-    <div id="authError" class="auth-error"></div>
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+  <button
+    class="home-btn"
+    onclick="home()"
+    aria-label="홈">
+    ‹
+  </button>
+
+  <h1>개인봉사</h1>
+
+  <div class="sub">
+    개인 구역 카드
   </div>
-</div>
 
-<!-- 현재 Google 계정을 바꾸는 화면 -->
-<div id="accountChangeGate">
-  <div class="account-change-box">
-    <div class="account-change-title">Google 계정 변경</div>
-    <div id="accountChangeMessage" class="account-change-message">
-      다른 Google 계정으로 회의록에 로그인할 수 있습니다.
-    </div>
-    <div id="accountChangeGoogleButton"></div>
-    <button class="account-change-close" onclick="closeAccountChange()">취소</button>
-  </div>
-</div>
+  <button
+    class="settings"
+    onclick="toggle()"
+    aria-label="설정">
+    ⚙
+  </button>
 
-<header>
-  <div class="header-inner">
-    <button class="back" onclick="goBack()" aria-label="뒤로가기">‹</button>
-    <div class="title-area">
-      <div class="page-title">회의록</div>
-      <div class="page-subtitle">서울북부회중 회의 기록 · 2026</div>
+
+  <!-- =====================
+       SETTINGS PANEL
+  ====================== -->
+
+  <div id="panel" class="panel">
+
+    <div class="theme-row">
+
+      <button
+        id="lightBtn"
+        class="theme-btn"
+        onclick="theme('light')">
+        ☀ 밝게
+      </button>
+
+      <button
+        id="darkBtn"
+        class="theme-btn"
+        onclick="theme('dark')">
+        🌙 어둡게
+      </button>
+
     </div>
-    <button class="settings-button" onclick="toggleSettings()" aria-label="설정">⚙️</button>
-    <div id="settingsPanel" class="settings-panel">
-      <div class="settings-row">
-        <button id="lightButton" onclick="setTheme('light')">☀️</button>
-        <button id="darkButton" onclick="setTheme('dark')">🌙</button>
+
+
+    <div class="font-row">
+
+      <button
+        class="font-btn"
+        onclick="changeFont(-10)"
+        aria-label="글자 작게">
+        −
+      </button>
+
+      <div
+        id="fontSize"
+        class="font-size">
+        100%
       </div>
-      <div class="font-size-row">
-        <button onclick="changeFontSize(-10)">−</button>
-        <div id="fontSizeValue" class="font-size-value">100%</div>
-        <button onclick="changeFontSize(10)">＋</button>
-      </div>
+
+      <button
+        class="font-btn"
+        onclick="changeFont(10)"
+        aria-label="글자 크게">
+        ＋
+      </button>
+
     </div>
+
   </div>
+
 </header>
 
-<main>
-  <div class="toolbar">
-    <input id="search" class="search" type="search" placeholder="회의록 검색..." oninput="render()">
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="wrap">
+
+  <div
+    id="app"
+    class="loading">
+    개인봉사 자료를 불러오는 중입니다...
   </div>
-  <div id="status" class="status">Google 인증 후 회의록을 불러옵니다...</div>
-  <div id="list"></div>
+
 </main>
 
-<button id="topButton" class="top-button" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- =========================
+     BOTTOM NAV
+========================= -->
+
+<nav class="bottom-nav">
+
+  <a
+    id="serviceJworg"
+    href="#"
+    target="_blank"
+    rel="noopener">
+    JW.ORG
+  </a>
+
+  <a
+    id="serviceBible"
+    href="#"
+    target="_blank"
+    rel="noopener">
+    성경
+  </a>
+
+  <a
+    id="serviceLibrary"
+    href="#"
+    target="_blank"
+    rel="noopener">
+    라이브러리
+  </a>
+
+  <a
+    id="serviceBroadcast"
+    href="#"
+    target="_blank"
+    rel="noopener">
+    JW방송
+  </a>
+
+</nav>
+
 
 <script>
-/* =========================================================
-   Apps Script 주소 / Google OAuth Client ID
-========================================================= */
 
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbyJx5xwcxuI23mHhGjQMuCanMZgK-RIqt1Ab2iPOZBZtWM-gubYqSoiegkXYJ-oqArb/exec";
-   
-const GOOGLE_CLIENT_ID =
-  "710102597374-s5vk3qqmm81onhiqiihj5kcbhjkhl00f.apps.googleusercontent.com";
+/* ==========================================
+   GOOGLE APPS SCRIPT API
+========================================== */
 
-let meetings = [];
-let groupedMeetings = [];
-let googleAuthFinished = false;
+const API =
+"https://script.google.com/macros/s/AKfycbzBidcJoF1DIUoyahm0uOJVRiNgwQuX--Uu5JRXyJmnTh5zoyJrEouIecIVHyvGMP-E/exec";
 
-/* =========================================================
-   시작
-========================================================= */
 
-function syncHeaderHeight() {
-  const header = document.querySelector("header");
-  if (!header) return;
+/* ==========================================
+   GOOGLE SHEET
+========================================== */
 
+const SHEET_ID =
+"1XGbksIQCRjagzCJLj-wHlBVfQ4JsMjk79ikxIMFI4o";
+
+const GID = "0";
+
+const SHEET =
+`https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?gid=${GID}`;
+
+
+/* ==========================================
+   HTML ESCAPE
+========================================== */
+
+function esc(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"◀")
+    .replace(/>/g,"▶")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+
+}
+
+
+/* ==========================================
+   HOME
+========================================== */
+
+function home(){
+
+  location.href = "index.html";
+
+}
+
+
+/* ==========================================
+   SETTINGS TOGGLE
+========================================== */
+
+function toggle(){
+
+  const panel =
+    document.getElementById("panel");
+
+  panel.classList.toggle("show");
+
+}
+
+
+/* ==========================================
+   THEME
+========================================== */
+
+function theme(mode){
+
+  const lightBtn =
+    document.getElementById("lightBtn");
+
+  const darkBtn =
+    document.getElementById("darkBtn");
+
+  const themeColor =
+    document.getElementById("themeColorMeta");
+
+  const colorScheme =
+    document.getElementById("colorSchemeMeta");
+
+  const statusBar =
+    document.getElementById("statusBarMeta");
+
+  const isLight = mode === "light";
+
+  document.body.classList.toggle("light", isLight);
+
+  localStorage.setItem(
+    "personalTheme",
+    isLight ? "light" : "dark"
+  );
+
+  if(themeColor){
+    themeColor.setAttribute(
+      "content",
+      "#18324a"
+    );
+  }
+
+  if(colorScheme){
+    colorScheme.setAttribute(
+      "content",
+      isLight ? "light" : "dark"
+    );
+  }
+
+  if(statusBar){
+    statusBar.setAttribute(
+      "content",
+      "black-translucent"
+    );
+  }
+
+  if(lightBtn){
+    lightBtn.classList.toggle("active", isLight);
+  }
+
+  if(darkBtn){
+    darkBtn.classList.toggle("active", !isLight);
+  }
+
+  document.documentElement.style.colorScheme =
+    isLight ? "light" : "dark";
+
+  document.documentElement.style.backgroundColor =
+    isLight ? "#f3f4f7" : "#0f1115";
+
+  document.body.style.backgroundColor =
+    isLight ? "#f3f4f7" : "#0f1115";
+
+  if(themeColor){
+
+    const newMeta =
+      document.createElement("meta");
+
+    newMeta.name = "theme-color";
+    newMeta.id = "themeColorMeta";
+    newMeta.content =
+      "#18324a";
+
+    themeColor.replaceWith(newMeta);
+  }
+
+  requestAnimationFrame(function(){
+
+    const currentTheme =
+      document.getElementById("themeColorMeta");
+
+    if(currentTheme){
+      currentTheme.setAttribute(
+        "content",
+        "#18324a"
+      );
+    }
+
+    const currentColorScheme =
+      document.getElementById("colorSchemeMeta");
+
+    if(currentColorScheme){
+      currentColorScheme.setAttribute(
+        "content",
+        isLight ? "light" : "dark"
+      );
+    }
+
+    const currentStatusBar =
+      document.getElementById("statusBarMeta");
+
+    if(currentStatusBar){
+      currentStatusBar.setAttribute(
+        "content",
+        "black-translucent"
+      );
+    }
+
+  });
+
+}
+
+
+/* ==========================================
+   FONT SIZE
+========================================== */
+
+let fontPercent = 100;
+
+
+function setFontPercent(percent){
+
+  fontPercent =
+    Math.max(
+      80,
+      Math.min(150, percent)
+    );
+
+
+  const scale =
+    fontPercent / 100;
+
+
+  document.documentElement.style
+    .setProperty(
+      "--s",
+      scale
+    );
+
+
+  document.getElementById("fontSize")
+    .textContent =
+      String(fontPercent) + "%";
+
+
+  localStorage.setItem(
+    "personalFont",
+    String(fontPercent)
+  );
+
+}
+
+
+function changeFont(amount){
+
+  setFontPercent(
+    fontPercent + amount
+  );
+
+}
+
+
+/* ==========================================
+   LOAD SAVED SETTINGS
+========================================== */
+
+(function(){
+
+  const savedTheme =
+    localStorage.getItem(
+      "personalTheme"
+    );
+
+  const savedFont =
+    localStorage.getItem(
+      "personalFont"
+    );
+
+
+  if(savedTheme === "light"){
+
+    theme("light");
+
+  }else{
+
+    theme("dark");
+
+  }
+
+
+  if(savedFont){
+
+    const value =
+      Number(savedFont);
+
+    if(
+      Number.isFinite(value)
+    ){
+
+      setFontPercent(value);
+
+    }
+
+  }
+
+})();
+
+
+/* ==========================================
+   HEADER HEIGHT
+   화면 회전/크기 변경 시 다시 계산
+========================================== */
+
+function syncHeaderHeight(){
+  const header = document.querySelector(".header");
+  if(!header) return;
+
+  /* 실제 상단 헤더의 현재 높이를 측정 */
   const height = header.offsetHeight;
+
   document.documentElement.style.setProperty(
     "--header-height",
     height + "px"
   );
+
+  /* 헤더 아래 본문 간격은 항상 20px */
+  document.body.style.paddingTop = (height + 20) + "px";
 }
 
-window.addEventListener("resize", syncHeaderHeight);
-window.addEventListener("orientationchange", syncHeaderHeight);
+function startHeaderHeightSync(){
+  const header = document.querySelector(".header");
+  if(!header) return;
 
-document.addEventListener("DOMContentLoaded", function() {
   syncHeaderHeight();
-  applySettings();
-  startGoogleAuthentication();
+
+  /* 헤더 내용/글꼴/화면 변화로 높이가 바뀌면 즉시 재계산 */
+  if("ResizeObserver" in window){
+    new ResizeObserver(function(){
+      syncHeaderHeight();
+    }).observe(header);
+  }
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){
+      syncHeaderHeight();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  requestAnimationFrame(startHeaderHeightSync);
 });
 
-/* =========================================================
-   Google 인증
-   - 처음부터 사용자가 Google 계정을 직접 선택합니다.
-   - 기존 Google 세션을 자동으로 선택하지 않습니다.
-   - 선택한 계정의 ID Token을 Apps Script로 보내 권한을 확인합니다.
-========================================================= */
+window.addEventListener("load", syncHeaderHeight);
+window.addEventListener("resize", syncHeaderHeight);
 
-function startGoogleAuthentication() {
-  const message = document.getElementById("authMessage");
-  const error = document.getElementById("authError");
+window.addEventListener("orientationchange", function(){
+  setTimeout(syncHeaderHeight, 50);
+});
 
-  message.textContent = "사용할 Google 계정을 선택해 주세요.";
-  error.textContent = "";
 
-  const waitForGoogle = setInterval(function() {
-    if (
-      window.google &&
-      google.accounts &&
-      google.accounts.id
-    ) {
-      clearInterval(waitForGoogle);
-      initializeGoogleIdentity();
-    }
-  }, 100);
+/* ==========================================
+   JSONP CALLBACK
+========================================== */
 
-  setTimeout(function() {
-    clearInterval(waitForGoogle);
+const callbackName =
+"personalVolunteerCallback_" +
+Date.now();
 
-    if (!googleAuthFinished) {
-      message.textContent = "Google 로그인 버튼을 눌러 계정을 선택해 주세요.";
-      renderGoogleButton();
-    }
-  }, 7000);
-}
 
-function initializeGoogleIdentity() {
-  google.accounts.id.initialize({
-    client_id: GOOGLE_CLIENT_ID,
-    auto_select: false,
-    use_fedcm_for_button: false,
-    button_auto_select: false,
-    callback: handleGoogleCredential
-  });
+/* ==========================================
+   SERVICE LINKS
+   Google Sheet B16:B19의 실제 하이퍼링크 사용
+========================================== */
 
-  /* 자동 prompt()를 사용하지 않고 로그인 버튼을 바로 표시합니다. */
-  renderGoogleButton();
-}
+function updateServiceLinks(links){
 
-function renderGoogleButton() {
-  if (
-    !window.google ||
-    !google.accounts ||
-    !google.accounts.id
-  ) {
+  if(!links){
     return;
   }
 
-  const container = document.getElementById("googleButton");
+  const map = {
 
-  container.innerHTML = "";
-  container.dataset.rendered = "1";
+    serviceJworg:
+      links.jworg,
 
-  google.accounts.id.renderButton(
-    container,
-    {
-      type: "standard",
-      theme: "outline",
-      size: "large",
-      text: "signin_with",
-      shape: "rectangular",
-      logo_alignment: "left",
-      width: 300
-    }
-  );
-}
+    serviceBible:
+      links.bible,
 
-/* =========================================================
-   Google ID Token을 Apps Script로 전달
-========================================================= */
+    serviceLibrary:
+      links.library,
 
-let currentGoogleEmail = "";
-let accountChangeMode = false;
+    serviceBroadcast:
+      links.broadcast
 
-/* =========================================================
-   Google 계정 변경
-   - 현재 자동 선택을 잠시 끕니다.
-   - 새 Google 계정의 ID Token을 다시 서버에 보내
-     서버에서 허용된 계정인지 확인합니다.
-========================================================= */
-function changeGoogleAccount() {
-  if (!window.google || !google.accounts || !google.accounts.id) {
-    alert("Google 로그인 기능을 아직 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-    return;
-  }
+  };
 
-  accountChangeMode = true;
-  googleAuthFinished = false;
 
-  const gate = document.getElementById("accountChangeGate");
-  const message = document.getElementById("accountChangeMessage");
-  const button = document.getElementById("accountChangeGoogleButton");
+  Object.keys(map).forEach(function(id){
 
-  if (gate) gate.style.display = "flex";
-  if (message) {
-    message.textContent = currentGoogleEmail
-      ? `현재 로그인: ${currentGoogleEmail}\n\n다른 Google 계정을 선택해 주세요.`
-      : "다른 Google 계정을 선택해 주세요.";
-  }
-  if (button) button.innerHTML = "";
+    const url =
+      map[id];
 
-  /*
-   * 명시적으로 계정을 바꾸는 경우에는 자동 선택을 끕니다.
-   *
-   * 여기서는 prompt()를 다시 호출하지 않습니다.
-   * 계정 변경용 Google 버튼 자체가 Google 계정 선택/로그인을
-   * 처리하도록 합니다. prompt()까지 함께 호출하면 일부 환경에서
-   * OAuth 오류 화면으로 이동하는 경우가 있기 때문입니다.
-   */
-  google.accounts.id.disableAutoSelect();
+    const element =
+      document.getElementById(id);
 
-  google.accounts.id.renderButton(button, {
-    theme: document.body.classList.contains("dark") ? "filled_black" : "outline",
-    size: "large",
-    type: "standard",
-    text: "signin_with",
-    shape: "rectangular",
-    width: 280,
-    locale: "ko"
-  });
-}
-
-function closeAccountChange() {
-  accountChangeMode = false;
-  const gate = document.getElementById("accountChangeGate");
-  if (gate) gate.style.display = "none";
-
-  /* 다음 일반 로그인에서는 다시 자동 선택이 가능하도록 합니다. */
-  if (window.google && google.accounts && google.accounts.id) {
-    google.accounts.id.disableAutoSelect();
-  }
-}
-
-async function handleGoogleCredential(response) {
-  const message = document.getElementById("authMessage");
-  const error = document.getElementById("authError");
-
-  if (!response || !response.credential) {
-    error.textContent = "Google 인증 정보를 받지 못했습니다.";
-    renderGoogleButton();
-    return;
-  }
-
-  message.textContent = "인증된 Google 계정을 확인하고 있습니다...";
-  error.textContent = "";
-
-  try {
-    const body =
-      "credential=" +
-      encodeURIComponent(response.credential);
-
-    const result = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type":
-          "application/x-www-form-urlencoded;charset=UTF-8"
-      },
-      body: body
-    });
-
-    if (!result.ok) {
-      throw new Error(
-        "인증 서버 응답 오류: " + result.status
-      );
-    }
-
-    const data = await result.json();
-
-    console.log("Google 인증 결과:", data);
-
-    if (
-      !data ||
-      data.authenticated !== true
-    ) {
-      throw new Error(
-        data?.message ||
-        "Google 인증에 실패했습니다."
-      );
-    }
-
-    if (data.authorized !== true) {
-      googleAuthFinished = true;
-      if (accountChangeMode) {
-        const changeMessage = document.getElementById("accountChangeMessage");
-        if (changeMessage) {
-          changeMessage.textContent =
-            (data.email ? "현재 선택된 계정: " + data.email + "\n\n" : "") +
-            (data.message || "이 Google 계정은 회의록 열람 권한이 없습니다.");
-        }
-      }
-      message.textContent = data.email
-        ? `선택한 계정: ${data.email}`
-        : "접근 권한이 없습니다.";
-      error.textContent =
-        data.message ||
-        "이 Google 계정은 회의록 열람 권한이 없습니다.";
-      renderGoogleButton();
+    if(!element){
       return;
     }
 
-    googleAuthFinished = true;
-    currentGoogleEmail = data.email || "";
+    if(url){
 
-    if (accountChangeMode) {
-      accountChangeMode = false;
-      const gate = document.getElementById("accountChangeGate");
-      if (gate) gate.style.display = "none";
+      element.href =
+        url;
+
+    }else{
+
+      element.removeAttribute("href");
 
     }
+
+  });
+
+}
+
+
+/* ==========================================
+   LOAD DATA
+========================================== */
+
+function load(){
+
+  const app =
+    document.getElementById("app");
+
+
+  app.className = "loading";
+
+  app.innerHTML =
+    "개인봉사 자료를 불러오는 중입니다...";
+
+
+  window[callbackName] =
+    function(result){
+
+      try{
+
+        if(
+          !result ||
+          result.success !== true
+        ){
+
+          throw new Error(
+            result?.message ||
+            "자료를 가져오지 못했습니다."
+          );
+
+        }
+
+
+        /* =========================
+           서비스 메뉴 실제 주소 연결
+           B16:B19의 하이퍼링크 사용
+        ========================= */
+
+        updateServiceLinks(
+          result.links
+        );
+
+
+        render(result);
+
+
+      }catch(error){
+
+        showError(
+          error.message
+        );
+
+      }
+
+    };
+
+
+  const script =
+    document.createElement("script");
+
+
+  script.src =
+    API +
+    "?callback=" +
+    callbackName +
+    "&t=" +
+    Date.now();
+
+
+  script.onerror =
+    function(){
+
+      showError(
+        "개인봉사 자료를 불러오지 못했습니다."
+      );
+
+    };
+
+
+  document.body.appendChild(script);
+
+}
+
+
+/* ==========================================
+   RENDER
+========================================== */
+
+function render(result){
+
+  const app =
+    document.getElementById("app");
+
+
+  const data =
+    Array.isArray(result.data)
+      ? result.data
+      : [];
+
+
+  if(data.length === 0){
+
+    app.className = "error";
+
+    app.innerHTML =
+      "<div class='error-title'>" +
+      "자료가 없습니다." +
+      "</div>" +
+      "개인봉사 자료를 확인해 주세요.";
+
+    return;
+
+  }
+
+
+  let html =
+    "<div class='cards'>";
+
+
+  data.forEach(function(x){
 
     /*
-     * 인증 성공 후에만 회의록 데이터를 사용합니다.
-     * 여기서 반환된 meetings만 화면에 넣습니다.
-     */
-    let rows = [];
+      Apps Script에서 반환하는
+      실제 Sheet 행 번호 사용
+    */
 
-    if (Array.isArray(data.rows)) {
-      rows = data.rows;
-    } else if (Array.isArray(data.meetings)) {
-      rows = data.meetings;
-    } else if (Array.isArray(data.records)) {
-      rows = data.records;
-    } else if (Array.isArray(data.data)) {
-      rows = data.data;
-    } else if (Array.isArray(data.values)) {
-      rows = data.values;
-    }
-
-    meetings = normalizeRows(rows);
-    groupedMeetings = buildMeetings(meetings);
-
-    if (meetings.length === 0) {
-      throw new Error(
-        "번호가 있는 회의록 자료를 찾지 못했습니다."
-      );
-    }
-
-    message.textContent = "인증이 완료되었습니다.";
-
-    document.getElementById("status").textContent =
-      "회의록을 불러오는 중입니다...";
-
-    document.getElementById("authGate").style.display = "none";
-
-    render();
-
-  } catch (err) {
-    console.error("Google 인증/회의록 오류:", err);
-
-    message.textContent =
-      "인증 또는 회의록 불러오기에 실패했습니다.";
-
-    error.textContent =
-      err.message ||
-      "잠시 후 다시 시도해 주세요.";
-
-    renderGoogleButton();
-  }
-}
-
-/* =========================================================
-   행 하나를 회의록 데이터로 변환
-========================================================= */
-
-function rowToObject(row) {
-  if (Array.isArray(row)) {
-    return {
-      number: row[0] ?? "",
-      title: row[1] ?? "",
-      detail: row.slice(2).filter(v => clean(v) !== "").join("\n")
-    };
-  }
-
-  if (row && typeof row === "object") {
     const number =
-      row.number ?? row.no ?? row.번호 ?? row["번호"] ?? row.id ?? "";
+      esc(x.number);
 
-    const title =
-      row.title ?? row.name ?? row.제목 ?? row["제목"] ?? "";
+    const zone =
+      esc(x.zone);
 
-    let detail =
-      row.detail ??
-      row.content ??
-      row.text ??
-      row.내용 ??
-      row["내용"] ??
+    const house =
+      esc(x.house);
+
+    const weekday =
+      esc(x.weekday);
+
+    const person =
+      esc(x.person);
+
+    const startDate =
+      esc(x.startDate);
+
+    const completeDate =
+      esc(x.completeDate);
+
+
+    /*
+      번호 클릭 → 원본에서 실제 연결된 링크
+    */
+
+    const actualLinks = {
+
+      "135":
+        "https://docs.google.com/spreadsheets/d/13iF9EDGobrhQC63Jiqwsjk8qU_KTSwUSSgvVP24herw/edit?usp=drive_link",
+
+      "136":
+        "https://docs.google.com/spreadsheets/d/1zfMZhKyUjqcGLcCrxk7TBpXktbMjmTR68JveiyZOtpM/edit?gid=77788459",
+
+      "301":
+        "https://docs.google.com/spreadsheets/d/1PSkImH6xXoFGDsEw-Vt1FOn8WZ7jXXniFNssQsfDf7U/edit?gid=77788459",
+
+      "420":
+        "https://docs.google.com/spreadsheets/d/1HwH3hiOtJ5uMQyhl0mgjkVJQTKgMD5Mr7Dwnxx940pA/edit?gid=77788459",
+
+      "427":
+        "https://docs.google.com/spreadsheets/d/1SFQaNBhdTvZlPQIHV1Vk-rM0msYHGspAEOezIvB76Ig/edit?gid=77788459",
+
+      "428":
+        "https://docs.google.com/spreadsheets/d/1YX0x2x6GH5WEakJDTPRMQ3hrWY4Ezhg6OA-JcJg-wX0/edit?usp=drive_link",
+
+      "429":
+        "https://docs.google.com/spreadsheets/d/191mQxh5UXkTBRiK9aTEsBXZUeRPsohZijr09SccfqNg/edit?usp=drive_link",
+
+      "430":
+        "https://docs.google.com/spreadsheets/d/1qaCAaOB03D9-16hYa_1uauqqN-WtA2EDBAjliiV0JWc/edit?usp=drive_link",
+
+      "431":
+        "https://docs.google.com/spreadsheets/d/1wVfqZhfxPeYTePsZSA8EVun3lwaaOdRrIAU72iEJFD8/edit?gid=77788459"
+
+    };
+
+
+    const numberKey =
+      String(x.number ?? "").trim();
+
+
+    const numClass = "num";
+
+
+    const numberLink =
+      x.linkUrl ||
+      actualLinks[numberKey] ||
       "";
 
-    if (clean(detail) === "") {
-      const ignored = [
-        "number","no","번호","id","title","name","제목"
-      ];
 
-      detail = Object.keys(row)
-        .filter(key => !ignored.includes(key))
-        .map(key => row[key])
-        .filter(value => clean(value) !== "")
-        .join("\n");
-    }
+    html += `
 
-    return {number,title,detail};
-  }
+      <section class="card">
 
-  return {number:"",title:"",detail:""};
-}
+        <div class="top">
 
-/* =========================================================
-   번호에서 첫 숫자 추출
-========================================================= */
+          <div class="${numClass}">
 
-function mainNumber(value) {
-  const s = clean(value);
-  const match = s.match(/^(\d+)/);
-  return match ? match[1] : "";
-}
+            <a
+              href="${esc(numberLink)}"
+              target="_blank"
+              rel="noopener">
 
-/* =========================================================
-   데이터 정리
-========================================================= */
+              ${number}
 
-function normalizeRows(rows) {
-  const result = [];
+            </a>
 
-  rows.forEach(function(row,index) {
-    const r = rowToObject(row);
-    const number = clean(r.number);
-
-    if (!number) return;
-
-    const group = mainNumber(number);
-
-    if (!group) return;
-
-    result.push({
-      number,
-      group,
-      title: clean(r.title),
-      detail: clean(r.detail),
-      index
-    });
-  });
-
-  return result;
-}
-
-/* =========================================================
-   번호 제거
-========================================================= */
-
-function removeCellNumber(text) {
-  let s = clean(text);
-
-  s = s.replace(/^\s*\d+(?:[-.]\d+)*\s*/,"");
-  s = s.replace(/\s*\d+(?:[-.]\d+)*\s*$/,"");
-
-  return clean(s);
-}
-
-function displayTitle(text) {
-  return removeCellNumber(text);
-}
-
-function displayDetail(text) {
-  return removeCellNumber(text);
-}
-
-/* =========================================================
-   날짜
-========================================================= */
-
-function displayDate(text, number) {
-  let s = clean(text);
-  const n = clean(number);
-
-  if (!s) return "";
-
-  if (n) {
-    const escaped =
-      n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-
-    s = s.replace(
-      new RegExp("^\\s*" + escaped + "\\s*"),
-      ""
-    );
-  }
-
-  return clean(s);
-}
-
-/* =========================================================
-   일반 행 텍스트
-========================================================= */
-
-function rowText(item) {
-  const title = displayTitle(item.title);
-  const detail = displayDetail(item.detail);
-
-  if (title && detail) return title + " " + detail;
-  if (title) return title;
-  return detail;
-}
-
-/* =========================================================
-   회의별 그룹
-========================================================= */
-
-function buildMeetings(items) {
-  const groups = {};
-
-  items.forEach(function(item) {
-    if (!groups[item.group]) {
-      groups[item.group] = [];
-    }
-
-    groups[item.group].push(item);
-  });
-
-return Object.keys(groups)
-  .sort(function(a,b) {
-    return Number(b) - Number(a);
-  })
-    .map(function(groupNumber) {
-
-      const items =
-        groups[groupNumber]
-          .slice()
-          .sort(function(a,b) {
-            return a.index - b.index;
-          });
-
-      const main =
-        items.find(function(item) {
-          return item.number === groupNumber;
-        }) || items[0];
-
-      const subItems =
-        items.filter(function(item) {
-          return item !== main;
-        });
-
-      const dateItem =
-        subItems.find(function(item) {
-          const itemTitle = displayTitle(item.title);
-
-          return (
-            item.number === groupNumber + "-1" ||
-            item.number === groupNumber + ".1" ||
-            itemTitle === "일시" ||
-            itemTitle.includes("일시")
-          );
-        });
-
-      const title =
-        displayTitle(main.title) ||
-        rowText(main) ||
-        ("회의 기록 " + groupNumber);
-
-      const date =
-        dateItem
-          ? displayDate(dateItem.detail,dateItem.number) ||
-            displayDate(dateItem.title,dateItem.number)
-          : "";
-
-      const details =
-        subItems.filter(function(item) {
-          return item !== dateItem;
-        });
-
-      const meeting = {
-        group: groupNumber,
-        title,
-        date,
-        details,
-        index: main.index
-      };
-
-      meeting.searchText = [
-        meeting.title,
-        meeting.date,
-        meeting.details.map(rowText).join(" ")
-      ].join(" ").toLowerCase();
-
-      meeting.detailHtml =
-        meeting.details.length
-          ? meeting.details.map(function(item) {
-              const itemText = rowText(item);
-              return itemText ? formatDetailHtml(itemText) : "";
-            }).join("")
-          : `
-            <div class="meeting-item">
-              회의 내용이 없습니다.
-            </div>
-          `;
-
-      return meeting;
-    });
-}
-
-/* =========================================================
-   월
-========================================================= */
-
-function getMonth(dateText) {
-  const text = String(dateText || "");
-
-  let match =
-    text.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
-
-  if (!match) {
-    match =
-      text.match(/(\d{1,2})\D+(\d{1,2})/);
-  }
-
-  if (!match) return "";
-
-  return (
-    match.length === 4 ? match[2] : match[1]
-  ) + "월";
-}
-
-/* =========================================================
-   일
-========================================================= */
-
-function getDay(dateText) {
-  const text = String(dateText || "");
-
-  let match =
-    text.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
-
-  if (!match) {
-    match =
-      text.match(/(\d{1,2})\D+(\d{1,2})/);
-  }
-
-  if (!match) return "";
-
-  const day =
-    match.length === 4 ? match[3] : match[2];
-
-  return day + "일";
-}
-
-/* =========================================================
-   화면 표시용 내용 HTML
-========================================================= */
-
-function formatDetailHtml(text) {
-  const cleaned = displayDetail(text)
-    .split("\n")
-    .map(function(line){
-      return line.replace(/^[\s\u3000]+/, "");
-    })
-    .join("\n")
-    .trim();
-
-  if (!cleaned) return "";
-
-  const partPattern =
-    /^\s*(참석자|불참자|시작기도|안건|회의\s*내용)\s*[:：]?\s*([\s\S]*)$/i;
-
-  const lines = cleaned.split(/\n/);
-  const parts = [];
-  let current = null;
-
-  lines.forEach(function(line) {
-    const match = line.match(partPattern);
-
-    if (match) {
-      if (current) parts.push(current);
-
-      const label =
-        match[1].replace(/\s+/g," ").trim();
-
-      let type = "";
-
-      if (label === "안건") {
-        type = "agenda";
-      } else if (label === "회의 내용") {
-        type = "content";
-      }
-
-      current = {
-        label,
-        type,
-        body: match[2] || ""
-      };
-
-    } else {
-      if (current) {
-        current.body +=
-          (current.body ? "\n" : "") + line;
-      } else if (line.trim()) {
-        current = {
-          label:"",
-          type:"",
-          body:line
-        };
-      }
-    }
-  });
-
-  if (current) parts.push(current);
-
-  if (!parts.length) {
-    return `
-      <div class="meeting-item">
-        <div class="part-body">${escapeHtml(cleaned)}</div>
-      </div>
-    `;
-  }
-
-  return parts.map(function(part) {
-    const body = clean(part.body);
-
-    if (!body && !part.label) return "";
-
-    return `
-      <div class="meeting-item ${part.type}">
-        ${
-          part.label
-            ? `<div class="part-label">${escapeHtml(part.label)}</div>`
-            : ""
-        }
-        ${
-          body
-            ? `<div class="part-body">${escapeHtml(body)}</div>`
-            : ""
-        }
-      </div>
-    `;
-  }).join("");
-}
-
-/* =========================================================
-   화면 출력
-========================================================= */
-
-function render() {
-  const query =
-    clean(document.getElementById("search").value).toLowerCase();
-
-  const allMeetings =
-    groupedMeetings.length
-      ? groupedMeetings
-      : buildMeetings(meetings);
-
-  const filtered =
-    allMeetings.filter(function(meeting) {
-      const searchable = [
-        meeting.title,
-        meeting.date,
-        meeting.details.map(rowText).join(" ")
-      ].join(" ").toLowerCase();
-
-      return !query || searchable.includes(query);
-    });
-
-  document.getElementById("status").textContent =
-    "총 " + filtered.length + "개 회의록 · 최신 시트 자료";
-
-  const list = document.getElementById("list");
-
-  if (filtered.length === 0) {
-    list.innerHTML = `
-      <div class="empty">
-        회의록이 없습니다.
-      </div>
-    `;
-    return;
-  }
-
-  list.innerHTML =
-    filtered.map(function(meeting) {
-
-      const detailHtml =
-        meeting.details.length
-          ? meeting.details.map(function(item) {
-              const text = rowText(item);
-              return text ? formatDetailHtml(text) : "";
-            }).join("")
-          : `
-            <div class="meeting-item">
-              회의 내용이 없습니다.
-            </div>
-          `;
-
-      const month = getMonth(meeting.date);
-      const day = getDay(meeting.date);
-
-      return `
-        <article class="card">
-          <div class="card-head"
-               onclick="toggleCard(this.parentElement)">
-
-            ${
-              meeting.date
-              ? `
-                <div class="date-box">
-                  <span class="date-month">
-                    ${escapeHtml(month)}
-                  </span>
-                  <span class="date-day">
-                    ${escapeHtml(day)}
-                  </span>
-                </div>
-              `
-              : ""
-            }
-
-            <div class="card-main">
-              <div class="card-title">
-                ${escapeHtml(meeting.title)}
-              </div>
-            </div>
-
-            <div class="chevron">⌄</div>
           </div>
 
-          <div class="card-content">
-            ${detailHtml}
+
+          <div class="info">
+
+            <div class="zone">
+              ${zone}
+            </div>
+
+            <div class="house">
+              ${house}호
+            </div>
+
           </div>
-        </article>
-      `;
-    }).join("");
-}
 
-/* =========================================================
-   카드
-========================================================= */
+        </div>
 
-function toggleCard(card) {
-  card.classList.toggle("open");
-}
 
-/* =========================================================
-   HTML 문자 처리
-========================================================= */
+        <div class="dates">
 
-function escapeHtml(text) {
-  return String(text ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
+          <div class="datebox">
 
-/* =========================================================
-   공백 정리
-========================================================= */
+            <div class="label">
+              지급 일자
+            </div>
 
-function clean(value) {
-  return String(value ?? "")
-    .replace(/\u00a0/g," ")
-    .trim();
-}
+            <div class="date">
+              ${startDate}
+            </div>
 
-/* =========================================================
-   뒤로가기
-========================================================= */
+          </div>
 
-function goBack() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = "전시대관리자.html";
+
+          <div class="datebox complete">
+
+            <div class="label">
+              완료 일자
+            </div>
+
+            <div class="date">
+              ${completeDate}
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    `;
+
+  });
+
+
+  html += "</div>";
+
+
+  /* =========================
+     NOTICE
+  ========================= */
+
+  if(result.notice){
+
+    html += `
+
+      <div class="note">
+        ${esc(result.notice)}
+      </div>
+
+    `;
+
   }
+
+
+  app.className = "";
+
+  app.innerHTML = html;
+
 }
 
-/* =========================================================
-   설정
-========================================================= */
 
-const SETTINGS_THEME_KEY = "회의록2026_theme";
-const SETTINGS_FONT_KEY = "회의록2026_fontSize";
+/* ==========================================
+   ERROR
+========================================== */
 
-function applySettings() {
-  const theme =
-    localStorage.getItem(SETTINGS_THEME_KEY) || "dark";
+function showError(message){
 
-  const fontSize =
-    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
+  const app =
+    document.getElementById("app");
 
-  document.body.classList.toggle(
-    "dark",
-    theme === "dark"
-  );
 
-  document.body.style.zoom =
-    String(fontSize / 100);
+  app.className = "error";
 
-  document.getElementById("fontSizeValue").textContent =
-    fontSize + "%";
+
+  app.innerHTML = `
+
+    <div class="error-title">
+      자료를 불러오지 못했습니다.
+    </div>
+
+    ${esc(
+      message ||
+      "알 수 없는 오류입니다."
+    )}
+
+  `;
+
 }
 
-function setTheme(theme) {
-  localStorage.setItem(
-    SETTINGS_THEME_KEY,
-    theme
-  );
 
-  applySettings();
-}
+/* ==========================================
+   START
+========================================== */
 
-function changeFontSize(amount) {
-  let fontSize =
-    Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
+load();
 
-  fontSize += amount;
-
-  if (fontSize < 80) fontSize = 80;
-  if (fontSize > 150) fontSize = 150;
-
-  localStorage.setItem(
-    SETTINGS_FONT_KEY,
-    fontSize
-  );
-
-  applySettings();
-}
-
-/* =========================================================
-   설정 열기
-========================================================= */
-
-function toggleSettings() {
-  document.getElementById("settingsPanel")
-    .classList.toggle("show");
-}
-
-document.addEventListener("click",function(event) {
-  const panel =
-    document.getElementById("settingsPanel");
-
-  const button =
-    document.querySelector(".settings-button");
-
-  if (
-    panel &&
-    panel.classList.contains("show") &&
-    !panel.contains(event.target) &&
-    !button.contains(event.target)
-  ) {
-    panel.classList.remove("show");
-  }
-});
-
-/* =========================================================
-   위로가기
-========================================================= */
-
-window.addEventListener("scroll",function() {
-  document.getElementById("topButton").style.display =
-    window.scrollY > 500 ? "block" : "none";
-});
 </script>
 
 </body>
