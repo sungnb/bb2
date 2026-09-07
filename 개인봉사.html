@@ -12,6 +12,7 @@
 <style>
 :root{
   --s:1;
+  --header-height:0px;
 
   --bg:#0f1115;
   --card:#1b1f27;
@@ -42,7 +43,7 @@ html{
 body{
   margin:0;
   min-height:100vh;
-  padding-top:20px;
+  padding-top:0;
 
   background:
     radial-gradient(
@@ -76,56 +77,45 @@ body{
   top:0;
   left:0;
   right:0;
-
   z-index:1000;
 
-  
-
-  padding:7px 58px 8px;
+  /* 높이를 고정하지 않고 제목 + 부제목 + 여백으로 자연스럽게 결정 */
+  height:auto !important;
+  min-height:0 !important;
+  padding:10px 58px 20px !important;
 
   text-align:center;
-
   background:#18324a !important;
-
   border-bottom:1px solid #18324a;
-
-  box-shadow:
-    0 5px 22px rgba(0,0,0,.35);
+  box-shadow:0 5px 22px rgba(0,0,0,.35);
 }
 
 .header h1{
   position:relative;
+  display:block;
+  margin:0 !important;
+  padding:0 !important;
 
-  height:35px;
-
-  margin:0;
-
-  font-size:35px;
-  line-height:35px;
-
-  font-weight:800;
-
-  letter-spacing:.04em;
+  font-size:35px !important;
+  line-height:40px !important;
+  font-weight:800 !important;
+  letter-spacing:0.04em !important;
 
   white-space:nowrap;
-
-  overflow:hidden;
-
+  overflow:visible;
   text-align:center;
-
-  color:#f2f4f7;
+  color:#f2f4f7 !important;
 }
 
 .sub{
   position:relative;
+  display:block;
+  margin:4px 0 0 !important;
+  padding:0 !important;
 
-  margin:2px 0 0;
-
-  color:#7a8580;
-
-  font-size:12px;
-  line-height:12px;
-
+  color:#b9c4cf !important;
+  font-size:12px !important;
+  line-height:14px !important;
   text-align:center;
 }
 
@@ -330,7 +320,7 @@ body{
 
   margin:0 auto;
 
-  padding:20px 0 20px;
+  padding:0 0 20px;
 }
 
 /* =========================
@@ -809,24 +799,24 @@ body.light .bottom-nav a{
 
 @media(max-width:520px){
 
-  body{
-    padding-top:20px;
-  }
-
   .header{
-    padding:7px 55px 8px;
+    height:auto !important;
+    min-height:0 !important;
+    padding:10px 55px 20px !important;
   }
 
   .header h1{
-    font-size:35px;
-    line-height:35px;
+    font-size:35px !important;
+    line-height:40px !important;
+    letter-spacing:0.04em !important;
   }
 
   .sub{
-    bottom:2px;
-
-    font-size:12px;
-    line-height:12px;
+    position:relative !important;
+    bottom:auto !important;
+    margin-top:4px !important;
+    font-size:12px !important;
+    line-height:14px !important;
   }
 
   .home-btn,
@@ -839,8 +829,6 @@ body.light .bottom-nav a{
 
   .wrap{
     width:calc(100% - 14px);
-
-    padding-top:20px;
   }
 
   .card{
@@ -1313,42 +1301,60 @@ function changeFont(amount){
 ========================================== */
 
 function syncHeaderHeight(){
+  const header = document.querySelector(".header");
+  if(!header) return;
 
-  const header =
-    document.querySelector(".header");
-
-  if(!header){
-    return;
-  }
-
+  /* 현재 화면에 실제로 표시된 헤더 높이를 측정 */
   const height = header.offsetHeight;
 
-  document.documentElement.style
-    .setProperty(
-      "--header-height",
-      height + "px"
-    );
+  /* 측정값을 CSS 변수로 저장 */
+  document.documentElement.style.setProperty(
+    "--header-height",
+    height + "px"
+  );
 
-  document.body.style.paddingTop =
-    (height + 20) + "px";
-
+  /* 헤더 바로 아래에서 정확히 20px 떨어져 본문 시작 */
+  document.body.style.paddingTop = (height + 20) + "px";
 }
 
 
-window.addEventListener(
-  "load",
-  syncHeaderHeight
-);
+function startHeaderHeightSync(){
+  const header = document.querySelector(".header");
+  if(!header) return;
 
-window.addEventListener(
-  "resize",
-  syncHeaderHeight
-);
+  syncHeaderHeight();
 
-window.addEventListener(
-  "orientationchange",
-  syncHeaderHeight
-);
+  if("ResizeObserver" in window){
+    new ResizeObserver(function(){
+      syncHeaderHeight();
+    }).observe(header);
+  }
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){
+      syncHeaderHeight();
+    });
+  }
+
+  window.addEventListener("resize", syncHeaderHeight);
+  window.addEventListener("orientationchange", function(){
+    setTimeout(syncHeaderHeight, 50);
+    setTimeout(syncHeaderHeight, 300);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  requestAnimationFrame(function(){
+    startHeaderHeightSync();
+  });
+});
+
+window.addEventListener("load", syncHeaderHeight);
+window.addEventListener("resize", syncHeaderHeight);
+
+window.addEventListener("orientationchange", function(){
+  setTimeout(syncHeaderHeight, 50);
+});
 
 
 /* ==========================================
