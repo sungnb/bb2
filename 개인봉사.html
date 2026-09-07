@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#173A63" id="themeColorMeta">
+<meta name="theme-color" content="#18324a" id="themeColorMeta">
 <meta name="color-scheme" content="dark" id="colorSchemeMeta">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" id="statusBarMeta">
@@ -24,8 +24,7 @@
   --accent:#8d7cf5;
   --accent2:#6555d8;
 
-  /* 밝게/어둡게와 관계없이 상단/하단 고정 영역에 사용하는 다크블루 */
-  --fixed-blue:#173A63;
+  --fixed-blue:#18324a;
   --fixed-blue-dark:#102C4A;
   --nav:#151821;
   --navline:#303641;
@@ -43,7 +42,7 @@ html{
 body{
   margin:0;
   min-height:100vh;
-  padding-top:78px;
+  padding-top:82px;
 
   background:
     radial-gradient(
@@ -77,40 +76,65 @@ body{
   top:0;
   left:0;
   right:0;
+
   z-index:1000;
 
-  padding:calc(18px + env(safe-area-inset-top)) 58px 16px;
+  height:62px;
+
+  padding:10px 58px;
 
   text-align:center;
 
-  background:
-    linear-gradient(
-      180deg,
-      #173A63,
-      #102C4A
-    );
+  background:#18324a !important;
 
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid #18324a;
 
   box-shadow:
     0 5px 22px rgba(0,0,0,.35);
 }
 
 .header h1{
+  position:absolute;
+
+  top:7px;
+  left:58px;
+  right:58px;
+
+  height:35px;
+
   margin:0;
 
-  font-size:calc(23px * var(--s));
-  font-weight:900;
+  font-size:35px;
+  line-height:35px;
 
-  letter-spacing:-.5px;
+  font-weight:800;
+
+  letter-spacing:.4em;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-align:center;
+
+  color:#f2f4f7;
 }
 
 .sub{
-  margin-top:5px;
+  position:absolute;
 
-  color:var(--muted);
+  left:0;
+  right:0;
+  bottom:2px;
 
-  font-size:calc(13px * var(--s));
+  margin:0;
+
+  color:#7a8580;
+
+  font-size:12px;
+  line-height:12px;
+
+  text-align:center;
 }
 
 /* =========================
@@ -121,24 +145,26 @@ body{
 .settings{
   position:absolute;
 
-  top:50%;
-  transform:translateY(-50%);
+  top:10px;
 
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
 
-  border:1px solid #ffffff18;
+  border:0;
+
   border-radius:12px;
 
-  background:#202431;
+  background:#234563 !important;
 
-  color:#fff;
+  color:#286b5b !important;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  font-size:20px;
+  font-size:25px;
+
+  line-height:1;
 
   cursor:pointer;
 
@@ -158,7 +184,8 @@ body{
 .home-btn:active,
 .settings:active{
   transform:scale(.94);
-  background:#202431;
+
+  background:#234563 !important;
 }
 
 /* =========================
@@ -170,12 +197,12 @@ body{
 
   position:absolute;
 
-  top:60px;
+  top:62px;
   right:10px;
 
-  width:245px;
+  width:235px;
 
-  padding:15px;
+  padding:12px;
 
   z-index:200;
 
@@ -195,16 +222,6 @@ body{
   display:block;
 }
 
-.panel-title{
-  margin-bottom:13px;
-
-  color:#dfe3e9;
-
-  font-size:14px;
-
-  font-weight:900;
-}
-
 /* =========================
    THEME SELECTOR
 ========================= */
@@ -216,7 +233,7 @@ body{
 
   gap:8px;
 
-  margin-bottom:14px;
+  margin-bottom:8px;
 }
 
 .theme-btn{
@@ -280,7 +297,7 @@ body{
 
   color:#fff;
 
-  font-size:20px;
+  font-size:22px;
 
   font-weight:900;
 
@@ -289,13 +306,6 @@ body{
 
 .font-btn:active{
   transform:scale(.95);
-}
-
-.font-limit{
-  white-space:nowrap;
-  color:#dfe3e9;
-  font-size:12px;
-  font-weight:800;
 }
 
 .font-size{
@@ -328,7 +338,7 @@ body{
 
   margin:0 auto;
 
-  padding:14px 0 20px;
+  padding:20px 0 20px;
 }
 
 /* =========================
@@ -425,6 +435,12 @@ body{
 
   box-shadow:
     0 5px 12px rgba(0,0,0,.25);
+}
+
+/* 135~431 전체 스카이블루 */
+
+.num.skyblue{
+  background:#87CEEB;
 }
 
 .num a{
@@ -698,29 +714,27 @@ body.light{
   background:#f3f4f7;
 }
 
+/* 밝게 모드에서도 헤더는 항상 #18324a */
+
 body.light .header{
-  background:
-    linear-gradient(
-      180deg,
-      #173A63,
-      #102C4A
-    );
+  background:#18324a !important;
 }
 
-/* 밝게 모드에서도 상단 고정 영역과 카드 영역은 다크 테마와 동일하게 유지 */
 body.light .header h1{
   color:#f2f4f7;
 }
 
 body.light .sub{
-  color:#aeb5c0;
+  color:#7a8580;
 }
 
 body.light .home-btn,
 body.light .settings{
-  background:#f2f3f5;
-  border-color:#e0e2e6;
-  color:#222;
+  background:#234563 !important;
+
+  border-color:transparent;
+
+  color:#286b5b !important;
 }
 
 body.light .panel{
@@ -730,10 +744,6 @@ body.light .panel{
 
   box-shadow:
     0 12px 30px rgba(0,0,0,.16);
-}
-
-body.light .panel-title{
-  color:#333;
 }
 
 body.light .theme-btn,
@@ -819,24 +829,44 @@ body.light .bottom-nav a{
 @media(max-width:520px){
 
   body{
-    padding-top:70px;
+    padding-top:82px;
   }
 
   .header{
-    padding:
-      calc(17px + env(safe-area-inset-top))
-      55px
-      14px;
+    height:62px;
+
+    padding:10px 55px;
   }
 
   .header h1{
-    font-size:calc(21px * var(--s));
+    left:55px;
+    right:55px;
+
+    top:7px;
+
+    font-size:35px;
+    line-height:35px;
+  }
+
+  .sub{
+    bottom:2px;
+
+    font-size:12px;
+    line-height:12px;
+  }
+
+  .home-btn,
+  .settings{
+    top:10px;
+
+    width:42px;
+    height:42px;
   }
 
   .wrap{
     width:calc(100% - 14px);
 
-    padding-top:10px;
+    padding-top:20px;
   }
 
   .card{
@@ -899,10 +929,10 @@ body.light .bottom-nav a{
     class="home-btn"
     onclick="home()"
     aria-label="홈">
-    🏠
+    ‹
   </button>
 
-  <h1>📋 개인봉사</h1>
+  <h1>개인봉사</h1>
 
   <div class="sub">
     개인 구역 카드
@@ -912,7 +942,7 @@ body.light .bottom-nav a{
     class="settings"
     onclick="toggle()"
     aria-label="설정">
-    ⚙️
+    ⚙
   </button>
 
 
@@ -922,15 +952,13 @@ body.light .bottom-nav a{
 
   <div id="panel" class="panel">
 
-    <!-- 밝게 / 어둡게 -->
-
     <div class="theme-row">
 
       <button
         id="lightBtn"
         class="theme-btn"
         onclick="theme('light')">
-        ☀️ 밝게
+        ☀ 밝게
       </button>
 
       <button
@@ -943,15 +971,13 @@ body.light .bottom-nav a{
     </div>
 
 
-    <!-- 글자 크기 -->
-
     <div class="font-row">
 
       <button
         class="font-btn"
         onclick="changeFont(-10)"
         aria-label="글자 작게">
-        ◀
+        −
       </button>
 
       <div
@@ -964,7 +990,7 @@ body.light .bottom-nav a{
         class="font-btn"
         onclick="changeFont(10)"
         aria-label="글자 크게">
-        ▶
+        ＋
       </button>
 
     </div>
@@ -1045,7 +1071,7 @@ const API =
 ========================================== */
 
 const SHEET_ID =
-"1XGbksIQCRjagzCJLj-wHlBVfQf4JsMjk79ikxIMFI4o";
+"1XGbksIQCRjagzCJLj-wHlBVfQ4JsMjk79ikxIMFI4o";
 
 const GID = "0";
 
@@ -1127,7 +1153,7 @@ function theme(mode){
   if(themeColor){
     themeColor.setAttribute(
       "content",
-      "#173A63"
+      "#18324a"
     );
   }
 
@@ -1153,15 +1179,6 @@ function theme(mode){
     darkBtn.classList.toggle("active", !isLight);
   }
 
-  /*
-    모바일 브라우저가 테마 색상 변경을 즉시
-    다시 읽도록 meta 요소를 재설정합니다.
-  */
-  /*
-    문서 전체의 시스템 색상 체계도 즉시 변경합니다.
-    모바일 브라우저가 테마 변경을 다시 읽도록
-    theme-color meta도 새 요소로 교체합니다.
-  */
   document.documentElement.style.colorScheme =
     isLight ? "light" : "dark";
 
@@ -1172,29 +1189,27 @@ function theme(mode){
     isLight ? "#f3f4f7" : "#0f1115";
 
   if(themeColor){
+
     const newMeta =
       document.createElement("meta");
 
     newMeta.name = "theme-color";
     newMeta.id = "themeColorMeta";
     newMeta.content =
-      "#173A63";
+      "#18324a";
 
     themeColor.replaceWith(newMeta);
   }
 
-  /*
-    iOS/Android에서 화면 테마 관련 설정이
-    연속으로 바뀌어도 다시 적용되도록 한 번 더 동기화합니다.
-  */
   requestAnimationFrame(function(){
+
     const currentTheme =
       document.getElementById("themeColorMeta");
 
     if(currentTheme){
       currentTheme.setAttribute(
         "content",
-        "#173A63"
+        "#18324a"
       );
     }
 
@@ -1217,6 +1232,7 @@ function theme(mode){
         "black-translucent"
       );
     }
+
   });
 
 }
@@ -1230,11 +1246,6 @@ let fontPercent = 100;
 
 
 function setFontPercent(percent){
-
-  /*
-    글자 크기 범위: 80% ~ 150%
-    버튼 1회 클릭마다 10%씩 변경
-  */
 
   fontPercent =
     Math.max(
@@ -1320,6 +1331,45 @@ function changeFont(amount){
   }
 
 })();
+
+
+/* ==========================================
+   HEADER HEIGHT
+   화면 회전/크기 변경 시 다시 계산
+========================================== */
+
+function syncHeaderHeight(){
+
+  const header =
+    document.querySelector(".header");
+
+  if(!header){
+    return;
+  }
+
+  document.documentElement.style
+    .setProperty(
+      "--header-height",
+      header.offsetHeight + "px"
+    );
+
+}
+
+
+window.addEventListener(
+  "load",
+  syncHeaderHeight
+);
+
+window.addEventListener(
+  "resize",
+  syncHeaderHeight
+);
+
+window.addEventListener(
+  "orientationchange",
+  syncHeaderHeight
+);
 
 
 /* ==========================================
@@ -1512,10 +1562,6 @@ function render(result){
     /*
       Apps Script에서 반환하는
       실제 Sheet 행 번호 사용
-
-      예:
-      row = 4
-      → B4
     */
 
     const number =
@@ -1542,12 +1588,6 @@ function render(result){
 
     /*
       번호 클릭 → 원본에서 실제 연결된 링크
-      ---------------------------------------
-      IMPORTRANGE는 원본 셀의 링크 정보를 가져오지 못하므로
-      원본 135의 실제 링크를 우선 사용합니다.
-
-      135 실제 링크:
-      https://docs.google.com/spreadsheets/d/13iF9EDGobrhQC63Jiqwsjk8qU_KTSwUSSgvVP24herw/edit?gid=77788459#gid=77788459
     */
 
     const actualLinks = {
@@ -1578,10 +1618,29 @@ function render(result){
 
       "431":
         "https://docs.google.com/spreadsheets/d/1wVfqZhfxPeYTePsZSA8EVun3lwaaOdRrIAU72iEJFD8/edit?gid=77788459"
+
     };
+
 
     const numberKey =
       String(x.number ?? "").trim();
+
+
+    const numberValue =
+      Number(numberKey);
+
+
+    /*
+      135부터 431까지
+      모든 번호 배경을 스카이블루로 변경
+    */
+
+    const numClass =
+      numberValue >= 135 &&
+      numberValue <= 431
+        ? "num skyblue"
+        : "num";
+
 
     const numberLink =
       x.linkUrl ||
@@ -1595,7 +1654,7 @@ function render(result){
 
         <div class="top">
 
-          <div class="num">
+          <div class="${numClass}">
 
             <a
               href="${esc(numberLink)}"
@@ -1652,9 +1711,6 @@ function render(result){
           </div>
 
         </div>
-
-
-
 
       </section>
 
