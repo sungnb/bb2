@@ -11,7 +11,8 @@
 
 <style>
 :root{
-  --s:1;
+  /* 본문 글자 크기: 100%일 때 실제 표시값 120% */
+  --s:1.2;
   --header-height:0px;
 
   --bg:#0f1115;
@@ -134,7 +135,7 @@ body{
 
   background:#234563 !important;
 
-  color:#286b5b !important;
+  color:#f7f7f7 !important;
 
   display:flex;
   align-items:center;
@@ -157,6 +158,7 @@ body{
   transform:scale(.94);
 
   background:#234563 !important;
+  color:#f7f7f7 !important;
 }
 
 /* =========================
@@ -638,7 +640,7 @@ body{
 
   text-decoration:none;
 
-  font-size:calc(13px * var(--s));
+  font-size:13px;
 
   font-weight:800;
 
@@ -692,7 +694,7 @@ body.light .settings{
 
   border-color:transparent;
 
-  color:#286b5b !important;
+  color:#f7f7f7 !important;
 }
 
 body.light .panel{
@@ -844,14 +846,14 @@ body.light .bottom-nav a{
   }
 
   .bottom-nav a{
-    font-size:calc(12px * var(--s));
+    font-size:12px;
   }
 }
 
 @media(max-width:360px){
 
   .bottom-nav a{
-    font-size:calc(11px * var(--s));
+    font-size:11px;
   }
 
   .num{
@@ -1186,8 +1188,9 @@ function setFontPercent(percent){
     );
 
 
+  // 100% = 기존보다 1.2배 크게 표시 (본문만 적용)
   const scale =
-    fontPercent / 100;
+    1.2 * (fontPercent / 100);
 
 
   document.documentElement.style
