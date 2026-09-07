@@ -565,7 +565,11 @@ body {
   font-size: 14px;
 }
 
-/* 밝게 */
+
+/* =========================================================
+   밝게
+========================================================= */
+
 body.light {
   color: #222222;
   background: #18324a;
@@ -575,6 +579,22 @@ body.light .header {
   background: #18324a;
   border-bottom-color: rgba(0,0,0,0.08);
 }
+
+
+/* 상단 제목 / 부제목은 밝게에서도 흰색 */
+body.light .header h1,
+body.light .reference-date {
+  color: #ffffff;
+}
+
+
+/* 밝게 모드의 본문 섹션 제목은
+   어두운 배경 위에서 보이도록 흰색 */
+body.light .section-title h2,
+body.light .total-count {
+  color: #ffffff;
+}
+
 
 body.light .action-button {
   color: #222222;
@@ -618,18 +638,13 @@ body.light .total-count {
 }
 
 body.light .section-title {
-  border-bottom-color: rgba(0,0,0,0.12);
+  border-bottom-color: rgba(255,255,255,0.15);
 }
 
 body.light .empty-message,
 body.light .loading,
 body.light .error {
   color: rgba(0,0,0,0.55);
-}
-
-body.light .header h1,
-body.light .reference-date {
-  color: #ffffff;
 }
 
 body.light .reference-item {
@@ -664,10 +679,6 @@ body.light .settings-button {
 ========================================================= */
 
 @media (max-width: 600px) {
-
-  .header {
-    padding-right: 0px;
-  }
 
   .title-back-button {
     left: 12px;
@@ -968,14 +979,14 @@ function renderData(data) {
 
   /* =======================================================
      화면 HTML
-  ======================================================= */
+======================================================= */
 
   let html = "";
 
 
   /* =======================================================
      참여자
-  ======================================================= */
+======================================================= */
 
   html += `
 
