@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
+
+<title>토요일</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --fixed-blue: #18324a;
+    --accent: #8d7cf5;
+    --number-blue: #3374A9;
+
+    --bg: #0b1118;
+    --card: #121c27;
+    --card2: #182431;
+    --text: #f4f7fa;
+    --sub: #aeb9c5;
+    --border: rgba(255,255,255,0.08);
+
+    --s: 1.2;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(
+            circle at top,
+            #162638 0%,
+            #0b1118 55%,
+            #080d13 100%
+        );
+
+    color: var(--text);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+
+    font-size: calc(16px * var(--s));
+
+    padding-top: var(--header-height, 62px);
+    padding-bottom: 78px;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    height: auto;
+    min-height: 62px;
+
+    padding:
+        10px
+        max(12px, env(safe-area-inset-right))
+        10px
+        max(12px, env(safe-area-inset-left));
+
+    background: var(--fixed-blue);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 2px 12px rgba(0,0,0,.25);
+}
+
+.header-title {
+    font-size: 35px;
+    font-weight: 800;
+    letter-spacing: -0.1px;
+    line-height: 42px;
+}
+
+.header-btn {
+    position: absolute;
+
+    top: 10px;
+
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.08);
+
+    color: white;
+
+    font-size: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.header-left {
+    left: max(12px, env(safe-area-inset-left));
+}
+
+.header-right {
+    right: max(12px, env(safe-area-inset-right));
+
+    font-size: 23px;
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.settings {
+    position: fixed;
+
+    top: 72px;
+    right: 12px;
+
+    z-index: 2000;
+
+    width: 230px;
+
+    padding: 16px;
+
+    border-radius: 18px;
+
+    background: rgba(20,31,43,.97);
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.45);
+
+    display: none;
+}
+
+.settings.show {
+    display: block;
+}
+
+.settings-title {
+    font-size: 16px;
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+.setting-row {
+    display: flex;
+    gap: 8px;
+
+    margin-bottom: 12px;
+}
+
+.setting-btn {
+    flex: 1;
+
+    min-height: 40px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #263544;
+    color: white;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.font-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #263544;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.font-btn {
+    width: 45px;
+    height: 40px;
+
+    border: 0;
+
+    background: transparent;
+    color: white;
+
+    font-size: 18px;
+}
+
+.font-value {
+    flex: 1;
+
+    text-align: center;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width: 100%;
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    padding:
+        14px
+        max(14px, env(safe-area-inset-right))
+        20px
+        max(14px, env(safe-area-inset-left));
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.info-card {
+    margin-bottom: 12px;
+
+    padding: 14px 16px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(31,50,68,.95),
+            rgba(17,28,40,.95)
+        );
+
+    border: 1px solid var(--border);
+}
+
+.info-title {
+    font-size: 19px;
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+.info-sub {
+    color: var(--sub);
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   SATURDAY CARD
+========================================================= */
+
+.saturday-card {
+    margin-bottom: 12px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #162433,
+            #101923
+        );
+
+    border: 1px solid var(--border);
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 16px rgba(0,0,0,.20);
+}
+
+
+/* 상단 */
+
+.card-top {
+    display: flex;
+    align-items: center;
+
+    padding: 12px 13px 10px;
+
+    gap: 11px;
+}
+
+.number-box {
+    flex: 0 0 auto;
+
+    min-width: 62px;
+    height: 48px;
+
+    padding: 0 10px;
+
+    border-radius: 12px;
+
+    background: var(--number-blue);
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    text-decoration: none;
+}
+
+.number-box:active {
+    transform: scale(.96);
+}
+
+.zone {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.zone-title {
+    font-size: 20px;
+    font-weight: 800;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.zone-sub {
+    margin-top: 2px;
+
+    color: var(--sub);
+
+    font-size: 14px;
+}
+
+
+/* 내용 */
+
+.card-content {
+    padding: 0 13px 13px;
+}
+
+.data-row {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 8px;
+}
+
+.data-box {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 10px 11px;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,.045);
+}
+
+.data-label {
+    color: #9eabb8;
+
+    font-size: 12px;
+
+    margin-bottom: 4px;
+}
+
+.data-value {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.select-row {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 8px;
+}
+
+.select-wrap {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.select-label {
+    color: #9eabb8;
+
+    font-size: 12px;
+
+    margin-bottom: 4px;
+}
+
+select {
+    width: 100%;
+
+    height: 43px;
+
+    padding: 0 10px;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 10px;
+
+    background: #202e3c;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+select:focus {
+    border-color: var(--accent);
+}
+
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 900;
+
+    min-height: 64px;
+
+    padding:
+        8px
+        max(10px, env(safe-area-inset-right))
+        calc(8px + env(safe-area-inset-bottom))
+        max(10px, env(safe-area-inset-left));
+
+    background:
+        rgba(13,22,31,.97);
+
+    backdrop-filter: blur(12px);
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 7px;
+}
+
+.bottom-nav a {
+    min-height: 45px;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,.055);
+
+    color: #dce4ec;
+
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.bottom-nav a:active {
+    background: rgba(141,124,245,.25);
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+========================================================= */
+
+.message-card {
+    margin-top: 30px;
+
+    padding: 25px 18px;
+
+    border-radius: 18px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    text-align: center;
+
+    color: var(--sub);
+}
+
+.loading {
+    font-size: 15px;
+}
+
+.error {
+    color: #ffb4b4;
+}
+
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+body.light {
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --card2: #f1f4f7;
+    --text: #18232d;
+    --sub: #66717d;
+    --border: rgba(0,0,0,.08);
+
+    background:
+        linear-gradient(
+            180deg,
+            #edf2f6,
+            #f8f9fa
+        );
+
+    color: var(--text);
+}
+
+body.light .saturday-card {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f4f7f9
+        );
+}
+
+body.light .info-card {
+    background: white;
+}
+
+body.light .data-box {
+    background: rgba(0,0,0,.035);
+}
+
+body.light select {
+    background: #f2f4f6;
+    color: #18232d;
+
+    border-color: rgba(0,0,0,.10);
+}
+
+body.light .settings {
+    background: rgba(255,255,255,.98);
+    border-color: rgba(0,0,0,.10);
+}
+
+body.light .setting-btn {
+    background: #edf0f3;
+    color: #18232d;
+}
+
+body.light .font-row {
+    background: #edf0f3;
+}
+
+body.light .font-btn {
+    color: #18232d;
+}
+
+body.light .bottom-nav {
+    background: rgba(255,255,255,.97);
+    border-top-color: rgba(0,0,0,.08);
+}
+
+body.light .bottom-nav a {
+    background: #f0f2f4;
+    color: #283540;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .header-title {
+        font-size: 35px;
+    }
+
+    main {
+        padding-top: 12px;
+    }
+
+    .zone-title {
+        font-size: 18px;
+    }
+
+    .number-box {
+        min-width: 58px;
+        height: 45px;
+
+        font-size: 19px;
+    }
+
+    .data-value {
+        font-size: 15px;
+    }
+
+    select {
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
+<header id="header">
+
+    <button
+        class="header-btn header-left"
+        onclick="goHome()">
+        ‹
+    </button>
+
+    <div class="header-title">
+        토요일
+    </div>
+
+    <button
+        class="header-btn header-right"
+        onclick="toggleSettings()">
+        ⚙
+    </button>
+
+</header>
+
+
+<!-- ======================================================
+     SETTINGS
+====================================================== -->
+
+<div
+    id="settings"
+    class="settings">
+
+    <div class="settings-title">
+        화면 설정
+    </div>
+
+    <div class="setting-row">
+
+        <button
+            class="setting-btn"
+            onclick="setTheme('light')">
+            ☀️ 밝게
+        </button>
+
+        <button
+            class="setting-btn"
+            onclick="setTheme('dark')">
+            🌙 어둡게
+        </button>
+
+    </div>
+
+    <div class="font-row">
+
+        <button
+            class="font-btn"
+            onclick="changeFont(-10)">
+            A−
+        </button>
+
+        <div
+            id="fontValue"
+            class="font-value">
+            120%
+        </div>
+
+        <button
+            class="font-btn"
+            onclick="changeFont(10)">
+            A+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     MAIN
+====================================================== -->
+
+<main id="main">
+
+    <div class="info-card">
+
+        <div class="info-title">
+            토요일 봉사
+        </div>
+
+        <div class="info-sub">
+            번호를 선택하고 형제·자매를 지정해 주세요.
+        </div>
+
+    </div>
+
+
+    <div id="content">
+
+        <div class="message-card loading">
+            자료를 불러오는 중입니다...
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ======================================================
+     BOTTOM NAV
+====================================================== -->
+
+<nav class="bottom-nav">
+
+    <a
+        id="linkJw"
+        href="#"
+        target="_blank">
+        JW.ORG
+    </a>
+
+    <a
+        id="linkBible"
+        href="#"
+        target="_blank">
+        성경
+    </a>
+
+    <a
+        id="linkLibrary"
+        href="#"
+        target="_blank">
+        라이브러리
+    </a>
+
+    <a
+        id="linkBroadcast"
+        href="#"
+        target="_blank">
+        JW방송
+    </a>
+
+</nav>
+
+
+<script>
+
+/* =========================================================
+   설정
+========================================================= */
+
+const DEFAULT_FONT = 120;
+
+let fontPercent =
+    Number(localStorage.getItem("saturdayFont"))
+    || DEFAULT_FONT;
+
+let theme =
+    localStorage.getItem("saturdayTheme")
+    || "dark";
+
+
+/* =========================================================
+   초기 설정
+========================================================= */
+
+function applySettings() {
+
+    document.documentElement.style
+        .setProperty(
+            "--s",
+            fontPercent / 100
+        );
+
+    document.getElementById("fontValue")
+        .textContent =
+        fontPercent + "%";
+
+    document.body.classList.toggle(
+        "light",
+        theme === "light"
+    );
+}
+
+
+/* =========================================================
+   테마
+========================================================= */
+
+function setTheme(value) {
+
+    theme = value;
+
+    localStorage.setItem(
+        "saturdayTheme",
+        theme
+    );
+
+    applySettings();
+}
+
+
+/* =========================================================
+   글자 크기
+========================================================= */
+
+function changeFont(value) {
+
+    fontPercent += value;
+
+    if (fontPercent < 80)
+        fontPercent = 80;
+
+    if (fontPercent > 150)
+        fontPercent = 150;
+
+    localStorage.setItem(
+        "saturdayFont",
+        fontPercent
+    );
+
+    applySettings();
+}
+
+
+/* =========================================================
+   설정창
+========================================================= */
+
+function toggleSettings() {
+
+    const box =
+        document.getElementById("settings");
+
+    box.classList.toggle("show");
+}
+
+
+/* =========================================================
+   홈
+========================================================= */
+
+function goHome() {
+
+    location.href = "index.html";
+}
+
+
+/* =========================================================
+   헤더 높이 자동 적용
+========================================================= */
+
+function syncHeaderHeight() {
+
+    const header =
+        document.getElementById("header");
+
+    const height =
+        header.getBoundingClientRect().height;
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--header-height",
+            height + "px"
+        );
+}
+
+if ("ResizeObserver" in window) {
+
+    const observer =
+        new ResizeObserver(
+            syncHeaderHeight
+        );
+
+    observer.observe(
+        document.getElementById("header")
+    );
+
+} else {
+
+    window.addEventListener(
+        "resize",
+        syncHeaderHeight
+    );
+}
+
+
+/* =========================================================
+   HTML 보안 처리
+========================================================= */
+
+function esc(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "◀")
+        .replace(/>/g, "▶")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   드롭다운 만들기
+========================================================= */
+
+function makeOptions(
+    list,
+    selected = ""
+) {
+
+    let html =
+        '<option value="">선택</option>';
+
+    list.forEach(function(name) {
+
+        name = String(name || "").trim();
+
+        if (!name) return;
+
+        html +=
+            '<option value="' +
+            esc(name) +
+            '"' +
+            (name === selected
+                ? " selected"
+                : "") +
+            '>' +
+            esc(name) +
+            '</option>';
+    });
+
+    return html;
+}
+
+
+/* =========================================================
+   데이터 렌더링
+========================================================= */
+
+function render(data) {
+
+    const content =
+        document.getElementById("content");
+
+    if (!data || !data.rows) {
+
+        content.innerHTML = `
+            <div class="message-card error">
+                자료가 없습니다.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const rows = data.rows || [];
+
+    const brothers =
+        data.brothers || [];
+
+    const sisters =
+        data.sisters || [];
+
+
+    if (rows.length === 0) {
+
+        content.innerHTML = `
+            <div class="message-card">
+                표시할 자료가 없습니다.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    rows.forEach(function(row, index) {
+
+        const number =
+            row.number || "";
+
+        const zone =
+            row.zone || "";
+
+        const house =
+            row.house || "";
+
+        const meter =
+            row.m || "";
+
+        const link =
+            row.linkUrl || "#";
+
+
+        html += `
+
+        <div class="saturday-card">
+
+            <div class="card-top">
+
+                <a
+                    class="number-box"
+                    href="${esc(link)}"
+                    target="_blank">
+
+                    ${esc(number)}
+
+                </a>
+
+
+                <div class="zone">
+
+                    <div class="zone-title">
+
+                        ${esc(zone)}
+
+                    </div>
+
+                    <div class="zone-sub">
+
+                        토요일
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-content">
+
+                <div class="data-row">
+
+                    <div class="data-box">
+
+                        <div class="data-label">
+                            호
+                        </div>
+
+                        <div class="data-value">
+                            ${esc(house)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="data-box">
+
+                        <div class="data-label">
+                            m
+                        </div>
+
+                        <div class="data-value">
+                            ${esc(meter)}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="select-row">
+
+                    <div class="select-wrap">
+
+                        <div class="select-label">
+                            형제
+                        </div>
+
+                        <select
+                            onchange="
+                                savePerson(
+                                    ${index},
+                                    'brother',
+                                    this.value
+                                )
+                            ">
+
+                            ${makeOptions(
+                                brothers,
+                                row.brother || ""
+                            )}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="select-wrap">
+
+                        <div class="select-label">
+                            자매
+                        </div>
+
+                        <select
+                            onchange="
+                                savePerson(
+                                    ${index},
+                                    'sister',
+                                    this.value
+                                )
+                            ">
+
+                            ${makeOptions(
+                                sisters,
+                                row.sister || ""
+                            )}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+
+
+    content.innerHTML = html;
+}
+
+
+/* =========================================================
+   선택값 저장
+   ========================================================= */
+
+function savePerson(
+    index,
+    type,
+    value
+) {
+
+    console.log(
+        "선택:",
+        index,
+        type,
+        value
+    );
+
+    /*
+      나중에 이 부분을
+      Google Sheets 저장 기능과
+      연결하면 됩니다.
+    */
+
+    localStorage.setItem(
+        "saturday_" +
+        index +
+        "_" +
+        type,
+        value
+    );
+}
+
+
+/* =========================================================
+   임시 데이터
+   =========================================================
+
+   지금은 화면을 먼저 확인하기 위해
+   샘플 데이터를 넣었습니다.
+
+   Google Sheets 연결 후에는
+   이 부분을 API 데이터로 교체합니다.
+========================================================= */
+
+const sampleData = {
+
+    brothers: [
+        "김경수",
+        "김지연",
+        "남동완",
+        "박대기",
+        "성낙봉",
+        "성규준",
+        "왕권식",
+        "임채원",
+        "정종찬",
+        "정지원",
+        "최홍국",
+        "추옥식"
+    ],
+
+    sisters: [
+        "강효선",
+        "계영혜",
+        "권영란",
+        "권효정",
+        "김가희",
+        "김남희",
+        "김수영",
+        "김정순",
+        "김현심",
+        "맹희주",
+        "민순자",
+        "박미화",
+        "박수은",
+        "박정은",
+        "박한별",
+        "박현주",
+        "손예진",
+        "송효자",
+        "안순옥",
+        "오미경",
+        "오미나",
+        "오승비",
+        "오슬원",
+        "이영자",
+        "이윤부",
+        "이혜자",
+        "임창숙"
+    ],
+
+    rows: [
+
+        {
+            number: "439",
+            zone: "그린 빌",
+            house: "138",
+            m: "Lw",
+            linkUrl: "#"
+        },
+
+        {
+            number: "304",
+            zone: "에코 빌",
+            house: "189",
+            m: "Ok",
+            linkUrl: "#"
+        },
+
+        {
+            number: "306",
+            zone: "국토정보공사",
+            house: "191",
+            m: "Lw",
+            linkUrl: "#"
+        },
+
+        {
+            number: "308",
+            zone: "SM 빌",
+            house: "153",
+            m: "Lw",
+            linkUrl: "#"
+        },
+
+        {
+            number: "309",
+            zone: "신일 빌딩",
+            house: "186",
+            m: "Lw",
+            linkUrl: "#"
+        },
+
+        {
+            number: "440",
+            zone: "성미로",
+            house: "197",
+            m: "Ok",
+            linkUrl: "#"
+        },
+
+        {
+            number: "302",
+            zone: "금정 빌딩",
+            house: "155",
+            m: "Lw",
+            linkUrl: "#"
+        },
+
+        {
+            number: "311",
+            zone: "오목 사우나",
+            house: "161",
+            m: "Lw",
+            linkUrl: "#"
+        },
+
+        {
+            number: "312",
+            zone: "화이트 빌",
+            house: "128",
+            m: "Ca",
+            linkUrl: "#"
+        },
+
+        {
+            number: "315",
+            zone: "반석 빌딩",
+            house: "089",
+            m: "Ca",
+            linkUrl: "#"
+        }
+
+    ]
+};
+
+
+/* =========================================================
+   하단 링크
+========================================================= */
+
+function updateBottomLinks(data) {
+
+    if (!data || !data.links)
+        return;
+
+    if (data.links.jw)
+        document.getElementById("linkJw")
+            .href = data.links.jw;
+
+    if (data.links.bible)
+        document.getElementById("linkBible")
+            .href = data.links.bible;
+
+    if (data.links.library)
+        document.getElementById("linkLibrary")
+            .href = data.links.library;
+
+    if (data.links.broadcast)
+        document.getElementById("linkBroadcast")
+            .href = data.links.broadcast;
+}
+
+
+/* =========================================================
+   시작
+========================================================= */
+
+applySettings();
+
+syncHeaderHeight();
+
+render(sampleData);
+
+</script>
+
+</body>
+</html>
