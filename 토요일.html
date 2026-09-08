@@ -568,6 +568,7 @@ body.light .settings-panel {
 
 /* =====================================================
    하단 고정 메뉴
+   ★ 3개 버튼
 ===================================================== */
 .bottom-nav {
     position: fixed;
@@ -586,7 +587,7 @@ body.light .settings-panel {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(3, 1fr);
 
     align-items: stretch;
 
@@ -627,14 +628,14 @@ body.light .settings-panel {
 }
 
 
-/* 메뉴 사이 구분선 */
+/* 메뉴 사이 세로 구분선 */
 .bottom-nav a + a {
     border-left:
         1px solid rgba(255,255,255,0.25);
 }
 
 
-/* 터치 */
+/* 터치할 때만 살짝 표시 */
 .bottom-nav a:active {
     background:
         rgba(255,255,255,0.08) !important;
@@ -813,35 +814,23 @@ body.light .settings-panel {
 
 <!-- =====================================================
      하단 고정 메뉴
+     ★ 3개 메뉴
 ===================================================== -->
 <nav class="bottom-nav">
 
     <a
-        id="jworg"
-        href="https://www.jw.org/ko/"
-        target="_blank">
-        JW.ORG
+        href="./토요일.html">
+        봉사신청
     </a>
 
     <a
-        id="bible"
-        href="https://www.jw.org/ko/라이브러리/성경/"
-        target="_blank">
-        성경
+        href="./토요일관리자.html">
+        관리자용
     </a>
 
     <a
-        id="library"
-        href="https://www.jw.org/ko/라이브러리/"
-        target="_blank">
-        라이브러리
-    </a>
-
-    <a
-        id="broadcast"
-        href="https://www.jw.org/ko/온라인-라이브러리/"
-        target="_blank">
-        JW방송
+        href="./토요일봉사.html">
+        봉사하기
     </a>
 
 </nav>
@@ -1212,14 +1201,6 @@ function goNext() {
 
         return;
     }
-
-    /*
-       현재는 2페이지가 아직 없으므로
-       선택된 명단만 확인합니다.
-
-       2페이지를 만들 때 이 부분을
-       토요일2.html 이동으로 변경합니다.
-    */
 
     alert(
         "선택된 봉사자: " +
