@@ -70,7 +70,6 @@ body.light {
 
 /* =====================================================
    상단 고정 헤더
-   ★ 기존 그대로
 ===================================================== */
 .header {
     position: fixed;
@@ -162,14 +161,12 @@ body.light {
 
 
 /* =========================
-   카드
+   페이지 제목
 ========================= */
-.card {
-    width: 100%;
-
+.page-title {
     margin-bottom: 12px;
 
-    padding: 13px 14px;
+    padding: 14px 16px;
 
     border-radius: 16px;
 
@@ -183,12 +180,10 @@ body.light {
     box-shadow:
         0 4px 12px rgba(0,0,0,0.22);
 
-    transition:
-        background 0.25s,
-        color 0.25s;
+    text-align: center;
 }
 
-body.light .card {
+body.light .page-title {
     background: #fff;
 
     color: #17212b;
@@ -197,113 +192,28 @@ body.light .card {
         0 3px 10px rgba(0,0,0,0.10);
 }
 
-
-/* =====================================================
-   구역카드 윗부분
-   ★ 번호 왼쪽
-   ★ 구역명 / 호수 오른쪽
-===================================================== */
-.card-top {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 10px;
-}
-
-
-/* 번호 */
-.number {
-    width: 100%;
-    min-width: 0;
-    height: 50px;
-
-    padding: 0 10px;
-
-    border-radius: 10px;
-
-    background: #3374A9;
-
-    color: #fff;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: calc(20px * var(--s));
-    font-weight: 800;
-}
-
-
-/* 오른쪽 구역명 + 호수 */
-.card-title-info {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-
-    gap: 2px;
-}
-
-
-/* 구역명 */
-.zone {
-    font-size: calc(20px * var(--s));
+.page-title-main {
+    font-size: calc(22px * var(--s));
     font-weight: 800;
 
-    color: inherit;
+    line-height: 1.3;
 
-    line-height: 1.25;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin-bottom: 5px;
 }
 
+.page-title-sub {
+    font-size: calc(15px * var(--s));
 
-/* 호수 */
-.house {
-    font-size: calc(16px * var(--s));
+    opacity: 0.85;
 
-    color: inherit;
-
-    line-height: 1.25;
+    line-height: 1.3;
 }
 
 
 /* =========================
-   기존 상세정보
-   ★ 기존 기능 보존
+   자매 명단
 ========================= */
-.info {
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 8px 14px;
-
-    margin-bottom: 11px;
-
-    font-size: calc(16px * var(--s));
-
-    color: inherit;
-}
-
-.info span {
-    white-space: nowrap;
-}
-
-
-/* =========================
-   선택 영역
-   ★ 2칸 × 2줄
-========================= */
-.person-row {
+.sister-list {
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -313,75 +223,216 @@ body.light .card {
 
 
 /* =========================
-   봉사자 선택
+   이름 카드
 ========================= */
-.volunteer-button {
-    width: 100%;
+.name-item {
+    position: relative;
 
-    min-height: 72px;
+    min-height: 58px;
 
-    padding: 7px 10px;
+    border-radius: 12px;
 
-    border-radius: 10px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(42,64,84,0.98),
+            rgba(20,31,42,0.98)
+        );
 
-    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow:
+        0 3px 9px rgba(0,0,0,0.20);
 
-    background: rgba(0,0,0,0.22);
+    cursor: pointer;
 
-    color: #fff;
+    -webkit-tap-highlight-color: transparent;
 
-    font-size: calc(16px * var(--s));
-
-    outline: none;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-
-    gap: 4px;
+    transition:
+        background 0.2s,
+        transform 0.1s;
 }
 
-.volunteer-label {
-    font-size: calc(14px * var(--s));
-
-    font-weight: 700;
-
-    line-height: 1.2;
-}
-
-.person-select {
-    width: 100%;
-
-    min-height: 42px;
-
-    padding: 7px 10px;
-
-    border-radius: 10px;
-
-    border: 1px solid rgba(255,255,255,0.12);
-
-    background: rgba(0,0,0,0.22);
-
-    color: #fff;
-
-    font-size: calc(16px * var(--s));
-
-    outline: none;
-}
-
-body.light .person-select {
-    background: #f4f6f8;
+body.light .name-item {
+    background: #fff;
 
     color: #17212b;
 
+    box-shadow:
+        0 3px 9px rgba(0,0,0,0.10);
+}
+
+.name-item:active {
+    transform: scale(0.98);
+}
+
+
+/* 실제 체크박스 */
+.name-checkbox {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+/* 이름 내용 */
+.name-content {
+    min-height: 58px;
+
+    padding: 8px 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+}
+
+
+/* 이름 */
+.name-text {
+    font-size: calc(17px * var(--s));
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    white-space: nowrap;
+}
+
+
+/* 체크 표시 */
+.check-mark {
+    flex-shrink: 0;
+
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255,255,255,0.35);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+
+    font-weight: 900;
+
+    color: transparent;
+}
+
+body.light .check-mark {
+    border-color: #b9c1c9;
+}
+
+
+/* 선택된 상태 */
+.name-checkbox:checked + .name-content {
+    background:
+        linear-gradient(
+            145deg,
+            #3374A9,
+            #285e89
+        );
+
+    border-radius: 12px;
+}
+
+.name-checkbox:checked + .name-content .check-mark {
+    background: #fff;
+
+    border-color: #fff;
+
+    color: #3374A9;
+}
+
+
+/* =========================
+   선택 인원 표시
+========================= */
+.selected-info {
+    margin-top: 12px;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(0,0,0,0.20);
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+body.light .selected-info {
+    background: #fff;
+
     border-color: #d8dde3;
+
+    box-shadow:
+        0 3px 9px rgba(0,0,0,0.08);
+}
+
+.selected-label {
+    font-size: calc(16px * var(--s));
+
+    font-weight: 700;
+}
+
+.selected-count {
+    font-size: calc(20px * var(--s));
+
+    font-weight: 800;
+
+    color: #8d7cf5;
+}
+
+
+/* =========================
+   다음 버튼
+========================= */
+.next-button {
+    width: 100%;
+
+    min-height: 52px;
+
+    margin-top: 10px;
+
+    border: 0;
+
+    border-radius: 13px;
+
+    background: #3374A9;
+
+    color: #fff;
+
+    font-size: calc(17px * var(--s));
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.next-button:active {
+    transform: scale(0.98);
 }
 
 
 /* =====================================================
    설정창
-   ★ 기존 그대로
 ===================================================== */
 .settings-panel {
     position: fixed;
@@ -499,6 +550,7 @@ body.light .settings-panel {
     height: 35px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -516,7 +568,6 @@ body.light .settings-panel {
 
 /* =====================================================
    하단 고정 메뉴
-   ★ 기존 그대로
 ===================================================== */
 .bottom-nav {
     position: fixed;
@@ -576,13 +627,14 @@ body.light .settings-panel {
 }
 
 
-/* ★ 메뉴 사이 세로 구분선 */
+/* 메뉴 사이 구분선 */
 .bottom-nav a + a {
-    border-left: 1px solid rgba(255,255,255,0.25);
+    border-left:
+        1px solid rgba(255,255,255,0.25);
 }
 
 
-/* 터치할 때만 살짝 표시 */
+/* 터치 */
 .bottom-nav a:active {
     background:
         rgba(255,255,255,0.08) !important;
@@ -603,8 +655,17 @@ body.light .settings-panel {
         padding-right: 8px;
     }
 
-    .card {
-        padding: 11px;
+    .sister-list {
+        gap: 7px;
+    }
+
+    .name-content {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .name-text {
+        font-size: calc(16px * var(--s));
     }
 
     .bottom-nav a {
@@ -620,7 +681,6 @@ body.light .settings-panel {
 
 <!-- =====================================================
      상단 헤더
-     ★ 기존 그대로
 ===================================================== -->
 <header class="header">
 
@@ -705,7 +765,48 @@ body.light .settings-panel {
     id="main"
     class="main">
 
-    <!-- 토요일 데이터가 표시되는 곳 -->
+    <section class="page-title">
+
+        <div class="page-title-main">
+            봉사자 선택
+        </div>
+
+        <div class="page-title-sub">
+            봉사할 자매는 자신의 이름을 체크해 주세요
+        </div>
+
+    </section>
+
+
+    <section
+        id="sisterList"
+        class="sister-list">
+
+    </section>
+
+
+    <div class="selected-info">
+
+        <div class="selected-label">
+            선택한 봉사자
+        </div>
+
+        <div
+            id="selectedCount"
+            class="selected-count">
+            0명
+        </div>
+
+    </div>
+
+
+    <button
+        class="next-button"
+        onclick="goNext()">
+
+        다음 →
+
+    </button>
 
 </main>
 
@@ -763,6 +864,209 @@ let currentFont =
 
 
 /* =====================================================
+   봉사자 체크 저장
+===================================================== */
+
+const SISTER_VOLUNTEER_KEY =
+    "saturdaySelectedSisters";
+
+
+/* =====================================================
+   자매 이름
+===================================================== */
+
+const sisters = [
+    "강효선",
+    "계영혜",
+    "권영란",
+    "권효정",
+    "김가희",
+    "김남희",
+    "김수영",
+    "김정순",
+    "김현심",
+    "맹희주",
+    "민순자",
+    "박미화",
+    "박수은",
+    "박정은",
+    "박한별",
+    "박현주",
+    "손예진",
+    "송효자",
+    "안순옥",
+    "오미경",
+    "오미나",
+    "오승비",
+    "오슬원",
+    "이영자",
+    "이윤부",
+    "이혜자",
+    "임창숙"
+];
+
+
+/* =====================================================
+   선택된 자매 불러오기
+===================================================== */
+
+let selectedSisters = [];
+
+try {
+
+    const saved =
+        localStorage.getItem(
+            SISTER_VOLUNTEER_KEY
+        );
+
+    if (saved) {
+
+        const parsed =
+            JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+
+            selectedSisters =
+                parsed.filter(
+                    name => sisters.includes(name)
+                );
+        }
+    }
+
+} catch (e) {
+
+    selectedSisters = [];
+}
+
+
+/* =====================================================
+   선택 저장
+===================================================== */
+
+function saveSelectedSisters() {
+
+    localStorage.setItem(
+        SISTER_VOLUNTEER_KEY,
+        JSON.stringify(selectedSisters)
+    );
+}
+
+
+/* =====================================================
+   선택 인원 표시
+===================================================== */
+
+function updateSelectedCount() {
+
+    document.getElementById(
+        "selectedCount"
+    ).textContent =
+        selectedSisters.length + "명";
+}
+
+
+/* =====================================================
+   자매 명단 표시
+===================================================== */
+
+function renderSisters() {
+
+    const list =
+        document.getElementById(
+            "sisterList"
+        );
+
+    list.innerHTML =
+        sisters.map((name, index) => {
+
+            const checked =
+                selectedSisters.includes(name);
+
+            return `
+
+                <label class="name-item">
+
+                    <input
+                        type="checkbox"
+                        class="name-checkbox"
+                        data-name="${esc(name)}"
+                        ${checked ? "checked" : ""}>
+
+                    <div class="name-content">
+
+                        <span class="name-text">
+                            ${esc(name)}
+                        </span>
+
+                        <span class="check-mark">
+                            ✓
+                        </span>
+
+                    </div>
+
+                </label>
+
+            `;
+
+        }).join("");
+
+
+    document
+        .querySelectorAll(".name-checkbox")
+        .forEach(checkbox => {
+
+            checkbox.addEventListener(
+                "change",
+                function() {
+
+                    const name =
+                        this.dataset.name;
+
+                    if (this.checked) {
+
+                        if (
+                            !selectedSisters.includes(name)
+                        ) {
+
+                            selectedSisters.push(name);
+                        }
+
+                    } else {
+
+                        selectedSisters =
+                            selectedSisters.filter(
+                                x => x !== name
+                            );
+                    }
+
+                    saveSelectedSisters();
+
+                    updateSelectedCount();
+                }
+            );
+
+        });
+
+    updateSelectedCount();
+}
+
+
+/* =====================================================
+   HTML escape
+===================================================== */
+
+function esc(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "◀")
+        .replace(/>/g, "▶")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =====================================================
    설정 적용
 ===================================================== */
 
@@ -779,9 +1083,12 @@ function applySettings() {
     );
 
     const value =
-        document.getElementById("fontValue");
+        document.getElementById(
+            "fontValue"
+        );
 
     if (value) {
+
         value.textContent =
             currentFont + "%";
     }
@@ -811,13 +1118,16 @@ function setTheme(theme) {
 
 function changeFont(value) {
 
-    currentFont = Number(value);
+    currentFont =
+        Number(value);
 
     if (currentFont < 80) {
+
         currentFont = 80;
     }
 
     if (currentFont > 150) {
+
         currentFont = 150;
     }
 
@@ -831,7 +1141,7 @@ function changeFont(value) {
 
 
 /* =====================================================
-   설정창 열기 / 닫기
+   설정창
 ===================================================== */
 
 function toggleSettings() {
@@ -888,302 +1198,45 @@ document.addEventListener(
 
 
 /* =====================================================
-   초기 설정
+   다음 페이지
+   ★ 2페이지 제작 전 임시
+===================================================== */
+
+function goNext() {
+
+    if (selectedSisters.length === 0) {
+
+        alert(
+            "봉사할 자매를 한 명 이상 선택해 주세요."
+        );
+
+        return;
+    }
+
+    /*
+       현재는 2페이지가 아직 없으므로
+       선택된 명단만 확인합니다.
+
+       2페이지를 만들 때 이 부분을
+       토요일2.html 이동으로 변경합니다.
+    */
+
+    alert(
+        "선택된 봉사자: " +
+        selectedSisters.length +
+        "명\n\n" +
+        selectedSisters.join(", ")
+    );
+}
+
+
+/* =====================================================
+   초기화
 ===================================================== */
 
 applySettings();
 
-
-/* =====================================================
-   토요일 데이터
-===================================================== */
-
-const sampleData = [
-
-    {
-        number: "439",
-        zone: "그린 빌",
-        house: "138",
-        m: "Lw"
-    },
-
-    {
-        number: "304",
-        zone: "에코 빌",
-        house: "189",
-        m: "Ok"
-    },
-
-    {
-        number: "306",
-        zone: "국토정보공사",
-        house: "191",
-        m: "Lw"
-    },
-
-    {
-        number: "308",
-        zone: "SM 빌",
-        house: "153",
-        m: "Lw"
-    },
-
-    {
-        number: "309",
-        zone: "신일 빌딩",
-        house: "186",
-        m: "Lw"
-    },
-
-    {
-        number: "440",
-        zone: "성미로",
-        house: "197",
-        m: "Ok"
-    },
-
-    {
-        number: "302",
-        zone: "금정 빌딩",
-        house: "155",
-        m: "Lw"
-    },
-
-    {
-        number: "311",
-        zone: "오목 사우나",
-        house: "161",
-        m: "Lw"
-    },
-
-    {
-        number: "312",
-        zone: "화이트 빌",
-        house: "128",
-        m: "Ca"
-    },
-
-    {
-        number: "315",
-        zone: "반석 빌딩",
-        house: "089",
-        m: "Ca"
-    }
-
-];
-
-
-/* =====================================================
-   형제 이름
-===================================================== */
-
-const brothers = [
-    "김경수",
-    "김지연",
-    "남동완",
-    "박대기",
-    "성낙봉",
-    "성규준",
-    "왕권식",
-    "임채원",
-    "정종찬",
-    "정지원",
-    "최홍국",
-    "추옥식"
-];
-
-
-/* =====================================================
-   자매 이름
-===================================================== */
-
-const sisters = [
-    "강효선",
-    "계영혜",
-    "권영란",
-    "권효정",
-    "김가희",
-    "김남희",
-    "김수영",
-    "김정순",
-    "김현심",
-    "맹희주",
-    "민순자",
-    "박미화",
-    "박수은",
-    "박정은",
-    "박한별",
-    "박현주",
-    "손예진",
-    "송효자",
-    "안순옥",
-    "오미경",
-    "오미나",
-    "오승비",
-    "오슬원",
-    "이영자",
-    "이윤부",
-    "이혜자",
-    "임창숙"
-];
-
-
-/* =====================================================
-   HTML escape
-===================================================== */
-
-function esc(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "◀")
-        .replace(/>/g, "▶")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-/* =====================================================
-   이름 선택 목록
-===================================================== */
-
-function makeOptions(list) {
-
-    return `
-        <option value="">
-            이름선택
-        </option>
-
-        ${list.map(name => `
-            <option value="${esc(name)}">
-                ${esc(name)}
-            </option>
-        `).join("")}
-    `;
-}
-
-
-/* =====================================================
-   봉사자 선택 버튼
-===================================================== */
-
-function makeVolunteerButton(list, index, label) {
-
-    return `
-
-        <div class="volunteer-button">
-
-            <div class="volunteer-label">
-                ${label}
-            </div>
-
-            <select
-                class="person-select"
-                data-index="${index}">
-
-                ${makeOptions(list)}
-
-            </select>
-
-        </div>
-
-    `;
-}
-
-
-/* =====================================================
-   데이터 표시
-===================================================== */
-
-function render(data) {
-
-    const main =
-        document.getElementById("main");
-
-    main.innerHTML =
-        data.map((x, index) => {
-
-            return `
-
-            <div class="card">
-
-                <!-- 구역카드 윗부분 -->
-
-                <div class="card-top">
-
-                    <div class="number">
-                        ${esc(x.number)}
-                    </div>
-
-                    <div class="card-title-info">
-
-                        <div class="zone">
-                            ${esc(x.zone)}
-                        </div>
-
-                        <div class="house">
-                            ${esc(x.house)}호
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- 기존 상세정보 -->
-
-                <div class="info">
-
-                    <span>
-                        ${esc(x.m)}
-                    </span>
-
-                </div>
-
-
-                <!-- 봉사자 2칸 × 2줄 -->
-
-                <div class="person-row">
-
-                    ${makeVolunteerButton(
-                        brothers,
-                        index,
-                        "봉사자A"
-                    )}
-
-                    ${makeVolunteerButton(
-                        sisters,
-                        index,
-                        "봉사자A"
-                    )}
-
-                    ${makeVolunteerButton(
-                        brothers,
-                        index,
-                        "봉사자A"
-                    )}
-
-                    ${makeVolunteerButton(
-                        sisters,
-                        index,
-                        "봉사자A"
-                    )}
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
-}
-
-
-/* =====================================================
-   초기 표시
-===================================================== */
-
-render(sampleData);
+renderSisters();
 
 </script>
 
