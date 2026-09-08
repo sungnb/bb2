@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -14,40 +13,35 @@
 ========================================================= */
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
 }
 
 body {
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans KR",
-        sans-serif;
-
-    background:
-        radial-gradient(
-            circle at top,
-            #303030 0%,
-            #171717 45%,
-            #0b0b0b 100%
-        );
-
-    color: #ffffff;
-
-    padding-top: 70px;
-    padding-bottom: 90px;
-
-    transition:
-        background 0.25s,
-        color 0.25s;
+  background:
+    radial-gradient(
+      circle at top,
+      #303030 0%,
+      #1d1d1d 42%,
+      #0d0d0d 100%
+    );
+  color: #f5f5f5;
+  padding-top: 62px;
+  padding-bottom: 82px;
+  transition: background .25s, color .25s;
 }
 
 /* =========================================================
@@ -55,15 +49,14 @@ body {
 ========================================================= */
 
 body.light {
-    background:
-        radial-gradient(
-            circle at top,
-            #ffffff 0%,
-            #eeeeee 50%,
-            #dddddd 100%
-        );
-
-    color: #111111;
+  background:
+    radial-gradient(
+      circle at top,
+      #ffffff 0%,
+      #f1f1f1 55%,
+      #e5e5e5 100%
+    );
+  color: #222;
 }
 
 /* =========================================================
@@ -71,549 +64,466 @@ body.light {
 ========================================================= */
 
 .top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 62px;
+  z-index: 1000;
 
-    height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    display: flex;
-    align-items: center;
-
-    padding: 0 14px;
-
-    background: rgba(20,20,20,0.92);
-
-    backdrop-filter: blur(12px);
-
-    z-index: 1000;
-
-    border-bottom:
-        1px solid rgba(255,255,255,0.08);
+  background: rgba(20,20,20,.96);
+  border-bottom: 1px solid rgba(255,255,255,.12);
 }
 
 body.light .top-bar {
-    background: rgba(255,255,255,0.94);
-
-    border-bottom:
-        1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid rgba(0,0,0,.12);
 }
-
-/* =========================================================
-   뒤로가기
-========================================================= */
-
-.back-button {
-    width: 42px;
-    height: 42px;
-
-    border: none;
-    border-radius: 12px;
-
-    background: rgba(255,255,255,0.08);
-
-    color: inherit;
-
-    font-size: 24px;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-body.light .back-button {
-    background: rgba(0,0,0,0.06);
-}
-
-/* =========================================================
-   제목
-========================================================= */
 
 .top-title {
-    flex: 1;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
 
-    text-align: center;
+.top-button {
+  position: absolute;
+  top: 5px;
 
-    font-size: 21px;
-    font-weight: 800;
+  width: 47px;
+  height: 47px;
 
-    margin-left: 8px;
+  border: 0;
+  border-radius: 13px;
+
+  background: #292929;
+  color: #fff;
+
+  font-size: 28px;
+  font-weight: 900;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+body.light .top-button {
+  background: #e8e8e8;
+  color: #222;
+}
+
+.back-button {
+  left: 26px;
+}
+
+.settings-button {
+  right: 26px;
+  font-size: 25px;
 }
 
 /* =========================================================
    설정
 ========================================================= */
 
-.settings-button {
-    width: 42px;
-    height: 42px;
-
-    border: none;
-    border-radius: 12px;
-
-    background: rgba(255,255,255,0.08);
-
-    color: inherit;
-
-    font-size: 21px;
-
-    cursor: pointer;
-}
-
-body.light .settings-button {
-    background: rgba(0,0,0,0.06);
-}
-
-/* =========================================================
-   설정 패널
-========================================================= */
-
 .settings-panel {
-    position: fixed;
+  display: none;
 
-    top: 66px;
-    right: 12px;
+  position: fixed;
+  top: 62px;
+  right: 15px;
 
-    width: 230px;
+  width: 260px;
+  padding: 18px;
 
-    padding: 16px;
+  z-index: 1100;
 
-    border-radius: 16px;
+  border-radius: 16px;
 
-    background: rgba(35,35,35,0.98);
+  background: rgba(35,35,35,.98);
+  border: 1px solid rgba(255,255,255,.12);
 
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.35);
-
-    display: none;
-
-    z-index: 1100;
+  box-shadow: 0 12px 35px rgba(0,0,0,.4);
 }
 
 body.light .settings-panel {
-    background: rgba(255,255,255,0.98);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.18);
+  background: #fff;
+  border-color: rgba(0,0,0,.12);
+  box-shadow: 0 12px 35px rgba(0,0,0,.18);
 }
 
 .settings-panel.show {
-    display: block;
+  display: block;
 }
 
 .settings-title {
-    font-size: 15px;
-    font-weight: 800;
-
-    margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 13px;
 }
 
 .settings-row {
-    display: flex;
-    gap: 8px;
-
-    margin-bottom: 14px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .settings-row button {
-    flex: 1;
+  flex: 1;
+  min-height: 40px;
 
-    border: none;
-    border-radius: 10px;
+  border: 0;
+  border-radius: 10px;
 
-    padding: 9px 6px;
+  background: #444;
+  color: #fff;
 
-    cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
 
-    background: #444;
-    color: #fff;
+  cursor: pointer;
 }
 
 body.light .settings-row button {
-    background: #eeeeee;
-    color: #111;
+  background: #e5e5e5;
+  color: #222;
 }
 
-.settings-row button.active {
-    outline: 2px solid #4da3ff;
+.font-label {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.font-buttons {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 6px;
+}
+
+.font-buttons button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 8px;
+
+  background: #444;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+body.light .font-buttons button {
+  background: #e5e5e5;
+  color: #222;
 }
 
 /* =========================================================
    본문
 ========================================================= */
 
-.container {
-    width: min(720px, calc(100% - 24px));
-
-    margin: 0 auto;
+.main {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 52px 15px 30px;
 }
 
-/* =========================================================
-   페이지 제목
-========================================================= */
-
 .page-title {
-    text-align: center;
-
-    font-size: 25px;
-    font-weight: 900;
-
-    margin-top: 14px;
-    margin-bottom: 6px;
+  text-align: center;
+  font-size: 29px;
+  font-weight: 900;
+  margin: 0;
 }
 
 .page-subtitle {
-    text-align: center;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #aaa;
+  margin-top: 10px;
+}
 
-    font-size: 14px;
-
-    opacity: 0.72;
-
-    margin-bottom: 20px;
+body.light .page-subtitle {
+  color: #666;
 }
 
 /* =========================================================
-   신청자 현황
+   신청자 수
 ========================================================= */
 
-.status-box {
-    padding: 15px 16px;
+.applicant-count-box {
+  margin-top: 24px;
 
-    border-radius: 16px;
+  min-height: 76px;
 
-    background: rgba(255,255,255,0.07);
+  border-radius: 18px;
 
-    border:
-        1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
 
-    margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    text-align: center;
+  font-size: 18px;
+  font-weight: 800;
 }
 
-body.light .status-box {
-    background: rgba(255,255,255,0.72);
-
-    border:
-        1px solid rgba(0,0,0,0.08);
+body.light .applicant-count-box {
+  background: rgba(0,0,0,.05);
+  border-color: rgba(0,0,0,.1);
 }
 
-.status-number {
-    font-size: 27px;
-    font-weight: 900;
-
-    margin-right: 4px;
+.applicant-count {
+  font-size: 29px;
+  font-weight: 900;
+  margin: 0 5px;
 }
 
 /* =========================================================
    섹션 제목
 ========================================================= */
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 27px;
+  margin-bottom: 13px;
+}
+
 .section-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin: 22px 2px 10px;
-
-    font-size: 17px;
-    font-weight: 900;
+  font-size: 21px;
+  font-weight: 900;
 }
 
 .section-count {
-    font-size: 13px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #aaa;
+}
 
-    opacity: 0.65;
+body.light .section-count {
+  color: #666;
 }
 
 /* =========================================================
-   미배정 목록
+   미배정 자매
 ========================================================= */
 
-.unassigned-list {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 8px;
+.unassigned-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
-.unassigned-person {
-    min-height: 48px;
+.person {
+  min-height: 51px;
 
-    border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    border:
-        1px solid rgba(255,255,255,0.10);
+  padding: 7px;
 
-    background:
-        rgba(255,255,255,0.07);
+  border-radius: 11px;
 
-    color: inherit;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.13);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
 
-    font-size: 14px;
-    font-weight: 700;
+  cursor: pointer;
 
-    cursor: pointer;
-
-    user-select: none;
-
-    transition:
-        transform 0.15s,
-        background 0.15s,
-        border 0.15s;
+  user-select: none;
 }
 
-body.light .unassigned-person {
-    background:
-        rgba(255,255,255,0.75);
-
-    border:
-        1px solid rgba(0,0,0,0.08);
+body.light .person {
+  background: #fff;
+  border-color: #d5d5d5;
+  color: #222;
 }
 
-.unassigned-person:active {
-    transform: scale(0.97);
+.person.selected {
+  background: #21384d;
+  border-color: #3e80b8;
+  color: #fff;
 }
 
-.unassigned-person.selected {
-    background: #1769aa;
+body.light .person.selected {
+  background: #dceeff;
+  border-color: #6ba8d8;
+  color: #17456b;
+}
 
-    border-color: #4da3ff;
+.empty-message {
+  text-align: center;
+  padding: 27px 10px;
 
-    color: #ffffff;
+  color: #aaa;
 
-    box-shadow:
-        0 0 0 2px rgba(77,163,255,0.20);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+body.light .empty-message {
+  color: #777;
 }
 
 /* =========================================================
    안내
 ========================================================= */
 
-.help-box {
-    margin-top: 10px;
+.notice {
+  margin-top: 18px;
+  padding: 14px;
 
-    padding: 11px 13px;
+  border-radius: 14px;
 
-    border-radius: 12px;
+  background: rgba(34,54,72,.65);
+  border: 1px solid #315875;
 
-    background:
-        rgba(77,163,255,0.10);
+  text-align: center;
 
-    border:
-        1px solid rgba(77,163,255,0.20);
-
-    font-size: 13px;
-
-    line-height: 1.5;
-
-    text-align: center;
-
-    opacity: 0.9;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.7;
 }
 
 /* =========================================================
-   그룹
+   봉사 그룹
 ========================================================= */
 
-.groups {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
+.groups-header {
+  margin-top: 27px;
 }
-
-/* =========================================================
-   그룹 카드
-========================================================= */
 
 .group-card {
-    border-radius: 17px;
+  margin-bottom: 17px;
 
-    padding: 13px;
+  padding: 15px;
 
-    background:
-        rgba(255,255,255,0.065);
+  border-radius: 18px;
 
-    border:
-        1px solid rgba(255,255,255,0.09);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
 }
 
 body.light .group-card {
-    background:
-        rgba(255,255,255,0.78);
-
-    border:
-        1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,.8);
+  border-color: rgba(0,0,0,.1);
 }
 
-/* =========================================================
-   그룹 상단
-========================================================= */
+.group-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-.group-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 10px;
+  margin-bottom: 11px;
 }
 
 .group-title {
-    font-size: 17px;
-    font-weight: 900;
+  font-size: 20px;
+  font-weight: 900;
 }
 
-.group-actions {
-    display: flex;
-    gap: 6px;
+.delete-group {
+  border: 0;
+  border-radius: 10px;
+
+  padding: 8px 12px;
+
+  background: #444;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 800;
 }
 
-.group-actions button {
-    border: none;
-
-    border-radius: 9px;
-
-    padding: 6px 9px;
-
-    font-size: 12px;
-
-    cursor: pointer;
-
-    background:
-        rgba(255,255,255,0.10);
-
-    color: inherit;
+body.light .delete-group {
+  background: #ddd;
+  color: #222;
 }
-
-body.light .group-actions button {
-    background:
-        rgba(0,0,0,0.07);
-}
-
-/* =========================================================
-   4명 슬롯
-========================================================= */
 
 .slots {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 7px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
 }
 
 .slot {
-    min-height: 60px;
+  min-height: 67px;
 
-    border-radius: 12px;
+  border-radius: 13px;
 
-    border:
-        1px dashed rgba(255,255,255,0.20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    background:
-        rgba(0,0,0,0.13);
+  padding: 8px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: rgba(0,0,0,.15);
+  border: 1px dashed rgba(255,255,255,.18);
 
-    text-align: center;
+  color: #aaa;
 
-    padding: 6px;
+  font-size: 15px;
+  font-weight: 800;
 
-    font-size: 13px;
-    font-weight: 700;
+  text-align: center;
 
-    cursor: pointer;
-
-    user-select: none;
-
-    transition:
-        background 0.15s,
-        border 0.15s,
-        transform 0.15s;
+  cursor: pointer;
 }
 
 body.light .slot {
-    background:
-        rgba(0,0,0,0.035);
-
-    border:
-        1px dashed rgba(0,0,0,0.20);
-}
-
-.slot.empty {
-    opacity: 0.58;
-}
-
-.slot.available {
-    border-color: #4da3ff;
-
-    background:
-        rgba(77,163,255,0.12);
+  background: #f3f3f3;
+  border-color: #bbb;
+  color: #888;
 }
 
 .slot.filled {
-    border-style: solid;
-
-    border-color:
-        rgba(255,255,255,0.14);
-
-    background:
-        rgba(255,255,255,0.09);
+  background: #263c50;
+  border: 1px solid #3d6d94;
+  color: #fff;
 }
 
 body.light .slot.filled {
-    border-color:
-        rgba(0,0,0,0.12);
-
-    background:
-        rgba(0,0,0,0.045);
-}
-
-.slot:active {
-    transform: scale(0.97);
+  background: #e0f0ff;
+  border-color: #8ab6d8;
+  color: #17456b;
 }
 
 /* =========================================================
    그룹 추가
 ========================================================= */
 
-.add-group-button {
-    width: 100%;
+.add-group {
+  width: 100%;
+  min-height: 55px;
 
-    margin-top: 15px;
+  border: 1px solid #3471a6;
+  border-radius: 14px;
 
-    min-height: 50px;
+  background: #1e3040;
+  color: #fff;
 
-    border: none;
+  font-size: 18px;
+  font-weight: 900;
 
-    border-radius: 14px;
+  cursor: pointer;
+}
 
-    background:
-        rgba(77,163,255,0.14);
-
-    border:
-        1px solid rgba(77,163,255,0.28);
-
-    color: inherit;
-
-    font-size: 15px;
-    font-weight: 800;
-
-    cursor: pointer;
+body.light .add-group {
+  background: #e7f3ff;
+  color: #17456b;
 }
 
 /* =========================================================
@@ -621,99 +531,101 @@ body.light .slot.filled {
 ========================================================= */
 
 .bottom-nav {
-    position: fixed;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-    left: 0;
-    right: 0;
-    bottom: 0;
+  height: 78px;
 
-    height: 70px;
+  z-index: 1000;
 
-    display: grid;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+  align-items: center;
 
-    gap: 6px;
+  padding: 8px;
 
-    padding: 8px 10px;
-
-    background:
-        rgba(15,15,15,0.94);
-
-    backdrop-filter: blur(12px);
-
-    border-top:
-        1px solid rgba(255,255,255,0.08);
-
-    z-index: 1000;
+  background: rgba(14,14,14,.97);
+  border-top: 1px solid rgba(255,255,255,.12);
 }
 
 body.light .bottom-nav {
-    background:
-        rgba(255,255,255,0.95);
-
-    border-top:
-        1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,.97);
+  border-top-color: rgba(0,0,0,.1);
 }
 
 .bottom-nav button {
-    border: none;
+  height: 42px;
 
-    border-radius: 12px;
+  border: 0;
+  border-radius: 22px;
 
-    background:
-        rgba(255,255,255,0.07);
+  background: #262626;
+  color: #fff;
 
-    color: inherit;
+  font-size: 14px;
+  font-weight: 900;
 
-    font-size: 13px;
-    font-weight: 800;
-
-    cursor: pointer;
+  cursor: pointer;
 }
 
 body.light .bottom-nav button {
-    background:
-        rgba(0,0,0,0.055);
+  background: #e5e5e5;
+  color: #222;
 }
 
 .bottom-nav button.active {
-    background:
-        rgba(77,163,255,0.18);
+  background: #19354d;
+  color: #5da8ec;
+}
 
-    color: #4da3ff;
+body.light .bottom-nav button.active {
+  background: #dceeff;
+  color: #1768a5;
 }
 
 /* =========================================================
-   모바일
+   반응형
 ========================================================= */
 
-@media (max-width: 420px) {
+@media (max-width: 520px) {
 
-    .unassigned-list {
-        grid-template-columns:
-            repeat(3, 1fr);
-    }
+  .back-button {
+    left: 12px;
+  }
 
-    .unassigned-person {
-        font-size: 13px;
-        min-height: 46px;
-    }
+  .settings-button {
+    right: 12px;
+  }
 
-    .slot {
-        min-height: 58px;
-        font-size: 12px;
-    }
+  .main {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 
-    .group-title {
-        font-size: 16px;
-    }
+  .page-title {
+    font-size: 28px;
+  }
+
+  .slots {
+    gap: 7px;
+  }
+
+  .slot {
+    font-size: 14px;
+  }
+
+  .bottom-nav button {
+    font-size: 13px;
+  }
 }
 
 </style>
-
 </head>
+
 
 <body>
 
@@ -723,177 +635,145 @@ body.light .bottom-nav button {
 
 <header class="top-bar">
 
-```
-<button
-    class="back-button"
+  <button
+    class="top-button back-button"
     onclick="history.back()"
     aria-label="뒤로가기">
     ‹
-</button>
+  </button>
 
-<div class="top-title">
-    토요일
-</div>
+  <div class="top-title">토요일</div>
 
-<button
-    class="settings-button"
+  <button
+    class="top-button settings-button"
     onclick="toggleSettings()"
     aria-label="설정">
     ⚙
-</button>
-```
+  </button>
 
 </header>
+
 
 <!-- =======================================================
      설정
 ======================================================= -->
 
 <div
-    id="settingsPanel"
-    class="settings-panel">
+  id="settingsPanel"
+  class="settings-panel">
 
-```
-<div class="settings-title">
-    화면 설정
-</div>
+  <div class="settings-title">화면 설정</div>
 
-<div class="settings-row">
+  <div class="settings-row">
+    <button onclick="setTheme('dark')">어둡게</button>
+    <button onclick="setTheme('light')">밝게</button>
+  </div>
 
-    <button
-        id="darkButton"
-        onclick="setTheme('dark')">
-        어둡게
-    </button>
-
-    <button
-        id="lightButton"
-        onclick="setTheme('light')">
-        밝게
-    </button>
-
-</div>
-
-<div class="settings-title">
+  <div class="font-label">
     글자 크기
-</div>
+  </div>
 
-<div class="settings-row">
-
-    <button onclick="changeFont(-10)">
-        −
-    </button>
-
-    <button id="fontValue">
-        100%
-    </button>
-
-    <button onclick="changeFont(10)">
-        ＋
-    </button>
+  <div class="font-buttons">
+    <button onclick="setFontSize(80)">80%</button>
+    <button onclick="setFontSize(100)">100%</button>
+    <button onclick="setFontSize(120)">120%</button>
+    <button onclick="setFontSize(150)">150%</button>
+  </div>
 
 </div>
-```
 
-</div>
 
 <!-- =======================================================
      본문
 ======================================================= -->
 
-<main class="container">
+<main class="main">
 
-```
-<div class="page-title">
+  <h1 class="page-title">
     관리자용
-</div>
+  </h1>
 
-<div class="page-subtitle">
+  <div class="page-subtitle">
     신청한 자매를 봉사 그룹에 배정해 주세요
-</div>
+  </div>
 
 
-<!-- 신청자 현황 -->
+  <!-- 신청자 수 -->
 
-<div class="status-box">
-
+  <div class="applicant-count-box">
     현재 신청자
-
     <span
-        id="applicantCount"
-        class="status-number">
-        0
-    </span>
-
+      id="applicantCount"
+      class="applicant-count">0</span>
     명
-
-</div>
-
-
-<!-- ===================================================
-     미배정 자매
-=================================================== -->
-
-<div class="section-title">
-
-    <span>
-        미배정 자매
-    </span>
-
-    <span
-        id="unassignedCount"
-        class="section-count">
-        0명
-    </span>
-
-</div>
+  </div>
 
 
-<div
-    id="unassignedList"
-    class="unassigned-list">
-</div>
+  <!-- =====================================================
+       미배정 자매
+  ====================================================== -->
+
+  <div class="section-header">
+    <div class="section-title">
+      미배정 자매
+    </div>
+
+    <div
+      id="unassignedCount"
+      class="section-count">
+      0명
+    </div>
+  </div>
 
 
-<div class="help-box">
+  <div
+    id="unassignedGrid"
+    class="unassigned-grid">
+  </div>
+
+
+  <div
+    id="notice"
+    class="notice">
+
     자매 이름을 먼저 선택한 다음<br>
     원하는 그룹의 빈칸을 눌러 배정하세요.
-</div>
+
+  </div>
 
 
-<!-- ===================================================
-     봉사 그룹
-=================================================== -->
+  <!-- =====================================================
+       봉사 그룹
+  ====================================================== -->
 
-<div class="section-title">
+  <div class="section-header groups-header">
 
-    <span>
-        봉사 그룹
-    </span>
+    <div class="section-title">
+      봉사 그룹
+    </div>
 
-    <span
-        id="groupCount"
-        class="section-count">
-        0그룹
-    </span>
+    <div
+      id="groupCount"
+      class="section-count">
+      0그룹
+    </div>
 
-</div>
-
-
-<div
-    id="groups"
-    class="groups">
-</div>
+  </div>
 
 
-<button
-    class="add-group-button"
+  <div id="groups"></div>
+
+
+  <button
+    class="add-group"
     onclick="addGroup()">
+
     ＋ 봉사 그룹 추가
-</button>
-```
+
+  </button>
 
 </main>
+
 
 <!-- =======================================================
      하단 메뉴
@@ -901,25 +781,24 @@ body.light .bottom-nav button {
 
 <nav class="bottom-nav">
 
-```
-<button
+  <button
     onclick="location.href='./토요일.html'">
     봉사신청
-</button>
+  </button>
 
-<button
+  <button
     class="active"
     onclick="location.href='./토요일관리자.html'">
     관리자용
-</button>
+  </button>
 
-<button
+  <button
     onclick="location.href='./토요일봉사.html'">
     봉사하기
-</button>
-```
+  </button>
 
 </nav>
+
 
 <script>
 
@@ -927,98 +806,82 @@ body.light .bottom-nav button {
    기본 설정
 ========================================================= */
 
-const GOOGLE_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxfv41gmvsmjV6-xI7OFvZujsvHWOYkfeqALvPIn1AEeW42gtAQ8prog7J6QG2pr2fV/exec";
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxf41gmvsmjV6-xI7OFvZujsvHWOYkfeqALvPIn1AEeW42gtAQ8prog7J6QG2pr2fV/exec";
 
-
-const THEME_KEY =
-    "saturdayTheme";
-
-const FONT_KEY =
-    "saturdayFont";
-
-const GROUP_KEY =
-    "saturdayVolunteerGroups";
-
-
-/* =========================================================
-   자매 명단
-========================================================= */
 
 const SISTERS = [
-
-    "강효선",
-    "계영혜",
-    "권영란",
-    "권효정",
-    "김가희",
-    "김남희",
-    "김수영",
-    "김정순",
-    "김현심",
-    "맹희주",
-    "민순자",
-    "박미화",
-    "박수은",
-    "박정은",
-    "박한별",
-    "박현주",
-    "손예진",
-    "송효자",
-    "안순옥",
-    "오미경",
-    "오미나",
-    "오승비",
-    "오슬원",
-    "이영자",
-    "이윤부",
-    "이혜자",
-    "임창숙"
-
+  "강효선",
+  "계영혜",
+  "권영란",
+  "권효정",
+  "김가희",
+  "김남희",
+  "김수영",
+  "김정순",
+  "김현심",
+  "맹희주",
+  "민순자",
+  "박미화",
+  "박수은",
+  "박정은",
+  "박한별",
+  "박현주",
+  "손예진",
+  "송효자",
+  "안순옥",
+  "오미경",
+  "오미나",
+  "오승비",
+  "오슬원",
+  "이영자",
+  "이윤부",
+  "이혜자",
+  "임창숙"
 ];
 
 
-/* =========================================================
-   상태
-========================================================= */
-
-let currentTheme =
-    localStorage.getItem(THEME_KEY) || "dark";
-
-let currentFont =
-    Number(localStorage.getItem(FONT_KEY)) || 100;
+const GROUP_KEY =
+  "saturdayVolunteerGroups";
 
 
-/*
-   그룹 구조
-
-   [
-       ["강효선","계영혜","권영란","권효정"],
-       ["김가희","김남희",...],
-       ...
-   ]
-
-*/
+let applicants = [];
 
 let groups =
-    loadGroups();
+  JSON.parse(
+    localStorage.getItem(GROUP_KEY)
+    || "[]"
+  );
 
-
-let selectedPerson =
-    null;
+let selectedName = null;
 
 
 /* =========================================================
-   초기 실행
+   초기화
 ========================================================= */
 
-applyTheme();
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
 
-applyFont();
+    loadSettings();
 
-renderGroups();
+    if (!groups.length) {
+      groups = [[]];
+      saveGroups();
+    }
 
-loadApplicants();
+    renderAll();
+
+    loadApplicants();
+
+    setInterval(
+      loadApplicants,
+      10000
+    );
+
+  }
+);
 
 
 /* =========================================================
@@ -1027,82 +890,66 @@ loadApplicants();
 
 function toggleSettings() {
 
-    const panel =
-        document.getElementById(
-            "settingsPanel"
-        );
+  const panel =
+    document.getElementById(
+      "settingsPanel"
+    );
 
-    panel.classList.toggle("show");
+  panel.classList.toggle("show");
+
 }
 
 
 function setTheme(theme) {
 
-    currentTheme =
-        theme;
+  if (theme === "light") {
+    document.body.classList.add("light");
+  } else {
+    document.body.classList.remove("light");
+  }
 
-    localStorage.setItem(
-        THEME_KEY,
-        theme
-    );
+  localStorage.setItem(
+    "saturdayTheme",
+    theme
+  );
 
-    applyTheme();
 }
 
 
-function applyTheme() {
+function setFontSize(size) {
 
-    document.body.classList.toggle(
-        "light",
-        currentTheme === "light"
-    );
+  document.documentElement.style.fontSize =
+    size + "%";
 
-    document
-        .getElementById("darkButton")
-        .classList.toggle(
-            "active",
-            currentTheme === "dark"
-        );
+  localStorage.setItem(
+    "saturdayFontSize",
+    size
+  );
 
-    document
-        .getElementById("lightButton")
-        .classList.toggle(
-            "active",
-            currentTheme === "light"
-        );
 }
 
 
-function changeFont(value) {
+function loadSettings() {
 
-    currentFont += value;
-
-    if (currentFont < 80) {
-        currentFont = 80;
-    }
-
-    if (currentFont > 150) {
-        currentFont = 150;
-    }
-
-    localStorage.setItem(
-        FONT_KEY,
-        currentFont
+  const theme =
+    localStorage.getItem(
+      "saturdayTheme"
     );
 
-    applyFont();
-}
+  const fontSize =
+    localStorage.getItem(
+      "saturdayFontSize"
+    );
 
+  if (theme === "light") {
+    document.body.classList.add("light");
+  }
 
-function applyFont() {
-
+  if (fontSize) {
     document.documentElement.style.fontSize =
-        currentFont + "%";
+      fontSize + "%";
+  }
 
-    document
-        .getElementById("fontValue")
-        .textContent =
-        currentFont + "%";
 }
 
 
@@ -1110,206 +957,188 @@ function applyFont() {
    신청자 불러오기
 ========================================================= */
 
-function loadApplicants() {
+async function loadApplicants() {
 
-    fetch(
-        GOOGLE_SCRIPT_URL +
-        "?action=applicants"
-    )
+  try {
 
-    .then(response => response.json())
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=applicants&t=" +
+        Date.now()
+      );
 
-    .then(data => {
+    const data =
+      await response.json();
 
-        if (
-            !data ||
-            data.success !== true
-        ) {
-            throw new Error(
-                "신청자 자료를 불러오지 못했습니다."
-            );
-        }
+    if (!data.success) {
+      console.error(
+        data.message
+      );
+      return;
+    }
 
-        const applicants =
-            Array.isArray(data.applicants)
-                ? data.applicants
-                : [];
+    applicants =
+      (data.applicants || [])
+      .filter(name =>
+        SISTERS.includes(name)
+      );
 
-        /*
-           현재 테스트는 자매 27명만 사용
-        */
+    cleanGroups();
 
-        const sisterApplicants =
-            applicants.filter(
-                name =>
-                    SISTERS.includes(name)
-            );
+    renderAll();
 
-        renderApplicants(
-            sisterApplicants
-        );
+  } catch (error) {
 
-    })
-
-    .catch(error => {
-
-        console.error(error);
-
-        document
-            .getElementById(
-                "unassignedList"
-            )
-            .innerHTML =
-            `
-            <div style="
-                grid-column:1/-1;
-                text-align:center;
-                padding:20px;
-                opacity:.7;
-            ">
-                신청자 자료를 불러오지 못했습니다.
-            </div>
-            `;
-
-    });
-}
-
-
-/* =========================================================
-   신청자 표시
-========================================================= */
-
-function renderApplicants(applicants) {
-
-    document
-        .getElementById(
-            "applicantCount"
-        )
-        .textContent =
-        applicants.length;
-
-
-    renderUnassigned(
-        applicants
+    console.error(
+      "신청자 불러오기 오류:",
+      error
     );
 
-    renderGroups();
+  }
 
 }
 
 
 /* =========================================================
-   미배정 목록
+   그룹에 없는 신청자만 미배정으로 표시
 ========================================================= */
 
-function renderUnassigned(applicants) {
+function getAssignedNames() {
 
-    const list =
-        document.getElementById(
-            "unassignedList"
-        );
+  const assigned = [];
 
+  groups.forEach(group => {
 
-    const assigned =
-        new Set(
-            groups.flat()
-        );
+    group.forEach(name => {
 
-
-    const unassigned =
-        applicants.filter(
-            name =>
-                !assigned.has(name)
-        );
-
-
-    document
-        .getElementById(
-            "unassignedCount"
-        )
-        .textContent =
-        unassigned.length + "명";
-
-
-    list.innerHTML = "";
-
-
-    if (unassigned.length === 0) {
-
-        list.innerHTML =
-            `
-            <div style="
-                grid-column:1/-1;
-                text-align:center;
-                padding:20px;
-                opacity:.65;
-            ">
-                모든 신청자가 배정되었습니다.
-            </div>
-            `;
-
-        return;
-    }
-
-
-    unassigned.forEach(name => {
-
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "unassigned-person";
-
-
-        if (
-            selectedPerson === name
-        ) {
-            button.classList.add(
-                "selected"
-            );
-        }
-
-
-        button.textContent =
-            name;
-
-
-        button.onclick =
-            () => selectPerson(name);
-
-
-        list.appendChild(button);
+      if (name) {
+        assigned.push(name);
+      }
 
     });
+
+  });
+
+  return assigned;
+
+}
+
+
+function getUnassignedNames() {
+
+  const assigned =
+    getAssignedNames();
+
+  return applicants.filter(
+    name =>
+      !assigned.includes(name)
+  );
+
 }
 
 
 /* =========================================================
-   자매 선택
+   화면 전체
 ========================================================= */
 
-function selectPerson(name) {
+function renderAll() {
 
-    if (
-        selectedPerson === name
-    ) {
+  renderCount();
 
-        selectedPerson =
-            null;
+  renderUnassigned();
 
-    } else {
+  renderGroups();
 
-        selectedPerson =
-            name;
+}
 
+
+/* =========================================================
+   신청자 수
+========================================================= */
+
+function renderCount() {
+
+  document.getElementById(
+    "applicantCount"
+  ).textContent =
+    applicants.length;
+
+}
+
+
+/* =========================================================
+   미배정 자매
+========================================================= */
+
+function renderUnassigned() {
+
+  const grid =
+    document.getElementById(
+      "unassignedGrid"
+    );
+
+  const count =
+    document.getElementById(
+      "unassignedCount"
+    );
+
+  const names =
+    getUnassignedNames();
+
+  count.textContent =
+    names.length + "명";
+
+  grid.innerHTML = "";
+
+  if (!names.length) {
+
+    grid.innerHTML =
+      '<div class="empty-message" style="grid-column:1/-1;">' +
+      (
+        applicants.length
+          ? "모든 신청자가 배정되었습니다."
+          : "아직 신청한 자매가 없습니다."
+      ) +
+      "</div>";
+
+    return;
+
+  }
+
+
+  names.forEach(name => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "person";
+
+    if (selectedName === name) {
+      div.classList.add("selected");
     }
 
+    div.textContent =
+      name;
 
-    /*
-       선택 상태를 다시 그려줌
-    */
+    div.onclick =
+      function() {
 
-    refreshCurrentDisplay();
+        if (selectedName === name) {
+          selectedName = null;
+        } else {
+          selectedName = name;
+        }
+
+        renderUnassigned();
+
+      };
+
+    grid.appendChild(div);
+
+  });
+
 }
 
 
@@ -1319,304 +1148,251 @@ function selectPerson(name) {
 
 function renderGroups() {
 
-    const container =
-        document.getElementById(
-            "groups"
-        );
-
-
-    container.innerHTML = "";
-
-
-    document
-        .getElementById(
-            "groupCount"
-        )
-        .textContent =
-        groups.length + "그룹";
-
-
-    groups.forEach(
-        (group, groupIndex) => {
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-            card.className =
-                "group-card";
-
-
-            /*
-               그룹 상단
-            */
-
-            const header =
-                document.createElement(
-                    "div"
-                );
-
-            header.className =
-                "group-header";
-
-
-            const title =
-                document.createElement(
-                    "div"
-                );
-
-            title.className =
-                "group-title";
-
-            title.textContent =
-                (groupIndex + 1) +
-                "번 그룹";
-
-
-            const actions =
-                document.createElement(
-                    "div"
-                );
-
-            actions.className =
-                "group-actions";
-
-
-            const deleteButton =
-                document.createElement(
-                    "button"
-                );
-
-            deleteButton.textContent =
-                "삭제";
-
-
-            deleteButton.onclick =
-                () =>
-                    deleteGroup(
-                        groupIndex
-                    );
-
-
-            actions.appendChild(
-                deleteButton
-            );
-
-
-            header.appendChild(
-                title
-            );
-
-            header.appendChild(
-                actions
-            );
-
-
-            /*
-               4개 슬롯
-            */
-
-            const slots =
-                document.createElement(
-                    "div"
-                );
-
-            slots.className =
-                "slots";
-
-
-            for (
-                let slotIndex = 0;
-                slotIndex < 4;
-                slotIndex++
-            ) {
-
-                const slot =
-                    document.createElement(
-                        "div"
-                    );
-
-                slot.className =
-                    "slot";
-
-
-                const person =
-                    group[slotIndex];
-
-
-                if (person) {
-
-                    slot.classList.add(
-                        "filled"
-                    );
-
-                    slot.textContent =
-                        person;
-
-
-                    slot.onclick =
-                        () =>
-                            removePerson(
-                                groupIndex,
-                                slotIndex
-                            );
-
-                } else {
-
-                    slot.classList.add(
-                        "empty"
-                    );
-
-                    slot.textContent =
-                        "빈칸";
-
-
-                    if (selectedPerson) {
-
-                        slot.classList.add(
-                            "available"
-                        );
-
-                    }
-
-
-                    slot.onclick =
-                        () =>
-                            assignPerson(
-                                groupIndex,
-                                slotIndex
-                            );
-                }
-
-
-                slots.appendChild(
-                    slot
-                );
-            }
-
-
-            card.appendChild(
-                header
-            );
-
-            card.appendChild(
-                slots
-            );
-
-            container.appendChild(
-                card
-            );
-        }
+  const container =
+    document.getElementById(
+      "groups"
     );
 
+  const groupCount =
+    document.getElementById(
+      "groupCount"
+    );
 
-    renderUnassignedFromGroups();
+  container.innerHTML = "";
+
+  groupCount.textContent =
+    groups.length + "그룹";
+
+
+  groups.forEach(
+    (group, groupIndex) => {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "group-card";
+
+
+      const titleRow =
+        document.createElement("div");
+
+      titleRow.className =
+        "group-title-row";
+
+
+      const title =
+        document.createElement("div");
+
+      title.className =
+        "group-title";
+
+      title.textContent =
+        (groupIndex + 1) +
+        "번 그룹";
+
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.className =
+        "delete-group";
+
+      deleteButton.textContent =
+        "삭제";
+
+      deleteButton.onclick =
+        function() {
+
+          if (
+            !confirm(
+              (groupIndex + 1) +
+              "번 그룹을 삭제하시겠습니까?"
+            )
+          ) {
+            return;
+          }
+
+          groups.splice(
+            groupIndex,
+            1
+          );
+
+          if (!groups.length) {
+            groups.push([]);
+          }
+
+          saveGroups();
+
+          selectedName = null;
+
+          renderAll();
+
+        };
+
+
+      titleRow.appendChild(title);
+      titleRow.appendChild(
+        deleteButton
+      );
+
+
+      const slots =
+        document.createElement("div");
+
+      slots.className =
+        "slots";
+
+
+      for (
+        let slotIndex = 0;
+        slotIndex < 4;
+        slotIndex++
+      ) {
+
+        const slot =
+          document.createElement("div");
+
+        slot.className =
+          "slot";
+
+
+        const name =
+          group[slotIndex];
+
+
+        if (name) {
+
+          slot.classList.add(
+            "filled"
+          );
+
+          slot.textContent =
+            name;
+
+        } else {
+
+          slot.textContent =
+            "빈칸";
+
+        }
+
+
+        slot.onclick =
+          function() {
+
+            handleSlotClick(
+              groupIndex,
+              slotIndex
+            );
+
+          };
+
+
+        slots.appendChild(slot);
+
+      }
+
+
+      card.appendChild(titleRow);
+      card.appendChild(slots);
+
+      container.appendChild(card);
+
+    }
+  );
+
 }
 
 
 /* =========================================================
-   그룹에 자매 배정
+   빈칸에 자매 배정
 ========================================================= */
 
-function assignPerson(
-    groupIndex,
-    slotIndex
+function handleSlotClick(
+  groupIndex,
+  slotIndex
 ) {
 
-    if (!selectedPerson) {
+  const group =
+    groups[groupIndex];
 
-        alert(
-            "먼저 자매 이름을 선택해 주세요."
-        );
+  const currentName =
+    group[slotIndex];
 
-        return;
+
+  /* 이미 들어있는 자매를 누르면 제거 */
+
+  if (currentName) {
+
+    group.splice(
+      slotIndex,
+      1
+    );
+
+    while (group.length < 4) {
+      group.push("");
     }
-
-
-    if (
-        groups[groupIndex][slotIndex]
-    ) {
-
-        return;
-    }
-
-
-    /*
-       혹시 이미 다른 그룹에 있는지 확인
-    */
-
-    const alreadyAssigned =
-        groups.some(
-            group =>
-                group.includes(
-                    selectedPerson
-                )
-        );
-
-
-    if (alreadyAssigned) {
-
-        selectedPerson =
-            null;
-
-        refreshCurrentDisplay();
-
-        return;
-    }
-
-
-    groups[groupIndex][slotIndex] =
-        selectedPerson;
-
-
-    selectedPerson =
-        null;
-
 
     saveGroups();
 
-    renderGroups();
-}
+    selectedName = null;
+
+    renderAll();
+
+    return;
+
+  }
 
 
-/* =========================================================
-   배정 취소
-========================================================= */
+  /* 선택된 자매가 없으면 안내 */
 
-function removePerson(
-    groupIndex,
-    slotIndex
-) {
+  if (!selectedName) {
 
-    const person =
-        groups[groupIndex][slotIndex];
+    alert(
+      "먼저 미배정 자매의 이름을 선택해 주세요."
+    );
 
+    return;
 
-    if (!person) {
-        return;
-    }
+  }
 
 
-    const ok =
-        confirm(
-            person +
-            " 자매를 미배정 상태로 돌릴까요?"
-        );
+  /* 중복 방지 */
+
+  if (
+    getAssignedNames()
+      .includes(selectedName)
+  ) {
+
+    alert(
+      "이미 다른 그룹에 배정된 자매입니다."
+    );
+
+    selectedName = null;
+
+    renderAll();
+
+    return;
+
+  }
 
 
-    if (!ok) {
-        return;
-    }
+  group[slotIndex] =
+    selectedName;
 
 
-    groups[groupIndex][slotIndex] =
-        "";
+  while (group.length < 4) {
+    group.push("");
+  }
 
 
-    saveGroups();
+  saveGroups();
 
-    renderGroups();
+  selectedName = null;
+
+  renderAll();
+
 }
 
 
@@ -1626,84 +1402,14 @@ function removePerson(
 
 function addGroup() {
 
-    groups.push([
-        "",
-        "",
-        "",
-        ""
-    ]);
+  groups.push([]);
 
+  saveGroups();
 
-    saveGroups();
+  selectedName = null;
 
-    renderGroups();
+  renderAll();
 
-
-    /*
-       새 그룹이 보이도록 이동
-    */
-
-    setTimeout(
-        () => {
-
-            window.scrollTo({
-                top:
-                    document.body.scrollHeight,
-                behavior:
-                    "smooth"
-            });
-
-        },
-        50
-    );
-}
-
-
-/* =========================================================
-   그룹 삭제
-========================================================= */
-
-function deleteGroup(index) {
-
-    const group =
-        groups[index];
-
-
-    const members =
-        group.filter(
-            name => name
-        );
-
-
-    if (
-        members.length > 0
-    ) {
-
-        const ok =
-            confirm(
-                (index + 1) +
-                "번 그룹을 삭제하면\n" +
-                "그룹에 들어있는 자매가\n" +
-                "모두 미배정 상태로 돌아갑니다.\n\n" +
-                "삭제할까요?"
-            );
-
-
-        if (!ok) {
-            return;
-        }
-    }
-
-
-    groups.splice(
-        index,
-        1
-    );
-
-
-    saveGroups();
-
-    renderGroups();
 }
 
 
@@ -1713,288 +1419,76 @@ function deleteGroup(index) {
 
 function saveGroups() {
 
-    localStorage.setItem(
-        GROUP_KEY,
-        JSON.stringify(groups)
-    );
+  localStorage.setItem(
+    GROUP_KEY,
+    JSON.stringify(groups)
+  );
+
 }
 
 
 /* =========================================================
-   그룹 불러오기
+   신청 취소된 사람 등이 그룹에 남아있으면 제거
 ========================================================= */
 
-function loadGroups() {
+function cleanGroups() {
 
-    try {
+  let changed = false;
 
-        const saved =
-            localStorage.getItem(
-                GROUP_KEY
-            );
+  groups.forEach(
+    (group, groupIndex) => {
 
+      for (
+        let i = 0;
+        i < group.length;
+        i++
+      ) {
 
-        if (!saved) {
-
-            /*
-               처음 시작하면
-               1번 그룹부터 시작
-            */
-
-            return [
-                ["","","",""]
-            ];
-        }
-
-
-        const parsed =
-            JSON.parse(saved);
-
+        const name =
+          group[i];
 
         if (
-            !Array.isArray(parsed)
+          name &&
+          !applicants.includes(name)
         ) {
 
-            return [
-                ["","","",""]
-            ];
+          group[i] = "";
+
+          changed = true;
+
         }
 
-
-        return parsed.map(
-            group => {
-
-                const result =
-                    Array.isArray(group)
-                        ? group.slice(0,4)
-                        : [];
-
-
-                while (
-                    result.length < 4
-                ) {
-                    result.push("");
-                }
-
-
-                return result;
-            }
-        );
-
-    } catch (error) {
-
-        console.error(error);
-
-        return [
-            ["","","",""]
-        ];
-    }
-}
-
-
-/* =========================================================
-   현재 화면 다시 그리기
-========================================================= */
-
-function refreshCurrentDisplay() {
-
-    renderGroups();
-}
-
-
-/* =========================================================
-   미배정 목록 다시 표시
-========================================================= */
-
-function renderUnassignedFromGroups() {
-
-    /*
-       현재 신청자 목록을 다시 가져오는 대신
-       화면에 이미 표시된 신청자 정보를
-       다시 서버에서 받아옵니다.
-    */
-
-    fetch(
-        GOOGLE_SCRIPT_URL +
-        "?action=applicants"
-    )
-
-    .then(response =>
-        response.json()
-    )
-
-    .then(data => {
-
-        if (
-            !data ||
-            data.success !== true
-        ) {
-            return;
-        }
-
-
-        const applicants =
-            Array.isArray(data.applicants)
-                ? data.applicants
-                : [];
-
-
-        const sisterApplicants =
-            applicants.filter(
-                name =>
-                    SISTERS.includes(name)
-            );
-
-
-        const assigned =
-            new Set(
-                groups.flat()
-            );
-
-
-        const unassigned =
-            sisterApplicants.filter(
-                name =>
-                    !assigned.has(name)
-            );
-
-
-        const list =
-            document.getElementById(
-                "unassignedList"
-            );
-
-
-        document
-            .getElementById(
-                "unassignedCount"
-            )
-            .textContent =
-            unassigned.length + "명";
-
-
-        list.innerHTML = "";
-
-
-        if (
-            unassigned.length === 0
-        ) {
-
-            list.innerHTML =
-                `
-                <div style="
-                    grid-column:1/-1;
-                    text-align:center;
-                    padding:20px;
-                    opacity:.65;
-                ">
-                    모든 신청자가 배정되었습니다.
-                </div>
-                `;
-
-            return;
-        }
-
-
-        unassigned.forEach(
-            name => {
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-                button.className =
-                    "unassigned-person";
-
-
-                if (
-                    selectedPerson === name
-                ) {
-
-                    button.classList.add(
-                        "selected"
-                    );
-                }
-
-
-                button.textContent =
-                    name;
-
-
-                button.onclick =
-                    () =>
-                        selectPerson(name);
-
-
-                list.appendChild(
-                    button
-                );
-
-            }
-        );
-
-    })
-
-    .catch(error => {
-
-        console.error(error);
-
-    });
-}
-
-
-/* =========================================================
-   주기적으로 신청자 새로 확인
-========================================================= */
-
-/*
-   다른 휴대폰에서 새로 신청한 사람이 생겼다면
-   관리자 화면에도 자동 반영됩니다.
-*/
-
-setInterval(
-    () => {
-
-        loadApplicants();
-
-    },
-    10000
-);
-
-
-/* =========================================================
-   화면 바깥 클릭 시 설정 닫기
-========================================================= */
-
-document.addEventListener(
-    "click",
-    function(event) {
-
-        const panel =
-            document.getElementById(
-                "settingsPanel"
-            );
-
-        const button =
-            document.querySelector(
-                ".settings-button"
-            );
-
-
-        if (
-            panel.classList.contains("show") &&
-            !panel.contains(event.target) &&
-            !button.contains(event.target)
-        ) {
-
-            panel.classList.remove(
-                "show"
-            );
-        }
+      }
 
     }
-);
+  );
+
+
+  if (changed) {
+
+    groups =
+      groups.map(
+        group => {
+
+          const result =
+            group.slice(0, 4);
+
+          while (
+            result.length < 4
+          ) {
+            result.push("");
+          }
+
+          return result;
+
+        }
+      );
+
+    saveGroups();
+
+  }
+
+}
 
 </script>
 
