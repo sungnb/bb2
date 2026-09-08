@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -207,24 +208,22 @@ body.light .card {
 
     gap: 10px;
 
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .number {
-    min-width: 58px;
-    height: 40px;
+    min-width: auto;
+    height: auto;
 
-    padding: 0 10px;
+    padding: 0;
 
-    border-radius: 10px;
+    border-radius: 0;
 
-    background: #3374A9;
+    background: transparent;
 
-    color: #fff;
+    color: inherit;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
 
     font-size: calc(20px * var(--s));
     font-weight: 800;
@@ -262,24 +261,61 @@ body.light .card {
 
 
 /* =========================
-   선택 영역
+   ★ 봉사자 4개 선택 영역
 ========================= */
 .person-row {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        repeat(4, 1fr);
 
-    gap: 8px;
+    gap: 6px;
+
+    width: 100%;
 }
 
+
+/* =========================
+   ★ 봉사자 버튼
+========================= */
+.volunteer-button {
+    min-width: 0;
+
+    padding: 7px 4px 8px;
+
+    border-radius: 10px;
+
+    background: rgba(0,0,0,0.22);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    text-align: center;
+}
+
+
+/* 봉사자A 작은 글씨 */
+.volunteer-label {
+    margin-bottom: 5px;
+
+    font-size: calc(11px * var(--s));
+
+    font-weight: 700;
+
+    color: inherit;
+
+    white-space: nowrap;
+}
+
+
+/* 이름 선택 */
 .person-select {
     width: 100%;
 
-    min-height: 42px;
+    min-height: 36px;
 
-    padding: 7px 10px;
+    padding: 5px 3px;
 
-    border-radius: 10px;
+    border-radius: 7px;
 
     border: 1px solid rgba(255,255,255,0.12);
 
@@ -287,13 +323,19 @@ body.light .card {
 
     color: #fff;
 
-    font-size: calc(16px * var(--s));
+    font-size: calc(12px * var(--s));
 
     outline: none;
 }
 
-body.light .person-select {
+body.light .volunteer-button {
     background: #f4f6f8;
+
+    border-color: #d8dde3;
+}
+
+body.light .person-select {
+    background: #fff;
 
     color: #17212b;
 
@@ -544,88 +586,84 @@ body.light .settings-panel {
     .bottom-nav a {
         font-size: calc(16px * var(--s));
     }
+
+    .person-row {
+        gap: 4px;
+    }
+
+    .volunteer-button {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .volunteer-label {
+        font-size: calc(10px * var(--s));
+    }
+
+    .person-select {
+        font-size: calc(11px * var(--s));
+        padding-left: 2px;
+        padding-right: 2px;
+    }
 }
 </style>
+
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      상단 헤더
 ===================================================== -->
+
 <header class="header">
 
-    <button
-        class="back-btn"
-        onclick="home()"
-        aria-label="뒤로가기">
-        ‹
-    </button>
+```
+<button
+    class="back-btn"
+    onclick="home()"
+    aria-label="뒤로가기">
+    ‹
+</button>
 
-    <div class="header-title">
-        토요일
-    </div>
+<div class="header-title">
+    토요일
+</div>
 
-    <button
-        class="settings-btn"
-        onclick="toggleSettings()"
-        aria-label="설정">
-        ⚙
-    </button>
+<button
+    class="settings-btn"
+    onclick="toggleSettings()"
+    aria-label="설정">
+    ⚙
+</button>
+```
 
 </header>
-
 
 <!-- =====================================================
      설정창
 ===================================================== -->
+
 <div
     id="settingsPanel"
     class="settings-panel">
 
-    <!-- 밝게 / 어둡게 -->
-    <div class="setting-row">
+```
+<!-- 밝게 / 어둡게 -->
+<div class="setting-row">
 
-        <div class="setting-buttons">
-
-            <button
-                class="theme-btn"
-                onclick="setTheme('light')">
-                ☀ 밝게
-            </button>
-
-            <button
-                class="theme-btn"
-                onclick="setTheme('dark')">
-                🌙 어둡게
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- 글자 크기 -->
-    <div class="font-row">
+    <div class="setting-buttons">
 
         <button
             class="theme-btn"
-            onclick="changeFont(currentFont - 5)">
-            −
+            onclick="setTheme('light')">
+            ☀ 밝게
         </button>
 
-        <div
-            id="fontValue"
-            class="font-value">
-            100%
-        </div>
-
         <button
             class="theme-btn"
-            onclick="changeFont(currentFont + 5)">
-            ＋
+            onclick="setTheme('dark')">
+            🌙 어둡게
         </button>
 
     </div>
@@ -633,53 +671,83 @@ body.light .settings-panel {
 </div>
 
 
+<!-- 글자 크기 -->
+<div class="font-row">
+
+    <button
+        class="theme-btn"
+        onclick="changeFont(currentFont - 5)">
+        −
+    </button>
+
+    <div
+        id="fontValue"
+        class="font-value">
+        100%
+    </div>
+
+    <button
+        class="theme-btn"
+        onclick="changeFont(currentFont + 5)">
+        ＋
+    </button>
+
+</div>
+```
+
+</div>
+
 <!-- =====================================================
      본문
 ===================================================== -->
+
 <main
     id="main"
     class="main">
 
-    <!-- 토요일 데이터가 표시되는 곳 -->
+```
+<!-- 토요일 데이터가 표시되는 곳 -->
+```
 
 </main>
-
 
 <!-- =====================================================
      하단 고정 메뉴
 ===================================================== -->
+
 <nav class="bottom-nav">
 
-    <a
-        id="jworg"
-        href="https://www.jw.org/ko/"
-        target="_blank">
-        JW.ORG
-    </a>
+```
+<a
+    id="jworg"
+    href="https://www.jw.org/ko/"
+    target="_blank">
+    JW.ORG
+</a>
 
-    <a
-        id="bible"
-        href="https://www.jw.org/ko/라이브러리/성경/"
-        target="_blank">
-        성경
-    </a>
+<a
+    id="bible"
+    href="https://www.jw.org/ko/라이브러리/성경/"
+    target="_blank">
+    성경
+</a>
 
-    <a
-        id="library"
-        href="https://www.jw.org/ko/라이브러리/"
-        target="_blank">
-        라이브러리
-    </a>
+<a
+    id="library"
+    href="https://www.jw.org/ko/라이브러리/"
+    target="_blank">
+    라이브러리
+</a>
 
-    <a
-        id="broadcast"
-        href="https://www.jw.org/ko/온라인-라이브러리/"
-        target="_blank">
-        JW방송
-    </a>
+<a
+    id="broadcast"
+    href="https://www.jw.org/ko/온라인-라이브러리/"
+    target="_blank">
+    JW방송
+</a>
+```
 
 </nav>
-
 
 <script>
 
@@ -988,7 +1056,7 @@ function makeOptions(list) {
 
     return `
         <option value="">
-            선택
+            이름선택
         </option>
 
         ${list.map(name => `
@@ -996,6 +1064,39 @@ function makeOptions(list) {
                 ${esc(name)}
             </option>
         `).join("")}
+    `;
+}
+
+
+/* =====================================================
+   ★ 봉사자 선택 버튼
+===================================================== */
+
+function makeVolunteerButton(index) {
+
+    const allNames = [
+        ...brothers,
+        ...sisters
+    ];
+
+    return `
+
+        <div class="volunteer-button">
+
+            <div class="volunteer-label">
+                봉사자A
+            </div>
+
+            <select
+                class="person-select"
+                data-index="${index}">
+
+                ${makeOptions(allNames)}
+
+            </select>
+
+        </div>
+
     `;
 }
 
@@ -1032,11 +1133,7 @@ function render(data) {
                 <div class="info">
 
                     <span>
-                        호 ${esc(x.house)}
-                    </span>
-
-                    <span>
-                        ${esc(x.m)}
+                        ${esc(x.house)}호
                     </span>
 
                 </div>
@@ -1044,24 +1141,10 @@ function render(data) {
 
                 <div class="person-row">
 
-                    <select
-                        class="person-select"
-                        data-index="${index}"
-                        data-type="brother">
-
-                        ${makeOptions(brothers)}
-
-                    </select>
-
-
-                    <select
-                        class="person-select"
-                        data-index="${index}"
-                        data-type="sister">
-
-                        ${makeOptions(sisters)}
-
-                    </select>
+                    ${makeVolunteerButton(index)}
+                    ${makeVolunteerButton(index)}
+                    ${makeVolunteerButton(index)}
+                    ${makeVolunteerButton(index)}
 
                 </div>
 
