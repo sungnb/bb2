@@ -52,7 +52,7 @@ body {
     color: #fff;
 
     padding-top: 62px;
-    padding-bottom: 64px;
+    padding-bottom: 62px;
 
     transition:
         background 0.25s,
@@ -461,9 +461,7 @@ body.light .settings-panel {
     height: 62px;
 
     padding:
-        0
-        0
-        env(safe-area-inset-bottom);
+        0;
 
     background: var(--fixed-blue) !important;
     color: #fff !important;
@@ -473,7 +471,7 @@ body.light .settings-panel {
     grid-template-columns:
         repeat(4, 1fr);
 
-    align-items: center;
+    align-items: stretch;
 
     z-index: 1000;
 
@@ -502,7 +500,7 @@ body.light .settings-panel {
 
     border-radius: 0 !important;
 
-    font-size: calc(14px * var(--s));
+    font-size: calc(16px * var(--s));
 
     font-weight: 700;
 
@@ -513,25 +511,11 @@ body.light .settings-panel {
 
 
 /* ★ 메뉴 사이 세로 구분선 */
-.bottom-nav a {
-    position: relative;
-}
-
 .bottom-nav a + a {
-    border-left: none;
+    border-left: 1px solid rgba(255,255,255,0.25);
 }
 
-.bottom-nav a + a::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 1px;
-    height: calc(62px + env(safe-area-inset-bottom));
-    background: rgba(255,255,255,0.25);
-}
 
-      
 /* 터치할 때만 살짝 표시 */
 .bottom-nav a:active {
     background:
@@ -558,7 +542,7 @@ body.light .settings-panel {
     }
 
     .bottom-nav a {
-        font-size: calc(12px * var(--s));
+        font-size: calc(16px * var(--s));
     }
 }
 </style>
