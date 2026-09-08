@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>토요일 관리자</title>
+<title>토요일</title>
 
 <style>
 
@@ -38,15 +38,16 @@ body {
       #1d1d1d 42%,
       #0d0d0d 100%
     );
+
   color: #f5f5f5;
+
   padding-top: 62px;
   padding-bottom: 82px;
-  transition: background .25s, color .25s;
-}
 
-/* =========================================================
-   밝은 화면
-========================================================= */
+  transition:
+    background .25s,
+    color .25s;
+}
 
 body.light {
   background:
@@ -56,8 +57,10 @@ body.light {
       #f1f1f1 55%,
       #e5e5e5 100%
     );
+
   color: #222;
 }
+
 
 /* =========================================================
    상단
@@ -65,10 +68,13 @@ body.light {
 
 .top-bar {
   position: fixed;
+
   top: 0;
   left: 0;
   right: 0;
+
   height: 62px;
+
   z-index: 1000;
 
   display: flex;
@@ -76,12 +82,16 @@ body.light {
   justify-content: center;
 
   background: rgba(20,20,20,.96);
-  border-bottom: 1px solid rgba(255,255,255,.12);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.12);
 }
 
 body.light .top-bar {
   background: rgba(255,255,255,.96);
-  border-bottom: 1px solid rgba(0,0,0,.12);
+
+  border-bottom:
+    1px solid rgba(0,0,0,.12);
 }
 
 .top-title {
@@ -92,6 +102,7 @@ body.light .top-bar {
 
 .top-button {
   position: absolute;
+
   top: 5px;
 
   width: 47px;
@@ -127,6 +138,7 @@ body.light .top-button {
   font-size: 25px;
 }
 
+
 /* =========================================================
    설정
 ========================================================= */
@@ -135,10 +147,12 @@ body.light .top-button {
   display: none;
 
   position: fixed;
+
   top: 62px;
   right: 15px;
 
   width: 260px;
+
   padding: 18px;
 
   z-index: 1100;
@@ -146,15 +160,22 @@ body.light .top-button {
   border-radius: 16px;
 
   background: rgba(35,35,35,.98);
-  border: 1px solid rgba(255,255,255,.12);
 
-  box-shadow: 0 12px 35px rgba(0,0,0,.4);
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.4);
 }
 
 body.light .settings-panel {
   background: #fff;
-  border-color: rgba(0,0,0,.12);
-  box-shadow: 0 12px 35px rgba(0,0,0,.18);
+
+  border-color:
+    rgba(0,0,0,.12);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.18);
 }
 
 .settings-panel.show {
@@ -164,17 +185,21 @@ body.light .settings-panel {
 .settings-title {
   font-size: 17px;
   font-weight: 900;
+
   margin-bottom: 13px;
 }
 
 .settings-row {
   display: flex;
+
   gap: 8px;
+
   margin-bottom: 14px;
 }
 
 .settings-row button {
   flex: 1;
+
   min-height: 40px;
 
   border: 0;
@@ -197,17 +222,22 @@ body.light .settings-row button {
 .font-label {
   font-size: 14px;
   font-weight: 800;
+
   margin-bottom: 8px;
 }
 
 .font-buttons {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap: 6px;
 }
 
 .font-buttons button {
   min-height: 36px;
+
   border: 0;
   border-radius: 8px;
 
@@ -223,29 +253,47 @@ body.light .font-buttons button {
   color: #222;
 }
 
+
 /* =========================================================
-   본문
+   공통 본문
 ========================================================= */
 
 .main {
   width: 100%;
+
   max-width: 900px;
+
   margin: 0 auto;
-  padding: 52px 15px 30px;
+
+  padding:
+    52px 15px 30px;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
 }
 
 .page-title {
   text-align: center;
+
   font-size: 29px;
   font-weight: 900;
+
   margin: 0;
 }
 
 .page-subtitle {
   text-align: center;
+
   font-size: 16px;
   font-weight: 700;
+
   color: #aaa;
+
   margin-top: 10px;
 }
 
@@ -253,8 +301,173 @@ body.light .page-subtitle {
   color: #666;
 }
 
+
 /* =========================================================
-   신청자 수
+   봉사신청
+========================================================= */
+
+.apply-count-box {
+  margin-top: 24px;
+
+  min-height: 76px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+body.light .apply-count-box {
+  background:
+    rgba(0,0,0,.05);
+
+  border-color:
+    rgba(0,0,0,.1);
+}
+
+.apply-count {
+  font-size: 29px;
+  font-weight: 900;
+
+  margin: 0 5px;
+}
+
+.sister-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 8px;
+
+  margin-top: 24px;
+}
+
+.sister-card {
+  min-height: 55px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px;
+
+  border-radius: 11px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.13);
+
+  font-size: 15px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+body.light .sister-card {
+  background: #fff;
+
+  border-color: #d5d5d5;
+
+  color: #222;
+}
+
+.sister-card.checked {
+  background: #21384d;
+
+  border-color: #3e80b8;
+
+  color: #fff;
+}
+
+body.light .sister-card.checked {
+  background: #dceeff;
+
+  border-color: #6ba8d8;
+
+  color: #17456b;
+}
+
+.sister-check {
+  position: absolute;
+
+  right: 7px;
+  top: 7px;
+
+  width: 19px;
+  height: 19px;
+
+  border-radius: 50%;
+
+  border:
+    2px solid #777;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.sister-card.checked
+.sister-check {
+  background: #5da8ec;
+
+  border-color: #5da8ec;
+
+  color: #fff;
+}
+
+.apply-next {
+  width: 100%;
+
+  min-height: 55px;
+
+  margin-top: 20px;
+
+  border: 1px solid #3471a6;
+
+  border-radius: 14px;
+
+  background: #1e3040;
+
+  color: #fff;
+
+  font-size: 18px;
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+body.light .apply-next {
+  background: #e7f3ff;
+
+  color: #17456b;
+}
+
+
+/* =========================================================
+   관리자
 ========================================================= */
 
 .applicant-count-box {
@@ -264,10 +477,14 @@ body.light .page-subtitle {
 
   border-radius: 18px;
 
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.12);
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.12);
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -276,22 +493,23 @@ body.light .page-subtitle {
 }
 
 body.light .applicant-count-box {
-  background: rgba(0,0,0,.05);
-  border-color: rgba(0,0,0,.1);
+  background:
+    rgba(0,0,0,.05);
+
+  border-color:
+    rgba(0,0,0,.1);
 }
 
 .applicant-count {
   font-size: 29px;
   font-weight: 900;
+
   margin: 0 5px;
 }
 
-/* =========================================================
-   섹션 제목
-========================================================= */
-
 .section-header {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
 
@@ -307,6 +525,7 @@ body.light .applicant-count-box {
 .section-count {
   font-size: 14px;
   font-weight: 800;
+
   color: #aaa;
 }
 
@@ -314,13 +533,17 @@ body.light .section-count {
   color: #666;
 }
 
+
 /* =========================================================
    미배정 자매
 ========================================================= */
 
 .unassigned-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap: 8px;
 }
 
@@ -328,6 +551,7 @@ body.light .section-count {
   min-height: 51px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -335,8 +559,11 @@ body.light .section-count {
 
   border-radius: 11px;
 
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.13);
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.13);
 
   font-size: 15px;
   font-weight: 800;
@@ -348,24 +575,31 @@ body.light .section-count {
 
 body.light .person {
   background: #fff;
+
   border-color: #d5d5d5;
+
   color: #222;
 }
 
 .person.selected {
   background: #21384d;
+
   border-color: #3e80b8;
+
   color: #fff;
 }
 
 body.light .person.selected {
   background: #dceeff;
+
   border-color: #6ba8d8;
+
   color: #17456b;
 }
 
 .empty-message {
   text-align: center;
+
   padding: 27px 10px;
 
   color: #aaa;
@@ -378,25 +612,32 @@ body.light .empty-message {
   color: #777;
 }
 
+
 /* =========================================================
    안내
 ========================================================= */
 
 .notice {
   margin-top: 18px;
+
   padding: 14px;
 
   border-radius: 14px;
 
-  background: rgba(34,54,72,.65);
-  border: 1px solid #315875;
+  background:
+    rgba(34,54,72,.65);
+
+  border:
+    1px solid #315875;
 
   text-align: center;
 
   font-size: 14px;
   font-weight: 700;
+
   line-height: 1.7;
 }
+
 
 /* =========================================================
    봉사 그룹
@@ -413,18 +654,26 @@ body.light .empty-message {
 
   border-radius: 18px;
 
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
+  background:
+    rgba(255,255,255,.07);
+
+  border:
+    1px solid rgba(255,255,255,.12);
 }
 
 body.light .group-card {
-  background: rgba(255,255,255,.8);
-  border-color: rgba(0,0,0,.1);
+  background:
+    rgba(255,255,255,.8);
+
+  border-color:
+    rgba(0,0,0,.1);
 }
 
 .group-title-row {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   margin-bottom: 11px;
@@ -437,11 +686,13 @@ body.light .group-card {
 
 .delete-group {
   border: 0;
+
   border-radius: 10px;
 
   padding: 8px 12px;
 
   background: #444;
+
   color: #fff;
 
   font-size: 13px;
@@ -450,12 +701,16 @@ body.light .group-card {
 
 body.light .delete-group {
   background: #ddd;
+
   color: #222;
 }
 
 .slots {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap: 9px;
 }
 
@@ -465,13 +720,17 @@ body.light .delete-group {
   border-radius: 13px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   padding: 8px;
 
-  background: rgba(0,0,0,.15);
-  border: 1px dashed rgba(255,255,255,.18);
+  background:
+    rgba(0,0,0,.15);
+
+  border:
+    1px dashed rgba(255,255,255,.18);
 
   color: #aaa;
 
@@ -485,34 +744,41 @@ body.light .delete-group {
 
 body.light .slot {
   background: #f3f3f3;
+
   border-color: #bbb;
+
   color: #888;
 }
 
 .slot.filled {
   background: #263c50;
-  border: 1px solid #3d6d94;
+
+  border:
+    1px solid #3d6d94;
+
   color: #fff;
 }
 
 body.light .slot.filled {
   background: #e0f0ff;
+
   border-color: #8ab6d8;
+
   color: #17456b;
 }
 
-/* =========================================================
-   그룹 추가
-========================================================= */
-
 .add-group {
   width: 100%;
+
   min-height: 55px;
 
-  border: 1px solid #3471a6;
+  border:
+    1px solid #3471a6;
+
   border-radius: 14px;
 
   background: #1e3040;
+
   color: #fff;
 
   font-size: 18px;
@@ -523,8 +789,171 @@ body.light .slot.filled {
 
 body.light .add-group {
   background: #e7f3ff;
+
   color: #17456b;
 }
+
+
+/* =========================================================
+   봉사하기
+========================================================= */
+
+.service-intro {
+  margin-top: 24px;
+
+  padding: 15px;
+
+  border-radius: 15px;
+
+  background:
+    rgba(34,54,72,.65);
+
+  border:
+    1px solid #315875;
+
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 1.7;
+}
+
+.service-card {
+  margin-top: 17px;
+
+  padding: 16px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.07);
+
+  border:
+    1px solid rgba(255,255,255,.12);
+}
+
+body.light .service-card {
+  background:
+    rgba(255,255,255,.85);
+
+  border-color:
+    rgba(0,0,0,.1);
+}
+
+.service-number {
+  font-size: 15px;
+
+  font-weight: 900;
+
+  color: #5da8ec;
+
+  margin-bottom: 4px;
+}
+
+body.light .service-number {
+  color: #1768a5;
+}
+
+.service-place {
+  font-size: 22px;
+
+  font-weight: 900;
+
+  margin-bottom: 5px;
+}
+
+.service-meta {
+  font-size: 14px;
+
+  font-weight: 700;
+
+  color: #aaa;
+
+  margin-bottom: 13px;
+}
+
+body.light .service-meta {
+  color: #666;
+}
+
+.service-members {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 8px;
+}
+
+.service-member {
+  min-height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background:
+    rgba(38,60,80,.9);
+
+  border:
+    1px solid #3d6d94;
+
+  color: #fff;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  text-align: center;
+
+  padding: 6px;
+}
+
+body.light .service-member {
+  background: #e0f0ff;
+
+  border-color: #8ab6d8;
+
+  color: #17456b;
+}
+
+.service-empty {
+  grid-column: 1 / -1;
+
+  min-height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background:
+    rgba(0,0,0,.12);
+
+  border:
+    1px dashed rgba(255,255,255,.2);
+
+  color: #999;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+body.light .service-empty {
+  background: #f3f3f3;
+
+  border-color: #bbb;
+
+  color: #888;
+}
+
 
 /* =========================================================
    하단 메뉴
@@ -532,6 +961,7 @@ body.light .add-group {
 
 .bottom-nav {
   position: fixed;
+
   left: 0;
   right: 0;
   bottom: 0;
@@ -541,32 +971,44 @@ body.light .add-group {
   z-index: 1000;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap: 7px;
 
   align-items: center;
 
   padding: 8px;
 
-  background: rgba(14,14,14,.97);
-  border-top: 1px solid rgba(255,255,255,.12);
+  background:
+    rgba(14,14,14,.97);
+
+  border-top:
+    1px solid rgba(255,255,255,.12);
 }
 
 body.light .bottom-nav {
-  background: rgba(255,255,255,.97);
-  border-top-color: rgba(0,0,0,.1);
+  background:
+    rgba(255,255,255,.97);
+
+  border-top-color:
+    rgba(0,0,0,.1);
 }
 
 .bottom-nav button {
   height: 42px;
 
   border: 0;
+
   border-radius: 22px;
 
   background: #262626;
+
   color: #fff;
 
   font-size: 14px;
+
   font-weight: 900;
 
   cursor: pointer;
@@ -574,18 +1016,22 @@ body.light .bottom-nav {
 
 body.light .bottom-nav button {
   background: #e5e5e5;
+
   color: #222;
 }
 
 .bottom-nav button.active {
   background: #19354d;
+
   color: #5da8ec;
 }
 
 body.light .bottom-nav button.active {
   background: #dceeff;
+
   color: #1768a5;
 }
+
 
 /* =========================================================
    반응형
@@ -622,6 +1068,11 @@ body.light .bottom-nav button.active {
     font-size: 13px;
   }
 
+  .service-members {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
 }
 
 </style>
@@ -629,6 +1080,7 @@ body.light .bottom-nav button.active {
 
 
 <body>
+
 
 <!-- =======================================================
      상단
@@ -638,12 +1090,14 @@ body.light .bottom-nav button.active {
 
   <button
     class="top-button back-button"
-    onclick="history.back()"
+    onclick="goBack()"
     aria-label="뒤로가기">
     ‹
   </button>
 
-  <div class="top-title">토요일</div>
+  <div class="top-title">
+    토요일
+  </div>
 
   <button
     class="top-button settings-button"
@@ -668,13 +1122,17 @@ body.light .bottom-nav button.active {
   </div>
 
   <div class="settings-row">
-    <button onclick="setTheme('dark')">
+
+    <button
+      onclick="setTheme('dark')">
       어둡게
     </button>
 
-    <button onclick="setTheme('light')">
+    <button
+      onclick="setTheme('light')">
       밝게
     </button>
+
   </div>
 
   <div class="font-label">
@@ -683,19 +1141,23 @@ body.light .bottom-nav button.active {
 
   <div class="font-buttons">
 
-    <button onclick="setFontSize(80)">
+    <button
+      onclick="setFontSize(80)">
       80%
     </button>
 
-    <button onclick="setFontSize(100)">
+    <button
+      onclick="setFontSize(100)">
       100%
     </button>
 
-    <button onclick="setFontSize(120)">
+    <button
+      onclick="setFontSize(120)">
       120%
     </button>
 
-    <button onclick="setFontSize(150)">
+    <button
+      onclick="setFontSize(150)">
       150%
     </button>
 
@@ -710,92 +1172,180 @@ body.light .bottom-nav button.active {
 
 <main class="main">
 
-  <h1 class="page-title">
-    관리자용
-  </h1>
 
-  <div class="page-subtitle">
-    신청한 자매를 봉사 그룹에 배정해 주세요
-  </div>
+  <!-- =====================================================
+       화면 1 : 봉사신청
+  ====================================================== -->
 
+  <section
+    id="viewApply"
+    class="view active">
 
-  <!-- 신청자 수 -->
+    <h1 class="page-title">
+      봉사자 선택
+    </h1>
 
-  <div class="applicant-count-box">
-
-    현재 신청자
-
-    <span
-      id="applicantCount"
-      class="applicant-count">
-      0
-    </span>
-
-    명
-
-  </div>
-
-
-  <!-- 미배정 자매 -->
-
-  <div class="section-header">
-
-    <div class="section-title">
-      미배정 자매
+    <div class="page-subtitle">
+      봉사할 자매는 자신의 이름을 체크해 주세요
     </div>
+
+
+    <div class="apply-count-box">
+
+      현재 선택
+
+      <span
+        id="applyCount"
+        class="apply-count">
+        0
+      </span>
+
+      명
+
+    </div>
+
 
     <div
-      id="unassignedCount"
-      class="section-count">
-      0명
+      id="sisterGrid"
+      class="sister-grid">
     </div>
 
-  </div>
+
+    <button
+      class="apply-next"
+      onclick="applyNext()">
+
+      다음 →
+
+    </button>
+
+  </section>
 
 
-  <div
-    id="unassignedGrid"
-    class="unassigned-grid">
-  </div>
 
+  <!-- =====================================================
+       화면 2 : 관리자용
+  ====================================================== -->
 
-  <div
-    id="notice"
-    class="notice">
+  <section
+    id="viewAdmin"
+    class="view">
 
-    자매 이름을 먼저 선택한 다음<br>
-    원하는 그룹의 빈칸을 눌러 배정하세요.
+    <h1 class="page-title">
+      관리자용
+    </h1>
 
-  </div>
-
-
-  <!-- 봉사 그룹 -->
-
-  <div class="section-header groups-header">
-
-    <div class="section-title">
-      봉사 그룹
+    <div class="page-subtitle">
+      신청한 자매를 봉사 그룹에 배정해 주세요
     </div>
+
+
+    <div class="applicant-count-box">
+
+      현재 신청자
+
+      <span
+        id="applicantCount"
+        class="applicant-count">
+        0
+      </span>
+
+      명
+
+    </div>
+
+
+    <div class="section-header">
+
+      <div class="section-title">
+        미배정 자매
+      </div>
+
+      <div
+        id="unassignedCount"
+        class="section-count">
+        0명
+      </div>
+
+    </div>
+
 
     <div
-      id="groupCount"
-      class="section-count">
-      0그룹
+      id="unassignedGrid"
+      class="unassigned-grid">
     </div>
 
-  </div>
+
+    <div
+      id="notice"
+      class="notice">
+
+      자매 이름을 먼저 선택한 다음<br>
+      원하는 그룹의 빈칸을 눌러 배정하세요.
+
+    </div>
 
 
-  <div id="groups"></div>
+    <div class="section-header groups-header">
+
+      <div class="section-title">
+        봉사 그룹
+      </div>
+
+      <div
+        id="groupCount"
+        class="section-count">
+        0그룹
+      </div>
+
+    </div>
 
 
-  <button
-    class="add-group"
-    onclick="addGroup()">
+    <div id="groups"></div>
 
-    ＋ 봉사 그룹 추가
 
-  </button>
+    <button
+      class="add-group"
+      onclick="addGroup()">
+
+      ＋ 봉사 그룹 추가
+
+    </button>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       화면 3 : 봉사하기
+  ====================================================== -->
+
+  <section
+    id="viewService"
+    class="view">
+
+    <h1 class="page-title">
+      봉사하기
+    </h1>
+
+    <div class="page-subtitle">
+      봉사 그룹 순서대로 봉사 구역이 배정됩니다
+    </div>
+
+
+    <div class="service-intro">
+
+      관리자용에서 만든<br>
+      <b>1번 그룹 → 1번 구역</b><br>
+      <b>2번 그룹 → 2번 구역</b> 순서로 표시됩니다.
+
+    </div>
+
+
+    <div id="serviceList"></div>
+
+  </section>
+
 
 </main>
 
@@ -807,19 +1357,30 @@ body.light .bottom-nav button.active {
 <nav class="bottom-nav">
 
   <button
-    onclick="window.location.href='토요일.html';">
-    봉사신청
-  </button>
-
-  <button
+    id="navApply"
     class="active"
-    onclick="window.location.href='토요일관리자.html';">
-    관리자용
+    onclick="showView('apply')">
+
+    봉사신청
+
   </button>
 
+
   <button
-    onclick="window.location.href='토요일봉사.html';">
+    id="navAdmin"
+    onclick="showView('admin')">
+
+    관리자용
+
+  </button>
+
+
+  <button
+    id="navService"
+    onclick="showView('service')">
+
     봉사하기
+
   </button>
 
 </nav>
@@ -840,6 +1401,7 @@ const SCRIPT_URL =
 ========================================================= */
 
 const SISTERS = [
+
   "강효선",
   "계영혜",
   "권영란",
@@ -867,16 +1429,104 @@ const SISTERS = [
   "이윤부",
   "이혜자",
   "임창숙"
+
 ];
 
 
 /* =========================================================
-   그룹 저장
+   토요일 봉사구역
+========================================================= */
+
+const SERVICE_AREAS = [
+
+  {
+    number: "439",
+    place: "그린 빌",
+    distance: "138",
+    type: "Lw"
+  },
+
+  {
+    number: "304",
+    place: "에코 빌",
+    distance: "189",
+    type: "Ok"
+  },
+
+  {
+    number: "306",
+    place: "국토정보공사",
+    distance: "191",
+    type: "Lw"
+  },
+
+  {
+    number: "308",
+    place: "SM 빌",
+    distance: "153",
+    type: "Lw"
+  },
+
+  {
+    number: "309",
+    place: "신일 빌딩",
+    distance: "186",
+    type: "Lw"
+  },
+
+  {
+    number: "440",
+    place: "성미로",
+    distance: "197",
+    type: "Ok"
+  },
+
+  {
+    number: "302",
+    place: "금정 빌딩",
+    distance: "155",
+    type: "Lw"
+  },
+
+  {
+    number: "311",
+    place: "오목 사우나",
+    distance: "161",
+    type: "Lw"
+  },
+
+  {
+    number: "312",
+    place: "화이트 빌",
+    distance: "128",
+    type: "Ca"
+  },
+
+  {
+    number: "315",
+    place: "반석 빌딩",
+    distance: "089",
+    type: "Ca"
+  }
+
+];
+
+
+/* =========================================================
+   저장 키
 ========================================================= */
 
 const GROUP_KEY =
   "saturdayVolunteerGroups";
 
+
+const APPLY_KEY =
+  "saturdayMyApplication";
+
+
+/* =========================================================
+   상태
+========================================================= */
 
 let applicants = [];
 
@@ -891,7 +1541,7 @@ let selectedName = null;
 
 
 /* =========================================================
-   초기화
+   시작
 ========================================================= */
 
 document.addEventListener(
@@ -899,6 +1549,7 @@ document.addEventListener(
   function() {
 
     loadSettings();
+
 
     if (!groups.length) {
 
@@ -908,9 +1559,19 @@ document.addEventListener(
 
     }
 
+
+    renderApply();
+
     renderAll();
 
+    renderService();
+
+
+    loadMyApplication();
+
+
     loadApplicants();
+
 
     setInterval(
       loadApplicants,
@@ -919,6 +1580,152 @@ document.addEventListener(
 
   }
 );
+
+
+/* =========================================================
+   화면 전환
+========================================================= */
+
+function showView(viewName) {
+
+  document
+    .querySelectorAll(".view")
+    .forEach(
+      function(view) {
+
+        view.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".bottom-nav button"
+    )
+    .forEach(
+      function(button) {
+
+        button.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  if (viewName === "apply") {
+
+    document
+      .getElementById(
+        "viewApply"
+      )
+      .classList.add(
+        "active"
+      );
+
+
+    document
+      .getElementById(
+        "navApply"
+      )
+      .classList.add(
+        "active"
+      );
+
+
+    renderApply();
+
+  }
+
+
+  if (viewName === "admin") {
+
+    document
+      .getElementById(
+        "viewAdmin"
+      )
+      .classList.add(
+        "active"
+      );
+
+
+    document
+      .getElementById(
+        "navAdmin"
+      )
+      .classList.add(
+        "active"
+      );
+
+
+    loadApplicants();
+
+  }
+
+
+  if (viewName === "service") {
+
+    document
+      .getElementById(
+        "viewService"
+      )
+      .classList.add(
+        "active"
+      );
+
+
+    document
+      .getElementById(
+        "navService"
+      )
+      .classList.add(
+        "active"
+      );
+
+
+    renderService();
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =========================================================
+   뒤로가기
+========================================================= */
+
+function goBack() {
+
+  const active =
+    document.querySelector(
+      ".view.active"
+    );
+
+
+  if (
+    active &&
+    active.id === "viewApply"
+  ) {
+
+    history.back();
+
+    return;
+
+  }
+
+
+  showView("apply");
+
+}
 
 
 /* =========================================================
@@ -941,7 +1748,9 @@ function toggleSettings() {
 
 function setTheme(theme) {
 
-  if (theme === "light") {
+  if (
+    theme === "light"
+  ) {
 
     document.body.classList.add(
       "light"
@@ -955,6 +1764,7 @@ function setTheme(theme) {
 
   }
 
+
   localStorage.setItem(
     "saturdayTheme",
     theme
@@ -967,6 +1777,7 @@ function setFontSize(size) {
 
   document.documentElement.style.fontSize =
     size + "%";
+
 
   localStorage.setItem(
     "saturdayFontSize",
@@ -983,13 +1794,16 @@ function loadSettings() {
       "saturdayTheme"
     );
 
+
   const fontSize =
     localStorage.getItem(
       "saturdayFontSize"
     );
 
 
-  if (theme === "light") {
+  if (
+    theme === "light"
+  ) {
 
     document.body.classList.add(
       "light"
@@ -1004,6 +1818,274 @@ function loadSettings() {
       fontSize + "%";
 
   }
+
+}
+
+
+/* =========================================================
+   봉사신청 화면
+========================================================= */
+
+function renderApply() {
+
+  const grid =
+    document.getElementById(
+      "sisterGrid"
+    );
+
+
+  const count =
+    document.getElementById(
+      "applyCount"
+    );
+
+
+  if (!grid) {
+
+    return;
+
+  }
+
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        APPLY_KEY
+      ) || "[]"
+    );
+
+
+  count.textContent =
+    saved.length;
+
+
+  grid.innerHTML = "";
+
+
+  SISTERS.forEach(
+    function(name) {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "sister-card";
+
+
+      const checked =
+        saved.includes(name);
+
+
+      if (checked) {
+
+        card.classList.add(
+          "checked"
+        );
+
+      }
+
+
+      const check =
+        document.createElement(
+          "div"
+        );
+
+
+      check.className =
+        "sister-check";
+
+
+      check.textContent =
+        checked
+          ? "✓"
+          : "";
+
+
+      card.appendChild(
+        check
+      );
+
+
+      const text =
+        document.createElement(
+          "span"
+        );
+
+
+      text.textContent =
+        name;
+
+
+      card.appendChild(
+        text
+      );
+
+
+      card.onclick =
+        function() {
+
+          toggleMyApplication(
+            name
+          );
+
+        };
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   내 신청 상태
+========================================================= */
+
+function loadMyApplication() {
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        APPLY_KEY
+      ) || "[]"
+    );
+
+
+  if (
+    !Array.isArray(saved)
+  ) {
+
+    localStorage.setItem(
+      APPLY_KEY,
+      "[]"
+    );
+
+  }
+
+
+  renderApply();
+
+}
+
+
+function toggleMyApplication(
+  name
+) {
+
+  let saved =
+    JSON.parse(
+      localStorage.getItem(
+        APPLY_KEY
+      ) || "[]"
+    );
+
+
+  const index =
+    saved.indexOf(name);
+
+
+  if (index >= 0) {
+
+    saved.splice(
+      index,
+      1
+    );
+
+  } else {
+
+    saved.push(name);
+
+  }
+
+
+  localStorage.setItem(
+    APPLY_KEY,
+    JSON.stringify(saved)
+  );
+
+
+  renderApply();
+
+
+  /* 서버에 변경사항 전달 */
+
+  syncApplication(
+    name,
+    index < 0
+  );
+
+}
+
+
+async function syncApplication(
+  name,
+  checked
+) {
+
+  try {
+
+    await fetch(
+      SCRIPT_URL,
+      {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:
+          JSON.stringify({
+
+            name:
+              name,
+
+            checked:
+              checked
+
+          })
+
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
+      "신청 저장 오류:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   다음
+========================================================= */
+
+function applyNext() {
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        APPLY_KEY
+      ) || "[]"
+    );
+
+
+  alert(
+    saved.length +
+    "명이 선택되었습니다."
+  );
 
 }
 
@@ -1042,14 +2124,23 @@ async function loadApplicants() {
     applicants =
       (data.applicants || [])
         .filter(
-          name =>
-            SISTERS.includes(name)
+          function(name) {
+
+            return SISTERS.includes(
+              name
+            );
+
+          }
         );
 
 
     cleanGroups();
 
+
     renderAll();
+
+
+    renderService();
 
 
   } catch (error) {
@@ -1074,10 +2165,10 @@ function getAssignedNames() {
 
 
   groups.forEach(
-    group => {
+    function(group) {
 
       group.forEach(
-        name => {
+        function(name) {
 
           if (name) {
 
@@ -1110,15 +2201,20 @@ function getUnassignedNames() {
 
 
   return applicants.filter(
-    name =>
-      !assigned.includes(name)
+    function(name) {
+
+      return !assigned.includes(
+        name
+      );
+
+    }
   );
 
 }
 
 
 /* =========================================================
-   전체 화면
+   관리자 전체
 ========================================================= */
 
 function renderAll() {
@@ -1138,9 +2234,20 @@ function renderAll() {
 
 function renderCount() {
 
-  document.getElementById(
-    "applicantCount"
-  ).textContent =
+  const element =
+    document.getElementById(
+      "applicantCount"
+    );
+
+
+  if (!element) {
+
+    return;
+
+  }
+
+
+  element.textContent =
     applicants.length;
 
 }
@@ -1157,10 +2264,18 @@ function renderUnassigned() {
       "unassignedGrid"
     );
 
+
   const count =
     document.getElementById(
       "unassignedCount"
     );
+
+
+  if (!grid || !count) {
+
+    return;
+
+  }
 
 
   const names =
@@ -1185,13 +2300,14 @@ function renderUnassigned() {
       ) +
       "</div>";
 
+
     return;
 
   }
 
 
   names.forEach(
-    name => {
+    function(name) {
 
       const div =
         document.createElement(
@@ -1269,6 +2385,13 @@ function renderGroups() {
     );
 
 
+  if (!container || !groupCount) {
+
+    return;
+
+  }
+
+
   container.innerHTML = "";
 
 
@@ -1277,7 +2400,10 @@ function renderGroups() {
 
 
   groups.forEach(
-    (group, groupIndex) => {
+    function(
+      group,
+      groupIndex
+    ) {
 
       const card =
         document.createElement(
@@ -1358,9 +2484,15 @@ function renderGroups() {
 
           saveGroups();
 
-          selectedName = null;
+
+          selectedName =
+            null;
+
 
           renderAll();
+
+
+          renderService();
 
         };
 
@@ -1368,6 +2500,7 @@ function renderGroups() {
       titleRow.appendChild(
         title
       );
+
 
       titleRow.appendChild(
         deleteButton
@@ -1410,6 +2543,7 @@ function renderGroups() {
             "filled"
           );
 
+
           slot.textContent =
             name;
 
@@ -1443,6 +2577,7 @@ function renderGroups() {
         titleRow
       );
 
+
       card.appendChild(
         slots
       );
@@ -1475,7 +2610,7 @@ function handleSlotClick(
     group[slotIndex];
 
 
-  /* 이미 배정된 이름을 누르면 제거 */
+  /* 이미 배정된 이름 제거 */
 
   if (currentName) {
 
@@ -1496,16 +2631,23 @@ function handleSlotClick(
 
     saveGroups();
 
-    selectedName = null;
+
+    selectedName =
+      null;
+
 
     renderAll();
+
+
+    renderService();
+
 
     return;
 
   }
 
 
-  /* 선택한 이름이 없을 경우 */
+  /* 선택된 이름 없음 */
 
   if (!selectedName) {
 
@@ -1531,9 +2673,13 @@ function handleSlotClick(
       "이미 다른 그룹에 배정된 자매입니다."
     );
 
-    selectedName = null;
+
+    selectedName =
+      null;
+
 
     renderAll();
+
 
     return;
 
@@ -1555,9 +2701,15 @@ function handleSlotClick(
 
   saveGroups();
 
-  selectedName = null;
+
+  selectedName =
+    null;
+
 
   renderAll();
+
+
+  renderService();
 
 }
 
@@ -1570,11 +2722,18 @@ function addGroup() {
 
   groups.push([]);
 
+
   saveGroups();
 
-  selectedName = null;
+
+  selectedName =
+    null;
+
 
   renderAll();
+
+
+  renderService();
 
 }
 
@@ -1601,11 +2760,12 @@ function saveGroups() {
 
 function cleanGroups() {
 
-  let changed = false;
+  let changed =
+    false;
 
 
   groups.forEach(
-    group => {
+    function(group) {
 
       for (
         let i = 0;
@@ -1624,9 +2784,11 @@ function cleanGroups() {
           )
         ) {
 
-          group[i] = "";
+          group[i] =
+            "";
 
-          changed = true;
+          changed =
+            true;
 
         }
 
@@ -1640,7 +2802,7 @@ function cleanGroups() {
 
     groups =
       groups.map(
-        group => {
+        function(group) {
 
           const result =
             group.slice(
@@ -1667,6 +2829,192 @@ function cleanGroups() {
     saveGroups();
 
   }
+
+}
+
+
+/* =========================================================
+   봉사하기 화면
+========================================================= */
+
+function renderService() {
+
+  const container =
+    document.getElementById(
+      "serviceList"
+    );
+
+
+  if (!container) {
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  SERVICE_AREAS.forEach(
+    function(area, index) {
+
+      const group =
+        groups[index] || [];
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "service-card";
+
+
+      const number =
+        document.createElement(
+          "div"
+        );
+
+
+      number.className =
+        "service-number";
+
+
+      number.textContent =
+        (index + 1) +
+        "번 구역 · " +
+        area.number;
+
+
+      const place =
+        document.createElement(
+          "div"
+        );
+
+
+      place.className =
+        "service-place";
+
+
+      place.textContent =
+        area.place;
+
+
+      const meta =
+        document.createElement(
+          "div"
+        );
+
+
+      meta.className =
+        "service-meta";
+
+
+      meta.textContent =
+        area.distance +
+        " · " +
+        area.type;
+
+
+      const members =
+        document.createElement(
+          "div"
+        );
+
+
+      members.className =
+        "service-members";
+
+
+      const validMembers =
+        group.filter(
+          function(name) {
+
+            return !!name;
+
+          }
+        );
+
+
+      if (
+        validMembers.length === 0
+      ) {
+
+        const empty =
+          document.createElement(
+            "div"
+          );
+
+
+        empty.className =
+          "service-empty";
+
+
+        empty.textContent =
+          "아직 배정된 봉사자가 없습니다.";
+
+
+        members.appendChild(
+          empty
+        );
+
+      } else {
+
+        validMembers.forEach(
+          function(name) {
+
+            const member =
+              document.createElement(
+                "div"
+              );
+
+
+            member.className =
+              "service-member";
+
+
+            member.textContent =
+              name;
+
+
+            members.appendChild(
+              member
+            );
+
+          }
+        );
+
+      }
+
+
+      card.appendChild(
+        number
+      );
+
+
+      card.appendChild(
+        place
+      );
+
+
+      card.appendChild(
+        meta
+      );
+
+
+      card.appendChild(
+        members
+      );
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
 
 }
 
