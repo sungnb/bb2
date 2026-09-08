@@ -70,7 +70,7 @@ body.light {
 
 /* =====================================================
    상단 고정 헤더
-   ★ 밝게/어둡게와 관계없이 항상 동일
+   ★ 기존 그대로
 ===================================================== */
 .header {
     position: fixed;
@@ -198,11 +198,16 @@ body.light .card {
 }
 
 
-/* =========================
-   카드 첫 줄
-========================= */
+/* =====================================================
+   구역카드 윗부분
+   ★ 번호 왼쪽
+   ★ 구역명 / 호수 오른쪽
+===================================================== */
 .card-top {
-    display: flex;
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
     align-items: center;
 
     gap: 10px;
@@ -210,9 +215,12 @@ body.light .card {
     margin-bottom: 10px;
 }
 
+
+/* 번호 */
 .number {
-    min-width: 58px;
-    height: 40px;
+    width: 100%;
+    min-width: 0;
+    height: 50px;
 
     padding: 0 10px;
 
@@ -230,18 +238,48 @@ body.light .card {
     font-weight: 800;
 }
 
-.zone {
-    flex: 1;
 
+/* 오른쪽 구역명 + 호수 */
+.card-title-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 2px;
+}
+
+
+/* 구역명 */
+.zone {
     font-size: calc(20px * var(--s));
     font-weight: 800;
 
     color: inherit;
+
+    line-height: 1.25;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* 호수 */
+.house {
+    font-size: calc(16px * var(--s));
+
+    color: inherit;
+
+    line-height: 1.25;
 }
 
 
 /* =========================
-   상세정보
+   기존 상세정보
+   ★ 기존 기능 보존
 ========================= */
 .info {
     display: flex;
@@ -263,6 +301,7 @@ body.light .card {
 
 /* =========================
    선택 영역
+   ★ 2칸 × 2줄
 ========================= */
 .person-row {
     display: grid;
@@ -270,6 +309,45 @@ body.light .card {
     grid-template-columns: 1fr 1fr;
 
     gap: 8px;
+}
+
+
+/* =========================
+   봉사자 선택
+========================= */
+.volunteer-button {
+    width: 100%;
+
+    min-height: 72px;
+
+    padding: 7px 10px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    background: rgba(0,0,0,0.22);
+
+    color: #fff;
+
+    font-size: calc(16px * var(--s));
+
+    outline: none;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 4px;
+}
+
+.volunteer-label {
+    font-size: calc(14px * var(--s));
+
+    font-weight: 700;
+
+    line-height: 1.2;
 }
 
 .person-select {
@@ -303,7 +381,7 @@ body.light .person-select {
 
 /* =====================================================
    설정창
-   ★ 캡처와 같은 형태
+   ★ 기존 그대로
 ===================================================== */
 .settings-panel {
     position: fixed;
@@ -332,22 +410,15 @@ body.light .person-select {
     display: block;
 }
 
-/* 밝은 화면에서도 설정창은 어둡게 유지 */
 body.light .settings-panel {
     background: #202832 !important;
     color: #fff !important;
 }
 
-
-/* 설정 제목은 표시하지 않음 */
 .settings-title {
     display: none;
 }
 
-
-/* =========================
-   밝게 / 어둡게
-========================= */
 .setting-row {
     display: block;
 
@@ -401,7 +472,6 @@ body.light .settings-panel {
 
 /* =====================================================
    글자 크기
-   ★ - / 100% / + 형태
 ===================================================== */
 .font-row {
     display: grid;
@@ -446,10 +516,7 @@ body.light .settings-panel {
 
 /* =====================================================
    하단 고정 메뉴
-   ★ 상단 헤더와 같은 다크블루
-   ★ 항상 흰색
-   ★ 한 줄
-   ★ 세로 구분선
+   ★ 기존 그대로
 ===================================================== */
 .bottom-nav {
     position: fixed;
@@ -460,8 +527,7 @@ body.light .settings-panel {
 
     height: 62px;
 
-    padding:
-        0;
+    padding: 0;
 
     background: var(--fixed-blue) !important;
     color: #fff !important;
@@ -554,6 +620,7 @@ body.light .settings-panel {
 
 <!-- =====================================================
      상단 헤더
+     ★ 기존 그대로
 ===================================================== -->
 <header class="header">
 
@@ -585,7 +652,6 @@ body.light .settings-panel {
     id="settingsPanel"
     class="settings-panel">
 
-    <!-- 밝게 / 어둡게 -->
     <div class="setting-row">
 
         <div class="setting-buttons">
@@ -607,7 +673,6 @@ body.light .settings-panel {
     </div>
 
 
-    <!-- 글자 크기 -->
     <div class="font-row">
 
         <button
@@ -748,12 +813,10 @@ function changeFont(value) {
 
     currentFont = Number(value);
 
-    /* 최소 80% */
     if (currentFont < 80) {
         currentFont = 80;
     }
 
-    /* 최대 150% */
     if (currentFont > 150) {
         currentFont = 150;
     }
@@ -988,7 +1051,7 @@ function makeOptions(list) {
 
     return `
         <option value="">
-            선택
+            이름선택
         </option>
 
         ${list.map(name => `
@@ -996,6 +1059,34 @@ function makeOptions(list) {
                 ${esc(name)}
             </option>
         `).join("")}
+    `;
+}
+
+
+/* =====================================================
+   봉사자 선택 버튼
+===================================================== */
+
+function makeVolunteerButton(list, index, label) {
+
+    return `
+
+        <div class="volunteer-button">
+
+            <div class="volunteer-label">
+                ${label}
+            </div>
+
+            <select
+                class="person-select"
+                data-index="${index}">
+
+                ${makeOptions(list)}
+
+            </select>
+
+        </div>
+
     `;
 }
 
@@ -1016,24 +1107,32 @@ function render(data) {
 
             <div class="card">
 
+                <!-- 구역카드 윗부분 -->
+
                 <div class="card-top">
 
                     <div class="number">
                         ${esc(x.number)}
                     </div>
 
-                    <div class="zone">
-                        ${esc(x.zone)}
+                    <div class="card-title-info">
+
+                        <div class="zone">
+                            ${esc(x.zone)}
+                        </div>
+
+                        <div class="house">
+                            ${esc(x.house)}호
+                        </div>
+
                     </div>
 
                 </div>
 
 
-                <div class="info">
+                <!-- 기존 상세정보 -->
 
-                    <span>
-                        호 ${esc(x.house)}
-                    </span>
+                <div class="info">
 
                     <span>
                         ${esc(x.m)}
@@ -1042,26 +1141,33 @@ function render(data) {
                 </div>
 
 
+                <!-- 봉사자 2칸 × 2줄 -->
+
                 <div class="person-row">
 
-                    <select
-                        class="person-select"
-                        data-index="${index}"
-                        data-type="brother">
+                    ${makeVolunteerButton(
+                        brothers,
+                        index,
+                        "봉사자A"
+                    )}
 
-                        ${makeOptions(brothers)}
+                    ${makeVolunteerButton(
+                        sisters,
+                        index,
+                        "봉사자A"
+                    )}
 
-                    </select>
+                    ${makeVolunteerButton(
+                        brothers,
+                        index,
+                        "봉사자A"
+                    )}
 
-
-                    <select
-                        class="person-select"
-                        data-index="${index}"
-                        data-type="sister">
-
-                        ${makeOptions(sisters)}
-
-                    </select>
+                    ${makeVolunteerButton(
+                        sisters,
+                        index,
+                        "봉사자A"
+                    )}
 
                 </div>
 
