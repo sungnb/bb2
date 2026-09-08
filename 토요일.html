@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -213,14 +214,14 @@ body.light .page-title {
 /* =========================
    자매 명단
 ========================= */
-
-      .sister-list {
+.sister-list {
     display: grid;
 
     grid-template-columns: repeat(3, 1fr);
 
     gap: 8px;
 }
+
 
 /* =========================
    이름 카드
@@ -853,6 +854,14 @@ let currentFont =
 
 
 /* =====================================================
+   Google Apps Script 주소
+===================================================== */
+
+const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxfv41gmvsmjV6-xI7OFvZujsvHWOYkfeqALvPIn1AEeW42gtAQ8prog7J6QG2pr2fV/exec";
+
+
+/* =====================================================
    봉사자 체크 저장
 ===================================================== */
 
@@ -942,6 +951,52 @@ function saveSelectedSisters() {
 
 
 /* =====================================================
+   Google 스프레드시트로 신청 전송
+===================================================== */
+
+function sendVolunteerToSheet(name, checked) {
+
+    const data = {
+        name: name,
+        checked: checked
+    };
+
+    fetch(
+        GOOGLE_SCRIPT_URL,
+        {
+            method: "POST",
+
+            mode: "no-cors",
+
+            headers: {
+                "Content-Type":
+                    "text/plain;charset=utf-8"
+            },
+
+            body: JSON.stringify(data)
+        }
+    )
+    .then(() => {
+
+        console.log(
+            "Google 스프레드시트 전송 완료:",
+            name,
+            checked
+        );
+
+    })
+    .catch(error => {
+
+        console.error(
+            "Google 스프레드시트 전송 오류:",
+            error
+        );
+
+    });
+}
+
+
+/* =====================================================
    선택 인원 표시
 ===================================================== */
 
@@ -1011,7 +1066,15 @@ function renderSisters() {
                     const name =
                         this.dataset.name;
 
-                    if (this.checked) {
+                    const checked =
+                        this.checked;
+
+
+                    /* ---------------------------------
+                       화면 상태 저장
+                    --------------------------------- */
+
+                    if (checked) {
 
                         if (
                             !selectedSisters.includes(name)
@@ -1028,9 +1091,25 @@ function renderSisters() {
                             );
                     }
 
+
+                    /* ---------------------------------
+                       본인 휴대폰 저장
+                    --------------------------------- */
+
                     saveSelectedSisters();
 
                     updateSelectedCount();
+
+
+                    /* ---------------------------------
+                       Google 스프레드시트 저장
+                    --------------------------------- */
+
+                    sendVolunteerToSheet(
+                        name,
+                        checked
+                    );
+
                 }
             );
 
@@ -1223,3 +1302,4 @@ renderSisters();
 
 </body>
 </html>
+```
