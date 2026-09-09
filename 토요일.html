@@ -289,6 +289,21 @@ body.light .name-loading {
   border-color: #4285f4;
 }
 
+.admin-add-button {
+  padding: 10px 13px;
+  border-radius: 9px;
+  border: 1px dashed #4285f4;
+  background: transparent;
+  color: #4285f4;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+body.light .admin-add-button {
+  background: #fff;
+}
+
 body.light .admin-name {
   background: #fff;
   border-color: #ddd;
@@ -1578,11 +1593,37 @@ async function loadApplicants() {
 
 function renderAdmin() {
 
+  /*
+    신청자 전체에서 이미 그룹에 배정된 사람을 제외합니다.
+    따라서 관리자 화면에는 아직 그룹에 넣지 않은 사람만 남습니다.
+  */
+
+  const assignedNames = new Set();
+
+  groups.forEach(function(group) {
+
+    group.forEach(function(name) {
+
+      if (name) {
+        assignedNames.add(name);
+      }
+
+    });
+
+  });
+
+
+  const unassignedApplicants =
+    applicants.filter(function(name) {
+      return !assignedNames.has(name);
+    });
+
+
   document
     .getElementById("adminCount")
     .textContent =
-      "신청자 " +
-      applicants.length +
+      "미배정 신청자 " +
+      unassignedApplicants.length +
       "명";
 
 
@@ -1592,16 +1633,43 @@ function renderAdmin() {
   namesBox.innerHTML = "";
 
 
-  if (applicants.length === 0) {
+  /* 신청하지 않은 사람을 관리자가 직접 추가 */
 
-    namesBox.innerHTML =
-      '<div class="service-empty">' +
-      '현재 신청한 봉사자가 없습니다.' +
-      '</div>';
+  const addButton =
+    document.createElement("button");
+
+  addButton.type = "button";
+
+  addButton.className =
+    "admin-add-button";
+
+  addButton.textContent =
+    "+ 추가";
+
+  addButton.onclick =
+    addManualApplicant;
+
+  namesBox.appendChild(addButton);
+
+
+  if (unassignedApplicants.length === 0) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "service-empty";
+
+    empty.style.width = "100%";
+
+    empty.textContent =
+      "미배정 신청자가 없습니다.";
+
+    namesBox.appendChild(empty);
 
   } else {
 
-    applicants.forEach(function(name) {
+    unassignedApplicants.forEach(function(name) {
 
       const button =
         document.createElement("button");
@@ -1653,6 +1721,91 @@ function renderAdmin() {
 
 
   renderGroups();
+
+}
+
+
+/* =========================================================
+   관리자 직접 신청자 추가
+========================================================= */
+
+async function addManualApplicant() {
+
+  const name =
+    prompt("추가할 봉사자의 이름을 입력해 주세요.");
+
+  if (name === null) {
+    return;
+  }
+
+  const trimmedName =
+    name.trim();
+
+  if (!trimmedName) {
+
+    alert("이름을 입력해 주세요.");
+
+    return;
+
+  }
+
+
+  if (applicants.includes(trimmedName)) {
+
+    alert("이미 신청자 목록에 있습니다.");
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            name: trimmedName,
+            checked: true
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "신청자 추가에 실패했습니다."
+      );
+
+    }
+
+
+    applicants.push(trimmedName);
+
+    selectedApplicant = trimmedName;
+
+    renderAdmin();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "신청자 추가에 실패했습니다.\n잠시 후 다시 시도해 주세요."
+    );
+
+  }
 
 }
 
@@ -1801,7 +1954,9 @@ function cleanGroups() {
 
 function addGroup() {
 
-  groups.push([
+  /* 새 그룹은 항상 맨 위에 추가합니다. */
+
+  groups.unshift([
     "",
     "",
     "",
