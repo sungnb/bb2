@@ -2749,8 +2749,54 @@ function renderService() {
 
       if (area) {
 
-        number.textContent =
-          area.number;
+        if (area.linkUrl) {
+
+          const link =
+            document.createElement("a");
+
+          link.href =
+            area.linkUrl;
+
+          link.target =
+            "_blank";
+
+          link.rel =
+            "noopener";
+
+          link.textContent =
+            area.number;
+
+          link.style.color =
+            "inherit";
+
+          link.style.textDecoration =
+            "none";
+
+          link.style.display =
+            "flex";
+
+          link.style.width =
+            "100%";
+
+          link.style.height =
+            "100%";
+
+          link.style.alignItems =
+            "center";
+
+          link.style.justifyContent =
+            "center";
+
+          number.appendChild(
+            link
+          );
+
+        } else {
+
+          number.textContent =
+            area.number;
+
+        }
 
       } else {
 
