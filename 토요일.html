@@ -703,6 +703,29 @@ body.light .settings-label {
     font-size: calc(9px * var(--font-scale));
   }
 }
+.service-title-with-refresh {
+  position: relative;
+}
+
+.service-refresh-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: #234563;
+  color: #fff;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 </style>
 </head>
 
@@ -918,8 +941,13 @@ body.light .settings-label {
     class="view"
   >
 
-    <h1 class="page-title">
+    <h1 class="page-title service-title-with-refresh">
       봉사하기
+      <button
+        type="button"
+        class="service-refresh-button"
+        aria-label="새로고침"
+      >↻</button>
     </h1>
 
     <div class="service-section">
@@ -1095,9 +1123,9 @@ document.addEventListener(
 
     loadMasterNames();
 
-    loadGroups().then(function() {
-      renderService();
-    });
+    loadGroups();
+
+    renderService();
 
   }
 );
@@ -1562,6 +1590,7 @@ async function loadApplicants() {
 
 
     await loadGroups();
+    await cleanGroups();
     renderAdmin();
 
   } catch (error) {
@@ -1839,11 +1868,7 @@ async function loadGroups() {
         const result =
           Array.isArray(group)
             ? group.slice(0, 4)
-            : (
-              group && Array.isArray(group.members)
-                ? group.members.slice(0, 4)
-                : []
-            );
+            : [];
 
         while (result.length < 4) {
           result.push("");
@@ -1904,11 +1929,64 @@ async function saveGroups() {
 ========================================================= */
 
 async function cleanGroups() {
+
+  const applicantSet =
+    new Set(applicants);
+
+  groups =
+    groups.map(function(group) {
+
+      return group.map(function(name) {
+
+        if (
+          name &&
+          applicantSet.has(name)
+        ) {
+
+          return name;
+
+        }
+
+        return "";
+
+      });
+
+    });
+
+
   /*
-    그룹은 스프레드시트에 저장된 내용을 그대로 유지합니다.
-    신청자 목록을 다시 불러올 때 그룹을 자동으로 비우지 않습니다.
+    중복 봉사자가 생기지 않도록
+    앞쪽 그룹을 우선 유지
   */
-  return true;
+
+  const used =
+    new Set();
+
+
+  groups =
+    groups.map(function(group) {
+
+      return group.map(function(name) {
+
+        if (!name) {
+          return "";
+        }
+
+        if (used.has(name)) {
+          return "";
+        }
+
+        used.add(name);
+
+        return name;
+
+      });
+
+    });
+
+
+  await saveGroups();
+
 }
 
 
