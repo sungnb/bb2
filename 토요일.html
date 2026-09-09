@@ -609,6 +609,23 @@ body.light .service-person {
   cursor: pointer;
 }
 
+.admin-login-cancel {
+  width: 100%;
+  height: 44px;
+  margin-top: 10px;
+  border: 1px solid #555;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.light .admin-login-cancel {
+  border-color: #ccc;
+}
+
 body.light .admin-login-box {
   background: #fff;
   color: #222;
@@ -1109,7 +1126,7 @@ body.light .settings-label {
 >
   <div class="admin-login-box">
 
-    <div class="admin-login-icon">🔑</div>
+    <div class="admin-login-icon">🔒</div>
 
     <h2 class="admin-login-title">관리자용</h2>
 
@@ -1137,6 +1154,14 @@ body.light .settings-label {
       onclick="checkAdminPassword()"
     >
       확인
+    </button>
+
+    <button
+      type="button"
+      class="admin-login-cancel"
+      onclick="cancelAdminLogin()"
+    >
+      취소
     </button>
 
   </div>
@@ -1395,6 +1420,25 @@ function showAdminLogin() {
       input.focus();
     }
   }, 50);
+}
+
+
+function cancelAdminLogin() {
+
+  const overlay =
+    document.getElementById("adminLoginOverlay");
+
+  const input =
+    document.getElementById("adminPasswordInput");
+
+  if (input) {
+    input.value = "";
+  }
+
+  if (overlay) {
+    overlay.style.display = "none";
+  }
+
 }
 
 
