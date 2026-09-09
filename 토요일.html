@@ -401,10 +401,21 @@ body.light .group-card {
   cursor: pointer;
 }
 
+/* =========================================================
+   ★ 변경 부분
+   관리자 그룹에 들어간 이름도 봉사신청의
+   선택된 이름과 동일한 고급 블루 스타일
+========================================================= */
+
 .group-slot.filled {
   border-style: solid;
-  border-color: #4285f4;
-  background: rgba(66,133,244,.18);
+  border: 3px solid #6FA8D8;
+  background: rgba(111,168,216,.16);
+}
+
+body.light .group-slot.filled {
+  border: 3px solid #3F6F9F;
+  background: #eef5fb;
 }
 
 .group-slot.empty {
@@ -816,6 +827,7 @@ body.light .settings-label {
     font-size: calc(9px * var(--font-scale));
   }
 }
+
 .service-title-with-refresh {
   position: relative;
 }
@@ -852,7 +864,6 @@ body.light .service-refresh-button {
   cursor: default;
 }
 
-
 </style>
 </head>
 
@@ -872,7 +883,6 @@ body.light .service-refresh-button {
     ‹
   </button>
 
-  <!-- 상단 제목은 반드시 토요일 -->
   <div
     class="top-title"
     id="topTitle"
@@ -980,8 +990,6 @@ body.light .service-refresh-button {
       봉사자 선택
     </h1>
 
-    <!-- 설명 문구는 삭제 -->
-
     <div
       class="count-box"
       id="selectedCount"
@@ -999,8 +1007,6 @@ body.light .service-refresh-button {
       </div>
 
     </div>
-
-    <!-- 다음 버튼은 삭제 -->
 
   </section>
 
@@ -1127,8 +1133,6 @@ body.light .service-refresh-button {
   </button>
 
 </nav>
-
-
 
 
 <!-- =======================================================
@@ -1913,11 +1917,6 @@ async function loadApplicants() {
 
 function renderAdmin() {
 
-  /*
-    신청자 전체에서 이미 그룹에 배정된 사람을 제외합니다.
-    따라서 관리자 화면에는 아직 그룹에 넣지 않은 사람만 남습니다.
-  */
-
   const assignedNames = new Set();
 
   groups.forEach(function(group) {
@@ -1952,8 +1951,6 @@ function renderAdmin() {
 
   namesBox.innerHTML = "";
 
-
-  /* 신청하지 않은 사람을 관리자가 직접 추가 */
 
   const addButton =
     document.createElement("button");
@@ -2037,7 +2034,6 @@ function renderAdmin() {
 
   }
 
-  /* + 추가는 미배정 신청자 목록의 맨 마지막 */
   namesBox.appendChild(addButton);
 
   renderGroups();
@@ -2252,11 +2248,6 @@ async function cleanGroups() {
     });
 
 
-  /*
-    중복 봉사자가 생기지 않도록
-    앞쪽 그룹을 우선 유지
-  */
-
   const used =
     new Set();
 
@@ -2293,8 +2284,6 @@ async function cleanGroups() {
 ========================================================= */
 
 async function addGroup() {
-
-  /* 새 그룹은 항상 맨 위에 추가합니다. */
 
   groups.unshift([
     "",
@@ -2581,11 +2570,6 @@ async function handleSlotClick(
     groups[groupIndex][slotIndex];
 
 
-  /*
-    이미 사람이 들어있는 슬롯을 누르면
-    그 사람을 비움
-  */
-
   if (currentName) {
 
     groups[groupIndex][slotIndex] =
@@ -2602,10 +2586,6 @@ async function handleSlotClick(
   }
 
 
-  /*
-    선택된 봉사자가 없으면 안내
-  */
-
   if (!selectedApplicant) {
 
     alert(
@@ -2616,11 +2596,6 @@ async function handleSlotClick(
 
   }
 
-
-  /*
-    다른 그룹에 이미 배치되어 있다면
-    먼저 기존 위치에서 제거
-  */
 
   groups =
     groups.map(function(group) {
@@ -3016,12 +2991,6 @@ async function refreshServiceGroups() {
   }
 
 }
-
-
-
-
-
-
 
 </script>
 
