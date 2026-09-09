@@ -946,6 +946,7 @@ body.light .settings-label {
       <button
         type="button"
         class="service-refresh-button"
+        onclick="refreshServiceGroups()"
         aria-label="새로고침"
       >↻</button>
     </h1>
@@ -2691,6 +2692,30 @@ document.addEventListener(
 );
 
 
+async function refreshServiceGroups() {
+
+  const button =
+    document.querySelector(".service-refresh-button");
+
+  if (button) {
+    button.disabled = true;
+  }
+
+  try {
+    await loadGroups();
+    renderService();
+  } catch (error) {
+    console.error(error);
+    alert("새로고침에 실패했습니다.");
+  } finally {
+    if (button) {
+      button.disabled = false;
+    }
+  }
+
+}
+
+
 /* =========================================================
    관리자 신청자 자동 갱신
 ========================================================= */
@@ -2711,26 +2736,7 @@ setInterval(
 );
 
 
-/* =========================================================
-   봉사하기 화면 자동 갱신
-========================================================= */
 
-setInterval(
-  function() {
-
-    if (
-      currentView === "service"
-    ) {
-
-      loadGroups().then(function() {
-        renderService();
-      });
-
-    }
-
-  },
-  5000
-);
 
 </script>
 
