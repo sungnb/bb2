@@ -18,6 +18,7 @@
 
 html {
   font-size: 100%;
+  --font-scale: 1;
 }
 
 body {
@@ -113,7 +114,7 @@ body.light {
 .page-title {
   margin: 0 0 16px;
   text-align: center;
-  font-size: 25px;
+  font-size: calc(25px * var(--font-scale));
   font-weight: 800;
   letter-spacing: -1px;
 }
@@ -134,7 +135,7 @@ body.light {
   border: 1px solid rgba(255,255,255,.10);
 
   text-align: center;
-  font-size: 17px;
+  font-size: calc(17px * var(--font-scale));
   font-weight: 700;
 }
 
@@ -174,7 +175,7 @@ body.light .count-box {
 
   padding: 7px 4px;
 
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale));
   font-weight: 600;
 
   transition:
@@ -214,7 +215,7 @@ body.light .name-card.selected {
   align-items: center;
   justify-content: center;
 
-  font-size: 11px;
+  font-size: calc(11px * var(--font-scale));
   font-weight: 900;
 }
 
@@ -236,7 +237,7 @@ body.light .name-card.selected .check-mark {
   text-align: center;
 
   color: #aaa;
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale));
 }
 
 body.light .name-loading {
@@ -256,7 +257,7 @@ body.light .name-loading {
 .admin-count {
   text-align: center;
   margin-bottom: 15px;
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale));
   font-weight: 700;
 }
 
@@ -277,7 +278,7 @@ body.light .name-loading {
   color: inherit;
 
   cursor: pointer;
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale));
   font-weight: 600;
 }
 
@@ -294,7 +295,7 @@ body.light .name-loading {
   background: transparent;
   color: #4285f4;
   cursor: pointer;
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale));
   font-weight: 700;
 }
 
@@ -327,7 +328,7 @@ body.light .admin-name.selected {
   background: #4285f4;
   color: #fff;
 
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale));
   font-weight: 700;
 
   cursor: pointer;
@@ -361,7 +362,7 @@ body.light .group-card {
 }
 
 .group-title {
-  font-size: 17px;
+  font-size: calc(17px * var(--font-scale));
   font-weight: 800;
 }
 
@@ -370,7 +371,7 @@ body.light .group-card {
   background: transparent;
   color: #ff7777;
 
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale));
   cursor: pointer;
 }
 
@@ -393,7 +394,7 @@ body.light .group-card {
   text-align: center;
   padding: 6px 4px;
 
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale));
   font-weight: 600;
 
   cursor: pointer;
@@ -422,7 +423,7 @@ body.light .group-card {
 .service-info {
   margin-bottom: 18px;
   text-align: center;
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale));
   color: #aaa;
 }
 
@@ -466,19 +467,19 @@ body.light .service-card {
   color: #fff;
 
   text-align: center;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale));
   font-weight: 800;
 }
 
 .service-name {
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale));
   font-weight: 800;
 }
 
 .service-detail {
   margin-bottom: 12px;
 
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale));
   color: #aaa;
 }
 
@@ -506,7 +507,7 @@ body.light .service-detail {
   text-align: center;
   padding: 5px 3px;
 
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale));
   font-weight: 600;
 }
 
@@ -521,7 +522,7 @@ body.light .service-person {
   text-align: center;
   color: #999;
 
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale));
 }
 
 /* =========================================================
@@ -606,7 +607,7 @@ body.light .settings-panel {
 
 .settings-title {
   margin-bottom: 12px;
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale));
   font-weight: 800;
 }
 
@@ -616,7 +617,7 @@ body.light .settings-panel {
 
 .settings-label {
   margin-bottom: 7px;
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale));
   color: #aaa;
 }
 
@@ -641,7 +642,7 @@ body.light .settings-label {
   color: inherit;
 
   cursor: pointer;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale));
 }
 
 .settings-button.active {
@@ -669,7 +670,7 @@ body.light .settings-label {
 
   .name-card {
     min-height: 54px;
-    font-size: 13px;
+    font-size: calc(13px * var(--font-scale));
   }
 
   .check-mark {
@@ -690,7 +691,7 @@ body.light .settings-label {
 @media (max-width: 360px) {
 
   .name-card {
-    font-size: 12px;
+    font-size: calc(12px * var(--font-scale));
     padding-left: 2px;
     padding-right: 2px;
   }
@@ -699,7 +700,7 @@ body.light .settings-label {
     width: 15px;
     height: 15px;
     flex-basis: 15px;
-    font-size: 9px;
+    font-size: calc(9px * var(--font-scale));
   }
 }
 </style>
@@ -2511,8 +2512,10 @@ function setFontSize(size) {
 
   size = Math.max(80, Math.min(150, size));
 
-  document.documentElement.style.fontSize =
-    size + "%";
+  document.documentElement.style.setProperty(
+    "--font-scale",
+    size / 100
+  );
 
   localStorage.setItem(
     "saturdayFontSize",
