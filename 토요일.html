@@ -513,7 +513,7 @@ body.light .service-detail {
   min-height: 40px;
 
   border-radius: 10px;
-  border: none;
+  border: 1px solid #555;
   background: transparent;
 
   display: flex;
@@ -530,6 +530,7 @@ body.light .service-detail {
 
 body.light .service-person {
   color: #777;
+  border-color: #ccc;
 }
 
 .service-person.filled {
@@ -844,6 +845,7 @@ body.light .settings-label {
     font-size: calc(9px * var(--font-scale));
   }
 }
+
 .service-title-with-refresh {
   position: relative;
 }
@@ -879,7 +881,6 @@ body.light .service-refresh-button {
   opacity: .55;
   cursor: default;
 }
-
 
 </style>
 </head>
@@ -3045,12 +3046,6 @@ async function refreshServiceGroups() {
   }
 
 }
-
-
-
-
-
-
 
 </script>
 
