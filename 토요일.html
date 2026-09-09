@@ -1095,9 +1095,9 @@ document.addEventListener(
 
     loadMasterNames();
 
-    loadGroups();
-
-    renderService();
+    loadGroups().then(function() {
+      renderService();
+    });
 
   }
 );
@@ -1562,7 +1562,6 @@ async function loadApplicants() {
 
 
     await loadGroups();
-    await cleanGroups();
     renderAdmin();
 
   } catch (error) {
@@ -1840,7 +1839,11 @@ async function loadGroups() {
         const result =
           Array.isArray(group)
             ? group.slice(0, 4)
-            : [];
+            : (
+              group && Array.isArray(group.members)
+                ? group.members.slice(0, 4)
+                : []
+            );
 
         while (result.length < 4) {
           result.push("");
@@ -1901,64 +1904,11 @@ async function saveGroups() {
 ========================================================= */
 
 async function cleanGroups() {
-
-  const applicantSet =
-    new Set(applicants);
-
-  groups =
-    groups.map(function(group) {
-
-      return group.map(function(name) {
-
-        if (
-          name &&
-          applicantSet.has(name)
-        ) {
-
-          return name;
-
-        }
-
-        return "";
-
-      });
-
-    });
-
-
   /*
-    중복 봉사자가 생기지 않도록
-    앞쪽 그룹을 우선 유지
+    그룹은 스프레드시트에 저장된 내용을 그대로 유지합니다.
+    신청자 목록을 다시 불러올 때 그룹을 자동으로 비우지 않습니다.
   */
-
-  const used =
-    new Set();
-
-
-  groups =
-    groups.map(function(group) {
-
-      return group.map(function(name) {
-
-        if (!name) {
-          return "";
-        }
-
-        if (used.has(name)) {
-          return "";
-        }
-
-        used.add(name);
-
-        return name;
-
-      });
-
-    });
-
-
-  await saveGroups();
-
+  return true;
 }
 
 
