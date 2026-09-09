@@ -2686,6 +2686,16 @@ function renderService() {
   groups.forEach(
     function(group, index) {
 
+      /* 4자리 모두 빈 자리인 그룹은 봉사용에서 표시하지 않습니다. */
+      const hasVolunteer =
+        group.some(function(person) {
+          return Boolean(person);
+        });
+
+      if (!hasVolunteer) {
+        return;
+      }
+
       const area =
         SERVICE_AREAS[index];
 
@@ -2786,7 +2796,8 @@ function renderService() {
           document.createElement("div");
 
         personBox.className =
-          "service-person";
+          "service-person" +
+          (person ? " filled" : "");
 
         personBox.textContent =
           person || "빈 자리";
