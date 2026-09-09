@@ -2006,6 +2006,41 @@ function deleteGroup(index) {
 
 
 /* =========================================================
+   그룹 초기화
+========================================================= */
+
+function resetGroup(index) {
+
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹의 봉사자를 초기화하시겠습니까?"
+    )
+  ) {
+
+    return;
+
+  }
+
+  groups[index] = [
+    "",
+    "",
+    "",
+    ""
+  ];
+
+  saveGroups();
+
+  selectedApplicant = null;
+
+  renderAdmin();
+
+  renderService();
+
+}
+
+
+/* =========================================================
    그룹 렌더링
 ========================================================= */
 
@@ -2058,6 +2093,28 @@ function renderGroups() {
         "번 그룹";
 
 
+      const resetButton =
+        document.createElement("button");
+
+      resetButton.type =
+        "button";
+
+      resetButton.className =
+        "delete-group";
+
+      resetButton.textContent =
+        "초기화";
+
+      resetButton.onclick =
+        function() {
+
+          resetGroup(
+            groupIndex
+          );
+
+        };
+
+
       const deleteButton =
         document.createElement("button");
 
@@ -2080,10 +2137,24 @@ function renderGroups() {
         };
 
 
+      const headerButtons =
+        document.createElement("div");
+
+      headerButtons.style.display = "flex";
+      headerButtons.style.gap = "6px";
+
       header.appendChild(title);
 
-      header.appendChild(
+      headerButtons.appendChild(
+        resetButton
+      );
+
+      headerButtons.appendChild(
         deleteButton
+      );
+
+      header.appendChild(
+        headerButtons
       );
 
 
