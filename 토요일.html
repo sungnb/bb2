@@ -466,10 +466,12 @@ body.light .service-card {
 }
 
 .service-number {
-  min-width: 43px;
+  width: calc((100% - 21px) / 4);
+  min-width: 0;
+  flex: 0 0 calc((100% - 21px) / 4);
   height: 50px;
 
-  padding: 0 10px;
+  padding: 0;
 
   border-radius: 10px;
   background: #3374A9;
@@ -492,7 +494,7 @@ body.light .service-card {
 .service-detail {
   margin-bottom: 12px;
 
-  font-size: calc(14px * var(--font-scale));
+  font-size: calc(15px * var(--font-scale));
   color: #aaa;
 }
 
@@ -511,8 +513,8 @@ body.light .service-detail {
   min-height: 40px;
 
   border-radius: 10px;
-  border: 3px solid #6FA8D8;
-  background: rgba(111,168,216,.16);
+  border: none;
+  background: transparent;
 
   display: flex;
   align-items: center;
@@ -523,11 +525,23 @@ body.light .service-detail {
 
   font-size: calc(18px * var(--font-scale));
   font-weight: 600;
+  color: #aaa;
 }
 
 body.light .service-person {
+  color: #777;
+}
+
+.service-person.filled {
+  border: 3px solid #6FA8D8;
+  background: rgba(111,168,216,.16);
+  color: inherit;
+}
+
+body.light .service-person.filled {
   background: #eef5fb;
   border: 3px solid #3F6F9F;
+  color: inherit;
 }
 
 .service-empty {
@@ -2770,9 +2784,8 @@ function renderService() {
       if (area) {
 
         detail.textContent =
-          "호 " +
           area.ho +
-          " · " +
+          " 호 " +
           area.m;
 
       } else {
