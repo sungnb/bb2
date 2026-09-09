@@ -45,39 +45,36 @@ body.light {
   top: 0;
   left: 0;
   right: 0;
-  height: 58px;
+  height: 60px;
   z-index: 1000;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: rgba(15,15,15,.96);
+  background: #18324a;
   border-bottom: 1px solid rgba(255,255,255,.10);
 }
 
-body.light .top-bar {
-  background: rgba(255,255,255,.97);
-  border-bottom: 1px solid #ddd;
-}
-
 .top-title {
-  font-size: 21px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-size: 35px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .top-button {
   position: absolute;
-  top: 0;
-  width: 58px;
-  height: 58px;
+  top: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
 
   border: 0;
-  background: transparent;
-  color: inherit;
+  background: #234563;
+  color: #fff;
 
   font-size: 25px;
+  line-height: 20px;
   cursor: pointer;
 
   display: flex;
@@ -86,11 +83,11 @@ body.light .top-bar {
 }
 
 .top-left {
-  left: 0;
+  left: 8px;
 }
 
 .top-right {
-  right: 0;
+  right: 8px;
 }
 
 /* =========================================================
@@ -98,8 +95,8 @@ body.light .top-bar {
 ========================================================= */
 
 .main {
-  padding-top: 58px;
-  padding-bottom: 82px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   min-height: 100vh;
 }
 
@@ -536,38 +533,38 @@ body.light .service-person {
   right: 0;
   bottom: 0;
 
-  height: 70px;
+  height: 60px;
   z-index: 1000;
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-  background: rgba(15,15,15,.97);
+  background: #18324a;
   border-top: 1px solid rgba(255,255,255,.10);
 }
 
 body.light .bottom-nav {
-  background: rgba(255,255,255,.98);
-  border-top: 1px solid #ddd;
+  background: #18324a;
+  border-top: 1px solid rgba(255,255,255,.10);
 }
 
 .nav-button {
   border: 0;
   background: transparent;
-  color: #888;
+  color: #fff;
 
-  font-size: 14px;
+  font-size: 25px;
   font-weight: 700;
 
   cursor: pointer;
 }
 
 .nav-button.active {
-  color: #4d9cff;
+  color: #fff;
 }
 
 body.light .nav-button.active {
-  color: #4285f4;
+  color: #fff;
 }
 
 /* =========================================================
@@ -646,6 +643,13 @@ body.light .settings-label {
   background: #4285f4;
   border-color: #4285f4;
   color: #fff;
+}
+
+.font-size-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
 }
 
 /* =========================================================
@@ -740,73 +744,57 @@ body.light .settings-label {
   id="settingsPanel"
 >
 
-  <div class="settings-title">
-    설정
-  </div>
-
   <div class="settings-row">
 
-    <div class="settings-label">
-      화면
-    </div>
-
     <div class="settings-buttons">
-
-      <button
-        class="settings-button"
-        id="darkButton"
-        onclick="setTheme('dark')"
-      >
-        어둡게
-      </button>
 
       <button
         class="settings-button"
         id="lightButton"
         onclick="setTheme('light')"
+        aria-label="밝게"
       >
-        밝게
+        ☀
+      </button>
+
+      <button
+        class="settings-button"
+        id="darkButton"
+        onclick="setTheme('dark')"
+        aria-label="어둡게"
+      >
+        🌙
       </button>
 
     </div>
 
   </div>
 
-
   <div class="settings-row">
-
-    <div class="settings-label">
-      글자 크기
-    </div>
 
     <div class="settings-buttons">
 
       <button
         class="settings-button"
-        onclick="setFontSize(80)"
+        onclick="changeFontSize(-10)"
+        aria-label="글자 크기 10% 감소"
       >
-        80%
+        −
       </button>
 
-      <button
-        class="settings-button"
-        onclick="setFontSize(100)"
+      <div
+        class="settings-button font-size-display"
+        id="fontSizeDisplay"
       >
         100%
-      </button>
+      </div>
 
       <button
         class="settings-button"
-        onclick="setFontSize(120)"
+        onclick="changeFontSize(10)"
+        aria-label="글자 크기 10% 증가"
       >
-        120%
-      </button>
-
-      <button
-        class="settings-button"
-        onclick="setFontSize(150)"
-      >
-        150%
+        +
       </button>
 
     </div>
@@ -2516,6 +2504,8 @@ function setTheme(theme) {
 
 function setFontSize(size) {
 
+  size = Math.max(80, Math.min(150, size));
+
   document.documentElement.style.fontSize =
     size + "%";
 
@@ -2525,6 +2515,20 @@ function setFontSize(size) {
   );
 
   updateSettingButtons();
+
+}
+
+
+function changeFontSize(amount) {
+
+  const current =
+    Number(
+      localStorage.getItem(
+        "saturdayFontSize"
+      ) || "100"
+    );
+
+  setFontSize(current + amount);
 
 }
 
@@ -2576,6 +2580,22 @@ function updateSettingButtons() {
       "active",
       theme === "light"
     );
+
+  const fontSizeDisplay =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+  if (fontSizeDisplay) {
+    fontSizeDisplay.textContent =
+      (
+        Number(
+          localStorage.getItem(
+            "saturdayFontSize"
+          ) || "100"
+        )
+      ) + "%";
+  }
 
 }
 
