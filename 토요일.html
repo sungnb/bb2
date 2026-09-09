@@ -401,21 +401,10 @@ body.light .group-card {
   cursor: pointer;
 }
 
-/* =========================================================
-   ★ 변경 부분
-   관리자 그룹에 들어간 이름도 봉사신청의
-   선택된 이름과 동일한 고급 블루 스타일
-========================================================= */
-
 .group-slot.filled {
   border-style: solid;
-  border: 3px solid #6FA8D8;
-  background: rgba(111,168,216,.16);
-}
-
-body.light .group-slot.filled {
-  border: 3px solid #3F6F9F;
-  background: #eef5fb;
+  border-color: #4285f4;
+  background: rgba(66,133,244,.18);
 }
 
 .group-slot.empty {
@@ -471,15 +460,20 @@ body.light .service-card {
 
 .service-number {
   min-width: 43px;
+  height: 50px;
 
-  padding: 6px 8px;
+  padding: 0 10px;
 
-  border-radius: 8px;
-  background: #4285f4;
+  border-radius: 10px;
+  background: #3374A9;
   color: #fff;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
-  font-size: calc(14px * var(--font-scale));
+  font-size: calc(20px * var(--font-scale));
   font-weight: 800;
 }
 
@@ -827,7 +821,6 @@ body.light .settings-label {
     font-size: calc(9px * var(--font-scale));
   }
 }
-
 .service-title-with-refresh {
   position: relative;
 }
@@ -864,6 +857,7 @@ body.light .service-refresh-button {
   cursor: default;
 }
 
+
 </style>
 </head>
 
@@ -883,6 +877,7 @@ body.light .service-refresh-button {
     ‹
   </button>
 
+  <!-- 상단 제목은 반드시 토요일 -->
   <div
     class="top-title"
     id="topTitle"
@@ -990,6 +985,8 @@ body.light .service-refresh-button {
       봉사자 선택
     </h1>
 
+    <!-- 설명 문구는 삭제 -->
+
     <div
       class="count-box"
       id="selectedCount"
@@ -1007,6 +1004,8 @@ body.light .service-refresh-button {
       </div>
 
     </div>
+
+    <!-- 다음 버튼은 삭제 -->
 
   </section>
 
@@ -1087,7 +1086,7 @@ body.light .service-refresh-button {
     <div class="service-section">
 
       <div class="service-info">
-        관리자용에서 만든 그룹 순서대로 봉사 구역에 배정됩니다.
+        <strong id="serviceConductor">인도자 : </strong>
       </div>
 
       <div
@@ -1133,6 +1132,8 @@ body.light .service-refresh-button {
   </button>
 
 </nav>
+
+
 
 
 <!-- =======================================================
@@ -1207,79 +1208,8 @@ const GROUP_KEY =
    봉사 구역
 ========================================================= */
 
-const SERVICE_AREAS = [
-
-  {
-    number: "439",
-    name: "그린 빌",
-    ho: "138",
-    m: "Lw"
-  },
-
-  {
-    number: "304",
-    name: "에코 빌",
-    ho: "189",
-    m: "Ok"
-  },
-
-  {
-    number: "306",
-    name: "국토정보공사",
-    ho: "191",
-    m: "Lw"
-  },
-
-  {
-    number: "308",
-    name: "SM 빌",
-    ho: "153",
-    m: "Lw"
-  },
-
-  {
-    number: "309",
-    name: "신일 빌딩",
-    ho: "186",
-    m: "Lw"
-  },
-
-  {
-    number: "440",
-    name: "성미료",
-    ho: "197",
-    m: "Ok"
-  },
-
-  {
-    number: "302",
-    name: "금정 빌딩",
-    ho: "155",
-    m: "Ok"
-  },
-
-  {
-    number: "311",
-    name: "오목 사우나",
-    ho: "161",
-    m: "Lw"
-  },
-
-  {
-    number: "312",
-    name: "화이트 빌",
-    ho: "128",
-    m: "Ca"
-  },
-
-  {
-    number: "315",
-    name: "반석 빌딩",
-    ho: "089",
-    m: "Ca"
-  }
-
-];
+let SERVICE_AREAS = [];
+let SERVICE_CONDUCTOR = "";
 
 
 /* =========================================================
@@ -1314,6 +1244,8 @@ document.addEventListener(
     loadMasterNames();
 
     loadGroups();
+
+    loadServiceData();
 
     renderService();
 
@@ -1398,7 +1330,10 @@ function showView(view) {
 
     setActiveNav("navService");
 
-    loadGroups().then(function() {
+    Promise.all([
+      loadGroups(),
+      loadServiceData()
+    ]).then(function() {
       renderService();
     });
 
@@ -1917,6 +1852,11 @@ async function loadApplicants() {
 
 function renderAdmin() {
 
+  /*
+    신청자 전체에서 이미 그룹에 배정된 사람을 제외합니다.
+    따라서 관리자 화면에는 아직 그룹에 넣지 않은 사람만 남습니다.
+  */
+
   const assignedNames = new Set();
 
   groups.forEach(function(group) {
@@ -1951,6 +1891,8 @@ function renderAdmin() {
 
   namesBox.innerHTML = "";
 
+
+  /* 신청하지 않은 사람을 관리자가 직접 추가 */
 
   const addButton =
     document.createElement("button");
@@ -2034,6 +1976,7 @@ function renderAdmin() {
 
   }
 
+  /* + 추가는 미배정 신청자 목록의 맨 마지막 */
   namesBox.appendChild(addButton);
 
   renderGroups();
@@ -2248,6 +2191,11 @@ async function cleanGroups() {
     });
 
 
+  /*
+    중복 봉사자가 생기지 않도록
+    앞쪽 그룹을 우선 유지
+  */
+
   const used =
     new Set();
 
@@ -2284,6 +2232,8 @@ async function cleanGroups() {
 ========================================================= */
 
 async function addGroup() {
+
+  /* 새 그룹은 항상 맨 위에 추가합니다. */
 
   groups.unshift([
     "",
@@ -2570,6 +2520,11 @@ async function handleSlotClick(
     groups[groupIndex][slotIndex];
 
 
+  /*
+    이미 사람이 들어있는 슬롯을 누르면
+    그 사람을 비움
+  */
+
   if (currentName) {
 
     groups[groupIndex][slotIndex] =
@@ -2586,6 +2541,10 @@ async function handleSlotClick(
   }
 
 
+  /*
+    선택된 봉사자가 없으면 안내
+  */
+
   if (!selectedApplicant) {
 
     alert(
@@ -2596,6 +2555,11 @@ async function handleSlotClick(
 
   }
 
+
+  /*
+    다른 그룹에 이미 배치되어 있다면
+    먼저 기존 위치에서 제거
+  */
 
   groups =
     groups.map(function(group) {
@@ -2629,6 +2593,51 @@ async function handleSlotClick(
 
 
 /* =========================================================
+   봉사 구역 / 인도자 가져오기
+   개인봉사 시트 B:F
+========================================================= */
+
+async function loadServiceData() {
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=serviceData&t=" +
+        Date.now()
+      );
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message ||
+        "봉사 구역 정보를 불러오지 못했습니다."
+      );
+    }
+
+    SERVICE_AREAS =
+      Array.isArray(data.areas)
+        ? data.areas
+        : [];
+
+    SERVICE_CONDUCTOR =
+      String(data.conductor ?? "").trim();
+
+    return true;
+
+  } catch (error) {
+
+    console.error(error);
+    return false;
+
+  }
+}
+
+
+/* =========================================================
    봉사하기 화면
 ========================================================= */
 
@@ -2642,6 +2651,15 @@ function renderService() {
   }
 
   list.innerHTML = "";
+
+  const conductor =
+    document.getElementById("serviceConductor");
+
+  if (conductor) {
+    conductor.textContent =
+      "인도자 : " +
+      (SERVICE_CONDUCTOR || "");
+  }
 
 
   if (groups.length === 0) {
@@ -2974,10 +2992,13 @@ async function refreshServiceGroups() {
   }
 
   try {
-    const success = await loadGroups();
+    const results = await Promise.all([
+      loadGroups(),
+      loadServiceData()
+    ]);
 
-    if (!success) {
-      throw new Error("그룹을 불러오지 못했습니다.");
+    if (!results[0] || !results[1]) {
+      throw new Error("봉사용 정보를 불러오지 못했습니다.");
     }
 
     renderService();
@@ -2991,6 +3012,12 @@ async function refreshServiceGroups() {
   }
 
 }
+
+
+
+
+
+
 
 </script>
 
