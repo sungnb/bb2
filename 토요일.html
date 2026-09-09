@@ -194,8 +194,8 @@ body.light .count-box {
 }
 
 body.light .name-card {
-  background: #eef5fb;
-  border: 3px solid #3F6F9F;
+  background: #fff;
+  border: 1px solid #ddd;
 }
 
 body.light .name-card.selected {
@@ -269,7 +269,8 @@ body.light .name-loading {
 }
 
 .admin-name {
-  padding: 10px 13px;
+  height: 40px;
+  padding: 0 13px;
 
   border-radius: 9px;
   border: 1px solid rgba(255,255,255,.15);
@@ -304,8 +305,8 @@ body.light .admin-add-button {
 }
 
 body.light .admin-name {
-  background: #eef5fb;
-  border: 3px solid #3F6F9F;
+  background: #fff;
+  border: 1px solid #ddd;
 }
 
 body.light .admin-name.selected {
@@ -384,6 +385,7 @@ body.light .group-card {
 }
 
 .group-slot {
+  height: 40px;
   min-height: 40px;
 
   border-radius: 9px;
@@ -505,20 +507,21 @@ body.light .service-detail {
 }
 
 .service-person {
-  min-height: 43px;
+  height: 40px;
+  min-height: 40px;
 
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.06);
+  border-radius: 10px;
+  border: 3px solid #6FA8D8;
+  background: rgba(111,168,216,.16);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   text-align: center;
-  padding: 5px 3px;
+  padding: 0 3px;
 
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(18px * var(--font-scale));
   font-weight: 600;
 }
 
@@ -792,8 +795,9 @@ body.light .settings-label {
   }
 
   .name-card {
-    min-height: 54px;
-    font-size: calc(13px * var(--font-scale));
+    height: 40px;
+    min-height: 40px;
+    font-size: calc(18px * var(--font-scale));
   }
 
   .check-mark {
@@ -814,9 +818,9 @@ body.light .settings-label {
 @media (max-width: 360px) {
 
   .name-card {
-    font-size: calc(12px * var(--font-scale));
-    padding-left: 2px;
-    padding-right: 2px;
+    height: 40px;
+    min-height: 40px;
+    font-size: calc(18px * var(--font-scale));
   }
 
   .check-mark {
