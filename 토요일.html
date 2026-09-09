@@ -135,7 +135,7 @@ body.light {
   border: 1px solid rgba(255,255,255,.10);
 
   text-align: center;
-  font-size: calc(17px * var(--font-scale));
+  font-size: calc(18px * var(--font-scale));
   font-weight: 700;
 }
 
@@ -154,7 +154,7 @@ body.light .count-box {
   margin: 0 auto;
 
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -175,7 +175,7 @@ body.light .count-box {
 
   padding: 7px 4px;
 
-  font-size: calc(17px * var(--font-scale));
+  font-size: calc(18px * var(--font-scale));
   font-weight: 600;
 
   transition:
@@ -364,7 +364,7 @@ body.light .group-card {
 }
 
 .group-title {
-  font-size: calc(17px * var(--font-scale));
+  font-size: calc(18px * var(--font-scale));
   font-weight: 800;
   line-height: calc(20px * var(--font-scale));
 }
@@ -845,7 +845,6 @@ body.light .settings-label {
     font-size: calc(9px * var(--font-scale));
   }
 }
-
 .service-title-with-refresh {
   position: relative;
 }
@@ -881,6 +880,7 @@ body.light .service-refresh-button {
   opacity: .55;
   cursor: default;
 }
+
 
 </style>
 </head>
@@ -2643,8 +2643,19 @@ async function loadServiceData() {
     }
 
     SERVICE_AREAS =
-      Array.isArray(data.areas)
-        ? data.areas
+      Array.isArray(data.data)
+        ? data.data.map(function(item) {
+            return {
+              number: String(item.number || "").trim(),
+              name: String(item.zone || "").trim(),
+              ho: String(item.house || "").trim(),
+              m: String(item.weekday || "").trim(),
+              person: String(item.person || "").trim(),
+              startDate: String(item.startDate || "").trim(),
+              completeDate: String(item.completeDate || "").trim(),
+              linkUrl: String(item.linkUrl || "").trim()
+            };
+          })
         : [];
 
     SERVICE_CONDUCTOR =
@@ -3046,6 +3057,12 @@ async function refreshServiceGroups() {
   }
 
 }
+
+
+
+
+
+
 
 </script>
 
