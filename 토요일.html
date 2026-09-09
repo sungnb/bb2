@@ -57,6 +57,7 @@ body.light {
 }
 
 .top-title {
+  color: #fff;
   font-size: 35px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -553,10 +554,14 @@ body.light .bottom-nav {
   background: transparent;
   color: #fff;
 
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
 
   cursor: pointer;
+}
+
+.nav-button:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,.25);
 }
 
 .nav-button.active {
@@ -1637,8 +1642,6 @@ function renderAdmin() {
   addButton.onclick =
     addManualApplicant;
 
-  namesBox.appendChild(addButton);
-
 
   if (unassignedApplicants.length === 0) {
 
@@ -1707,6 +1710,8 @@ function renderAdmin() {
 
   }
 
+  /* + 추가는 미배정 신청자 목록의 맨 마지막 */
+  namesBox.appendChild(addButton);
 
   renderGroups();
 
