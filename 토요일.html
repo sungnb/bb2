@@ -534,8 +534,25 @@ body.light .service-detail {
 }
 
 .service-volunteers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-pair {
+  width: 100%;
+}
+
+.service-team-label {
+  text-align: left;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 600;
+  margin: 0 0 3px 2px;
+}
+
+.service-pair-people {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 7px;
 }
 
@@ -2541,7 +2558,7 @@ function renderGroups() {
             );
 
             slot.textContent =
-              "빈 자리";
+              slotIndex < 2 ? "A팀" : "B팀";
 
           }
 
@@ -3091,23 +3108,56 @@ function renderService() {
         "service-volunteers";
 
 
-      group.forEach(function(person) {
+      for (let pairIndex = 0; pairIndex < 2; pairIndex++) {
 
-        const personBox =
+        const pair =
           document.createElement("div");
 
-        personBox.className =
-          "service-person" +
-          (person ? " filled" : "");
+        pair.className = "service-pair";
 
-        personBox.textContent =
-          person || "빈 자리";
+        const teamLabel =
+          document.createElement("div");
 
-        volunteers.appendChild(
-          personBox
-        );
+        teamLabel.className =
+          "service-team-label";
 
-      });
+        teamLabel.textContent =
+          pairIndex === 0 ? "A팀" : "B팀";
+
+        pair.appendChild(teamLabel);
+
+        const pairPeople =
+          document.createElement("div");
+
+        pairPeople.className =
+          "service-pair-people";
+
+        for (let i = 0; i < 2; i++) {
+
+          const slotIndex =
+            pairIndex * 2 + i;
+
+          const person =
+            group[slotIndex];
+
+          const personBox =
+            document.createElement("div");
+
+          personBox.className =
+            "service-person" +
+            (person ? " filled" : "");
+
+          personBox.textContent =
+            person || "빈 자리";
+
+          pairPeople.appendChild(
+            personBox
+          );
+        }
+
+        pair.appendChild(pairPeople);
+        volunteers.appendChild(pair);
+      }
 
 
       card.appendChild(head);
