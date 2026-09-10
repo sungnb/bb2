@@ -466,12 +466,12 @@ body.light .service-card {
 }
 
 .service-number {
-  width: calc((100% - 21px) / 4);
+  width: auto;
   min-width: 0;
-  flex: 0 0 calc((100% - 21px) / 4);
+  flex: 0 0 auto;
   height: 50px;
 
-  padding: 0;
+  padding: 0 16px;
 
   border-radius: 10px;
   background: #3374A9;
@@ -2746,17 +2746,48 @@ async function loadSaturdayReference() {
         return item.number || item.name || item.ho || item.m || item.conductor;
       });
 
-    // Apps Script가 인도자를 주지 않는 경우 토요일 시트 F열에서 가져옵니다.
-    if (!SERVICE_CONDUCTOR) {
-      const conductorRow =
-        SATURDAY_REFERENCE.find(function(item) {
-          const value = String(item.conductor || "").trim();
-          return value && value !== "인도자" && value !== "인도자 :";
-        });
+    // 인도자는 토요일 시트 F4 셀의 값을 그대로 사용합니다.
+    // 기존 Apps Script의 bon 데이터는 변경하지 않습니다.
+    try {
+      const conductorUrl =
+        "https://docs.google.com/spreadsheets/d/" +
+        SATURDAY_SHEET_ID +
+        "/gviz/tq?tqx=out:json&sheet=" +
+        encodeURIComponent(SATURDAY_SHEET_NAME) +
+        "&range=F4:F4&t=" +
+        Date.now();
 
-      if (conductorRow) {
-        SERVICE_CONDUCTOR = conductorRow.conductor;
+      const conductorResponse =
+        await fetch(conductorUrl, { cache: "no-store" });
+
+      if (conductorResponse.ok) {
+        const conductorText = await conductorResponse.text();
+        const conductorMatch =
+          conductorText.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
+
+        if (conductorMatch) {
+          const conductorJson = JSON.parse(conductorMatch[1]);
+          const conductorRows =
+            conductorJson &&
+            conductorJson.table &&
+            Array.isArray(conductorJson.table.rows)
+              ? conductorJson.table.rows
+              : [];
+
+          const conductorCell =
+            conductorRows[0] &&
+            Array.isArray(conductorRows[0].c)
+              ? conductorRows[0].c[0]
+              : null;
+
+          SERVICE_CONDUCTOR =
+            conductorCell && conductorCell.v != null
+              ? String(conductorCell.v).trim()
+              : "";
+        }
       }
+    } catch (conductorError) {
+      console.error("토요일 시트 F4 인도자:", conductorError);
     }
 
     return true;
