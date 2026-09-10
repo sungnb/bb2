@@ -1227,6 +1227,10 @@ const MY_SELECTION_KEY =
 const GROUP_KEY =
   "saturdayVolunteerGroups";
 
+const SATURDAY_SHEET_ID =
+  "18fzqGaXSnQ6jTRBhSCp8OqATB02lm6ZEGbADdw9llw0";
+const SATURDAY_SHEET_NAME = "토요일";
+
 
 /* =========================================================
    봉사 구역
@@ -1234,6 +1238,7 @@ const GROUP_KEY =
 
 let SERVICE_AREAS = [];
 let SERVICE_CONDUCTOR = "";
+let SATURDAY_REFERENCE = [];
 
 
 /* =========================================================
@@ -1356,7 +1361,8 @@ function showView(view) {
 
     Promise.all([
       loadGroups(),
-      loadServiceData()
+      loadServiceData(),
+      loadSaturdayReference()
     ]).then(function() {
       renderService();
     });
@@ -2642,6 +2648,7 @@ async function loadServiceData() {
       );
     }
 
+    // 실제 봉사 데이터는 기존 Apps Script의 bon에서 가져옵니다.
     SERVICE_AREAS =
       Array.isArray(data.data)
         ? data.data.map(function(item) {
@@ -2670,6 +2677,156 @@ async function loadServiceData() {
 
   }
 }
+
+
+/* =========================================================
+   Google Sheet "토요일" 시트 기준 적용
+   - Apps Script의 bon 봉사 데이터는 변경하지 않습니다.
+   - 토요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
+========================================================= */
+async function loadSaturdayReference() {
+
+  try {
+
+    const query = "select B,C,D,E,F";
+
+    const url =
+      "https://docs.google.com/spreadsheets/d/" +
+      SATURDAY_SHEET_ID +
+      "/gviz/tq?tqx=out:json&sheet=" +
+      encodeURIComponent(SATURDAY_SHEET_NAME) +
+      "&tq=" +
+      encodeURIComponent(query) +
+      "&t=" +
+      Date.now();
+
+    const response =
+      await fetch(url, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error("토요일 시트를 불러오지 못했습니다.");
+    }
+
+    const text = await response.text();
+
+    const match =
+      text.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
+
+    if (!match) {
+      throw new Error("토요일 시트 응답 형식을 확인할 수 없습니다.");
+    }
+
+    const json = JSON.parse(match[1]);
+    const rows =
+      json && json.table && Array.isArray(json.table.rows)
+        ? json.table.rows
+        : [];
+
+    SATURDAY_REFERENCE =
+      rows.map(function(row) {
+
+        const cells = Array.isArray(row.c) ? row.c : [];
+
+        function cellValue(index) {
+          const cell = cells[index];
+          return cell && cell.v != null
+            ? String(cell.v).trim()
+            : "";
+        }
+
+        return {
+          number: cellValue(0),
+          name: cellValue(1),
+          ho: cellValue(2),
+          m: cellValue(3),
+          conductor: cellValue(4)
+        };
+
+      }).filter(function(item) {
+        return item.number || item.name || item.ho || item.m || item.conductor;
+      });
+
+    // Apps Script가 인도자를 주지 않는 경우 토요일 시트 F열에서 가져옵니다.
+    if (!SERVICE_CONDUCTOR) {
+      const conductorRow =
+        SATURDAY_REFERENCE.find(function(item) {
+          const value = String(item.conductor || "").trim();
+          return value && value !== "인도자" && value !== "인도자 :";
+        });
+
+      if (conductorRow) {
+        SERVICE_CONDUCTOR = conductorRow.conductor;
+      }
+    }
+
+    return true;
+
+  } catch (error) {
+
+    console.error("토요일 시트 기준 데이터:", error);
+    SATURDAY_REFERENCE = [];
+    return false;
+
+  }
+}
+
+
+function getServiceAreasForDisplay() {
+
+  if (!Array.isArray(SERVICE_AREAS)) {
+    return [];
+  }
+
+  if (!Array.isArray(SATURDAY_REFERENCE) || SATURDAY_REFERENCE.length === 0) {
+    return SERVICE_AREAS.slice();
+  }
+
+  const byNumber = new Map();
+
+  SERVICE_AREAS.forEach(function(area) {
+    const key = String(area.number || "").trim();
+    if (key) {
+      byNumber.set(key, area);
+    }
+  });
+
+  const ordered = [];
+  const used = new Set();
+
+  SATURDAY_REFERENCE.forEach(function(ref) {
+
+    const key = String(ref.number || "").trim();
+
+    if (!key || !byNumber.has(key)) {
+      return;
+    }
+
+    const source = byNumber.get(key);
+
+    ordered.push({
+      number: source.number,
+      name: ref.name || source.name,
+      ho: ref.ho || source.ho,
+      m: ref.m || source.m,
+      person: source.person,
+      startDate: source.startDate,
+      completeDate: source.completeDate,
+      linkUrl: source.linkUrl
+    });
+
+    used.add(key);
+  });
+
+  SERVICE_AREAS.forEach(function(area) {
+    const key = String(area.number || "").trim();
+    if (!key || !used.has(key)) {
+      ordered.push(area);
+    }
+  });
+
+  return ordered;
+}
+
 
 
 /* =========================================================
@@ -2709,6 +2866,9 @@ function renderService() {
   }
 
 
+  const displayAreas =
+    getServiceAreasForDisplay();
+
   groups.forEach(
     function(group, index) {
 
@@ -2723,7 +2883,7 @@ function renderService() {
       }
 
       const area =
-        SERVICE_AREAS[index];
+        displayAreas[index];
 
 
       const card =
@@ -3085,7 +3245,8 @@ async function refreshServiceGroups() {
   try {
     const results = await Promise.all([
       loadGroups(),
-      loadServiceData()
+      loadServiceData(),
+      loadSaturdayReference()
     ]);
 
     if (!results[0] || !results[1]) {
