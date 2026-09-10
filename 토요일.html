@@ -2665,8 +2665,7 @@ async function loadServiceData() {
           })
         : [];
 
-    SERVICE_CONDUCTOR =
-      String(data.conductor ?? "").trim();
+    // 인도자는 Apps Script의 bon 값이 아니라 토요일!F4에서만 가져옵니다.
 
     return true;
 
@@ -2685,6 +2684,9 @@ async function loadServiceData() {
    - 토요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
 ========================================================= */
 async function loadSaturdayReference() {
+
+  // 인도자는 항상 토요일!F4의 최신 값으로 다시 설정합니다.
+  SERVICE_CONDUCTOR = "";
 
   try {
 
@@ -3021,6 +3023,12 @@ function renderService() {
       head.appendChild(number);
 
       head.appendChild(name);
+
+      // 번호 링크 버튼의 가로 폭을 같은 카드의 구역 이름 폭에 맞춥니다.
+      const nameWidth = name.getBoundingClientRect().width;
+      if (nameWidth > 0) {
+        number.style.width = nameWidth + "px";
+      }
 
 
       const detail =
