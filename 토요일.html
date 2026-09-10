@@ -318,7 +318,19 @@ body.light .admin-name.selected {
 .group-controls {
   display: flex;
   justify-content: center;
+  gap: 8px;
   margin-bottom: 18px;
+}
+
+.service-order-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 20px;
+  background: #4285f4;
+  color: #fff;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .add-group-button {
@@ -1126,6 +1138,13 @@ body.light .service-refresh-button {
           + 봉사 그룹 추가
         </button>
 
+        <button
+          class="service-order-button"
+          onclick="resetServiceDateOrder()"
+        >
+          봉사 날짜 초기화
+        </button>
+
       </div>
 
 
@@ -1290,6 +1309,7 @@ const SATURDAY_SHEET_NAME = "토요일";
 let SERVICE_AREAS = [];
 let SERVICE_CONDUCTOR = "";
 let SATURDAY_REFERENCE = [];
+let SERVICE_ORDER = [];
 
 
 /* =========================================================
@@ -2309,6 +2329,59 @@ async function cleanGroups() {
 
 
 /* =========================================================
+   봉사 날짜 초기화
+   - 현재 bon의 순서를 새 봉사 순서로 저장합니다.
+   - 날짜를 기록하는 중에도 화면 순서는 움직이지 않습니다.
+========================================================= */
+async function resetServiceDateOrder() {
+
+  if (!confirm("현재 봉사 순서를 새로운 봉사 날짜 기준으로 초기화하시겠습니까?\n\n초기화 후에는 봉사자가 날짜를 기록해도 순서가 바뀌지 않습니다.")) {
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action: "createServiceOrder"
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message ||
+        "봉사 날짜 초기화에 실패했습니다."
+      );
+    }
+
+    SERVICE_ORDER = Array.isArray(data.serviceOrder)
+      ? data.serviceOrder.map(function(number) {
+          return String(number || "").trim();
+        }).filter(Boolean)
+      : [];
+
+    renderService();
+
+    alert("봉사 날짜가 초기화되었습니다.\n현재 순서가 이번 봉사 순서로 고정됩니다.");
+
+  } catch (error) {
+    console.error(error);
+    alert(
+      "봉사 날짜 초기화에 실패했습니다.\n잠시 후 다시 시도해 주세요."
+    );
+  }
+}
+
+
+/* =========================================================
    그룹 추가
 ========================================================= */
 
@@ -2706,6 +2779,13 @@ async function loadServiceData() {
     }
 
     // 실제 봉사 데이터는 기존 Apps Script의 bon에서 가져옵니다.
+    SERVICE_ORDER =
+      Array.isArray(data.serviceOrder)
+        ? data.serviceOrder.map(function(number) {
+            return String(number || "").trim();
+          }).filter(Boolean)
+        : [];
+
     SERVICE_AREAS =
       Array.isArray(data.data)
         ? data.data.map(function(item) {
@@ -2867,10 +2947,6 @@ function getServiceAreasForDisplay() {
     return [];
   }
 
-  if (!Array.isArray(SATURDAY_REFERENCE) || SATURDAY_REFERENCE.length === 0) {
-    return SERVICE_AREAS.slice();
-  }
-
   const byNumber = new Map();
 
   SERVICE_AREAS.forEach(function(area) {
@@ -2880,38 +2956,74 @@ function getServiceAreasForDisplay() {
     }
   });
 
+  const refByNumber = new Map();
+  if (Array.isArray(SATURDAY_REFERENCE)) {
+    SATURDAY_REFERENCE.forEach(function(ref) {
+      const key = String(ref.number || "").trim();
+      if (key) {
+        refByNumber.set(key, ref);
+      }
+    });
+  }
+
   const ordered = [];
   const used = new Set();
 
-  SATURDAY_REFERENCE.forEach(function(ref) {
+  // 저장된 봉사 순서를 최우선으로 사용합니다.
+  if (Array.isArray(SERVICE_ORDER) && SERVICE_ORDER.length > 0) {
+    SERVICE_ORDER.forEach(function(number) {
+      const key = String(number || "").trim();
+      if (!key || !byNumber.has(key) || used.has(key)) {
+        return;
+      }
 
-    const key = String(ref.number || "").trim();
+      const source = byNumber.get(key);
+      const ref = refByNumber.get(key);
 
-    if (!key || !byNumber.has(key)) {
-      return;
-    }
+      ordered.push({
+        number: source.number,
+        name: ref && ref.name ? ref.name : source.name,
+        ho: ref && ref.ho ? ref.ho : source.ho,
+        m: ref && ref.m ? ref.m : source.m,
+        person: source.person,
+        startDate: source.startDate,
+        completeDate: source.completeDate,
+        linkUrl: source.linkUrl
+      });
 
-    const source = byNumber.get(key);
-
-    ordered.push({
-      number: source.number,
-      name: ref.name || source.name,
-      ho: ref.ho || source.ho,
-      m: ref.m || source.m,
-      person: source.person,
-      startDate: source.startDate,
-      completeDate: source.completeDate,
-      linkUrl: source.linkUrl
+      used.add(key);
     });
+  } else if (Array.isArray(SATURDAY_REFERENCE) && SATURDAY_REFERENCE.length > 0) {
+    // 저장된 순서가 아직 없을 때만 기존 토요일 시트 순서를 사용합니다.
+    SATURDAY_REFERENCE.forEach(function(ref) {
+      const key = String(ref.number || "").trim();
+      if (!key || !byNumber.has(key) || used.has(key)) {
+        return;
+      }
 
-    used.add(key);
-  });
+      const source = byNumber.get(key);
+      ordered.push({
+        number: source.number,
+        name: ref.name || source.name,
+        ho: ref.ho || source.ho,
+        m: ref.m || source.m,
+        person: source.person,
+        startDate: source.startDate,
+        completeDate: source.completeDate,
+        linkUrl: source.linkUrl
+      });
+      used.add(key);
+    });
+  }
 
+  // 새로 추가된 구역은 현재 데이터의 뒤쪽에 붙입니다.
   SERVICE_AREAS.forEach(function(area) {
     const key = String(area.number || "").trim();
-    if (!key || !used.has(key)) {
-      ordered.push(area);
+    if (!key || used.has(key)) {
+      return;
     }
+    ordered.push(area);
+    used.add(key);
   });
 
   return ordered;
