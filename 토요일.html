@@ -2337,13 +2337,15 @@ async function deleteGroup(index) {
     1
   );
 
-  await saveGroups();
-
   selectedApplicant = null;
 
   renderAdmin();
 
   renderService();
+
+  saveGroups().catch(function(error) {
+    console.error(error);
+  });
 
 }
 
@@ -2372,13 +2374,15 @@ async function resetGroup(index) {
     ""
   ];
 
-  await saveGroups();
-
   selectedApplicant = null;
 
   renderAdmin();
 
   renderService();
+
+  saveGroups().catch(function(error) {
+    console.error(error);
+  });
 
 }
 
@@ -2594,11 +2598,13 @@ async function handleSlotClick(
     groups[groupIndex][slotIndex] =
       "";
 
-    await saveGroups();
-
     renderAdmin();
 
     renderService();
+
+    saveGroups().catch(function(error) {
+      console.error(error);
+    });
 
     return;
 
@@ -2643,15 +2649,15 @@ async function handleSlotClick(
     selectedApplicant;
 
 
-  await saveGroups();
-
-
   selectedApplicant = null;
-
 
   renderAdmin();
 
   renderService();
+
+  saveGroups().catch(function(error) {
+    console.error(error);
+  });
 
 }
 
