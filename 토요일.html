@@ -462,6 +462,7 @@ body.light .service-card {
   display: flex;
   align-items: center;
   gap: 9px;
+  height: 70px;
   margin-bottom: 10px;
 }
 
@@ -482,26 +483,34 @@ body.light .service-card {
   justify-content: center;
 
   text-align: center;
-  font-size: calc(22px * var(--font-scale));
+  font-size: calc(25px * var(--font-scale));
   font-weight: 800;
 }
 
 .service-name {
-  font-size: calc(22px * var(--font-scale));
+  height: 25px;
+  line-height: 25px;
+  font-size: calc(25px * var(--font-scale));
   font-weight: 800;
 }
 
 .service-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
+  height: 70px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 5px;
 }
 
 .service-detail {
-  margin-bottom: 12px;
+  height: 15px;
+  line-height: 15px;
+  margin: 0;
 
-  font-size: calc(18px * var(--font-scale));
+  font-size: calc(15px * var(--font-scale));
   color: #aaa;
 }
 
