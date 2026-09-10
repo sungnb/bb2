@@ -421,7 +421,7 @@ body.light .group-slot.filled {
 /* =========================================================
    봉사하기
 ========================================================= */
- 
+
 .service-section {
   width: 100%;
   max-width: 900px;
@@ -470,7 +470,7 @@ body.light .service-card {
   min-width: 0;
   flex: 0 0 calc((100% - 21px) / 2);
   height: 50px;
-      
+
   padding: 0 16px;
 
   border-radius: 10px;
@@ -489,6 +489,13 @@ body.light .service-card {
 .service-name {
   font-size: calc(22px * var(--font-scale));
   font-weight: 800;
+}
+
+.service-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
 }
 
 .service-detail {
@@ -3005,31 +3012,22 @@ function renderService() {
       name.className =
         "service-name";
 
-
       if (area) {
-
         name.textContent =
           area.name;
-
       } else {
-
         name.textContent =
           "봉사 구역 " +
           (index + 1);
-
       }
 
+      const info =
+        document.createElement("div");
 
-      head.appendChild(number);
+      info.className =
+        "service-info";
 
-      head.appendChild(name);
-
-      // 번호 링크 버튼의 가로 폭을 같은 카드의 구역 이름 폭에 맞춥니다.
-      const nameWidth = name.getBoundingClientRect().width;
-      if (nameWidth > 0) {
-        number.style.width = nameWidth + "px";
-      }
-
+      info.appendChild(name);
 
       const detail =
         document.createElement("div");
@@ -3037,20 +3035,20 @@ function renderService() {
       detail.className =
         "service-detail";
 
-
       if (area) {
-
         detail.textContent =
           area.ho +
           " 호 " +
           area.m;
-
       } else {
-
         detail.textContent =
           "등록된 봉사 구역 정보가 없습니다.";
-
       }
+
+      info.appendChild(detail);
+
+      head.appendChild(number);
+      head.appendChild(info);
 
 
       const volunteers =
@@ -3080,8 +3078,6 @@ function renderService() {
 
 
       card.appendChild(head);
-
-      card.appendChild(detail);
 
       card.appendChild(volunteers);
 
