@@ -1,24 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>전시대</title>
 
-
 <style>
-
-/* =========================================================
-   기본
-========================================================= */
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -26,778 +14,728 @@
 
 html,
 body {
-
   margin: 0;
   padding: 0;
-
-  width: 100%;
   min-height: 100%;
-
   font-family:
-    Arial,
+    -apple-system,
+    BlinkMacSystemFont,
     "Noto Sans KR",
+    "Segoe UI",
     sans-serif;
-
-  background: #f5f6f8;
-
+  background: #f7f7f7;
+  color: #222;
 }
 
 body {
-
-  padding-bottom: 72px;
-
+  padding-bottom: 76px;
 }
 
-
-/* =========================================================
-   전체
-========================================================= */
-
-#app {
-
-  width: 100%;
-  min-height: calc(100vh - 72px);
-
+button,
+input {
+  font: inherit;
 }
 
-
-/* =========================================================
-   상단
-========================================================= */
-
-.top {
-
-  position: sticky;
-  top: 0;
-  z-index: 20;
-
-  height: 58px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #ffffff;
-
-  border-bottom:
-    1px solid #e1e1e1;
-
-}
-
-
-.top-title {
-
-  font-size: 22px;
-
-  font-weight: 700;
-
-}
-
-
-.reload {
-
-  position: absolute;
-
-  right: 14px;
-
-  top: 50%;
-
-  transform:
-    translateY(-50%);
-
-  border: 0;
-
-  background: transparent;
-
-  font-size: 21px;
-
+button {
   cursor: pointer;
-
 }
 
+.header {
+  position: relative;
+  padding: 18px 18px 14px;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 18px 14px 30px;
+}
 
 /* =========================================================
-   화면
+   페이지
 ========================================================= */
 
 .page {
-
-  padding: 14px 12px 20px;
-
+  display: none;
 }
 
+.page.active {
+  display: block;
+}
 
 /* =========================================================
    알림
 ========================================================= */
 
-.notice-card {
-
-  width: 100%;
-
-  overflow: hidden;
-
+.notice-list {
+  background: #fff;
+  border: 1px solid #e5e5e5;
   border-radius: 12px;
-
-  background: #234b89;
-
-  box-shadow:
-    0 2px 8px
-    rgba(0,0,0,0.08);
-
+  overflow: hidden;
 }
 
-
-.notice-line {
-
-  min-height: 48px;
-
-  padding: 11px 14px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  font-weight: 700;
-
-  line-height: 1.45;
-
+.notice-row {
+  padding: 14px 16px;
+  border-bottom: 1px solid #ededed;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
+.notice-row:last-child {
+  border-bottom: none;
+}
 
 .notice-main {
-
-  font-size: 21px;
-
-  color: #ffffff;
-
+  font-weight: 600;
 }
-
 
 .notice-sub {
-
-  font-size: 15px;
-
-  color: #ffffff;
-
+  margin-top: 4px;
+  color: #777;
+  font-size: 14px;
 }
-
-
-.notice-yellow {
-
-  color: #ffe600;
-
-}
-
-
-.notice-red {
-
-  color: #ff5252;
-
-}
-
-
-.notice-white {
-
-  color: #ffffff;
-
-}
-
-
-.notice-divider {
-
-  height: 1px;
-
-  background: rgba(255,255,255,0.25);
-
-}
-
 
 /* =========================================================
    신청
 ========================================================= */
 
-.apply-wrap {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 20px;
-
+.application-section {
+  margin-bottom: 22px;
 }
 
-
-/* =========================================================
-   신청 한 세트
-========================================================= */
-
-.apply-card {
-
-  width: 100%;
-
-  overflow: hidden;
-
-  border-radius: 10px;
-
-  background: #ffffff;
-
-  box-shadow:
-    0 2px 8px
-    rgba(0,0,0,0.10);
-
-}
-
-
-/* =========================================================
-   신청 제목
-========================================================= */
-
-.apply-week {
-
-  min-height: 62px;
-
-  padding: 10px 12px;
-
+.application-header {
   display: flex;
-
   align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  background: #d90000;
-
-  color: #ffffff;
-
-  font-size: 23px;
-
-  font-weight: 700;
-
-}
-
-
-/* =========================================================
-   날짜
-========================================================= */
-
-.apply-date {
-
-  min-height: 48px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  background: #ffffff;
-
-  color: #e00000;
-
-  font-size: 21px;
-
-  font-weight: 700;
-
-}
-
-
-/* =========================================================
-   요일
-========================================================= */
-
-.apply-day {
-
-  min-height: 48px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  background: #3d87c7;
-
-  color: #ffffff;
-
-  font-size: 21px;
-
-  font-weight: 700;
-
-}
-
-
-/* =========================================================
-   인도자
-========================================================= */
-
-.apply-guide {
-
-  min-height: 44px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  background: #a9cbe9;
-
-  color: #111111;
-
-  font-size: 18px;
-
-  font-weight: 700;
-
-}
-
-
-/* =========================================================
-   시간
-========================================================= */
-
-.apply-time {
-
-  min-height: 50px;
-
-  padding: 8px 10px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  background: #d8e8f5;
-
-  color: #a40000;
-
-  font-size: 19px;
-
-  font-weight: 700;
-
-}
-
-
-/* =========================================================
-   신청자 영역
-========================================================= */
-
-.applicant-list {
-
-  padding: 0;
-
-  background: #ffffff;
-
-}
-
-
-.applicant-row {
-
-  min-height: 40px;
-
-  padding: 7px 12px;
-
-  display: flex;
-
-  align-items: center;
-
-  border-bottom:
-    1px solid #dddddd;
-
-  font-size: 17px;
-
-  font-weight: 700;
-
-}
-
-
-.applicant-row:last-child {
-
-  border-bottom: 0;
-
-}
-
-
-.applicant-empty {
-
-  color: #777;
-
-  font-weight: 400;
-
-}
-
-
-/* =========================================================
-   신청 인원
-========================================================= */
-
-.apply-count {
-
-  min-height: 50px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  background: #72a9d7;
-
-  color: #111111;
-
-  font-size: 22px;
-
-  font-weight: 700;
-
-}
-
-
-/* =========================================================
-   신청 마감
-========================================================= */
-
-.apply-deadline {
-
-  margin-top: 20px;
-
-  min-height: 78px;
-
-  padding: 12px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  background: #234b89;
-
-  border: 3px solid #172f68;
-
-  color: #ffffff;
-
-  font-size: 19px;
-
-  font-weight: 700;
-
-  line-height: 1.45;
-
-}
-
-
-.apply-deadline::before {
-
-  content: "■";
-
-  margin-right: 8px;
-
-  color: #ffffff;
-
-}
-
-
-/* =========================================================
-   준비중
-========================================================= */
-
-.coming {
-
-  padding: 80px 20px;
-
-  text-align: center;
-
-  color: #777;
-
-}
-
-
-.coming-title {
-
-  font-size: 20px;
-
-  font-weight: 700;
-
+  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 10px;
-
 }
 
+.application-info {
+  min-width: 0;
+}
 
-.coming-text {
+.application-date-time {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
 
+.application-count {
+  margin-top: 3px;
+  color: #777;
   font-size: 14px;
-
 }
 
+.apply-button {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 15px;
+  background: #222;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.apply-button:active {
+  opacity: 0.75;
+}
+
+/* 신청자 선택 영역 */
+
+.applicant-panel {
+  display: none;
+  margin-top: 10px;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.applicant-panel.open {
+  display: block;
+}
+
+.applicant-panel-header {
+  padding: 14px 15px 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search-wrap {
+  padding: 0 12px 10px;
+}
+
+.search-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 13px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  background: #fafafa;
+}
+
+.search-input:focus {
+  border-color: #999;
+  background: #fff;
+}
+
+.member-list {
+  max-height: 330px;
+  overflow-y: auto;
+  border-top: 1px solid #ededed;
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 45px;
+  padding: 0 14px;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  color: #222;
+  text-align: left;
+}
+
+.member-row:last-child {
+  border-bottom: none;
+}
+
+.member-row.selected {
+  background: #f2f2f2;
+}
+
+.member-check {
+  width: 20px;
+  margin-right: 10px;
+  font-size: 17px;
+}
+
+.member-name {
+  font-size: 15px;
+}
+
+.selection-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 12px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.selected-count {
+  font-size: 14px;
+  color: #666;
+}
+
+.complete-button {
+  border: none;
+  border-radius: 8px;
+  padding: 9px 14px;
+  background: #222;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.empty-members {
+  padding: 25px 15px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+/* 신청 완료 후 */
+
+.applied-list {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+}
+
+.applied-title {
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.applied-names {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   임명 / 관리용
+========================================================= */
+
+.coming-box {
+  padding: 35px 20px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  text-align: center;
+  color: #777;
+}
 
 /* =========================================================
    하단 메뉴
 ========================================================= */
 
 .bottom-nav {
-
   position: fixed;
-
   left: 0;
   right: 0;
   bottom: 0;
-
   z-index: 100;
-
-  height: 70px;
-
   display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  background: #ffffff;
-
-  border-top:
-    1px solid #dcdcdc;
-
-  box-shadow:
-    0 -2px 10px
-    rgba(0,0,0,0.06);
-
+  grid-template-columns: repeat(4, 1fr);
+  height: 68px;
+  background: rgba(255,255,255,0.97);
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
-
 
 .nav-item {
-
-  border: 0;
-
+  border: none;
   background: transparent;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 4px;
-
-  font-size: 12px;
-
   color: #777;
-
-  cursor: pointer;
-
+  font-size: 12px;
 }
-
 
 .nav-icon {
-
+  display: block;
+  margin-bottom: 3px;
   font-size: 21px;
-
-  line-height: 1;
-
 }
-
 
 .nav-item.active {
-
-  color: #1f4e8c;
-
+  color: #222;
   font-weight: 700;
-
 }
-
-
-.nav-item.active
-.nav-icon {
-
-  transform:
-    scale(1.05);
-
-}
-
 
 /* =========================================================
-   작은 화면
+   어두운 화면
 ========================================================= */
 
-@media (
-  max-width: 380px
-) {
-
-  .notice-main {
-
-    font-size: 19px;
-
-  }
-
-  .notice-sub {
-
-    font-size: 14px;
-
-  }
-
-  .apply-week {
-
-    font-size: 21px;
-
-  }
-
-  .apply-date {
-
-    font-size: 19px;
-
-  }
-
-  .apply-day {
-
-    font-size: 19px;
-
-  }
-
-  .apply-time {
-
-    font-size: 17px;
-
-  }
-
-  .apply-deadline {
-
-    font-size: 17px;
-
-  }
-
+body.dark {
+  background: #111;
+  color: #eee;
 }
 
-</style>
+body.dark .header {
+  background: #171717;
+  border-color: #292929;
+}
 
+body.dark .notice-list,
+body.dark .applicant-panel,
+body.dark .applied-list,
+body.dark .coming-box {
+  background: #181818;
+  border-color: #303030;
+}
+
+body.dark .notice-row,
+body.dark .member-row {
+  border-color: #292929;
+  background: #181818;
+  color: #eee;
+}
+
+body.dark .member-row.selected {
+  background: #292929;
+}
+
+body.dark .search-input {
+  background: #222;
+  border-color: #3a3a3a;
+  color: #eee;
+}
+
+body.dark .application-count,
+body.dark .notice-sub,
+body.dark .selected-count {
+  color: #aaa;
+}
+
+body.dark .bottom-nav {
+  background: rgba(23,23,23,0.97);
+  border-color: #333;
+}
+
+body.dark .nav-item {
+  color: #999;
+}
+
+body.dark .nav-item.active {
+  color: #fff;
+}
+
+body.dark .apply-button,
+body.dark .complete-button {
+  background: #eee;
+  color: #111;
+}
+
+@media (max-width: 500px) {
+
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .application-date-time {
+    font-size: 16px;
+  }
+
+  .apply-button {
+    padding: 9px 13px;
+  }
+}
+</style>
 </head>
 
 
 <body>
 
+<header class="header">
+  <h1>전시대</h1>
+</header>
 
-<div id="app">
 
+<main class="container">
 
-  <!-- =====================================================
-       상단
-  ====================================================== -->
+  <!-- =======================================================
+       알림
+  ======================================================== -->
 
-  <div class="top">
+  <section id="page-notice" class="page active">
 
-    <div
-      class="top-title"
-      id="pageTitle"
-    >
-      알림
+    <div class="notice-list">
+
+      <div class="notice-row">
+        <div class="notice-main">
+          지금은 신청 시간이 아닙니다
+        </div>
+        <div class="notice-sub">
+          (추가 신청 및 임명 취소는 인도자에게)
+        </div>
+      </div>
+
+      <div class="notice-row">
+        토요일 신청 : 수요일
+      </div>
+
+      <div class="notice-row">
+        토요일 마감 : 금요일
+      </div>
+
+      <div class="notice-row">
+        일요일 신청 : 금요일
+      </div>
+
+      <div class="notice-row">
+        일요일 마감 : 토요일
+      </div>
+
+      <div class="notice-row">
+        토요일 (오전) : 김경수 형제
+      </div>
+
+      <div class="notice-row">
+        일요일 (오전) : 정지원 형제
+      </div>
+
+      <div class="notice-row">
+        서울 북부 회중
+      </div>
+
     </div>
 
-    <button
-      class="reload"
-      onclick="reloadPage()"
-      aria-label="새로고침"
-    >
-      ↻
-    </button>
-
-  </div>
+  </section>
 
 
-  <!-- =====================================================
-       내용
-  ====================================================== -->
+  <!-- =======================================================
+       신청
+  ======================================================== -->
 
-  <div
-    class="page"
-    id="content"
-  ></div>
+  <section id="page-apply" class="page">
+
+    <!-- 토요일 -->
+
+    <div class="application-section">
+
+      <div class="application-header">
+
+        <div class="application-info">
+
+          <div
+            id="saturdayDateTime"
+            class="application-date-time">
+          </div>
+
+          <div
+            id="saturdayCount"
+            class="application-count">
+            현재 신청 0명
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          class="apply-button"
+          onclick="toggleApplicantPanel('saturday')">
+          신청하기
+        </button>
+
+      </div>
 
 
-</div>
+      <div
+        id="saturdayPanel"
+        class="applicant-panel">
+
+        <div class="applicant-panel-header">
+          토요일 신청자 선택
+        </div>
+
+        <div class="search-wrap">
+          <input
+            id="saturdaySearch"
+            class="search-input"
+            type="search"
+            placeholder="이름을 입력하세요"
+            oninput="filterMembers('saturday')">
+        </div>
+
+        <div
+          id="saturdayMemberList"
+          class="member-list">
+        </div>
+
+        <div class="selection-bottom">
+
+          <div
+            id="saturdaySelectedCount"
+            class="selected-count">
+            선택 0명
+          </div>
+
+          <button
+            type="button"
+            class="complete-button"
+            onclick="completeApplication('saturday')">
+            신청 완료
+          </button>
+
+        </div>
+
+      </div>
+
+      <div
+        id="saturdayApplied"
+        class="applied-list"
+        style="display:none;">
+        <div class="applied-title">
+          신청자
+        </div>
+        <div
+          id="saturdayAppliedNames"
+          class="applied-names">
+        </div>
+      </div>
+
+    </div>
 
 
-<!-- =======================================================
+    <!-- 일요일 -->
+
+    <div class="application-section">
+
+      <div class="application-header">
+
+        <div class="application-info">
+
+          <div
+            id="sundayDateTime"
+            class="application-date-time">
+          </div>
+
+          <div
+            id="sundayCount"
+            class="application-count">
+            현재 신청 0명
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          class="apply-button"
+          onclick="toggleApplicantPanel('sunday')">
+          신청하기
+        </button>
+
+      </div>
+
+
+      <div
+        id="sundayPanel"
+        class="applicant-panel">
+
+        <div class="applicant-panel-header">
+          일요일 신청자 선택
+        </div>
+
+        <div class="search-wrap">
+          <input
+            id="sundaySearch"
+            class="search-input"
+            type="search"
+            placeholder="이름을 입력하세요"
+            oninput="filterMembers('sunday')">
+        </div>
+
+        <div
+          id="sundayMemberList"
+          class="member-list">
+        </div>
+
+        <div class="selection-bottom">
+
+          <div
+            id="sundaySelectedCount"
+            class="selected-count">
+            선택 0명
+          </div>
+
+          <button
+            type="button"
+            class="complete-button"
+            onclick="completeApplication('sunday')">
+            신청 완료
+          </button>
+
+        </div>
+
+      </div>
+
+      <div
+        id="sundayApplied"
+        class="applied-list"
+        style="display:none;">
+        <div class="applied-title">
+          신청자
+        </div>
+        <div
+          id="sundayAppliedNames"
+          class="applied-names">
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       임명
+  ======================================================== -->
+
+  <section id="page-appoint" class="page">
+
+    <div class="coming-box">
+      임명 화면을 준비 중입니다.
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       관리용
+  ======================================================== -->
+
+  <section id="page-admin" class="page">
+
+    <div class="coming-box">
+      관리용 화면을 준비 중입니다.
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================================
      하단 메뉴
-======================================================= -->
+========================================================= -->
 
 <nav class="bottom-nav">
 
-
   <button
+    type="button"
     class="nav-item active"
     data-page="notice"
-    onclick="showPage('notice')"
-  >
+    onclick="showPage('notice')">
 
-    <div class="nav-icon">
-      🔔
-    </div>
-
-    <div>
-      알림
-    </div>
+    <span class="nav-icon">🔔</span>
+    알림
 
   </button>
 
 
   <button
+    type="button"
     class="nav-item"
     data-page="apply"
-    onclick="showPage('apply')"
-  >
+    onclick="showPage('apply')">
 
-    <div class="nav-icon">
-      📝
-    </div>
-
-    <div>
-      신청
-    </div>
+    <span class="nav-icon">📝</span>
+    신청
 
   </button>
 
 
   <button
+    type="button"
     class="nav-item"
     data-page="appoint"
-    onclick="showPage('appoint')"
-  >
+    onclick="showPage('appoint')">
 
-    <div class="nav-icon">
-      👤
-    </div>
-
-    <div>
-      임명
-    </div>
+    <span class="nav-icon">👤</span>
+    임명
 
   </button>
 
 
   <button
+    type="button"
     class="nav-item"
     data-page="admin"
-    onclick="showPage('admin')"
-  >
+    onclick="showPage('admin')">
 
-    <div class="nav-icon">
-      ⚙️
-    </div>
-
-    <div>
-      관리용
-    </div>
+    <span class="nav-icon">⚙️</span>
+    관리용
 
   </button>
-
 
 </nav>
 
@@ -805,380 +743,613 @@ body {
 <script>
 
 /* =========================================================
+   Google Sheets
+   명단 탭 A열
+========================================================= */
+
+const SPREADSHEET_ID =
+  "1SpUjgwGK0uvOw3zg2VG_YO73uTRt6p02ficA8UvsVpo";
+
+const MEMBER_SHEET_NAME =
+  "명단";
+
+
+/*
+ * Google Sheets의 명단 탭 A열을 읽습니다.
+ *
+ * 주의:
+ * 이 방식은 해당 스프레드시트가 웹에서 읽을 수 있도록
+ * 공유되어 있어야 합니다.
+ */
+const MEMBER_DATA_URL =
+  "https://docs.google.com/spreadsheets/d/" +
+  SPREADSHEET_ID +
+  "/gviz/tq?tqx=out:json&sheet=" +
+  encodeURIComponent(MEMBER_SHEET_NAME);
+
+
+/* =========================================================
+   현재 주의 토요일 / 일요일 계산
+========================================================= */
+
+function getWeekDates() {
+
+  const today = new Date();
+
+  const day = today.getDay();
+
+  /*
+   * 월요일을 한 주의 시작으로 계산
+   * 일요일 = 0
+   * 월요일 = 1
+   * ...
+   * 토요일 = 6
+   */
+
+  const diffToMonday =
+    day === 0
+      ? -6
+      : 1 - day;
+
+  const monday =
+    new Date(today);
+
+  monday.setDate(
+    today.getDate() +
+    diffToMonday
+  );
+
+  const saturday =
+    new Date(monday);
+
+  saturday.setDate(
+    monday.getDate() + 5
+  );
+
+  const sunday =
+    new Date(monday);
+
+  sunday.setDate(
+    monday.getDate() + 6
+  );
+
+  return {
+    saturday,
+    sunday
+  };
+}
+
+
+/* =========================================================
+   날짜 표시
+========================================================= */
+
+function formatDate(date) {
+
+  return (
+    (date.getMonth() + 1) +
+    "월 " +
+    date.getDate() +
+    "일"
+  );
+
+}
+
+
+/* =========================================================
+   신청 화면 날짜
+========================================================= */
+
+function setApplicationDates() {
+
+  const dates =
+    getWeekDates();
+
+  document.getElementById(
+    "saturdayDateTime"
+  ).textContent =
+    "토요일 : " +
+    formatDate(dates.saturday) +
+    "   오후 1:00~3:00 (2시간)";
+
+
+  document.getElementById(
+    "sundayDateTime"
+  ).textContent =
+    "일요일 : " +
+    formatDate(dates.sunday) +
+    "   오전 10:00~12:00 (2시간)";
+}
+
+
+/* =========================================================
+   명단
+========================================================= */
+
+let members = [];
+
+const selectedMembers = {
+  saturday: new Set(),
+  sunday: new Set()
+};
+
+
+/* =========================================================
+   Google Sheets 명단 가져오기
+========================================================= */
+
+async function loadMembers() {
+
+  try {
+
+    const response =
+      await fetch(
+        MEMBER_DATA_URL +
+        "&t=" +
+        Date.now()
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "명단을 불러오지 못했습니다."
+      );
+    }
+
+    const text =
+      await response.text();
+
+    /*
+     * gviz 응답은
+     *
+     * google.visualization.Query.setResponse(...)
+     *
+     * 형태이므로 JSON 부분만 추출합니다.
+     */
+
+    const start =
+      text.indexOf("{");
+
+    const end =
+      text.lastIndexOf("}");
+
+    if (
+      start === -1 ||
+      end === -1
+    ) {
+      throw new Error(
+        "명단 데이터 형식이 올바르지 않습니다."
+      );
+    }
+
+    const json =
+      JSON.parse(
+        text.substring(
+          start,
+          end + 1
+        )
+      );
+
+
+    const rows =
+      json.table &&
+      json.table.rows
+        ? json.table.rows
+        : [];
+
+
+    members = rows
+      .map(function(row) {
+
+        if (
+          !row ||
+          !row.c ||
+          !row.c[0] ||
+          row.c[0].v == null
+        ) {
+          return "";
+        }
+
+        return String(
+          row.c[0].v
+        ).trim();
+
+      })
+      .filter(function(name) {
+
+        return name !== "";
+
+      });
+
+
+    /*
+     * 중복 이름 제거
+     */
+
+    members =
+      [...new Set(members)];
+
+
+  } catch (error) {
+
+    console.error(
+      "명단 불러오기 오류:",
+      error
+    );
+
+    /*
+     * 연결되지 않을 경우
+     * 테스트를 위해 아래 명단을 사용합니다.
+     *
+     * 실제 연결이 정상적으로 되면
+     * 이 부분은 사용되지 않습니다.
+     */
+
+    members = [
+      "김경수",
+      "남동완",
+      "김지인",
+      "정지원",
+      "황희원",
+      "박대기",
+      "성낙봉",
+      "추요식",
+      "정성일",
+      "임채원"
+    ];
+
+  }
+
+}
+
+
+/* =========================================================
+   신청하기 패널 열기
+========================================================= */
+
+function toggleApplicantPanel(type) {
+
+  const panel =
+    document.getElementById(
+      type + "Panel"
+    );
+
+  const isOpen =
+    panel.classList.contains(
+      "open"
+    );
+
+
+  /*
+   * 다른 신청 패널은 닫습니다.
+   */
+
+  document.querySelectorAll(
+    ".applicant-panel"
+  ).forEach(function(item) {
+
+    item.classList.remove(
+      "open"
+    );
+
+  });
+
+
+  if (!isOpen) {
+
+    panel.classList.add(
+      "open"
+    );
+
+    renderMembers(type);
+
+    const input =
+      document.getElementById(
+        type + "Search"
+      );
+
+    if (input) {
+
+      input.value = "";
+
+      setTimeout(function() {
+        input.focus();
+      }, 50);
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   명단 출력
+========================================================= */
+
+function renderMembers(type) {
+
+  const list =
+    document.getElementById(
+      type + "MemberList"
+    );
+
+  const input =
+    document.getElementById(
+      type + "Search"
+    );
+
+  const keyword =
+    input
+      ? input.value.trim().toLowerCase()
+      : "";
+
+
+  const filtered =
+    members.filter(function(name) {
+
+      return name
+        .toLowerCase()
+        .includes(keyword);
+
+    });
+
+
+  if (filtered.length === 0) {
+
+    list.innerHTML = `
+      <div class="empty-members">
+        해당 이름이 없습니다.
+      </div>
+    `;
+
+    updateSelectedCount(type);
+
+    return;
+  }
+
+
+  list.innerHTML =
+    filtered
+      .map(function(name) {
+
+        const selected =
+          selectedMembers[type]
+            .has(name);
+
+        return `
+          <button
+            type="button"
+            class="member-row ${selected ? "selected" : ""}"
+            onclick="toggleMember('${escapeHtml(name)}','${type}')">
+
+            <span class="member-check">
+              ${selected ? "☑" : "□"}
+            </span>
+
+            <span class="member-name">
+              ${escapeHtml(name)}
+            </span>
+
+          </button>
+        `;
+
+      })
+      .join("");
+
+
+  updateSelectedCount(type);
+}
+
+
+/* =========================================================
+   이름 선택 / 선택 해제
+========================================================= */
+
+function toggleMember(name, type) {
+
+  if (
+    selectedMembers[type]
+      .has(name)
+  ) {
+
+    selectedMembers[type]
+      .delete(name);
+
+  } else {
+
+    selectedMembers[type]
+      .add(name);
+
+  }
+
+  renderMembers(type);
+}
+
+
+/* =========================================================
+   검색
+========================================================= */
+
+function filterMembers(type) {
+
+  renderMembers(type);
+
+}
+
+
+/* =========================================================
+   선택 인원 표시
+========================================================= */
+
+function updateSelectedCount(type) {
+
+  const count =
+    selectedMembers[type].size;
+
+  const element =
+    document.getElementById(
+      type + "SelectedCount"
+    );
+
+  if (element) {
+
+    element.textContent =
+      "선택 " +
+      count +
+      "명";
+
+  }
+
+}
+
+
+/* =========================================================
+   신청 완료
+========================================================= */
+
+function completeApplication(type) {
+
+  const selected =
+    Array.from(
+      selectedMembers[type]
+    );
+
+
+  if (selected.length === 0) {
+
+    alert(
+      "신청할 이름을 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * 현재 단계에서는 화면에 표시합니다.
+   *
+   * 나중에 Apps Script를 연결하면
+   * 이 부분에서 Google Sheets에 저장하도록
+   * 변경하면 됩니다.
+   */
+
+  const applied =
+    document.getElementById(
+      type + "Applied"
+    );
+
+  const names =
+    document.getElementById(
+      type + "AppliedNames"
+    );
+
+  const count =
+    document.getElementById(
+      type + "Count"
+    );
+
+
+  names.textContent =
+    selected.join(", ");
+
+
+  applied.style.display =
+    "block";
+
+
+  count.textContent =
+    "현재 신청 " +
+    selected.length +
+    "명";
+
+
+  document.getElementById(
+    type + "Panel"
+  ).classList.remove(
+    "open"
+  );
+
+}
+
+
+/* =========================================================
    페이지 전환
 ========================================================= */
 
 function showPage(page) {
 
-  const buttons =
-    document.querySelectorAll(
-      '.nav-item'
+  document.querySelectorAll(
+    ".page"
+  ).forEach(function(section) {
+
+    section.classList.remove(
+      "active"
     );
 
-
-  buttons.forEach(
-    function(button) {
-
-      button.classList.toggle(
-        'active',
-        button.dataset.page === page
-      );
-
-    }
-  );
+  });
 
 
-  if (page === 'notice') {
-
+  const target =
     document.getElementById(
-      'pageTitle'
-    ).textContent = '알림';
-
-    showNotice();
-
-    return;
-
-  }
-
-
-  if (page === 'apply') {
-
-    document.getElementById(
-      'pageTitle'
-    ).textContent = '신청';
-
-    showApply();
-
-    return;
-
-  }
-
-
-  if (page === 'appoint') {
-
-    document.getElementById(
-      'pageTitle'
-    ).textContent = '임명';
-
-    showComing(
-      '임명',
-      '임명 화면을 준비하고 있습니다.'
+      "page-" + page
     );
 
-    return;
+  if (target) {
 
-  }
-
-
-  if (page === 'admin') {
-
-    document.getElementById(
-      'pageTitle'
-    ).textContent = '관리용';
-
-    showComing(
-      '관리용',
-      '관리용 화면을 준비하고 있습니다.'
+    target.classList.add(
+      "active"
     );
 
-    return;
-
   }
 
-}
 
+  document.querySelectorAll(
+    ".nav-item"
+  ).forEach(function(button) {
 
-/* =========================================================
-   알림
-========================================================= */
+    button.classList.toggle(
+      "active",
+      button.dataset.page === page
+    );
 
-function showNotice() {
-
-  document.getElementById(
-    'content'
-  ).innerHTML = `
-
-    <div class="notice-card">
-
-
-      <div class="notice-line notice-main">
-        지금은 신청 시간이 아닙니다
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub">
-        (추가 신청 및 임명 취소는 인도자에게)
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub notice-yellow">
-        토요일 신청 : 수요일
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub notice-yellow">
-        토요일 마감 : 금요일
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub notice-yellow">
-        일요일 신청 : 금요일
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub notice-yellow">
-        일요일 마감 : 토요일
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub notice-white">
-        토요일 (오전) : 김경수 형제
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-sub notice-white">
-        일요일 (오전) : 정지원 형제
-      </div>
-
-
-      <div class="notice-divider"></div>
-
-
-      <div class="notice-line notice-main">
-        서울 북부 회중
-      </div>
-
-
-    </div>
-
-  `;
+  });
 
 }
 
 
 /* =========================================================
-   신청
+   HTML 특수문자 처리
 ========================================================= */
 
-function showApply() {
+function escapeHtml(value) {
 
-  document.getElementById(
-    'content'
-  ).innerHTML = `
-
-    <div class="apply-wrap">
-
-
-      <!-- ===============================================
-           토요일 신청
-      ================================================ -->
-
-      <div class="apply-card">
-
-
-        <div class="apply-week">
-          9월 5일주 (토요일 신청)
-        </div>
-
-
-        <div class="apply-date">
-          2026. 9. 12
-        </div>
-
-
-        <div class="apply-day">
-          토요일
-        </div>
-
-
-        <div class="apply-guide">
-          인도자 : 김경수
-        </div>
-
-
-        <div class="apply-time">
-          오후 1:00 ~ 3:00 (2시간)
-        </div>
-
-
-        <div class="applicant-list">
-
-
-          <div class="applicant-row">
-            신청자 1
-          </div>
-
-
-          <div class="applicant-row">
-            신청자 2
-          </div>
-
-
-          <div class="applicant-row applicant-empty">
-            신청자가 없습니다.
-          </div>
-
-
-        </div>
-
-
-        <div class="apply-count">
-          0명
-        </div>
-
-
-        <div class="apply-deadline">
-          신청마감 : 금요일 오후 11시 까지
-        </div>
-
-
-      </div>
-
-
-      <!-- ===============================================
-           일요일 신청
-      ================================================ -->
-
-      <div class="apply-card">
-
-
-        <div class="apply-week">
-          9월 7일주 (일요일 신청)
-        </div>
-
-
-        <div class="apply-date">
-          2026. 9. 13
-        </div>
-
-
-        <div class="apply-day">
-          일요일
-        </div>
-
-
-        <div class="apply-guide">
-          인도자 : 정지원
-        </div>
-
-
-        <div class="apply-time">
-          오전 10:00 ~ 12:00 (2시간)
-        </div>
-
-
-        <div class="applicant-list">
-
-
-          <div class="applicant-row">
-            정지원
-          </div>
-
-
-          <div class="applicant-row">
-            황희원
-          </div>
-
-
-          <div class="applicant-row applicant-empty">
-            신청자가 없습니다.
-          </div>
-
-
-        </div>
-
-
-        <div class="apply-count">
-          2명
-        </div>
-
-
-        <div class="apply-deadline">
-          신청마감 : 토요일 오후 11시 까지
-        </div>
-
-
-      </div>
-
-
-    </div>
-
-  `;
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 
 /* =========================================================
-   준비중
+   초기화
 ========================================================= */
 
-function showComing(
-  title,
-  text
-) {
+document.addEventListener(
+  "DOMContentLoaded",
+  async function() {
 
-  document.getElementById(
-    'content'
-  ).innerHTML = `
+    setApplicationDates();
 
-    <div class="coming">
+    await loadMembers();
 
-      <div class="coming-title">
-        ${title}
-      </div>
-
-      <div class="coming-text">
-        ${text}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   새로고침
-========================================================= */
-
-function reloadPage() {
-
-  location.reload();
-
-}
-
-
-/* =========================================================
-   처음 실행
-========================================================= */
-
-showNotice();
+  }
+);
 
 </script>
 
-
 </body>
-
 </html>
