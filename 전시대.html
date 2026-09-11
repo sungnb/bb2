@@ -42,17 +42,16 @@ body {
 
 }
 
-
-/* =========================================================
-   전체
-========================================================= */
-
 body {
 
   padding-bottom: 72px;
 
 }
 
+
+/* =========================================================
+   전체
+========================================================= */
 
 #app {
 
@@ -129,69 +128,413 @@ body {
 
 
 /* =========================================================
-   로딩
+   알림
 ========================================================= */
 
-.loading {
+.notice-card {
 
-  padding: 60px 20px;
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: #234b89;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0,0,0,0.08);
+
+}
+
+
+.notice-line {
+
+  min-height: 48px;
+
+  padding: 11px 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   text-align: center;
 
-  font-size: 16px;
+  font-weight: 700;
+
+  line-height: 1.45;
+
+}
+
+
+.notice-main {
+
+  font-size: 21px;
+
+  color: #ffffff;
+
+}
+
+
+.notice-sub {
+
+  font-size: 15px;
+
+  color: #ffffff;
+
+}
+
+
+.notice-yellow {
+
+  color: #ffe600;
+
+}
+
+
+.notice-red {
+
+  color: #ff5252;
+
+}
+
+
+.notice-white {
+
+  color: #ffffff;
+
+}
+
+
+.notice-divider {
+
+  height: 1px;
+
+  background: rgba(255,255,255,0.25);
+
+}
+
+
+/* =========================================================
+   신청
+========================================================= */
+
+.apply-wrap {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+
+/* =========================================================
+   신청 한 세트
+========================================================= */
+
+.apply-card {
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0,0,0,0.10);
+
+}
+
+
+/* =========================================================
+   신청 제목
+========================================================= */
+
+.apply-week {
+
+  min-height: 62px;
+
+  padding: 10px 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  background: #d90000;
+
+  color: #ffffff;
+
+  font-size: 23px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   날짜
+========================================================= */
+
+.apply-date {
+
+  min-height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #ffffff;
+
+  color: #e00000;
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   요일
+========================================================= */
+
+.apply-day {
+
+  min-height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #3d87c7;
+
+  color: #ffffff;
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   인도자
+========================================================= */
+
+.apply-guide {
+
+  min-height: 44px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #a9cbe9;
+
+  color: #111111;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   시간
+========================================================= */
+
+.apply-time {
+
+  min-height: 50px;
+
+  padding: 8px 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  background: #d8e8f5;
+
+  color: #a40000;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   신청자 영역
+========================================================= */
+
+.applicant-list {
+
+  padding: 0;
+
+  background: #ffffff;
+
+}
+
+
+.applicant-row {
+
+  min-height: 40px;
+
+  padding: 7px 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  border-bottom:
+    1px solid #dddddd;
+
+  font-size: 17px;
+
+  font-weight: 700;
+
+}
+
+
+.applicant-row:last-child {
+
+  border-bottom: 0;
+
+}
+
+
+.applicant-empty {
+
+  color: #777;
+
+  font-weight: 400;
+
+}
+
+
+/* =========================================================
+   신청 인원
+========================================================= */
+
+.apply-count {
+
+  min-height: 50px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #72a9d7;
+
+  color: #111111;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   신청 마감
+========================================================= */
+
+.apply-deadline {
+
+  margin-top: 20px;
+
+  min-height: 78px;
+
+  padding: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  background: #234b89;
+
+  border: 3px solid #172f68;
+
+  color: #ffffff;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  line-height: 1.45;
+
+}
+
+
+.apply-deadline::before {
+
+  content: "■";
+
+  margin-right: 8px;
+
+  color: #ffffff;
+
+}
+
+
+/* =========================================================
+   준비중
+========================================================= */
+
+.coming {
+
+  padding: 80px 20px;
+
+  text-align: center;
 
   color: #777;
 
 }
 
 
-/* =========================================================
-   알림 영역
-========================================================= */
+.coming-title {
 
-.notice-wrap {
+  font-size: 20px;
 
-  width: 100%;
+  font-weight: 700;
 
-  overflow-x: hidden;
+  margin-bottom: 10px;
 
 }
 
 
-.sheet {
+.coming-text {
 
-  position: relative;
-
-  width: 100%;
-
-  overflow: hidden;
-
-  background: #ffffff;
-
-  border-radius: 12px;
-
-}
-
-
-/* =========================================================
-   셀
-========================================================= */
-
-.sheet-cell {
-
-  position: absolute;
-
-  padding: 4px;
-
-  white-space: pre-wrap;
-
-  word-break: keep-all;
-
-  overflow-wrap: break-word;
-
-  display: flex;
-
-  line-height: 1.35;
+  font-size: 14px;
 
 }
 
@@ -282,57 +625,54 @@ body {
 
 
 /* =========================================================
-   준비중 화면
+   작은 화면
 ========================================================= */
 
-.coming {
+@media (
+  max-width: 380px
+) {
 
-  padding: 80px 20px;
+  .notice-main {
 
-  text-align: center;
+    font-size: 19px;
 
-  color: #777;
+  }
 
-}
+  .notice-sub {
 
+    font-size: 14px;
 
-.coming-title {
+  }
 
-  font-size: 20px;
+  .apply-week {
 
-  font-weight: 700;
+    font-size: 21px;
 
-  margin-bottom: 10px;
+  }
 
-}
+  .apply-date {
 
+    font-size: 19px;
 
-.coming-text {
+  }
 
-  font-size: 14px;
+  .apply-day {
 
-}
+    font-size: 19px;
 
+  }
 
-/* =========================================================
-   오류
-========================================================= */
+  .apply-time {
 
-.error {
+    font-size: 17px;
 
-  margin: 30px 12px;
+  }
 
-  padding: 20px;
+  .apply-deadline {
 
-  border-radius: 12px;
+    font-size: 17px;
 
-  background: #ffffff;
-
-  color: #c62828;
-
-  line-height: 1.6;
-
-  text-align: center;
+  }
 
 }
 
@@ -346,6 +686,11 @@ body {
 
 <div id="app">
 
+
+  <!-- =====================================================
+       상단
+  ====================================================== -->
+
   <div class="top">
 
     <div
@@ -357,7 +702,7 @@ body {
 
     <button
       class="reload"
-      onclick="loadNotice()"
+      onclick="reloadPage()"
       aria-label="새로고침"
     >
       ↻
@@ -366,16 +711,15 @@ body {
   </div>
 
 
+  <!-- =====================================================
+       내용
+  ====================================================== -->
+
   <div
     class="page"
     id="content"
-  >
+  ></div>
 
-    <div class="loading">
-      알림을 불러오는 중입니다.
-    </div>
-
-  </div>
 
 </div>
 
@@ -461,14 +805,6 @@ body {
 <script>
 
 /* =========================================================
-   Apps Script 주소
-========================================================= */
-
-const API_URL =
-  'https://script.google.com/macros/s/AKfycbxnGjJ3CmTY0zWQ4awIYz7JW8gnkbPlt2FVyLhscrR-sF9Hc4CkOvHhqzn7TiO3PeNB/exec';
-
-
-/* =========================================================
    페이지 전환
 ========================================================= */
 
@@ -479,14 +815,17 @@ function showPage(page) {
       '.nav-item'
     );
 
-  buttons.forEach(function(button) {
 
-    button.classList.toggle(
-      'active',
-      button.dataset.page === page
-    );
+  buttons.forEach(
+    function(button) {
 
-  });
+      button.classList.toggle(
+        'active',
+        button.dataset.page === page
+      );
+
+    }
+  );
 
 
   if (page === 'notice') {
@@ -495,9 +834,10 @@ function showPage(page) {
       'pageTitle'
     ).textContent = '알림';
 
-    loadNotice();
+    showNotice();
 
     return;
+
   }
 
 
@@ -507,12 +847,10 @@ function showPage(page) {
       'pageTitle'
     ).textContent = '신청';
 
-    showComing(
-      '신청',
-      '신청 화면을 준비하고 있습니다.'
-    );
+    showApply();
 
     return;
+
   }
 
 
@@ -528,6 +866,7 @@ function showPage(page) {
     );
 
     return;
+
   }
 
 
@@ -543,13 +882,255 @@ function showPage(page) {
     );
 
     return;
+
   }
 
 }
 
 
 /* =========================================================
-   준비중 화면
+   알림
+========================================================= */
+
+function showNotice() {
+
+  document.getElementById(
+    'content'
+  ).innerHTML = `
+
+    <div class="notice-card">
+
+
+      <div class="notice-line notice-main">
+        지금은 신청 시간이 아닙니다
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub">
+        (추가 신청 및 임명 취소는 인도자에게)
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub notice-yellow">
+        토요일 신청 : 수요일
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub notice-yellow">
+        토요일 마감 : 금요일
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub notice-yellow">
+        일요일 신청 : 금요일
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub notice-yellow">
+        일요일 마감 : 토요일
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub notice-white">
+        토요일 (오전) : 김경수 형제
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-sub notice-white">
+        일요일 (오전) : 정지원 형제
+      </div>
+
+
+      <div class="notice-divider"></div>
+
+
+      <div class="notice-line notice-main">
+        서울 북부 회중
+      </div>
+
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   신청
+========================================================= */
+
+function showApply() {
+
+  document.getElementById(
+    'content'
+  ).innerHTML = `
+
+    <div class="apply-wrap">
+
+
+      <!-- ===============================================
+           토요일 신청
+      ================================================ -->
+
+      <div class="apply-card">
+
+
+        <div class="apply-week">
+          9월 5일주 (토요일 신청)
+        </div>
+
+
+        <div class="apply-date">
+          2026. 9. 12
+        </div>
+
+
+        <div class="apply-day">
+          토요일
+        </div>
+
+
+        <div class="apply-guide">
+          인도자 : 김경수
+        </div>
+
+
+        <div class="apply-time">
+          오후 1:00 ~ 3:00 (2시간)
+        </div>
+
+
+        <div class="applicant-list">
+
+
+          <div class="applicant-row">
+            신청자 1
+          </div>
+
+
+          <div class="applicant-row">
+            신청자 2
+          </div>
+
+
+          <div class="applicant-row applicant-empty">
+            신청자가 없습니다.
+          </div>
+
+
+        </div>
+
+
+        <div class="apply-count">
+          0명
+        </div>
+
+
+        <div class="apply-deadline">
+          신청마감 : 금요일 오후 11시 까지
+        </div>
+
+
+      </div>
+
+
+      <!-- ===============================================
+           일요일 신청
+      ================================================ -->
+
+      <div class="apply-card">
+
+
+        <div class="apply-week">
+          9월 7일주 (일요일 신청)
+        </div>
+
+
+        <div class="apply-date">
+          2026. 9. 13
+        </div>
+
+
+        <div class="apply-day">
+          일요일
+        </div>
+
+
+        <div class="apply-guide">
+          인도자 : 정지원
+        </div>
+
+
+        <div class="apply-time">
+          오전 10:00 ~ 12:00 (2시간)
+        </div>
+
+
+        <div class="applicant-list">
+
+
+          <div class="applicant-row">
+            정지원
+          </div>
+
+
+          <div class="applicant-row">
+            황희원
+          </div>
+
+
+          <div class="applicant-row applicant-empty">
+            신청자가 없습니다.
+          </div>
+
+
+        </div>
+
+
+        <div class="apply-count">
+          2명
+        </div>
+
+
+        <div class="apply-deadline">
+          신청마감 : 토요일 오후 11시 까지
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   준비중
 ========================================================= */
 
 function showComing(
@@ -564,11 +1145,11 @@ function showComing(
     <div class="coming">
 
       <div class="coming-title">
-        ${escapeHtml(title)}
+        ${title}
       </div>
 
       <div class="coming-text">
-        ${escapeHtml(text)}
+        ${text}
       </div>
 
     </div>
@@ -579,572 +1160,12 @@ function showComing(
 
 
 /* =========================================================
-   알림 불러오기
+   새로고침
 ========================================================= */
 
-async function loadNotice() {
+function reloadPage() {
 
-  const content =
-    document.getElementById(
-      'content'
-    );
-
-
-  content.innerHTML = `
-
-    <div class="loading">
-      알림을 불러오는 중입니다.
-    </div>
-
-  `;
-
-
-  try {
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method: 'GET',
-          cache: 'no-store'
-        }
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        '서버 응답 오류: ' +
-        response.status
-      );
-
-    }
-
-
-    const result =
-      await response.json();
-
-
-    if (
-      !result.success
-    ) {
-
-      throw new Error(
-        result.error ||
-        '알림 데이터를 가져오지 못했습니다.'
-      );
-
-    }
-
-
-    renderSheet(
-      result.data
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    content.innerHTML = `
-
-      <div class="error">
-
-        알림을 불러오지 못했습니다.<br><br>
-
-        ${escapeHtml(
-          error.message
-        )}
-
-      </div>
-
-    `;
-
-  }
-
-}
-
-
-/* =========================================================
-   Google Sheets 화면 표시
-========================================================= */
-
-function renderSheet(
-  data
-) {
-
-  const content =
-    document.getElementById(
-      'content'
-    );
-
-
-  if (
-    !data ||
-    !data.cells ||
-    data.cells.length === 0
-  ) {
-
-    content.innerHTML = `
-
-      <div class="loading">
-        표시할 알림 내용이 없습니다.
-      </div>
-
-    `;
-
-    return;
-  }
-
-
-  /*
-   * 시트 전체 크기
-   */
-
-  const totalWidth =
-    data.columnWidths.reduce(
-      function(sum, value) {
-
-        return sum + value;
-
-      },
-      0
-    );
-
-
-  const totalHeight =
-    data.rowHeights.reduce(
-      function(sum, value) {
-
-        return sum + value;
-
-      },
-      0
-    );
-
-
-  /*
-   * 휴대폰 너비에 맞추기
-   */
-
-  const availableWidth =
-    Math.min(
-      window.innerWidth - 24,
-      totalWidth
-    );
-
-
-  const scale =
-    availableWidth /
-    totalWidth;
-
-
-  const sheetWidth =
-    totalWidth * scale;
-
-
-  const sheetHeight =
-    totalHeight * scale;
-
-
-  const sheet =
-    document.createElement(
-      'div'
-    );
-
-
-  sheet.className =
-    'sheet';
-
-
-  sheet.style.width =
-    sheetWidth + 'px';
-
-
-  sheet.style.height =
-    sheetHeight + 'px';
-
-
-  /*
-   * 셀 표시
-   */
-
-  data.cells.forEach(
-    function(cell) {
-
-      const element =
-        document.createElement(
-          'div'
-        );
-
-
-      element.className =
-        'sheet-cell';
-
-
-      /*
-       * 왼쪽 위치
-       */
-
-      let left = 0;
-
-      for (
-        let c = 0;
-        c < cell.column;
-        c++
-      ) {
-
-        left +=
-          data.columnWidths[c];
-
-      }
-
-
-      /*
-       * 위쪽 위치
-       */
-
-      let top = 0;
-
-      for (
-        let r = 0;
-        r < cell.row;
-        r++
-      ) {
-
-        top +=
-          data.rowHeights[r];
-
-      }
-
-
-      /*
-       * 기본 셀 크기
-       */
-
-      let width =
-        data.columnWidths[
-          cell.column
-        ];
-
-
-      let height =
-        data.rowHeights[
-          cell.row
-        ];
-
-
-      /*
-       * 병합 셀
-       */
-
-      const merge =
-        findMerge(
-          data.merges,
-          cell.row,
-          cell.column
-        );
-
-
-      if (merge) {
-
-        width = 0;
-
-        for (
-          let c = cell.column;
-          c <
-          cell.column +
-          merge.columnSpan;
-          c++
-        ) {
-
-          width +=
-            data.columnWidths[c];
-
-        }
-
-
-        height = 0;
-
-        for (
-          let r = cell.row;
-          r <
-          cell.row +
-          merge.rowSpan;
-          r++
-        ) {
-
-          height +=
-            data.rowHeights[r];
-
-        }
-
-      }
-
-
-      /*
-       * 위치
-       */
-
-      element.style.left =
-        (left * scale) + 'px';
-
-      element.style.top =
-        (top * scale) + 'px';
-
-
-      /*
-       * 크기
-       */
-
-      element.style.width =
-        (width * scale) + 'px';
-
-      element.style.height =
-        (height * scale) + 'px';
-
-
-      /*
-       * 시트 서식
-       */
-
-      element.style.backgroundColor =
-        cell.background;
-
-
-      element.style.color =
-        cell.color;
-
-
-      element.style.fontSize =
-        (cell.fontSize * scale) + 'px';
-
-
-      element.style.fontWeight =
-        cell.fontWeight;
-
-
-      /*
-       * 세로 정렬
-       */
-
-      element.style.justifyContent =
-        getVerticalAlignment(
-          cell.vertical
-        );
-
-
-      /*
-       * 가로 정렬
-       */
-
-      element.style.alignItems =
-        getHorizontalAlignment(
-          cell.horizontal
-        );
-
-
-      /*
-       * 내용
-       */
-
-      element.textContent =
-        cell.value;
-
-
-      sheet.appendChild(
-        element
-      );
-
-    }
-  );
-
-
-  const noticeWrap =
-    document.createElement(
-      'div'
-    );
-
-
-  noticeWrap.className =
-    'notice-wrap';
-
-
-  noticeWrap.appendChild(
-    sheet
-  );
-
-
-  content.innerHTML = '';
-
-  content.appendChild(
-    noticeWrap
-  );
-
-}
-
-
-/* =========================================================
-   병합 셀 찾기
-========================================================= */
-
-function findMerge(
-  merges,
-  row,
-  column
-) {
-
-  for (
-    let i = 0;
-    i < merges.length;
-    i++
-  ) {
-
-    const merge =
-      merges[i];
-
-
-    if (
-
-      row >= merge.row &&
-
-      row <
-      merge.row +
-      merge.rowSpan &&
-
-      column >= merge.column &&
-
-      column <
-      merge.column +
-      merge.columnSpan
-
-    ) {
-
-      /*
-       * 병합 영역의 왼쪽 위 셀만 표시
-       */
-
-      if (
-        row === merge.row &&
-        column === merge.column
-      ) {
-
-        return merge;
-
-      }
-
-
-      return null;
-
-    }
-
-  }
-
-
-  return null;
-
-}
-
-
-/* =========================================================
-   가로 정렬
-========================================================= */
-
-function getHorizontalAlignment(
-  alignment
-) {
-
-  if (
-    alignment === 'RIGHT'
-  ) {
-
-    return 'flex-end';
-
-  }
-
-
-  if (
-    alignment === 'CENTER'
-  ) {
-
-    return 'center';
-
-  }
-
-
-  return 'flex-start';
-
-}
-
-
-/* =========================================================
-   세로 정렬
-========================================================= */
-
-function getVerticalAlignment(
-  alignment
-) {
-
-  if (
-    alignment === 'BOTTOM'
-  ) {
-
-    return 'flex-end';
-
-  }
-
-
-  if (
-    alignment === 'MIDDLE'
-  ) {
-
-    return 'center';
-
-  }
-
-
-  return 'flex-start';
-
-}
-
-
-/* =========================================================
-   HTML 안전 처리
-========================================================= */
-
-function escapeHtml(
-  value
-) {
-
-  return String(value)
-
-    .replace(
-      /&/g,
-      '&amp;'
-    )
-
-    .replace(
-      /</g,
-      '&lt;'
-    )
-
-    .replace(
-      />/g,
-      '&gt;'
-    )
-
-    .replace(
-      /"/g,
-      '&quot;'
-    )
-
-    .replace(
-      /'/g,
-      '&#039;'
-    );
+  location.reload();
 
 }
 
@@ -1153,8 +1174,7 @@ function escapeHtml(
    처음 실행
 ========================================================= */
 
-loadNotice();
-
+showNotice();
 
 </script>
 
