@@ -17,25 +17,40 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
+html {
+  font-size: 100%;
+  --font-scale: 1;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
+    Arial,
     "Noto Sans KR",
     sans-serif;
 
-  background: #f7f7f7;
-  color: #222;
+  background:
+    radial-gradient(
+      circle at top,
+      #252525 0%,
+      #111 55%,
+      #080808 100%
+    );
 
-  padding-bottom: 78px;
+  color: #f5f5f5;
+
+  min-height: 100vh;
+
+  transition:
+    background .25s,
+    color .25s;
+}
+
+body.light {
+  background: #f5f5f5;
+  color: #222;
 }
 
 
@@ -43,26 +58,69 @@ body {
    상단
 ========================================================= */
 
-.header {
-  position: sticky;
+.top-bar {
+  position: fixed;
+
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
 
-  background: rgba(247,247,247,0.96);
-  backdrop-filter: blur(10px);
+  height: 60px;
 
-  padding: 18px 18px 14px;
+  z-index: 1000;
 
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #18324a;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.10);
 }
 
-.header h1 {
-  margin: 0;
+.top-title {
+  color: #fff;
 
-  text-align: center;
+  font-size: 35px;
+  font-weight: 800;
 
-  font-size: 26px;
-  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.top-button {
+  position: absolute;
+
+  top: 10px;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  border: 0;
+
+  background: #234563;
+
+  color: #fff;
+
+  font-size: 25px;
+
+  line-height: 20px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-left {
+  left: 8px;
+}
+
+.top-right {
+  right: 8px;
 }
 
 
@@ -70,26 +128,36 @@ body {
    본문
 ========================================================= */
 
-.container {
-  width: 100%;
-  max-width: 700px;
+.main {
+  padding-top: 80px;
+  padding-bottom: 80px;
 
-  margin: 0 auto;
-
-  padding: 18px 16px 30px;
+  min-height: 100vh;
 }
 
-
-/* =========================================================
-   페이지
-========================================================= */
-
-.page {
+.view {
   display: none;
+
+  padding:
+    0 14px 30px;
 }
 
-.page.active {
+.view.active {
   display: block;
+}
+
+.page-title {
+  margin:
+    0 0 15px;
+
+  text-align: center;
+
+  font-size:
+    calc(25px * var(--font-scale));
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
 }
 
 
@@ -97,31 +165,45 @@ body {
    알림
 ========================================================= */
 
-.notice-box {
-  background: #fff;
+.notice-section {
+  width: 100%;
+  max-width: 900px;
 
-  border: 1px solid rgba(0,0,0,0.10);
-  border-radius: 14px;
-
-  padding: 20px;
-
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin: 0 auto;
 }
 
-.notice-title {
-  font-size: 19px;
-  font-weight: 700;
+.notice-card {
+  padding: 18px 16px;
 
-  margin-bottom: 18px;
+  border-radius: 14px;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(255,255,255,.07);
+}
+
+body.light .notice-card {
+  background: #fff;
+  border-color: #ddd;
 }
 
 .notice-line {
-  padding: 10px 0;
+  min-height: 44px;
 
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+  display: flex;
+  align-items: center;
 
-  font-size: 16px;
-  line-height: 1.5;
+  padding: 8px 10px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  line-height: 1.45;
 }
 
 .notice-line:last-child {
@@ -130,205 +212,253 @@ body {
 
 
 /* =========================================================
-   신청
+   신청 날짜
 ========================================================= */
 
-.application-section {
-  margin-bottom: 22px;
+.apply-date-box {
+  width: 100%;
+  max-width: 900px;
 
+  margin:
+    0 auto 16px;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  text-align: left;
+}
+
+body.light .apply-date-box {
   background: #fff;
-
-  border: 1px solid rgba(0,0,0,0.10);
-  border-radius: 14px;
-
-  overflow: hidden;
-
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border-color: #ddd;
 }
 
+.apply-date {
+  font-size:
+    calc(20px * var(--font-scale));
 
-/* =========================================================
-   날짜 / 시간
-========================================================= */
-
-.application-info {
-  padding: 18px 18px 12px;
-}
-
-.application-date {
-  font-size: 19px;
-  font-weight: 700;
+  font-weight: 800;
 
   line-height: 1.5;
 }
 
-.application-time {
+.apply-time {
   margin-top: 2px;
 
-  font-size: 16px;
-  color: #555;
+  font-size:
+    calc(16px * var(--font-scale));
+
+  color: #aaa;
 
   line-height: 1.5;
 }
 
-
-/* =========================================================
-   신청하기 버튼
-========================================================= */
-
-.apply-button-wrap {
-  padding: 4px 18px 18px;
+body.light .apply-time {
+  color: #777;
 }
 
-.apply-button {
+
+/* =========================================================
+   선택 인원
+========================================================= */
+
+.count-box {
   width: 100%;
+  max-width: 900px;
 
-  border: 0;
-  border-radius: 10px;
+  margin:
+    0 auto 18px;
 
-  padding: 13px 16px;
+  padding: 13px 15px;
 
-  background: #222;
-  color: #fff;
+  border-radius: 12px;
 
-  font-size: 16px;
-  font-weight: 600;
+  background:
+    rgba(255,255,255,.08);
 
-  cursor: pointer;
-}
+  border:
+    1px solid rgba(255,255,255,.10);
 
-.apply-button:active {
-  transform: scale(0.99);
-}
+  text-align: center;
 
+  font-size:
+    calc(18px * var(--font-scale));
 
-/* =========================================================
-   신청자 선택 영역
-========================================================= */
-
-.applicant-selector {
-  display: none;
-
-  border-top: 1px solid rgba(0,0,0,0.08);
-
-  padding: 16px 18px 18px;
-}
-
-.applicant-selector.open {
-  display: block;
-}
-
-.selector-title {
-  font-size: 16px;
   font-weight: 700;
+}
 
-  margin-bottom: 12px;
+body.light .count-box {
+  background: #fff;
+  border-color: #ddd;
 }
 
 
 /* =========================================================
-   명단
-   ---------------------------------------------------------
-   신청하기를 누르면 3열로 표시
+   신청자 명단 - 3열
 ========================================================= */
 
-.member-list {
-  max-height: 360px;
+.name-grid {
+  width: 100%;
+  max-width: 900px;
 
-  overflow-y: auto;
+  margin: 0 auto;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
 
-  border: 1px solid rgba(0,0,0,0.10);
-  border-radius: 10px;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
 
-  padding: 5px;
-
-  background: #fafafa;
+  gap: 8px;
 }
 
+.name-card {
+  min-height: 58px;
 
-/* =========================================================
-   이름 한 칸
-========================================================= */
+  border-radius: 10px;
 
-.member-row {
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(255,255,255,.07);
+
+  color: inherit;
+
+  cursor: pointer;
+
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  min-height: 46px;
+  gap: 5px;
 
-  padding: 0 6px;
+  padding: 7px 4px;
 
-  border: 1px solid rgba(0,0,0,0.10);
-  border-radius: 8px;
+  font-size:
+    calc(18px * var(--font-scale));
 
+  font-weight: 600;
+
+  transition:
+    background .15s,
+    border-color .15s,
+    transform .1s;
+}
+
+.name-card:active {
+  transform: scale(.97);
+}
+
+.name-card.selected {
+  background:
+    rgba(111,168,216,.16);
+
+  border:
+    3px solid #6FA8D8;
+}
+
+body.light .name-card {
   background: #fff;
-
-  cursor: pointer;
+  border: 1px solid #ddd;
 }
 
-.member-row.selected {
-  background: #eeeeee;
-
-  border-color: #777;
+body.light .name-card.selected {
+  background: #eef5fb;
+  border:
+    3px solid #3F6F9F;
 }
 
-.member-row input {
+.check-mark {
   width: 18px;
   height: 18px;
 
-  margin: 0 6px 0 0;
+  flex:
+    0 0 18px;
 
-  accent-color: #222;
+  border-radius: 50%;
 
-  flex-shrink: 0;
+  border:
+    2px solid #777;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size:
+    calc(11px * var(--font-scale));
+
+  font-weight: 900;
 }
 
-.member-name {
-  font-size: 15px;
+.name-card.selected .check-mark {
+  border-color: #6FA8D8;
 
-  line-height: 1.4;
+  background: #6FA8D8;
 
-  white-space: nowrap;
+  color: #fff;
+}
+
+body.light .name-card.selected .check-mark {
+  border-color: #3F6F9F;
+  background: #3F6F9F;
+}
+
+.name-loading {
+  grid-column: 1 / -1;
+
+  padding: 35px 10px;
+
+  text-align: center;
+
+  color: #aaa;
+
+  font-size:
+    calc(15px * var(--font-scale));
+}
+
+body.light .name-loading {
+  color: #777;
 }
 
 
 /* =========================================================
-   선택된 인원
+   신청 완료 버튼
 ========================================================= */
 
-.selected-count {
-  margin-top: 12px;
+.apply-complete-wrap {
+  width: 100%;
+  max-width: 900px;
 
-  font-size: 14px;
-  color: #555;
+  margin:
+    18px auto 25px;
 }
 
-
-/* =========================================================
-   신청 완료
-========================================================= */
-
-.complete-button {
+.apply-complete-button {
   width: 100%;
 
-  margin-top: 12px;
+  min-height: 48px;
 
   border: 0;
+
   border-radius: 10px;
 
-  padding: 13px 16px;
+  background: #4285f4;
 
-  background: #333;
   color: #fff;
 
-  font-size: 16px;
-  font-weight: 600;
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 800;
 
   cursor: pointer;
 }
@@ -339,94 +469,470 @@ body {
 ========================================================= */
 
 .current-applicants {
-  border-top: 1px solid rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 900px;
 
-  padding: 16px 18px 18px;
+  margin: 0 auto 25px;
 }
 
 .current-title {
-  font-size: 16px;
-  font-weight: 700;
-
   margin-bottom: 10px;
+
+  font-size:
+    calc(18px * var(--font-scale));
+
+  font-weight: 800;
 }
 
-.current-title span {
-  font-weight: 500;
-  color: #666;
-}
-
-
-/* =========================================================
-   신청 완료된 명단
-   ---------------------------------------------------------
-   4명씩 한 줄로 표시
-========================================================= */
-
-.applicant-names {
+.current-names {
   display: grid;
 
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
-  gap: 5px;
+  gap: 7px;
 }
 
-
-/* =========================================================
-   신청자 이름 한 칸
-========================================================= */
-
-.applicant-name {
-  min-height: 38px;
+.current-name {
+  min-height: 40px;
 
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  padding: 5px 4px;
+  padding:
+    5px 3px;
 
-  font-size: 15px;
+  border-radius: 10px;
 
-  background: #fafafa;
+  border:
+    1px solid #555;
 
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 7px;
+  background:
+    rgba(255,255,255,.04);
+
+  font-size:
+    calc(16px * var(--font-scale));
+
+  font-weight: 600;
 
   white-space: nowrap;
 }
 
+body.light .current-name {
+  color: #777;
+  border-color: #ccc;
+  background: #fff;
+}
 
-/* =========================================================
-   신청자 없음
-========================================================= */
-
-.no-applicant {
+.current-empty {
   grid-column: 1 / -1;
 
-  color: #888;
+  padding: 25px 10px;
 
-  font-size: 15px;
+  text-align: center;
 
-  padding: 7px 0;
+  color: #999;
 }
 
 
 /* =========================================================
-   기타 페이지
+   관리자
 ========================================================= */
 
-.coming-box {
-  background: #fff;
+.admin-section {
+  width: 100%;
+  max-width: 900px;
 
-  border: 1px solid rgba(0,0,0,0.10);
+  margin: 0 auto;
+}
+
+.admin-count {
+  text-align: center;
+
+  margin-bottom: 15px;
+
+  font-size:
+    calc(18px * var(--font-scale));
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   미배정 신청자
+========================================================= */
+
+.admin-names {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+}
+
+.admin-name {
+  min-height: 48px;
+
+  padding:
+    6px 5px;
+
+  border-radius: 9px;
+
+  border:
+    1px solid rgba(255,255,255,.15);
+
+  background:
+    rgba(255,255,255,.08);
+
+  color: inherit;
+
+  cursor: pointer;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 600;
+}
+
+.admin-name.selected {
+  background:
+    rgba(111,168,216,.16);
+
+  border:
+    3px solid #6FA8D8;
+}
+
+body.light .admin-name {
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+body.light .admin-name.selected {
+  background: #eef5fb;
+
+  border:
+    3px solid #3F6F9F;
+}
+
+
+/* =========================================================
+   관리자 직접 추가
+========================================================= */
+
+.admin-add-button {
+  min-height: 44px;
+
+  padding:
+    7px 13px;
+
+  border-radius: 9px;
+
+  border:
+    1px dashed #4285f4;
+
+  background: transparent;
+
+  color: #4285f4;
+
+  cursor: pointer;
+
+  font-size:
+    calc(15px * var(--font-scale));
+
+  font-weight: 700;
+}
+
+body.light .admin-add-button {
+  background: #fff;
+}
+
+
+/* =========================================================
+   그룹 추가
+========================================================= */
+
+.group-controls {
+  display: flex;
+
+  justify-content: center;
+
+  margin-bottom: 18px;
+}
+
+.add-group-button {
+  width: 100%;
+
+  min-height: 48px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  padding:
+    12px 20px;
+
+  background: #4285f4;
+
+  color: #fff;
+
+  font-size:
+    calc(16px * var(--font-scale));
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   그룹
+========================================================= */
+
+.groups {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.group-card {
+  padding:
+    15px 14px;
+
   border-radius: 14px;
 
-  padding: 40px 20px;
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(255,255,255,.07);
+}
+
+body.light .group-card {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.group-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.group-title {
+  font-size:
+    calc(19px * var(--font-scale));
+
+  font-weight: 800;
+
+  line-height:
+    calc(20px * var(--font-scale));
+}
+
+.group-buttons {
+  display: flex;
+
+  gap: 6px;
+}
+
+.group-action {
+  border: 0;
+
+  background: transparent;
+
+  color: #ff7777;
+
+  font-size:
+    calc(15px * var(--font-scale));
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   그룹 6자리
+========================================================= */
+
+.group-slots {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 8px;
+}
+
+.group-slot {
+  min-height: 46px;
+
+  border-radius: 9px;
+
+  border:
+    1px dashed #777;
+
+  background: transparent;
+
+  color: inherit;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
 
   text-align: center;
 
+  padding:
+    6px 4px;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.group-slot.filled {
+  border:
+    3px solid #6FA8D8;
+
+  background:
+    rgba(111,168,216,.16);
+}
+
+body.light .group-slot.filled {
+  border:
+    3px solid #3F6F9F;
+
+  background:
+    #eef5fb;
+}
+
+.group-slot.empty {
+  color: #888;
+}
+
+
+/* =========================================================
+   임명
+========================================================= */
+
+.appoint-section {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+}
+
+.appoint-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.appoint-card {
+  padding:
+    15px 14px;
+
+  border-radius: 14px;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(255,255,255,.07);
+}
+
+body.light .appoint-card {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.appoint-title {
+  margin-bottom: 10px;
+
+  font-size:
+    calc(19px * var(--font-scale));
+
+  font-weight: 800;
+}
+
+.appoint-members {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 8px;
+}
+
+.appoint-person {
+  min-height: 44px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  border:
+    1px solid #555;
+
+  background:
+    transparent;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 600;
+}
+
+.appoint-person.filled {
+  border:
+    3px solid #6FA8D8;
+
+  background:
+    rgba(111,168,216,.16);
+}
+
+body.light .appoint-person {
+  border-color: #ccc;
   color: #777;
+}
+
+body.light .appoint-person.filled {
+  border:
+    3px solid #3F6F9F;
+
+  background:
+    #eef5fb;
+
+  color: #222;
+}
+
+.appoint-empty {
+  padding:
+    35px 10px;
+
+  text-align: center;
+
+  color: #999;
+
+  font-size:
+    calc(15px * var(--font-scale));
 }
 
 
@@ -441,129 +947,406 @@ body {
   right: 0;
   bottom: 0;
 
-  z-index: 200;
+  height: 60px;
+
+  z-index: 1000;
 
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
 
-  height: 68px;
+  grid-template-columns:
+    repeat(4, 1fr);
 
-  background: rgba(255,255,255,0.97);
+  background: #18324a;
 
-  border-top: 1px solid rgba(0,0,0,0.10);
-
-  backdrop-filter: blur(10px);
+  border-top:
+    1px solid rgba(255,255,255,.10);
 }
 
-.nav-item {
+body.light .bottom-nav {
+  background: #18324a;
+
+  border-top:
+    1px solid rgba(255,255,255,.10);
+}
+
+.nav-button {
   border: 0;
 
   background: transparent;
 
-  color: #777;
+  color: #fff;
 
-  font-size: 13px;
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 700;
 
   cursor: pointer;
 }
 
-.nav-item.active {
-  color: #222;
-  font-weight: 700;
+.nav-button:not(:last-child) {
+  border-right:
+    1px solid rgba(255,255,255,.25);
 }
 
-.nav-icon {
-  display: block;
-
-  font-size: 20px;
-
-  margin-bottom: 2px;
+.nav-button.active {
+  color: #fff;
 }
 
 
 /* =========================================================
-   로딩
+   설정
 ========================================================= */
 
-.loading {
-  grid-column: 1 / -1;
+.settings-panel {
+  position: fixed;
 
-  padding: 30px;
+  top: 64px;
+  right: 10px;
+
+  width: 230px;
+
+  padding: 15px;
+
+  z-index: 1100;
+
+  border-radius: 14px;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(30,30,30,.98);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35);
+
+  display: none;
+}
+
+.settings-panel.show {
+  display: block;
+}
+
+body.light .settings-panel {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.settings-row {
+  margin-bottom: 14px;
+}
+
+.settings-buttons {
+  display: flex;
+
+  gap: 6px;
+}
+
+.settings-button {
+  flex: 1;
+
+  padding:
+    8px 5px;
+
+  border-radius: 7px;
+
+  border:
+    1px solid #555;
+
+  background: transparent;
+
+  color: inherit;
+
+  cursor: pointer;
+
+  font-size:
+    calc(12px * var(--font-scale));
+}
+
+.settings-button.active {
+  background: #4285f4;
+
+  border-color: #4285f4;
+
+  color: #fff;
+}
+
+.font-size-display {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: default;
+}
+
+
+/* =========================================================
+   관리자 비밀번호
+========================================================= */
+
+.admin-login-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(0,0,0,.72);
+}
+
+.admin-login-box {
+  width: 100%;
+  max-width: 360px;
+
+  padding:
+    28px 22px 24px;
+
+  border-radius: 18px;
+
+  background: #1b1b1b;
+
+  color: #f5f5f5;
+
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.35);
+
+  text-align: center;
+}
+
+.admin-login-icon {
+  font-size: 42px;
+
+  line-height: 1;
+
+  margin-bottom: 12px;
+}
+
+.admin-login-title {
+  margin:
+    0 0 18px;
+
+  font-size:
+    calc(23px * var(--font-scale));
+
+  font-weight: 800;
+}
+
+.admin-login-input {
+  width: 100%;
+
+  height: 48px;
+
+  padding:
+    0 14px;
+
+  border:
+    1px solid #555;
+
+  border-radius: 10px;
+
+  background: #101010;
+
+  color: #fff;
+
+  font-size:
+    calc(18px * var(--font-scale));
 
   text-align: center;
 
-  color: #777;
+  outline: none;
+}
+
+.admin-login-input:focus {
+  border-color: #5d8bb5;
+}
+
+.admin-save-password {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin:
+    15px 0 18px;
+
+  font-size:
+    calc(15px * var(--font-scale));
+
+  cursor: pointer;
+}
+
+.admin-save-password input {
+  width: 18px;
+  height: 18px;
+
+  margin: 0;
+}
+
+.admin-login-confirm {
+  width: 100%;
+
+  height: 48px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: #234563;
+
+  color: #fff;
+
+  font-size:
+    calc(18px * var(--font-scale));
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.admin-login-cancel {
+  width: 100%;
+
+  height: 44px;
+
+  margin-top: 10px;
+
+  border:
+    1px solid #555;
+
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-size:
+    calc(18px * var(--font-scale));
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+body.light .admin-login-cancel {
+  border-color: #ccc;
+}
+
+body.light .admin-login-box {
+  background: #fff;
+  color: #222;
+}
+
+body.light .admin-login-input {
+  background: #fff;
+  color: #222;
+  border-color: #ccc;
 }
 
 
 /* =========================================================
-   모바일
+   반응형
 ========================================================= */
 
 @media (max-width: 600px) {
 
-  .header {
-    padding-top: 15px;
-    padding-bottom: 12px;
+  .top-title {
+    font-size: 31px;
   }
 
-  .header h1 {
-    font-size: 24px;
+  .name-grid {
+    gap: 6px;
   }
 
-  .container {
-    padding: 14px 12px 24px;
+  .name-card {
+    height: 50px;
+    min-height: 50px;
+
+    font-size:
+      calc(16px * var(--font-scale));
   }
 
-  .application-date {
-    font-size: 18px;
-  }
-
-  .application-time {
-    font-size: 15px;
-  }
-
-  /*
-     휴대폰에서도 신청 명단은 3열 유지
-  */
-
-  .member-list {
-    max-height: 330px;
-
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .member-row {
-    min-height: 44px;
-
-    padding: 0 3px;
-  }
-
-  .member-row input {
+  .check-mark {
     width: 17px;
     height: 17px;
-
-    margin-right: 4px;
+    flex-basis: 17px;
   }
 
-  .member-name {
-    font-size: 14px;
+  .admin-names {
+    gap: 6px;
   }
 
-  /*
-     신청 완료된 사람은 4열
-  */
+  .admin-name {
+    min-height: 44px;
 
-  .applicant-names {
-    grid-template-columns: repeat(4, 1fr);
+    font-size:
+      calc(16px * var(--font-scale));
   }
 
-  .applicant-name {
-    min-height: 36px;
+  .group-slots {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
 
-    font-size: 14px;
+  .group-slot {
+    min-height: 44px;
 
-    padding: 4px 2px;
+    font-size:
+      calc(16px * var(--font-scale));
+  }
+
+  .appoint-members {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+  .appoint-person {
+    min-height: 42px;
+
+    font-size:
+      calc(16px * var(--font-scale));
+  }
+
+  .current-names {
+    grid-template-columns:
+      repeat(4, 1fr);
+  }
+
+  .current-name {
+    font-size:
+      calc(14px * var(--font-scale));
+  }
+
+}
+
+
+@media (max-width: 360px) {
+
+  .name-card {
+    font-size:
+      calc(15px * var(--font-scale));
+  }
+
+  .check-mark {
+    width: 15px;
+    height: 15px;
+
+    flex-basis: 15px;
+
+    font-size:
+      calc(9px * var(--font-scale));
   }
 
 }
@@ -579,66 +1362,165 @@ body {
      상단
 ========================================================= -->
 
-<header class="header">
-  <h1>전시대</h1>
+<header class="top-bar">
+
+  <button
+    class="top-button top-left"
+    onclick="goBack()"
+    aria-label="뒤로가기"
+  >
+    ‹
+  </button>
+
+
+  <div
+    class="top-title"
+    id="topTitle"
+  >
+    전시대
+  </div>
+
+
+  <button
+    class="top-button top-right"
+    onclick="toggleSettings()"
+    aria-label="설정"
+  >
+    ⚙
+  </button>
+
 </header>
+
+
+
+<!-- =========================================================
+     설정
+========================================================= -->
+
+<div
+  class="settings-panel"
+  id="settingsPanel"
+>
+
+  <div class="settings-row">
+
+    <div class="settings-buttons">
+
+      <button
+        class="settings-button"
+        id="lightButton"
+        onclick="setTheme('light')"
+      >
+        ☀
+      </button>
+
+      <button
+        class="settings-button"
+        id="darkButton"
+        onclick="setTheme('dark')"
+      >
+        🌙
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="settings-row">
+
+    <div class="settings-buttons">
+
+      <button
+        class="settings-button"
+        onclick="changeFontSize(-10)"
+      >
+        −
+      </button>
+
+      <div
+        class="settings-button font-size-display"
+        id="fontSizeDisplay"
+      >
+        100%
+      </div>
+
+      <button
+        class="settings-button"
+        onclick="changeFontSize(10)"
+      >
+        +
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 
 <!-- =========================================================
      본문
 ========================================================= -->
 
-<main class="container">
+<main class="main">
 
 
   <!-- =======================================================
-       알림
+       1. 알림
   ======================================================== -->
 
   <section
-    id="page-notice"
-    class="page active">
+    id="noticeView"
+    class="view active"
+  >
 
-    <div class="notice-box">
+    <h1 class="page-title">
+      알림
+    </h1>
 
-      <div class="notice-title">
-        알림
-      </div>
 
-      <div class="notice-line">
-        지금은 신청 시간이 아닙니다
-      </div>
+    <div class="notice-section">
 
-      <div class="notice-line">
-        (추가 신청 및 임명 취소는 인도자에게)
-      </div>
+      <div class="notice-card">
 
-      <div class="notice-line">
-        토요일 신청 : 수요일
-      </div>
+        <div class="notice-line">
+          지금은 신청 시간이 아닙니다
+        </div>
 
-      <div class="notice-line">
-        토요일 마감 : 금요일
-      </div>
+        <div class="notice-line">
+          (추가 신청 및 임명 취소는 인도자에게)
+        </div>
 
-      <div class="notice-line">
-        일요일 신청 : 금요일
-      </div>
+        <div class="notice-line">
+          토요일 신청 : 수요일
+        </div>
 
-      <div class="notice-line">
-        일요일 마감 : 토요일
-      </div>
+        <div class="notice-line">
+          토요일 마감 : 금요일
+        </div>
 
-      <div class="notice-line">
-        토요일 (오전) : 김경수 형제
-      </div>
+        <div class="notice-line">
+          일요일 신청 : 금요일
+        </div>
 
-      <div class="notice-line">
-        일요일 (오전) : 정지원 형제
-      </div>
+        <div class="notice-line">
+          일요일 마감 : 토요일
+        </div>
 
-      <div class="notice-line">
-        서울 북부 회중
+        <div class="notice-line">
+          토요일 (오전) : 김경수 형제
+        </div>
+
+        <div class="notice-line">
+          일요일 (오전) : 정지원 형제
+        </div>
+
+        <div class="notice-line">
+          서울 북부 회중
+        </div>
+
       </div>
 
     </div>
@@ -648,213 +1530,122 @@ body {
 
 
   <!-- =======================================================
-       신청
+       2. 신청
   ======================================================== -->
 
   <section
-    id="page-apply"
-    class="page">
+    id="applyView"
+    class="view"
+  >
+
+    <h1 class="page-title">
+      신청
+    </h1>
 
 
-    <!-- =====================================================
-         토요일
-    ====================================================== -->
+    <!-- 토요일 -->
 
-    <div class="application-section">
-
-      <div class="application-info">
-
-        <div
-          id="saturdayDate"
-          class="application-date">
-        </div>
-
-        <div class="application-time">
-          오후 1:00~3:00 (2시간)
-        </div>
-
-      </div>
-
-
-      <div class="apply-button-wrap">
-
-        <button
-          id="saturdayApplyButton"
-          class="apply-button"
-          onclick="toggleSelector('saturday')">
-          신청하기
-        </button>
-
-      </div>
-
-
-      <!-- 신청자 선택 -->
+    <div class="apply-date-box">
 
       <div
-        id="saturdaySelector"
-        class="applicant-selector">
+        class="apply-date"
+        id="saturdayDate"
+      ></div>
 
-        <div class="selector-title">
-          토요일 신청할 사람을 선택하세요
-        </div>
-
-        <div
-          id="saturdayMemberList"
-          class="member-list">
-
-          <div class="loading">
-            명단을 불러오는 중입니다...
-          </div>
-
-        </div>
-
-        <div
-          id="saturdaySelectedCount"
-          class="selected-count">
-          선택한 사람 0명
-        </div>
-
-        <button
-          class="complete-button"
-          onclick="completeApplication('saturday')">
-          신청 완료
-        </button>
-
-      </div>
-
-
-      <!-- 현재 신청자 -->
-
-      <div class="current-applicants">
-
-        <div
-          id="saturdayCurrentTitle"
-          class="current-title">
-          토요일 신청자 <span>0명</span>
-        </div>
-
-        <div
-          id="saturdayApplicantNames"
-          class="applicant-names">
-
-          <div class="no-applicant">
-            아직 신청한 사람이 없습니다.
-          </div>
-
-        </div>
-
+      <div class="apply-time">
+        오후 1:00~3:00 (2시간)
       </div>
 
     </div>
 
 
+    <div
+      class="count-box"
+      id="applySelectedCount"
+    >
+      현재 선택 0 명
+    </div>
 
-    <!-- =====================================================
-         일요일
-    ====================================================== -->
 
-    <div class="application-section">
+    <div
+      class="name-grid"
+      id="applyNameGrid"
+    >
 
-      <div class="application-info">
-
-        <div
-          id="sundayDate"
-          class="application-date">
-        </div>
-
-        <div class="application-time">
-          오전 10:00~12:00 (2시간)
-        </div>
-
+      <div class="name-loading">
+        봉사자 명단을 불러오는 중입니다.
       </div>
 
-
-      <div class="apply-button-wrap">
-
-        <button
-          id="sundayApplyButton"
-          class="apply-button"
-          onclick="toggleSelector('sunday')">
-          신청하기
-        </button>
-
-      </div>
+    </div>
 
 
-      <!-- 신청자 선택 -->
+    <div class="apply-complete-wrap">
+
+      <button
+        class="apply-complete-button"
+        onclick="completeApply()"
+      >
+        신청 완료
+      </button>
+
+    </div>
+
+
+    <!-- 현재 신청자 -->
+
+    <div class="current-applicants">
 
       <div
-        id="sundaySelector"
-        class="applicant-selector">
-
-        <div class="selector-title">
-          일요일 신청할 사람을 선택하세요
-        </div>
-
-        <div
-          id="sundayMemberList"
-          class="member-list">
-
-          <div class="loading">
-            명단을 불러오는 중입니다...
-          </div>
-
-        </div>
-
-        <div
-          id="sundaySelectedCount"
-          class="selected-count">
-          선택한 사람 0명
-        </div>
-
-        <button
-          class="complete-button"
-          onclick="completeApplication('sunday')">
-          신청 완료
-        </button>
-
+        class="current-title"
+        id="currentApplicantTitle"
+      >
+        신청자 0명
       </div>
 
+      <div
+        class="current-names"
+        id="currentApplicantNames"
+      >
 
-      <!-- 현재 신청자 -->
-
-      <div class="current-applicants">
-
-        <div
-          id="sundayCurrentTitle"
-          class="current-title">
-          일요일 신청자 <span>0명</span>
-        </div>
-
-        <div
-          id="sundayApplicantNames"
-          class="applicant-names">
-
-          <div class="no-applicant">
-            아직 신청한 사람이 없습니다.
-          </div>
-
+        <div class="current-empty">
+          아직 신청한 사람이 없습니다.
         </div>
 
       </div>
 
     </div>
-
 
   </section>
 
 
 
   <!-- =======================================================
-       임명
+       3. 임명
   ======================================================== -->
 
   <section
-    id="page-appoint"
-    class="page">
+    id="appointView"
+    class="view"
+  >
 
-    <div class="coming-box">
+    <h1 class="page-title">
       임명
+    </h1>
+
+
+    <div class="appoint-section">
+
+      <div
+        class="appoint-list"
+        id="appointList"
+      >
+
+        <div class="appoint-empty">
+          임명된 그룹을 불러오는 중입니다.
+        </div>
+
+      </div>
+
     </div>
 
   </section>
@@ -862,15 +1653,86 @@ body {
 
 
   <!-- =======================================================
-       관리용
+       4. 관리용
   ======================================================== -->
 
   <section
-    id="page-admin"
-    class="page">
+    id="adminView"
+    class="view"
+  >
 
-    <div class="coming-box">
-      관리용
+    <h1 class="page-title">
+      관리자용
+    </h1>
+
+
+    <div class="admin-section">
+
+
+      <div
+        class="admin-count"
+        id="adminCount"
+      >
+        미배정 신청자 0명
+      </div>
+
+
+      <!-- 미배정 신청자 -->
+
+      <div
+        class="admin-names"
+        id="adminNames"
+      >
+
+        <div class="name-loading">
+          신청자를 불러오는 중입니다.
+        </div>
+
+      </div>
+
+
+      <!-- 직접 추가 -->
+
+      <div
+        style="
+          display:flex;
+          justify-content:flex-end;
+          margin-bottom:15px;
+        "
+      >
+
+        <button
+          class="admin-add-button"
+          onclick="addManualApplicant()"
+        >
+          + 추가
+        </button>
+
+      </div>
+
+
+      <!-- 그룹 추가 -->
+
+      <div class="group-controls">
+
+        <button
+          class="add-group-button"
+          onclick="addGroup()"
+        >
+          + 봉사 그룹 추가
+        </button>
+
+      </div>
+
+
+      <!-- 그룹 -->
+
+      <div
+        class="groups"
+        id="groups"
+      ></div>
+
+
     </div>
 
   </section>
@@ -887,91 +1749,166 @@ body {
 <nav class="bottom-nav">
 
   <button
-    class="nav-item active"
-    data-page="notice"
-    onclick="showPage('notice')">
-
-    <span class="nav-icon">🔔</span>
+    class="nav-button active"
+    id="navNotice"
+    onclick="showView('notice')"
+  >
     알림
-
   </button>
 
 
   <button
-    class="nav-item"
-    data-page="apply"
-    onclick="showPage('apply')">
-
-    <span class="nav-icon">📝</span>
+    class="nav-button"
+    id="navApply"
+    onclick="showView('apply')"
+  >
     신청
-
   </button>
 
 
   <button
-    class="nav-item"
-    data-page="appoint"
-    onclick="showPage('appoint')">
-
-    <span class="nav-icon">👤</span>
+    class="nav-button"
+    id="navAppoint"
+    onclick="showView('appoint')"
+  >
     임명
-
   </button>
 
 
   <button
-    class="nav-item"
-    data-page="admin"
-    onclick="showPage('admin')">
-
-    <span class="nav-icon">⚙️</span>
+    class="nav-button"
+    id="navAdmin"
+    onclick="showView('admin')"
+  >
     관리용
-
   </button>
 
 </nav>
 
 
 
+<!-- =========================================================
+     관리자 비밀번호
+========================================================= -->
+
+<div
+  id="adminLoginOverlay"
+  class="admin-login-overlay"
+>
+
+  <div class="admin-login-box">
+
+    <div class="admin-login-icon">
+      🔒
+    </div>
+
+    <h2 class="admin-login-title">
+      관리자용
+    </h2>
+
+
+    <input
+      type="password"
+      id="adminPasswordInput"
+      class="admin-login-input"
+      inputmode="numeric"
+      autocomplete="current-password"
+      placeholder="비밀번호 입력"
+      onkeydown="
+        if(event.key === 'Enter')
+          checkAdminPassword()
+      "
+    >
+
+
+    <label class="admin-save-password">
+
+      <input
+        type="checkbox"
+        id="saveAdminPassword"
+      >
+
+      이 기기에 비밀번호 저장
+
+    </label>
+
+
+    <button
+      type="button"
+      class="admin-login-confirm"
+      onclick="checkAdminPassword()"
+    >
+      확인
+    </button>
+
+
+    <button
+      type="button"
+      class="admin-login-cancel"
+      onclick="cancelAdminLogin()"
+    >
+      취소
+    </button>
+
+  </div>
+
+</div>
+
+
+
 <script>
 
 /* =========================================================
-   Google Sheets 명단
+   Apps Script
 ========================================================= */
 
-const SPREADSHEET_ID =
-  "1SpUjgwGK0uvOw3zg2VG_YO73uTRt6p02ficA8UvsVpo";
-
-const MEMBER_SHEET_NAME =
-  "명단";
-
-
-/* =========================================================
-   Apps Script 명단 주소
-========================================================= */
-
-const MEMBER_API_URL =
+const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzWtI-3iHl7rVfrNs-TJqRsxD2o0_WRZ-bphOI2BVi6mQAqHXlleb12WYTin_qD0zCL/exec";
 
 
 /* =========================================================
-   명단
+   저장 키
 ========================================================= */
 
-let members = [];
+const MY_SELECTION_KEY =
+  "jeonsidaeMySelections";
+
+const GROUP_KEY =
+  "jeonsidaeGroups";
+
+const ADMIN_PASSWORD_KEY =
+  "jeonsidaeAdminPassword";
 
 
 /* =========================================================
-   임시 신청 데이터
+   관리자 비밀번호
+   ---------------------------------------------------------
+   기존 토요일과 동일한 방식
 ========================================================= */
 
-let applications = {
+const ADMIN_PASSWORD =
+  "3061";
 
-  saturday: [],
 
-  sunday: []
+/* =========================================================
+   현재 상태
+========================================================= */
 
-};
+let masterNames = [];
+
+let applicants = [];
+
+let groups = [];
+
+let selectedApplicant = null;
+
+let currentSelections = [];
+
+let currentView =
+  "notice";
+
+let adminAuthenticated =
+  false;
 
 
 /* =========================================================
@@ -982,28 +1919,31 @@ document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    setApplicationDates();
+    loadSettings();
 
-    loadMembers();
+    setDates();
 
-    loadSavedApplications();
+    loadMasterNames();
+
+    loadApplicants();
+
+    loadGroups();
 
   }
 );
 
 
 /* =========================================================
-   토요일 / 일요일 날짜 자동 계산
+   날짜
 ========================================================= */
 
-function setApplicationDates() {
+function setDates() {
 
   const today =
     new Date();
 
   const day =
     today.getDay();
-
 
   let daysUntilSaturday;
 
@@ -1029,166 +1969,532 @@ function setApplicationDates() {
   );
 
 
-  const sunday =
-    new Date(saturday);
-
-  sunday.setDate(
-    saturday.getDate() + 1
-  );
-
-
-  document.getElementById(
-    "saturdayDate"
-  ).textContent =
-    "토요일 : " +
-    formatKoreanDate(saturday);
-
-
-  document.getElementById(
-    "sundayDate"
-  ).textContent =
-    "일요일 : " +
-    formatKoreanDate(sunday);
+  document
+    .getElementById(
+      "saturdayDate"
+    )
+    .textContent =
+      "토요일 : " +
+      (saturday.getMonth() + 1) +
+      "월 " +
+      saturday.getDate() +
+      "일";
 
 }
 
 
 /* =========================================================
-   날짜 표시
+   화면 전환
 ========================================================= */
 
-function formatKoreanDate(date) {
+function showView(view) {
 
-  return (
-    (date.getMonth() + 1) +
-    "월 " +
-    date.getDate() +
-    "일"
+  if (
+    view === "admin" &&
+    !adminAuthenticated
+  ) {
+
+    const savedPassword =
+      localStorage.getItem(
+        ADMIN_PASSWORD_KEY
+      );
+
+
+    if (
+      savedPassword ===
+      ADMIN_PASSWORD
+    ) {
+
+      adminAuthenticated =
+        true;
+
+    } else {
+
+      showAdminLogin();
+
+      return;
+
+    }
+
+  }
+
+
+  currentView =
+    view;
+
+
+  document
+    .querySelectorAll(".view")
+    .forEach(
+      function(element) {
+
+        element.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(".nav-button")
+    .forEach(
+      function(button) {
+
+        button.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const viewElement =
+    document.getElementById(
+      view + "View"
+    );
+
+
+  if (viewElement) {
+
+    viewElement.classList.add(
+      "active"
+    );
+
+  }
+
+
+  const navElement =
+    document.getElementById(
+      "nav" +
+      view.charAt(0).toUpperCase() +
+      view.slice(1)
+    );
+
+
+  if (navElement) {
+
+    navElement.classList.add(
+      "active"
+    );
+
+  }
+
+
+  document
+    .getElementById("topTitle")
+    .textContent =
+      "전시대";
+
+
+  if (view === "apply") {
+
+    loadApplicants();
+
+  }
+
+
+  if (view === "admin") {
+
+    loadApplicants();
+
+    loadGroups();
+
+  }
+
+
+  if (view === "appoint") {
+
+    loadGroups();
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
   );
 
 }
 
 
 /* =========================================================
-   Apps Script에서 명단 불러오기
+   뒤로가기
 ========================================================= */
 
-async function loadMembers() {
+function goBack() {
+
+  if (
+    currentView !== "notice"
+  ) {
+
+    showView("notice");
+
+    return;
+
+  }
+
+
+  history.back();
+
+}
+
+
+/* =========================================================
+   관리자 로그인
+========================================================= */
+
+function showAdminLogin() {
+
+  const overlay =
+    document.getElementById(
+      "adminLoginOverlay"
+    );
+
+  const input =
+    document.getElementById(
+      "adminPasswordInput"
+    );
+
+  const saveCheckbox =
+    document.getElementById(
+      "saveAdminPassword"
+    );
+
+
+  const savedPassword =
+    localStorage.getItem(
+      ADMIN_PASSWORD_KEY
+    );
+
+
+  if (saveCheckbox) {
+
+    saveCheckbox.checked =
+      savedPassword ===
+      ADMIN_PASSWORD;
+
+  }
+
+
+  if (input) {
+
+    input.value = "";
+
+  }
+
+
+  if (overlay) {
+
+    overlay.style.display =
+      "flex";
+
+  }
+
+
+  setTimeout(
+    function() {
+
+      if (input) {
+
+        input.focus();
+
+      }
+
+    },
+    50
+  );
+
+}
+
+
+function cancelAdminLogin() {
+
+  const overlay =
+    document.getElementById(
+      "adminLoginOverlay"
+    );
+
+  const input =
+    document.getElementById(
+      "adminPasswordInput"
+    );
+
+
+  if (input) {
+
+    input.value = "";
+
+  }
+
+
+  if (overlay) {
+
+    overlay.style.display =
+      "none";
+
+  }
+
+}
+
+
+function checkAdminPassword() {
+
+  const input =
+    document.getElementById(
+      "adminPasswordInput"
+    );
+
+  const saveCheckbox =
+    document.getElementById(
+      "saveAdminPassword"
+    );
+
+
+  const password =
+    input
+      ? input.value.trim()
+      : "";
+
+
+  if (
+    password !==
+    ADMIN_PASSWORD
+  ) {
+
+    alert(
+      "비밀번호가 올바르지 않습니다."
+    );
+
+    if (input) {
+
+      input.focus();
+
+      input.select();
+
+    }
+
+    return;
+
+  }
+
+
+  adminAuthenticated =
+    true;
+
+
+  if (
+    saveCheckbox &&
+    saveCheckbox.checked
+  ) {
+
+    localStorage.setItem(
+      ADMIN_PASSWORD_KEY,
+      ADMIN_PASSWORD
+    );
+
+  } else {
+
+    localStorage.removeItem(
+      ADMIN_PASSWORD_KEY
+    );
+
+  }
+
+
+  const overlay =
+    document.getElementById(
+      "adminLoginOverlay"
+    );
+
+
+  if (overlay) {
+
+    overlay.style.display =
+      "none";
+
+  }
+
+
+  showView("admin");
+
+}
+
+
+/* =========================================================
+   명단 가져오기
+========================================================= */
+
+async function loadMasterNames() {
+
+  const grid =
+    document.getElementById(
+      "applyNameGrid"
+    );
+
 
   try {
 
     const response =
       await fetch(
-        MEMBER_API_URL +
-        "?t=" +
+        SCRIPT_URL +
+        "?action=names&t=" +
         Date.now()
       );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "명단을 불러오지 못했습니다."
-      );
-
-    }
 
 
     const data =
       await response.json();
 
 
-    console.log(
-      "Apps Script 명단 응답:",
-      data
-    );
-
-
     if (
-      !data ||
-      data.success !== true
+      !data.success
     ) {
 
       throw new Error(
-        data?.message ||
-        "명단 데이터가 없습니다."
+        data.message ||
+        "명단을 불러오지 못했습니다."
       );
 
     }
 
 
-    members =
-      Array.isArray(data.members)
-        ? data.members
+    masterNames =
+      Array.isArray(
+        data.names
+      )
+        ? data.names
         : [];
 
 
-    members =
-      members
-        .map(function(name) {
-
-          return String(name || "")
-            .trim();
-
-        })
-        .filter(function(name) {
-
-          return name !== "";
-
-        });
-
-
     /*
-      중복 이름 제거
+      혹시 members 형식으로
+      응답하는 경우도 지원
     */
 
-    members =
-      [...new Set(members)];
+    if (
+      masterNames.length === 0 &&
+      Array.isArray(data.members)
+    ) {
+
+      masterNames =
+        data.members;
+
+    }
 
 
-    /*
-      가나다순
-    */
+    masterNames =
+      [...new Set(
+        masterNames
+          .map(
+            function(name) {
 
-    sortNames(members);
+              return String(name)
+                .trim();
+
+            }
+          )
+          .filter(
+            function(name) {
+
+              return name !== "";
+
+            }
+          )
+      )];
 
 
-    renderMemberLists();
+    sortNames(
+      masterNames
+    );
+
+
+    renderApplyNames();
 
 
   } catch (error) {
 
     console.error(
-      "명단 불러오기 오류:",
       error
     );
 
 
     /*
-      테스트용 명단
+      기존 명단 API 형식
     */
 
-    members = [
+    try {
 
-      "김경수",
-      "남동완",
-      "박대기",
-      "성낙봉",
-      "정지원",
-      "최홍국",
-      "김지인",
-      "임채원",
-      "왕건식",
-      "추요식",
-      "정성일",
-      "황희원"
-
-    ];
+      const response =
+        await fetch(
+          SCRIPT_URL +
+          "?t=" +
+          Date.now()
+        );
 
 
-    sortNames(members);
+      const data =
+        await response.json();
 
-    renderMemberLists();
+
+      if (
+        data &&
+        data.success &&
+        Array.isArray(
+          data.members
+        )
+      ) {
+
+        masterNames =
+          data.members
+            .map(
+              function(name) {
+
+                return String(name)
+                  .trim();
+
+              }
+            )
+            .filter(
+              function(name) {
+
+                return name !== "";
+
+              }
+            );
+
+
+        masterNames =
+          [...new Set(
+            masterNames
+          )];
+
+
+        sortNames(
+          masterNames
+        );
+
+
+        renderApplyNames();
+
+        return;
+
+      }
+
+    } catch (secondError) {
+
+      console.error(
+        secondError
+      );
+
+    }
+
+
+    grid.innerHTML =
+      '<div class="name-loading">' +
+      '봉사자 명단을 불러오지 못했습니다.<br>' +
+      '잠시 후 다시 시도해 주세요.' +
+      '</div>';
 
   }
 
@@ -1196,7 +2502,7 @@ async function loadMembers() {
 
 
 /* =========================================================
-   가나다순 정렬
+   가나다순
 ========================================================= */
 
 function sortNames(array) {
@@ -1216,491 +2522,22 @@ function sortNames(array) {
 
 
 /* =========================================================
-   명단 화면 출력
+   신청 선택
 ========================================================= */
 
-function renderMemberLists() {
-
-  renderMemberList(
-    "saturday",
-    "saturdayMemberList"
-  );
-
-
-  renderMemberList(
-    "sunday",
-    "sundayMemberList"
-  );
-
-}
-
-
-/* =========================================================
-   한쪽 명단 출력
-========================================================= */
-
-function renderMemberList(
-  type,
-  elementId
-) {
-
-  const container =
-    document.getElementById(
-      elementId
-    );
-
-
-  if (!members.length) {
-
-    container.innerHTML = `
-      <div class="loading">
-        등록된 명단이 없습니다.
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  const selected =
-    new Set(
-      applications[type] || []
-    );
-
-
-  let html = "";
-
-
-  members.forEach(
-    function(name) {
-
-      const checked =
-        selected.has(name)
-          ? "checked"
-          : "";
-
-
-      const selectedClass =
-        selected.has(name)
-          ? "selected"
-          : "";
-
-
-      html += `
-
-        <label
-          class="member-row ${selectedClass}">
-
-          <input
-            type="checkbox"
-            value="${escapeHtml(name)}"
-            ${checked}
-            onchange="
-              changeSelection(
-                '${type}',
-                this
-              )
-            ">
-
-          <span class="member-name">
-            ${escapeHtml(name)}
-          </span>
-
-        </label>
-
-      `;
-
-    }
-  );
-
-
-  container.innerHTML =
-    html;
-
-
-  updateSelectedCount(
-    type
-  );
-
-}
-
-
-/* =========================================================
-   선택 변경
-========================================================= */
-
-function changeSelection(
-  type,
-  checkbox
-) {
-
-  if (!applications[type]) {
-
-    applications[type] = [];
-
-  }
-
-
-  const name =
-    checkbox.value;
-
-
-  if (checkbox.checked) {
-
-    if (
-      !applications[type].includes(name)
-    ) {
-
-      applications[type].push(name);
-
-    }
-
-  } else {
-
-    applications[type] =
-      applications[type].filter(
-        function(item) {
-
-          return item !== name;
-
-        }
-      );
-
-  }
-
-
-  const row =
-    checkbox.closest(
-      ".member-row"
-    );
-
-
-  if (row) {
-
-    row.classList.toggle(
-      "selected",
-      checkbox.checked
-    );
-
-  }
-
-
-  sortNames(
-    applications[type]
-  );
-
-
-  updateSelectedCount(
-    type
-  );
-
-}
-
-
-/* =========================================================
-   선택 인원 표시
-========================================================= */
-
-function updateSelectedCount(
-  type
-) {
-
-  const count =
-    applications[type]
-      ? applications[type].length
-      : 0;
-
-
-  const element =
-    document.getElementById(
-      type +
-      "SelectedCount"
-    );
-
-
-  if (element) {
-
-    element.textContent =
-      "선택한 사람 " +
-      count +
-      "명";
-
-  }
-
-}
-
-
-/* =========================================================
-   신청하기 열기 / 닫기
-========================================================= */
-
-function toggleSelector(
-  type
-) {
-
-  const selector =
-    document.getElementById(
-      type +
-      "Selector"
-    );
-
-
-  const button =
-    document.getElementById(
-      type +
-      "ApplyButton"
-    );
-
-
-  const isOpen =
-    selector.classList.contains(
-      "open"
-    );
-
-
-  if (isOpen) {
-
-    selector.classList.remove(
-      "open"
-    );
-
-    button.textContent =
-      "신청하기";
-
-  } else {
-
-    selector.classList.add(
-      "open"
-    );
-
-    button.textContent =
-      "신청 닫기";
-
-
-    renderMemberList(
-      type,
-      type +
-      "MemberList"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   신청 완료
-========================================================= */
-
-function completeApplication(
-  type
-) {
-
-  const selected =
-    applications[type] || [];
-
-
-  if (selected.length === 0) {
-
-    alert(
-      "신청할 사람을 한 명 이상 선택해 주세요."
-    );
-
-    return;
-
-  }
-
-
-  /*
-    가나다순
-  */
-
-  sortNames(
-    selected
-  );
-
-
-  applications[type] =
-    selected;
-
-
-  /*
-    브라우저 저장
-  */
-
-  localStorage.setItem(
-    "jeonsidaeApplications",
-    JSON.stringify(
-      applications
-    )
-  );
-
-
-  /*
-    신청자 화면 갱신
-  */
-
-  renderApplicants(
-    type
-  );
-
-
-  /*
-    선택창 닫기
-  */
-
-  const selector =
-    document.getElementById(
-      type +
-      "Selector"
-    );
-
-
-  const button =
-    document.getElementById(
-      type +
-      "ApplyButton"
-    );
-
-
-  selector.classList.remove(
-    "open"
-  );
-
-
-  button.textContent =
-    "신청하기";
-
-
-  alert(
-    selected.length +
-    "명이 신청되었습니다."
-  );
-
-}
-
-
-/* =========================================================
-   신청자 명단 출력
-   ---------------------------------------------------------
-   항상 가나다순
-   화면에서는 4명씩 한 줄
-========================================================= */
-
-function renderApplicants(
-  type
-) {
-
-  const names =
-    [
-      ...(applications[type] || [])
-    ];
-
-
-  sortNames(
-    names
-  );
-
-
-  const title =
-    document.getElementById(
-      type +
-      "CurrentTitle"
-    );
-
-
-  const list =
-    document.getElementById(
-      type +
-      "ApplicantNames"
-    );
-
-
-  if (title) {
-
-    title.innerHTML =
-      (
-        type === "saturday"
-          ? "토요일 신청자 "
-          : "일요일 신청자 "
-      ) +
-      "<span>" +
-      names.length +
-      "명</span>";
-
-  }
-
-
-  if (!list) {
-
-    return;
-
-  }
-
-
-  if (names.length === 0) {
-
-    list.innerHTML = `
-      <div class="no-applicant">
-        아직 신청한 사람이 없습니다.
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  let html = "";
-
-
-  names.forEach(
-    function(name) {
-
-      html += `
-
-        <div class="applicant-name">
-          ${escapeHtml(name)}
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  list.innerHTML =
-    html;
-
-}
-
-
-/* =========================================================
-   저장된 신청 불러오기
-========================================================= */
-
-function loadSavedApplications() {
+function getMySelections() {
 
   try {
 
     const saved =
       localStorage.getItem(
-        "jeonsidaeApplications"
+        MY_SELECTION_KEY
       );
 
 
     if (!saved) {
 
-      renderApplicants(
-        "saturday"
-      );
-
-      renderApplicants(
-        "sunday"
-      );
-
-      return;
+      return [];
 
     }
 
@@ -1711,49 +2548,748 @@ function loadSavedApplications() {
       );
 
 
-    applications = {
-
-      saturday:
-        Array.isArray(
-          parsed.saturday
-        )
-          ? parsed.saturday
-          : [],
-
-      sunday:
-        Array.isArray(
-          parsed.sunday
-        )
-          ? parsed.sunday
-          : []
-
-    };
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
 
 
-    sortNames(
-      applications.saturday
+  } catch (error) {
+
+    return [];
+
+  }
+
+}
+
+
+function saveMySelections(
+  list
+) {
+
+  localStorage.setItem(
+    MY_SELECTION_KEY,
+    JSON.stringify(list)
+  );
+
+}
+
+
+/* =========================================================
+   신청자 이름 출력
+========================================================= */
+
+function renderApplyNames() {
+
+  const grid =
+    document.getElementById(
+      "applyNameGrid"
     );
 
 
-    sortNames(
-      applications.sunday
+  currentSelections =
+    getMySelections();
+
+
+  const validNames =
+    new Set(
+      masterNames
     );
 
 
-    renderApplicants(
-      "saturday"
+  currentSelections =
+    currentSelections.filter(
+      function(name) {
+
+        return validNames.has(
+          name
+        );
+
+      }
     );
 
 
-    renderApplicants(
-      "sunday"
+  saveMySelections(
+    currentSelections
+  );
+
+
+  grid.innerHTML =
+    "";
+
+
+  masterNames.forEach(
+    function(name) {
+
+      const card =
+        document.createElement(
+          "button"
+        );
+
+
+      card.type =
+        "button";
+
+
+      card.className =
+        "name-card";
+
+
+      const selected =
+        currentSelections.includes(
+          name
+        );
+
+
+      if (selected) {
+
+        card.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      const check =
+        document.createElement(
+          "span"
+        );
+
+
+      check.className =
+        "check-mark";
+
+
+      check.textContent =
+        selected
+          ? "✓"
+          : "";
+
+
+      const text =
+        document.createElement(
+          "span"
+        );
+
+
+      text.textContent =
+        name;
+
+
+      card.appendChild(
+        check
+      );
+
+
+      card.appendChild(
+        text
+      );
+
+
+      card.onclick =
+        function() {
+
+          toggleSelection(
+            name
+          );
+
+        };
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  updateApplyCount();
+
+}
+
+
+function toggleSelection(
+  name
+) {
+
+  const index =
+    currentSelections.indexOf(
+      name
+    );
+
+
+  if (index >= 0) {
+
+    currentSelections.splice(
+      index,
+      1
+    );
+
+  } else {
+
+    currentSelections.push(
+      name
+    );
+
+  }
+
+
+  sortNames(
+    currentSelections
+  );
+
+
+  saveMySelections(
+    currentSelections
+  );
+
+
+  renderApplyNames();
+
+}
+
+
+/* =========================================================
+   선택 인원
+========================================================= */
+
+function updateApplyCount() {
+
+  document
+    .getElementById(
+      "applySelectedCount"
+    )
+    .textContent =
+      "현재 선택 " +
+      currentSelections.length +
+      " 명";
+
+}
+
+
+/* =========================================================
+   신청 완료
+========================================================= */
+
+async function completeApply() {
+
+  const selected =
+    [...currentSelections];
+
+
+  if (
+    selected.length === 0
+  ) {
+
+    alert(
+      "신청할 사람을 한 명 이상 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  sortNames(
+    selected
+  );
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+              action:
+                "saveApplicants",
+
+              applicants:
+                selected
+            })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data.success
+    ) {
+
+      throw new Error(
+        data.message ||
+        "신청 저장에 실패했습니다."
+      );
+
+    }
+
+
+    applicants =
+      selected;
+
+
+    renderCurrentApplicants();
+
+
+    alert(
+      selected.length +
+      "명이 신청되었습니다."
     );
 
 
   } catch (error) {
 
     console.error(
-      "저장된 신청 데이터 오류:",
+      error
+    );
+
+
+    /*
+      서버 저장이 아직 준비되지 않은 경우에도
+      화면에서는 현재 선택을 유지합니다.
+    */
+
+    applicants =
+      selected;
+
+
+    renderCurrentApplicants();
+
+
+    alert(
+      "신청 내용은 화면에 반영되었습니다.\n" +
+      "서버 저장 상태를 확인해 주세요."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   신청자 불러오기
+========================================================= */
+
+async function loadApplicants() {
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=applicants&t=" +
+        Date.now()
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data.success
+    ) {
+
+      throw new Error(
+        data.message ||
+        "신청자를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    applicants =
+      Array.isArray(
+        data.applicants
+      )
+        ? data.applicants
+        : [];
+
+
+    applicants =
+      [...new Set(
+        applicants
+          .map(
+            function(name) {
+
+              return String(name)
+                .trim();
+
+            }
+          )
+          .filter(
+            function(name) {
+
+              return name !== "";
+
+            }
+          )
+      )];
+
+
+    sortNames(
+      applicants
+    );
+
+
+    renderCurrentApplicants();
+
+    renderAdmin();
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    /*
+      서버에서 아직 신청자를 가져오지 못할 경우
+      현재 기기에 저장된 선택을 사용
+    */
+
+    applicants =
+      getMySelections();
+
+
+    sortNames(
+      applicants
+    );
+
+
+    renderCurrentApplicants();
+
+    renderAdmin();
+
+  }
+
+}
+
+
+/* =========================================================
+   현재 신청자 표시 - 4열
+========================================================= */
+
+function renderCurrentApplicants() {
+
+  const title =
+    document.getElementById(
+      "currentApplicantTitle"
+    );
+
+  const box =
+    document.getElementById(
+      "currentApplicantNames"
+    );
+
+
+  const names =
+    [...applicants];
+
+
+  sortNames(
+    names
+  );
+
+
+  title.textContent =
+    "신청자 " +
+    names.length +
+    "명";
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    names.length === 0
+  ) {
+
+    box.innerHTML =
+      '<div class="current-empty">' +
+      '아직 신청한 사람이 없습니다.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  names.forEach(
+    function(name) {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "current-name";
+
+
+      item.textContent =
+        name;
+
+
+      box.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   관리자 화면
+========================================================= */
+
+function renderAdmin() {
+
+  const assigned =
+    new Set();
+
+
+  groups.forEach(
+    function(group) {
+
+      group.forEach(
+        function(name) {
+
+          if (name) {
+
+            assigned.add(
+              name
+            );
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  const unassigned =
+    applicants.filter(
+      function(name) {
+
+        return !assigned.has(
+          name
+        );
+
+      }
+    );
+
+
+  sortNames(
+    unassigned
+  );
+
+
+  document
+    .getElementById(
+      "adminCount"
+    )
+    .textContent =
+      "미배정 신청자 " +
+      unassigned.length +
+      "명";
+
+
+  const box =
+    document.getElementById(
+      "adminNames"
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    unassigned.length === 0
+  ) {
+
+    box.innerHTML =
+      '<div class="name-loading" ' +
+      'style="grid-column:1/-1">' +
+      '미배정 신청자가 없습니다.' +
+      '</div>';
+
+  } else {
+
+    unassigned.forEach(
+      function(name) {
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+
+        button.type =
+          "button";
+
+
+        button.className =
+          "admin-name";
+
+
+        if (
+          selectedApplicant ===
+          name
+        ) {
+
+          button.classList.add(
+            "selected"
+          );
+
+        }
+
+
+        button.textContent =
+          name;
+
+
+        button.onclick =
+          function() {
+
+            if (
+              selectedApplicant ===
+              name
+            ) {
+
+              selectedApplicant =
+                null;
+
+            } else {
+
+              selectedApplicant =
+                name;
+
+            }
+
+
+            renderAdmin();
+
+          };
+
+
+        box.appendChild(
+          button
+        );
+
+      }
+    );
+
+  }
+
+
+  renderGroups();
+
+}
+
+
+/* =========================================================
+   관리자 직접 추가
+========================================================= */
+
+async function addManualApplicant() {
+
+  const name =
+    prompt(
+      "추가할 봉사자의 이름을 입력해 주세요."
+    );
+
+
+  if (
+    name === null
+  ) {
+
+    return;
+
+  }
+
+
+  const trimmed =
+    name.trim();
+
+
+  if (!trimmed) {
+
+    alert(
+      "이름을 입력해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    applicants.includes(
+      trimmed
+    )
+  ) {
+
+    alert(
+      "이미 신청자 목록에 있습니다."
+    );
+
+    return;
+
+  }
+
+
+  applicants.push(
+    trimmed
+  );
+
+
+  sortNames(
+    applicants
+  );
+
+
+  selectedApplicant =
+    trimmed;
+
+
+  renderAdmin();
+
+
+  try {
+
+    await postJson(
+      {
+        action:
+          "saveApplicants",
+
+        applicants:
+          applicants
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
       error
     );
 
@@ -1763,111 +3299,1067 @@ function loadSavedApplications() {
 
 
 /* =========================================================
-   페이지 전환
+   그룹 불러오기
 ========================================================= */
 
-function showPage(
-  page
-) {
+async function loadGroups() {
 
-  const pages =
-    document.querySelectorAll(
-      ".page"
-    );
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=groups&t=" +
+        Date.now()
+      );
 
 
-  pages.forEach(
-    function(item) {
+    const data =
+      await response.json();
 
-      item.classList.remove(
-        "active"
+
+    if (
+      !data.success
+    ) {
+
+      throw new Error(
+        data.message ||
+        "그룹을 불러오지 못했습니다."
       );
 
     }
+
+
+    const loaded =
+      Array.isArray(
+        data.groups
+      )
+        ? data.groups
+        : [];
+
+
+    groups =
+      loaded.map(
+        function(group) {
+
+          const result =
+            Array.isArray(group)
+              ? group.slice(0, 6)
+              : [];
+
+
+          while (
+            result.length < 6
+          ) {
+
+            result.push("");
+
+          }
+
+
+          return result;
+
+        }
+      );
+
+
+    renderGroups();
+
+    renderAdmin();
+
+    renderAppoint();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    /*
+      서버 그룹이 아직 없을 경우
+      브라우저 저장값 사용
+    */
+
+    try {
+
+      const saved =
+        localStorage.getItem(
+          GROUP_KEY
+        );
+
+
+      groups =
+        saved
+          ? JSON.parse(saved)
+          : [];
+
+    } catch (
+      storageError
+    ) {
+
+      groups = [];
+
+    }
+
+
+    renderGroups();
+
+    renderAppoint();
+
+  }
+
+}
+
+
+/* =========================================================
+   그룹 저장
+========================================================= */
+
+async function saveGroups() {
+
+  localStorage.setItem(
+    GROUP_KEY,
+    JSON.stringify(
+      groups
+    )
   );
 
 
-  const target =
-    document.getElementById(
-      "page-" +
-      page
+  try {
+
+    await postJson(
+      {
+        action:
+          "saveGroups",
+
+        groups:
+          groups
+      }
     );
 
+    return true;
 
-  if (target) {
+  } catch (error) {
 
-    target.classList.add(
-      "active"
+    console.error(
+      error
     );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   그룹 추가
+   ---------------------------------------------------------
+   새 그룹은 항상 맨 위
+========================================================= */
+
+async function addGroup() {
+
+  groups.unshift(
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  );
+
+
+  await saveGroups();
+
+
+  selectedApplicant =
+    null;
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   그룹 삭제
+========================================================= */
+
+async function deleteGroup(
+  index
+) {
+
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹을 삭제하시겠습니까?"
+    )
+  ) {
+
+    return;
 
   }
 
 
-  /*
-    하단 메뉴 활성화
-  */
-
-  const navItems =
-    document.querySelectorAll(
-      ".nav-item"
-    );
-
-
-  navItems.forEach(
-    function(item) {
-
-      item.classList.toggle(
-        "active",
-        item.dataset.page === page
-      );
-
-    }
+  groups.splice(
+    index,
+    1
   );
 
 
-  /*
-    화면 맨 위로
-  */
+  selectedApplicant =
+    null;
 
-  window.scrollTo(
-    0,
-    0
+
+  await saveGroups();
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   그룹 초기화
+========================================================= */
+
+async function resetGroup(
+  index
+) {
+
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹의 봉사자를 초기화하시겠습니까?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  groups[index] =
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ];
+
+
+  selectedApplicant =
+    null;
+
+
+  await saveGroups();
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   그룹 표시
+========================================================= */
+
+function renderGroups() {
+
+  const box =
+    document.getElementById(
+      "groups"
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    groups.length === 0
+  ) {
+
+    box.innerHTML =
+      '<div class="name-loading">' +
+      '아직 만든 봉사 그룹이 없습니다.<br>' +
+      '「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  groups.forEach(
+    function(group, groupIndex) {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "group-card";
+
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+
+      header.className =
+        "group-header";
+
+
+      const title =
+        document.createElement(
+          "div"
+        );
+
+
+      title.className =
+        "group-title";
+
+
+      title.textContent =
+        (groupIndex + 1) +
+        "번 그룹";
+
+
+      const buttons =
+        document.createElement(
+          "div"
+        );
+
+
+      buttons.className =
+        "group-buttons";
+
+
+      const resetButton =
+        document.createElement(
+          "button"
+        );
+
+
+      resetButton.type =
+        "button";
+
+
+      resetButton.className =
+        "group-action";
+
+
+      resetButton.textContent =
+        "초기화";
+
+
+      resetButton.onclick =
+        function() {
+
+          resetGroup(
+            groupIndex
+          );
+
+        };
+
+
+      const deleteButton =
+        document.createElement(
+          "button"
+        );
+
+
+      deleteButton.type =
+        "button";
+
+
+      deleteButton.className =
+        "group-action";
+
+
+      deleteButton.textContent =
+        "삭제";
+
+
+      deleteButton.onclick =
+        function() {
+
+          deleteGroup(
+            groupIndex
+          );
+
+        };
+
+
+      buttons.appendChild(
+        resetButton
+      );
+
+
+      buttons.appendChild(
+        deleteButton
+      );
+
+
+      header.appendChild(
+        title
+      );
+
+
+      header.appendChild(
+        buttons
+      );
+
+
+      const slots =
+        document.createElement(
+          "div"
+        );
+
+
+      slots.className =
+        "group-slots";
+
+
+      for (
+        let slotIndex = 0;
+        slotIndex < 6;
+        slotIndex++
+      ) {
+
+        const name =
+          group[slotIndex] ||
+          "";
+
+
+        const slot =
+          document.createElement(
+            "button"
+          );
+
+
+        slot.type =
+          "button";
+
+
+        slot.className =
+          "group-slot";
+
+
+        if (name) {
+
+          slot.classList.add(
+            "filled"
+          );
+
+          slot.textContent =
+            name;
+
+        } else {
+
+          slot.classList.add(
+            "empty"
+          );
+
+          slot.textContent =
+            "빈 자리";
+
+        }
+
+
+        slot.onclick =
+          function() {
+
+            handleSlotClick(
+              groupIndex,
+              slotIndex
+            );
+
+          };
+
+
+        slots.appendChild(
+          slot
+        );
+
+      }
+
+
+      card.appendChild(
+        header
+      );
+
+
+      card.appendChild(
+        slots
+      );
+
+
+      box.appendChild(
+        card
+      );
+
+    }
   );
 
 }
 
 
 /* =========================================================
-   HTML 안전 처리
+   그룹 자리 배정
 ========================================================= */
 
-function escapeHtml(
-  value
+async function handleSlotClick(
+  groupIndex,
+  slotIndex
 ) {
 
-  return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
+  const currentName =
+    groups[groupIndex][slotIndex];
+
+
+  /*
+    이미 들어있는 사람을 누르면
+    그 자리를 비웁니다.
+  */
+
+  if (currentName) {
+
+    groups[groupIndex][slotIndex] =
+      "";
+
+
+    selectedApplicant =
+      null;
+
+
+    await saveGroups();
+
+
+    renderAdmin();
+
+    renderAppoint();
+
+    return;
+
+  }
+
+
+  /*
+    먼저 신청자를 선택해야 합니다.
+  */
+
+  if (
+    !selectedApplicant
+  ) {
+
+    alert(
+      "먼저 위에서 봉사자 이름을 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    같은 사람을 다른 그룹에서 제거
+  */
+
+  groups =
+    groups.map(
+      function(group) {
+
+        return group.map(
+          function(name) {
+
+            return name ===
+              selectedApplicant
+              ? ""
+              : name;
+
+          }
+        );
+
+      }
+    );
+
+
+  /*
+    현재 선택한 자리에는
+    선택된 사람을 넣습니다.
+  */
+
+  groups[groupIndex][slotIndex] =
+    selectedApplicant;
+
+
+  selectedApplicant =
+    null;
+
+
+  await saveGroups();
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   임명 화면
+========================================================= */
+
+function renderAppoint() {
+
+  const list =
+    document.getElementById(
+      "appointList"
+    );
+
+
+  list.innerHTML =
+    "";
+
+
+  const visibleGroups =
+    groups.filter(
+      function(group) {
+
+        return group.some(
+          function(name) {
+
+            return Boolean(name);
+
+          }
+        );
+
+      }
+    );
+
+
+  if (
+    visibleGroups.length === 0
+  ) {
+
+    list.innerHTML =
+      '<div class="appoint-empty">' +
+      '아직 임명된 그룹이 없습니다.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  groups.forEach(
+    function(group, index) {
+
+      const hasPerson =
+        group.some(
+          function(name) {
+
+            return Boolean(name);
+
+          }
+        );
+
+
+      if (!hasPerson) {
+
+        return;
+
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "appoint-card";
+
+
+      const title =
+        document.createElement(
+          "div"
+        );
+
+
+      title.className =
+        "appoint-title";
+
+
+      title.textContent =
+        (index + 1) +
+        "번 그룹";
+
+
+      const members =
+        document.createElement(
+          "div"
+        );
+
+
+      members.className =
+        "appoint-members";
+
+
+      group.forEach(
+        function(name) {
+
+          const person =
+            document.createElement(
+              "div"
+            );
+
+
+          person.className =
+            "appoint-person";
+
+
+          if (name) {
+
+            person.classList.add(
+              "filled"
+            );
+
+            person.textContent =
+              name;
+
+          } else {
+
+            person.textContent =
+              "빈 자리";
+
+          }
+
+
+          members.appendChild(
+            person
+          );
+
+        }
+      );
+
+
+      card.appendChild(
+        title
+      );
+
+
+      card.appendChild(
+        members
+      );
+
+
+      list.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   POST 공통
+========================================================= */
+
+async function postJson(
+  data
+) {
+
+  const response =
+    await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:
+          JSON.stringify(data)
+      }
+    );
+
+
+  const result =
+    await response.json();
+
+
+  if (
+    !result.success
+  ) {
+
+    throw new Error(
+      result.message ||
+      "저장에 실패했습니다."
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================================
+   설정
+========================================================= */
+
+function toggleSettings() {
+
+  document
+    .getElementById(
+      "settingsPanel"
     )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
+    .classList.toggle(
+      "show"
     );
 
 }
+
+
+function setTheme(
+  theme
+) {
+
+  if (
+    theme === "light"
+  ) {
+
+    document.body.classList.add(
+      "light"
+    );
+
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "light"
+    );
+
+  } else {
+
+    document.body.classList.remove(
+      "light"
+    );
+
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "dark"
+    );
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+function setFontSize(
+  size
+) {
+
+  size =
+    Math.max(
+      80,
+      Math.min(
+        150,
+        size
+      )
+    );
+
+
+  document.documentElement
+    .style
+    .setProperty(
+      "--font-scale",
+      size / 100
+    );
+
+
+  localStorage.setItem(
+    "jeonsidaeFontSize",
+    String(size)
+  );
+
+
+  updateSettingButtons();
+
+}
+
+
+function changeFontSize(
+  amount
+) {
+
+  const current =
+    Number(
+      localStorage.getItem(
+        "jeonsidaeFontSize"
+      ) ||
+      "100"
+    );
+
+
+  setFontSize(
+    current + amount
+  );
+
+}
+
+
+function loadSettings() {
+
+  const theme =
+    localStorage.getItem(
+      "jeonsidaeTheme"
+    ) ||
+    "dark";
+
+
+  const fontSize =
+    localStorage.getItem(
+      "jeonsidaeFontSize"
+    ) ||
+    "100";
+
+
+  setTheme(
+    theme
+  );
+
+
+  setFontSize(
+    Number(fontSize)
+  );
+
+}
+
+
+function updateSettingButtons() {
+
+  const theme =
+    document.body.classList.contains(
+      "light"
+    )
+      ? "light"
+      : "dark";
+
+
+  document
+    .getElementById(
+      "darkButton"
+    )
+    .classList.toggle(
+      "active",
+      theme === "dark"
+    );
+
+
+  document
+    .getElementById(
+      "lightButton"
+    )
+    .classList.toggle(
+      "active",
+      theme === "light"
+    );
+
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+
+  if (display) {
+
+    display.textContent =
+      (
+        Number(
+          localStorage.getItem(
+            "jeonsidaeFontSize"
+          ) ||
+          "100"
+        )
+      ) +
+      "%";
+
+  }
+
+}
+
+
+/* =========================================================
+   설정창 바깥 클릭
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+    const panel =
+      document.getElementById(
+        "settingsPanel"
+      );
+
+
+    const button =
+      document.querySelector(
+        ".top-right"
+      );
+
+
+    if (
+      panel.classList.contains(
+        "show"
+      ) &&
+      !panel.contains(
+        event.target
+      ) &&
+      !button.contains(
+        event.target
+      )
+    ) {
+
+      panel.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
 
 </script>
 
