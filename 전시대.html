@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>전시대</title>
+
+
+<style>
+
+/* =========================================================
+   기본
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  font-family:
+    Arial,
+    "Noto Sans KR",
+    sans-serif;
+
+  background: #f5f6f8;
+
+}
+
+
+/* =========================================================
+   전체
+========================================================= */
+
+body {
+
+  padding-bottom: 72px;
+
+}
+
+
+#app {
+
+  width: 100%;
+  min-height: calc(100vh - 72px);
+
+}
+
+
+/* =========================================================
+   상단
+========================================================= */
+
+.top {
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+
+  border-bottom:
+    1px solid #e1e1e1;
+
+}
+
+
+.top-title {
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+}
+
+
+.reload {
+
+  position: absolute;
+
+  right: 14px;
+
+  top: 50%;
+
+  transform:
+    translateY(-50%);
+
+  border: 0;
+
+  background: transparent;
+
+  font-size: 21px;
+
+  cursor: pointer;
+
+}
+
+
+/* =========================================================
+   화면
+========================================================= */
+
+.page {
+
+  padding: 14px 12px 20px;
+
+}
+
+
+/* =========================================================
+   로딩
+========================================================= */
+
+.loading {
+
+  padding: 60px 20px;
+
+  text-align: center;
+
+  font-size: 16px;
+
+  color: #777;
+
+}
+
+
+/* =========================================================
+   알림 영역
+========================================================= */
+
+.notice-wrap {
+
+  width: 100%;
+
+  overflow-x: hidden;
+
+}
+
+
+.sheet {
+
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border-radius: 12px;
+
+}
+
+
+/* =========================================================
+   셀
+========================================================= */
+
+.sheet-cell {
+
+  position: absolute;
+
+  padding: 4px;
+
+  white-space: pre-wrap;
+
+  word-break: keep-all;
+
+  overflow-wrap: break-word;
+
+  display: flex;
+
+  line-height: 1.35;
+
+}
+
+
+/* =========================================================
+   하단 메뉴
+========================================================= */
+
+.bottom-nav {
+
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 100;
+
+  height: 70px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  background: #ffffff;
+
+  border-top:
+    1px solid #dcdcdc;
+
+  box-shadow:
+    0 -2px 10px
+    rgba(0,0,0,0.06);
+
+}
+
+
+.nav-item {
+
+  border: 0;
+
+  background: transparent;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 4px;
+
+  font-size: 12px;
+
+  color: #777;
+
+  cursor: pointer;
+
+}
+
+
+.nav-icon {
+
+  font-size: 21px;
+
+  line-height: 1;
+
+}
+
+
+.nav-item.active {
+
+  color: #1f4e8c;
+
+  font-weight: 700;
+
+}
+
+
+.nav-item.active
+.nav-icon {
+
+  transform:
+    scale(1.05);
+
+}
+
+
+/* =========================================================
+   준비중 화면
+========================================================= */
+
+.coming {
+
+  padding: 80px 20px;
+
+  text-align: center;
+
+  color: #777;
+
+}
+
+
+.coming-title {
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+
+}
+
+
+.coming-text {
+
+  font-size: 14px;
+
+}
+
+
+/* =========================================================
+   오류
+========================================================= */
+
+.error {
+
+  margin: 30px 12px;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  color: #c62828;
+
+  line-height: 1.6;
+
+  text-align: center;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div id="app">
+
+  <div class="top">
+
+    <div
+      class="top-title"
+      id="pageTitle"
+    >
+      알림
+    </div>
+
+    <button
+      class="reload"
+      onclick="loadNotice()"
+      aria-label="새로고침"
+    >
+      ↻
+    </button>
+
+  </div>
+
+
+  <div
+    class="page"
+    id="content"
+  >
+
+    <div class="loading">
+      알림을 불러오는 중입니다.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     하단 메뉴
+======================================================= -->
+
+<nav class="bottom-nav">
+
+
+  <button
+    class="nav-item active"
+    data-page="notice"
+    onclick="showPage('notice')"
+  >
+
+    <div class="nav-icon">
+      🔔
+    </div>
+
+    <div>
+      알림
+    </div>
+
+  </button>
+
+
+  <button
+    class="nav-item"
+    data-page="apply"
+    onclick="showPage('apply')"
+  >
+
+    <div class="nav-icon">
+      📝
+    </div>
+
+    <div>
+      신청
+    </div>
+
+  </button>
+
+
+  <button
+    class="nav-item"
+    data-page="appoint"
+    onclick="showPage('appoint')"
+  >
+
+    <div class="nav-icon">
+      👤
+    </div>
+
+    <div>
+      임명
+    </div>
+
+  </button>
+
+
+  <button
+    class="nav-item"
+    data-page="admin"
+    onclick="showPage('admin')"
+  >
+
+    <div class="nav-icon">
+      ⚙️
+    </div>
+
+    <div>
+      관리용
+    </div>
+
+  </button>
+
+
+</nav>
+
+
+<script>
+
+/* =========================================================
+   Apps Script 주소
+========================================================= */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbxnGjJ3CmTY0zWQ4awIYz7JW8gnkbPlt2FVyLhscrR-sF9Hc4CkOvHhqzn7TiO3PeNB/exec';
+
+
+/* =========================================================
+   페이지 전환
+========================================================= */
+
+function showPage(page) {
+
+  const buttons =
+    document.querySelectorAll(
+      '.nav-item'
+    );
+
+  buttons.forEach(function(button) {
+
+    button.classList.toggle(
+      'active',
+      button.dataset.page === page
+    );
+
+  });
+
+
+  if (page === 'notice') {
+
+    document.getElementById(
+      'pageTitle'
+    ).textContent = '알림';
+
+    loadNotice();
+
+    return;
+  }
+
+
+  if (page === 'apply') {
+
+    document.getElementById(
+      'pageTitle'
+    ).textContent = '신청';
+
+    showComing(
+      '신청',
+      '신청 화면을 준비하고 있습니다.'
+    );
+
+    return;
+  }
+
+
+  if (page === 'appoint') {
+
+    document.getElementById(
+      'pageTitle'
+    ).textContent = '임명';
+
+    showComing(
+      '임명',
+      '임명 화면을 준비하고 있습니다.'
+    );
+
+    return;
+  }
+
+
+  if (page === 'admin') {
+
+    document.getElementById(
+      'pageTitle'
+    ).textContent = '관리용';
+
+    showComing(
+      '관리용',
+      '관리용 화면을 준비하고 있습니다.'
+    );
+
+    return;
+  }
+
+}
+
+
+/* =========================================================
+   준비중 화면
+========================================================= */
+
+function showComing(
+  title,
+  text
+) {
+
+  document.getElementById(
+    'content'
+  ).innerHTML = `
+
+    <div class="coming">
+
+      <div class="coming-title">
+        ${escapeHtml(title)}
+      </div>
+
+      <div class="coming-text">
+        ${escapeHtml(text)}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   알림 불러오기
+========================================================= */
+
+async function loadNotice() {
+
+  const content =
+    document.getElementById(
+      'content'
+    );
+
+
+  content.innerHTML = `
+
+    <div class="loading">
+      알림을 불러오는 중입니다.
+    </div>
+
+  `;
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+          method: 'GET',
+          cache: 'no-store'
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        '서버 응답 오류: ' +
+        response.status
+      );
+
+    }
+
+
+    const result =
+      await response.json();
+
+
+    if (
+      !result.success
+    ) {
+
+      throw new Error(
+        result.error ||
+        '알림 데이터를 가져오지 못했습니다.'
+      );
+
+    }
+
+
+    renderSheet(
+      result.data
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    content.innerHTML = `
+
+      <div class="error">
+
+        알림을 불러오지 못했습니다.<br><br>
+
+        ${escapeHtml(
+          error.message
+        )}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   Google Sheets 화면 표시
+========================================================= */
+
+function renderSheet(
+  data
+) {
+
+  const content =
+    document.getElementById(
+      'content'
+    );
+
+
+  if (
+    !data ||
+    !data.cells ||
+    data.cells.length === 0
+  ) {
+
+    content.innerHTML = `
+
+      <div class="loading">
+        표시할 알림 내용이 없습니다.
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  /*
+   * 시트 전체 크기
+   */
+
+  const totalWidth =
+    data.columnWidths.reduce(
+      function(sum, value) {
+
+        return sum + value;
+
+      },
+      0
+    );
+
+
+  const totalHeight =
+    data.rowHeights.reduce(
+      function(sum, value) {
+
+        return sum + value;
+
+      },
+      0
+    );
+
+
+  /*
+   * 휴대폰 너비에 맞추기
+   */
+
+  const availableWidth =
+    Math.min(
+      window.innerWidth - 24,
+      totalWidth
+    );
+
+
+  const scale =
+    availableWidth /
+    totalWidth;
+
+
+  const sheetWidth =
+    totalWidth * scale;
+
+
+  const sheetHeight =
+    totalHeight * scale;
+
+
+  const sheet =
+    document.createElement(
+      'div'
+    );
+
+
+  sheet.className =
+    'sheet';
+
+
+  sheet.style.width =
+    sheetWidth + 'px';
+
+
+  sheet.style.height =
+    sheetHeight + 'px';
+
+
+  /*
+   * 셀 표시
+   */
+
+  data.cells.forEach(
+    function(cell) {
+
+      const element =
+        document.createElement(
+          'div'
+        );
+
+
+      element.className =
+        'sheet-cell';
+
+
+      /*
+       * 왼쪽 위치
+       */
+
+      let left = 0;
+
+      for (
+        let c = 0;
+        c < cell.column;
+        c++
+      ) {
+
+        left +=
+          data.columnWidths[c];
+
+      }
+
+
+      /*
+       * 위쪽 위치
+       */
+
+      let top = 0;
+
+      for (
+        let r = 0;
+        r < cell.row;
+        r++
+      ) {
+
+        top +=
+          data.rowHeights[r];
+
+      }
+
+
+      /*
+       * 기본 셀 크기
+       */
+
+      let width =
+        data.columnWidths[
+          cell.column
+        ];
+
+
+      let height =
+        data.rowHeights[
+          cell.row
+        ];
+
+
+      /*
+       * 병합 셀
+       */
+
+      const merge =
+        findMerge(
+          data.merges,
+          cell.row,
+          cell.column
+        );
+
+
+      if (merge) {
+
+        width = 0;
+
+        for (
+          let c = cell.column;
+          c <
+          cell.column +
+          merge.columnSpan;
+          c++
+        ) {
+
+          width +=
+            data.columnWidths[c];
+
+        }
+
+
+        height = 0;
+
+        for (
+          let r = cell.row;
+          r <
+          cell.row +
+          merge.rowSpan;
+          r++
+        ) {
+
+          height +=
+            data.rowHeights[r];
+
+        }
+
+      }
+
+
+      /*
+       * 위치
+       */
+
+      element.style.left =
+        (left * scale) + 'px';
+
+      element.style.top =
+        (top * scale) + 'px';
+
+
+      /*
+       * 크기
+       */
+
+      element.style.width =
+        (width * scale) + 'px';
+
+      element.style.height =
+        (height * scale) + 'px';
+
+
+      /*
+       * 시트 서식
+       */
+
+      element.style.backgroundColor =
+        cell.background;
+
+
+      element.style.color =
+        cell.color;
+
+
+      element.style.fontSize =
+        (cell.fontSize * scale) + 'px';
+
+
+      element.style.fontWeight =
+        cell.fontWeight;
+
+
+      /*
+       * 세로 정렬
+       */
+
+      element.style.justifyContent =
+        getVerticalAlignment(
+          cell.vertical
+        );
+
+
+      /*
+       * 가로 정렬
+       */
+
+      element.style.alignItems =
+        getHorizontalAlignment(
+          cell.horizontal
+        );
+
+
+      /*
+       * 내용
+       */
+
+      element.textContent =
+        cell.value;
+
+
+      sheet.appendChild(
+        element
+      );
+
+    }
+  );
+
+
+  const noticeWrap =
+    document.createElement(
+      'div'
+    );
+
+
+  noticeWrap.className =
+    'notice-wrap';
+
+
+  noticeWrap.appendChild(
+    sheet
+  );
+
+
+  content.innerHTML = '';
+
+  content.appendChild(
+    noticeWrap
+  );
+
+}
+
+
+/* =========================================================
+   병합 셀 찾기
+========================================================= */
+
+function findMerge(
+  merges,
+  row,
+  column
+) {
+
+  for (
+    let i = 0;
+    i < merges.length;
+    i++
+  ) {
+
+    const merge =
+      merges[i];
+
+
+    if (
+
+      row >= merge.row &&
+
+      row <
+      merge.row +
+      merge.rowSpan &&
+
+      column >= merge.column &&
+
+      column <
+      merge.column +
+      merge.columnSpan
+
+    ) {
+
+      /*
+       * 병합 영역의 왼쪽 위 셀만 표시
+       */
+
+      if (
+        row === merge.row &&
+        column === merge.column
+      ) {
+
+        return merge;
+
+      }
+
+
+      return null;
+
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================================================
+   가로 정렬
+========================================================= */
+
+function getHorizontalAlignment(
+  alignment
+) {
+
+  if (
+    alignment === 'RIGHT'
+  ) {
+
+    return 'flex-end';
+
+  }
+
+
+  if (
+    alignment === 'CENTER'
+  ) {
+
+    return 'center';
+
+  }
+
+
+  return 'flex-start';
+
+}
+
+
+/* =========================================================
+   세로 정렬
+========================================================= */
+
+function getVerticalAlignment(
+  alignment
+) {
+
+  if (
+    alignment === 'BOTTOM'
+  ) {
+
+    return 'flex-end';
+
+  }
+
+
+  if (
+    alignment === 'MIDDLE'
+  ) {
+
+    return 'center';
+
+  }
+
+
+  return 'flex-start';
+
+}
+
+
+/* =========================================================
+   HTML 안전 처리
+========================================================= */
+
+function escapeHtml(
+  value
+) {
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+
+/* =========================================================
+   처음 실행
+========================================================= */
+
+loadNotice();
+
+
+</script>
+
+
+</body>
+
+</html>
