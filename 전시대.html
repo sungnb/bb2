@@ -837,6 +837,9 @@ body {
 
 /* =========================================================
    Google Sheets 명단
+   ---------------------------------------------------------
+   명단 시트 자체를 직접 읽지 않고
+   Apps Script를 통해 명단을 가져옵니다.
 ========================================================= */
 
 const SPREADSHEET_ID =
@@ -845,11 +848,13 @@ const SPREADSHEET_ID =
 const MEMBER_SHEET_NAME =
   "명단";
 
-const MEMBER_DATA_URL =
-  "https://docs.google.com/spreadsheets/d/" +
-  SPREADSHEET_ID +
-  "/gviz/tq?tqx=out:json&sheet=" +
-  encodeURIComponent(MEMBER_SHEET_NAME);
+
+/* =========================================================
+   명단 Apps Script 주소
+========================================================= */
+
+const MEMBER_API_URL =
+  "https://script.google.com/macros/s/AKfycbzWtI-3iHl7rVfrNs-TJqRsxD2o0_WRZ-bphOI2BVi6mQAqHXlleb12WYTin_qD0zCL/exec";
 
 
 /* =========================================================
@@ -919,6 +924,7 @@ function setApplicationDates() {
 
   let daysUntilSaturday;
 
+
   if (day === 0) {
 
     daysUntilSaturday = 6;
@@ -981,7 +987,7 @@ function formatKoreanDate(date) {
 
 
 /* =========================================================
-   Google Sheets 명단 불러오기
+   Apps Script에서 명단 불러오기
 ========================================================= */
 
 async function loadMembers() {
@@ -990,8 +996,8 @@ async function loadMembers() {
 
     const response =
       await fetch(
-        MEMBER_DATA_URL +
-        "&t=" +
+        MEMBER_API_URL +
+        "?t=" +
         Date.now()
       );
 
@@ -1005,58 +1011,41 @@ async function loadMembers() {
     }
 
 
-    const text =
-      await response.text();
+    const data =
+      await response.json();
 
 
-    /*
-      Google Visualization API
-      응답 형태:
-
-      google.visualization.Query.setResponse({...});
-    */
-
-
-    const start =
-      text.indexOf("{");
-
-    const end =
-      text.lastIndexOf("}");
+    console.log(
+      "Apps Script 명단 응답:",
+      data
+    );
 
 
     if (
-      start === -1 ||
-      end === -1
+      !data ||
+      data.success !== true
     ) {
 
       throw new Error(
-        "명단 데이터 형식 오류"
+        data?.message ||
+        "명단 데이터가 없습니다."
       );
 
     }
 
 
-    const json =
-      JSON.parse(
-        text.substring(
-          start,
-          end + 1
-        )
-      );
-
-
-    const rows =
-      json?.table?.rows || [];
+    members =
+      Array.isArray(data.members)
+        ? data.members
+        : [];
 
 
     members =
-      rows
-        .map(function(row) {
+      members
+        .map(function(name) {
 
-          return (
-            row?.c?.[0]?.v ??
-            ""
-          ).toString().trim();
+          return String(name || "")
+            .trim();
 
         })
         .filter(function(name) {
@@ -1093,7 +1082,7 @@ async function loadMembers() {
 
 
     /*
-      시트 연결이 안 되는 경우
+      Apps Script 연결이 되지 않을 때
       테스트용 명단
     */
 
@@ -1155,6 +1144,7 @@ function renderMemberLists() {
     "saturdayMemberList"
   );
 
+
   renderMemberList(
     "sunday",
     "sundayMemberList"
@@ -1201,7 +1191,7 @@ function renderMemberList(
 
 
   members.forEach(
-    function(name, index) {
+    function(name) {
 
       const checked =
         selected.has(name)
@@ -1319,7 +1309,7 @@ function changeSelection(
 
 
   /*
-    화면 표시용으로는 항상 가나다순
+    항상 가나다순
   */
 
   sortNames(
@@ -1381,6 +1371,7 @@ function toggleSelector(
       "Selector"
     );
 
+
   const button =
     document.getElementById(
       type +
@@ -1411,6 +1402,7 @@ function toggleSelector(
 
     button.textContent =
       "신청 닫기";
+
 
     renderMemberList(
       type,
@@ -1490,6 +1482,7 @@ function completeApplication(
       "Selector"
     );
 
+
   const button =
     document.getElementById(
       type +
@@ -1500,6 +1493,7 @@ function completeApplication(
   selector.classList.remove(
     "open"
   );
+
 
   button.textContent =
     "신청하기";
@@ -1522,9 +1516,9 @@ function renderApplicants(
 ) {
 
   const names =
-    [...(
-      applications[type] || []
-    )];
+    [
+      ...(applications[type] || [])
+    ];
 
 
   /*
@@ -1667,6 +1661,7 @@ function loadSavedApplications() {
       applications.saturday
     );
 
+
     sortNames(
       applications.sunday
     );
@@ -1675,6 +1670,7 @@ function loadSavedApplications() {
     renderApplicants(
       "saturday"
     );
+
 
     renderApplicants(
       "sunday"
