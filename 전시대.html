@@ -2776,6 +2776,27 @@ async function completeApply() {
   sortNames(selected);
 
 
+  /*
+    신청 완료를 누르면 먼저 선택 화면을 닫고
+    원래 상태로 돌립니다.
+    저장 결과와 관계없이 화면은 닫힙니다.
+  */
+
+  currentSelections = [];
+
+  saveMySelections([]);
+
+  document
+    .getElementById("applyNameGrid")
+    .style.display = "none";
+
+  document
+    .getElementById("applyCompleteWrap")
+    .style.display = "none";
+
+  updateApplyCount();
+
+
   try {
 
     /*
@@ -2789,27 +2810,6 @@ async function completeApply() {
         checked: true
       });
     }
-
-
-    /*
-      신청 완료 후 현재 기기의 선택값은 비우고
-      명단은 접습니다.
-      전체 신청자 명단은 서버에서 다시 불러옵니다.
-    */
-
-    currentSelections = [];
-
-    saveMySelections([]);
-
-    document
-      .getElementById("applyNameGrid")
-      .style.display = "none";
-
-    document
-      .getElementById("applyCompleteWrap")
-      .style.display = "none";
-
-    updateApplyCount();
 
 
     await loadApplicants();
