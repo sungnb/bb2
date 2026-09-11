@@ -301,6 +301,40 @@ body.light .count-box {
 
 
 /* =========================================================
+   전시대 신청 시작 버튼
+========================================================= */
+
+.apply-start-wrap {
+  width: 100%;
+  max-width: 900px;
+
+  margin:
+    0 auto 18px;
+}
+
+.apply-start-button {
+  width: 100%;
+
+  min-height: 48px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: #4285f4;
+
+  color: #fff;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
    신청자 명단 - 3열
 ========================================================= */
 
@@ -372,6 +406,7 @@ body.light .name-card {
 
 body.light .name-card.selected {
   background: #eef5fb;
+
   border:
     3px solid #3F6F9F;
 }
@@ -1567,16 +1602,28 @@ body.light .admin-login-input {
     </div>
 
 
+    <!-- 전시대 신청 버튼 -->
+
+    <div class="apply-start-wrap">
+
+      <button
+        type="button"
+        class="apply-start-button"
+        onclick="startJeonsidaeApply()"
+      >
+        전시대 신청
+      </button>
+
+    </div>
+
+
+    <!-- 신청자 명단 -->
+
     <div
       class="name-grid"
       id="applyNameGrid"
-    >
-
-      <div class="name-loading">
-        봉사자 명단을 불러오는 중입니다.
-      </div>
-
-    </div>
+      style="display:none;"
+    ></div>
 
 
     <div class="apply-complete-wrap">
@@ -1882,8 +1929,6 @@ const ADMIN_PASSWORD_KEY =
 
 /* =========================================================
    관리자 비밀번호
-   ---------------------------------------------------------
-   기존 토요일과 동일한 방식
 ========================================================= */
 
 const ADMIN_PASSWORD =
@@ -1922,8 +1967,6 @@ document.addEventListener(
     loadSettings();
 
     setDates();
-
-    loadMasterNames();
 
     loadApplicants();
 
@@ -2322,10 +2365,17 @@ function checkAdminPassword() {
 
 
 /* =========================================================
-   명단 가져오기
+   전시대 신청 명단 불러오기
+   ---------------------------------------------------------
+   버튼을 눌렀을 때만 명단을 가져옵니다.
 ========================================================= */
 
-async function loadMasterNames() {
+async function startJeonsidaeApply() {
+
+  const startButton =
+    document.querySelector(
+      ".apply-start-button"
+    );
 
   const grid =
     document.getElementById(
@@ -2333,12 +2383,23 @@ async function loadMasterNames() {
     );
 
 
+  if (startButton) {
+
+    startButton.disabled =
+      true;
+
+    startButton.textContent =
+      "명단을 불러오는 중입니다.";
+
+  }
+
+
   try {
 
     const response =
       await fetch(
         SCRIPT_URL +
-        "?action=names&t=" +
+        "?action=jeonsidaeNames&t=" +
         Date.now()
       );
 
@@ -2367,86 +2428,10 @@ async function loadMasterNames() {
         : [];
 
 
-    /*
-      혹시 members 형식으로
-      응답하는 경우도 지원
-    */
-
-    if (
-      masterNames.length === 0 &&
-      Array.isArray(data.members)
-    ) {
-
-      masterNames =
-        data.members;
-
-    }
-
-
     masterNames =
-      [...new Set(
-        masterNames
-          .map(
-            function(name) {
-
-              return String(name)
-                .trim();
-
-            }
-          )
-          .filter(
-            function(name) {
-
-              return name !== "";
-
-            }
-          )
-      )];
-
-
-    sortNames(
-      masterNames
-    );
-
-
-    renderApplyNames();
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    /*
-      기존 명단 API 형식
-    */
-
-    try {
-
-      const response =
-        await fetch(
-          SCRIPT_URL +
-          "?t=" +
-          Date.now()
-        );
-
-
-      const data =
-        await response.json();
-
-
-      if (
-        data &&
-        data.success &&
-        Array.isArray(
-          data.members
-        )
-      ) {
-
-        masterNames =
-          data.members
+      [
+        ...new Set(
+          masterNames
             .map(
               function(name) {
 
@@ -2461,40 +2446,53 @@ async function loadMasterNames() {
                 return name !== "";
 
               }
-            );
+            )
+        )
+      ];
 
 
-        masterNames =
-          [...new Set(
-            masterNames
-          )];
+    sortNames(
+      masterNames
+    );
 
 
-        sortNames(
-          masterNames
-        );
+    if (startButton) {
 
-
-        renderApplyNames();
-
-        return;
-
-      }
-
-    } catch (secondError) {
-
-      console.error(
-        secondError
-      );
+      startButton.style.display =
+        "none";
 
     }
 
 
-    grid.innerHTML =
-      '<div class="name-loading">' +
-      '봉사자 명단을 불러오지 못했습니다.<br>' +
-      '잠시 후 다시 시도해 주세요.' +
-      '</div>';
+    grid.style.display =
+      "grid";
+
+
+    renderApplyNames();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    if (startButton) {
+
+      startButton.disabled =
+        false;
+
+      startButton.textContent =
+        "전시대 신청";
+
+    }
+
+
+    alert(
+      "전시대 신청 명단을 불러오지 못했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
 
   }
 
@@ -2811,7 +2809,7 @@ async function completeApply() {
           body:
             JSON.stringify({
               action:
-                "saveApplicants",
+                "saveJeonsidaeApplicants",
 
               applicants:
                 selected
@@ -2856,11 +2854,6 @@ async function completeApply() {
     );
 
 
-    /*
-      서버 저장이 아직 준비되지 않은 경우에도
-      화면에서는 현재 선택을 유지합니다.
-    */
-
     applicants =
       selected;
 
@@ -2889,7 +2882,7 @@ async function loadApplicants() {
     const response =
       await fetch(
         SCRIPT_URL +
-        "?action=applicants&t=" +
+        "?action=jeonsidaeApplicants&t=" +
         Date.now()
       );
 
@@ -2954,11 +2947,6 @@ async function loadApplicants() {
       error
     );
 
-
-    /*
-      서버에서 아직 신청자를 가져오지 못할 경우
-      현재 기기에 저장된 선택을 사용
-    */
 
     applicants =
       getMySelections();
@@ -3377,11 +3365,6 @@ async function loadGroups() {
     );
 
 
-    /*
-      서버 그룹이 아직 없을 경우
-      브라우저 저장값 사용
-    */
-
     try {
 
       const saved =
@@ -3456,8 +3439,6 @@ async function saveGroups() {
 
 /* =========================================================
    그룹 추가
-   ---------------------------------------------------------
-   새 그룹은 항상 맨 위
 ========================================================= */
 
 async function addGroup() {
@@ -3835,11 +3816,6 @@ async function handleSlotClick(
     groups[groupIndex][slotIndex];
 
 
-  /*
-    이미 들어있는 사람을 누르면
-    그 자리를 비웁니다.
-  */
-
   if (currentName) {
 
     groups[groupIndex][slotIndex] =
@@ -3862,10 +3838,6 @@ async function handleSlotClick(
   }
 
 
-  /*
-    먼저 신청자를 선택해야 합니다.
-  */
-
   if (
     !selectedApplicant
   ) {
@@ -3878,10 +3850,6 @@ async function handleSlotClick(
 
   }
 
-
-  /*
-    같은 사람을 다른 그룹에서 제거
-  */
 
   groups =
     groups.map(
@@ -3901,11 +3869,6 @@ async function handleSlotClick(
       }
     );
 
-
-  /*
-    현재 선택한 자리에는
-    선택된 사람을 넣습니다.
-  */
 
   groups[groupIndex][slotIndex] =
     selectedApplicant;
