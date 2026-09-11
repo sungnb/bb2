@@ -147,7 +147,9 @@ body {
 }
 
 
-/* 날짜 / 시간 */
+/* =========================================================
+   날짜 / 시간
+========================================================= */
 
 .application-info {
   padding: 18px 18px 12px;
@@ -170,7 +172,9 @@ body {
 }
 
 
-/* 신청하기 버튼 */
+/* =========================================================
+   신청하기 버튼
+========================================================= */
 
 .apply-button-wrap {
   padding: 4px 18px 18px;
@@ -222,46 +226,63 @@ body {
 }
 
 
-/* 명단 */
+/* =========================================================
+   명단
+   ---------------------------------------------------------
+   신청하기를 누르면 3열로 표시
+========================================================= */
 
 .member-list {
   max-height: 360px;
 
   overflow-y: auto;
 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+
   border: 1px solid rgba(0,0,0,0.10);
   border-radius: 10px;
 
+  padding: 5px;
+
   background: #fafafa;
 }
+
+
+/* =========================================================
+   이름 한 칸
+========================================================= */
 
 .member-row {
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
   min-height: 46px;
 
-  padding: 0 12px;
+  padding: 0 6px;
 
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 8px;
+
+  background: #fff;
 
   cursor: pointer;
 }
 
-.member-row:last-child {
-  border-bottom: 0;
-}
-
 .member-row.selected {
   background: #eeeeee;
+
+  border-color: #777;
 }
 
 .member-row input {
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
 
-  margin: 0 10px 0 0;
+  margin: 0 6px 0 0;
 
   accent-color: #222;
 
@@ -269,13 +290,17 @@ body {
 }
 
 .member-name {
-  font-size: 16px;
+  font-size: 15px;
 
   line-height: 1.4;
+
+  white-space: nowrap;
 }
 
 
-/* 선택된 인원 */
+/* =========================================================
+   선택된 인원
+========================================================= */
 
 .selected-count {
   margin-top: 12px;
@@ -285,7 +310,9 @@ body {
 }
 
 
-/* 신청 완료 */
+/* =========================================================
+   신청 완료
+========================================================= */
 
 .complete-button {
   width: 100%;
@@ -329,27 +356,59 @@ body {
   color: #666;
 }
 
+
+/* =========================================================
+   신청 완료된 명단
+   ---------------------------------------------------------
+   4명씩 한 줄로 표시
+========================================================= */
+
 .applicant-names {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 5px;
 }
+
+
+/* =========================================================
+   신청자 이름 한 칸
+========================================================= */
 
 .applicant-name {
-  padding: 7px 0;
+  min-height: 38px;
 
-  font-size: 16px;
+  display: flex;
 
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 4px;
+
+  font-size: 15px;
+
+  background: #fafafa;
+
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 7px;
+
+  white-space: nowrap;
 }
 
-.applicant-name:last-child {
-  border-bottom: 0;
-}
+
+/* =========================================================
+   신청자 없음
+========================================================= */
 
 .no-applicant {
+  grid-column: 1 / -1;
+
   color: #888;
 
   font-size: 15px;
+
+  padding: 7px 0;
 }
 
 
@@ -427,6 +486,8 @@ body {
 ========================================================= */
 
 .loading {
+  grid-column: 1 / -1;
+
   padding: 30px;
 
   text-align: center;
@@ -462,8 +523,47 @@ body {
     font-size: 15px;
   }
 
+  /*
+     휴대폰에서도 신청 명단은 3열 유지
+  */
+
   .member-list {
     max-height: 330px;
+
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .member-row {
+    min-height: 44px;
+
+    padding: 0 3px;
+  }
+
+  .member-row input {
+    width: 17px;
+    height: 17px;
+
+    margin-right: 4px;
+  }
+
+  .member-name {
+    font-size: 14px;
+  }
+
+  /*
+     신청 완료된 사람은 4열
+  */
+
+  .applicant-names {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .applicant-name {
+    min-height: 36px;
+
+    font-size: 14px;
+
+    padding: 4px 2px;
   }
 
 }
@@ -837,9 +937,6 @@ body {
 
 /* =========================================================
    Google Sheets 명단
-   ---------------------------------------------------------
-   명단 시트 자체를 직접 읽지 않고
-   Apps Script를 통해 명단을 가져옵니다.
 ========================================================= */
 
 const SPREADSHEET_ID =
@@ -850,7 +947,7 @@ const MEMBER_SHEET_NAME =
 
 
 /* =========================================================
-   명단 Apps Script 주소
+   Apps Script 명단 주소
 ========================================================= */
 
 const MEMBER_API_URL =
@@ -866,9 +963,6 @@ let members = [];
 
 /* =========================================================
    임시 신청 데이터
-   ---------------------------------------------------------
-   현재는 이 브라우저에 저장됩니다.
-   실제 공동 신청 데이터 저장은 추후 Apps Script 연결.
 ========================================================= */
 
 let applications = {
@@ -909,17 +1003,6 @@ function setApplicationDates() {
 
   const day =
     today.getDay();
-
-
-  /*
-    일요일 = 0
-    월요일 = 1
-    화요일 = 2
-    수요일 = 3
-    목요일 = 4
-    금요일 = 5
-    토요일 = 6
-  */
 
 
   let daysUntilSaturday;
@@ -1082,7 +1165,6 @@ async function loadMembers() {
 
 
     /*
-      Apps Script 연결이 되지 않을 때
       테스트용 명단
     */
 
@@ -1288,10 +1370,6 @@ function changeSelection(
   }
 
 
-  /*
-    선택 표시
-  */
-
   const row =
     checkbox.closest(
       ".member-row"
@@ -1307,10 +1385,6 @@ function changeSelection(
 
   }
 
-
-  /*
-    항상 가나다순
-  */
 
   sortNames(
     applications[type]
@@ -1439,7 +1513,7 @@ function completeApplication(
 
 
   /*
-    가나다순으로 정리
+    가나다순
   */
 
   sortNames(
@@ -1509,6 +1583,9 @@ function completeApplication(
 
 /* =========================================================
    신청자 명단 출력
+   ---------------------------------------------------------
+   항상 가나다순
+   화면에서는 4명씩 한 줄
 ========================================================= */
 
 function renderApplicants(
@@ -1520,10 +1597,6 @@ function renderApplicants(
       ...(applications[type] || [])
     ];
 
-
-  /*
-    무조건 가나다순
-  */
 
   sortNames(
     names
