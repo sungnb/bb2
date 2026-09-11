@@ -301,40 +301,6 @@ body.light .count-box {
 
 
 /* =========================================================
-   전시대 신청 시작 버튼
-========================================================= */
-
-.apply-start-wrap {
-  width: 100%;
-  max-width: 900px;
-
-  margin:
-    0 auto 18px;
-}
-
-.apply-start-button {
-  width: 100%;
-
-  min-height: 48px;
-
-  border: 0;
-
-  border-radius: 10px;
-
-  background: #4285f4;
-
-  color: #fff;
-
-  font-size:
-    calc(17px * var(--font-scale));
-
-  font-weight: 800;
-
-  cursor: pointer;
-}
-
-
-/* =========================================================
    신청자 명단 - 3열
 ========================================================= */
 
@@ -406,7 +372,6 @@ body.light .name-card {
 
 body.light .name-card.selected {
   background: #eef5fb;
-
   border:
     3px solid #3F6F9F;
 }
@@ -462,6 +427,39 @@ body.light .name-card.selected .check-mark {
 
 body.light .name-loading {
   color: #777;
+}
+
+
+/* =========================================================
+   전시대 신청 명단 열기 버튼
+========================================================= */
+
+.apply-name-open-wrap {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto 18px;
+}
+
+.apply-name-open-button {
+  width: 100%;
+
+  min-height: 48px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: #4285f4;
+
+  color: #fff;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 800;
+
+  cursor: pointer;
 }
 
 
@@ -1602,22 +1600,18 @@ body.light .admin-login-input {
     </div>
 
 
-    <!-- 전시대 신청 버튼 -->
-
-    <div class="apply-start-wrap">
+    <div class="apply-name-open-wrap">
 
       <button
         type="button"
-        class="apply-start-button"
-        onclick="startJeonsidaeApply()"
+        class="apply-name-open-button"
+        onclick="openApplyNames()"
       >
         전시대 신청
       </button>
 
     </div>
 
-
-    <!-- 신청자 명단 -->
 
     <div
       class="name-grid"
@@ -1929,6 +1923,8 @@ const ADMIN_PASSWORD_KEY =
 
 /* =========================================================
    관리자 비밀번호
+   ---------------------------------------------------------
+   기존 토요일과 동일한 방식
 ========================================================= */
 
 const ADMIN_PASSWORD =
@@ -2365,33 +2361,15 @@ function checkAdminPassword() {
 
 
 /* =========================================================
-   전시대 신청 명단 불러오기
-   ---------------------------------------------------------
-   버튼을 눌렀을 때만 명단을 가져옵니다.
+   명단 가져오기
 ========================================================= */
 
-async function startJeonsidaeApply() {
-
-  const startButton =
-    document.querySelector(
-      ".apply-start-button"
-    );
+async function loadMasterNames() {
 
   const grid =
     document.getElementById(
       "applyNameGrid"
     );
-
-
-  if (startButton) {
-
-    startButton.disabled =
-      true;
-
-    startButton.textContent =
-      "명단을 불러오는 중입니다.";
-
-  }
 
 
   try {
@@ -2408,93 +2386,76 @@ async function startJeonsidaeApply() {
       await response.json();
 
 
-    if (
-      !data.success
-    ) {
+    if (!data.success) {
 
       throw new Error(
         data.message ||
-        "명단을 불러오지 못했습니다."
+        "전시대 신청 명단을 불러오지 못했습니다."
       );
 
     }
 
 
     masterNames =
-      Array.isArray(
-        data.names
-      )
+      Array.isArray(data.names)
         ? data.names
         : [];
 
 
     masterNames =
-      [
-        ...new Set(
-          masterNames
-            .map(
-              function(name) {
-
-                return String(name)
-                  .trim();
-
-              }
-            )
-            .filter(
-              function(name) {
-
-                return name !== "";
-
-              }
-            )
-        )
-      ];
+      [...new Set(
+        masterNames
+          .map(function(name) {
+            return String(name).trim();
+          })
+          .filter(function(name) {
+            return name !== "";
+          })
+      )];
 
 
-    sortNames(
-      masterNames
-    );
-
-
-    if (startButton) {
-
-      startButton.style.display =
-        "none";
-
-    }
-
-
-    grid.style.display =
-      "grid";
-
+    sortNames(masterNames);
 
     renderApplyNames();
 
 
   } catch (error) {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
-    if (startButton) {
-
-      startButton.disabled =
-        false;
-
-      startButton.textContent =
-        "전시대 신청";
-
-    }
-
-
-    alert(
-      "전시대 신청 명단을 불러오지 못했습니다.\n" +
-      "잠시 후 다시 시도해 주세요."
-    );
+    grid.innerHTML =
+      '<div class="name-loading">' +
+      '전시대 신청 명단을 불러오지 못했습니다.<br>' +
+      '잠시 후 다시 시도해 주세요.' +
+      '</div>';
 
   }
+
+}
+
+
+/* =========================================================
+   전시대 신청 명단 열기
+========================================================= */
+
+async function openApplyNames() {
+
+  const grid =
+    document.getElementById(
+      "applyNameGrid"
+    );
+
+
+  grid.style.display = "grid";
+
+  grid.innerHTML =
+    '<div class="name-loading">' +
+    '전시대 신청 명단을 불러오는 중입니다.' +
+    '</div>';
+
+
+  await loadMasterNames();
 
 }
 
@@ -2775,9 +2736,7 @@ async function completeApply() {
     [...currentSelections];
 
 
-  if (
-    selected.length === 0
-  ) {
+  if (selected.length === 0) {
 
     alert(
       "신청할 사람을 한 명 이상 선택해 주세요."
@@ -2788,57 +2747,35 @@ async function completeApply() {
   }
 
 
-  sortNames(
-    selected
-  );
+  sortNames(selected);
 
 
   try {
 
-    const response =
-      await fetch(
-        SCRIPT_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
-
-          body:
-            JSON.stringify({
-              action:
-                "saveJeonsidaeApplicants",
-
-              applicants:
-                selected
-            })
-        }
-      );
+    await postJson({
+      action: "saveJeonsidaeApplicants",
+      applicants: selected
+    });
 
 
-    const data =
-      await response.json();
+    /*
+      신청 완료 후 현재 기기의 선택값은 비우고
+      명단은 접습니다.
+      전체 신청자 명단은 서버에서 다시 불러옵니다.
+    */
+
+    currentSelections = [];
+
+    saveMySelections([]);
+
+    document
+      .getElementById("applyNameGrid")
+      .style.display = "none";
+
+    updateApplyCount();
 
 
-    if (
-      !data.success
-    ) {
-
-      throw new Error(
-        data.message ||
-        "신청 저장에 실패했습니다."
-      );
-
-    }
-
-
-    applicants =
-      selected;
-
-
-    renderCurrentApplicants();
+    await loadApplicants();
 
 
     alert(
@@ -2849,21 +2786,12 @@ async function completeApply() {
 
   } catch (error) {
 
-    console.error(
-      error
-    );
-
-
-    applicants =
-      selected;
-
-
-    renderCurrentApplicants();
+    console.error(error);
 
 
     alert(
-      "신청 내용은 화면에 반영되었습니다.\n" +
-      "서버 저장 상태를 확인해 주세요."
+      "신청 저장에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
     );
 
   }
@@ -2947,6 +2875,11 @@ async function loadApplicants() {
       error
     );
 
+
+    /*
+      서버에서 아직 신청자를 가져오지 못할 경우
+      현재 기기에 저장된 선택을 사용
+    */
 
     applicants =
       getMySelections();
@@ -3268,7 +3201,7 @@ async function addManualApplicant() {
     await postJson(
       {
         action:
-          "saveApplicants",
+          "saveJeonsidaeApplicants",
 
         applicants:
           applicants
@@ -3365,6 +3298,11 @@ async function loadGroups() {
     );
 
 
+    /*
+      서버 그룹이 아직 없을 경우
+      브라우저 저장값 사용
+    */
+
     try {
 
       const saved =
@@ -3439,6 +3377,8 @@ async function saveGroups() {
 
 /* =========================================================
    그룹 추가
+   ---------------------------------------------------------
+   새 그룹은 항상 맨 위
 ========================================================= */
 
 async function addGroup() {
@@ -3816,6 +3756,11 @@ async function handleSlotClick(
     groups[groupIndex][slotIndex];
 
 
+  /*
+    이미 들어있는 사람을 누르면
+    그 자리를 비웁니다.
+  */
+
   if (currentName) {
 
     groups[groupIndex][slotIndex] =
@@ -3838,6 +3783,10 @@ async function handleSlotClick(
   }
 
 
+  /*
+    먼저 신청자를 선택해야 합니다.
+  */
+
   if (
     !selectedApplicant
   ) {
@@ -3850,6 +3799,10 @@ async function handleSlotClick(
 
   }
 
+
+  /*
+    같은 사람을 다른 그룹에서 제거
+  */
 
   groups =
     groups.map(
@@ -3869,6 +3822,11 @@ async function handleSlotClick(
       }
     );
 
+
+  /*
+    현재 선택한 자리에는
+    선택된 사람을 넣습니다.
+  */
 
   groups[groupIndex][slotIndex] =
     selectedApplicant;
