@@ -1605,7 +1605,7 @@ body.light .admin-login-input {
       <button
         type="button"
         class="apply-name-open-button"
-        onclick="openApplyNames()"
+        onclick="toggleApplyNames()"
       >
         전시대 신청
       </button>
@@ -1620,7 +1620,11 @@ body.light .admin-login-input {
     ></div>
 
 
-    <div class="apply-complete-wrap">
+    <div
+      class="apply-complete-wrap"
+      id="applyCompleteWrap"
+      style="display:none;"
+    >
 
       <button
         class="apply-complete-button"
@@ -2439,15 +2443,37 @@ async function loadMasterNames() {
    전시대 신청 명단 열기
 ========================================================= */
 
-async function openApplyNames() {
+async function toggleApplyNames() {
 
   const grid =
     document.getElementById(
       "applyNameGrid"
     );
 
+  const completeWrap =
+    document.getElementById(
+      "applyCompleteWrap"
+    );
+
+
+  const isOpen =
+    grid.style.display !== "none";
+
+
+  if (isOpen) {
+
+    grid.style.display = "none";
+
+    completeWrap.style.display = "none";
+
+    return;
+
+  }
+
 
   grid.style.display = "grid";
+
+  completeWrap.style.display = "block";
 
   grid.innerHTML =
     '<div class="name-loading">' +
@@ -2770,6 +2796,10 @@ async function completeApply() {
 
     document
       .getElementById("applyNameGrid")
+      .style.display = "none";
+
+    document
+      .getElementById("applyCompleteWrap")
       .style.display = "none";
 
     updateApplyCount();
