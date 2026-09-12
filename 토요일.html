@@ -970,6 +970,10 @@ body.light .service-refresh-button {
   font-weight: 700;
 
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .volunteer-apply-area {
@@ -980,47 +984,23 @@ body.light .service-refresh-button {
   display: block;
 }
 
-.apply-count-row {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 18px;
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.apply-back-button {
-  flex: 0 0 42px;
-  width: 42px;
-  height: 48px;
-
-  border: 0;
-  border-radius: 12px;
-
-  background: #234563;
-  color: #fff;
-
-  font-size: 32px;
-  line-height: 1;
-
-  cursor: pointer;
-
-  display: flex;
+ .apply-back-icon {
+  display: none;
   align-items: center;
   justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
 }
 
-.apply-count-row .count-box {
-  flex: 1;
-  margin: 0;
+.volunteer-apply-button.open .apply-back-icon {
+  display: inline-flex;
 }
 
-body.light .apply-back-button {
-  background: #234563;
-  color: #fff;
-}
-   
 .volunteer-submit-button {
   display: block;
   width: 100%;
@@ -1219,31 +1199,18 @@ body.light .submitted-volunteer-name {
     class="volunteer-apply-button"
     onclick="openVolunteerApply()"
   >
-    봉사 신청
- <div
-  id="volunteerApplyArea"
-  class="volunteer-apply-area"
->
-
-  <div class="apply-count-row">
-  
-   <button
-      type="button"
-      class="apply-back-button"
-      onclick="closeVolunteerApply()"
+    <span
+      class="apply-back-icon"
+      onclick="event.stopPropagation(); closeVolunteerApply();"
       aria-label="신청 취소"
-    >
-      ‹
-    </button>
+    >‹</span>
+    <span>봉사 신청</span>
+  </button>
 
-    <div
-      class="count-box"
-      id="selectedCount"
-    >
-      현재 선택 0 명
-    </div>
-
-  </div>
+  <div
+    id="volunteerApplyArea"
+    class="volunteer-apply-area"
+  >
 
     <div
       class="name-grid"
@@ -1532,6 +1499,7 @@ document.addEventListener(
     loadSettings();
 
     loadMasterNames();
+    loadSubmittedVolunteers();
 
     loadGroups();
 
@@ -1587,6 +1555,7 @@ function showView(view) {
     setActiveNav("navApply");
 
     loadMasterNames();
+    loadSubmittedVolunteers();
 
   }
 
@@ -1896,8 +1865,6 @@ function renderNames() {
       '등록된 봉사자가 없습니다.' +
       '</div>';
 
-    updateSelectedCount();
-
     return;
 
   }
@@ -1965,8 +1932,6 @@ function renderNames() {
   });
 
 
-  updateSelectedCount();
-
 }
 
 
@@ -2024,24 +1989,7 @@ function toggleMySelection(
   }
 
 
-  updateSelectedCount();
-
 }
-
-function updateSelectedCount() {
-
-  const count =
-    getMySelections().length;
-
-  document
-    .getElementById("selectedCount")
-    .textContent =
-      "현재 선택 " +
-      count +
-      " 명";
-
-}
-
 
 /* =========================================================
    관리자 - 신청자 가져오기
@@ -3690,7 +3638,8 @@ function openVolunteerApply() {
   area.classList.add("show");
 
   if (button) {
-    button.style.display = "none";
+    button.classList.add("open");
+    button.style.display = "flex";
   }
 
   loadMasterNames();
@@ -3718,11 +3667,12 @@ function closeVolunteerApply() {
   }
 
   if (button) {
-    button.style.display = "block";
+    button.classList.remove("open");
+    button.style.display = "flex";
   }
 
 }
-   
+
 /* =========================================================
    봉사 신청 제출
    체크한 순간이 아니라 제출할 때만 서버에 반영합니다.
@@ -3849,17 +3799,16 @@ async function submitVolunteerApplication() {
     }
 
     if (applyButton) {
-      applyButton.style.display = "block";
+      applyButton.classList.remove("open");
+      applyButton.style.display = "flex";
     }
 
 
     /*
-      제출된 봉사자 명단을 바로 표시합니다.
+      제출된 봉사자 명단을 서버에서 다시 불러옵니다.
     */
 
-    renderSubmittedVolunteers(
-      newSelections
-    );
+    await loadSubmittedVolunteers();
 
 
     if (button) {
@@ -3926,6 +3875,49 @@ async function updateVolunteerApplication(
       data.message ||
       "봉사 신청 저장에 실패했습니다."
     );
+
+  }
+
+}
+
+
+/* =========================================================
+   제출된 봉사자 명단 불러오기
+========================================================= */
+
+async function loadSubmittedVolunteers() {
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=applicants&t=" +
+        Date.now()
+      );
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message ||
+        "봉사자 명단을 불러오지 못했습니다."
+      );
+    }
+
+    const names =
+      Array.isArray(data.applicants)
+        ? data.applicants
+        : [];
+
+    applicants = names.slice();
+
+    renderSubmittedVolunteers(names);
+
+  } catch (error) {
+
+    console.error(error);
 
   }
 
