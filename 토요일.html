@@ -980,6 +980,47 @@ body.light .service-refresh-button {
   display: block;
 }
 
+.apply-count-row {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apply-back-button {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 48px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #234563;
+  color: #fff;
+
+  font-size: 32px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apply-count-row .count-box {
+  flex: 1;
+  margin: 0;
+}
+
+body.light .apply-back-button {
+  background: #234563;
+  color: #fff;
+}
+   
 .volunteer-submit-button {
   display: block;
   width: 100%;
@@ -1179,12 +1220,21 @@ body.light .submitted-volunteer-name {
     onclick="openVolunteerApply()"
   >
     봉사 신청
-  </button>
+ <div
+  id="volunteerApplyArea"
+  class="volunteer-apply-area"
+>
 
-  <div
-    id="volunteerApplyArea"
-    class="volunteer-apply-area"
-  >
+  <div class="apply-count-row">
+  
+   <button
+      type="button"
+      class="apply-back-button"
+      onclick="closeVolunteerApply()"
+      aria-label="신청 취소"
+    >
+      ‹
+    </button>
 
     <div
       class="count-box"
@@ -1192,6 +1242,8 @@ body.light .submitted-volunteer-name {
     >
       현재 선택 0 명
     </div>
+
+  </div>
 
     <div
       class="name-grid"
@@ -3645,7 +3697,32 @@ function openVolunteerApply() {
 
 }
 
+/* =========================================================
+   봉사 신청 화면 닫기
+========================================================= */
 
+function closeVolunteerApply() {
+
+  const area =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const button =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  if (area) {
+    area.classList.remove("show");
+  }
+
+  if (button) {
+    button.style.display = "block";
+  }
+
+}
+   
 /* =========================================================
    봉사 신청 제출
    체크한 순간이 아니라 제출할 때만 서버에 반영합니다.
