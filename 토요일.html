@@ -954,7 +954,9 @@ body.light .service-refresh-button {
 ========================================================= */
 
 .volunteer-apply-button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 600px;
   height: 48px;
@@ -970,10 +972,6 @@ body.light .service-refresh-button {
   font-weight: 700;
 
   cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .volunteer-apply-area {
@@ -984,7 +982,7 @@ body.light .service-refresh-button {
   display: block;
 }
 
- .apply-back-icon {
+.apply-back-icon {
   display: none;
   align-items: center;
   justify-content: center;
@@ -1499,7 +1497,6 @@ document.addEventListener(
     loadSettings();
 
     loadMasterNames();
-    loadSubmittedVolunteers();
 
     loadGroups();
 
@@ -1555,7 +1552,6 @@ function showView(view) {
     setActiveNav("navApply");
 
     loadMasterNames();
-    loadSubmittedVolunteers();
 
   }
 
@@ -1865,6 +1861,8 @@ function renderNames() {
       '등록된 봉사자가 없습니다.' +
       '</div>';
 
+    updateSelectedCount();
+
     return;
 
   }
@@ -1932,6 +1930,8 @@ function renderNames() {
   });
 
 
+  updateSelectedCount();
+
 }
 
 
@@ -1991,6 +1991,7 @@ function toggleMySelection(
 
 }
 
+
 /* =========================================================
    관리자 - 신청자 가져오기
 ========================================================= */
@@ -2006,7 +2007,8 @@ async function loadApplicants() {
           "?action=applicants&t=" +
           Date.now()
         ),
-        loadGroups()
+        loadGroups(),
+        loadGroupSheetLabels()
       ]);
 
     const data =
@@ -2271,6 +2273,66 @@ async function addManualApplicant() {
 /* =========================================================
    그룹 불러오기
 ========================================================= */
+
+async function loadGroupSheetLabels() {
+
+  try {
+
+    const url =
+      "https://docs.google.com/spreadsheets/d/" +
+      SATURDAY_SHEET_ID +
+      "/gviz/tq?tqx=out:json&sheet=" +
+      encodeURIComponent(SATURDAY_SHEET_NAME) +
+      "&range=B4:E13&t=" +
+      Date.now();
+
+    const response =
+      await fetch(url, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error("토요일 시트 그룹 정보를 불러오지 못했습니다.");
+    }
+
+    const text = await response.text();
+    const match =
+      text.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
+
+    if (!match) {
+      throw new Error("토요일 시트 응답 형식을 확인할 수 없습니다.");
+    }
+
+    const json = JSON.parse(match[1]);
+    const rows =
+      json && json.table && Array.isArray(json.table.rows)
+        ? json.table.rows
+        : [];
+
+    window.SATURDAY_GROUP_LABELS =
+      rows.slice(0, 10).map(function(row) {
+        const cells = Array.isArray(row.c) ? row.c : [];
+
+        function value(index) {
+          const cell = cells[index];
+          return cell && cell.v != null
+            ? String(cell.v).trim()
+            : "";
+        }
+
+        return [
+          value(0),
+          value(1),
+          value(3)
+        ].filter(Boolean).join(" ");
+      });
+
+  } catch (error) {
+
+    console.error("토요일 시트 그룹 표시 정보:", error);
+    window.SATURDAY_GROUP_LABELS = [];
+
+  }
+}
+
 
 async function loadGroups() {
 
@@ -2645,9 +2707,15 @@ function renderGroups() {
       title.className =
         "group-title";
 
+      const sheetLabel =
+        Array.isArray(window.SATURDAY_GROUP_LABELS)
+          ? (window.SATURDAY_GROUP_LABELS[groupIndex] || "")
+          : "";
+
       title.textContent =
         (groupIndex + 1) +
-        "번 그룹";
+        "번 그룹" +
+        (sheetLabel ? "  " + sheetLabel : "");
 
 
       const resetButton =
@@ -3672,7 +3740,7 @@ function closeVolunteerApply() {
   }
 
 }
-
+   
 /* =========================================================
    봉사 신청 제출
    체크한 순간이 아니라 제출할 때만 서버에 반영합니다.
@@ -3799,16 +3867,17 @@ async function submitVolunteerApplication() {
     }
 
     if (applyButton) {
-      applyButton.classList.remove("open");
-      applyButton.style.display = "flex";
+      applyButton.style.display = "block";
     }
 
 
     /*
-      제출된 봉사자 명단을 서버에서 다시 불러옵니다.
+      제출된 봉사자 명단을 바로 표시합니다.
     */
 
-    await loadSubmittedVolunteers();
+    renderSubmittedVolunteers(
+      newSelections
+    );
 
 
     if (button) {
@@ -3875,49 +3944,6 @@ async function updateVolunteerApplication(
       data.message ||
       "봉사 신청 저장에 실패했습니다."
     );
-
-  }
-
-}
-
-
-/* =========================================================
-   제출된 봉사자 명단 불러오기
-========================================================= */
-
-async function loadSubmittedVolunteers() {
-
-  try {
-
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=applicants&t=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
-
-    if (!data.success) {
-      throw new Error(
-        data.message ||
-        "봉사자 명단을 불러오지 못했습니다."
-      );
-    }
-
-    const names =
-      Array.isArray(data.applicants)
-        ? data.applicants
-        : [];
-
-    applicants = names.slice();
-
-    renderSubmittedVolunteers(names);
-
-  } catch (error) {
-
-    console.error(error);
 
   }
 
