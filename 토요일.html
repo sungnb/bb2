@@ -948,7 +948,103 @@ body.light .service-refresh-button {
   cursor: default;
 }
 
+/* =========================================================
+   봉사 신청 버튼
+   기존 명단 선택 화면의 CSS는 변경하지 않습니다.
+========================================================= */
 
+.volunteer-apply-button {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: 48px;
+  margin: 0 auto 18px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #3374A9;
+  color: #fff;
+
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.volunteer-apply-area {
+  display: none;
+}
+
+.volunteer-apply-area.show {
+  display: block;
+}
+
+.volunteer-submit-button {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: 48px;
+  margin: 18px auto 0;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #3374A9;
+  color: #fff;
+
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.volunteer-submit-button:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+.submitted-volunteer-area {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto 0;
+}
+
+.submitted-volunteer-title {
+  margin-bottom: 10px;
+
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 800;
+}
+
+.submitted-volunteer-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.submitted-volunteer-name {
+  min-height: 40px;
+  padding: 8px 13px;
+
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,.15);
+
+  background: rgba(255,255,255,.08);
+  color: inherit;
+
+  display: flex;
+  align-items: center;
+
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 600;
+}
+
+body.light .submitted-volunteer-name {
+  background: #fff;
+  border-color: #ddd;
+}
+   
 </style>
 </head>
 
@@ -1067,16 +1163,28 @@ body.light .service-refresh-button {
        1. 봉사신청
   ====================================================== -->
 
-  <section
-    id="applyView"
-    class="view active"
+<section
+  id="applyView"
+  class="view active"
+>
+
+  <h1 class="page-title">
+    봉사자 선택
+  </h1>
+
+  <button
+    type="button"
+    id="volunteerApplyButton"
+    class="volunteer-apply-button"
+    onclick="openVolunteerApply()"
   >
+    봉사 신청
+  </button>
 
-    <h1 class="page-title">
-      봉사자 선택
-    </h1>
-
-    <!-- 설명 문구는 삭제 -->
+  <div
+    id="volunteerApplyArea"
+    class="volunteer-apply-area"
+  >
 
     <div
       class="count-box"
@@ -1096,9 +1204,35 @@ body.light .service-refresh-button {
 
     </div>
 
-    <!-- 다음 버튼은 삭제 -->
+    <button
+      type="button"
+      id="volunteerSubmitButton"
+      class="volunteer-submit-button"
+      onclick="submitVolunteerApplication()"
+    >
+      제출
+    </button>
 
-  </section>
+  </div>
+
+  <div
+    id="submittedVolunteerArea"
+    class="submitted-volunteer-area"
+  >
+
+    <div class="submitted-volunteer-title">
+      봉사자 명단
+    </div>
+
+    <div
+      id="submittedVolunteerNames"
+      class="submitted-volunteer-names"
+    >
+    </div>
+
+  </div>
+
+</section>
 
 
   <!-- =====================================================
@@ -1784,7 +1918,7 @@ function renderNames() {
 }
 
 
-async function toggleMySelection(
+function toggleMySelection(
   name,
   card,
   check
@@ -1802,9 +1936,7 @@ async function toggleMySelection(
 
   if (newChecked) {
 
-    if (
-      !selections.includes(name)
-    ) {
+    if (!selections.includes(name)) {
 
       selections.push(name);
 
@@ -1842,46 +1974,7 @@ async function toggleMySelection(
 
   updateSelectedCount();
 
-
-  try {
-
-    const response =
-      await fetch(
-        SCRIPT_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
-
-          body: JSON.stringify({
-            name: name,
-            checked: newChecked
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!data.success) {
-
-      console.error(
-        data.message
-      );
-
-    }
-
-  } catch (error) {
-
-    console.error(error);
-
-  }
-
 }
-
 
 function updateSelectedCount() {
 
@@ -3522,6 +3615,304 @@ async function refreshServiceGroups() {
 
 }
 
+/* =========================================================
+   봉사 신청 열기
+========================================================= */
+
+function openVolunteerApply() {
+
+  const area =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const button =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  if (!area) {
+    return;
+  }
+
+  area.classList.add("show");
+
+  if (button) {
+    button.style.display = "none";
+  }
+
+  loadMasterNames();
+
+}
+
+
+/* =========================================================
+   봉사 신청 제출
+   체크한 순간이 아니라 제출할 때만 서버에 반영합니다.
+========================================================= */
+
+async function submitVolunteerApplication() {
+
+  const button =
+    document.getElementById(
+      "volunteerSubmitButton"
+    );
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = "제출 중...";
+  }
+
+
+  try {
+
+    const newSelections =
+      getMySelections();
+
+
+    /*
+      현재 서버에 저장된 신청자 명단을 가져옵니다.
+      새로 체크한 사람은 추가하고,
+      체크를 해제한 사람은 삭제합니다.
+    */
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=applicants&t=" +
+        Date.now()
+      );
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "현재 신청자 명단을 가져오지 못했습니다."
+      );
+
+    }
+
+
+    const serverApplicants =
+      Array.isArray(data.applicants)
+        ? data.applicants
+        : [];
+
+
+    const newSet =
+      new Set(newSelections);
+
+    const serverSet =
+      new Set(serverApplicants);
+
+
+    /*
+      기존 서버 명단 중
+      이번 제출에서 체크하지 않은 이름은 삭제합니다.
+    */
+
+    for (
+      const name of serverApplicants
+    ) {
+
+      if (!newSet.has(name)) {
+
+        await updateVolunteerApplication(
+          name,
+          false
+        );
+
+      }
+
+    }
+
+
+    /*
+      이번 제출에서 체크한 이름 중
+      서버에 없는 이름은 추가합니다.
+    */
+
+    for (
+      const name of newSelections
+    ) {
+
+      if (!serverSet.has(name)) {
+
+        await updateVolunteerApplication(
+          name,
+          true
+        );
+
+      }
+
+    }
+
+
+    /*
+      제출 완료 후 화면을 닫습니다.
+    */
+
+    const area =
+      document.getElementById(
+        "volunteerApplyArea"
+      );
+
+    const applyButton =
+      document.getElementById(
+        "volunteerApplyButton"
+      );
+
+
+    if (area) {
+      area.classList.remove("show");
+    }
+
+    if (applyButton) {
+      applyButton.style.display = "block";
+    }
+
+
+    /*
+      제출된 봉사자 명단을 바로 표시합니다.
+    */
+
+    renderSubmittedVolunteers(
+      newSelections
+    );
+
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "제출";
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "봉사 신청 제출에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "제출";
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   봉사 신청 서버 반영
+========================================================= */
+
+async function updateVolunteerApplication(
+  name,
+  checked
+) {
+
+  const response =
+    await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+          name: name,
+          checked: checked
+        })
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "봉사 신청 저장에 실패했습니다."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   제출된 봉사자 명단 표시
+========================================================= */
+
+function renderSubmittedVolunteers(
+  names
+) {
+
+  const box =
+    document.getElementById(
+      "submittedVolunteerNames"
+    );
+
+  if (!box) {
+    return;
+  }
+
+  box.innerHTML = "";
+
+
+  if (
+    !Array.isArray(names) ||
+    names.length === 0
+  ) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "service-empty";
+
+    empty.textContent =
+      "신청한 봉사자가 없습니다.";
+
+    box.appendChild(empty);
+
+    return;
+
+  }
+
+
+  names.forEach(function(name) {
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "submitted-volunteer-name";
+
+    item.textContent =
+      name;
+
+    box.appendChild(item);
+
+  });
+
+}
+   
 </script>
 
 </body>
