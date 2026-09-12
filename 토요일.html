@@ -1837,20 +1837,8 @@ function renderNames() {
   const grid =
     document.getElementById("nameGrid");
 
-  let selections =
+  const selections =
     getMySelections();
-
-  const validNames =
-    new Set(masterNames);
-
-  selections =
-    selections.filter(function(name) {
-
-      return validNames.has(name);
-
-    });
-
-  saveMySelections(selections);
 
   grid.innerHTML = "";
 
@@ -2303,23 +2291,27 @@ async function loadGroupSheetLabels() {
         ? json.table.rows
         : [];
 
-    window.SATURDAY_GROUP_LABELS =
-      rows.slice(0, 10).map(function(row) {
-        const cells = Array.isArray(row.c) ? row.c : [];
+ window.SATURDAY_GROUP_LABELS =
+  rows.slice(0, 10).map(function(row) {
+    const cells = Array.isArray(row.c) ? row.c : [];
 
-        function value(index) {
-          const cell = cells[index];
-          return cell && cell.v != null
-            ? String(cell.v).trim()
-            : "";
-        }
+    function value(index) {
+      const cell = cells[index];
+      return cell && cell.v != null
+        ? String(cell.v).trim()
+        : "";
+    }
 
-        return [
-          value(0),
-          value(1),
-          value(3)
-        ].filter(Boolean).join(" ");
-      });
+    const number = value(0);  // B열
+    const house = value(2);   // D열
+    const status = value(3);  // E열
+
+    return [
+      number ? number + "번" : "",
+      house ? house + "호" : "",
+      status
+    ].filter(Boolean).join(" ");
+  });
 
   } catch (error) {
 
@@ -2708,10 +2700,10 @@ function renderGroups() {
           ? (window.SATURDAY_GROUP_LABELS[groupIndex] || "")
           : "";
 
-      title.textContent =
-        (groupIndex + 1) +
-        "번 그룹" +
-        (sheetLabel ? "  " + sheetLabel : "");
+  title.textContent =
+  "그룹" +
+  (groupIndex + 1) +
+  (sheetLabel ? "  " + sheetLabel : "");
 
 
       const resetButton =
