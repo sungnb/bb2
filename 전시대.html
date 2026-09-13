@@ -464,7 +464,7 @@ body.light .name-loading {
 
 
 /* =========================================================
-   신청 완료 버튼
+   제출 버튼
 ========================================================= */
 
 .apply-complete-wrap {
@@ -1630,7 +1630,7 @@ body.light .admin-login-input {
         class="apply-complete-button"
         onclick="completeApply()"
       >
-        신청 완료
+        제출
       </button>
 
     </div>
@@ -2753,7 +2753,7 @@ function updateApplyCount() {
 
 
 /* =========================================================
-   신청 완료
+   제충
 ========================================================= */
 
 async function completeApply() {
@@ -2770,7 +2770,7 @@ async function completeApply() {
 
   sortNames(selected);
 
-  /* 신청 완료를 누르면 먼저 펼쳐진 명단을 닫습니다. */
+  /* 제출를 누르면 먼저 펼쳐진 명단을 닫습니다. */
   currentSelections = [];
   saveMySelections([]);
 
