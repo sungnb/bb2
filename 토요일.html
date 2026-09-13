@@ -3786,7 +3786,7 @@ async function submitVolunteerApplication() {
         : [];
 
 
-    const newSet =
+     const newSet =
       new Set(newSelections);
 
     const serverSet =
@@ -3794,29 +3794,11 @@ async function submitVolunteerApplication() {
 
 
     /*
-      기존 서버 명단 중
-      이번 제출에서 체크하지 않은 이름은 삭제합니다.
-    */
-
-    for (
-      const name of serverApplicants
-    ) {
-
-      if (!newSet.has(name)) {
-
-        await updateVolunteerApplication(
-          name,
-          false
-        );
-
-      }
-
-    }
-
-
-    /*
       이번 제출에서 체크한 이름 중
-      서버에 없는 이름은 추가합니다.
+      서버에 없는 이름만 추가합니다.
+
+      다른 PC나 휴대폰에서 이미 신청한 사람은
+      절대로 삭제하지 않습니다.
     */
 
     for (
