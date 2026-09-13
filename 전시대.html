@@ -3560,20 +3560,46 @@ function renderGroups() {
         "group-header";
 
 
-      const title =
-        document.createElement(
-          "div"
-        );
+   const title =
+  document.createElement(
+    "select"
+  );
 
+title.className =
+  "group-title";
 
-      title.className =
-        "group-title";
+const locations = [
+  "유타몰",
+  "성북천(보문2교-아래)",
+  "성북천(보문2교-위)",
+  "성북구청(광장)",
+  "보문역(주변)",
+  "성신여대(주변)",
+  "성북천(하늘다리)",
+  "성북천(바람마당교)",
+  "성북천(분수대)",
+  "성북천(용문교)",
+  "가두 증거"
+];
 
+locations.forEach(
+  function(location) {
+    const option =
+      document.createElement(
+        "option"
+      );
 
-      title.textContent =
-        (groupIndex + 1) +
-        "번 그룹";
+    option.value =
+      location;
 
+    option.textContent =
+      location;
+
+    title.appendChild(
+      option
+    );
+  }
+);
 
       const buttons =
         document.createElement(
