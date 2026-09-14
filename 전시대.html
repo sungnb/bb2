@@ -1563,6 +1563,15 @@ body.light .admin-login-input {
   line-height: 1.4;
 }
 
+.schedule-button-date,
+.schedule-button-time {
+  display: block;
+}
+
+.schedule-button-time {
+  margin-top: 2px;
+}
+
 body.light .schedule-button {
   background: #fff;
   border-color: #ddd;
@@ -4758,8 +4767,17 @@ function renderScheduleButtonList(containerId, schedules, onSelect, allowDelete,
 
     const sub = document.createElement("span");
     sub.className = "schedule-button-sub";
-    sub.textContent = jeonsiFormatDate(schedule.serviceDate) +
-      " · " + jeonsiFormatRange(schedule.startTime, schedule.endTime);
+
+    const dateLine = document.createElement("span");
+    dateLine.className = "schedule-button-date";
+    dateLine.textContent = jeonsiFormatDate(schedule.serviceDate);
+
+    const timeLine = document.createElement("span");
+    timeLine.className = "schedule-button-time";
+    timeLine.textContent = jeonsiFormatRange(schedule.startTime, schedule.endTime);
+
+    sub.appendChild(dateLine);
+    sub.appendChild(timeLine);
 
     button.appendChild(main);
     button.appendChild(sub);
@@ -4892,8 +4910,17 @@ function makeScheduleHeader(schedule, backFunction) {
 
   const info = document.createElement("div");
   info.className = "schedule-detail-info";
-  info.textContent = jeonsiFormatDate(schedule.serviceDate) +
-    " · " + jeonsiFormatRange(schedule.startTime, schedule.endTime);
+
+  const dateLine = document.createElement("div");
+  dateLine.className = "schedule-detail-date";
+  dateLine.textContent = jeonsiFormatDate(schedule.serviceDate);
+
+  const timeLine = document.createElement("div");
+  timeLine.className = "schedule-detail-time";
+  timeLine.textContent = jeonsiFormatRange(schedule.startTime, schedule.endTime);
+
+  info.appendChild(dateLine);
+  info.appendChild(timeLine);
 
   title.appendChild(name);
   title.appendChild(info);
@@ -5425,7 +5452,7 @@ function showExtraScheduleEditor() {
       '<button type="button" class="schedule-editor-cancel" id="extraScheduleCancel">취소</button>' +
     '</div>';
 
-  const container = document.getElementById("applyScheduleList");
+  const container = document.getElementById("adminScheduleList");
   container.appendChild(editor);
 
   fillExtraTimeOptions(document.getElementById("extraStartTime"), defaultStart);
@@ -5440,6 +5467,7 @@ function fillExtraTimeOptions(select, selected) {
   select.innerHTML = "";
   for (let hour = 10; hour <= 17; hour++) {
     for (let minute = 0; minute < 60; minute += 10) {
+      if (hour === 17 && minute > 0) continue;
       const value = jeonsiPad2(hour) + ":" + jeonsiPad2(minute);
       const option = document.createElement("option");
       option.value = value;
