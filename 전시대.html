@@ -640,6 +640,24 @@ body.light .current-name {
     3px solid #6FA8D8;
 }
 
+.appoint-selected-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #3F6F9F;
+  color: #fff;
+  cursor: pointer;
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+}
+
+.appoint-selected-button:active {
+  transform: scale(.99);
+}
+
 body.light .admin-name {
   background: #fff;
   border: 1px solid #ddd;
@@ -650,6 +668,11 @@ body.light .admin-name.selected {
 
   border:
     3px solid #3F6F9F;
+}
+
+body.light .appoint-selected-button {
+  background: #3F6F9F;
+  color: #fff;
 }
 
 
@@ -1946,6 +1969,7 @@ let applicants = [];
 let groups = [];
 
 let selectedApplicant = null;
+let selectedApplicants = new Set();
 
 let currentSelections = [];
 
@@ -3001,7 +3025,7 @@ function renderAdmin() {
   groups.forEach(
     function(group) {
 
-      group.forEach(
+      group.slice(0, 6).forEach(
         function(name) {
 
           if (name) {
@@ -3043,6 +3067,8 @@ function renderAdmin() {
     .textContent =
       "미배정 신청자 " +
       unassigned.length +
+      "명 · 현재 선택 " +
+      selectedApplicants.size +
       "명";
 
 
@@ -3086,8 +3112,7 @@ function renderAdmin() {
 
 
         if (
-          selectedApplicant ===
-          name
+          selectedApplicants.has(name)
         ) {
 
           button.classList.add(
@@ -3104,22 +3129,22 @@ function renderAdmin() {
         button.onclick =
           function() {
 
-            if (
-              selectedApplicant ===
-              name
-            ) {
+            if (selectedApplicants.has(name)) {
 
-              selectedApplicant =
-                null;
+              selectedApplicants.delete(name);
 
             } else {
 
-              selectedApplicant =
-                name;
+              if (selectedApplicants.size >= 6) {
+                alert("한 번에 최대 6명까지 선택할 수 있습니다.");
+                return;
+              }
+
+              selectedApplicants.add(name);
 
             }
 
-
+            selectedApplicant = null;
             renderAdmin();
 
           };
@@ -3804,6 +3829,28 @@ locations.forEach(
       );
 
 
+      const appointSelectedButton =
+        document.createElement("button");
+
+      appointSelectedButton.type =
+        "button";
+
+      appointSelectedButton.className =
+        "appoint-selected-button";
+
+      appointSelectedButton.textContent =
+        "선택한 사람 임명";
+
+      appointSelectedButton.onclick =
+        function() {
+          assignSelectedToGroup(groupIndex);
+        };
+
+      card.appendChild(
+        appointSelectedButton
+      );
+
+
       box.appendChild(
         card
       );
@@ -3811,6 +3858,90 @@ locations.forEach(
     }
   );
 
+}
+
+
+/* =========================================================
+   선택한 신청자 한 번에 임명
+========================================================= */
+
+async function assignSelectedToGroup(groupIndex) {
+
+  const selected =
+    [...selectedApplicants];
+
+  if (selected.length === 0) {
+    alert("먼저 임명할 봉사자를 선택해 주세요.");
+    return;
+  }
+
+  const group =
+    groups[groupIndex];
+
+  const emptySlots = [];
+
+  for (let i = 0; i < 6; i++) {
+    if (!group[i]) {
+      emptySlots.push(i);
+    }
+  }
+
+  if (selected.length > emptySlots.length) {
+    alert(
+      "이 그룹의 빈 자리는 " +
+      emptySlots.length +
+      "자리입니다.\n" +
+      "선택한 사람을 " +
+      selected.length +
+      "명 모두 임명하려면 먼저 빈 자리를 확보해 주세요."
+    );
+    return;
+  }
+
+  /* 선택한 사람은 혹시 다른 그룹에 들어 있다면 먼저 제거합니다. */
+  groups =
+    groups.map(function(currentGroup) {
+      const result =
+        currentGroup.slice(0, 6);
+
+      while (result.length < 6) {
+        result.push("");
+      }
+
+      for (let i = 0; i < 6; i++) {
+        if (selected.includes(result[i])) {
+          result[i] = "";
+        }
+      }
+
+      result[6] =
+        currentGroup[6] ||
+        "유타몰";
+
+      return result;
+    });
+
+  /* 대상 그룹의 빈 자리에 순서대로 넣습니다. */
+  let slotPointer = 0;
+
+  selected.forEach(function(name) {
+    while (slotPointer < 6 && groups[groupIndex][slotPointer]) {
+      slotPointer++;
+    }
+
+    if (slotPointer < 6) {
+      groups[groupIndex][slotPointer] = name;
+      slotPointer++;
+    }
+  });
+
+  selectedApplicants.clear();
+  selectedApplicant = null;
+
+  await saveGroups();
+
+  renderAdmin();
+  renderAppoint();
 }
 
 
@@ -4018,7 +4149,7 @@ function renderAppoint() {
         "appoint-members";
 
 
-      group.forEach(
+      group.slice(0, 6).forEach(
         function(name) {
 
           const person =
