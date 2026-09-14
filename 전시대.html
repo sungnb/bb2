@@ -3025,7 +3025,7 @@ function renderAdmin() {
   groups.forEach(
     function(group) {
 
-      group.slice(0, 6).forEach(
+      group.slice(0, 7).forEach(
         function(name) {
 
           if (name) {
@@ -3135,8 +3135,8 @@ function renderAdmin() {
 
             } else {
 
-              if (selectedApplicants.size >= 6) {
-                alert("한 번에 최대 6명까지 선택할 수 있습니다.");
+              if (selectedApplicants.size >= 7) {
+                alert("한 번에 최대 7명까지 선택할 수 있습니다.");
                 return;
               }
 
@@ -3300,25 +3300,55 @@ async function loadGroups() {
       loaded.map(
         function(group) {
 
-          const result =
-            Array.isArray(group)
-              ? group.slice(0, 7)
-              : [];
+          let result = [];
 
+          if (Array.isArray(group)) {
 
-          while (
-            result.length < 6
-          ) {
+            /* 새 형식:
+               1~7번째 = 봉사자 7명
+               8번째 = 봉사 장소 */
+            if (group.length >= 8) {
 
-            result.push("");
+              result =
+                group
+                  .slice(0, 7)
+                  .map(function(name) {
+                    return String(name || "").trim();
+                  });
 
-          }
+              while (result.length < 7) {
+                result.push("");
+              }
 
+              result[7] =
+                String(group[7] || "").trim() ||
+                "유타몰";
 
-          /* 7번째 값은 봉사 장소입니다.
-             기존 데이터에는 없으므로 유타몰을 기본값으로 사용합니다. */
-          if (!result[6]) {
-            result[6] = "유타몰";
+            } else {
+
+              /* 기존 형식:
+                 1~6번째 = 봉사자
+                 7번째 = 기존에 저장된 장소일 수 있음 */
+              result =
+                group
+                  .slice(0, 6)
+                  .map(function(name) {
+                    return String(name || "").trim();
+                  });
+
+              while (result.length < 7) {
+                result.push("");
+              }
+
+              result[7] =
+                String(group[6] || "").trim() ||
+                "유타몰";
+            }
+
+          } else {
+
+            result = ["", "", "", "", "", "", "", "유타몰"];
+
           }
 
 
@@ -3435,6 +3465,7 @@ async function addGroup() {
       "",
       "",
       "",
+      "",
       "유타몰"
     ]
   );
@@ -3515,12 +3546,13 @@ async function resetGroup(
 
 
   const currentLocation =
-    groups[index][6] ||
+    groups[index][7] ||
     "유타몰";
 
 
   groups[index] =
     [
+      "",
       "",
       "",
       "",
@@ -3642,7 +3674,7 @@ locations.forEach(
 
   /* 저장되어 있는 장소를 선택합니다. */
   title.value =
-    group[6] ||
+    group[7] ||
     "유타몰";
 
 
@@ -3650,7 +3682,7 @@ locations.forEach(
   title.onchange =
     async function() {
 
-      groups[groupIndex][6] =
+      groups[groupIndex][7] =
         title.value ||
         "유타몰";
 
@@ -3757,7 +3789,7 @@ locations.forEach(
 
       for (
         let slotIndex = 0;
-        slotIndex < 6;
+        slotIndex < 7;
         slotIndex++
       ) {
 
@@ -3880,7 +3912,7 @@ async function assignSelectedToGroup(groupIndex) {
 
   const emptySlots = [];
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 7; i++) {
     if (!group[i]) {
       emptySlots.push(i);
     }
@@ -3902,20 +3934,20 @@ async function assignSelectedToGroup(groupIndex) {
   groups =
     groups.map(function(currentGroup) {
       const result =
-        currentGroup.slice(0, 6);
+        currentGroup.slice(0, 7);
 
-      while (result.length < 6) {
+      while (result.length < 7) {
         result.push("");
       }
 
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 7; i++) {
         if (selected.includes(result[i])) {
           result[i] = "";
         }
       }
 
-      result[6] =
-        currentGroup[6] ||
+      result[7] =
+        currentGroup[7] ||
         "유타몰";
 
       return result;
@@ -3925,11 +3957,11 @@ async function assignSelectedToGroup(groupIndex) {
   let slotPointer = 0;
 
   selected.forEach(function(name) {
-    while (slotPointer < 6 && groups[groupIndex][slotPointer]) {
+    while (slotPointer < 7 && groups[groupIndex][slotPointer]) {
       slotPointer++;
     }
 
-    if (slotPointer < 6) {
+    if (slotPointer < 7) {
       groups[groupIndex][slotPointer] = name;
       slotPointer++;
     }
@@ -4135,7 +4167,7 @@ function renderAppoint() {
 
 
       title.textContent =
-        group[6] ||
+        group[7] ||
         "유타몰";
 
 
@@ -4149,7 +4181,7 @@ function renderAppoint() {
         "appoint-members";
 
 
-      group.slice(0, 6).forEach(
+      group.slice(0, 7).forEach(
         function(name) {
 
           const person =
