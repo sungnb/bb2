@@ -4402,7 +4402,9 @@ document.addEventListener(
       fixed:FIXED_KEYS.includes(key),
       serviceDate:String(s.serviceDate||s.date||""),
       startTime:String(s.startTime||s.serviceStart||"10:00"),
-      endTime:String(s.endTime||s.serviceEnd||"12:00")
+      endTime:String(s.endTime||s.serviceEnd||"12:00"),
+      applicationStart:String(s.applicationStart||s.applyStart||""),
+      applicationEnd:String(s.applicationEnd||s.applyEnd||"")
     };
   }
   function fixedSchedules(){
@@ -4574,15 +4576,69 @@ document.addEventListener(
   function closeAppoint(){currentAppointScheduleKey=null;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("appoint",false);}
 
   function makeTimeOptions(sel,selected){for(let h=10;h<=17;h++){for(let m=0;m<60;m+=10){if(h===17&&m>0)continue;const v=pad(h)+":"+pad(m),o=document.createElement("option");o.value=v;o.textContent=fmtTime(v);if(v===selected)o.selected=true;sel.appendChild(o);}}}
+  function addHoursToTime(value, hours){
+    const m=String(value||"").match(/^(\d{1,2}):(\d{2})$/);
+    if(!m) return "";
+    const total=Number(m[1])*60+Number(m[2])+hours*60;
+    const h=Math.floor(total/60), min=total%60;
+    return pad(h)+":"+pad(min);
+  }
+
   function showExtraEditor(){
     if(schedules.filter(s=>!s.fixed).length>=3){alert("추가 일정은 최대 3개까지 만들 수 있습니다.");return;}
     const used=new Set(schedules.map(s=>s.key));const key=ALL_KEYS.slice(3).find(k=>!used.has(k));if(!key)return;
     const wrap=document.createElement("div");wrap.className="schedule-editor";wrap.id="recentScheduleEditor";
     const d=nextSaturday();d.setDate(d.getDate()+7);
-    wrap.innerHTML='<div class="schedule-editor-grid"><label>봉사 날짜<input type="date" id="recentExtraDate" value="'+dateInput(d)+'"></label><label>시작 시간<select id="recentExtraStart"></select></label><label>종료 시간<select id="recentExtraEnd"></select></label></div><div class="schedule-editor-actions"><button type="button" id="recentExtraCancel">취소</button><button type="button" id="recentExtraSave">저장</button></div>';
-    document.getElementById("adminScheduleSelector").appendChild(wrap);makeTimeOptions(document.getElementById("recentExtraStart"),"10:00");makeTimeOptions(document.getElementById("recentExtraEnd"),"12:00");
+    const today=dateInput(new Date());
+    wrap.innerHTML='<div class="schedule-editor-grid">'+
+      '<label>봉사 날짜<input type="date" id="recentExtraDate" value="'+dateInput(d)+'"></label>'+
+      '<label>시작 시간<select id="recentExtraStart"></select></label>'+
+      '<label>신청 시작일<input type="date" id="recentExtraApplicationStart" value="'+today+'"></label>'+
+      '<label>신청 마감일<input type="date" id="recentExtraApplicationEnd" value="'+dateInput(d)+'"></label>'+
+      '</div><div class="schedule-editor-actions"><button type="button" id="recentExtraCancel">취소</button><button type="button" id="recentExtraSave">저장</button></div>';
+    document.getElementById("adminScheduleSelector").appendChild(wrap);
+    makeTimeOptions(document.getElementById("recentExtraStart"),"10:00");
     document.getElementById("recentExtraCancel").onclick=function(){wrap.remove();};
-    document.getElementById("recentExtraSave").onclick=async function(){const date=document.getElementById("recentExtraDate").value,start=document.getElementById("recentExtraStart").value,end=document.getElementById("recentExtraEnd").value;if(!date){alert("봉사 날짜를 선택해 주세요.");return;}if(start>=end){alert("종료 시간은 시작 시간보다 늦어야 합니다.");return;}try{await postJson({action:"saveSchedule",key:key,scheduleKey:key,label:key,serviceDate:date,startTime:start,endTime:end});schedules.push(normalize({key:key,label:key,serviceDate:date,startTime:start,endTime:end}));schedules.sort(order);saveLocal();renderLists();wrap.remove();alert(key+" 일정이 추가되었습니다.");}catch(e){console.error(e);alert("일정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}};
+    document.getElementById("recentExtraSave").onclick=async function(){
+      const date=document.getElementById("recentExtraDate").value;
+      const start=document.getElementById("recentExtraStart").value;
+      const applicationStart=document.getElementById("recentExtraApplicationStart").value;
+      const applicationEnd=document.getElementById("recentExtraApplicationEnd").value;
+      const end=addHoursToTime(start,2);
+      if(!date||!start||!applicationStart||!applicationEnd){alert("날짜와 시간을 모두 입력해 주세요.");return;}
+      if(applicationEnd<applicationStart){alert("신청 마감일은 신청 시작일보다 빠를 수 없습니다.");return;}
+      if(applicationEnd>date){
+        if(!confirm("신청 마감일이 봉사 날짜보다 늦습니다. 이 날짜로 저장하시겠습니까?"))return;
+      }
+      try{
+        await postJson({
+          action:"saveSchedule",
+          key:key,
+          scheduleKey:key,
+          label:key,
+          serviceDate:date,
+          startTime:start,
+          endTime:end,
+          serviceTime:fmtRange(start,end),
+          applicationStart:applicationStart,
+          applicationEnd:applicationEnd,
+          applySheet:"신청용 "+key,
+          manageSheet:"관리용 "+key
+        });
+        const saved=normalize({
+          key:key,label:key,serviceDate:date,startTime:start,endTime:end,
+          applicationStart:applicationStart,applicationEnd:applicationEnd,
+          applySheet:"신청용 "+key,manageSheet:"관리용 "+key
+        });
+        schedules=schedules.filter(s=>s.key!==key);
+        schedules.push(saved);
+        schedules.sort(order);
+        saveLocal();
+        renderLists();
+        wrap.remove();
+        alert(key+" 일정이 저장되었습니다. 신청 탭에 바로 반영됩니다.");
+      }catch(e){console.error(e);alert("일정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}
+    };
   }
   async function deleteExtra(key){
     const s=getSchedule(key);if(!s||s.fixed)return;if(!confirm(s.label+" 일정을 삭제하시겠습니까?\n해당 일정의 신청자와 관리 데이터도 함께 초기화됩니다."))return;
