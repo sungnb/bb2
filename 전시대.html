@@ -3277,7 +3277,7 @@ async function loadGroups() {
 
           const result =
             Array.isArray(group)
-              ? group.slice(0, 6)
+              ? group.slice(0, 7)
               : [];
 
 
@@ -3287,6 +3287,13 @@ async function loadGroups() {
 
             result.push("");
 
+          }
+
+
+          /* 7번째 값은 봉사 장소입니다.
+             기존 데이터에는 없으므로 유타몰을 기본값으로 사용합니다. */
+          if (!result[6]) {
+            result[6] = "유타몰";
           }
 
 
@@ -3402,7 +3409,8 @@ async function addGroup() {
       "",
       "",
       "",
-      ""
+      "",
+      "유타몰"
     ]
   );
 
@@ -3481,6 +3489,11 @@ async function resetGroup(
   }
 
 
+  const currentLocation =
+    groups[index][6] ||
+    "유타몰";
+
+
   groups[index] =
     [
       "",
@@ -3488,7 +3501,8 @@ async function resetGroup(
       "",
       "",
       "",
-      ""
+      "",
+      currentLocation
     ];
 
 
@@ -3600,6 +3614,25 @@ locations.forEach(
     );
   }
 );
+
+  /* 저장되어 있는 장소를 선택합니다. */
+  title.value =
+    group[6] ||
+    "유타몰";
+
+
+  /* 장소를 변경하면 즉시 저장합니다. */
+  title.onchange =
+    async function() {
+
+      groups[groupIndex][6] =
+        title.value ||
+        "유타몰";
+
+      await saveGroups();
+
+    };
+
 
       const buttons =
         document.createElement(
@@ -3971,8 +4004,8 @@ function renderAppoint() {
 
 
       title.textContent =
-        (index + 1) +
-        "번 그룹";
+        group[6] ||
+        "유타몰";
 
 
       const members =
