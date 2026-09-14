@@ -592,6 +592,99 @@ body.light .current-name {
   font-weight: 700;
 }
 
+.admin-appoint-guide {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  text-align: center;
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.5;
+}
+
+body.light .admin-appoint-guide {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.group-appoint-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.group-control {
+  width: 100%;
+  min-height: 42px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  border: 1px solid #555;
+  background: transparent;
+  color: inherit;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+}
+
+body.light .group-control {
+  background: #fff;
+  border-color: #ccc;
+}
+
+.group-control-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: calc(13px * var(--font-scale));
+  color: #aaa;
+}
+
+body.light .group-control-label {
+  color: #777;
+}
+
+.appoint-schedule {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+body.light .appoint-schedule {
+  border-color: #ddd;
+}
+
+.appoint-duration {
+  margin-bottom: 8px;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 800;
+}
+
+.appoint-schedule-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  margin-bottom: 5px;
+  font-size: calc(16px * var(--font-scale));
+}
+
+body.light .appoint-schedule-row {
+  background: #f7f7f7;
+}
+
+.appoint-schedule-name {
+  flex: 1;
+  font-weight: 700;
+}
+
+.appoint-schedule-time {
+  white-space: nowrap;
+  font-weight: 700;
+}
 
 /* =========================================================
    미배정 신청자
@@ -640,6 +733,24 @@ body.light .current-name {
     3px solid #6FA8D8;
 }
 
+.appoint-selected-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #3F6F9F;
+  color: #fff;
+  cursor: pointer;
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+}
+
+.appoint-selected-button:active {
+  transform: scale(.99);
+}
+
 body.light .admin-name {
   background: #fff;
   border: 1px solid #ddd;
@@ -650,6 +761,11 @@ body.light .admin-name.selected {
 
   border:
     3px solid #3F6F9F;
+}
+
+body.light .appoint-selected-button {
+  background: #3F6F9F;
+  color: #fff;
 }
 
 
@@ -1328,6 +1444,19 @@ body.light .admin-login-input {
       calc(16px * var(--font-scale));
   }
 
+  .group-control {
+    min-height: 40px;
+    font-size: calc(14px * var(--font-scale));
+  }
+
+  .appoint-schedule-row {
+    align-items: flex-start;
+  }
+
+  .appoint-schedule-time {
+    font-size: calc(14px * var(--font-scale));
+  }
+
   .group-slots {
     grid-template-columns:
       repeat(3, 1fr);
@@ -1383,6 +1512,258 @@ body.light .admin-login-input {
   }
 
 }
+
+/* =========================================================
+   일정 선택 / 일정 상세
+========================================================= */
+
+.schedule-panel {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.schedule-button-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.schedule-button {
+  flex: 1;
+  min-height: 64px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.08);
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.schedule-button:active {
+  transform: scale(.99);
+}
+
+.schedule-button-main {
+  display: block;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.schedule-button-sub {
+  display: block;
+  margin-top: 3px;
+  color: #aaa;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.4;
+}
+
+.schedule-button-date,
+.schedule-button-time {
+  display: block;
+}
+
+.schedule-button-time {
+  margin-top: 2px;
+}
+
+body.light .schedule-button {
+  background: #fff;
+  border-color: #ddd;
+}
+
+body.light .schedule-button-sub {
+  color: #777;
+}
+
+.schedule-delete-button {
+  flex: 0 0 58px;
+  border: 1px solid rgba(255,120,120,.35);
+  border-radius: 12px;
+  background: rgba(180,60,60,.12);
+  color: #ffb0b0;
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.light .schedule-delete-button {
+  background: #fff5f5;
+  color: #b33;
+  border-color: #e5b0b0;
+}
+
+.schedule-detail-head {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 14px;
+}
+
+.schedule-back-button {
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  background: rgba(255,255,255,.07);
+  color: inherit;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.light .schedule-back-button {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.schedule-detail-title {
+  padding: 13px 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.schedule-detail-name {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+}
+
+.schedule-detail-info {
+  margin-top: 3px;
+  color: #aaa;
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.5;
+}
+
+body.light .schedule-detail-title {
+  background: #fff;
+  border-color: #ddd;
+}
+
+body.light .schedule-detail-info {
+  color: #777;
+}
+
+.schedule-add-wrap {
+  width: 100%;
+  max-width: 900px;
+  margin: 8px auto 0;
+}
+
+.schedule-add-button {
+  width: 100%;
+  min-height: 48px;
+  border: 1px dashed #4285f4;
+  border-radius: 10px;
+  background: transparent;
+  color: #4285f4;
+  cursor: pointer;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 800;
+}
+
+.schedule-editor {
+  width: 100%;
+  max-width: 900px;
+  margin: 12px auto 0;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.schedule-editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.schedule-editor label {
+  display: block;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: #aaa;
+}
+
+.schedule-editor input,
+.schedule-editor select {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 4px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  border: 1px solid #555;
+  background: transparent;
+  color: inherit;
+  font-size: calc(15px * var(--font-scale));
+}
+
+body.light .schedule-editor {
+  background: #fff;
+  border-color: #ddd;
+}
+
+body.light .schedule-editor label {
+  color: #777;
+}
+
+body.light .schedule-editor input,
+body.light .schedule-editor select {
+  background: #fff;
+  border-color: #ccc;
+}
+
+.schedule-editor-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.schedule-editor-actions button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 800;
+}
+
+.schedule-editor-save {
+  background: #4285f4;
+  color: #fff;
+}
+
+.schedule-editor-cancel {
+  background: #555;
+  color: #fff;
+}
+
+.schedule-detail-body {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.schedule-empty {
+  padding: 35px 10px;
+  text-align: center;
+  color: #999;
+  font-size: calc(15px * var(--font-scale));
+}
+
+@media (max-width: 600px) {
+  .schedule-editor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 </style>
 </head>
@@ -1571,217 +1952,41 @@ body.light .admin-login-input {
     class="view"
   >
 
-    <h1 class="page-title">
-      신청
-    </h1>
+    <h1 class="page-title">신청</h1>
 
+    <div id="applyScheduleList" class="schedule-panel"></div>
 
-    <!-- 토요일 -->
-
-    <div class="apply-date-box">
-
-      <div
-        class="apply-date"
-        id="saturdayDate"
-      ></div>
-
-      <div class="apply-time">
-        오후 1:00~3:00 (2시간)
-      </div>
-
-    </div>
-
-
-    <div
-      class="count-box"
-      id="applySelectedCount"
-    >
-      현재 선택 0 명
-    </div>
-
-
-    <div class="apply-name-open-wrap">
-
-      <button
-        type="button"
-        class="apply-name-open-button"
-        onclick="toggleApplyNames()"
-      >
-        전시대 신청
-      </button>
-
-    </div>
-
-
-    <div
-      class="name-grid"
-      id="applyNameGrid"
-      style="display:none;"
-    ></div>
-
-
-    <div
-      class="apply-complete-wrap"
-      id="applyCompleteWrap"
-      style="display:none;"
-    >
-
-      <button
-        class="apply-complete-button"
-        onclick="completeApply()"
-      >
-        제출
-      </button>
-
-    </div>
-
-
-    <!-- 현재 신청자 -->
-
-    <div class="current-applicants">
-
-      <div
-        class="current-title"
-        id="currentApplicantTitle"
-      >
-        신청자 0명
-      </div>
-
-      <div
-        class="current-names"
-        id="currentApplicantNames"
-      >
-
-        <div class="current-empty">
-          아직 신청한 사람이 없습니다.
-        </div>
-
-      </div>
-
-    </div>
+    <div id="applyScheduleDetail" style="display:none;"></div>
 
   </section>
 
-
-
-  <!-- =======================================================
-       3. 임명
-  ======================================================== -->
 
   <section
     id="appointView"
     class="view"
   >
 
-    <h1 class="page-title">
-      임명
-    </h1>
+    <h1 class="page-title">임명</h1>
 
+    <div id="appointScheduleList" class="schedule-panel"></div>
 
-    <div class="appoint-section">
-
-      <div
-        class="appoint-list"
-        id="appointList"
-      >
-
-        <div class="appoint-empty">
-          임명된 그룹을 불러오는 중입니다.
-        </div>
-
-      </div>
-
-    </div>
+    <div id="appointScheduleDetail" style="display:none;"></div>
 
   </section>
 
-
-
-  <!-- =======================================================
-       4. 관리용
-  ======================================================== -->
 
   <section
     id="adminView"
     class="view"
   >
 
-    <h1 class="page-title">
-      관리자용
-    </h1>
+    <h1 class="page-title">관리자용</h1>
 
+    <div id="adminScheduleList" class="schedule-panel"></div>
 
-    <div class="admin-section">
-
-
-      <div
-        class="admin-count"
-        id="adminCount"
-      >
-        미배정 신청자 0명
-      </div>
-
-
-      <!-- 미배정 신청자 -->
-
-      <div
-        class="admin-names"
-        id="adminNames"
-      >
-
-        <div class="name-loading">
-          신청자를 불러오는 중입니다.
-        </div>
-
-      </div>
-
-
-      <!-- 직접 추가 -->
-
-      <div
-        style="
-          display:flex;
-          justify-content:flex-end;
-          margin-bottom:15px;
-        "
-      >
-
-        <button
-          class="admin-add-button"
-          onclick="addManualApplicant()"
-        >
-          + 추가
-        </button>
-
-      </div>
-
-
-      <!-- 그룹 추가 -->
-
-      <div class="group-controls">
-
-        <button
-          class="add-group-button"
-          onclick="addGroup()"
-        >
-          + 봉사 그룹 추가
-        </button>
-
-      </div>
-
-
-      <!-- 그룹 -->
-
-      <div
-        class="groups"
-        id="groups"
-      ></div>
-
-
-    </div>
+    <div id="adminScheduleDetail" style="display:none;"></div>
 
   </section>
-
 
 </main>
 
@@ -1946,6 +2151,10 @@ let applicants = [];
 let groups = [];
 
 let selectedApplicant = null;
+let selectedApplicants = new Set();
+
+let appointmentSettings = [];
+const APPOINTMENT_SETTINGS_KEY = "jeonsidaeAppointmentSettings";
 
 let currentSelections = [];
 
@@ -1965,6 +2174,7 @@ document.addEventListener(
   function() {
 
     loadSettings();
+    loadAppointmentSettings();
 
     setDates();
 
@@ -2181,6 +2391,7 @@ function goBack() {
   history.back();
 
 }
+
 
 
 /* =========================================================
@@ -3001,7 +3212,7 @@ function renderAdmin() {
   groups.forEach(
     function(group) {
 
-      group.forEach(
+      group.slice(0, 6).forEach(
         function(name) {
 
           if (name) {
@@ -3043,6 +3254,8 @@ function renderAdmin() {
     .textContent =
       "미배정 신청자 " +
       unassigned.length +
+      "명 · 현재 선택 " +
+      selectedApplicants.size +
       "명";
 
 
@@ -3086,8 +3299,7 @@ function renderAdmin() {
 
 
         if (
-          selectedApplicant ===
-          name
+          selectedApplicants.has(name)
         ) {
 
           button.classList.add(
@@ -3097,29 +3309,34 @@ function renderAdmin() {
         }
 
 
+        const selectedOrder =
+          [...selectedApplicants].indexOf(name);
+
         button.textContent =
-          name;
+          selectedOrder >= 0
+            ? (selectedOrder + 1) + ". " + name
+            : name;
 
 
         button.onclick =
           function() {
 
-            if (
-              selectedApplicant ===
-              name
-            ) {
+            if (selectedApplicants.has(name)) {
 
-              selectedApplicant =
-                null;
+              selectedApplicants.delete(name);
 
             } else {
 
-              selectedApplicant =
-                name;
+              if (selectedApplicants.size >= 7) {
+                alert("한 번에 최대 7명까지 선택할 수 있습니다.");
+                return;
+              }
+
+              selectedApplicants.add(name);
 
             }
 
-
+            selectedApplicant = null;
             renderAdmin();
 
           };
@@ -3232,6 +3449,183 @@ async function addManualApplicant() {
 
 
 /* =========================================================
+   임명 설정
+========================================================= */
+
+const APPOINTMENT_RULES = {
+  4: [
+    [0, 1, 0, 60],
+    [2, 3, 30, 90]
+  ],
+  5: [
+    [0, 1, 0, 0],
+    [2, 3, 25, 25],
+    [4, 0, 50, 50],
+    [1, 2, 75, 75],
+    [3, 4, 95, 95]
+  ],
+  6: [
+    [0, 1, 0, 60],
+    [2, 3, 20, 80],
+    [4, 5, 40, 100]
+  ],
+  7: [
+    [0, 1, 0, 0],
+    [2, 3, 20, 20],
+    [4, 5, 40, 40],
+    [6, 0, 60, 60],
+    [1, 2, 75, 75],
+    [3, 4, 90, 90],
+    [5, 6, 105, 105]
+  ]
+};
+
+function loadAppointmentSettings() {
+  try {
+    const saved = localStorage.getItem(APPOINTMENT_SETTINGS_KEY);
+    appointmentSettings = saved ? JSON.parse(saved) : [];
+    if (!Array.isArray(appointmentSettings)) appointmentSettings = [];
+  } catch (error) {
+    appointmentSettings = [];
+  }
+}
+
+function saveAppointmentSettings() {
+  localStorage.setItem(
+    APPOINTMENT_SETTINGS_KEY,
+    JSON.stringify(appointmentSettings)
+  );
+}
+
+function ensureAppointmentSetting(index, group) {
+  const filled = group.slice(0, 7).filter(Boolean).length;
+  if (!appointmentSettings[index]) {
+    appointmentSettings[index] = {
+      mode: filled >= 4 && filled <= 7 ? filled : 6,
+      startTime: "10:00"
+    };
+  }
+  if (![4, 5, 6, 7].includes(Number(appointmentSettings[index].mode))) {
+    appointmentSettings[index].mode = 6;
+  }
+  if (!appointmentSettings[index].startTime) {
+    appointmentSettings[index].startTime = "10:00";
+  }
+  return appointmentSettings[index];
+}
+
+function makeTimeOptions(selected) {
+  const options = [];
+  for (let hour = 8; hour <= 18; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      if (hour === 18 && minute > 0) continue;
+      const value =
+        String(hour).padStart(2, "0") + ":" +
+        String(minute).padStart(2, "0");
+      options.push({
+        value: value,
+        selected: value === selected
+      });
+    }
+  }
+  return options;
+}
+
+function formatTimeWithOffset(startTime, offsetMinutes) {
+  const parts = String(startTime || "10:00").split(":");
+  let total =
+    Number(parts[0]) * 60 +
+    Number(parts[1]) +
+    Number(offsetMinutes || 0);
+
+  total = ((total % 1440) + 1440) % 1440;
+
+  const hour = Math.floor(total / 60);
+  const minute = total % 60;
+
+  return String(hour).padStart(2, "0") + ":" +
+    String(minute).padStart(2, "0");
+}
+
+function formatDisplayTime(time) {
+  const parts = String(time).split(":");
+  const hour = Number(parts[0]);
+  const minute = parts[1];
+  const suffix = hour < 12 ? "오전" : "오후";
+  const displayHour = hour % 12 || 12;
+  return suffix + " " + displayHour + ":" + minute;
+}
+
+function formatRange(startTime) {
+  return formatDisplayTime(startTime) +
+    "~" +
+    formatDisplayTime(formatTimeWithOffset(startTime, 120)) +
+    " (2시간)";
+}
+
+function renderScheduleForGroup(group, index) {
+  const setting = ensureAppointmentSetting(index, group);
+  const mode = Number(setting.mode);
+  const names = group.slice(0, mode);
+
+  if (names.filter(Boolean).length !== mode) {
+    return null;
+  }
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "appoint-schedule";
+
+  const duration = document.createElement("div");
+  duration.className = "appoint-duration";
+  duration.textContent = "🕙 " + formatRange(setting.startTime);
+  wrapper.appendChild(duration);
+
+  APPOINTMENT_RULES[mode].forEach(function(rule, rowIndex) {
+    const firstIndex = rule[0];
+    const secondIndex = rule[1];
+    const firstOffset = rule[2];
+    const secondOffset = (mode === 4 || mode === 6) ? rule[3] : rule[2];
+
+    const row = document.createElement("div");
+    row.className = "appoint-schedule-row";
+
+    const name = document.createElement("div");
+    name.className = "appoint-schedule-name";
+    name.textContent =
+      (rowIndex + 1) + ". " +
+      names[firstIndex] + " · " +
+      names[secondIndex];
+
+    const time = document.createElement("div");
+    time.className = "appoint-schedule-time";
+    const firstTime =
+      formatDisplayTime(
+        formatTimeWithOffset(setting.startTime, firstOffset)
+      );
+
+    const secondTime =
+      formatDisplayTime(
+        formatTimeWithOffset(setting.startTime, secondOffset)
+      );
+
+    /* 5명·7명 규칙처럼 두 사람이 같은 시간에 시작하면
+       같은 시간을 두 번 표시하지 않습니다.
+       4명·6명처럼 시간이 다르면 기존대로 두 시간을 표시합니다. */
+    time.textContent =
+      firstTime === secondTime
+        ? firstTime
+        : firstTime + ", " + secondTime;
+
+    row.appendChild(name);
+    row.appendChild(time);
+    wrapper.appendChild(row);
+  });
+
+  return wrapper;
+}
+
+
+/* =========================================================
    그룹 불러오기
 ========================================================= */
 
@@ -3246,105 +3640,88 @@ async function loadGroups() {
         Date.now()
       );
 
+    const data = await response.json();
 
-    const data =
-      await response.json();
-
-
-    if (
-      !data.success
-    ) {
-
+    if (!data.success) {
       throw new Error(
         data.message ||
         "그룹을 불러오지 못했습니다."
       );
-
     }
 
-
     const loaded =
-      Array.isArray(
-        data.groups
-      )
+      Array.isArray(data.groups)
         ? data.groups
         : [];
 
+    groups = loaded.map(function(group) {
+      const result = Array.isArray(group)
+        ? group.slice(0, 8)
+        : [];
 
-    groups =
-      loaded.map(
-        function(group) {
+      while (result.length < 7) {
+        result.push("");
+      }
 
-          const result =
-            Array.isArray(group)
-              ? group.slice(0, 6)
-              : [];
+      if (!result[7]) {
+        result[7] = "유타몰";
+      }
 
+      return result;
+    });
 
-          while (
-            result.length < 6
-          ) {
+    appointmentSettings = appointmentSettings.slice(0, groups.length);
 
-            result.push("");
+    groups.forEach(function(group, index) {
+      ensureAppointmentSetting(index, group);
+    });
 
-          }
-
-
-          return result;
-
-        }
-      );
-
+    saveAppointmentSettings();
 
     renderGroups();
-
     renderAdmin();
-
     renderAppoint();
-
 
   } catch (error) {
 
-    console.error(
-      error
-    );
-
-
-    /*
-      서버 그룹이 아직 없을 경우
-      브라우저 저장값 사용
-    */
+    console.error(error);
 
     try {
-
       const saved =
-        localStorage.getItem(
-          GROUP_KEY
-        );
+        localStorage.getItem(GROUP_KEY);
 
+      groups = saved ? JSON.parse(saved) : [];
 
-      groups =
-        saved
-          ? JSON.parse(saved)
+      groups = groups.map(function(group) {
+        const result = Array.isArray(group)
+          ? group.slice(0, 8)
           : [];
 
-    } catch (
-      storageError
-    ) {
+        while (result.length < 7) {
+          result.push("");
+        }
 
+        if (!result[7]) {
+          result[7] = "유타몰";
+        }
+
+        return result;
+      });
+
+    } catch (storageError) {
       groups = [];
-
     }
 
+    groups.forEach(function(group, index) {
+      ensureAppointmentSetting(index, group);
+    });
+
+    saveAppointmentSettings();
 
     renderGroups();
-
     renderAppoint();
-
   }
-
 }
-
 
 /* =========================================================
    그룹 저장
@@ -3396,30 +3773,23 @@ async function saveGroups() {
 async function addGroup() {
 
   groups.unshift(
-    [
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
+    ["", "", "", "", "", "", "", "유타몰"]
   );
 
+  appointmentSettings.unshift({
+    mode: 6,
+    startTime: "10:00"
+  });
+  saveAppointmentSettings();
 
   await saveGroups();
 
-
-  selectedApplicant =
-    null;
-
+  selectedApplicant = null;
+  selectedApplicants.clear();
 
   renderAdmin();
-
   renderAppoint();
-
 }
-
 
 /* =========================================================
    그룹 삭제
@@ -3429,37 +3799,22 @@ async function deleteGroup(
   index
 ) {
 
-  if (
-    !confirm(
-      (index + 1) +
-      "번 그룹을 삭제하시겠습니까?"
-    )
-  ) {
-
+  if (!confirm((index + 1) + "번 그룹을 삭제하시겠습니까?")) {
     return;
-
   }
 
+  groups.splice(index, 1);
+  appointmentSettings.splice(index, 1);
+  saveAppointmentSettings();
 
-  groups.splice(
-    index,
-    1
-  );
-
-
-  selectedApplicant =
-    null;
-
+  selectedApplicant = null;
+  selectedApplicants.clear();
 
   await saveGroups();
 
-
   renderAdmin();
-
   renderAppoint();
-
 }
-
 
 /* =========================================================
    그룹 초기화
@@ -3469,42 +3824,31 @@ async function resetGroup(
   index
 ) {
 
-  if (
-    !confirm(
-      (index + 1) +
-      "번 그룹의 봉사자를 초기화하시겠습니까?"
-    )
-  ) {
-
+  if (!confirm((index + 1) + "번 그룹의 봉사자를 초기화하시겠습니까?")) {
     return;
-
   }
 
+  const currentLocation =
+    groups[index][7] || "유타몰";
 
-  groups[index] =
-    [
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ];
+  groups[index] = [
+    "", "", "", "", "", "", "", currentLocation
+  ];
 
+  appointmentSettings[index] = {
+    mode: 6,
+    startTime: "10:00"
+  };
+  saveAppointmentSettings();
 
-  selectedApplicant =
-    null;
-
+  selectedApplicant = null;
+  selectedApplicants.clear();
 
   await saveGroups();
 
-
   renderAdmin();
-
   renderAppoint();
-
 }
-
 
 /* =========================================================
    그룹 표시
@@ -3512,274 +3856,252 @@ async function resetGroup(
 
 function renderGroups() {
 
-  const box =
-    document.getElementById(
-      "groups"
-    );
+  const box = document.getElementById("groups");
+  box.innerHTML = "";
 
-
-  box.innerHTML =
-    "";
-
-
-  if (
-    groups.length === 0
-  ) {
-
+  if (groups.length === 0) {
     box.innerHTML =
       '<div class="name-loading">' +
       '아직 만든 봉사 그룹이 없습니다.<br>' +
       '「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.' +
       '</div>';
-
     return;
-
   }
 
+  groups.forEach(function(group, groupIndex) {
 
-  groups.forEach(
-    function(group, groupIndex) {
+    const setting = ensureAppointmentSetting(groupIndex, group);
+    const card = document.createElement("div");
+    card.className = "group-card";
 
-      const card =
-        document.createElement(
-          "div"
+    const header = document.createElement("div");
+    header.className = "group-header";
+
+    const title = document.createElement("select");
+    title.className = "group-title";
+
+    const locations = [
+      "유타몰",
+      "성북천(보문2교-아래)",
+      "성북천(보문2교-위)",
+      "성북구청(광장)",
+      "보문역(주변)",
+      "성신여대(주변)",
+      "성북천(하늘다리)",
+      "성북천(바람마당교)",
+      "성북천(분수대)",
+      "성북천(용문교)",
+      "가두 증거"
+    ];
+
+    locations.forEach(function(location) {
+      const option = document.createElement("option");
+      option.value = location;
+      option.textContent = location;
+      title.appendChild(option);
+    });
+
+    title.value = group[7] || "유타몰";
+    title.onchange = async function() {
+      groups[groupIndex][7] = title.value || "유타몰";
+      await saveGroups();
+      renderAppoint();
+    };
+
+    const buttons = document.createElement("div");
+    buttons.className = "group-buttons";
+
+    const resetButton = document.createElement("button");
+    resetButton.type = "button";
+    resetButton.className = "group-action";
+    resetButton.textContent = "초기화";
+    resetButton.onclick = function() {
+      resetGroup(groupIndex);
+    };
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "group-action";
+    deleteButton.textContent = "삭제";
+    deleteButton.onclick = function() {
+      deleteGroup(groupIndex);
+    };
+
+    buttons.appendChild(resetButton);
+    buttons.appendChild(deleteButton);
+    header.appendChild(title);
+    header.appendChild(buttons);
+    card.appendChild(header);
+
+    const controls = document.createElement("div");
+    controls.className = "group-appoint-controls";
+
+    const modeWrap = document.createElement("div");
+    const modeLabel = document.createElement("span");
+    modeLabel.className = "group-control-label";
+    modeLabel.textContent = "임명 인원";
+    modeWrap.appendChild(modeLabel);
+
+    const modeSelect = document.createElement("select");
+    modeSelect.className = "group-control";
+
+    [4, 5, 6, 7].forEach(function(mode) {
+      const option = document.createElement("option");
+      option.value = String(mode);
+      option.textContent = mode + "명";
+      modeSelect.appendChild(option);
+    });
+
+    modeSelect.value = String(setting.mode);
+
+    modeSelect.onchange = function() {
+      const newMode = Number(modeSelect.value);
+      const filledCount = group.slice(0, 7).filter(Boolean).length;
+
+      if (filledCount > newMode) {
+        alert(
+          "현재 " + filledCount +
+          "명이 들어 있습니다. 먼저 사람을 줄인 후 인원수를 변경해 주세요."
         );
-
-
-      card.className =
-        "group-card";
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-
-      header.className =
-        "group-header";
-
-
-   const title =
-  document.createElement(
-    "select"
-  );
-
-title.className =
-  "group-title";
-
-const locations = [
-  "유타몰",
-  "성북천(보문2교-아래)",
-  "성북천(보문2교-위)",
-  "성북구청(광장)",
-  "보문역(주변)",
-  "성신여대(주변)",
-  "성북천(하늘다리)",
-  "성북천(바람마당교)",
-  "성북천(분수대)",
-  "성북천(용문교)",
-  "가두 증거"
-];
-
-locations.forEach(
-  function(location) {
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value =
-      location;
-
-    option.textContent =
-      location;
-
-    title.appendChild(
-      option
-    );
-  }
-);
-
-      const buttons =
-        document.createElement(
-          "div"
-        );
-
-
-      buttons.className =
-        "group-buttons";
-
-
-      const resetButton =
-        document.createElement(
-          "button"
-        );
-
-
-      resetButton.type =
-        "button";
-
-
-      resetButton.className =
-        "group-action";
-
-
-      resetButton.textContent =
-        "초기화";
-
-
-      resetButton.onclick =
-        function() {
-
-          resetGroup(
-            groupIndex
-          );
-
-        };
-
-
-      const deleteButton =
-        document.createElement(
-          "button"
-        );
-
-
-      deleteButton.type =
-        "button";
-
-
-      deleteButton.className =
-        "group-action";
-
-
-      deleteButton.textContent =
-        "삭제";
-
-
-      deleteButton.onclick =
-        function() {
-
-          deleteGroup(
-            groupIndex
-          );
-
-        };
-
-
-      buttons.appendChild(
-        resetButton
-      );
-
-
-      buttons.appendChild(
-        deleteButton
-      );
-
-
-      header.appendChild(
-        title
-      );
-
-
-      header.appendChild(
-        buttons
-      );
-
-
-      const slots =
-        document.createElement(
-          "div"
-        );
-
-
-      slots.className =
-        "group-slots";
-
-
-      for (
-        let slotIndex = 0;
-        slotIndex < 6;
-        slotIndex++
-      ) {
-
-        const name =
-          group[slotIndex] ||
-          "";
-
-
-        const slot =
-          document.createElement(
-            "button"
-          );
-
-
-        slot.type =
-          "button";
-
-
-        slot.className =
-          "group-slot";
-
-
-        if (name) {
-
-          slot.classList.add(
-            "filled"
-          );
-
-          slot.textContent =
-            name;
-
-        } else {
-
-          slot.classList.add(
-            "empty"
-          );
-
-          slot.textContent =
-            "빈 자리";
-
-        }
-
-
-        slot.onclick =
-          function() {
-
-            handleSlotClick(
-              groupIndex,
-              slotIndex
-            );
-
-          };
-
-
-        slots.appendChild(
-          slot
-        );
-
+        modeSelect.value = String(setting.mode);
+        return;
       }
 
+      setting.mode = newMode;
+      saveAppointmentSettings();
+      renderGroups();
+      renderAppoint();
+    };
 
-      card.appendChild(
-        header
-      );
+    modeWrap.appendChild(modeSelect);
 
+    const timeWrap = document.createElement("div");
+    const timeLabel = document.createElement("span");
+    timeLabel.className = "group-control-label";
+    timeLabel.textContent = "시작 시간";
+    timeWrap.appendChild(timeLabel);
 
-      card.appendChild(
-        slots
-      );
+    const timeSelect = document.createElement("select");
+    timeSelect.className = "group-control";
 
+    makeTimeOptions(setting.startTime).forEach(function(item) {
+      const option = document.createElement("option");
+      option.value = item.value;
+      option.textContent = formatDisplayTime(item.value);
+      option.selected = item.selected;
+      timeSelect.appendChild(option);
+    });
 
-      box.appendChild(
-        card
-      );
+    timeSelect.onchange = function() {
+      setting.startTime = timeSelect.value;
+      saveAppointmentSettings();
+      renderAppoint();
+    };
 
+    timeWrap.appendChild(timeSelect);
+    controls.appendChild(modeWrap);
+    controls.appendChild(timeWrap);
+    card.appendChild(controls);
+
+    const slots = document.createElement("div");
+    slots.className = "group-slots";
+
+    for (let slotIndex = 0; slotIndex < Number(setting.mode); slotIndex++) {
+      const name = group[slotIndex] || "";
+      const slot = document.createElement("button");
+      slot.type = "button";
+      slot.className = "group-slot";
+
+      if (name) {
+        slot.classList.add("filled");
+        slot.textContent = (slotIndex + 1) + ". " + name;
+      } else {
+        slot.classList.add("empty");
+        slot.textContent = (slotIndex + 1) + ". 빈 자리";
+      }
+
+      slot.onclick = function() {
+        handleSlotClick(groupIndex, slotIndex);
+      };
+
+      slots.appendChild(slot);
     }
-  );
 
+    card.appendChild(slots);
+
+    const appointSelectedButton = document.createElement("button");
+    appointSelectedButton.type = "button";
+    appointSelectedButton.className = "appoint-selected-button";
+    appointSelectedButton.textContent =
+      "선택한 사람 임명 (" + setting.mode + "명)";
+
+    appointSelectedButton.onclick = function() {
+      assignSelectedToGroup(groupIndex);
+    };
+
+    card.appendChild(appointSelectedButton);
+    box.appendChild(card);
+  });
+
+  saveAppointmentSettings();
 }
 
+/* =========================================================
+   선택한 신청자 한 번에 임명
+========================================================= */
+
+async function assignSelectedToGroup(groupIndex) {
+
+  const selected = [...selectedApplicants];
+  const group = groups[groupIndex];
+  const setting = ensureAppointmentSetting(groupIndex, group);
+  const required = Number(setting.mode);
+
+  if (selected.length !== required) {
+    alert(
+      required + "명을 선택해 주세요.\n현재 " +
+      selected.length + "명 선택되었습니다."
+    );
+    return;
+  }
+
+  groups = groups.map(function(currentGroup) {
+    const result = currentGroup.slice(0, 8);
+
+    while (result.length < 8) {
+      result.push("");
+    }
+
+    for (let i = 0; i < 7; i++) {
+      if (selected.includes(result[i])) {
+        result[i] = "";
+      }
+    }
+
+    if (!result[7]) {
+      result[7] = "유타몰";
+    }
+
+    return result;
+  });
+
+  /* 선택 순서대로 1번, 2번, 3번... 자리에 넣습니다. */
+  for (let i = 0; i < selected.length; i++) {
+    groups[groupIndex][i] = selected[i];
+  }
+
+  for (let i = required; i < 7; i++) {
+    groups[groupIndex][i] = "";
+  }
+
+  selectedApplicants.clear();
+  selectedApplicant = null;
+
+  await saveGroups();
+
+  renderAdmin();
+  renderAppoint();
+}
 
 /* =========================================================
    그룹 자리 배정
@@ -3789,6 +4111,15 @@ async function handleSlotClick(
   groupIndex,
   slotIndex
 ) {
+
+  const setting = ensureAppointmentSetting(
+    groupIndex,
+    groups[groupIndex]
+  );
+
+  if (slotIndex >= Number(setting.mode)) {
+    return;
+  }
 
   const currentName =
     groups[groupIndex][slotIndex];
@@ -3846,16 +4177,23 @@ async function handleSlotClick(
     groups.map(
       function(group) {
 
-        return group.map(
-          function(name) {
+        const result = group.slice(0, 8);
 
-            return name ===
-              selectedApplicant
-              ? ""
-              : name;
+        while (result.length < 8) {
+          result.push("");
+        }
 
+        for (let i = 0; i < 7; i++) {
+          if (result[i] === selectedApplicant) {
+            result[i] = "";
           }
-        );
+        }
+
+        if (!result[7]) {
+          result[7] = "유타몰";
+        }
+
+        return result;
 
       }
     );
@@ -3890,158 +4228,66 @@ async function handleSlotClick(
 
 function renderAppoint() {
 
-  const list =
-    document.getElementById(
-      "appointList"
-    );
+  const list = document.getElementById("appointList");
+  list.innerHTML = "";
 
+  const visibleGroups = groups.filter(function(group) {
+    return group.slice(0, 7).some(Boolean);
+  });
 
-  list.innerHTML =
-    "";
-
-
-  const visibleGroups =
-    groups.filter(
-      function(group) {
-
-        return group.some(
-          function(name) {
-
-            return Boolean(name);
-
-          }
-        );
-
-      }
-    );
-
-
-  if (
-    visibleGroups.length === 0
-  ) {
-
+  if (visibleGroups.length === 0) {
     list.innerHTML =
       '<div class="appoint-empty">' +
       '아직 임명된 그룹이 없습니다.' +
       '</div>';
-
     return;
-
   }
 
+  groups.forEach(function(group, index) {
 
-  groups.forEach(
-    function(group, index) {
+    const names = group.slice(0, 7);
+    const hasPerson = names.some(Boolean);
+    if (!hasPerson) return;
 
-      const hasPerson =
-        group.some(
-          function(name) {
+    const setting = ensureAppointmentSetting(index, group);
+    const card = document.createElement("div");
+    card.className = "appoint-card";
 
-            return Boolean(name);
+    const title = document.createElement("div");
+    title.className = "appoint-title";
+    title.textContent = "📍 " + (group[7] || "유타몰");
+    card.appendChild(title);
 
-          }
-        );
+    const schedule = renderScheduleForGroup(group, index);
 
+    if (schedule) {
+      card.appendChild(schedule);
+    } else {
+      const members = document.createElement("div");
+      members.className = "appoint-members";
 
-      if (!hasPerson) {
+      names.forEach(function(name, slotIndex) {
+        if (!name) return;
 
-        return;
+        const person = document.createElement("div");
+        person.className = "appoint-person filled";
+        person.textContent = (slotIndex + 1) + ". " + name;
+        members.appendChild(person);
+      });
 
-      }
+      card.appendChild(members);
 
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "appoint-card";
-
-
-      const title =
-        document.createElement(
-          "div"
-        );
-
-
-      title.className =
-        "appoint-title";
-
-
-      title.textContent =
-        (index + 1) +
-        "번 그룹";
-
-
-      const members =
-        document.createElement(
-          "div"
-        );
-
-
-      members.className =
-        "appoint-members";
-
-
-      group.forEach(
-        function(name) {
-
-          const person =
-            document.createElement(
-              "div"
-            );
-
-
-          person.className =
-            "appoint-person";
-
-
-          if (name) {
-
-            person.classList.add(
-              "filled"
-            );
-
-            person.textContent =
-              name;
-
-          } else {
-
-            person.textContent =
-              "빈 자리";
-
-          }
-
-
-          members.appendChild(
-            person
-          );
-
-        }
-      );
-
-
-      card.appendChild(
-        title
-      );
-
-
-      card.appendChild(
-        members
-      );
-
-
-      list.appendChild(
-        card
-      );
-
+      const waiting = document.createElement("div");
+      waiting.className = "appoint-empty";
+      waiting.textContent =
+        Number(setting.mode) +
+        "명 모두 임명되면 일정이 표시됩니다.";
+      card.appendChild(waiting);
     }
-  );
 
+    list.appendChild(card);
+  });
 }
-
 
 /* =========================================================
    POST 공통
@@ -4320,305 +4566,1046 @@ document.addEventListener(
   }
 );
 
-</script>
 
 
-<style id="recentScheduleOnlyStyle">
 /* =========================================================
-   최근 요청: 일정별 화면 선택
-   기존 스타일은 수정하지 않고 아래 기능만 추가합니다.
+   일정별 전시대 기능
+   ---------------------------------------------------------
+   기존 화면/기능은 유지하고 신청·임명·관리용만 일정별로 분리
 ========================================================= */
-.schedule-selector { margin-top:18px; }
-.schedule-selector-title { font-size:1.05em; font-weight:700; margin:0 0 12px; }
-.schedule-list { display:grid; grid-template-columns:1fr; gap:10px; }
-.schedule-button-wrap { display:flex; gap:8px; align-items:stretch; }
-.schedule-button { flex:1; min-height:76px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(35,69,99,.72); color:inherit; padding:12px 14px; cursor:pointer; text-align:left; }
-.schedule-button-main { display:block; font-weight:800; font-size:1.05em; margin-bottom:6px; }
-.schedule-button-date,.schedule-button-time { display:block; font-size:.9em; line-height:1.45; opacity:.92; }
-.schedule-delete-button { width:58px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(150,60,60,.72); color:inherit; cursor:pointer; }
-.schedule-add-wrap { margin-top:10px; }
-.schedule-add-button { width:100%; min-height:48px; border:1px dashed rgba(255,255,255,.24); border-radius:12px; background:transparent; color:inherit; cursor:pointer; font-weight:700; }
-.schedule-detail { margin-top:18px; }
-.schedule-detail-head { margin-bottom:16px; }
-.schedule-back-button { border:0; border-radius:10px; padding:9px 12px; background:rgba(35,69,99,.72); color:inherit; cursor:pointer; margin-bottom:12px; }
-.schedule-detail-name { font-size:1.15em; font-weight:800; }
-.schedule-detail-date,.schedule-detail-time { line-height:1.5; }
-.schedule-detail-time { font-weight:700; }
-.schedule-editor { margin-top:12px; padding:14px; border:1px solid rgba(255,255,255,.15); border-radius:14px; background:rgba(0,0,0,.10); }
-.schedule-editor-grid { display:grid; grid-template-columns:1fr; gap:10px; }
-.schedule-editor label { display:block; font-weight:700; }
-.schedule-editor input,.schedule-editor select { width:100%; margin-top:5px; min-height:42px; border-radius:9px; border:1px solid rgba(127,127,127,.35); padding:8px 10px; background:inherit; color:inherit; }
-.schedule-editor-actions { display:flex; gap:8px; margin-top:12px; }
-.schedule-editor-actions button { flex:1; min-height:44px; border:0; border-radius:10px; cursor:pointer; }
-.schedule-empty { padding:20px 8px; text-align:center; opacity:.75; }
-@media (min-width:700px) { .schedule-list { grid-template-columns:1fr 1fr; } }
-</style>
 
-<script id="recentScheduleOnlyScript">
-/* =========================================================
-   최근 요청만 추가: 일정별 신청 / 임명 / 관리용
-   기존 함수와 기존 UI는 그대로 두고, 일정 선택 기능을 덧붙입니다.
-========================================================= */
-(function(){
-  const FIXED_KEYS = ["토오전","토오후","일오전"];
-  const ALL_KEYS = ["토오전","토오후","일오전","추가1","추가2","추가3"];
-  const LOCAL_SCHEDULE_KEY = "jeonsidaeRecentSchedules";
-  const LOCAL_APPLY_KEY = "jeonsidaeRecentApplySelections";
-  let schedules = [];
-  let currentApplyScheduleKey = null;
-  let currentAdminScheduleKey = null;
-  let currentAppointScheduleKey = null;
-  let legacyShowView = null;
+const JEONSI_SCHEDULE_KEYS = [
+  "토오전",
+  "토오후",
+  "일오전",
+  "추가1",
+  "추가2",
+  "추가3"
+];
 
-  function pad(n){ return String(n).padStart(2,"0"); }
-  function dateInput(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
-  function nextSaturday(){
-    const d=new Date();
-    const diff=d.getDay()===0?6:6-d.getDay();
-    d.setDate(d.getDate()+diff);
-    return d;
-  }
-  function fmtDate(v){
-    if(!v) return "";
-    const d=new Date(String(v)+"T00:00:00");
-    if(Number.isNaN(d.getTime())) return String(v);
-    const days=["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
-    return d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 ("+days[d.getDay()]+")";
-  }
-  function fmtTime(v){
-    const m=String(v||"").match(/^(\d{1,2}):(\d{2})$/);
-    if(!m) return String(v||"");
-    const h=Number(m[1]), min=m[2], ap=h<12?"오전":"오후";
-    const hh=h===0?12:(h>12?h-12:h);
-    return ap+" "+hh+":"+min;
-  }
-  function fmtRange(a,b){ return fmtTime(a)+" ~ "+fmtTime(b); }
-  function normalize(s){
-    if(!s || !s.key) return null;
-    const key=String(s.key);
-    return {
-      key:key,
-      label:String(s.label||key),
-      fixed:FIXED_KEYS.includes(key),
-      serviceDate:String(s.serviceDate||s.date||""),
-      startTime:String(s.startTime||s.serviceStart||"10:00"),
-      endTime:String(s.endTime||s.serviceEnd||"12:00")
-    };
-  }
-  function fixedSchedules(){
-    const sat=nextSaturday();
-    const sun=new Date(sat); sun.setDate(sat.getDate()+1);
-    return [
-      normalize({key:"토오전",label:"토오전",fixed:true,serviceDate:dateInput(sat),startTime:"10:00",endTime:"12:00"}),
-      normalize({key:"토오후",label:"토오후",fixed:true,serviceDate:dateInput(sat),startTime:"13:00",endTime:"15:00"}),
-      normalize({key:"일오전",label:"일오전",fixed:true,serviceDate:dateInput(sun),startTime:"10:00",endTime:"12:00"})
-    ];
-  }
-  function saveLocal(){ localStorage.setItem(LOCAL_SCHEDULE_KEY,JSON.stringify(schedules)); }
-  function loadLocal(){ try{return JSON.parse(localStorage.getItem(LOCAL_SCHEDULE_KEY)||"[]").map(normalize).filter(Boolean);}catch(e){return [];} }
-  function getSchedule(key){ return schedules.find(s=>s.key===key)||null; }
-  function order(a,b){ return ALL_KEYS.indexOf(a.key)-ALL_KEYS.indexOf(b.key); }
+const JEONSI_SCHEDULE_LOCAL_KEY = "jeonsidaeSchedules";
+const JEONSI_APPLY_SELECTIONS_KEY = "jeonsidaeApplySelectionsBySchedule";
 
-  function makeSelector(section, title, allowAdd, allowDelete){
-    const selector=document.createElement("div");
-    selector.className="schedule-selector";
-    selector.id=section+"ScheduleSelector";
-    const h=document.createElement("div");
-    h.className="schedule-selector-title";
-    h.textContent=title;
-    const list=document.createElement("div");
-    list.className="schedule-list";
-    list.id=section+"ScheduleList";
-    selector.appendChild(h); selector.appendChild(list);
-    if(allowAdd){
-      const addWrap=document.createElement("div"); addWrap.className="schedule-add-wrap";
-      const add=document.createElement("button"); add.type="button"; add.className="schedule-add-button"; add.textContent="＋ 추가";
-      add.onclick=showExtraEditor; addWrap.appendChild(add); selector.appendChild(addWrap);
+let jeonsiSchedules = [];
+let currentApplyScheduleKey = null;
+let currentAppointScheduleKey = null;
+let currentAdminScheduleKey = null;
+let applySelectionsBySchedule = {};
+let scheduleApplicants = {};
+let scheduleGroups = {};
+
+function jeonsiPad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function jeonsiDateInput(date) {
+  return date.getFullYear() + "-" +
+    jeonsiPad2(date.getMonth() + 1) + "-" +
+    jeonsiPad2(date.getDate());
+}
+
+function jeonsiDateFromInput(value) {
+  const parts = String(value || "").split("-").map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+function jeonsiFormatDate(value) {
+  const d = value instanceof Date ? value : jeonsiDateFromInput(value);
+  if (!d) return "";
+  const days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+  return d.getFullYear() + "년 " +
+    (d.getMonth() + 1) + "월 " +
+    d.getDate() + "일 (" + days[d.getDay()] + ")";
+}
+
+function jeonsiFormatTime(value) {
+  const m = String(value || "").match(/^(\d{1,2}):(\d{2})$/);
+  if (!m) return String(value || "");
+  const h = Number(m[1]);
+  const min = m[2];
+  const ap = h < 12 ? "오전" : "오후";
+  const hh = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+  return ap + " " + hh + ":" + min;
+}
+
+function jeonsiFormatRange(start, end) {
+  if (!start) return "";
+  if (!end) return jeonsiFormatTime(start);
+  return jeonsiFormatTime(start) + " ~ " + jeonsiFormatTime(end);
+}
+
+function jeonsiSaturday(base) {
+  const d = new Date(base);
+  const day = d.getDay();
+  d.setDate(d.getDate() + (6 - day));
+  return d;
+}
+
+function jeonsiFixedSchedules() {
+  const today = new Date();
+  const sat = jeonsiSaturday(today);
+  const sun = new Date(sat);
+  sun.setDate(sat.getDate() + 1);
+
+  const satDate = jeonsiDateInput(sat);
+  const sunDate = jeonsiDateInput(sun);
+
+  const wed = new Date(sat);
+  wed.setDate(sat.getDate() - 3);
+  const thu = new Date(sat);
+  thu.setDate(sat.getDate() - 2);
+  const fri = new Date(sat);
+  fri.setDate(sat.getDate() - 1);
+
+  return [
+    {
+      key: "토오전",
+      label: "토오전",
+      fixed: true,
+      serviceDate: satDate,
+      startTime: "10:00",
+      endTime: "12:00",
+      applicationStart: jeonsiDateInput(wed),
+      applicationEnd: jeonsiDateInput(fri)
+    },
+    {
+      key: "토오후",
+      label: "토오후",
+      fixed: true,
+      serviceDate: satDate,
+      startTime: "13:00",
+      endTime: "15:00",
+      applicationStart: jeonsiDateInput(wed),
+      applicationEnd: jeonsiDateInput(fri)
+    },
+    {
+      key: "일오전",
+      label: "일오전",
+      fixed: true,
+      serviceDate: sunDate,
+      startTime: "10:00",
+      endTime: "12:00",
+      applicationStart: jeonsiDateInput(thu),
+      applicationEnd: jeonsiDateInput(sat)
     }
-    const detail=document.createElement("div"); detail.className="schedule-detail"; detail.id=section+"ScheduleDetail"; detail.style.display="none";
-    sectionElement(section).insertBefore(selector, sectionElement(section).children[1]);
-    sectionElement(section).insertBefore(detail, selector.nextSibling);
-    return {selector,list,detail};
-  }
-  function sectionElement(section){ return document.getElementById(section+"View"); }
+  ];
+}
 
-  function setLegacyVisible(section, visible){
-    const sec=sectionElement(section);
-    if(!sec) return;
-    Array.from(sec.children).forEach(function(el){
-      if(el.classList.contains("page-title")) return;
-      if(el.id===section+"ScheduleSelector" || el.id===section+"ScheduleDetail") return;
-      el.style.display=visible?"":"none";
-    });
-  }
-  function showList(section){
-    setLegacyVisible(section,false);
-    const sel=document.getElementById(section+"ScheduleSelector"), det=document.getElementById(section+"ScheduleDetail");
-    if(sel) sel.style.display="block"; if(det){det.style.display="none";det.innerHTML="";}
-  }
-  function detailHeader(s,back){
-    const head=document.createElement("div"); head.className="schedule-detail-head";
-    const b=document.createElement("button"); b.type="button"; b.className="schedule-back-button"; b.textContent="‹ 일정 선택으로 돌아가기"; b.onclick=back;
-    const n=document.createElement("div"); n.className="schedule-detail-name"; n.textContent=s.label;
-    const d=document.createElement("div"); d.className="schedule-detail-date"; d.textContent=fmtDate(s.serviceDate);
-    const t=document.createElement("div"); t.className="schedule-detail-time"; t.textContent=fmtRange(s.startTime,s.endTime);
-    head.append(b,n,d,t); return head;
-  }
+function normalizeSchedule(item) {
+  if (!item) return null;
+  const key = String(item.key || item.id || "").trim();
+  if (!key) return null;
+  return {
+    key: key,
+    label: String(item.label || key),
+    fixed: Boolean(item.fixed || ["토오전","토오후","일오전"].includes(key)),
+    serviceDate: String(item.serviceDate || item.date || ""),
+    startTime: String(item.startTime || item.serviceStart || "10:00"),
+    endTime: String(item.endTime || item.serviceEnd || "12:00"),
+    applicationStart: String(item.applicationStart || item.applyStart || ""),
+    applicationEnd: String(item.applicationEnd || item.applyEnd || ""),
+    applySheet: String(item.applySheet || ""),
+    manageSheet: String(item.manageSheet || "")
+  };
+}
 
-  function renderLists(){
-    ["apply","appoint","admin"].forEach(function(section){
-      const box=document.getElementById(section+"ScheduleList"); if(!box) return;
-      box.innerHTML="";
-      schedules.slice().sort(order).forEach(function(s){
-        const wrap=document.createElement("div"); wrap.className="schedule-button-wrap";
-        const b=document.createElement("button"); b.type="button"; b.className="schedule-button";
-        b.innerHTML='<span class="schedule-button-main"></span><span class="schedule-button-date"></span><span class="schedule-button-time"></span>';
-        b.querySelector(".schedule-button-main").textContent=s.label;
-        b.querySelector(".schedule-button-date").textContent=fmtDate(s.serviceDate);
-        b.querySelector(".schedule-button-time").textContent=fmtRange(s.startTime,s.endTime);
-        b.onclick=function(){ section==="apply"?openApply(s.key):section==="admin"?openAdmin(s.key):openAppoint(s.key); };
-        wrap.appendChild(b);
-        if(section==="admin" && !s.fixed){
-          const del=document.createElement("button"); del.type="button"; del.className="schedule-delete-button"; del.textContent="삭제";
-          del.onclick=function(e){e.stopPropagation();deleteExtra(s.key);}; wrap.appendChild(del);
-        }
-        box.appendChild(wrap);
-      });
-    });
-  }
+function saveLocalSchedules() {
+  localStorage.setItem(JEONSI_SCHEDULE_LOCAL_KEY, JSON.stringify(jeonsiSchedules));
+}
 
-  async function loadSchedules(){
-    const map=new Map();
-    fixedSchedules().forEach(s=>map.set(s.key,s));
-    loadLocal().forEach(s=>{if(!s.fixed)map.set(s.key,s);});
-    try{
-      const r=await fetch(SCRIPT_URL+"?action=scheduleList&t="+Date.now());
-      const data=await r.json();
-      const arr=Array.isArray(data.schedules)?data.schedules:(Array.isArray(data.scheduleList)?data.scheduleList:[]);
-      arr.map(normalize).filter(Boolean).forEach(s=>{if(ALL_KEYS.includes(s.key))map.set(s.key,s);});
-    }catch(e){ console.warn("일정 목록 불러오기 실패",e); }
-    schedules=Array.from(map.values()).sort(order); saveLocal(); renderLists();
-  }
-
-  function getApplyMap(){try{return JSON.parse(localStorage.getItem(LOCAL_APPLY_KEY)||"{}")}catch(e){return {};}}
-  function setApplyMap(m){localStorage.setItem(LOCAL_APPLY_KEY,JSON.stringify(m));}
-
-  async function loadScheduleApplicants(key){
-    try{
-      const r=await fetch(SCRIPT_URL+"?action=scheduleApplicants&key="+encodeURIComponent(key)+"&scheduleKey="+encodeURIComponent(key)+"&t="+Date.now());
-      const d=await r.json();
-      if(d.success && Array.isArray(d.applicants)) return [...new Set(d.applicants.map(String).map(x=>x.trim()).filter(Boolean))];
-    }catch(e){console.warn(e);}
+function loadLocalSchedules() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(JEONSI_SCHEDULE_LOCAL_KEY) || "[]");
+    return Array.isArray(saved) ? saved.map(normalizeSchedule).filter(Boolean) : [];
+  } catch (e) {
     return [];
   }
-  async function saveScheduleApplicants(key,names){
-    const s=getSchedule(key);
-    return postJson({action:"saveScheduleApplicants",key:key,scheduleKey:key,applicants:names,serviceDate:s?s.serviceDate:"",serviceTime:s?fmtRange(s.startTime,s.endTime):""});
+}
+
+function loadLocalApplySelections() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(JEONSI_APPLY_SELECTIONS_KEY) || "{}");
+    applySelectionsBySchedule = saved && typeof saved === "object" ? saved : {};
+  } catch (e) {
+    applySelectionsBySchedule = {};
+  }
+}
+
+function saveLocalApplySelections() {
+  localStorage.setItem(JEONSI_APPLY_SELECTIONS_KEY, JSON.stringify(applySelectionsBySchedule));
+}
+
+function getSchedule(key) {
+  return jeonsiSchedules.find(function(s) { return s.key === key; }) || null;
+}
+
+function scheduleOrder(a, b) {
+  return JEONSI_SCHEDULE_KEYS.indexOf(a.key) - JEONSI_SCHEDULE_KEYS.indexOf(b.key);
+}
+
+function renderScheduleButtonList(containerId, schedules, onSelect, allowDelete, addButton) {
+  const box = document.getElementById(containerId);
+  if (!box) return;
+  box.innerHTML = "";
+
+  if (!schedules.length) {
+    box.innerHTML = '<div class="schedule-empty">등록된 일정이 없습니다.</div>';
   }
 
-  function openApply(key){
-    const s=getSchedule(key); if(!s)return; currentApplyScheduleKey=key;
-    const selector=document.getElementById("applyScheduleSelector"), detail=document.getElementById("applyScheduleDetail");
-    selector.style.display="none"; detail.style.display="block"; detail.innerHTML=""; setLegacyVisible("apply",true);
-    detail.appendChild(detailHeader(s,closeApply));
-    const oldDateBox=document.querySelector("#applyView .apply-date-box");
-    if(oldDateBox) oldDateBox.style.display="none";
-    const grid=document.getElementById("applyNameGrid"), complete=document.getElementById("applyCompleteWrap");
-    if(grid) grid.style.display="none";
-    if(complete) complete.style.display="none";
-    const oldComplete=complete ? complete.querySelector("button") : null;
-    if(oldComplete) oldComplete.onclick=function(){completeRecentApply(key);};
-    const map=getApplyMap(); currentSelections=Array.isArray(map[key])?map[key].slice():[]; updateApplyCount();
-    loadScheduleApplicants(key).then(function(names){document.getElementById("currentApplicantTitle").textContent="신청자 "+names.length+"명";const box=document.getElementById("currentApplicantNames");box.innerHTML="";names.forEach(n=>{const x=document.createElement("div");x.className="current-name";x.textContent=n;box.appendChild(x);});});
+  schedules.slice().sort(scheduleOrder).forEach(function(schedule) {
+    const wrap = document.createElement("div");
+    wrap.className = "schedule-button-wrap";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "schedule-button";
+
+    const main = document.createElement("span");
+    main.className = "schedule-button-main";
+    main.textContent = schedule.label;
+
+    const sub = document.createElement("span");
+    sub.className = "schedule-button-sub";
+
+    const dateLine = document.createElement("span");
+    dateLine.className = "schedule-button-date";
+    dateLine.textContent = jeonsiFormatDate(schedule.serviceDate);
+
+    const timeLine = document.createElement("span");
+    timeLine.className = "schedule-button-time";
+    timeLine.textContent = jeonsiFormatRange(schedule.startTime, schedule.endTime);
+
+    sub.appendChild(dateLine);
+    sub.appendChild(timeLine);
+
+    button.appendChild(main);
+    button.appendChild(sub);
+    button.onclick = function() { onSelect(schedule.key); };
+    wrap.appendChild(button);
+
+    if (allowDelete && !schedule.fixed) {
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "schedule-delete-button";
+      del.textContent = "삭제";
+      del.onclick = function(e) {
+        e.stopPropagation();
+        deleteExtraSchedule(schedule.key);
+      };
+      wrap.appendChild(del);
+    }
+
+    box.appendChild(wrap);
+  });
+
+  if (addButton) {
+    const addWrap = document.createElement("div");
+    addWrap.className = "schedule-add-wrap";
+    const add = document.createElement("button");
+    add.type = "button";
+    add.className = "schedule-add-button";
+    add.textContent = "＋ 추가";
+    add.onclick = showExtraScheduleEditor;
+    addWrap.appendChild(add);
+    box.appendChild(addWrap);
   }
-  function closeApply(){ currentApplyScheduleKey=null; const detail=document.getElementById("applyScheduleDetail"); const selector=document.getElementById("applyScheduleSelector"); selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("apply",false); }
-  async function completeRecentApply(key){
-    const selected=currentSelections.slice(); sortNames(selected);
-    if(!selected.length){alert("신청할 사람을 한 명 이상 선택해 주세요.");return;}
-    try{await saveScheduleApplicants(key,selected);const map=getApplyMap();map[key]=[];setApplyMap(map);currentSelections=[];await loadSchedules();alert(selected.length+"명이 신청되었습니다.");closeApply();}
-    catch(e){console.error(e);alert("신청 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}
+}
+
+function renderAllScheduleLists() {
+  renderScheduleButtonList(
+    "applyScheduleList",
+    jeonsiSchedules,
+    showApplySchedule,
+    false,
+    false
+  );
+
+  renderScheduleButtonList(
+    "appointScheduleList",
+    jeonsiSchedules,
+    showAppointSchedule,
+    false,
+    false
+  );
+
+  renderScheduleButtonList(
+    "adminScheduleList",
+    jeonsiSchedules,
+    showAdminSchedule,
+    true,
+    true
+  );
+}
+
+async function loadSchedules() {
+  const fixed = jeonsiFixedSchedules();
+  let loaded = [];
+
+  try {
+    const response = await fetch(
+      SCRIPT_URL + "?action=scheduleList&t=" + Date.now()
+    );
+    const data = await response.json();
+    if (data && data.success) {
+      const source = Array.isArray(data.schedules)
+        ? data.schedules
+        : (Array.isArray(data.scheduleList) ? data.scheduleList : []);
+      loaded = source.map(normalizeSchedule).filter(Boolean);
+    }
+  } catch (error) {
+    console.warn("일정 목록을 불러오지 못했습니다.", error);
   }
 
-  async function loadScheduleGroups(key){
-    try{
-      const r=await fetch(SCRIPT_URL+"?action=scheduleGroups&key="+encodeURIComponent(key)+"&scheduleKey="+encodeURIComponent(key)+"&t="+Date.now());
-      const d=await r.json(); if(d.success&&Array.isArray(d.groups)) return d.groups.map(g=>{const a=Array.isArray(g)?g.slice(0,8):[];while(a.length<8)a.push("");return a;});
-    }catch(e){console.warn(e);} return [];
-  }
-  async function saveScheduleGroups(key,data){return postJson({action:"saveScheduleGroups",key:key,scheduleKey:key,groups:data});}
+  const local = loadLocalSchedules();
+  const map = new Map();
 
-  async function openAdmin(key){
-    const s=getSchedule(key);if(!s)return;currentAdminScheduleKey=key;selectedApplicant=null;
-    const selector=document.getElementById("adminScheduleSelector"),detail=document.getElementById("adminScheduleDetail");selector.style.display="none";detail.style.display="block";detail.innerHTML="";setLegacyVisible("admin",true);
-    detail.appendChild(detailHeader(s,closeAdmin));
-    const body=document.createElement("div");body.className="admin-section";
-    body.innerHTML='<div class="admin-count" id="recentAdminCount">미배정 신청자 0명</div><div class="admin-names" id="recentAdminNames"><div class="name-loading">신청자를 불러오는 중입니다.</div></div><div style="display:flex;justify-content:flex-end;margin-bottom:15px"><button class="admin-add-button" id="recentAdminAdd">+ 추가</button></div><div class="group-controls"><button class="add-group-button" id="recentAdminGroup">+ 봉사 그룹 추가</button></div><div class="groups" id="recentGroups"></div>';
-    detail.appendChild(body);
-    const [names,gs]=await Promise.all([loadScheduleApplicants(key),loadScheduleGroups(key)]);
-    applicants=names;groups=gs;renderRecentAdmin();
-    document.getElementById("recentAdminAdd").onclick=async function(){const n=prompt("추가할 봉사자의 이름을 입력해 주세요.");if(!n||!n.trim())return;const name=n.trim();if(!applicants.includes(name))applicants.push(name);sortNames(applicants);await saveScheduleApplicants(key,applicants);renderRecentAdmin();};
-    document.getElementById("recentAdminGroup").onclick=async function(){groups.unshift(["","","","","","","", "유타몰"]);await saveScheduleGroups(key,groups);renderRecentAdmin();};
-  }
-  function closeAdmin(){currentAdminScheduleKey=null;const selector=document.getElementById("adminScheduleSelector"),detail=document.getElementById("adminScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("admin",false);}
-  function renderRecentAdmin(){
-    const count=document.getElementById("recentAdminCount"),namesBox=document.getElementById("recentAdminNames"),box=document.getElementById("recentGroups");if(!count||!namesBox||!box)return;
-    const assigned=new Set();groups.forEach(g=>g.slice(0,7).forEach(n=>{if(n)assigned.add(n);}));const un=applicants.filter(n=>!assigned.has(n));sortNames(un);count.textContent="미배정 신청자 "+un.length+"명";namesBox.innerHTML="";
-    un.forEach(n=>{const b=document.createElement("button");b.type="button";b.className="admin-name";b.textContent=n;b.onclick=function(){selectedApplicant=selectedApplicant===n?null:n;renderRecentAdmin();};if(selectedApplicant===n)b.classList.add("selected");namesBox.appendChild(b);});
-    box.innerHTML="";groups.forEach((g,gi)=>{const card=document.createElement("div");card.className="group-card";const h=document.createElement("div");h.className="group-header";const title=document.createElement("select");title.className="group-title";["유타몰","성북천(보문2교-아래)","성북천(보문2교-위)","성북구청(광장)","보문역(주변)","성신여대(주변)","성북천(하늘다리)","성북천(바람마당교)","성북천(분수대)","성북천(용문교)","가두 증거"].forEach(loc=>{const o=document.createElement("option");o.value=loc;o.textContent=loc;title.appendChild(o);});title.value=g[7]||"유타몰";title.onchange=async function(){g[7]=title.value;await saveScheduleGroups(currentAdminScheduleKey,groups);};
-      const del=document.createElement("button");del.type="button";del.className="group-action";del.textContent="삭제";del.onclick=async function(){groups.splice(gi,1);await saveScheduleGroups(currentAdminScheduleKey,groups);renderRecentAdmin();};h.append(title,del);card.appendChild(h);
-      const slots=document.createElement("div");slots.className="group-slots";for(let si=0;si<7;si++){const b=document.createElement("button");b.type="button";b.className="group-slot "+(g[si]?"filled":"empty");b.textContent=g[si]||"빈 자리";b.onclick=async function(){if(g[si]){g[si]="";selectedApplicant=null;}else if(selectedApplicant){groups.forEach(x=>{for(let j=0;j<7;j++)if(x[j]===selectedApplicant)x[j]="";});g[si]=selectedApplicant;selectedApplicant=null;}else{alert("먼저 위에서 봉사자 이름을 선택해 주세요.");return;}await saveScheduleGroups(currentAdminScheduleKey,groups);renderRecentAdmin();};slots.appendChild(b);}card.appendChild(slots);box.appendChild(card);});
+  fixed.forEach(function(s) { map.set(s.key, s); });
+  local.filter(function(s) { return !s.fixed; }).forEach(function(s) { map.set(s.key, s); });
+  loaded.forEach(function(s) { map.set(s.key, s); });
+
+  jeonsiSchedules = Array.from(map.values())
+    .filter(function(s) {
+      return JEONSI_SCHEDULE_KEYS.includes(s.key);
+    })
+    .sort(scheduleOrder);
+
+  saveLocalSchedules();
+  renderAllScheduleLists();
+}
+
+function hideSchedulePanels() {
+  [
+    ["applyScheduleList", "applyScheduleDetail"],
+    ["appointScheduleList", "appointScheduleDetail"],
+    ["adminScheduleList", "adminScheduleDetail"]
+  ].forEach(function(pair) {
+    const list = document.getElementById(pair[0]);
+    const detail = document.getElementById(pair[1]);
+    if (list) list.style.display = "block";
+    if (detail) {
+      detail.style.display = "none";
+      detail.innerHTML = "";
+    }
+  });
+}
+
+function makeScheduleHeader(schedule, backFunction) {
+  const head = document.createElement("div");
+  head.className = "schedule-detail-head";
+
+  const back = document.createElement("button");
+  back.type = "button";
+  back.className = "schedule-back-button";
+  back.textContent = "‹ 일정 선택으로 돌아가기";
+  back.onclick = backFunction;
+  head.appendChild(back);
+
+  const title = document.createElement("div");
+  title.className = "schedule-detail-title";
+
+  const name = document.createElement("div");
+  name.className = "schedule-detail-name";
+  name.textContent = schedule.label;
+
+  const info = document.createElement("div");
+  info.className = "schedule-detail-info";
+
+  const dateLine = document.createElement("div");
+  dateLine.className = "schedule-detail-date";
+  dateLine.textContent = jeonsiFormatDate(schedule.serviceDate);
+
+  const timeLine = document.createElement("div");
+  timeLine.className = "schedule-detail-time";
+  timeLine.textContent = jeonsiFormatRange(schedule.startTime, schedule.endTime);
+
+  info.appendChild(dateLine);
+  info.appendChild(timeLine);
+
+  title.appendChild(name);
+  title.appendChild(info);
+  head.appendChild(title);
+  return head;
+}
+
+function showApplySchedule(key) {
+  const schedule = getSchedule(key);
+  if (!schedule) return;
+
+  currentApplyScheduleKey = key;
+  const list = document.getElementById("applyScheduleList");
+  const detail = document.getElementById("applyScheduleDetail");
+  list.style.display = "none";
+  detail.style.display = "block";
+  detail.innerHTML = "";
+
+  detail.appendChild(makeScheduleHeader(schedule, showApplyScheduleList));
+
+  const body = document.createElement("div");
+  body.className = "schedule-detail-body";
+  body.innerHTML =
+    '<div class="apply-name-open-wrap">' +
+      '<button type="button" class="apply-name-open-button" id="scheduleApplyOpenButton">전시대 신청</button>' +
+    '</div>' +
+    '<div class="name-grid" id="scheduleApplyNameGrid" style="display:none;"></div>' +
+    '<div class="apply-complete-wrap" id="scheduleApplyCompleteWrap" style="display:none;">' +
+      '<button type="button" class="apply-complete-button" id="scheduleApplyCompleteButton">제출</button>' +
+    '</div>' +
+    '<div class="current-applicants">' +
+      '<div class="current-title" id="scheduleCurrentApplicantTitle">신청자 0명</div>' +
+      '<div class="current-names" id="scheduleCurrentApplicantNames"></div>' +
+    '</div>';
+
+  detail.appendChild(body);
+
+  document.getElementById("scheduleApplyOpenButton").onclick = function() {
+    toggleScheduleApplyNames(key);
+  };
+  document.getElementById("scheduleApplyCompleteButton").onclick = function() {
+    completeScheduleApply(key);
+  };
+
+  renderScheduleCurrentApplicants(key);
+}
+
+function showApplyScheduleList() {
+  currentApplyScheduleKey = null;
+  const list = document.getElementById("applyScheduleList");
+  const detail = document.getElementById("applyScheduleDetail");
+  list.style.display = "block";
+  detail.style.display = "none";
+  detail.innerHTML = "";
+}
+
+async function toggleScheduleApplyNames(key) {
+  const grid = document.getElementById("scheduleApplyNameGrid");
+  const complete = document.getElementById("scheduleApplyCompleteWrap");
+  if (!grid || !complete) return;
+
+  if (grid.style.display !== "none") {
+    grid.style.display = "none";
+    complete.style.display = "none";
+    return;
   }
 
-  async function openAppoint(key){
-    const s=getSchedule(key);if(!s)return;currentAppointScheduleKey=key;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="none";detail.style.display="block";detail.innerHTML="";setLegacyVisible("appoint",true);detail.appendChild(detailHeader(s,closeAppoint));const list=document.createElement("div");list.className="appoint-list";list.innerHTML='<div class="appoint-empty">임명된 그룹을 불러오는 중입니다.</div>';detail.appendChild(list);const gs=await loadScheduleGroups(key);list.innerHTML="";const visible=gs.filter(g=>g.slice(0,7).some(Boolean));if(!visible.length){list.innerHTML='<div class="appoint-empty">아직 임명된 그룹이 없습니다.</div>';return;}gs.forEach((g,i)=>{if(!g.slice(0,7).some(Boolean))return;const card=document.createElement("div");card.className="appoint-card";const title=document.createElement("div");title.className="appoint-title";title.textContent=g[7]||"유타몰";const members=document.createElement("div");members.className="appoint-members";g.slice(0,7).forEach(n=>{const p=document.createElement("div");p.className="appoint-person "+(n?"filled":"");p.textContent=n||"빈 자리";members.appendChild(p);});card.append(title,members);list.appendChild(card);}); }
-  function closeAppoint(){currentAppointScheduleKey=null;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("appoint",false);}
+  grid.style.display = "grid";
+  complete.style.display = "block";
+  grid.innerHTML = '<div class="name-loading">전시대 신청 명단을 불러오는 중입니다.</div>';
 
-  function makeTimeOptions(sel,selected){for(let h=10;h<=17;h++){for(let m=0;m<60;m+=10){if(h===17&&m>0)continue;const v=pad(h)+":"+pad(m),o=document.createElement("option");o.value=v;o.textContent=fmtTime(v);if(v===selected)o.selected=true;sel.appendChild(o);}}}
-  function showExtraEditor(){
-    if(schedules.filter(s=>!s.fixed).length>=3){alert("추가 일정은 최대 3개까지 만들 수 있습니다.");return;}
-    const used=new Set(schedules.map(s=>s.key));const key=ALL_KEYS.slice(3).find(k=>!used.has(k));if(!key)return;
-    const wrap=document.createElement("div");wrap.className="schedule-editor";wrap.id="recentScheduleEditor";
-    const d=nextSaturday();d.setDate(d.getDate()+7);
-    wrap.innerHTML='<div class="schedule-editor-grid"><label>봉사 날짜<input type="date" id="recentExtraDate" value="'+dateInput(d)+'"></label><label>시작 시간<select id="recentExtraStart"></select></label><label>종료 시간<select id="recentExtraEnd"></select></label></div><div class="schedule-editor-actions"><button type="button" id="recentExtraCancel">취소</button><button type="button" id="recentExtraSave">저장</button></div>';
-    document.getElementById("adminScheduleSelector").appendChild(wrap);makeTimeOptions(document.getElementById("recentExtraStart"),"10:00");makeTimeOptions(document.getElementById("recentExtraEnd"),"12:00");
-    document.getElementById("recentExtraCancel").onclick=function(){wrap.remove();};
-    document.getElementById("recentExtraSave").onclick=async function(){const date=document.getElementById("recentExtraDate").value,start=document.getElementById("recentExtraStart").value,end=document.getElementById("recentExtraEnd").value;if(!date){alert("봉사 날짜를 선택해 주세요.");return;}if(start>=end){alert("종료 시간은 시작 시간보다 늦어야 합니다.");return;}try{await postJson({action:"saveSchedule",key:key,scheduleKey:key,label:key,serviceDate:date,startTime:start,endTime:end});schedules.push(normalize({key:key,label:key,serviceDate:date,startTime:start,endTime:end}));schedules.sort(order);saveLocal();renderLists();wrap.remove();alert(key+" 일정이 추가되었습니다.");}catch(e){console.error(e);alert("일정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}};
-  }
-  async function deleteExtra(key){
-    const s=getSchedule(key);if(!s||s.fixed)return;if(!confirm(s.label+" 일정을 삭제하시겠습니까?\n해당 일정의 신청자와 관리 데이터도 함께 초기화됩니다."))return;
-    try{await postJson({action:"deleteSchedule",key:key,scheduleKey:key});}catch(e){console.error(e);}
-    schedules=schedules.filter(x=>x.key!==key);saveLocal();const m=getApplyMap();delete m[key];setApplyMap(m);renderLists();alert(s.label+" 일정이 삭제되었습니다.");
-  }
+  if (!masterNames.length) await loadMasterNames();
+  renderScheduleApplyNames(key);
+}
 
-  function init(){
-    legacyShowView=window.showView;
-    const apply=sectionElement("apply"), appoint=sectionElement("appoint"), admin=sectionElement("admin");
-    if(!apply||!appoint||!admin)return;
-    makeSelector("apply","봉사 일정을 선택해 주세요",false,false);
-    makeSelector("appoint","봉사 일정을 선택해 주세요",false,false);
-    makeSelector("admin","봉사 일정을 선택해 주세요",true,true);
-    showList("apply");showList("appoint");showList("admin");
-    loadSchedules();
+function renderScheduleApplyNames(key) {
+  const grid = document.getElementById("scheduleApplyNameGrid");
+  if (!grid) return;
 
-    window.showView=function(view){
-      if(view==="admin" && !adminAuthenticated){
-        const saved=localStorage.getItem(ADMIN_PASSWORD_KEY);if(saved===ADMIN_PASSWORD)adminAuthenticated=true;else{showAdminLogin();return;}
-      }
-      currentView=view;
-      document.querySelectorAll(".view").forEach(e=>e.classList.remove("active"));document.querySelectorAll(".nav-button").forEach(e=>e.classList.remove("active"));
-      const ve=document.getElementById(view+"View");if(ve)ve.classList.add("active");const ne=document.getElementById("nav"+view.charAt(0).toUpperCase()+view.slice(1));if(ne)ne.classList.add("active");
-      document.getElementById("topTitle").textContent="전시대";window.scrollTo(0,0);
-      if(view==="apply")closeApply();
-      if(view==="appoint")closeAppoint();
-      if(view==="admin")closeAdmin();
+  const selected = Array.isArray(applySelectionsBySchedule[key])
+    ? applySelectionsBySchedule[key]
+    : [];
+
+  grid.innerHTML = "";
+
+  masterNames.forEach(function(name) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "name-card";
+    const isSelected = selected.includes(name);
+    if (isSelected) card.classList.add("selected");
+
+    const check = document.createElement("span");
+    check.className = "check-mark";
+    check.textContent = isSelected ? "✓" : "";
+
+    const text = document.createElement("span");
+    text.textContent = name;
+    card.appendChild(check);
+    card.appendChild(text);
+    card.onclick = function() {
+      toggleScheduleSelection(key, name);
     };
-    window.getMySelections=function(){const m=getApplyMap();return currentApplyScheduleKey&&Array.isArray(m[currentApplyScheduleKey])?m[currentApplyScheduleKey].slice():[];};
-    window.saveMySelections=function(list){const m=getApplyMap();if(currentApplyScheduleKey)m[currentApplyScheduleKey]=Array.isArray(list)?list.slice():[];setApplyMap(m);};
-    const oldToggle=window.toggleSelection;
-    window.toggleSelection=function(name){if(currentApplyScheduleKey){let a=window.getMySelections();const i=a.indexOf(name);if(i>=0)a.splice(i,1);else a.push(name);sortNames(a);window.saveMySelections(a);currentSelections=a;renderApplyNames();return;}return oldToggle(name);};
+    grid.appendChild(card);
+  });
+}
+
+function toggleScheduleSelection(key, name) {
+  let selected = Array.isArray(applySelectionsBySchedule[key])
+    ? applySelectionsBySchedule[key].slice()
+    : [];
+  const index = selected.indexOf(name);
+  if (index >= 0) selected.splice(index, 1);
+  else selected.push(name);
+  sortNames(selected);
+  applySelectionsBySchedule[key] = selected;
+  saveLocalApplySelections();
+  renderScheduleApplyNames(key);
+}
+
+async function completeScheduleApply(key) {
+  const schedule = getSchedule(key);
+  if (!schedule) return;
+
+  const selected = Array.isArray(applySelectionsBySchedule[key])
+    ? applySelectionsBySchedule[key].slice()
+    : [];
+  sortNames(selected);
+
+  try {
+    await postJson({
+      action: "saveScheduleApplicants",
+      key: key,
+      scheduleKey: key,
+      applicants: selected,
+      serviceDate: schedule.serviceDate,
+      serviceTime: jeonsiFormatRange(schedule.startTime, schedule.endTime),
+      applicationStart: schedule.applicationStart,
+      applicationEnd: schedule.applicationEnd
+    });
+
+    applySelectionsBySchedule[key] = [];
+    saveLocalApplySelections();
+    await loadScheduleApplicants(key);
+    renderScheduleCurrentApplicants(key);
+    const grid = document.getElementById("scheduleApplyNameGrid");
+    const complete = document.getElementById("scheduleApplyCompleteWrap");
+    if (grid) grid.style.display = "none";
+    if (complete) complete.style.display = "none";
+
+    alert(selected.length + "명이 신청되었습니다.");
+  } catch (error) {
+    console.error(error);
+    alert("신청 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
-})();
+}
+
+async function loadMasterNames() {
+  try {
+    const response = await fetch(SCRIPT_URL + "?action=jeonsidaeNames&t=" + Date.now());
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message || "명단을 불러오지 못했습니다.");
+    masterNames = Array.isArray(data.names) ? data.names.map(String).map(function(n){return n.trim();}).filter(Boolean) : [];
+    masterNames = [...new Set(masterNames)];
+    sortNames(masterNames);
+  } catch (error) {
+    console.error(error);
+    const grid = document.getElementById("scheduleApplyNameGrid");
+    if (grid) grid.innerHTML = '<div class="name-loading">전시대 신청 명단을 불러오지 못했습니다.<br>잠시 후 다시 시도해 주세요.</div>';
+  }
+}
+
+async function loadScheduleApplicants(key) {
+  try {
+    const response = await fetch(
+      SCRIPT_URL + "?action=scheduleApplicants&key=" + encodeURIComponent(key) + "&scheduleKey=" + encodeURIComponent(key) + "&t=" + Date.now()
+    );
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message || "신청자를 불러오지 못했습니다.");
+    const names = Array.isArray(data.applicants) ? data.applicants : [];
+    scheduleApplicants[key] = [...new Set(names.map(function(n){return String(n).trim();}).filter(Boolean))];
+    sortNames(scheduleApplicants[key]);
+    return scheduleApplicants[key];
+  } catch (error) {
+    console.error(error);
+    scheduleApplicants[key] = Array.isArray(scheduleApplicants[key]) ? scheduleApplicants[key] : [];
+    return scheduleApplicants[key];
+  }
+}
+
+function renderScheduleCurrentApplicants(key) {
+  const title = document.getElementById("scheduleCurrentApplicantTitle");
+  const box = document.getElementById("scheduleCurrentApplicantNames");
+  if (!title || !box) return;
+  const names = Array.isArray(scheduleApplicants[key]) ? scheduleApplicants[key].slice() : [];
+  sortNames(names);
+  title.textContent = "신청자 " + names.length + "명";
+  box.innerHTML = "";
+  if (!names.length) {
+    box.innerHTML = '<div class="current-empty">아직 신청한 사람이 없습니다.</div>';
+    return;
+  }
+  names.forEach(function(name) {
+    const item = document.createElement("div");
+    item.className = "current-name";
+    item.textContent = name;
+    box.appendChild(item);
+  });
+}
+
+function showAppointSchedule(key) {
+  const schedule = getSchedule(key);
+  if (!schedule) return;
+  currentAppointScheduleKey = key;
+  const list = document.getElementById("appointScheduleList");
+  const detail = document.getElementById("appointScheduleDetail");
+  list.style.display = "none";
+  detail.style.display = "block";
+  detail.innerHTML = "";
+  detail.appendChild(makeScheduleHeader(schedule, showAppointScheduleList));
+
+  const body = document.createElement("div");
+  body.className = "schedule-detail-body";
+  body.innerHTML = '<div class="appoint-list" id="scheduleAppointList"><div class="appoint-empty">임명된 그룹을 불러오는 중입니다.</div></div>';
+  detail.appendChild(body);
+  loadScheduleGroups(key).then(function(){ renderScheduleAppoint(key); });
+}
+
+function showAppointScheduleList() {
+  currentAppointScheduleKey = null;
+  const list = document.getElementById("appointScheduleList");
+  const detail = document.getElementById("appointScheduleDetail");
+  list.style.display = "block";
+  detail.style.display = "none";
+  detail.innerHTML = "";
+}
+
+async function loadScheduleGroups(key) {
+  try {
+    const response = await fetch(
+      SCRIPT_URL + "?action=scheduleGroups&key=" + encodeURIComponent(key) + "&scheduleKey=" + encodeURIComponent(key) + "&t=" + Date.now()
+    );
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message || "그룹을 불러오지 못했습니다.");
+    const loaded = Array.isArray(data.groups) ? data.groups : [];
+    scheduleGroups[key] = loaded.map(function(group) {
+      const result = Array.isArray(group) ? group.slice(0, 8) : [];
+      while (result.length < 8) result.push("");
+      if (!result[7]) result[7] = "유타몰";
+      return result;
+    });
+    return scheduleGroups[key];
+  } catch (error) {
+    console.error(error);
+    scheduleGroups[key] = Array.isArray(scheduleGroups[key]) ? scheduleGroups[key] : [];
+    return scheduleGroups[key];
+  }
+}
+
+function renderScheduleAppoint(key) {
+  const list = document.getElementById("scheduleAppointList");
+  if (!list) return;
+  list.innerHTML = "";
+  const localGroups = Array.isArray(scheduleGroups[key]) ? scheduleGroups[key] : [];
+  const visible = localGroups.filter(function(group) {
+    return group.slice(0, 7).some(Boolean);
+  });
+  if (!visible.length) {
+    list.innerHTML = '<div class="appoint-empty">아직 임명된 그룹이 없습니다.</div>';
+    return;
+  }
+  localGroups.forEach(function(group) {
+    if (!group.slice(0,7).some(Boolean)) return;
+    const card = document.createElement("div");
+    card.className = "appoint-card";
+    const title = document.createElement("div");
+    title.className = "appoint-title";
+    title.textContent = group[7] || "유타몰";
+    const members = document.createElement("div");
+    members.className = "appoint-members";
+    group.slice(0,7).forEach(function(name) {
+      const person = document.createElement("div");
+      person.className = "appoint-person";
+      if (name) {
+        person.classList.add("filled");
+        person.textContent = name;
+      } else {
+        person.textContent = "빈 자리";
+      }
+      members.appendChild(person);
+    });
+    card.appendChild(title);
+    card.appendChild(members);
+    list.appendChild(card);
+  });
+}
+
+async function showAdminSchedule(key) {
+  const schedule = getSchedule(key);
+  if (!schedule) return;
+  currentAdminScheduleKey = key;
+  selectedApplicant = null;
+  selectedApplicants.clear();
+
+  const list = document.getElementById("adminScheduleList");
+  const detail = document.getElementById("adminScheduleDetail");
+  list.style.display = "none";
+  detail.style.display = "block";
+  detail.innerHTML = "";
+  detail.appendChild(makeScheduleHeader(schedule, showAdminScheduleList));
+
+  const body = document.createElement("div");
+  body.className = "schedule-detail-body";
+  body.innerHTML =
+    '<div class="admin-section">' +
+      '<div class="admin-count" id="adminCount">미배정 신청자 0명</div>' +
+      '<div class="admin-appoint-guide">아래에서 봉사자를 <b>선택한 순서대로 1번, 2번, 3번...</b>이 됩니다.<br>각 그룹에서 인원수와 시작시간을 정한 뒤 「선택한 사람 임명」을 누르세요.</div>' +
+      '<div class="admin-names" id="adminNames"><div class="name-loading">신청자를 불러오는 중입니다.</div></div>' +
+      '<div style="display:flex;justify-content:flex-end;margin-bottom:15px;"><button class="admin-add-button" id="scheduleManualAddButton">+ 추가</button></div>' +
+      '<div class="group-controls"><button class="add-group-button" id="scheduleAddGroupButton">+ 봉사 그룹 추가</button></div>' +
+      '<div class="groups" id="groups"></div>' +
+    '</div>';
+  detail.appendChild(body);
+
+  document.getElementById("scheduleManualAddButton").onclick = addManualApplicant;
+  document.getElementById("scheduleAddGroupButton").onclick = addGroup;
+
+  await Promise.all([
+    loadScheduleApplicants(key),
+    loadScheduleGroups(key)
+  ]);
+
+  applicants = scheduleApplicants[key].slice();
+  groups = scheduleGroups[key].slice();
+  appointmentSettings = [];
+  const saved = localStorage.getItem(APPOINTMENT_SETTINGS_KEY + "_" + key);
+  if (saved) {
+    try { appointmentSettings = JSON.parse(saved) || []; } catch (e) { appointmentSettings = []; }
+  }
+  groups.forEach(function(group, index) { ensureAppointmentSetting(index, group); });
+  renderAdmin();
+}
+
+function showAdminScheduleList() {
+  currentAdminScheduleKey = null;
+  selectedApplicant = null;
+  selectedApplicants.clear();
+  const list = document.getElementById("adminScheduleList");
+  const detail = document.getElementById("adminScheduleDetail");
+  list.style.display = "block";
+  detail.style.display = "none";
+  detail.innerHTML = "";
+}
+
+function renderAdmin() {
+  const count = document.getElementById("adminCount");
+  const box = document.getElementById("adminNames");
+  if (!count || !box) return;
+
+  const assigned = new Set();
+  groups.forEach(function(group) {
+    group.slice(0, 7).forEach(function(name) { if (name) assigned.add(name); });
+  });
+
+  const unassigned = applicants.filter(function(name) { return !assigned.has(name); });
+  sortNames(unassigned);
+
+  count.textContent = "미배정 신청자 " + unassigned.length + "명 · 현재 선택 " + selectedApplicants.size + "명";
+  box.innerHTML = "";
+
+  if (!unassigned.length) {
+    box.innerHTML = '<div class="name-loading" style="grid-column:1/-1">미배정 신청자가 없습니다.</div>';
+  } else {
+    unassigned.forEach(function(name) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "admin-name";
+      if (selectedApplicants.has(name)) button.classList.add("selected");
+      const order = [...selectedApplicants].indexOf(name);
+      button.textContent = order >= 0 ? (order + 1) + ". " + name : name;
+      button.onclick = function() {
+        if (selectedApplicants.has(name)) {
+          selectedApplicants.delete(name);
+        } else {
+          if (selectedApplicants.size >= 7) {
+            alert("한 번에 최대 7명까지 선택할 수 있습니다.");
+            return;
+          }
+          selectedApplicants.add(name);
+        }
+        selectedApplicant = null;
+        renderAdmin();
+      };
+      box.appendChild(button);
+    });
+  }
+  renderGroups();
+}
+
+async function loadGroups() {
+  if (!currentAdminScheduleKey) return;
+  const key = currentAdminScheduleKey;
+  await loadScheduleGroups(key);
+  groups = scheduleGroups[key].slice();
+  appointmentSettings = [];
+  groups.forEach(function(group, index) { ensureAppointmentSetting(index, group); });
+  renderAdmin();
+}
+
+async function saveGroups() {
+  if (!currentAdminScheduleKey) return false;
+  const key = currentAdminScheduleKey;
+  scheduleGroups[key] = groups.map(function(group) { return group.slice(0,8); });
+  localStorage.setItem(GROUP_KEY + "_" + key, JSON.stringify(scheduleGroups[key]));
+  localStorage.setItem(APPOINTMENT_SETTINGS_KEY + "_" + key, JSON.stringify(appointmentSettings));
+  try {
+    await postJson({
+      action: "saveScheduleGroups",
+      key: key,
+      scheduleKey: key,
+      groups: scheduleGroups[key]
+    });
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+async function addManualApplicant() {
+  if (!currentAdminScheduleKey) return;
+  const name = prompt("추가할 봉사자의 이름을 입력해 주세요.");
+  if (name === null) return;
+  const trimmed = name.trim();
+  if (!trimmed) { alert("이름을 입력해 주세요."); return; }
+  if (applicants.includes(trimmed)) { alert("이미 신청자 목록에 있습니다."); return; }
+  applicants.push(trimmed);
+  sortNames(applicants);
+  selectedApplicants.add(trimmed);
+  await saveManualScheduleApplicants();
+  renderAdmin();
+}
+
+async function saveManualScheduleApplicants() {
+  const key = currentAdminScheduleKey;
+  if (!key) return;
+  try {
+    await postJson({ action: "saveScheduleApplicants", key: key, scheduleKey: key, applicants: applicants });
+    scheduleApplicants[key] = applicants.slice();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function saveAppointmentSettings() {
+  if (currentAdminScheduleKey) {
+    localStorage.setItem(APPOINTMENT_SETTINGS_KEY + "_" + currentAdminScheduleKey, JSON.stringify(appointmentSettings));
+  } else {
+    localStorage.setItem(APPOINTMENT_SETTINGS_KEY, JSON.stringify(appointmentSettings));
+  }
+}
+
+function renderAppoint() {
+  if (currentAppointScheduleKey) renderScheduleAppoint(currentAppointScheduleKey);
+}
+
+async function deleteExtraSchedule(key) {
+  const schedule = getSchedule(key);
+  if (!schedule || schedule.fixed) return;
+
+  if (!confirm(schedule.label + " 일정을 삭제하시겠습니까?\n신청 및 관리 데이터도 함께 초기화됩니다.")) return;
+
+  try {
+    await postJson({
+      action: "deleteSchedule",
+      key: key,
+      scheduleKey: key
+    });
+
+    delete applySelectionsBySchedule[key];
+    delete scheduleApplicants[key];
+    delete scheduleGroups[key];
+    localStorage.removeItem(APPOINTMENT_SETTINGS_KEY + "_" + key);
+
+    jeonsiSchedules = jeonsiSchedules.filter(function(s) { return s.key !== key; });
+    saveLocalSchedules();
+    saveLocalApplySelections();
+
+    if (currentApplyScheduleKey === key) showApplyScheduleList();
+    if (currentAppointScheduleKey === key) showAppointScheduleList();
+    if (currentAdminScheduleKey === key) showAdminScheduleList();
+
+    renderAllScheduleLists();
+    alert(schedule.label + " 일정이 삭제되었습니다.");
+  } catch (error) {
+    console.error(error);
+    alert("일정 삭제에 실패했습니다.\nApps Script의 일정 삭제 기능을 확인해 주세요.");
+  }
+}
+
+function showExtraScheduleEditor() {
+  if (jeonsiSchedules.filter(function(s){ return !s.fixed; }).length >= 3) {
+    alert("추가 일정은 최대 3개까지 만들 수 있습니다.");
+    return;
+  }
+
+  const old = document.getElementById("scheduleEditor");
+  if (old) { old.remove(); return; }
+
+  const editor = document.createElement("div");
+  editor.id = "scheduleEditor";
+  editor.className = "schedule-editor";
+
+  const today = new Date();
+  const defaultDate = jeonsiDateInput(today);
+  const defaultStart = "10:00";
+  const defaultEnd = "12:00";
+
+  editor.innerHTML =
+    '<div class="schedule-editor-grid">' +
+      '<label>봉사 날짜<input type="date" id="extraServiceDate" value="' + defaultDate + '"></label>' +
+      '<label>시작 시간<select id="extraStartTime"></select></label>' +
+      '<label>종료 시간<select id="extraEndTime"></select></label>' +
+      '<label>신청 시작일<input type="date" id="extraApplicationStart" value="' + defaultDate + '"></label>' +
+      '<label>신청 종료일<input type="date" id="extraApplicationEnd" value="' + defaultDate + '"></label>' +
+    '</div>' +
+    '<div class="schedule-editor-actions">' +
+      '<button type="button" class="schedule-editor-save" id="extraScheduleSave">추가</button>' +
+      '<button type="button" class="schedule-editor-cancel" id="extraScheduleCancel">취소</button>' +
+    '</div>';
+
+  const container = document.getElementById("adminScheduleList");
+  container.appendChild(editor);
+
+  fillExtraTimeOptions(document.getElementById("extraStartTime"), defaultStart);
+  fillExtraTimeOptions(document.getElementById("extraEndTime"), defaultEnd);
+
+  document.getElementById("extraScheduleCancel").onclick = function() { editor.remove(); };
+  document.getElementById("extraScheduleSave").onclick = confirmExtraSchedule;
+}
+
+function fillExtraTimeOptions(select, selected) {
+  if (!select) return;
+  select.innerHTML = "";
+  for (let hour = 10; hour <= 17; hour++) {
+    for (let minute = 0; minute < 60; minute += 10) {
+      if (hour === 17 && minute > 0) continue;
+      const value = jeonsiPad2(hour) + ":" + jeonsiPad2(minute);
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = jeonsiFormatTime(value);
+      if (value === selected) option.selected = true;
+      select.appendChild(option);
+    }
+  }
+}
+
+async function confirmExtraSchedule() {
+  const extras = jeonsiSchedules.filter(function(s){ return !s.fixed; });
+  if (extras.length >= 3) { alert("추가 일정은 최대 3개까지 만들 수 있습니다."); return; }
+
+  const used = new Set(extras.map(function(s){ return s.key; }));
+  const key = ["추가1","추가2","추가3"].find(function(k){ return !used.has(k); });
+  if (!key) return;
+
+  const serviceDate = document.getElementById("extraServiceDate").value;
+  const startTime = document.getElementById("extraStartTime").value;
+  const endTime = document.getElementById("extraEndTime").value;
+  const applicationStart = document.getElementById("extraApplicationStart").value;
+  const applicationEnd = document.getElementById("extraApplicationEnd").value;
+
+  if (!serviceDate || !startTime || !endTime || !applicationStart || !applicationEnd) {
+    alert("날짜와 시간을 모두 입력해 주세요.");
+    return;
+  }
+  if (endTime <= startTime) {
+    alert("종료 시간은 시작 시간보다 늦어야 합니다.");
+    return;
+  }
+  if (applicationEnd < applicationStart) {
+    alert("신청 종료일은 신청 시작일보다 빠를 수 없습니다.");
+    return;
+  }
+
+  const schedule = {
+    key: key,
+    label: key,
+    fixed: false,
+    serviceDate: serviceDate,
+    startTime: startTime,
+    endTime: endTime,
+    applicationStart: applicationStart,
+    applicationEnd: applicationEnd,
+    applySheet: "신청용 " + key,
+    manageSheet: "관리용 " + key
+  };
+
+  try {
+    await postJson({
+      action: "saveSchedule",
+      key: key,
+      scheduleKey: key,
+      schedule: schedule,
+      serviceDate: serviceDate,
+      serviceTime: jeonsiFormatRange(startTime, endTime),
+      startTime: startTime,
+      endTime: endTime,
+      applicationStart: applicationStart,
+      applicationEnd: applicationEnd
+    });
+
+    jeonsiSchedules.push(schedule);
+    jeonsiSchedules.sort(scheduleOrder);
+    saveLocalSchedules();
+    renderAllScheduleLists();
+    alert(key + " 일정이 추가되었습니다.");
+  } catch (error) {
+    console.error(error);
+    alert("추가 일정 저장에 실패했습니다.\nApps Script의 일정 저장 기능을 확인해 주세요.");
+  }
+}
+
+async function showView(view) {
+  if (view === "admin" && !adminAuthenticated) {
+    const savedPassword = localStorage.getItem(ADMIN_PASSWORD_KEY);
+    if (savedPassword === ADMIN_PASSWORD) {
+      adminAuthenticated = true;
+    } else {
+      showAdminLogin();
+      return;
+    }
+  }
+
+  currentView = view;
+  document.querySelectorAll(".view").forEach(function(element) { element.classList.remove("active"); });
+  document.querySelectorAll(".nav-button").forEach(function(button) { button.classList.remove("active"); });
+
+  const viewElement = document.getElementById(view + "View");
+  if (viewElement) viewElement.classList.add("active");
+  const navElement = document.getElementById("nav" + view.charAt(0).toUpperCase() + view.slice(1));
+  if (navElement) navElement.classList.add("active");
+  const topTitle = document.getElementById("topTitle");
+  if (topTitle) topTitle.textContent = "전시대";
+
+  if (view === "apply") {
+    showApplyScheduleList();
+    await loadMasterNames();
+    await loadSchedules();
+  }
+  if (view === "appoint") {
+    showAppointScheduleList();
+    await loadSchedules();
+  }
+  if (view === "admin") {
+    showAdminScheduleList();
+    await loadSchedules();
+  }
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  if (currentView === "apply" && currentApplyScheduleKey) {
+    showApplyScheduleList();
+    return;
+  }
+  if (currentView === "appoint" && currentAppointScheduleKey) {
+    showAppointScheduleList();
+    return;
+  }
+  if (currentView === "admin" && currentAdminScheduleKey) {
+    showAdminScheduleList();
+    return;
+  }
+  showView("notice");
+}
+
+/* 기존 시작 코드가 호출하는 함수도 일정 구조에 맞춥니다. */
+function setDates() {}
+
+/* 초기 진입 */
+document.addEventListener("DOMContentLoaded", async function() {
+  loadLocalApplySelections();
+  await loadSchedules();
+});
+
 </script>
 
 </body>
