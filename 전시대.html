@@ -266,37 +266,19 @@ body.light .apply-time {
 
 
 /* =========================================================
-   선택 인원
+   신청 파트
 ========================================================= */
 
-.count-box {
+.apply-part {
   width: 100%;
   max-width: 900px;
 
   margin:
     0 auto 18px;
-
-  padding: 13px 15px;
-
-  border-radius: 12px;
-
-  background:
-    rgba(255,255,255,.08);
-
-  border:
-    1px solid rgba(255,255,255,.10);
-
-  text-align: center;
-
-  font-size:
-    calc(18px * var(--font-scale));
-
-  font-weight: 700;
 }
 
-body.light .count-box {
-  background: #fff;
-  border-color: #ddd;
+.apply-part .apply-date-box {
+  margin-bottom: 10px;
 }
 
 
@@ -438,7 +420,7 @@ body.light .name-loading {
   width: 100%;
   max-width: 900px;
 
-  margin: 0 auto 18px;
+  margin: 0 auto 10px;
 }
 
 .apply-name-open-button {
@@ -472,7 +454,7 @@ body.light .name-loading {
   max-width: 900px;
 
   margin:
-    18px auto 25px;
+    10px auto 18px;
 }
 
 .apply-complete-button {
@@ -494,6 +476,212 @@ body.light .name-loading {
   font-weight: 800;
 
   cursor: pointer;
+}
+
+
+/* =========================================================
+   신청 추가
+========================================================= */
+
+.apply-add-wrap {
+  width: 100%;
+  max-width: 900px;
+
+  margin:
+    5px auto 18px;
+}
+
+.apply-add-button {
+  width: 100%;
+
+  min-height: 46px;
+
+  border-radius: 10px;
+
+  border:
+    1px dashed #4285f4;
+
+  background: transparent;
+
+  color: #4285f4;
+
+  font-size:
+    calc(16px * var(--font-scale));
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+body.light .apply-add-button {
+  background: #fff;
+}
+
+
+/* =========================================================
+   추가 날짜 / 시간 선택
+========================================================= */
+
+.apply-add-editor {
+  width: 100%;
+  max-width: 900px;
+
+  margin:
+    0 auto 18px;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.06);
+
+  border:
+    1px solid rgba(255,255,255,.10);
+}
+
+body.light .apply-add-editor {
+  background: #fff;
+  border-color: #ddd;
+}
+
+.apply-add-editor-title {
+  margin-bottom: 10px;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 800;
+}
+
+.apply-add-editor-row {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 8px;
+}
+
+.apply-add-input {
+  width: 100%;
+
+  min-height: 44px;
+
+  padding:
+    0 10px;
+
+  border-radius: 9px;
+
+  border:
+    1px solid #555;
+
+  background:
+    transparent;
+
+  color: inherit;
+
+  font-size:
+    calc(15px * var(--font-scale));
+}
+
+body.light .apply-add-input {
+  background: #fff;
+  border-color: #ccc;
+}
+
+.apply-add-confirm-row {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 8px;
+
+  margin-top: 10px;
+}
+
+.apply-add-confirm {
+  min-height: 44px;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  background: #4285f4;
+
+  color: #fff;
+
+  font-size:
+    calc(15px * var(--font-scale));
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.apply-add-cancel {
+  min-height: 44px;
+
+  border:
+    1px solid #555;
+
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-size:
+    calc(15px * var(--font-scale));
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+body.light .apply-add-cancel {
+  border-color: #ccc;
+}
+
+
+/* =========================================================
+   관리자용 추가
+========================================================= */
+
+.apply-admin-add-wrap {
+  width: 100%;
+  max-width: 900px;
+
+  margin:
+    4px auto 0;
+}
+
+.apply-admin-add-button {
+  width: 100%;
+
+  min-height: 44px;
+
+  border:
+    1px dashed #777;
+
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #aaa;
+
+  font-size:
+    calc(14px * var(--font-scale));
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+body.light .apply-admin-add-button {
+  color: #777;
+  border-color: #aaa;
 }
 
 
@@ -685,6 +873,7 @@ body.light .appoint-schedule-row {
   white-space: nowrap;
   font-weight: 700;
 }
+
 
 /* =========================================================
    미배정 신청자
@@ -1491,6 +1680,10 @@ body.light .admin-login-input {
       calc(14px * var(--font-scale));
   }
 
+  .apply-add-editor-row {
+    grid-template-columns: 1fr;
+  }
+
 }
 
 
@@ -1705,67 +1898,309 @@ body.light .admin-login-input {
     </h1>
 
 
-    <!-- 토요일 -->
+    <!-- =====================================================
+         기본 3개 신청 파트
+    ====================================================== -->
 
-    <div class="apply-date-box">
+    <div id="applyParts">
+
+
+      <!-- 1. 토요일 오전 -->
 
       <div
-        class="apply-date"
-        id="saturdayDate"
-      ></div>
+        class="apply-part"
+        data-fixed="true"
+        data-part-index="0"
+      >
 
-      <div class="apply-time">
-        오후 1:00~3:00 (2시간)
+        <div class="apply-date-box">
+
+          <div
+            class="apply-date"
+            id="applyDate0"
+          ></div>
+
+          <div
+            class="apply-time"
+            id="applyTime0"
+          ></div>
+
+        </div>
+
+
+        <div class="apply-name-open-wrap">
+
+          <button
+            type="button"
+            class="apply-name-open-button"
+            onclick="toggleApplyNames(0)"
+          >
+            전시대 신청
+          </button>
+
+        </div>
+
+
+        <div
+          class="name-grid"
+          id="applyNameGrid0"
+          style="display:none;"
+        ></div>
+
+
+        <div
+          class="apply-complete-wrap"
+          id="applyCompleteWrap0"
+          style="display:none;"
+        >
+
+          <button
+            class="apply-complete-button"
+            onclick="completeApply(0)"
+          >
+            제출
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 2. 토요일 오후 -->
+
+      <div
+        class="apply-part"
+        data-fixed="true"
+        data-part-index="1"
+      >
+
+        <div class="apply-date-box">
+
+          <div
+            class="apply-date"
+            id="applyDate1"
+          ></div>
+
+          <div
+            class="apply-time"
+            id="applyTime1"
+          ></div>
+
+        </div>
+
+
+        <div class="apply-name-open-wrap">
+
+          <button
+            type="button"
+            class="apply-name-open-button"
+            onclick="toggleApplyNames(1)"
+          >
+            전시대 신청
+          </button>
+
+        </div>
+
+
+        <div
+          class="name-grid"
+          id="applyNameGrid1"
+          style="display:none;"
+        ></div>
+
+
+        <div
+          class="apply-complete-wrap"
+          id="applyCompleteWrap1"
+          style="display:none;"
+        >
+
+          <button
+            class="apply-complete-button"
+            onclick="completeApply(1)"
+          >
+            제출
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 3. 일요일 오전 -->
+
+      <div
+        class="apply-part"
+        data-fixed="true"
+        data-part-index="2"
+      >
+
+        <div class="apply-date-box">
+
+          <div
+            class="apply-date"
+            id="applyDate2"
+          ></div>
+
+          <div
+            class="apply-time"
+            id="applyTime2"
+          ></div>
+
+        </div>
+
+
+        <div class="apply-name-open-wrap">
+
+          <button
+            type="button"
+            class="apply-name-open-button"
+            onclick="toggleApplyNames(2)"
+          >
+            전시대 신청
+          </button>
+
+        </div>
+
+
+        <div
+          class="name-grid"
+          id="applyNameGrid2"
+          style="display:none;"
+        ></div>
+
+
+        <div
+          class="apply-complete-wrap"
+          id="applyCompleteWrap2"
+          style="display:none;"
+        >
+
+          <button
+            class="apply-complete-button"
+            onclick="completeApply(2)"
+          >
+            제출
+          </button>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         추가한 신청 파트가 여기에 들어갑니다.
+    ====================================================== -->
+
+    <div id="extraApplyParts"></div>
+
+
+
+    <!-- =====================================================
+         + 추가
+    ====================================================== -->
+
+    <div
+      class="apply-add-wrap"
+      id="applyAddWrap"
+    >
+
+      <button
+        type="button"
+        class="apply-add-button"
+        onclick="showApplyAddEditor()"
+      >
+        ＋ 추가
+      </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         날짜 / 시간 추가 편집창
+    ====================================================== -->
+
+    <div
+      class="apply-add-editor"
+      id="applyAddEditor"
+      style="display:none;"
+    >
+
+      <div class="apply-add-editor-title">
+        날짜와 시간을 선택해 주세요.
+      </div>
+
+
+      <div class="apply-add-editor-row">
+
+        <input
+          type="date"
+          id="applyExtraDate"
+          class="apply-add-input"
+        >
+
+
+        <select
+          id="applyExtraTime"
+          class="apply-add-input"
+        ></select>
+
+      </div>
+
+
+      <div class="apply-add-confirm-row">
+
+        <button
+          type="button"
+          class="apply-add-confirm"
+          onclick="confirmApplyAdd()"
+        >
+          추가
+        </button>
+
+
+        <button
+          type="button"
+          class="apply-add-cancel"
+          onclick="cancelApplyAdd()"
+        >
+          취소
+        </button>
+
       </div>
 
     </div>
 
 
-    <div
-      class="count-box"
-      id="applySelectedCount"
-    >
-      현재 선택 0 명
-    </div>
 
+    <!-- =====================================================
+         관리자만 사용
+    ====================================================== -->
 
-    <div class="apply-name-open-wrap">
+    <div class="apply-admin-add-wrap">
 
       <button
         type="button"
-        class="apply-name-open-button"
-        onclick="toggleApplyNames()"
+        class="apply-admin-add-button"
+        onclick="adminOnlyApplyAdd()"
       >
-        전시대 신청
+        ＋ 추가(관리자만 사용)
       </button>
 
     </div>
 
 
-    <div
-      class="name-grid"
-      id="applyNameGrid"
-      style="display:none;"
-    ></div>
 
-
-    <div
-      class="apply-complete-wrap"
-      id="applyCompleteWrap"
-      style="display:none;"
-    >
-
-      <button
-        class="apply-complete-button"
-        onclick="completeApply()"
-      >
-        제출
-      </button>
-
-    </div>
-
-
-    <!-- 현재 신청자 -->
+    <!-- =====================================================
+         현재 신청자
+    ====================================================== -->
 
     <div class="current-applicants">
 
@@ -2044,7 +2479,7 @@ body.light .admin-login-input {
 
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
-   
+
 
 /* =========================================================
    저장 키
@@ -2058,6 +2493,14 @@ const GROUP_KEY =
 
 const ADMIN_PASSWORD_KEY =
   "jeonsidaeAdminPassword";
+
+
+/* =========================================================
+   신청 파트 저장 키
+========================================================= */
+
+const APPLY_PARTS_KEY =
+  "jeonsidaeApplyParts";
 
 
 /* =========================================================
@@ -2096,6 +2539,15 @@ let adminAuthenticated =
 
 
 /* =========================================================
+   신청 파트 상태
+========================================================= */
+
+let applyParts = [];
+
+let applySelections = {};
+
+
+/* =========================================================
    시작
 ========================================================= */
 
@@ -2106,7 +2558,7 @@ document.addEventListener(
     loadSettings();
     loadAppointmentSettings();
 
-    setDates();
+    initializeApplyParts();
 
     loadApplicants();
 
@@ -2117,21 +2569,108 @@ document.addEventListener(
 
 
 /* =========================================================
-   날짜
+   신청 파트 초기화
 ========================================================= */
 
-function setDates() {
+function initializeApplyParts() {
+
+  const fixedParts =
+    createDefaultApplyParts();
+
+  let savedParts = [];
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        APPLY_PARTS_KEY
+      );
+
+    if (saved) {
+
+      const parsed =
+        JSON.parse(saved);
+
+      if (Array.isArray(parsed)) {
+
+        savedParts =
+          parsed.filter(
+            function(part) {
+
+              return part &&
+                part.date &&
+                part.startTime;
+
+            }
+          );
+
+      }
+
+    }
+
+  } catch (error) {
+
+    savedParts = [];
+
+  }
+
+
+  /*
+    기본 3개는 항상 현재 주 기준으로 만듭니다.
+    추가된 파트만 유지합니다.
+  */
+
+  const extraParts =
+    savedParts.slice(3);
+
+
+  applyParts =
+    fixedParts.concat(
+      extraParts
+    );
+
+
+  applySelections = {};
+
+  applyParts.forEach(
+    function(part, index) {
+
+      applySelections[index] =
+        getSavedPartSelection(index);
+
+    }
+  );
+
+
+  saveApplyParts();
+
+  renderApplyParts();
+
+}
+
+
+/* =========================================================
+   기본 3개 생성
+========================================================= */
+
+function createDefaultApplyParts() {
 
   const today =
     new Date();
 
+
   const day =
     today.getDay();
+
 
   let daysUntilSaturday;
 
 
   if (day === 0) {
+
+    /*
+      일요일이면 다음 토요일
+    */
 
     daysUntilSaturday = 6;
 
@@ -2146,22 +2685,1532 @@ function setDates() {
   const saturday =
     new Date(today);
 
+  saturday.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
   saturday.setDate(
     today.getDate() +
     daysUntilSaturday
   );
 
 
-  document
-    .getElementById(
-      "saturdayDate"
+  const sunday =
+    new Date(saturday);
+
+  sunday.setDate(
+    saturday.getDate() +
+    1
+  );
+
+
+  return [
+
+    {
+      date: toDateInputValue(
+        saturday
+      ),
+      startTime: "10:00",
+      fixed: true
+    },
+
+    {
+      date: toDateInputValue(
+        saturday
+      ),
+      startTime: "13:00",
+      fixed: true
+    },
+
+    {
+      date: toDateInputValue(
+        sunday
+      ),
+      startTime: "10:00",
+      fixed: true
+    }
+
+  ];
+
+}
+
+
+/* =========================================================
+   날짜 문자열
+========================================================= */
+
+function toDateInputValue(date) {
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+/* =========================================================
+   날짜 표시
+========================================================= */
+
+function formatApplyDate(dateString) {
+
+  const date =
+    new Date(
+      dateString +
+      "T00:00:00"
+    );
+
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    date.getMonth() + 1;
+
+  const day =
+    date.getDate();
+
+
+  const weekdayNames = [
+    "일요일",
+    "월요일",
+    "화요일",
+    "수요일",
+    "목요일",
+    "금요일",
+    "토요일"
+  ];
+
+
+  const weekday =
+    weekdayNames[
+      date.getDay()
+    ];
+
+
+  return (
+    year +
+    "년 " +
+    month +
+    "월 " +
+    day +
+    "일 (" +
+    weekday +
+    ")"
+  );
+
+}
+
+
+/* =========================================================
+   시간 표시
+========================================================= */
+
+function formatApplyTimeRange(
+  startTime
+) {
+
+  return (
+    formatDisplayTime(
+      startTime
+    ) +
+    " ~ " +
+    formatTimeWithOffset(
+      startTime,
+      120
+    ) +
+    " (2시간)"
+  ).replace(
+    formatTimeWithOffset(
+      startTime,
+      120
+    ),
+    formatDisplayTime(
+      formatTimeWithOffset(
+        startTime,
+        120
+      )
     )
-    .textContent =
-      "토요일 : " +
-      (saturday.getMonth() + 1) +
-      "월 " +
-      saturday.getDate() +
-      "일";
+  );
+
+}
+
+
+/* =========================================================
+   신청 파트 저장
+========================================================= */
+
+function saveApplyParts() {
+
+  try {
+
+    localStorage.setItem(
+      APPLY_PARTS_KEY,
+      JSON.stringify(
+        applyParts
+      )
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =========================================================
+   신청 파트 선택 저장
+========================================================= */
+
+function getSavedPartSelection(
+  index
+) {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        MY_SELECTION_KEY +
+        "_" +
+        index
+      );
+
+
+    if (!saved) {
+
+      return [];
+
+    }
+
+
+    const parsed =
+      JSON.parse(
+        saved
+      );
+
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+
+  } catch (error) {
+
+    return [];
+
+  }
+
+}
+
+
+function savePartSelection(
+  index,
+  list
+) {
+
+  localStorage.setItem(
+    MY_SELECTION_KEY +
+    "_" +
+    index,
+    JSON.stringify(
+      list
+    )
+  );
+
+}
+
+
+/* =========================================================
+   신청 파트 출력
+========================================================= */
+
+function renderApplyParts() {
+
+  const fixedContainer =
+    document.getElementById(
+      "applyParts"
+    );
+
+  const extraContainer =
+    document.getElementById(
+      "extraApplyParts"
+    );
+
+
+  if (!fixedContainer ||
+      !extraContainer) {
+
+    return;
+
+  }
+
+
+  /*
+    기본 3개는 HTML에 이미 있으므로
+    날짜/시간만 채웁니다.
+  */
+
+  for (
+    let index = 0;
+    index < 3;
+    index++
+  ) {
+
+    renderFixedApplyPart(
+      index
+    );
+
+  }
+
+
+  /*
+    추가 파트는 3개 아래에
+    순서대로 생성합니다.
+  */
+
+  extraContainer.innerHTML =
+    "";
+
+
+  for (
+    let index = 3;
+    index < applyParts.length;
+    index++
+  ) {
+
+    renderExtraApplyPart(
+      index,
+      extraContainer
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   기본 파트 출력
+========================================================= */
+
+function renderFixedApplyPart(
+  index
+) {
+
+  const part =
+    applyParts[index];
+
+
+  if (!part) {
+
+    return;
+
+  }
+
+
+  const dateElement =
+    document.getElementById(
+      "applyDate" + index
+    );
+
+  const timeElement =
+    document.getElementById(
+      "applyTime" + index
+    );
+
+
+  if (dateElement) {
+
+    dateElement.textContent =
+      formatApplyDate(
+        part.date
+      );
+
+  }
+
+
+  if (timeElement) {
+
+    timeElement.textContent =
+      formatApplyTimeRange(
+        part.startTime
+      );
+
+  }
+
+
+  renderPartNames(
+    index
+  );
+
+}
+
+
+/* =========================================================
+   추가 파트 출력
+========================================================= */
+
+function renderExtraApplyPart(
+  index,
+  container
+) {
+
+  const part =
+    applyParts[index];
+
+
+  if (!part) {
+
+    return;
+
+  }
+
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+  wrapper.className =
+    "apply-part";
+
+
+  wrapper.dataset.partIndex =
+    String(index);
+
+
+  const dateBox =
+    document.createElement(
+      "div"
+    );
+
+  dateBox.className =
+    "apply-date-box";
+
+
+  const date =
+    document.createElement(
+      "div"
+    );
+
+  date.className =
+    "apply-date";
+
+  date.textContent =
+    formatApplyDate(
+      part.date
+    );
+
+
+  const time =
+    document.createElement(
+      "div"
+    );
+
+  time.className =
+    "apply-time";
+
+  time.textContent =
+    formatApplyTimeRange(
+      part.startTime
+    );
+
+
+  dateBox.appendChild(
+    date
+  );
+
+  dateBox.appendChild(
+    time
+  );
+
+
+  const openWrap =
+    document.createElement(
+      "div"
+    );
+
+  openWrap.className =
+    "apply-name-open-wrap";
+
+
+  const openButton =
+    document.createElement(
+      "button"
+    );
+
+  openButton.type =
+    "button";
+
+  openButton.className =
+    "apply-name-open-button";
+
+  openButton.textContent =
+    "전시대 신청";
+
+
+  openButton.onclick =
+    function() {
+
+      toggleApplyNames(
+        index
+      );
+
+    };
+
+
+  openWrap.appendChild(
+    openButton
+  );
+
+
+  const grid =
+    document.createElement(
+      "div"
+    );
+
+  grid.className =
+    "name-grid";
+
+  grid.id =
+    "applyNameGrid" +
+    index;
+
+  grid.style.display =
+    "none";
+
+
+  const completeWrap =
+    document.createElement(
+      "div"
+    );
+
+  completeWrap.className =
+    "apply-complete-wrap";
+
+  completeWrap.id =
+    "applyCompleteWrap" +
+    index;
+
+  completeWrap.style.display =
+    "none";
+
+
+  const completeButton =
+    document.createElement(
+      "button"
+    );
+
+  completeButton.className =
+    "apply-complete-button";
+
+  completeButton.textContent =
+    "제출";
+
+
+  completeButton.onclick =
+    function() {
+
+      completeApply(
+        index
+      );
+
+    };
+
+
+  completeWrap.appendChild(
+    completeButton
+  );
+
+
+  wrapper.appendChild(
+    dateBox
+  );
+
+  wrapper.appendChild(
+    openWrap
+  );
+
+  wrapper.appendChild(
+    grid
+  );
+
+  wrapper.appendChild(
+    completeWrap
+  );
+
+
+  container.appendChild(
+    wrapper
+  );
+
+
+  renderPartNames(
+    index
+  );
+
+}
+
+
+/* =========================================================
+   신청 파트 명단 불러오기
+========================================================= */
+
+async function loadMasterNames() {
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=jeonsidaeNames&t=" +
+        Date.now()
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "전시대 신청 명단을 불러오지 못했습니다."
+      );
+
+    }
+
+
+    masterNames =
+      Array.isArray(data.names)
+        ? data.names
+        : [];
+
+
+    masterNames =
+      [...new Set(
+        masterNames
+          .map(
+            function(name) {
+
+              return String(
+                name
+              ).trim();
+
+            }
+          )
+          .filter(
+            function(name) {
+
+              return name !== "";
+
+            }
+          )
+      )];
+
+
+    sortNames(
+      masterNames
+    );
+
+
+    return true;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   전시대 신청 명단 열기
+========================================================= */
+
+async function toggleApplyNames(
+  index
+) {
+
+  const grid =
+    document.getElementById(
+      "applyNameGrid" +
+      index
+    );
+
+  const completeWrap =
+    document.getElementById(
+      "applyCompleteWrap" +
+      index
+    );
+
+
+  if (!grid ||
+      !completeWrap) {
+
+    return;
+
+  }
+
+
+  const isOpen =
+    grid.style.display !== "none";
+
+
+  if (isOpen) {
+
+    grid.style.display =
+      "none";
+
+    completeWrap.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  grid.style.display =
+    "grid";
+
+  completeWrap.style.display =
+    "block";
+
+
+  grid.innerHTML =
+    '<div class="name-loading">' +
+    '전시대 신청 명단을 불러오는 중입니다.' +
+    '</div>';
+
+
+  const success =
+    await loadMasterNames();
+
+
+  if (!success) {
+
+    grid.innerHTML =
+      '<div class="name-loading">' +
+      '전시대 신청 명단을 불러오지 못했습니다.<br>' +
+      '잠시 후 다시 시도해 주세요.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  renderPartNames(
+    index
+  );
+
+}
+
+
+/* =========================================================
+   신청자 이름 출력
+========================================================= */
+
+function renderPartNames(
+  index
+) {
+
+  const grid =
+    document.getElementById(
+      "applyNameGrid" +
+      index
+    );
+
+
+  if (!grid) {
+
+    return;
+
+  }
+
+
+  let selections =
+    Array.isArray(
+      applySelections[index]
+    )
+      ? applySelections[index]
+      : [];
+
+
+  const validNames =
+    new Set(
+      masterNames
+    );
+
+
+  /*
+    아직 명단을 가져오기 전에는
+    기존 선택을 그대로 유지합니다.
+  */
+
+  if (
+    masterNames.length > 0
+  ) {
+
+    selections =
+      selections.filter(
+        function(name) {
+
+          return validNames.has(
+            name
+          );
+
+        }
+      );
+
+  }
+
+
+  applySelections[index] =
+    selections;
+
+
+  savePartSelection(
+    index,
+    selections
+  );
+
+
+  grid.innerHTML =
+    "";
+
+
+  masterNames.forEach(
+    function(name) {
+
+      const card =
+        document.createElement(
+          "button"
+        );
+
+
+      card.type =
+        "button";
+
+
+      card.className =
+        "name-card";
+
+
+      const selected =
+        selections.includes(
+          name
+        );
+
+
+      if (selected) {
+
+        card.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      const check =
+        document.createElement(
+          "span"
+        );
+
+
+      check.className =
+        "check-mark";
+
+
+      check.textContent =
+        selected
+          ? "✓"
+          : "";
+
+
+      const text =
+        document.createElement(
+          "span"
+        );
+
+
+      text.textContent =
+        name;
+
+
+      card.appendChild(
+        check
+      );
+
+
+      card.appendChild(
+        text
+      );
+
+
+      card.onclick =
+        function() {
+
+          togglePartSelection(
+            index,
+            name
+          );
+
+        };
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   신청 선택
+========================================================= */
+
+function togglePartSelection(
+  index,
+  name
+) {
+
+  if (
+    !Array.isArray(
+      applySelections[index]
+    )
+  ) {
+
+    applySelections[index] =
+      [];
+
+  }
+
+
+  const selections =
+    applySelections[index];
+
+
+  const position =
+    selections.indexOf(
+      name
+    );
+
+
+  if (position >= 0) {
+
+    selections.splice(
+      position,
+      1
+    );
+
+  } else {
+
+    selections.push(
+      name
+    );
+
+  }
+
+
+  sortNames(
+    selections
+  );
+
+
+  savePartSelection(
+    index,
+    selections
+  );
+
+
+  renderPartNames(
+    index
+  );
+
+}
+
+
+/* =========================================================
+   제출
+   ---------------------------------------------------------
+   사람을 선택하지 않아도 제출 가능
+========================================================= */
+
+async function completeApply(
+  index
+) {
+
+  const selected =
+    Array.isArray(
+      applySelections[index]
+    )
+      ? [...applySelections[index]]
+      : [];
+
+
+  sortNames(
+    selected
+  );
+
+
+  /*
+    제출하면 해당 파트의 선택을 초기화합니다.
+    0명이어도 제출할 수 있습니다.
+  */
+
+  applySelections[index] =
+    [];
+
+  savePartSelection(
+    index,
+    []
+  );
+
+
+  const grid =
+    document.getElementById(
+      "applyNameGrid" +
+      index
+    );
+
+  const completeWrap =
+    document.getElementById(
+      "applyCompleteWrap" +
+      index
+    );
+
+
+  if (grid) {
+
+    grid.style.display =
+      "none";
+
+  }
+
+
+  if (completeWrap) {
+
+    completeWrap.style.display =
+      "none";
+
+  }
+
+
+  try {
+
+    await postJson(
+      {
+        action:
+          "saveJeonsidaeApplicants",
+
+        applicants:
+          selected
+      }
+    );
+
+
+    await loadApplicants();
+
+
+    alert(
+      selected.length +
+      "명이 적용되었습니다."
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    alert(
+      "신청 적용에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   기존 신청 선택 함수 유지
+   ---------------------------------------------------------
+   기존 코드와의 호환용
+========================================================= */
+
+function getMySelections() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        MY_SELECTION_KEY
+      );
+
+
+    if (!saved) {
+
+      return [];
+
+    }
+
+
+    const parsed =
+      JSON.parse(
+        saved
+      );
+
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+
+  } catch (error) {
+
+    return [];
+
+  }
+
+}
+
+
+function saveMySelections(
+  list
+) {
+
+  localStorage.setItem(
+    MY_SELECTION_KEY,
+    JSON.stringify(list)
+  );
+
+}
+
+
+/* =========================================================
+   기존 신청자 이름 출력 함수
+========================================================= */
+
+function renderApplyNames() {
+
+  /*
+    기존 함수와의 호환을 위해 남겨둡니다.
+    실제 신청 화면은 renderPartNames()가 담당합니다.
+  */
+
+  for (
+    let index = 0;
+    index < applyParts.length;
+    index++
+  ) {
+
+    renderPartNames(
+      index
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   기존 선택 인원 함수
+   ---------------------------------------------------------
+   화면에서는 현재 선택 0명 박스를 제거했으므로
+   별도 표시하지 않습니다.
+========================================================= */
+
+function updateApplyCount() {
+
+  return;
+
+}
+
+
+/* =========================================================
+   추가 버튼
+========================================================= */
+
+function showApplyAddEditor() {
+
+  const editor =
+    document.getElementById(
+      "applyAddEditor"
+    );
+
+  const dateInput =
+    document.getElementById(
+      "applyExtraDate"
+    );
+
+
+  if (!editor ||
+      !dateInput) {
+
+    return;
+
+  }
+
+
+  const tomorrow =
+    new Date();
+
+
+  tomorrow.setDate(
+    tomorrow.getDate() + 1
+  );
+
+
+  dateInput.value =
+    toDateInputValue(
+      tomorrow
+    );
+
+
+  fillExtraTimeOptions();
+
+
+  editor.style.display =
+    "block";
+
+
+  editor.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+}
+
+
+/* =========================================================
+   추가 시간 만들기
+   ---------------------------------------------------------
+   오전 10:00 ~ 오후 5:00
+   10분 간격
+========================================================= */
+
+function fillExtraTimeOptions() {
+
+  const select =
+    document.getElementById(
+      "applyExtraTime"
+    );
+
+
+  if (!select) {
+
+    return;
+
+  }
+
+
+  select.innerHTML =
+    "";
+
+
+  for (
+    let hour = 10;
+    hour <= 17;
+    hour++
+  ) {
+
+    for (
+      let minute = 0;
+      minute < 60;
+      minute += 10
+    ) {
+
+      /*
+        오후 5시까지이므로
+        17:00까지만 표시합니다.
+      */
+
+      if (
+        hour === 17 &&
+        minute > 0
+      ) {
+
+        continue;
+
+      }
+
+
+      const value =
+        String(hour)
+          .padStart(2, "0") +
+        ":" +
+        String(minute)
+          .padStart(2, "0");
+
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        value;
+
+
+      option.textContent =
+        formatDisplayTime(
+          value
+        );
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+
+  }
+
+
+  select.value =
+    "10:00";
+
+}
+
+
+/* =========================================================
+   추가 확정
+========================================================= */
+
+function confirmApplyAdd() {
+
+  const dateInput =
+    document.getElementById(
+      "applyExtraDate"
+    );
+
+  const timeSelect =
+    document.getElementById(
+      "applyExtraTime"
+    );
+
+
+  if (!dateInput ||
+      !timeSelect) {
+
+    return;
+
+  }
+
+
+  const date =
+    dateInput.value;
+
+
+  const startTime =
+    timeSelect.value;
+
+
+  if (!date) {
+
+    alert(
+      "날짜를 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (!startTime) {
+
+    alert(
+      "시간을 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  applyParts.push(
+    {
+      date:
+        date,
+
+      startTime:
+        startTime,
+
+      fixed:
+        false
+    }
+  );
+
+
+  const newIndex =
+    applyParts.length - 1;
+
+
+  applySelections[newIndex] =
+    [];
+
+
+  savePartSelection(
+    newIndex,
+    []
+  );
+
+
+  saveApplyParts();
+
+  renderApplyParts();
+
+
+  cancelApplyAdd();
+
+
+  /*
+    새로 추가된 파트가
+    기본 3개 바로 아래에 표시되도록
+    해당 위치로 이동합니다.
+  */
+
+  setTimeout(
+    function() {
+
+      const element =
+        document.querySelector(
+          '[data-part-index="' +
+          newIndex +
+          '"]'
+        );
+
+
+      if (element) {
+
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+      }
+
+    },
+    100
+  );
+
+}
+
+
+/* =========================================================
+   추가 취소
+========================================================= */
+
+function cancelApplyAdd() {
+
+  const editor =
+    document.getElementById(
+      "applyAddEditor"
+    );
+
+
+  if (editor) {
+
+    editor.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================================================
+   관리자만 사용
+========================================================= */
+
+function adminOnlyApplyAdd() {
+
+  if (!adminAuthenticated) {
+
+    showAdminLogin();
+
+    return;
+
+  }
+
+
+  showApplyAddEditor();
+
+}
+
+
+/* =========================================================
+   가나다순
+========================================================= */
+
+function sortNames(array) {
+
+  array.sort(
+    function(a, b) {
+
+      return a.localeCompare(
+        b,
+        "ko"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   기존 임명 시간 관련 함수
+========================================================= */
+
+function setDates() {
+
+  /*
+    기존 함수와의 호환을 위해 남겨둡니다.
+    신청 날짜는 initializeApplyParts()에서
+    현재 주 기준으로 자동 계산합니다.
+  */
+
+  initializeApplyParts();
 
 }
 
@@ -2505,453 +4554,6 @@ function checkAdminPassword() {
 
 
 /* =========================================================
-   명단 가져오기
-========================================================= */
-
-async function loadMasterNames() {
-
-  const grid =
-    document.getElementById(
-      "applyNameGrid"
-    );
-
-
-  try {
-
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=jeonsidaeNames&t=" +
-        Date.now()
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (!data.success) {
-
-      throw new Error(
-        data.message ||
-        "전시대 신청 명단을 불러오지 못했습니다."
-      );
-
-    }
-
-
-    masterNames =
-      Array.isArray(data.names)
-        ? data.names
-        : [];
-
-
-    masterNames =
-      [...new Set(
-        masterNames
-          .map(function(name) {
-            return String(name).trim();
-          })
-          .filter(function(name) {
-            return name !== "";
-          })
-      )];
-
-
-    sortNames(masterNames);
-
-    renderApplyNames();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-
-    grid.innerHTML =
-      '<div class="name-loading">' +
-      '전시대 신청 명단을 불러오지 못했습니다.<br>' +
-      '잠시 후 다시 시도해 주세요.' +
-      '</div>';
-
-  }
-
-}
-
-
-/* =========================================================
-   전시대 신청 명단 열기
-========================================================= */
-
-async function toggleApplyNames() {
-
-  const grid =
-    document.getElementById(
-      "applyNameGrid"
-    );
-
-  const completeWrap =
-    document.getElementById(
-      "applyCompleteWrap"
-    );
-
-
-  const isOpen =
-    grid.style.display !== "none";
-
-
-  if (isOpen) {
-
-    grid.style.display = "none";
-
-    completeWrap.style.display = "none";
-
-    return;
-
-  }
-
-
-  grid.style.display = "grid";
-
-  completeWrap.style.display = "block";
-
-  grid.innerHTML =
-    '<div class="name-loading">' +
-    '전시대 신청 명단을 불러오는 중입니다.' +
-    '</div>';
-
-
-  await loadMasterNames();
-
-}
-
-
-/* =========================================================
-   가나다순
-========================================================= */
-
-function sortNames(array) {
-
-  array.sort(
-    function(a, b) {
-
-      return a.localeCompare(
-        b,
-        "ko"
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   신청 선택
-========================================================= */
-
-function getMySelections() {
-
-  try {
-
-    const saved =
-      localStorage.getItem(
-        MY_SELECTION_KEY
-      );
-
-
-    if (!saved) {
-
-      return [];
-
-    }
-
-
-    const parsed =
-      JSON.parse(
-        saved
-      );
-
-
-    return Array.isArray(parsed)
-      ? parsed
-      : [];
-
-
-  } catch (error) {
-
-    return [];
-
-  }
-
-}
-
-
-function saveMySelections(
-  list
-) {
-
-  localStorage.setItem(
-    MY_SELECTION_KEY,
-    JSON.stringify(list)
-  );
-
-}
-
-
-/* =========================================================
-   신청자 이름 출력
-========================================================= */
-
-function renderApplyNames() {
-
-  const grid =
-    document.getElementById(
-      "applyNameGrid"
-    );
-
-
-  currentSelections =
-    getMySelections();
-
-
-  const validNames =
-    new Set(
-      masterNames
-    );
-
-
-  currentSelections =
-    currentSelections.filter(
-      function(name) {
-
-        return validNames.has(
-          name
-        );
-
-      }
-    );
-
-
-  saveMySelections(
-    currentSelections
-  );
-
-
-  grid.innerHTML =
-    "";
-
-
-  masterNames.forEach(
-    function(name) {
-
-      const card =
-        document.createElement(
-          "button"
-        );
-
-
-      card.type =
-        "button";
-
-
-      card.className =
-        "name-card";
-
-
-      const selected =
-        currentSelections.includes(
-          name
-        );
-
-
-      if (selected) {
-
-        card.classList.add(
-          "selected"
-        );
-
-      }
-
-
-      const check =
-        document.createElement(
-          "span"
-        );
-
-
-      check.className =
-        "check-mark";
-
-
-      check.textContent =
-        selected
-          ? "✓"
-          : "";
-
-
-      const text =
-        document.createElement(
-          "span"
-        );
-
-
-      text.textContent =
-        name;
-
-
-      card.appendChild(
-        check
-      );
-
-
-      card.appendChild(
-        text
-      );
-
-
-      card.onclick =
-        function() {
-
-          toggleSelection(
-            name
-          );
-
-        };
-
-
-      grid.appendChild(
-        card
-      );
-
-    }
-  );
-
-
-  updateApplyCount();
-
-}
-
-
-function toggleSelection(
-  name
-) {
-
-  const index =
-    currentSelections.indexOf(
-      name
-    );
-
-
-  if (index >= 0) {
-
-    currentSelections.splice(
-      index,
-      1
-    );
-
-  } else {
-
-    currentSelections.push(
-      name
-    );
-
-  }
-
-
-  sortNames(
-    currentSelections
-  );
-
-
-  saveMySelections(
-    currentSelections
-  );
-
-
-  renderApplyNames();
-
-}
-
-
-/* =========================================================
-   선택 인원
-========================================================= */
-
-function updateApplyCount() {
-
-  document
-    .getElementById(
-      "applySelectedCount"
-    )
-    .textContent =
-      "현재 선택 " +
-      currentSelections.length +
-      " 명";
-
-}
-
-
-/* =========================================================
-   제충
-========================================================= */
-
-async function completeApply() {
-
-  const selected =
-    [...currentSelections];
-
-  if (selected.length === 0) {
-    alert(
-      "신청할 사람을 한 명 이상 선택해 주세요."
-    );
-    return;
-  }
-
-  sortNames(selected);
-
-  /* 제출를 누르면 먼저 펼쳐진 명단을 닫습니다. */
-  currentSelections = [];
-  saveMySelections([]);
-
-  document
-    .getElementById("applyNameGrid")
-    .style.display = "none";
-
-  document
-    .getElementById("applyCompleteWrap")
-    .style.display = "none";
-
-  updateApplyCount();
-
-  try {
-
-    await postJson({
-      action: "saveJeonsidaeApplicants",
-      applicants: selected
-    });
-
-    await loadApplicants();
-
-    alert(
-      selected.length +
-      "명이 신청되었습니다."
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert(
-      "신청 저장에 실패했습니다.\n" +
-      "잠시 후 다시 시도해 주세요."
-    );
-  }
-
-}
-
-
-/* =========================================================
    신청자 불러오기
 ========================================================= */
 
@@ -3027,11 +4629,6 @@ async function loadApplicants() {
       error
     );
 
-
-    /*
-      서버에서 아직 신청자를 가져오지 못할 경우
-      현재 기기에 저장된 선택을 사용
-    */
 
     applicants =
       getMySelections();
@@ -3409,148 +5006,428 @@ const APPOINTMENT_RULES = {
   ]
 };
 
+
 function loadAppointmentSettings() {
+
   try {
-    const saved = localStorage.getItem(APPOINTMENT_SETTINGS_KEY);
-    appointmentSettings = saved ? JSON.parse(saved) : [];
-    if (!Array.isArray(appointmentSettings)) appointmentSettings = [];
+
+    const saved =
+      localStorage.getItem(
+        APPOINTMENT_SETTINGS_KEY
+      );
+
+    appointmentSettings =
+      saved ? JSON.parse(saved) : [];
+
+    if (
+      !Array.isArray(
+        appointmentSettings
+      )
+    ) {
+
+      appointmentSettings = [];
+
+    }
+
   } catch (error) {
+
     appointmentSettings = [];
+
   }
+
 }
+
 
 function saveAppointmentSettings() {
+
   localStorage.setItem(
     APPOINTMENT_SETTINGS_KEY,
-    JSON.stringify(appointmentSettings)
+    JSON.stringify(
+      appointmentSettings
+    )
   );
+
 }
 
-function ensureAppointmentSetting(index, group) {
-  const filled = group.slice(0, 7).filter(Boolean).length;
-  if (!appointmentSettings[index]) {
+
+function ensureAppointmentSetting(
+  index,
+  group
+) {
+
+  const filled =
+    group
+      .slice(0, 7)
+      .filter(Boolean)
+      .length;
+
+
+  if (
+    !appointmentSettings[index]
+  ) {
+
     appointmentSettings[index] = {
-      mode: filled >= 4 && filled <= 7 ? filled : 6,
-      startTime: "10:00"
+
+      mode:
+        filled >= 4 &&
+        filled <= 7
+          ? filled
+          : 6,
+
+      startTime:
+        "10:00"
+
     };
+
   }
-  if (![4, 5, 6, 7].includes(Number(appointmentSettings[index].mode))) {
-    appointmentSettings[index].mode = 6;
+
+
+  if (
+    ![4, 5, 6, 7].includes(
+      Number(
+        appointmentSettings[index].mode
+      )
+    )
+  ) {
+
+    appointmentSettings[index].mode =
+      6;
+
   }
-  if (!appointmentSettings[index].startTime) {
-    appointmentSettings[index].startTime = "10:00";
+
+
+  if (
+    !appointmentSettings[index].startTime
+  ) {
+
+    appointmentSettings[index].startTime =
+      "10:00";
+
   }
+
+
   return appointmentSettings[index];
+
 }
 
-function makeTimeOptions(selected) {
+
+function makeTimeOptions(
+  selected
+) {
+
   const options = [];
-  for (let hour = 8; hour <= 18; hour++) {
-    for (let minute = 0; minute < 60; minute += 30) {
-      if (hour === 18 && minute > 0) continue;
+
+
+  for (
+    let hour = 8;
+    hour <= 18;
+    hour++
+  ) {
+
+    for (
+      let minute = 0;
+      minute < 60;
+      minute += 30
+    ) {
+
+      if (
+        hour === 18 &&
+        minute > 0
+      ) {
+
+        continue;
+
+      }
+
+
       const value =
-        String(hour).padStart(2, "0") + ":" +
+        String(hour).padStart(2, "0") +
+        ":" +
         String(minute).padStart(2, "0");
+
+
       options.push({
         value: value,
-        selected: value === selected
+        selected:
+          value === selected
       });
+
     }
+
   }
+
+
   return options;
+
 }
 
-function formatTimeWithOffset(startTime, offsetMinutes) {
-  const parts = String(startTime || "10:00").split(":");
+
+function formatTimeWithOffset(
+  startTime,
+  offsetMinutes
+) {
+
+  const parts =
+    String(
+      startTime || "10:00"
+    ).split(":");
+
+
   let total =
     Number(parts[0]) * 60 +
     Number(parts[1]) +
     Number(offsetMinutes || 0);
 
-  total = ((total % 1440) + 1440) % 1440;
 
-  const hour = Math.floor(total / 60);
-  const minute = total % 60;
+  total =
+    ((total % 1440) + 1440) % 1440;
 
-  return String(hour).padStart(2, "0") + ":" +
-    String(minute).padStart(2, "0");
+
+  const hour =
+    Math.floor(
+      total / 60
+    );
+
+
+  const minute =
+    total % 60;
+
+
+  return (
+    String(hour).padStart(2, "0") +
+    ":" +
+    String(minute).padStart(2, "0")
+  );
+
 }
 
-function formatDisplayTime(time) {
-  const parts = String(time).split(":");
-  const hour = Number(parts[0]);
-  const minute = parts[1];
-  const suffix = hour < 12 ? "오전" : "오후";
-  const displayHour = hour % 12 || 12;
-  return suffix + " " + displayHour + ":" + minute;
+
+function formatDisplayTime(
+  time
+) {
+
+  const parts =
+    String(time).split(":");
+
+
+  const hour =
+    Number(parts[0]);
+
+
+  const minute =
+    parts[1];
+
+
+  const suffix =
+    hour < 12
+      ? "오전"
+      : "오후";
+
+
+  const displayHour =
+    hour % 12 || 12;
+
+
+  return (
+    suffix +
+    " " +
+    displayHour +
+    ":" +
+    minute
+  );
+
 }
 
-function formatRange(startTime) {
-  return formatDisplayTime(startTime) +
+
+function formatRange(
+  startTime
+) {
+
+  return (
+    formatDisplayTime(
+      startTime
+    ) +
     "~" +
-    formatDisplayTime(formatTimeWithOffset(startTime, 120)) +
-    " (2시간)";
+    formatDisplayTime(
+      formatTimeWithOffset(
+        startTime,
+        120
+      )
+    ) +
+    " (2시간)"
+  );
+
 }
 
-function renderScheduleForGroup(group, index) {
-  const setting = ensureAppointmentSetting(index, group);
-  const mode = Number(setting.mode);
-  const names = group.slice(0, mode);
 
-  if (names.filter(Boolean).length !== mode) {
+function renderScheduleForGroup(
+  group,
+  index
+) {
+
+  const setting =
+    ensureAppointmentSetting(
+      index,
+      group
+    );
+
+
+  const mode =
+    Number(
+      setting.mode
+    );
+
+
+  const names =
+    group.slice(
+      0,
+      mode
+    );
+
+
+  if (
+    names.filter(Boolean).length !==
+    mode
+  ) {
+
     return null;
+
   }
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "appoint-schedule";
 
-  const duration = document.createElement("div");
-  duration.className = "appoint-duration";
-  duration.textContent = "🕙 " + formatRange(setting.startTime);
-  wrapper.appendChild(duration);
+  const wrapper =
+    document.createElement(
+      "div"
+    );
 
-  APPOINTMENT_RULES[mode].forEach(function(rule, rowIndex) {
-    const firstIndex = rule[0];
-    const secondIndex = rule[1];
-    const firstOffset = rule[2];
-    const secondOffset = (mode === 4 || mode === 6) ? rule[3] : rule[2];
 
-    const row = document.createElement("div");
-    row.className = "appoint-schedule-row";
+  wrapper.className =
+    "appoint-schedule";
 
-    const name = document.createElement("div");
-    name.className = "appoint-schedule-name";
-    name.textContent =
-      (rowIndex + 1) + ". " +
-      names[firstIndex] + " · " +
-      names[secondIndex];
 
-    const time = document.createElement("div");
-    time.className = "appoint-schedule-time";
-    const firstTime =
-      formatDisplayTime(
-        formatTimeWithOffset(setting.startTime, firstOffset)
+  const duration =
+    document.createElement(
+      "div"
+    );
+
+
+  duration.className =
+    "appoint-duration";
+
+
+  duration.textContent =
+    "🕙 " +
+    formatRange(
+      setting.startTime
+    );
+
+
+  wrapper.appendChild(
+    duration
+  );
+
+
+  APPOINTMENT_RULES[mode].forEach(
+    function(rule, rowIndex) {
+
+      const firstIndex =
+        rule[0];
+
+      const secondIndex =
+        rule[1];
+
+      const firstOffset =
+        rule[2];
+
+      const secondOffset =
+        (mode === 4 ||
+         mode === 6)
+          ? rule[3]
+          : rule[2];
+
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "appoint-schedule-row";
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "appoint-schedule-name";
+
+
+      name.textContent =
+        (rowIndex + 1) +
+        ". " +
+        names[firstIndex] +
+        " · " +
+        names[secondIndex];
+
+
+      const time =
+        document.createElement(
+          "div"
+        );
+
+
+      time.className =
+        "appoint-schedule-time";
+
+
+      const firstTime =
+        formatDisplayTime(
+          formatTimeWithOffset(
+            setting.startTime,
+            firstOffset
+          )
+        );
+
+
+      const secondTime =
+        formatDisplayTime(
+          formatTimeWithOffset(
+            setting.startTime,
+            secondOffset
+          )
+        );
+
+
+      time.textContent =
+        firstTime === secondTime
+          ? firstTime
+          : firstTime +
+            ", " +
+            secondTime;
+
+
+      row.appendChild(
+        name
       );
 
-    const secondTime =
-      formatDisplayTime(
-        formatTimeWithOffset(setting.startTime, secondOffset)
+      row.appendChild(
+        time
       );
 
-    /* 5명·7명 규칙처럼 두 사람이 같은 시간에 시작하면
-       같은 시간을 두 번 표시하지 않습니다.
-       4명·6명처럼 시간이 다르면 기존대로 두 시간을 표시합니다. */
-    time.textContent =
-      firstTime === secondTime
-        ? firstTime
-        : firstTime + ", " + secondTime;
+      wrapper.appendChild(
+        row
+      );
 
-    row.appendChild(name);
-    row.appendChild(time);
-    wrapper.appendChild(row);
-  });
+    }
+  );
+
 
   return wrapper;
+
 }
 
 
@@ -3569,88 +5446,173 @@ async function loadGroups() {
         Date.now()
       );
 
-    const data = await response.json();
+
+    const data =
+      await response.json();
+
 
     if (!data.success) {
+
       throw new Error(
         data.message ||
         "그룹을 불러오지 못했습니다."
       );
+
     }
 
+
     const loaded =
-      Array.isArray(data.groups)
+      Array.isArray(
+        data.groups
+      )
         ? data.groups
         : [];
 
-    groups = loaded.map(function(group) {
-      const result = Array.isArray(group)
-        ? group.slice(0, 8)
-        : [];
 
-      while (result.length < 7) {
-        result.push("");
+    groups =
+      loaded.map(
+        function(group) {
+
+          const result =
+            Array.isArray(group)
+              ? group.slice(0, 8)
+              : [];
+
+
+          while (
+            result.length < 7
+          ) {
+
+            result.push("");
+
+          }
+
+
+          if (!result[7]) {
+
+            result[7] =
+              "유타몰";
+
+          }
+
+
+          return result;
+
+        }
+      );
+
+
+    appointmentSettings =
+      appointmentSettings.slice(
+        0,
+        groups.length
+      );
+
+
+    groups.forEach(
+      function(group, index) {
+
+        ensureAppointmentSetting(
+          index,
+          group
+        );
+
       }
+    );
 
-      if (!result[7]) {
-        result[7] = "유타몰";
-      }
-
-      return result;
-    });
-
-    appointmentSettings = appointmentSettings.slice(0, groups.length);
-
-    groups.forEach(function(group, index) {
-      ensureAppointmentSetting(index, group);
-    });
 
     saveAppointmentSettings();
 
     renderGroups();
+
     renderAdmin();
+
     renderAppoint();
+
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     try {
+
       const saved =
-        localStorage.getItem(GROUP_KEY);
+        localStorage.getItem(
+          GROUP_KEY
+        );
 
-      groups = saved ? JSON.parse(saved) : [];
 
-      groups = groups.map(function(group) {
-        const result = Array.isArray(group)
-          ? group.slice(0, 8)
+      groups =
+        saved
+          ? JSON.parse(saved)
           : [];
 
-        while (result.length < 7) {
-          result.push("");
-        }
 
-        if (!result[7]) {
-          result[7] = "유타몰";
-        }
+      groups =
+        groups.map(
+          function(group) {
 
-        return result;
-      });
+            const result =
+              Array.isArray(group)
+                ? group.slice(0, 8)
+                : [];
+
+
+            while (
+              result.length < 7
+            ) {
+
+              result.push("");
+
+            }
+
+
+            if (!result[7]) {
+
+              result[7] =
+                "유타몰";
+
+            }
+
+
+            return result;
+
+          }
+        );
+
 
     } catch (storageError) {
+
       groups = [];
+
     }
 
-    groups.forEach(function(group, index) {
-      ensureAppointmentSetting(index, group);
-    });
+
+    groups.forEach(
+      function(group, index) {
+
+        ensureAppointmentSetting(
+          index,
+          group
+        );
+
+      }
+    );
+
 
     saveAppointmentSettings();
 
     renderGroups();
+
     renderAppoint();
+
   }
+
 }
+
 
 /* =========================================================
    그룹 저장
@@ -3678,13 +5640,16 @@ async function saveGroups() {
       }
     );
 
+
     return true;
+
 
   } catch (error) {
 
     console.error(
       error
     );
+
 
     return false;
 
@@ -3705,20 +5670,32 @@ async function addGroup() {
     ["", "", "", "", "", "", "", "유타몰"]
   );
 
+
   appointmentSettings.unshift({
     mode: 6,
     startTime: "10:00"
   });
+
+
   saveAppointmentSettings();
+
 
   await saveGroups();
 
-  selectedApplicant = null;
+
+  selectedApplicant =
+    null;
+
+
   selectedApplicants.clear();
 
+
   renderAdmin();
+
   renderAppoint();
+
 }
+
 
 /* =========================================================
    그룹 삭제
@@ -3728,22 +5705,49 @@ async function deleteGroup(
   index
 ) {
 
-  if (!confirm((index + 1) + "번 그룹을 삭제하시겠습니까?")) {
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹을 삭제하시겠습니까?"
+    )
+  ) {
+
     return;
+
   }
 
-  groups.splice(index, 1);
-  appointmentSettings.splice(index, 1);
+
+  groups.splice(
+    index,
+    1
+  );
+
+
+  appointmentSettings.splice(
+    index,
+    1
+  );
+
+
   saveAppointmentSettings();
 
-  selectedApplicant = null;
+
+  selectedApplicant =
+    null;
+
+
   selectedApplicants.clear();
+
 
   await saveGroups();
 
+
   renderAdmin();
+
   renderAppoint();
+
 }
+
 
 /* =========================================================
    그룹 초기화
@@ -3753,31 +5757,60 @@ async function resetGroup(
   index
 ) {
 
-  if (!confirm((index + 1) + "번 그룹의 봉사자를 초기화하시겠습니까?")) {
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹의 봉사자를 초기화하시겠습니까?"
+    )
+  ) {
+
     return;
+
   }
 
+
   const currentLocation =
-    groups[index][7] || "유타몰";
+    groups[index][7] ||
+    "유타몰";
+
 
   groups[index] = [
-    "", "", "", "", "", "", "", currentLocation
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    currentLocation
   ];
+
 
   appointmentSettings[index] = {
     mode: 6,
     startTime: "10:00"
   };
+
+
   saveAppointmentSettings();
 
-  selectedApplicant = null;
+
+  selectedApplicant =
+    null;
+
+
   selectedApplicants.clear();
+
 
   await saveGroups();
 
+
   renderAdmin();
+
   renderAppoint();
+
 }
+
 
 /* =========================================================
    그룹 표시
@@ -3785,252 +5818,735 @@ async function resetGroup(
 
 function renderGroups() {
 
-  const box = document.getElementById("groups");
-  box.innerHTML = "";
+  const box =
+    document.getElementById(
+      "groups"
+    );
 
-  if (groups.length === 0) {
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    groups.length === 0
+  ) {
+
     box.innerHTML =
       '<div class="name-loading">' +
       '아직 만든 봉사 그룹이 없습니다.<br>' +
       '「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.' +
       '</div>';
+
+
     return;
+
   }
 
-  groups.forEach(function(group, groupIndex) {
 
-    const setting = ensureAppointmentSetting(groupIndex, group);
-    const card = document.createElement("div");
-    card.className = "group-card";
+  groups.forEach(
+    function(
+      group,
+      groupIndex
+    ) {
 
-    const header = document.createElement("div");
-    header.className = "group-header";
-
-    const title = document.createElement("select");
-    title.className = "group-title";
-
-    const locations = [
-      "유타몰",
-      "성북천(보문2교-아래)",
-      "성북천(보문2교-위)",
-      "성북구청(광장)",
-      "보문역(주변)",
-      "성신여대(주변)",
-      "성북천(하늘다리)",
-      "성북천(바람마당교)",
-      "성북천(분수대)",
-      "성북천(용문교)",
-      "가두 증거"
-    ];
-
-    locations.forEach(function(location) {
-      const option = document.createElement("option");
-      option.value = location;
-      option.textContent = location;
-      title.appendChild(option);
-    });
-
-    title.value = group[7] || "유타몰";
-    title.onchange = async function() {
-      groups[groupIndex][7] = title.value || "유타몰";
-      await saveGroups();
-      renderAppoint();
-    };
-
-    const buttons = document.createElement("div");
-    buttons.className = "group-buttons";
-
-    const resetButton = document.createElement("button");
-    resetButton.type = "button";
-    resetButton.className = "group-action";
-    resetButton.textContent = "초기화";
-    resetButton.onclick = function() {
-      resetGroup(groupIndex);
-    };
-
-    const deleteButton = document.createElement("button");
-    deleteButton.type = "button";
-    deleteButton.className = "group-action";
-    deleteButton.textContent = "삭제";
-    deleteButton.onclick = function() {
-      deleteGroup(groupIndex);
-    };
-
-    buttons.appendChild(resetButton);
-    buttons.appendChild(deleteButton);
-    header.appendChild(title);
-    header.appendChild(buttons);
-    card.appendChild(header);
-
-    const controls = document.createElement("div");
-    controls.className = "group-appoint-controls";
-
-    const modeWrap = document.createElement("div");
-    const modeLabel = document.createElement("span");
-    modeLabel.className = "group-control-label";
-    modeLabel.textContent = "임명 인원";
-    modeWrap.appendChild(modeLabel);
-
-    const modeSelect = document.createElement("select");
-    modeSelect.className = "group-control";
-
-    [4, 5, 6, 7].forEach(function(mode) {
-      const option = document.createElement("option");
-      option.value = String(mode);
-      option.textContent = mode + "명";
-      modeSelect.appendChild(option);
-    });
-
-    modeSelect.value = String(setting.mode);
-
-    modeSelect.onchange = function() {
-      const newMode = Number(modeSelect.value);
-      const filledCount = group.slice(0, 7).filter(Boolean).length;
-
-      if (filledCount > newMode) {
-        alert(
-          "현재 " + filledCount +
-          "명이 들어 있습니다. 먼저 사람을 줄인 후 인원수를 변경해 주세요."
+      const setting =
+        ensureAppointmentSetting(
+          groupIndex,
+          group
         );
-        modeSelect.value = String(setting.mode);
-        return;
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "group-card";
+
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+
+      header.className =
+        "group-header";
+
+
+      const title =
+        document.createElement(
+          "select"
+        );
+
+
+      title.className =
+        "group-title";
+
+
+      const locations = [
+        "유타몰",
+        "성북천(보문2교-아래)",
+        "성북천(보문2교-위)",
+        "성북구청(광장)",
+        "보문역(주변)",
+        "성신여대(주변)",
+        "성북천(하늘다리)",
+        "성북천(바람마당교)",
+        "성북천(분수대)",
+        "성북천(용문교)",
+        "가두 증거"
+      ];
+
+
+      locations.forEach(
+        function(location) {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            location;
+
+
+          option.textContent =
+            location;
+
+
+          title.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      title.value =
+        group[7] ||
+        "유타몰";
+
+
+      title.onchange =
+        async function() {
+
+          groups[groupIndex][7] =
+            title.value ||
+            "유타몰";
+
+
+          await saveGroups();
+
+          renderAppoint();
+
+        };
+
+
+      const buttons =
+        document.createElement(
+          "div"
+        );
+
+
+      buttons.className =
+        "group-buttons";
+
+
+      const resetButton =
+        document.createElement(
+          "button"
+        );
+
+
+      resetButton.type =
+        "button";
+
+
+      resetButton.className =
+        "group-action";
+
+
+      resetButton.textContent =
+        "초기화";
+
+
+      resetButton.onclick =
+        function() {
+
+          resetGroup(
+            groupIndex
+          );
+
+        };
+
+
+      const deleteButton =
+        document.createElement(
+          "button"
+        );
+
+
+      deleteButton.type =
+        "button";
+
+
+      deleteButton.className =
+        "group-action";
+
+
+      deleteButton.textContent =
+        "삭제";
+
+
+      deleteButton.onclick =
+        function() {
+
+          deleteGroup(
+            groupIndex
+          );
+
+        };
+
+
+      buttons.appendChild(
+        resetButton
+      );
+
+
+      buttons.appendChild(
+        deleteButton
+      );
+
+
+      header.appendChild(
+        title
+      );
+
+
+      header.appendChild(
+        buttons
+      );
+
+
+      card.appendChild(
+        header
+      );
+
+
+      const controls =
+        document.createElement(
+          "div"
+        );
+
+
+      controls.className =
+        "group-appoint-controls";
+
+
+      const modeWrap =
+        document.createElement(
+          "div"
+        );
+
+
+      const modeLabel =
+        document.createElement(
+          "span"
+        );
+
+
+      modeLabel.className =
+        "group-control-label";
+
+
+      modeLabel.textContent =
+        "임명 인원";
+
+
+      modeWrap.appendChild(
+        modeLabel
+      );
+
+
+      const modeSelect =
+        document.createElement(
+          "select"
+        );
+
+
+      modeSelect.className =
+        "group-control";
+
+
+      [4, 5, 6, 7].forEach(
+        function(mode) {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            String(mode);
+
+
+          option.textContent =
+            mode +
+            "명";
+
+
+          modeSelect.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      modeSelect.value =
+        String(
+          setting.mode
+        );
+
+
+      modeSelect.onchange =
+        function() {
+
+          const newMode =
+            Number(
+              modeSelect.value
+            );
+
+
+          const filledCount =
+            group
+              .slice(0, 7)
+              .filter(Boolean)
+              .length;
+
+
+          if (
+            filledCount >
+            newMode
+          ) {
+
+            alert(
+              "현재 " +
+              filledCount +
+              "명이 들어 있습니다. 먼저 사람을 줄인 후 인원수를 변경해 주세요."
+            );
+
+
+            modeSelect.value =
+              String(
+                setting.mode
+              );
+
+
+            return;
+
+          }
+
+
+          setting.mode =
+            newMode;
+
+
+          saveAppointmentSettings();
+
+          renderGroups();
+
+          renderAppoint();
+
+        };
+
+
+      modeWrap.appendChild(
+        modeSelect
+      );
+
+
+      const timeWrap =
+        document.createElement(
+          "div"
+        );
+
+
+      const timeLabel =
+        document.createElement(
+          "span"
+        );
+
+
+      timeLabel.className =
+        "group-control-label";
+
+
+      timeLabel.textContent =
+        "시작 시간";
+
+
+      timeWrap.appendChild(
+        timeLabel
+      );
+
+
+      const timeSelect =
+        document.createElement(
+          "select"
+        );
+
+
+      timeSelect.className =
+        "group-control";
+
+
+      makeTimeOptions(
+        setting.startTime
+      ).forEach(
+        function(item) {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            item.value;
+
+
+          option.textContent =
+            formatDisplayTime(
+              item.value
+            );
+
+
+          option.selected =
+            item.selected;
+
+
+          timeSelect.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      timeSelect.onchange =
+        function() {
+
+          setting.startTime =
+            timeSelect.value;
+
+
+          saveAppointmentSettings();
+
+          renderAppoint();
+
+        };
+
+
+      timeWrap.appendChild(
+        timeSelect
+      );
+
+
+      controls.appendChild(
+        modeWrap
+      );
+
+
+      controls.appendChild(
+        timeWrap
+      );
+
+
+      card.appendChild(
+        controls
+      );
+
+
+      const slots =
+        document.createElement(
+          "div"
+        );
+
+
+      slots.className =
+        "group-slots";
+
+
+      for (
+        let slotIndex = 0;
+        slotIndex <
+        Number(setting.mode);
+        slotIndex++
+      ) {
+
+        const name =
+          group[slotIndex] ||
+          "";
+
+
+        const slot =
+          document.createElement(
+            "button"
+          );
+
+
+        slot.type =
+          "button";
+
+
+        slot.className =
+          "group-slot";
+
+
+        if (name) {
+
+          slot.classList.add(
+            "filled"
+          );
+
+
+          slot.textContent =
+            (slotIndex + 1) +
+            ". " +
+            name;
+
+        } else {
+
+          slot.classList.add(
+            "empty"
+          );
+
+
+          slot.textContent =
+            (slotIndex + 1) +
+            ". 빈 자리";
+
+        }
+
+
+        slot.onclick =
+          function() {
+
+            handleSlotClick(
+              groupIndex,
+              slotIndex
+            );
+
+          };
+
+
+        slots.appendChild(
+          slot
+        );
+
       }
 
-      setting.mode = newMode;
-      saveAppointmentSettings();
-      renderGroups();
-      renderAppoint();
-    };
 
-    modeWrap.appendChild(modeSelect);
+      card.appendChild(
+        slots
+      );
 
-    const timeWrap = document.createElement("div");
-    const timeLabel = document.createElement("span");
-    timeLabel.className = "group-control-label";
-    timeLabel.textContent = "시작 시간";
-    timeWrap.appendChild(timeLabel);
 
-    const timeSelect = document.createElement("select");
-    timeSelect.className = "group-control";
+      const appointSelectedButton =
+        document.createElement(
+          "button"
+        );
 
-    makeTimeOptions(setting.startTime).forEach(function(item) {
-      const option = document.createElement("option");
-      option.value = item.value;
-      option.textContent = formatDisplayTime(item.value);
-      option.selected = item.selected;
-      timeSelect.appendChild(option);
-    });
 
-    timeSelect.onchange = function() {
-      setting.startTime = timeSelect.value;
-      saveAppointmentSettings();
-      renderAppoint();
-    };
+      appointSelectedButton.type =
+        "button";
 
-    timeWrap.appendChild(timeSelect);
-    controls.appendChild(modeWrap);
-    controls.appendChild(timeWrap);
-    card.appendChild(controls);
 
-    const slots = document.createElement("div");
-    slots.className = "group-slots";
+      appointSelectedButton.className =
+        "appoint-selected-button";
 
-    for (let slotIndex = 0; slotIndex < Number(setting.mode); slotIndex++) {
-      const name = group[slotIndex] || "";
-      const slot = document.createElement("button");
-      slot.type = "button";
-      slot.className = "group-slot";
 
-      if (name) {
-        slot.classList.add("filled");
-        slot.textContent = (slotIndex + 1) + ". " + name;
-      } else {
-        slot.classList.add("empty");
-        slot.textContent = (slotIndex + 1) + ". 빈 자리";
-      }
+      appointSelectedButton.textContent =
+        "선택한 사람 임명 (" +
+        setting.mode +
+        "명)";
 
-      slot.onclick = function() {
-        handleSlotClick(groupIndex, slotIndex);
-      };
 
-      slots.appendChild(slot);
+      appointSelectedButton.onclick =
+        function() {
+
+          assignSelectedToGroup(
+            groupIndex
+          );
+
+        };
+
+
+      card.appendChild(
+        appointSelectedButton
+      );
+
+
+      box.appendChild(
+        card
+      );
+
     }
+  );
 
-    card.appendChild(slots);
-
-    const appointSelectedButton = document.createElement("button");
-    appointSelectedButton.type = "button";
-    appointSelectedButton.className = "appoint-selected-button";
-    appointSelectedButton.textContent =
-      "선택한 사람 임명 (" + setting.mode + "명)";
-
-    appointSelectedButton.onclick = function() {
-      assignSelectedToGroup(groupIndex);
-    };
-
-    card.appendChild(appointSelectedButton);
-    box.appendChild(card);
-  });
 
   saveAppointmentSettings();
+
 }
+
 
 /* =========================================================
    선택한 신청자 한 번에 임명
 ========================================================= */
 
-async function assignSelectedToGroup(groupIndex) {
+async function assignSelectedToGroup(
+  groupIndex
+) {
 
-  const selected = [...selectedApplicants];
-  const group = groups[groupIndex];
-  const setting = ensureAppointmentSetting(groupIndex, group);
-  const required = Number(setting.mode);
+  const selected =
+    [...selectedApplicants];
 
-  if (selected.length !== required) {
-    alert(
-      required + "명을 선택해 주세요.\n현재 " +
-      selected.length + "명 선택되었습니다."
+
+  const group =
+    groups[groupIndex];
+
+
+  const setting =
+    ensureAppointmentSetting(
+      groupIndex,
+      group
     );
+
+
+  const required =
+    Number(
+      setting.mode
+    );
+
+
+  if (
+    selected.length !==
+    required
+  ) {
+
+    alert(
+      required +
+      "명을 선택해 주세요.\n현재 " +
+      selected.length +
+      "명 선택되었습니다."
+    );
+
+
     return;
+
   }
 
-  groups = groups.map(function(currentGroup) {
-    const result = currentGroup.slice(0, 8);
 
-    while (result.length < 8) {
-      result.push("");
-    }
+  groups =
+    groups.map(
+      function(currentGroup) {
 
-    for (let i = 0; i < 7; i++) {
-      if (selected.includes(result[i])) {
-        result[i] = "";
+        const result =
+          currentGroup.slice(
+            0,
+            8
+          );
+
+
+        while (
+          result.length < 8
+        ) {
+
+          result.push("");
+
+        }
+
+
+        for (
+          let i = 0;
+          i < 7;
+          i++
+        ) {
+
+          if (
+            selected.includes(
+              result[i]
+            )
+          ) {
+
+            result[i] =
+              "";
+
+          }
+
+        }
+
+
+        if (!result[7]) {
+
+          result[7] =
+            "유타몰";
+
+        }
+
+
+        return result;
+
       }
-    }
+    );
 
-    if (!result[7]) {
-      result[7] = "유타몰";
-    }
 
-    return result;
-  });
+  for (
+    let i = 0;
+    i < selected.length;
+    i++
+  ) {
 
-  /* 선택 순서대로 1번, 2번, 3번... 자리에 넣습니다. */
-  for (let i = 0; i < selected.length; i++) {
-    groups[groupIndex][i] = selected[i];
+    groups[groupIndex][i] =
+      selected[i];
+
   }
 
-  for (let i = required; i < 7; i++) {
-    groups[groupIndex][i] = "";
+
+  for (
+    let i = required;
+    i < 7;
+    i++
+  ) {
+
+    groups[groupIndex][i] =
+      "";
+
   }
+
 
   selectedApplicants.clear();
-  selectedApplicant = null;
+
+  selectedApplicant =
+    null;
+
 
   await saveGroups();
 
+
   renderAdmin();
+
   renderAppoint();
+
 }
+
 
 /* =========================================================
    그룹 자리 배정
@@ -4041,23 +6557,26 @@ async function handleSlotClick(
   slotIndex
 ) {
 
-  const setting = ensureAppointmentSetting(
-    groupIndex,
-    groups[groupIndex]
-  );
+  const setting =
+    ensureAppointmentSetting(
+      groupIndex,
+      groups[groupIndex]
+    );
 
-  if (slotIndex >= Number(setting.mode)) {
+
+  if (
+    slotIndex >=
+    Number(setting.mode)
+  ) {
+
     return;
+
   }
+
 
   const currentName =
     groups[groupIndex][slotIndex];
 
-
-  /*
-    이미 들어있는 사람을 누르면
-    그 자리를 비웁니다.
-  */
 
   if (currentName) {
 
@@ -4076,14 +6595,11 @@ async function handleSlotClick(
 
     renderAppoint();
 
+
     return;
 
   }
 
-
-  /*
-    먼저 신청자를 선택해야 합니다.
-  */
 
   if (
     !selectedApplicant
@@ -4093,45 +6609,64 @@ async function handleSlotClick(
       "먼저 위에서 봉사자 이름을 선택해 주세요."
     );
 
+
     return;
 
   }
 
 
-  /*
-    같은 사람을 다른 그룹에서 제거
-  */
-
   groups =
     groups.map(
       function(group) {
 
-        const result = group.slice(0, 8);
+        const result =
+          group.slice(
+            0,
+            8
+          );
 
-        while (result.length < 8) {
+
+        while (
+          result.length < 8
+        ) {
+
           result.push("");
+
         }
 
-        for (let i = 0; i < 7; i++) {
-          if (result[i] === selectedApplicant) {
-            result[i] = "";
+
+        for (
+          let i = 0;
+          i < 7;
+          i++
+        ) {
+
+          if (
+            result[i] ===
+            selectedApplicant
+          ) {
+
+            result[i] =
+              "";
+
           }
+
         }
+
 
         if (!result[7]) {
-          result[7] = "유타몰";
+
+          result[7] =
+            "유타몰";
+
         }
+
 
         return result;
 
       }
     );
 
-
-  /*
-    현재 선택한 자리에는
-    선택된 사람을 넣습니다.
-  */
 
   groups[groupIndex][slotIndex] =
     selectedApplicant;
@@ -4157,66 +6692,204 @@ async function handleSlotClick(
 
 function renderAppoint() {
 
-  const list = document.getElementById("appointList");
-  list.innerHTML = "";
+  const list =
+    document.getElementById(
+      "appointList"
+    );
 
-  const visibleGroups = groups.filter(function(group) {
-    return group.slice(0, 7).some(Boolean);
-  });
 
-  if (visibleGroups.length === 0) {
+  list.innerHTML =
+    "";
+
+
+  const visibleGroups =
+    groups.filter(
+      function(group) {
+
+        return group
+          .slice(0, 7)
+          .some(Boolean);
+
+      }
+    );
+
+
+  if (
+    visibleGroups.length === 0
+  ) {
+
     list.innerHTML =
       '<div class="appoint-empty">' +
       '아직 임명된 그룹이 없습니다.' +
       '</div>';
+
+
     return;
+
   }
 
-  groups.forEach(function(group, index) {
 
-    const names = group.slice(0, 7);
-    const hasPerson = names.some(Boolean);
-    if (!hasPerson) return;
+  groups.forEach(
+    function(group, index) {
 
-    const setting = ensureAppointmentSetting(index, group);
-    const card = document.createElement("div");
-    card.className = "appoint-card";
+      const names =
+        group.slice(
+          0,
+          7
+        );
 
-    const title = document.createElement("div");
-    title.className = "appoint-title";
-    title.textContent = "📍 " + (group[7] || "유타몰");
-    card.appendChild(title);
 
-    const schedule = renderScheduleForGroup(group, index);
+      const hasPerson =
+        names.some(Boolean);
 
-    if (schedule) {
-      card.appendChild(schedule);
-    } else {
-      const members = document.createElement("div");
-      members.className = "appoint-members";
 
-      names.forEach(function(name, slotIndex) {
-        if (!name) return;
+      if (!hasPerson) {
 
-        const person = document.createElement("div");
-        person.className = "appoint-person filled";
-        person.textContent = (slotIndex + 1) + ". " + name;
-        members.appendChild(person);
-      });
+        return;
 
-      card.appendChild(members);
+      }
 
-      const waiting = document.createElement("div");
-      waiting.className = "appoint-empty";
-      waiting.textContent =
-        Number(setting.mode) +
-        "명 모두 임명되면 일정이 표시됩니다.";
-      card.appendChild(waiting);
+
+      const setting =
+        ensureAppointmentSetting(
+          index,
+          group
+        );
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "appoint-card";
+
+
+      const title =
+        document.createElement(
+          "div"
+        );
+
+
+      title.className =
+        "appoint-title";
+
+
+      title.textContent =
+        "📍 " +
+        (
+          group[7] ||
+          "유타몰"
+        );
+
+
+      card.appendChild(
+        title
+      );
+
+
+      const schedule =
+        renderScheduleForGroup(
+          group,
+          index
+        );
+
+
+      if (schedule) {
+
+        card.appendChild(
+          schedule
+        );
+
+      } else {
+
+        const members =
+          document.createElement(
+            "div"
+          );
+
+
+        members.className =
+          "appoint-members";
+
+
+        names.forEach(
+          function(
+            name,
+            slotIndex
+          ) {
+
+            if (!name) {
+
+              return;
+
+            }
+
+
+            const person =
+              document.createElement(
+                "div"
+              );
+
+
+            person.className =
+              "appoint-person filled";
+
+
+            person.textContent =
+              (slotIndex + 1) +
+              ". " +
+              name;
+
+
+            members.appendChild(
+              person
+            );
+
+          }
+        );
+
+
+        card.appendChild(
+          members
+        );
+
+
+        const waiting =
+          document.createElement(
+            "div"
+          );
+
+
+        waiting.className =
+          "appoint-empty";
+
+
+        waiting.textContent =
+          Number(
+            setting.mode
+          ) +
+          "명 모두 임명되면 일정이 표시됩니다.";
+
+
+        card.appendChild(
+          waiting
+        );
+
+      }
+
+
+      list.appendChild(
+        card
+      );
+
     }
+  );
 
-    list.appendChild(card);
-  });
 }
+
 
 /* =========================================================
    POST 공통
@@ -4238,7 +6911,9 @@ async function postJson(
         },
 
         body:
-          JSON.stringify(data)
+          JSON.stringify(
+            data
+          )
       }
     );
 
