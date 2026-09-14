@@ -3527,14 +3527,23 @@ function renderScheduleForGroup(group, index) {
 
     const time = document.createElement("div");
     time.className = "appoint-schedule-time";
-    time.textContent =
+    const firstTime =
       formatDisplayTime(
         formatTimeWithOffset(setting.startTime, firstOffset)
-      ) +
-      ", " +
+      );
+
+    const secondTime =
       formatDisplayTime(
         formatTimeWithOffset(setting.startTime, secondOffset)
       );
+
+    /* 5명·7명 규칙처럼 두 사람이 같은 시간에 시작하면
+       같은 시간을 두 번 표시하지 않습니다.
+       4명·6명처럼 시간이 다르면 기존대로 두 시간을 표시합니다. */
+    time.textContent =
+      firstTime === secondTime
+        ? firstTime
+        : firstTime + ", " + secondTime;
 
     row.appendChild(name);
     row.appendChild(time);
