@@ -1927,8 +1927,6 @@ const ADMIN_PASSWORD_KEY =
 
 /* =========================================================
    관리자 비밀번호
-   ---------------------------------------------------------
-   기존 토요일과 동일한 방식
 ========================================================= */
 
 const ADMIN_PASSWORD =
@@ -2753,7 +2751,7 @@ function updateApplyCount() {
 
 
 /* =========================================================
-   제충
+   제출
 ========================================================= */
 
 async function completeApply() {
@@ -2770,7 +2768,6 @@ async function completeApply() {
 
   sortNames(selected);
 
-  /* 제출를 누르면 먼저 펼쳐진 명단을 닫습니다. */
   currentSelections = [];
   saveMySelections([]);
 
@@ -2887,11 +2884,6 @@ async function loadApplicants() {
       error
     );
 
-
-    /*
-      서버에서 아직 신청자를 가져오지 못할 경우
-      현재 기기에 저장된 선택을 사용
-    */
 
     applicants =
       getMySelections();
@@ -3310,11 +3302,6 @@ async function loadGroups() {
     );
 
 
-    /*
-      서버 그룹이 아직 없을 경우
-      브라우저 저장값 사용
-    */
-
     try {
 
       const saved =
@@ -3389,8 +3376,6 @@ async function saveGroups() {
 
 /* =========================================================
    그룹 추가
-   ---------------------------------------------------------
-   새 그룹은 항상 맨 위
 ========================================================= */
 
 async function addGroup() {
@@ -3560,46 +3545,55 @@ function renderGroups() {
         "group-header";
 
 
-   const title =
-  document.createElement(
-    "select"
-  );
+      const title =
+        document.createElement(
+          "select"
+        );
 
-title.className =
-  "group-title";
 
-const locations = [
-  "유타몰",
-  "성북천(보문2교-아래)",
-  "성북천(보문2교-위)",
-  "성북구청(광장)",
-  "보문역(주변)",
-  "성신여대(주변)",
-  "성북천(하늘다리)",
-  "성북천(바람마당교)",
-  "성북천(분수대)",
-  "성북천(용문교)",
-  "가두 증거"
-];
+      title.className =
+        "group-title";
 
-locations.forEach(
-  function(location) {
-    const option =
-      document.createElement(
-        "option"
+
+      const locations = [
+        "유타몰",
+        "성북천(보문2교-아래)",
+        "성북천(보문2교-위)",
+        "성북구청(광장)",
+        "보문역(주변)",
+        "성신여대(주변)",
+        "성북천(하늘다리)",
+        "성북천(바람마당교)",
+        "성북천(분수대)",
+        "성북천(용문교)",
+        "가두 증거"
+      ];
+
+
+      locations.forEach(
+        function(location) {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            location;
+
+
+          option.textContent =
+            location;
+
+
+          title.appendChild(
+            option
+          );
+
+        }
       );
 
-    option.value =
-      location;
-
-    option.textContent =
-      location;
-
-    title.appendChild(
-      option
-    );
-  }
-);
 
       const buttons =
         document.createElement(
@@ -3794,11 +3788,6 @@ async function handleSlotClick(
     groups[groupIndex][slotIndex];
 
 
-  /*
-    이미 들어있는 사람을 누르면
-    그 자리를 비웁니다.
-  */
-
   if (currentName) {
 
     groups[groupIndex][slotIndex] =
@@ -3821,10 +3810,6 @@ async function handleSlotClick(
   }
 
 
-  /*
-    먼저 신청자를 선택해야 합니다.
-  */
-
   if (
     !selectedApplicant
   ) {
@@ -3837,10 +3822,6 @@ async function handleSlotClick(
 
   }
 
-
-  /*
-    같은 사람을 다른 그룹에서 제거
-  */
 
   groups =
     groups.map(
@@ -3860,11 +3841,6 @@ async function handleSlotClick(
       }
     );
 
-
-  /*
-    현재 선택한 자리에는
-    선택된 사람을 넣습니다.
-  */
 
   groups[groupIndex][slotIndex] =
     selectedApplicant;
@@ -4324,357 +4300,3438 @@ document.addEventListener(
 
 
 <style id="recentScheduleOnlyStyle">
-/* =========================================================
-   최근 요청: 일정별 화면 선택
-   기존 스타일은 수정하지 않고 아래 기능만 추가합니다.
-========================================================= */
-.schedule-selector { margin-top:18px; }
-.schedule-selector-title { font-size:1.05em; font-weight:700; margin:0 0 12px; }
-.schedule-list { display:grid; grid-template-columns:1fr; gap:10px; }
-.schedule-button-wrap { display:flex; gap:8px; align-items:stretch; }
-.schedule-button { flex:1; min-height:76px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(35,69,99,.72); color:inherit; padding:12px 14px; cursor:pointer; text-align:left; }
-.schedule-button-main { display:block; font-weight:800; font-size:1.05em; margin-bottom:6px; }
-.schedule-button-date,.schedule-button-time { display:block; font-size:.9em; line-height:1.45; opacity:.92; }
-.schedule-delete-button { width:58px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(150,60,60,.72); color:inherit; cursor:pointer; }
-.schedule-add-wrap { margin-top:10px; }
-.schedule-add-button { width:100%; min-height:48px; border:1px dashed rgba(255,255,255,.24); border-radius:12px; background:transparent; color:inherit; cursor:pointer; font-weight:700; }
-.schedule-detail { margin-top:18px; }
-.schedule-detail-head { margin-bottom:16px; }
-.schedule-back-button { border:0; border-radius:10px; padding:9px 12px; background:rgba(35,69,99,.72); color:inherit; cursor:pointer; margin-bottom:12px; }
-.schedule-detail-name { font-size:1.15em; font-weight:800; }
-.schedule-detail-date,.schedule-detail-time { line-height:1.5; }
-.schedule-detail-time { font-weight:700; }
-.schedule-editor { margin-top:12px; padding:14px; border:1px solid rgba(255,255,255,.15); border-radius:14px; background:rgba(0,0,0,.10); }
-.schedule-editor-grid { display:grid; grid-template-columns:1fr; gap:10px; }
-.schedule-editor label { display:block; font-weight:700; }
-.schedule-editor input,.schedule-editor select { width:100%; margin-top:5px; min-height:42px; border-radius:9px; border:1px solid rgba(127,127,127,.35); padding:8px 10px; background:inherit; color:inherit; }
-.schedule-editor-actions { display:flex; gap:8px; margin-top:12px; }
-.schedule-editor-actions button { flex:1; min-height:44px; border:0; border-radius:10px; cursor:pointer; }
-.schedule-empty { padding:20px 8px; text-align:center; opacity:.75; }
-@media (min-width:700px) { .schedule-list { grid-template-columns:1fr 1fr; } }
+
+.schedule-selector {
+  margin-top: 18px;
+}
+
+.schedule-selector-title {
+  font-size: 1.05em;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.schedule-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.schedule-button-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.schedule-button {
+  flex: 1;
+  min-height: 76px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 14px;
+  background: rgba(35,69,99,.72);
+  color: inherit;
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.schedule-button-main {
+  display: block;
+  font-weight: 800;
+  font-size: 1.05em;
+  margin-bottom: 6px;
+}
+
+.schedule-button-date,
+.schedule-button-time {
+  display: block;
+  font-size: .9em;
+  line-height: 1.45;
+  opacity: .92;
+}
+
+.schedule-delete-button {
+  width: 58px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 14px;
+  background: rgba(150,60,60,.72);
+  color: inherit;
+  cursor: pointer;
+}
+
+.schedule-add-wrap {
+  margin-top: 10px;
+}
+
+.schedule-add-button {
+  width: 100%;
+  min-height: 48px;
+  border: 1px dashed rgba(255,255,255,.24);
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.schedule-detail {
+  margin-top: 18px;
+}
+
+.schedule-detail-head {
+  margin-bottom: 16px;
+}
+
+.schedule-back-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: rgba(35,69,99,.72);
+  color: inherit;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.schedule-detail-name {
+  font-size: 1.15em;
+  font-weight: 800;
+}
+
+.schedule-detail-date,
+.schedule-detail-time {
+  line-height: 1.5;
+}
+
+.schedule-detail-time {
+  font-weight: 700;
+}
+
+.schedule-editor {
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 14px;
+  background: rgba(0,0,0,.10);
+}
+
+.schedule-editor-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.schedule-editor label {
+  display: block;
+  font-weight: 700;
+}
+
+.schedule-editor input,
+.schedule-editor select {
+  width: 100%;
+  margin-top: 5px;
+  min-height: 42px;
+  border-radius: 9px;
+  border: 1px solid rgba(127,127,127,.35);
+  padding: 8px 10px;
+  background: inherit;
+  color: inherit;
+}
+
+.schedule-editor-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.schedule-editor-actions button {
+  flex: 1;
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.schedule-empty {
+  padding: 20px 8px;
+  text-align: center;
+  opacity: .75;
+}
+
+@media (min-width:700px) {
+  .schedule-list {
+    grid-template-columns:1fr 1fr;
+  }
+}
+
 </style>
 
+
 <script id="recentScheduleOnlyScript">
+
 /* =========================================================
-   최근 요청만 추가: 일정별 신청 / 임명 / 관리용
-   기존 함수와 기존 UI는 그대로 두고, 일정 선택 기능을 덧붙입니다.
+   일정별 신청 / 임명 / 관리용
+   ★ Apps Script action 이름만 서버와 일치하도록 수정
 ========================================================= */
+
 (function(){
-  const FIXED_KEYS = ["토오전","토오후","일오전"];
-  const ALL_KEYS = ["토오전","토오후","일오전","추가1","추가2","추가3"];
-  const LOCAL_SCHEDULE_KEY = "jeonsidaeRecentSchedules";
-  const LOCAL_APPLY_KEY = "jeonsidaeRecentApplySelections";
+
+  const FIXED_KEYS = [
+    "토오전",
+    "토오후",
+    "일오전"
+  ];
+
+  const ALL_KEYS = [
+    "토오전",
+    "토오후",
+    "일오전",
+    "추가1",
+    "추가2",
+    "추가3"
+  ];
+
+  const LOCAL_SCHEDULE_KEY =
+    "jeonsidaeRecentSchedules";
+
+  const LOCAL_APPLY_KEY =
+    "jeonsidaeRecentApplySelections";
+
   let schedules = [];
-  let currentApplyScheduleKey = null;
-  let currentAdminScheduleKey = null;
-  let currentAppointScheduleKey = null;
-  let legacyShowView = null;
 
-  function pad(n){ return String(n).padStart(2,"0"); }
-  function dateInput(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+  let currentApplyScheduleKey =
+    null;
+
+  let currentAdminScheduleKey =
+    null;
+
+  let currentAppointScheduleKey =
+    null;
+
+  let legacyShowView =
+    null;
+
+
+  function pad(n){
+    return String(n).padStart(2,"0");
+  }
+
+
+  function dateInput(d){
+    return d.getFullYear() +
+      "-" +
+      pad(d.getMonth()+1) +
+      "-" +
+      pad(d.getDate());
+  }
+
+
   function nextSaturday(){
-    const d=new Date();
-    const diff=d.getDay()===0?6:6-d.getDay();
-    d.setDate(d.getDate()+diff);
+
+    const d =
+      new Date();
+
+    const diff =
+      d.getDay() === 0
+        ? 6
+        : 6 - d.getDay();
+
+    d.setDate(
+      d.getDate() + diff
+    );
+
     return d;
+
   }
+
+
   function fmtDate(v){
+
     if(!v) return "";
-    const d=new Date(String(v)+"T00:00:00");
-    if(Number.isNaN(d.getTime())) return String(v);
-    const days=["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
-    return d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 ("+days[d.getDay()]+")";
-  }
-  function fmtTime(v){
-    const m=String(v||"").match(/^(\d{1,2}):(\d{2})$/);
-    if(!m) return String(v||"");
-    const h=Number(m[1]), min=m[2], ap=h<12?"오전":"오후";
-    const hh=h===0?12:(h>12?h-12:h);
-    return ap+" "+hh+":"+min;
-  }
-  function fmtRange(a,b){ return fmtTime(a)+" ~ "+fmtTime(b); }
-  function normalize(s){
-    if(!s || !s.key) return null;
-    const key=String(s.key);
-    return {
-      key:key,
-      label:String(s.label||key),
-      fixed:FIXED_KEYS.includes(key),
-      serviceDate:String(s.serviceDate||s.date||""),
-      startTime:String(s.startTime||s.serviceStart||"10:00"),
-      endTime:String(s.endTime||s.serviceEnd||"12:00"),
-      applicationStart:String(s.applicationStart||s.applyStart||""),
-      applicationEnd:String(s.applicationEnd||s.applyEnd||"")
-    };
-  }
-  function fixedSchedules(){
-    const sat=nextSaturday();
-    const sun=new Date(sat); sun.setDate(sat.getDate()+1);
-    return [
-      normalize({key:"토오전",label:"토오전",fixed:true,serviceDate:dateInput(sat),startTime:"10:00",endTime:"12:00"}),
-      normalize({key:"토오후",label:"토오후",fixed:true,serviceDate:dateInput(sat),startTime:"13:00",endTime:"15:00"}),
-      normalize({key:"일오전",label:"일오전",fixed:true,serviceDate:dateInput(sun),startTime:"10:00",endTime:"12:00"})
-    ];
-  }
-  function saveLocal(){ localStorage.setItem(LOCAL_SCHEDULE_KEY,JSON.stringify(schedules)); }
-  function loadLocal(){ try{return JSON.parse(localStorage.getItem(LOCAL_SCHEDULE_KEY)||"[]").map(normalize).filter(Boolean);}catch(e){return [];} }
-  function getSchedule(key){ return schedules.find(s=>s.key===key)||null; }
-  function order(a,b){ return ALL_KEYS.indexOf(a.key)-ALL_KEYS.indexOf(b.key); }
 
-  function makeSelector(section, title, allowAdd, allowDelete){
-    const selector=document.createElement("div");
-    selector.className="schedule-selector";
-    selector.id=section+"ScheduleSelector";
-    const h=document.createElement("div");
-    h.className="schedule-selector-title";
-    h.textContent=title;
-    const list=document.createElement("div");
-    list.className="schedule-list";
-    list.id=section+"ScheduleList";
-    selector.appendChild(h); selector.appendChild(list);
-    if(allowAdd){
-      const addWrap=document.createElement("div"); addWrap.className="schedule-add-wrap";
-      const add=document.createElement("button"); add.type="button"; add.className="schedule-add-button"; add.textContent="＋ 추가";
-      add.onclick=showExtraEditor; addWrap.appendChild(add); selector.appendChild(addWrap);
+    const d =
+      new Date(
+        String(v) +
+        "T00:00:00"
+      );
+
+    if(
+      Number.isNaN(
+        d.getTime()
+      )
+    ){
+
+      return String(v);
+
     }
-    const detail=document.createElement("div"); detail.className="schedule-detail"; detail.id=section+"ScheduleDetail"; detail.style.display="none";
-    sectionElement(section).insertBefore(selector, sectionElement(section).children[1]);
-    sectionElement(section).insertBefore(detail, selector.nextSibling);
-    return {selector,list,detail};
-  }
-  function sectionElement(section){ return document.getElementById(section+"View"); }
 
-  function setLegacyVisible(section, visible){
-    const sec=sectionElement(section);
-    if(!sec) return;
-    Array.from(sec.children).forEach(function(el){
-      if(el.classList.contains("page-title")) return;
-      if(el.id===section+"ScheduleSelector" || el.id===section+"ScheduleDetail") return;
-      el.style.display=visible?"":"none";
-    });
+    const days = [
+      "일요일",
+      "월요일",
+      "화요일",
+      "수요일",
+      "목요일",
+      "금요일",
+      "토요일"
+    ];
+
+    return d.getFullYear() +
+      "년 " +
+      (d.getMonth()+1) +
+      "월 " +
+      d.getDate() +
+      "일 (" +
+      days[d.getDay()] +
+      ")";
+
   }
+
+
+  function fmtTime(v){
+
+    const m =
+      String(v || "")
+        .match(
+          /^(\d{1,2}):(\d{2})$/
+        );
+
+    if(!m)
+      return String(v || "");
+
+    const h =
+      Number(m[1]);
+
+    const min =
+      m[2];
+
+    const ap =
+      h < 12
+        ? "오전"
+        : "오후";
+
+    const hh =
+      h === 0
+        ? 12
+        : h > 12
+          ? h - 12
+          : h;
+
+    return ap +
+      " " +
+      hh +
+      ":" +
+      min;
+
+  }
+
+
+  function fmtRange(a,b){
+
+    return fmtTime(a) +
+      " ~ " +
+      fmtTime(b);
+
+  }
+
+
+  function normalize(s){
+
+    if(
+      !s ||
+      !s.key
+    )
+      return null;
+
+    const key =
+      String(s.key);
+
+    return {
+
+      key:key,
+
+      label:
+        String(
+          s.label ||
+          key
+        ),
+
+      fixed:
+        FIXED_KEYS.includes(
+          key
+        ),
+
+      serviceDate:
+        String(
+          s.serviceDate ||
+          s.date ||
+          ""
+        ),
+
+      startTime:
+        String(
+          s.startTime ||
+          s.serviceStart ||
+          "10:00"
+        ),
+
+      endTime:
+        String(
+          s.endTime ||
+          s.serviceEnd ||
+          "12:00"
+        ),
+
+      applicationStart:
+        String(
+          s.applicationStart ||
+          s.applyStart ||
+          ""
+        ),
+
+      applicationEnd:
+        String(
+          s.applicationEnd ||
+          s.applyEnd ||
+          ""
+        )
+
+    };
+
+  }
+
+
+  function fixedSchedules(){
+
+    const sat =
+      nextSaturday();
+
+    const sun =
+      new Date(sat);
+
+    sun.setDate(
+      sat.getDate() + 1
+    );
+
+    return [
+
+      normalize({
+        key:"토오전",
+        label:"토오전",
+        fixed:true,
+        serviceDate:
+          dateInput(sat),
+        startTime:"10:00",
+        endTime:"12:00"
+      }),
+
+      normalize({
+        key:"토오후",
+        label:"토오후",
+        fixed:true,
+        serviceDate:
+          dateInput(sat),
+        startTime:"13:00",
+        endTime:"15:00"
+      }),
+
+      normalize({
+        key:"일오전",
+        label:"일오전",
+        fixed:true,
+        serviceDate:
+          dateInput(sun),
+        startTime:"10:00",
+        endTime:"12:00"
+      })
+
+    ];
+
+  }
+
+
+  function saveLocal(){
+
+    localStorage.setItem(
+      LOCAL_SCHEDULE_KEY,
+      JSON.stringify(
+        schedules
+      )
+    );
+
+  }
+
+
+  function loadLocal(){
+
+    try{
+
+      return JSON.parse(
+        localStorage.getItem(
+          LOCAL_SCHEDULE_KEY
+        ) ||
+        "[]"
+      )
+      .map(normalize)
+      .filter(Boolean);
+
+    }catch(e){
+
+      return [];
+
+    }
+
+  }
+
+
+  function getSchedule(key){
+
+    return schedules.find(
+      function(s){
+        return s.key === key;
+      }
+    ) || null;
+
+  }
+
+
+  function order(a,b){
+
+    return ALL_KEYS.indexOf(
+      a.key
+    ) -
+    ALL_KEYS.indexOf(
+      b.key
+    );
+
+  }
+
+
+  function makeSelector(
+    section,
+    title,
+    allowAdd,
+    allowDelete
+  ){
+
+    const selector =
+      document.createElement(
+        "div"
+      );
+
+    selector.className =
+      "schedule-selector";
+
+    selector.id =
+      section +
+      "ScheduleSelector";
+
+
+    const h =
+      document.createElement(
+        "div"
+      );
+
+    h.className =
+      "schedule-selector-title";
+
+    h.textContent =
+      title;
+
+
+    const list =
+      document.createElement(
+        "div"
+      );
+
+    list.className =
+      "schedule-list";
+
+    list.id =
+      section +
+      "ScheduleList";
+
+
+    selector.appendChild(h);
+
+    selector.appendChild(list);
+
+
+    if(allowAdd){
+
+      const addWrap =
+        document.createElement(
+          "div"
+        );
+
+      addWrap.className =
+        "schedule-add-wrap";
+
+
+      const add =
+        document.createElement(
+          "button"
+        );
+
+      add.type =
+        "button";
+
+      add.className =
+        "schedule-add-button";
+
+      add.textContent =
+        "＋ 추가";
+
+      add.onclick =
+        showExtraEditor;
+
+
+      addWrap.appendChild(
+        add
+      );
+
+      selector.appendChild(
+        addWrap
+      );
+
+    }
+
+
+    const detail =
+      document.createElement(
+        "div"
+      );
+
+    detail.className =
+      "schedule-detail";
+
+    detail.id =
+      section +
+      "ScheduleDetail";
+
+    detail.style.display =
+      "none";
+
+
+    sectionElement(section)
+      .insertBefore(
+        selector,
+        sectionElement(section)
+          .children[1]
+      );
+
+
+    sectionElement(section)
+      .insertBefore(
+        detail,
+        selector.nextSibling
+      );
+
+
+    return {
+      selector,
+      list,
+      detail
+    };
+
+  }
+
+
+  function sectionElement(section){
+
+    return document.getElementById(
+      section + "View"
+    );
+
+  }
+
+
+  function setLegacyVisible(
+    section,
+    visible
+  ){
+
+    const sec =
+      sectionElement(
+        section
+      );
+
+    if(!sec)
+      return;
+
+
+    Array.from(
+      sec.children
+    ).forEach(
+      function(el){
+
+        if(
+          el.classList.contains(
+            "page-title"
+          )
+        )
+          return;
+
+        if(
+          el.id ===
+            section +
+            "ScheduleSelector" ||
+          el.id ===
+            section +
+            "ScheduleDetail"
+        )
+          return;
+
+        el.style.display =
+          visible
+            ? ""
+            : "none";
+
+      }
+    );
+
+  }
+
+
   function showList(section){
-    setLegacyVisible(section,false);
-    const sel=document.getElementById(section+"ScheduleSelector"), det=document.getElementById(section+"ScheduleDetail");
-    if(sel) sel.style.display="block"; if(det){det.style.display="none";det.innerHTML="";}
+
+    setLegacyVisible(
+      section,
+      false
+    );
+
+
+    const sel =
+      document.getElementById(
+        section +
+        "ScheduleSelector"
+      );
+
+    const det =
+      document.getElementById(
+        section +
+        "ScheduleDetail"
+      );
+
+
+    if(sel)
+      sel.style.display =
+        "block";
+
+
+    if(det){
+
+      det.style.display =
+        "none";
+
+      det.innerHTML =
+        "";
+
+    }
+
   }
-  function detailHeader(s,back){
-    const head=document.createElement("div"); head.className="schedule-detail-head";
-    const b=document.createElement("button"); b.type="button"; b.className="schedule-back-button"; b.textContent="‹ 일정 선택으로 돌아가기"; b.onclick=back;
-    const n=document.createElement("div"); n.className="schedule-detail-name"; n.textContent=s.label;
-    const d=document.createElement("div"); d.className="schedule-detail-date"; d.textContent=fmtDate(s.serviceDate);
-    const t=document.createElement("div"); t.className="schedule-detail-time"; t.textContent=fmtRange(s.startTime,s.endTime);
-    head.append(b,n,d,t); return head;
+
+
+  function detailHeader(
+    s,
+    back
+  ){
+
+    const head =
+      document.createElement(
+        "div"
+      );
+
+    head.className =
+      "schedule-detail-head";
+
+
+    const b =
+      document.createElement(
+        "button"
+      );
+
+    b.type =
+      "button";
+
+    b.className =
+      "schedule-back-button";
+
+    b.textContent =
+      "‹ 일정 선택으로 돌아가기";
+
+    b.onclick =
+      back;
+
+
+    const n =
+      document.createElement(
+        "div"
+      );
+
+    n.className =
+      "schedule-detail-name";
+
+    n.textContent =
+      s.label;
+
+
+    const d =
+      document.createElement(
+        "div"
+      );
+
+    d.className =
+      "schedule-detail-date";
+
+    d.textContent =
+      fmtDate(
+        s.serviceDate
+      );
+
+
+    const t =
+      document.createElement(
+        "div"
+      );
+
+    t.className =
+      "schedule-detail-time";
+
+    t.textContent =
+      fmtRange(
+        s.startTime,
+        s.endTime
+      );
+
+
+    head.append(
+      b,
+      n,
+      d,
+      t
+    );
+
+    return head;
+
   }
+
 
   function renderLists(){
-    ["apply","appoint","admin"].forEach(function(section){
-      const box=document.getElementById(section+"ScheduleList"); if(!box) return;
-      box.innerHTML="";
-      schedules.slice().sort(order).forEach(function(s){
-        const wrap=document.createElement("div"); wrap.className="schedule-button-wrap";
-        const b=document.createElement("button"); b.type="button"; b.className="schedule-button";
-        b.innerHTML='<span class="schedule-button-main"></span><span class="schedule-button-date"></span><span class="schedule-button-time"></span>';
-        b.querySelector(".schedule-button-main").textContent=s.label;
-        b.querySelector(".schedule-button-date").textContent=fmtDate(s.serviceDate);
-        b.querySelector(".schedule-button-time").textContent=fmtRange(s.startTime,s.endTime);
-        b.onclick=function(){ section==="apply"?openApply(s.key):section==="admin"?openAdmin(s.key):openAppoint(s.key); };
-        wrap.appendChild(b);
-        if(section==="admin" && !s.fixed){
-          const del=document.createElement("button"); del.type="button"; del.className="schedule-delete-button"; del.textContent="삭제";
-          del.onclick=function(e){e.stopPropagation();deleteExtra(s.key);}; wrap.appendChild(del);
-        }
-        box.appendChild(wrap);
-      });
-    });
+
+    [
+      "apply",
+      "appoint",
+      "admin"
+    ].forEach(
+      function(section){
+
+        const box =
+          document.getElementById(
+            section +
+            "ScheduleList"
+          );
+
+        if(!box)
+          return;
+
+
+        box.innerHTML =
+          "";
+
+
+        schedules
+          .slice()
+          .sort(order)
+          .forEach(
+            function(s){
+
+              const wrap =
+                document.createElement(
+                  "div"
+                );
+
+              wrap.className =
+                "schedule-button-wrap";
+
+
+              const b =
+                document.createElement(
+                  "button"
+                );
+
+              b.type =
+                "button";
+
+              b.className =
+                "schedule-button";
+
+
+              b.innerHTML =
+                '<span class="schedule-button-main"></span>' +
+                '<span class="schedule-button-date"></span>' +
+                '<span class="schedule-button-time"></span>';
+
+
+              b.querySelector(
+                ".schedule-button-main"
+              ).textContent =
+                s.label;
+
+
+              b.querySelector(
+                ".schedule-button-date"
+              ).textContent =
+                fmtDate(
+                  s.serviceDate
+                );
+
+
+              b.querySelector(
+                ".schedule-button-time"
+              ).textContent =
+                fmtRange(
+                  s.startTime,
+                  s.endTime
+                );
+
+
+              b.onclick =
+                function(){
+
+                  if(
+                    section ===
+                    "apply"
+                  ){
+
+                    openApply(
+                      s.key
+                    );
+
+                  }else if(
+                    section ===
+                    "admin"
+                  ){
+
+                    openAdmin(
+                      s.key
+                    );
+
+                  }else{
+
+                    openAppoint(
+                      s.key
+                    );
+
+                  }
+
+                };
+
+
+              wrap.appendChild(
+                b
+              );
+
+
+              if(
+                section ===
+                  "admin" &&
+                !s.fixed
+              ){
+
+                const del =
+                  document.createElement(
+                    "button"
+                  );
+
+                del.type =
+                  "button";
+
+                del.className =
+                  "schedule-delete-button";
+
+                del.textContent =
+                  "삭제";
+
+                del.onclick =
+                  function(e){
+
+                    e.stopPropagation();
+
+                    deleteExtra(
+                      s.key
+                    );
+
+                  };
+
+
+                wrap.appendChild(
+                  del
+                );
+
+              }
+
+
+              box.appendChild(
+                wrap
+              );
+
+            }
+          );
+
+      }
+    );
+
   }
+
+
+  /* =======================================================
+     ★ 수정 1
+     일정 목록 GET
+     scheduleList
+     → jeonsidaeSchedules
+  ======================================================== */
 
   async function loadSchedules(){
-    const map=new Map();
-    fixedSchedules().forEach(s=>map.set(s.key,s));
-    loadLocal().forEach(s=>{if(!s.fixed)map.set(s.key,s);});
+
+    const map =
+      new Map();
+
+
+    fixedSchedules()
+      .forEach(
+        function(s){
+
+          map.set(
+            s.key,
+            s
+          );
+
+        }
+      );
+
+
+    loadLocal()
+      .forEach(
+        function(s){
+
+          if(!s.fixed){
+
+            map.set(
+              s.key,
+              s
+            );
+
+          }
+
+        }
+      );
+
+
     try{
-      const r=await fetch(SCRIPT_URL+"?action=scheduleList&t="+Date.now());
-      const data=await r.json();
-      const arr=Array.isArray(data.schedules)?data.schedules:(Array.isArray(data.scheduleList)?data.scheduleList:[]);
-      arr.map(normalize).filter(Boolean).forEach(s=>{if(ALL_KEYS.includes(s.key))map.set(s.key,s);});
-    }catch(e){ console.warn("일정 목록 불러오기 실패",e); }
-    schedules=Array.from(map.values()).sort(order); saveLocal(); renderLists();
+
+      const r =
+        await fetch(
+          SCRIPT_URL +
+          "?action=jeonsidaeSchedules&t=" +
+          Date.now()
+        );
+
+
+      const data =
+        await r.json();
+
+
+      const arr =
+        Array.isArray(
+          data.schedules
+        )
+          ? data.schedules
+          : (
+              Array.isArray(
+                data.scheduleList
+              )
+                ? data.scheduleList
+                : []
+            );
+
+
+      arr
+        .map(normalize)
+        .filter(Boolean)
+        .forEach(
+          function(s){
+
+            if(
+              ALL_KEYS.includes(
+                s.key
+              )
+            ){
+
+              map.set(
+                s.key,
+                s
+              );
+
+            }
+
+          }
+        );
+
+
+    }catch(e){
+
+      console.warn(
+        "일정 목록 불러오기 실패",
+        e
+      );
+
+    }
+
+
+    schedules =
+      Array.from(
+        map.values()
+      )
+      .sort(order);
+
+
+    saveLocal();
+
+    renderLists();
+
   }
 
-  function getApplyMap(){try{return JSON.parse(localStorage.getItem(LOCAL_APPLY_KEY)||"{}")}catch(e){return {};}}
-  function setApplyMap(m){localStorage.setItem(LOCAL_APPLY_KEY,JSON.stringify(m));}
 
-  async function loadScheduleApplicants(key){
+  function getApplyMap(){
+
     try{
-      const r=await fetch(SCRIPT_URL+"?action=scheduleApplicants&key="+encodeURIComponent(key)+"&scheduleKey="+encodeURIComponent(key)+"&t="+Date.now());
-      const d=await r.json();
-      if(d.success && Array.isArray(d.applicants)) return [...new Set(d.applicants.map(String).map(x=>x.trim()).filter(Boolean))];
-    }catch(e){console.warn(e);}
+
+      return JSON.parse(
+        localStorage.getItem(
+          LOCAL_APPLY_KEY
+        ) ||
+        "{}"
+      );
+
+    }catch(e){
+
+      return {};
+
+    }
+
+  }
+
+
+  function setApplyMap(m){
+
+    localStorage.setItem(
+      LOCAL_APPLY_KEY,
+      JSON.stringify(m)
+    );
+
+  }
+
+
+  /* =======================================================
+     ★ 수정 2
+     일정별 신청자 GET
+     scheduleApplicants
+     → jeonsidaeScheduleApplicants
+  ======================================================== */
+
+  async function loadScheduleApplicants(
+    key
+  ){
+
+    try{
+
+      const r =
+        await fetch(
+          SCRIPT_URL +
+          "?action=jeonsidaeScheduleApplicants" +
+          "&key=" +
+          encodeURIComponent(key) +
+          "&scheduleKey=" +
+          encodeURIComponent(key) +
+          "&t=" +
+          Date.now()
+        );
+
+
+      const d =
+        await r.json();
+
+
+      if(
+        d.success &&
+        Array.isArray(
+          d.applicants
+        )
+      ){
+
+        return [
+          ...new Set(
+            d.applicants
+              .map(String)
+              .map(
+                function(x){
+                  return x.trim();
+                }
+              )
+              .filter(Boolean)
+          )
+        ];
+
+      }
+
+    }catch(e){
+
+      console.warn(e);
+
+    }
+
+
     return [];
-  }
-  async function saveScheduleApplicants(key,names){
-    const s=getSchedule(key);
-    return postJson({action:"saveScheduleApplicants",key:key,scheduleKey:key,applicants:names,serviceDate:s?s.serviceDate:"",serviceTime:s?fmtRange(s.startTime,s.endTime):""});
+
   }
 
-  function openApply(key){
-    const s=getSchedule(key); if(!s)return; currentApplyScheduleKey=key;
-    const selector=document.getElementById("applyScheduleSelector"), detail=document.getElementById("applyScheduleDetail");
-    selector.style.display="none"; detail.style.display="block"; detail.innerHTML=""; setLegacyVisible("apply",true);
-    detail.appendChild(detailHeader(s,closeApply));
-    const oldDateBox=document.querySelector("#applyView .apply-date-box");
-    if(oldDateBox) oldDateBox.style.display="none";
-    const grid=document.getElementById("applyNameGrid"), complete=document.getElementById("applyCompleteWrap");
-    if(grid) grid.style.display="none";
-    if(complete) complete.style.display="none";
-    const oldComplete=complete ? complete.querySelector("button") : null;
-    if(oldComplete) oldComplete.onclick=function(){completeRecentApply(key);};
-    const map=getApplyMap(); currentSelections=Array.isArray(map[key])?map[key].slice():[]; updateApplyCount();
-    loadScheduleApplicants(key).then(function(names){document.getElementById("currentApplicantTitle").textContent="신청자 "+names.length+"명";const box=document.getElementById("currentApplicantNames");box.innerHTML="";names.forEach(n=>{const x=document.createElement("div");x.className="current-name";x.textContent=n;box.appendChild(x);});});
-  }
-  function closeApply(){ currentApplyScheduleKey=null; const detail=document.getElementById("applyScheduleDetail"); const selector=document.getElementById("applyScheduleSelector"); selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("apply",false); }
-  async function completeRecentApply(key){
-    const selected=currentSelections.slice(); sortNames(selected);
-    if(!selected.length){alert("신청할 사람을 한 명 이상 선택해 주세요.");return;}
-    try{await saveScheduleApplicants(key,selected);const map=getApplyMap();map[key]=[];setApplyMap(map);currentSelections=[];await loadSchedules();alert(selected.length+"명이 신청되었습니다.");closeApply();}
-    catch(e){console.error(e);alert("신청 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}
+
+  /* =======================================================
+     ★ 수정 3
+     일정별 신청자 저장
+     saveScheduleApplicants
+     → saveJeonsidaeScheduleApplicants
+  ======================================================== */
+
+  async function saveScheduleApplicants(
+    key,
+    names
+  ){
+
+    const s =
+      getSchedule(key);
+
+
+    return postJson({
+
+      action:
+        "saveJeonsidaeScheduleApplicants",
+
+      key:
+        key,
+
+      scheduleKey:
+        key,
+
+      applicants:
+        names,
+
+      serviceDate:
+        s
+          ? s.serviceDate
+          : "",
+
+      serviceTime:
+        s
+          ? fmtRange(
+              s.startTime,
+              s.endTime
+            )
+          : ""
+
+    });
+
   }
 
-  async function loadScheduleGroups(key){
+
+  async function openApply(key){
+
+    const s =
+      getSchedule(key);
+
+    if(!s)
+      return;
+
+
+    currentApplyScheduleKey =
+      key;
+
+
+    const selector =
+      document.getElementById(
+        "applyScheduleSelector"
+      );
+
+    const detail =
+      document.getElementById(
+        "applyScheduleDetail"
+      );
+
+
+    selector.style.display =
+      "none";
+
+    detail.style.display =
+      "block";
+
+    detail.innerHTML =
+      "";
+
+    setLegacyVisible(
+      "apply",
+      true
+    );
+
+
+    detail.appendChild(
+      detailHeader(
+        s,
+        closeApply
+      )
+    );
+
+
+    const oldDateBox =
+      document.querySelector(
+        "#applyView .apply-date-box"
+      );
+
+
+    if(oldDateBox){
+
+      oldDateBox.style.display =
+        "none";
+
+    }
+
+
+    const grid =
+      document.getElementById(
+        "applyNameGrid"
+      );
+
+    const complete =
+      document.getElementById(
+        "applyCompleteWrap"
+      );
+
+
+    if(grid)
+      grid.style.display =
+        "none";
+
+
+    if(complete)
+      complete.style.display =
+        "none";
+
+
+    const oldComplete =
+      complete
+        ? complete.querySelector(
+            "button"
+          )
+        : null;
+
+
+    if(oldComplete){
+
+      oldComplete.onclick =
+        function(){
+
+          completeRecentApply(
+            key
+          );
+
+        };
+
+    }
+
+
+    const map =
+      getApplyMap();
+
+
+    currentSelections =
+      Array.isArray(
+        map[key]
+      )
+        ? map[key].slice()
+        : [];
+
+
+    updateApplyCount();
+
+
+    loadScheduleApplicants(
+      key
+    )
+    .then(
+      function(names){
+
+        document
+          .getElementById(
+            "currentApplicantTitle"
+          )
+          .textContent =
+            "신청자 " +
+            names.length +
+            "명";
+
+
+        const box =
+          document.getElementById(
+            "currentApplicantNames"
+          );
+
+
+        box.innerHTML =
+          "";
+
+
+        if(!names.length){
+
+          box.innerHTML =
+            '<div class="current-empty">' +
+            '아직 신청한 사람이 없습니다.' +
+            '</div>';
+
+          return;
+
+        }
+
+
+        names.forEach(
+          function(n){
+
+            const x =
+              document.createElement(
+                "div"
+              );
+
+            x.className =
+              "current-name";
+
+            x.textContent =
+              n;
+
+            box.appendChild(
+              x
+            );
+
+          }
+        );
+
+      }
+    );
+
+  }
+
+
+  function closeApply(){
+
+    currentApplyScheduleKey =
+      null;
+
+
+    const detail =
+      document.getElementById(
+        "applyScheduleDetail"
+      );
+
+    const selector =
+      document.getElementById(
+        "applyScheduleSelector"
+      );
+
+
+    selector.style.display =
+      "block";
+
+
+    detail.style.display =
+      "none";
+
+
+    detail.innerHTML =
+      "";
+
+
+    setLegacyVisible(
+      "apply",
+      false
+    );
+
+  }
+
+
+  async function completeRecentApply(
+    key
+  ){
+
+    const selected =
+      currentSelections.slice();
+
+
+    sortNames(
+      selected
+    );
+
+
+    if(!selected.length){
+
+      alert(
+        "신청할 사람을 한 명 이상 선택해 주세요."
+      );
+
+      return;
+
+    }
+
+
     try{
-      const r=await fetch(SCRIPT_URL+"?action=scheduleGroups&key="+encodeURIComponent(key)+"&scheduleKey="+encodeURIComponent(key)+"&t="+Date.now());
-      const d=await r.json(); if(d.success&&Array.isArray(d.groups)) return d.groups.map(g=>{const a=Array.isArray(g)?g.slice(0,8):[];while(a.length<8)a.push("");return a;});
-    }catch(e){console.warn(e);} return [];
+
+      await saveScheduleApplicants(
+        key,
+        selected
+      );
+
+
+      const map =
+        getApplyMap();
+
+
+      map[key] =
+        [];
+
+
+      setApplyMap(
+        map
+      );
+
+
+      currentSelections =
+        [];
+
+
+      await loadSchedules();
+
+
+      alert(
+        selected.length +
+        "명이 신청되었습니다."
+      );
+
+
+      closeApply();
+
+
+    }catch(e){
+
+      console.error(e);
+
+
+      alert(
+        "신청 저장에 실패했습니다.\n" +
+        "잠시 후 다시 시도해 주세요."
+      );
+
+    }
+
   }
-  async function saveScheduleGroups(key,data){return postJson({action:"saveScheduleGroups",key:key,scheduleKey:key,groups:data});}
+
+
+  /* =======================================================
+     ★ 수정 4
+     일정별 그룹 GET
+     scheduleGroups
+     → jeonsidaeScheduleGroups
+  ======================================================== */
+
+  async function loadScheduleGroups(
+    key
+  ){
+
+    try{
+
+      const r =
+        await fetch(
+          SCRIPT_URL +
+          "?action=jeonsidaeScheduleGroups" +
+          "&key=" +
+          encodeURIComponent(key) +
+          "&scheduleKey=" +
+          encodeURIComponent(key) +
+          "&t=" +
+          Date.now()
+        );
+
+
+      const d =
+        await r.json();
+
+
+      if(
+        d.success &&
+        Array.isArray(
+          d.groups
+        )
+      ){
+
+        return d.groups.map(
+          function(g){
+
+            const a =
+              Array.isArray(g)
+                ? g.slice(0,8)
+                : [];
+
+
+            while(
+              a.length < 8
+            ){
+
+              a.push("");
+
+            }
+
+
+            return a;
+
+          }
+        );
+
+      }
+
+    }catch(e){
+
+      console.warn(e);
+
+    }
+
+
+    return [];
+
+  }
+
+
+  /* =======================================================
+     ★ 수정 5
+     일정별 그룹 저장
+     saveScheduleGroups
+     → saveJeonsidaeScheduleGroups
+  ======================================================== */
+
+  async function saveScheduleGroups(
+    key,
+    data
+  ){
+
+    return postJson({
+
+      action:
+        "saveJeonsidaeScheduleGroups",
+
+      key:
+        key,
+
+      scheduleKey:
+        key,
+
+      groups:
+        data
+
+    });
+
+  }
+
 
   async function openAdmin(key){
-    const s=getSchedule(key);if(!s)return;currentAdminScheduleKey=key;selectedApplicant=null;
-    const selector=document.getElementById("adminScheduleSelector"),detail=document.getElementById("adminScheduleDetail");selector.style.display="none";detail.style.display="block";detail.innerHTML="";setLegacyVisible("admin",true);
-    detail.appendChild(detailHeader(s,closeAdmin));
-    const body=document.createElement("div");body.className="admin-section";
-    body.innerHTML='<div class="admin-count" id="recentAdminCount">미배정 신청자 0명</div><div class="admin-names" id="recentAdminNames"><div class="name-loading">신청자를 불러오는 중입니다.</div></div><div style="display:flex;justify-content:flex-end;margin-bottom:15px"><button class="admin-add-button" id="recentAdminAdd">+ 추가</button></div><div class="group-controls"><button class="add-group-button" id="recentAdminGroup">+ 봉사 그룹 추가</button></div><div class="groups" id="recentGroups"></div>';
-    detail.appendChild(body);
-    const [names,gs]=await Promise.all([loadScheduleApplicants(key),loadScheduleGroups(key)]);
-    applicants=names;groups=gs;renderRecentAdmin();
-    document.getElementById("recentAdminAdd").onclick=async function(){const n=prompt("추가할 봉사자의 이름을 입력해 주세요.");if(!n||!n.trim())return;const name=n.trim();if(!applicants.includes(name))applicants.push(name);sortNames(applicants);await saveScheduleApplicants(key,applicants);renderRecentAdmin();};
-    document.getElementById("recentAdminGroup").onclick=async function(){groups.unshift(["","","","","","","", "유타몰"]);await saveScheduleGroups(key,groups);renderRecentAdmin();};
+
+    const s =
+      getSchedule(key);
+
+    if(!s)
+      return;
+
+
+    currentAdminScheduleKey =
+      key;
+
+
+    selectedApplicant =
+      null;
+
+
+    const selector =
+      document.getElementById(
+        "adminScheduleSelector"
+      );
+
+    const detail =
+      document.getElementById(
+        "adminScheduleDetail"
+      );
+
+
+    selector.style.display =
+      "none";
+
+    detail.style.display =
+      "block";
+
+    detail.innerHTML =
+      "";
+
+
+    setLegacyVisible(
+      "admin",
+      true
+    );
+
+
+    detail.appendChild(
+      detailHeader(
+        s,
+        closeAdmin
+      )
+    );
+
+
+    const body =
+      document.createElement(
+        "div"
+      );
+
+
+    body.className =
+      "admin-section";
+
+
+    body.innerHTML =
+      '<div class="admin-count" id="recentAdminCount">' +
+      '미배정 신청자 0명' +
+      '</div>' +
+
+      '<div class="admin-names" id="recentAdminNames">' +
+      '<div class="name-loading">' +
+      '신청자를 불러오는 중입니다.' +
+      '</div>' +
+      '</div>' +
+
+      '<div style="display:flex;justify-content:flex-end;margin-bottom:15px">' +
+      '<button class="admin-add-button" id="recentAdminAdd">' +
+      '+ 추가' +
+      '</button>' +
+      '</div>' +
+
+      '<div class="group-controls">' +
+      '<button class="add-group-button" id="recentAdminGroup">' +
+      '+ 봉사 그룹 추가' +
+      '</button>' +
+      '</div>' +
+
+      '<div class="groups" id="recentGroups"></div>';
+
+
+    detail.appendChild(
+      body
+    );
+
+
+    const [
+      names,
+      gs
+    ] =
+      await Promise.all([
+        loadScheduleApplicants(
+          key
+        ),
+        loadScheduleGroups(
+          key
+        )
+      ]);
+
+
+    applicants =
+      names;
+
+
+    groups =
+      gs;
+
+
+    renderRecentAdmin();
+
+
+    document
+      .getElementById(
+        "recentAdminAdd"
+      )
+      .onclick =
+        async function(){
+
+          const n =
+            prompt(
+              "추가할 봉사자의 이름을 입력해 주세요."
+            );
+
+
+          if(
+            !n ||
+            !n.trim()
+          )
+            return;
+
+
+          const name =
+            n.trim();
+
+
+          if(
+            !applicants.includes(
+              name
+            )
+          ){
+
+            applicants.push(
+              name
+            );
+
+          }
+
+
+          sortNames(
+            applicants
+          );
+
+
+          await saveScheduleApplicants(
+            key,
+            applicants
+          );
+
+
+          renderRecentAdmin();
+
+        };
+
+
+    document
+      .getElementById(
+        "recentAdminGroup"
+      )
+      .onclick =
+        async function(){
+
+          groups.unshift([
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "유타몰"
+          ]);
+
+
+          await saveScheduleGroups(
+            key,
+            groups
+          );
+
+
+          renderRecentAdmin();
+
+        };
+
   }
-  function closeAdmin(){currentAdminScheduleKey=null;const selector=document.getElementById("adminScheduleSelector"),detail=document.getElementById("adminScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("admin",false);}
+
+
+  function closeAdmin(){
+
+    currentAdminScheduleKey =
+      null;
+
+
+    const selector =
+      document.getElementById(
+        "adminScheduleSelector"
+      );
+
+    const detail =
+      document.getElementById(
+        "adminScheduleDetail"
+      );
+
+
+    selector.style.display =
+      "block";
+
+
+    detail.style.display =
+      "none";
+
+
+    detail.innerHTML =
+      "";
+
+
+    setLegacyVisible(
+      "admin",
+      false
+    );
+
+  }
+
+
   function renderRecentAdmin(){
-    const count=document.getElementById("recentAdminCount"),namesBox=document.getElementById("recentAdminNames"),box=document.getElementById("recentGroups");if(!count||!namesBox||!box)return;
-    const assigned=new Set();groups.forEach(g=>g.slice(0,7).forEach(n=>{if(n)assigned.add(n);}));const un=applicants.filter(n=>!assigned.has(n));sortNames(un);count.textContent="미배정 신청자 "+un.length+"명";namesBox.innerHTML="";
-    un.forEach(n=>{const b=document.createElement("button");b.type="button";b.className="admin-name";b.textContent=n;b.onclick=function(){selectedApplicant=selectedApplicant===n?null:n;renderRecentAdmin();};if(selectedApplicant===n)b.classList.add("selected");namesBox.appendChild(b);});
-    box.innerHTML="";groups.forEach((g,gi)=>{const card=document.createElement("div");card.className="group-card";const h=document.createElement("div");h.className="group-header";const title=document.createElement("select");title.className="group-title";["유타몰","성북천(보문2교-아래)","성북천(보문2교-위)","성북구청(광장)","보문역(주변)","성신여대(주변)","성북천(하늘다리)","성북천(바람마당교)","성북천(분수대)","성북천(용문교)","가두 증거"].forEach(loc=>{const o=document.createElement("option");o.value=loc;o.textContent=loc;title.appendChild(o);});title.value=g[7]||"유타몰";title.onchange=async function(){g[7]=title.value;await saveScheduleGroups(currentAdminScheduleKey,groups);};
-      const del=document.createElement("button");del.type="button";del.className="group-action";del.textContent="삭제";del.onclick=async function(){groups.splice(gi,1);await saveScheduleGroups(currentAdminScheduleKey,groups);renderRecentAdmin();};h.append(title,del);card.appendChild(h);
-      const slots=document.createElement("div");slots.className="group-slots";for(let si=0;si<7;si++){const b=document.createElement("button");b.type="button";b.className="group-slot "+(g[si]?"filled":"empty");b.textContent=g[si]||"빈 자리";b.onclick=async function(){if(g[si]){g[si]="";selectedApplicant=null;}else if(selectedApplicant){groups.forEach(x=>{for(let j=0;j<7;j++)if(x[j]===selectedApplicant)x[j]="";});g[si]=selectedApplicant;selectedApplicant=null;}else{alert("먼저 위에서 봉사자 이름을 선택해 주세요.");return;}await saveScheduleGroups(currentAdminScheduleKey,groups);renderRecentAdmin();};slots.appendChild(b);}card.appendChild(slots);box.appendChild(card);});
+
+    const count =
+      document.getElementById(
+        "recentAdminCount"
+      );
+
+    const namesBox =
+      document.getElementById(
+        "recentAdminNames"
+      );
+
+    const box =
+      document.getElementById(
+        "recentGroups"
+      );
+
+
+    if(
+      !count ||
+      !namesBox ||
+      !box
+    )
+      return;
+
+
+    const assigned =
+      new Set();
+
+
+    groups.forEach(
+      function(g){
+
+        g.slice(0,7)
+          .forEach(
+            function(n){
+
+              if(n)
+                assigned.add(n);
+
+            }
+          );
+
+      }
+    );
+
+
+    const un =
+      applicants.filter(
+        function(n){
+
+          return !assigned.has(
+            n
+          );
+
+        }
+      );
+
+
+    sortNames(
+      un
+    );
+
+
+    count.textContent =
+      "미배정 신청자 " +
+      un.length +
+      "명";
+
+
+    namesBox.innerHTML =
+      "";
+
+
+    if(!un.length){
+
+      namesBox.innerHTML =
+        '<div class="name-loading" style="grid-column:1/-1">' +
+        '미배정 신청자가 없습니다.' +
+        '</div>';
+
+    }
+
+
+    un.forEach(
+      function(n){
+
+        const b =
+          document.createElement(
+            "button"
+          );
+
+
+        b.type =
+          "button";
+
+        b.className =
+          "admin-name";
+
+        b.textContent =
+          n;
+
+
+        b.onclick =
+          function(){
+
+            selectedApplicant =
+              selectedApplicant ===
+                n
+                ? null
+                : n;
+
+
+            renderRecentAdmin();
+
+          };
+
+
+        if(
+          selectedApplicant ===
+          n
+        ){
+
+          b.classList.add(
+            "selected"
+          );
+
+        }
+
+
+        namesBox.appendChild(
+          b
+        );
+
+      }
+    );
+
+
+    box.innerHTML =
+      "";
+
+
+    groups.forEach(
+      function(
+        g,
+        gi
+      ){
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "group-card";
+
+
+        const h =
+          document.createElement(
+            "div"
+          );
+
+
+        h.className =
+          "group-header";
+
+
+        const title =
+          document.createElement(
+            "select"
+          );
+
+
+        title.className =
+          "group-title";
+
+
+        [
+          "유타몰",
+          "성북천(보문2교-아래)",
+          "성북천(보문2교-위)",
+          "성북구청(광장)",
+          "보문역(주변)",
+          "성신여대(주변)",
+          "성북천(하늘다리)",
+          "성북천(바람마당교)",
+          "성북천(분수대)",
+          "성북천(용문교)",
+          "가두 증거"
+        ].forEach(
+          function(loc){
+
+            const o =
+              document.createElement(
+                "option"
+              );
+
+
+            o.value =
+              loc;
+
+            o.textContent =
+              loc;
+
+
+            title.appendChild(
+              o
+            );
+
+          }
+        );
+
+
+        title.value =
+          g[7] ||
+          "유타몰";
+
+
+        title.onchange =
+          async function(){
+
+            g[7] =
+              title.value;
+
+
+            await saveScheduleGroups(
+              currentAdminScheduleKey,
+              groups
+            );
+
+          };
+
+
+        const del =
+          document.createElement(
+            "button"
+          );
+
+
+        del.type =
+          "button";
+
+        del.className =
+          "group-action";
+
+        del.textContent =
+          "삭제";
+
+
+        del.onclick =
+          async function(){
+
+            groups.splice(
+              gi,
+              1
+            );
+
+
+            await saveScheduleGroups(
+              currentAdminScheduleKey,
+              groups
+            );
+
+
+            renderRecentAdmin();
+
+          };
+
+
+        h.append(
+          title,
+          del
+        );
+
+
+        card.appendChild(
+          h
+        );
+
+
+        const slots =
+          document.createElement(
+            "div"
+          );
+
+
+        slots.className =
+          "group-slots";
+
+
+        for(
+          let si = 0;
+          si < 7;
+          si++
+        ){
+
+          const b =
+            document.createElement(
+              "button"
+            );
+
+
+          b.type =
+            "button";
+
+
+          b.className =
+            "group-slot " +
+            (
+              g[si]
+                ? "filled"
+                : "empty"
+            );
+
+
+          b.textContent =
+            g[si] ||
+            "빈 자리";
+
+
+          b.onclick =
+            async function(){
+
+              if(
+                g[si]
+              ){
+
+                g[si] =
+                  "";
+
+                selectedApplicant =
+                  null;
+
+              }else if(
+                selectedApplicant
+              ){
+
+                groups.forEach(
+                  function(x){
+
+                    for(
+                      let j=0;
+                      j<7;
+                      j++
+                    ){
+
+                      if(
+                        x[j] ===
+                        selectedApplicant
+                      ){
+
+                        x[j] =
+                          "";
+
+                      }
+
+                    }
+
+                  }
+                );
+
+
+                g[si] =
+                  selectedApplicant;
+
+
+                selectedApplicant =
+                  null;
+
+              }else{
+
+                alert(
+                  "먼저 위에서 봉사자 이름을 선택해 주세요."
+                );
+
+                return;
+
+              }
+
+
+              await saveScheduleGroups(
+                currentAdminScheduleKey,
+                groups
+              );
+
+
+              renderRecentAdmin();
+
+            };
+
+
+          slots.appendChild(
+            b
+          );
+
+        }
+
+
+        card.appendChild(
+          slots
+        );
+
+
+        box.appendChild(
+          card
+        );
+
+      }
+    );
+
   }
+
 
   async function openAppoint(key){
-    const s=getSchedule(key);if(!s)return;currentAppointScheduleKey=key;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="none";detail.style.display="block";detail.innerHTML="";setLegacyVisible("appoint",true);detail.appendChild(detailHeader(s,closeAppoint));const list=document.createElement("div");list.className="appoint-list";list.innerHTML='<div class="appoint-empty">임명된 그룹을 불러오는 중입니다.</div>';detail.appendChild(list);const gs=await loadScheduleGroups(key);list.innerHTML="";const visible=gs.filter(g=>g.slice(0,7).some(Boolean));if(!visible.length){list.innerHTML='<div class="appoint-empty">아직 임명된 그룹이 없습니다.</div>';return;}gs.forEach((g,i)=>{if(!g.slice(0,7).some(Boolean))return;const card=document.createElement("div");card.className="appoint-card";const title=document.createElement("div");title.className="appoint-title";title.textContent=g[7]||"유타몰";const members=document.createElement("div");members.className="appoint-members";g.slice(0,7).forEach(n=>{const p=document.createElement("div");p.className="appoint-person "+(n?"filled":"");p.textContent=n||"빈 자리";members.appendChild(p);});card.append(title,members);list.appendChild(card);}); }
-  function closeAppoint(){currentAppointScheduleKey=null;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("appoint",false);}
 
-  function makeTimeOptions(sel,selected){for(let h=10;h<=17;h++){for(let m=0;m<60;m+=10){if(h===17&&m>0)continue;const v=pad(h)+":"+pad(m),o=document.createElement("option");o.value=v;o.textContent=fmtTime(v);if(v===selected)o.selected=true;sel.appendChild(o);}}}
-  function addHoursToTime(value, hours){
-    const m=String(value||"").match(/^(\d{1,2}):(\d{2})$/);
-    if(!m) return "";
-    const total=Number(m[1])*60+Number(m[2])+hours*60;
-    const h=Math.floor(total/60), min=total%60;
-    return pad(h)+":"+pad(min);
+    const s =
+      getSchedule(key);
+
+    if(!s)
+      return;
+
+
+    currentAppointScheduleKey =
+      key;
+
+
+    const selector =
+      document.getElementById(
+        "appointScheduleSelector"
+      );
+
+    const detail =
+      document.getElementById(
+        "appointScheduleDetail"
+      );
+
+
+    selector.style.display =
+      "none";
+
+
+    detail.style.display =
+      "block";
+
+
+    detail.innerHTML =
+      "";
+
+
+    setLegacyVisible(
+      "appoint",
+      true
+    );
+
+
+    detail.appendChild(
+      detailHeader(
+        s,
+        closeAppoint
+      )
+    );
+
+
+    const list =
+      document.createElement(
+        "div"
+      );
+
+
+    list.className =
+      "appoint-list";
+
+
+    list.innerHTML =
+      '<div class="appoint-empty">' +
+      '임명된 그룹을 불러오는 중입니다.' +
+      '</div>';
+
+
+    detail.appendChild(
+      list
+    );
+
+
+    const gs =
+      await loadScheduleGroups(
+        key
+      );
+
+
+    list.innerHTML =
+      "";
+
+
+    const visible =
+      gs.filter(
+        function(g){
+
+          return g
+            .slice(0,7)
+            .some(Boolean);
+
+        }
+      );
+
+
+    if(!visible.length){
+
+      list.innerHTML =
+        '<div class="appoint-empty">' +
+        '아직 임명된 그룹이 없습니다.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    gs.forEach(
+      function(
+        g,
+        i
+      ){
+
+        if(
+          !g
+            .slice(0,7)
+            .some(Boolean)
+        )
+          return;
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "appoint-card";
+
+
+        const title =
+          document.createElement(
+            "div"
+          );
+
+
+        title.className =
+          "appoint-title";
+
+
+        title.textContent =
+          g[7] ||
+          "유타몰";
+
+
+        const members =
+          document.createElement(
+            "div"
+          );
+
+
+        members.className =
+          "appoint-members";
+
+
+        g.slice(0,7)
+          .forEach(
+            function(n){
+
+              const p =
+                document.createElement(
+                  "div"
+                );
+
+
+              p.className =
+                "appoint-person " +
+                (
+                  n
+                    ? "filled"
+                    : ""
+                );
+
+
+              p.textContent =
+                n ||
+                "빈 자리";
+
+
+              members.appendChild(
+                p
+              );
+
+            }
+          );
+
+
+        card.append(
+          title,
+          members
+        );
+
+
+        list.appendChild(
+          card
+        );
+
+      }
+    );
+
   }
+
+
+  function closeAppoint(){
+
+    currentAppointScheduleKey =
+      null;
+
+
+    const selector =
+      document.getElementById(
+        "appointScheduleSelector"
+      );
+
+    const detail =
+      document.getElementById(
+        "appointScheduleDetail"
+      );
+
+
+    selector.style.display =
+      "block";
+
+
+    detail.style.display =
+      "none";
+
+
+    detail.innerHTML =
+      "";
+
+
+    setLegacyVisible(
+      "appoint",
+      false
+    );
+
+  }
+
+
+  function makeTimeOptions(
+    sel,
+    selected
+  ){
+
+    for(
+      let h=10;
+      h<=17;
+      h++
+    ){
+
+      for(
+        let m=0;
+        m<60;
+        m+=10
+      ){
+
+        if(
+          h===17 &&
+          m>0
+        )
+          continue;
+
+
+        const v =
+          pad(h) +
+          ":" +
+          pad(m);
+
+
+        const o =
+          document.createElement(
+            "option"
+          );
+
+
+        o.value =
+          v;
+
+
+        o.textContent =
+          fmtTime(v);
+
+
+        if(
+          v ===
+          selected
+        ){
+
+          o.selected =
+            true;
+
+        }
+
+
+        sel.appendChild(
+          o
+        );
+
+      }
+
+    }
+
+  }
+
+
+  function addHoursToTime(
+    value,
+    hours
+  ){
+
+    const m =
+      String(value || "")
+        .match(
+          /^(\d{1,2}):(\d{2})$/
+        );
+
+
+    if(!m)
+      return "";
+
+
+    const total =
+      Number(m[1]) * 60 +
+      Number(m[2]) +
+      hours * 60;
+
+
+    const h =
+      Math.floor(
+        total / 60
+      );
+
+
+    const min =
+      total % 60;
+
+
+    return pad(h) +
+      ":" +
+      pad(min);
+
+  }
+
 
   function showExtraEditor(){
-    if(schedules.filter(s=>!s.fixed).length>=3){alert("추가 일정은 최대 3개까지 만들 수 있습니다.");return;}
-    const used=new Set(schedules.map(s=>s.key));const key=ALL_KEYS.slice(3).find(k=>!used.has(k));if(!key)return;
-    const wrap=document.createElement("div");wrap.className="schedule-editor";wrap.id="recentScheduleEditor";
-    const d=nextSaturday();d.setDate(d.getDate()+7);
-    const today=dateInput(new Date());
-    wrap.innerHTML='<div class="schedule-editor-grid">'+
-      '<label>봉사 날짜<input type="date" id="recentExtraDate" value="'+dateInput(d)+'"></label>'+
-      '<label>시작 시간<select id="recentExtraStart"></select></label>'+
-      '<label>신청 시작일<input type="date" id="recentExtraApplicationStart" value="'+today+'"></label>'+
-      '<label>신청 마감일<input type="date" id="recentExtraApplicationEnd" value="'+dateInput(d)+'"></label>'+
-      '</div><div class="schedule-editor-actions"><button type="button" id="recentExtraCancel">취소</button><button type="button" id="recentExtraSave">저장</button></div>';
-    document.getElementById("adminScheduleSelector").appendChild(wrap);
-    makeTimeOptions(document.getElementById("recentExtraStart"),"10:00");
-    document.getElementById("recentExtraCancel").onclick=function(){wrap.remove();};
-    document.getElementById("recentExtraSave").onclick=async function(){
-      const date=document.getElementById("recentExtraDate").value;
-      const start=document.getElementById("recentExtraStart").value;
-      const applicationStart=document.getElementById("recentExtraApplicationStart").value;
-      const applicationEnd=document.getElementById("recentExtraApplicationEnd").value;
-      const end=addHoursToTime(start,2);
-      if(!date||!start||!applicationStart||!applicationEnd){alert("날짜와 시간을 모두 입력해 주세요.");return;}
-      if(applicationEnd<applicationStart){alert("신청 마감일은 신청 시작일보다 빠를 수 없습니다.");return;}
-      if(applicationEnd>date){
-        if(!confirm("신청 마감일이 봉사 날짜보다 늦습니다. 이 날짜로 저장하시겠습니까?"))return;
-      }
-      try{
-        await postJson({
-          action:"saveSchedule",
-          key:key,
-          scheduleKey:key,
-          label:key,
-          serviceDate:date,
-          startTime:start,
-          endTime:end,
-          serviceTime:fmtRange(start,end),
-          applicationStart:applicationStart,
-          applicationEnd:applicationEnd,
-          applySheet:"신청용 "+key,
-          manageSheet:"관리용 "+key
-        });
-        const saved=normalize({
-          key:key,label:key,serviceDate:date,startTime:start,endTime:end,
-          applicationStart:applicationStart,applicationEnd:applicationEnd,
-          applySheet:"신청용 "+key,manageSheet:"관리용 "+key
-        });
-        schedules=schedules.filter(s=>s.key!==key);
-        schedules.push(saved);
-        schedules.sort(order);
-        saveLocal();
-        renderLists();
-        wrap.remove();
-        alert(key+" 일정이 저장되었습니다. 신청 탭에 바로 반영됩니다.");
-      }catch(e){console.error(e);alert("일정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}
-    };
+
+    if(
+      schedules.filter(
+        function(s){
+          return !s.fixed;
+        }
+      ).length >= 3
+    ){
+
+      alert(
+        "추가 일정은 최대 3개까지 만들 수 있습니다."
+      );
+
+      return;
+
+    }
+
+
+    const used =
+      new Set(
+        schedules.map(
+          function(s){
+            return s.key;
+          }
+        )
+      );
+
+
+    const key =
+      ALL_KEYS
+        .slice(3)
+        .find(
+          function(k){
+            return !used.has(k);
+          }
+        );
+
+
+    if(!key)
+      return;
+
+
+    const wrap =
+      document.createElement(
+        "div"
+      );
+
+
+    wrap.className =
+      "schedule-editor";
+
+
+    wrap.id =
+      "recentScheduleEditor";
+
+
+    const d =
+      nextSaturday();
+
+
+    d.setDate(
+      d.getDate() + 7
+    );
+
+
+    const today =
+      dateInput(
+        new Date()
+      );
+
+
+    wrap.innerHTML =
+      '<div class="schedule-editor-grid">' +
+
+      '<label>봉사 날짜' +
+      '<input type="date" id="recentExtraDate" value="' +
+      dateInput(d) +
+      '">' +
+      '</label>' +
+
+      '<label>시작 시간' +
+      '<select id="recentExtraStart"></select>' +
+      '</label>' +
+
+      '<label>신청 시작일' +
+      '<input type="date" id="recentExtraApplicationStart" value="' +
+      today +
+      '">' +
+      '</label>' +
+
+      '<label>신청 마감일' +
+      '<input type="date" id="recentExtraApplicationEnd" value="' +
+      dateInput(d) +
+      '">' +
+      '</label>' +
+
+      '</div>' +
+
+      '<div class="schedule-editor-actions">' +
+
+      '<button type="button" id="recentExtraCancel">' +
+      '취소' +
+      '</button>' +
+
+      '<button type="button" id="recentExtraSave">' +
+      '저장' +
+      '</button>' +
+
+      '</div>';
+
+
+    document
+      .getElementById(
+        "adminScheduleSelector"
+      )
+      .appendChild(
+        wrap
+      );
+
+
+    makeTimeOptions(
+      document.getElementById(
+        "recentExtraStart"
+      ),
+      "10:00"
+    );
+
+
+    document
+      .getElementById(
+        "recentExtraCancel"
+      )
+      .onclick =
+        function(){
+
+          wrap.remove();
+
+        };
+
+
+    document
+      .getElementById(
+        "recentExtraSave"
+      )
+      .onclick =
+        async function(){
+
+          const date =
+            document.getElementById(
+              "recentExtraDate"
+            ).value;
+
+
+          const start =
+            document.getElementById(
+              "recentExtraStart"
+            ).value;
+
+
+          const applicationStart =
+            document.getElementById(
+              "recentExtraApplicationStart"
+            ).value;
+
+
+          const applicationEnd =
+            document.getElementById(
+              "recentExtraApplicationEnd"
+            ).value;
+
+
+          const end =
+            addHoursToTime(
+              start,
+              2
+            );
+
+
+          if(
+            !date ||
+            !start ||
+            !applicationStart ||
+            !applicationEnd
+          ){
+
+            alert(
+              "날짜와 시간을 모두 입력해 주세요."
+            );
+
+            return;
+
+          }
+
+
+          if(
+            applicationEnd <
+            applicationStart
+          ){
+
+            alert(
+              "신청 마감일은 신청 시작일보다 빠를 수 없습니다."
+            );
+
+            return;
+
+          }
+
+
+          if(
+            applicationEnd >
+            date
+          ){
+
+            if(
+              !confirm(
+                "신청 마감일이 봉사 날짜보다 늦습니다. 이 날짜로 저장하시겠습니까?"
+              )
+            )
+              return;
+
+          }
+
+
+          try{
+
+            /* =================================================
+               ★ 수정 6
+               추가 일정 저장
+               saveSchedule
+               → saveJeonsidaeExtraSchedule
+            ================================================= */
+
+            await postJson({
+
+              action:
+                "saveJeonsidaeExtraSchedule",
+
+              key:
+                key,
+
+              scheduleKey:
+                key,
+
+              label:
+                key,
+
+              serviceDate:
+                date,
+
+              startTime:
+                start,
+
+              endTime:
+                end,
+
+              serviceTime:
+                fmtRange(
+                  start,
+                  end
+                ),
+
+              applicationStart:
+                applicationStart,
+
+              applicationEnd:
+                applicationEnd,
+
+              applySheet:
+                "신청용 " +
+                key,
+
+              manageSheet:
+                "관리용 " +
+                key
+
+            });
+
+
+            const saved =
+              normalize({
+
+                key:
+                  key,
+
+                label:
+                  key,
+
+                serviceDate:
+                  date,
+
+                startTime:
+                  start,
+
+                endTime:
+                  end,
+
+                applicationStart:
+                  applicationStart,
+
+                applicationEnd:
+                  applicationEnd,
+
+                applySheet:
+                  "신청용 " +
+                  key,
+
+                manageSheet:
+                  "관리용 " +
+                  key
+
+              });
+
+
+            schedules =
+              schedules.filter(
+                function(s){
+
+                  return s.key !==
+                    key;
+
+                }
+              );
+
+
+            schedules.push(
+              saved
+            );
+
+
+            schedules.sort(
+              order
+            );
+
+
+            saveLocal();
+
+            renderLists();
+
+            wrap.remove();
+
+
+            alert(
+              key +
+              " 일정이 저장되었습니다. 신청 탭에 바로 반영됩니다."
+            );
+
+
+          }catch(e){
+
+            console.error(e);
+
+
+            alert(
+              "일정 저장에 실패했습니다.\n" +
+              "잠시 후 다시 시도해 주세요."
+            );
+
+          }
+
+        };
+
   }
-  async function deleteExtra(key){
-    const s=getSchedule(key);if(!s||s.fixed)return;if(!confirm(s.label+" 일정을 삭제하시겠습니까?\n해당 일정의 신청자와 관리 데이터도 함께 초기화됩니다."))return;
-    try{await postJson({action:"deleteSchedule",key:key,scheduleKey:key});}catch(e){console.error(e);}
-    schedules=schedules.filter(x=>x.key!==key);saveLocal();const m=getApplyMap();delete m[key];setApplyMap(m);renderLists();alert(s.label+" 일정이 삭제되었습니다.");
+
+
+  async function deleteExtra(
+    key
+  ){
+
+    const s =
+      getSchedule(key);
+
+
+    if(
+      !s ||
+      s.fixed
+    )
+      return;
+
+
+    if(
+      !confirm(
+        s.label +
+        " 일정을 삭제하시겠습니까?\n" +
+        "해당 일정의 신청자와 관리 데이터도 함께 초기화됩니다."
+      )
+    )
+      return;
+
+
+    /*
+      현재 사용 중인 Apps Script에는
+      deleteSchedule 요청이 없으므로
+      여기서는 서버에 존재하지 않는 action을
+      보내지 않습니다.
+
+      일정 삭제를 서버까지 완전히 처리하려면
+      Apps Script에 삭제 action이 별도로 필요합니다.
+    */
+
+
+    schedules =
+      schedules.filter(
+        function(x){
+
+          return x.key !==
+            key;
+
+        }
+      );
+
+
+    saveLocal();
+
+
+    const m =
+      getApplyMap();
+
+
+    delete m[key];
+
+
+    setApplyMap(
+      m
+    );
+
+
+    renderLists();
+
+
+    alert(
+      s.label +
+      " 일정이 화면에서 삭제되었습니다."
+    );
+
   }
+
 
   function init(){
-    legacyShowView=window.showView;
-    const apply=sectionElement("apply"), appoint=sectionElement("appoint"), admin=sectionElement("admin");
-    if(!apply||!appoint||!admin)return;
-    makeSelector("apply","봉사 일정을 선택해 주세요",false,false);
-    makeSelector("appoint","봉사 일정을 선택해 주세요",false,false);
-    makeSelector("admin","봉사 일정을 선택해 주세요",true,true);
-    showList("apply");showList("appoint");showList("admin");
+
+    legacyShowView =
+      window.showView;
+
+
+    const apply =
+      sectionElement(
+        "apply"
+      );
+
+    const appoint =
+      sectionElement(
+        "appoint"
+      );
+
+    const admin =
+      sectionElement(
+        "admin"
+      );
+
+
+    if(
+      !apply ||
+      !appoint ||
+      !admin
+    )
+      return;
+
+
+    makeSelector(
+      "apply",
+      "봉사 일정을 선택해 주세요",
+      false,
+      false
+    );
+
+
+    makeSelector(
+      "appoint",
+      "봉사 일정을 선택해 주세요",
+      false,
+      false
+    );
+
+
+    makeSelector(
+      "admin",
+      "봉사 일정을 선택해 주세요",
+      true,
+      true
+    );
+
+
+    showList(
+      "apply"
+    );
+
+    showList(
+      "appoint"
+    );
+
+    showList(
+      "admin"
+    );
+
+
     loadSchedules();
 
-    window.showView=function(view){
-      if(view==="admin" && !adminAuthenticated){
-        const saved=localStorage.getItem(ADMIN_PASSWORD_KEY);if(saved===ADMIN_PASSWORD)adminAuthenticated=true;else{showAdminLogin();return;}
-      }
-      currentView=view;
-      document.querySelectorAll(".view").forEach(e=>e.classList.remove("active"));document.querySelectorAll(".nav-button").forEach(e=>e.classList.remove("active"));
-      const ve=document.getElementById(view+"View");if(ve)ve.classList.add("active");const ne=document.getElementById("nav"+view.charAt(0).toUpperCase()+view.slice(1));if(ne)ne.classList.add("active");
-      document.getElementById("topTitle").textContent="전시대";window.scrollTo(0,0);
-      if(view==="apply")closeApply();
-      if(view==="appoint")closeAppoint();
-      if(view==="admin")closeAdmin();
-    };
-    window.getMySelections=function(){const m=getApplyMap();return currentApplyScheduleKey&&Array.isArray(m[currentApplyScheduleKey])?m[currentApplyScheduleKey].slice():[];};
-    window.saveMySelections=function(list){const m=getApplyMap();if(currentApplyScheduleKey)m[currentApplyScheduleKey]=Array.isArray(list)?list.slice():[];setApplyMap(m);};
-    const oldToggle=window.toggleSelection;
-    window.toggleSelection=function(name){if(currentApplyScheduleKey){let a=window.getMySelections();const i=a.indexOf(name);if(i>=0)a.splice(i,1);else a.push(name);sortNames(a);window.saveMySelections(a);currentSelections=a;renderApplyNames();return;}return oldToggle(name);};
+
+    window.showView =
+      function(view){
+
+        if(
+          view === "admin" &&
+          !adminAuthenticated
+        ){
+
+          const saved =
+            localStorage.getItem(
+              ADMIN_PASSWORD_KEY
+            );
+
+
+          if(
+            saved ===
+            ADMIN_PASSWORD
+          ){
+
+            adminAuthenticated =
+              true;
+
+          }else{
+
+            showAdminLogin();
+
+            return;
+
+          }
+
+        }
+
+
+        currentView =
+          view;
+
+
+        document
+          .querySelectorAll(
+            ".view"
+          )
+          .forEach(
+            function(e){
+
+              e.classList.remove(
+                "active"
+              );
+
+            }
+          );
+
+
+        document
+          .querySelectorAll(
+            ".nav-button"
+          )
+          .forEach(
+            function(e){
+
+              e.classList.remove(
+                "active"
+              );
+
+            }
+          );
+
+
+        const ve =
+          document.getElementById(
+            view +
+            "View"
+          );
+
+
+        if(ve){
+
+          ve.classList.add(
+            "active"
+          );
+
+        }
+
+
+        const ne =
+          document.getElementById(
+            "nav" +
+            view.charAt(0)
+              .toUpperCase() +
+            view.slice(1)
+          );
+
+
+        if(ne){
+
+          ne.classList.add(
+            "active"
+          );
+
+        }
+
+
+        document
+          .getElementById(
+            "topTitle"
+          )
+          .textContent =
+            "전시대";
+
+
+        window.scrollTo(
+          0,
+          0
+        );
+
+
+        if(
+          view ===
+          "apply"
+        ){
+
+          closeApply();
+
+        }
+
+
+        if(
+          view ===
+          "appoint"
+        ){
+
+          closeAppoint();
+
+        }
+
+
+        if(
+          view ===
+          "admin"
+        ){
+
+          closeAdmin();
+
+        }
+
+      };
+
+
+    window.getMySelections =
+      function(){
+
+        const m =
+          getApplyMap();
+
+
+        return currentApplyScheduleKey &&
+          Array.isArray(
+            m[
+              currentApplyScheduleKey
+            ]
+          )
+            ? m[
+                currentApplyScheduleKey
+              ].slice()
+            : [];
+
+      };
+
+
+    window.saveMySelections =
+      function(list){
+
+        const m =
+          getApplyMap();
+
+
+        if(
+          currentApplyScheduleKey
+        ){
+
+          m[
+            currentApplyScheduleKey
+          ] =
+            Array.isArray(list)
+              ? list.slice()
+              : [];
+
+        }
+
+
+        setApplyMap(
+          m
+        );
+
+      };
+
+
+    const oldToggle =
+      window.toggleSelection;
+
+
+    window.toggleSelection =
+      function(name){
+
+        if(
+          currentApplyScheduleKey
+        ){
+
+          let a =
+            window.getMySelections();
+
+
+          const i =
+            a.indexOf(
+              name
+            );
+
+
+          if(i >= 0){
+
+            a.splice(
+              i,
+              1
+            );
+
+          }else{
+
+            a.push(
+              name
+            );
+
+          }
+
+
+          sortNames(
+            a
+          );
+
+
+          window.saveMySelections(
+            a
+          );
+
+
+          currentSelections =
+            a;
+
+
+          renderApplyNames();
+
+          return;
+
+        }
+
+
+        return oldToggle(
+          name
+        );
+
+      };
+
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+
+
+  if(
+    document.readyState ===
+    "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
+
+  }else{
+
+    init();
+
+  }
+
 })();
+
 </script>
 
 </body>
