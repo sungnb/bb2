@@ -599,64 +599,59 @@ body.light .current-name {
 
 .admin-names {
   display: grid;
+
   grid-template-columns:
     repeat(3, minmax(0, 1fr));
+
   gap: 8px;
-  margin-bottom: 8px;
+
+  margin-bottom: 18px;
 }
 
 .admin-name {
   min-height: 48px;
-  padding: 6px 8px;
+
+  padding:
+    6px 5px;
+
   border-radius: 9px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.15);
+
+  background:
+    rgba(255,255,255,.08);
+
   color: inherit;
+
   cursor: pointer;
-  font-size: calc(17px * var(--font-scale));
+
+  font-size:
+    calc(17px * var(--font-scale));
+
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
 }
 
 .admin-name.selected {
-  background: #eef5fb;
-  border: 3px solid #3F6F9F;
-  color: #222;
+  background:
+    rgba(111,168,216,.16);
+
+  border:
+    3px solid #6FA8D8;
 }
 
 body.light .admin-name {
   background: #fff;
   border: 1px solid #ddd;
-  color: #222;
 }
 
 body.light .admin-name.selected {
   background: #eef5fb;
-  border: 3px solid #3F6F9F;
+
+  border:
+    3px solid #3F6F9F;
 }
 
-.admin-select-number {
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
-  border-radius: 50%;
-  background: #3F6F9F;
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(12px * var(--font-scale));
-  font-weight: 800;
-}
-
-.admin-add-wrap {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
-}
 
 /* =========================================================
    관리자 직접 추가
@@ -664,13 +659,24 @@ body.light .admin-name.selected {
 
 .admin-add-button {
   min-height: 44px;
-  padding: 7px 13px;
+
+  padding:
+    7px 13px;
+
   border-radius: 9px;
-  border: 1px dashed #4285f4;
+
+  border:
+    1px dashed #4285f4;
+
   background: transparent;
+
   color: #4285f4;
+
   cursor: pointer;
-  font-size: calc(15px * var(--font-scale));
+
+  font-size:
+    calc(15px * var(--font-scale));
+
   font-weight: 700;
 }
 
@@ -678,44 +684,67 @@ body.light .admin-add-button {
   background: #fff;
 }
 
+
 /* =========================================================
    그룹 추가
 ========================================================= */
 
 .group-controls {
   display: flex;
+
   justify-content: center;
+
   margin-bottom: 18px;
 }
 
 .add-group-button {
   width: 100%;
+
   min-height: 48px;
+
   border: 0;
+
   border-radius: 10px;
-  padding: 12px 20px;
+
+  padding:
+    12px 20px;
+
   background: #4285f4;
+
   color: #fff;
-  font-size: calc(16px * var(--font-scale));
+
+  font-size:
+    calc(16px * var(--font-scale));
+
   font-weight: 700;
+
   cursor: pointer;
 }
 
+
 /* =========================================================
-   봉사 그룹
+   그룹
 ========================================================= */
 
 .groups {
   display: flex;
+
   flex-direction: column;
+
   gap: 14px;
 }
 
 .group-card {
-  padding: 15px 14px 16px;
+  padding:
+    15px 14px;
+
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.07);
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    rgba(255,255,255,.07);
 }
 
 body.light .group-card {
@@ -725,160 +754,105 @@ body.light .group-card {
 
 .group-header {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
-  margin-bottom: 12px;
+
+  margin-bottom: 10px;
 }
 
 .group-title {
-  font-size: calc(20px * var(--font-scale));
+  font-size:
+    calc(19px * var(--font-scale));
+
   font-weight: 800;
-  line-height: 1.3;
+
+  line-height:
+    calc(20px * var(--font-scale));
 }
 
 .group-buttons {
   display: flex;
+
   gap: 6px;
 }
 
 .group-action {
   border: 0;
+
   background: transparent;
+
   color: #ff7777;
-  font-size: calc(15px * var(--font-scale));
+
+  font-size:
+    calc(15px * var(--font-scale));
+
   cursor: pointer;
 }
 
-/* =========================================================
-   그룹 설정 : 인원수 / 구역 / 시간
-========================================================= */
-
-.group-setting-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.group-setting-select {
-  width: 100%;
-  min-height: 44px;
-  padding: 6px 8px;
-  border-radius: 9px;
-  border: 1px solid #aaa;
-  background: #fff;
-  color: #222;
-  font-size: calc(15px * var(--font-scale));
-  font-weight: 700;
-  outline: none;
-}
-
-body:not(.light) .group-setting-select {
-  background: #fff;
-  color: #222;
-}
 
 /* =========================================================
-   그룹별 인원 선택
+   그룹 6자리
 ========================================================= */
 
-.group-applicant-title {
-  margin: 4px 0 8px;
-  text-align: center;
-  font-size: calc(17px * var(--font-scale));
-  font-weight: 800;
-}
-
-.group-applicant-grid {
+.group-slots {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
   gap: 8px;
 }
 
-.group-applicant-empty {
-  grid-column: 1 / -1;
-  padding: 18px 10px;
-  text-align: center;
-  color: #999;
-  font-size: calc(15px * var(--font-scale));
-}
-
-/* =========================================================
-   배정 확정
-========================================================= */
-
-.group-confirm-button {
-  width: 100%;
-  min-height: 48px;
-  margin-top: 12px;
-  border: 0;
-  border-radius: 10px;
-  background: #4285f4;
-  color: #fff;
-  font-size: calc(17px * var(--font-scale));
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.group-confirm-button:disabled {
-  background: #9fb8ce;
-  color: #fff;
-  cursor: default;
-  opacity: .9;
-}
-
-/* =========================================================
-   확정된 그룹의 사람 표시
-========================================================= */
-
-.group-members-title {
-  margin: 4px 0 8px;
-  font-size: calc(16px * var(--font-scale));
-  font-weight: 800;
-}
-
-.group-members-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.group-member {
+.group-slot {
   min-height: 46px;
-  padding: 6px 4px;
+
   border-radius: 9px;
-  border: 2px solid #3F6F9F;
-  background: #eef5fb;
-  color: #222;
+
+  border:
+    1px dashed #777;
+
+  background: transparent;
+
+  color: inherit;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   text-align: center;
-  font-size: calc(16px * var(--font-scale));
-  font-weight: 700;
+
+  padding:
+    6px 4px;
+
+  font-size:
+    calc(17px * var(--font-scale));
+
+  font-weight: 600;
+
+  cursor: pointer;
 }
 
-@media (max-width: 600px) {
-  .group-setting-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
+.group-slot.filled {
+  border:
+    3px solid #6FA8D8;
 
-  .admin-names,
-  .group-applicant-grid,
-  .group-members-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
-  }
+  background:
+    rgba(111,168,216,.16);
+}
 
-  .admin-name {
-    min-height: 44px;
-    font-size: calc(16px * var(--font-scale));
-  }
+body.light .group-slot.filled {
+  border:
+    3px solid #3F6F9F;
 
-  .group-applicant-title {
-    font-size: calc(16px * var(--font-scale));
-  }
+  background:
+    #eef5fb;
+}
+
+.group-slot.empty {
+  color: #888;
 }
 
 
@@ -1736,7 +1710,9 @@ body.light .admin-login-input {
       관리자용
     </h1>
 
+
     <div class="admin-section">
+
 
       <div
         class="admin-count"
@@ -1745,28 +1721,62 @@ body.light .admin-login-input {
         미배정 신청자 0명
       </div>
 
+
+      <!-- 미배정 신청자 -->
+
       <div
         class="admin-names"
         id="adminNames"
       >
+
         <div class="name-loading">
           신청자를 불러오는 중입니다.
         </div>
+
       </div>
 
+
+      <!-- 직접 추가 -->
+
+      <div
+        style="
+          display:flex;
+          justify-content:flex-end;
+          margin-bottom:15px;
+        "
+      >
+
+        <button
+          class="admin-add-button"
+          onclick="addManualApplicant()"
+        >
+          + 추가
+        </button>
+
+      </div>
+
+
+      <!-- 그룹 추가 -->
+
       <div class="group-controls">
+
         <button
           class="add-group-button"
           onclick="addGroup()"
         >
           + 봉사 그룹 추가
         </button>
+
       </div>
+
+
+      <!-- 그룹 -->
 
       <div
         class="groups"
         id="groups"
       ></div>
+
 
     </div>
 
@@ -1935,7 +1945,7 @@ let applicants = [];
 
 let groups = [];
 
-let adminSelections = [];
+let selectedApplicant = null;
 
 let currentSelections = [];
 
@@ -2980,15 +2990,585 @@ function renderCurrentApplicants() {
 
 /* =========================================================
    관리자 화면
-   ---------------------------------------------------------
-   1. 인원수 4~7명
-   2. 구역 선택
-   3. 시간 선택 (10분 간격)
-   4. 실제 인원 선택
-   5. 배정 확정
 ========================================================= */
 
-const JEONSI_LOCATIONS = [
+function renderAdmin() {
+
+  const assigned =
+    new Set();
+
+
+  groups.forEach(
+    function(group) {
+
+      group.forEach(
+        function(name) {
+
+          if (name) {
+
+            assigned.add(
+              name
+            );
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  const unassigned =
+    applicants.filter(
+      function(name) {
+
+        return !assigned.has(
+          name
+        );
+
+      }
+    );
+
+
+  sortNames(
+    unassigned
+  );
+
+
+  document
+    .getElementById(
+      "adminCount"
+    )
+    .textContent =
+      "미배정 신청자 " +
+      unassigned.length +
+      "명";
+
+
+  const box =
+    document.getElementById(
+      "adminNames"
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    unassigned.length === 0
+  ) {
+
+    box.innerHTML =
+      '<div class="name-loading" ' +
+      'style="grid-column:1/-1">' +
+      '미배정 신청자가 없습니다.' +
+      '</div>';
+
+  } else {
+
+    unassigned.forEach(
+      function(name) {
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+
+        button.type =
+          "button";
+
+
+        button.className =
+          "admin-name";
+
+
+        if (
+          selectedApplicant ===
+          name
+        ) {
+
+          button.classList.add(
+            "selected"
+          );
+
+        }
+
+
+        button.textContent =
+          name;
+
+
+        button.onclick =
+          function() {
+
+            if (
+              selectedApplicant ===
+              name
+            ) {
+
+              selectedApplicant =
+                null;
+
+            } else {
+
+              selectedApplicant =
+                name;
+
+            }
+
+
+            renderAdmin();
+
+          };
+
+
+        box.appendChild(
+          button
+        );
+
+      }
+    );
+
+  }
+
+
+  renderGroups();
+
+}
+
+
+/* =========================================================
+   관리자 직접 추가
+========================================================= */
+
+async function addManualApplicant() {
+
+  const name =
+    prompt(
+      "추가할 봉사자의 이름을 입력해 주세요."
+    );
+
+
+  if (
+    name === null
+  ) {
+
+    return;
+
+  }
+
+
+  const trimmed =
+    name.trim();
+
+
+  if (!trimmed) {
+
+    alert(
+      "이름을 입력해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    applicants.includes(
+      trimmed
+    )
+  ) {
+
+    alert(
+      "이미 신청자 목록에 있습니다."
+    );
+
+    return;
+
+  }
+
+
+  applicants.push(
+    trimmed
+  );
+
+
+  sortNames(
+    applicants
+  );
+
+
+  selectedApplicant =
+    trimmed;
+
+
+  renderAdmin();
+
+
+  try {
+
+    await postJson(
+      {
+        action:
+          "saveJeonsidaeApplicants",
+
+        applicants:
+          applicants
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   그룹 불러오기
+========================================================= */
+
+async function loadGroups() {
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=groups&t=" +
+        Date.now()
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data.success
+    ) {
+
+      throw new Error(
+        data.message ||
+        "그룹을 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const loaded =
+      Array.isArray(
+        data.groups
+      )
+        ? data.groups
+        : [];
+
+
+    groups =
+      loaded.map(
+        function(group) {
+
+          const result =
+            Array.isArray(group)
+              ? group.slice(0, 6)
+              : [];
+
+
+          while (
+            result.length < 6
+          ) {
+
+            result.push("");
+
+          }
+
+
+          return result;
+
+        }
+      );
+
+
+    renderGroups();
+
+    renderAdmin();
+
+    renderAppoint();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    /*
+      서버 그룹이 아직 없을 경우
+      브라우저 저장값 사용
+    */
+
+    try {
+
+      const saved =
+        localStorage.getItem(
+          GROUP_KEY
+        );
+
+
+      groups =
+        saved
+          ? JSON.parse(saved)
+          : [];
+
+    } catch (
+      storageError
+    ) {
+
+      groups = [];
+
+    }
+
+
+    renderGroups();
+
+    renderAppoint();
+
+  }
+
+}
+
+
+/* =========================================================
+   그룹 저장
+========================================================= */
+
+async function saveGroups() {
+
+  localStorage.setItem(
+    GROUP_KEY,
+    JSON.stringify(
+      groups
+    )
+  );
+
+
+  try {
+
+    await postJson(
+      {
+        action:
+          "saveGroups",
+
+        groups:
+          groups
+      }
+    );
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   그룹 추가
+   ---------------------------------------------------------
+   새 그룹은 항상 맨 위
+========================================================= */
+
+async function addGroup() {
+
+  groups.unshift(
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  );
+
+
+  await saveGroups();
+
+
+  selectedApplicant =
+    null;
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   그룹 삭제
+========================================================= */
+
+async function deleteGroup(
+  index
+) {
+
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹을 삭제하시겠습니까?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  groups.splice(
+    index,
+    1
+  );
+
+
+  selectedApplicant =
+    null;
+
+
+  await saveGroups();
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   그룹 초기화
+========================================================= */
+
+async function resetGroup(
+  index
+) {
+
+  if (
+    !confirm(
+      (index + 1) +
+      "번 그룹의 봉사자를 초기화하시겠습니까?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  groups[index] =
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ];
+
+
+  selectedApplicant =
+    null;
+
+
+  await saveGroups();
+
+
+  renderAdmin();
+
+  renderAppoint();
+
+}
+
+
+/* =========================================================
+   그룹 표시
+========================================================= */
+
+function renderGroups() {
+
+  const box =
+    document.getElementById(
+      "groups"
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  if (
+    groups.length === 0
+  ) {
+
+    box.innerHTML =
+      '<div class="name-loading">' +
+      '아직 만든 봉사 그룹이 없습니다.<br>' +
+      '「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  groups.forEach(
+    function(group, groupIndex) {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "group-card";
+
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+
+      header.className =
+        "group-header";
+
+
+   const title =
+  document.createElement(
+    "select"
+  );
+
+title.className =
+  "group-title";
+
+const locations = [
   "유타몰",
   "성북천(보문2교-아래)",
   "성북천(보문2교-위)",
@@ -3002,708 +3582,305 @@ const JEONSI_LOCATIONS = [
   "가두 증거"
 ];
 
-function createTimeOptions(select, selectedValue) {
-  select.innerHTML = "";
-
-  const first = document.createElement("option");
-  first.value = "";
-  first.textContent = "시간 선택";
-  select.appendChild(first);
-
-  for (let total = 10 * 60; total <= 17 * 60; total += 10) {
-    const hour24 = Math.floor(total / 60);
-    const minute = total % 60;
-    const ampm = hour24 < 12 ? "오전" : "오후";
-    const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
-    const label =
-      ampm +
-      " " +
-      String(hour12) +
-      ":" +
-      String(minute).padStart(2, "0");
-
-    const option = document.createElement("option");
-    option.value = label;
-    option.textContent = label;
-    select.appendChild(option);
-  }
-
-  if (selectedValue) {
-    select.value = selectedValue;
-  }
-}
-
-function normalizeGroup(group) {
-  if (Array.isArray(group)) {
-    const members = group.slice(0, 7).map(function(name) {
-      return String(name || "").trim();
-    });
-
-    while (members.length < 7) {
-      members.push("");
-    }
-
-    return {
-      count: members.filter(Boolean).length || "",
-      location: "",
-      time: "",
-      members: members
-    };
-  }
-
-  const members =
-    group && Array.isArray(group.members)
-      ? group.members.slice(0, 7).map(function(name) {
-          return String(name || "").trim();
-        })
-      : [];
-
-  while (members.length < 7) {
-    members.push("");
-  }
-
-  const numericCount = Number(group && group.count);
-
-  return {
-    count:
-      numericCount >= 4 && numericCount <= 7
-        ? numericCount
-        : (members.filter(Boolean).length || ""),
-    location:
-      group && group.location
-        ? String(group.location)
-        : "",
-    time:
-      group && group.time
-        ? String(group.time)
-        : "",
-    members: members
-  };
-}
-
-function groupMembers(group) {
-  return Array.isArray(group.members)
-    ? group.members.filter(Boolean)
-    : [];
-}
-
-function getReservedApplicants(exceptGroupIndex) {
-  const reserved = new Set();
-
-  groups.forEach(function(group, index) {
-    if (index === exceptGroupIndex) {
-      return;
-    }
-
-    groupMembers(group).forEach(function(name) {
-      reserved.add(name);
-    });
-
-    if (adminSelections[index]) {
-      adminSelections[index].forEach(function(name) {
-        reserved.add(name);
-      });
-    }
-  });
-
-  return reserved;
-}
-
-function getGroupAvailableApplicants(groupIndex) {
-  const reserved = getReservedApplicants(groupIndex);
-  return applicants.filter(function(name) {
-    return !reserved.has(name);
-  });
-}
-
-function getCircleNumber(index) {
-  const circles = [
-    "①", "②", "③", "④", "⑤", "⑥", "⑦"
-  ];
-  return circles[index] || String(index + 1);
-}
-
-function getSelectedNumber(groupIndex, name) {
-  const list = adminSelections[groupIndex] || [];
-  return list.indexOf(name);
-}
-
-function renderAdmin() {
-  const assigned = new Set();
-
-  groups.forEach(function(group) {
-    groupMembers(group).forEach(function(name) {
-      assigned.add(name);
-    });
-  });
-
-  const unassigned = applicants.filter(function(name) {
-    return !assigned.has(name);
-  });
-
-  sortNames(unassigned);
-
-  document.getElementById("adminCount").textContent =
-    "미배정 신청자 " + unassigned.length + "명";
-
-  const box = document.getElementById("adminNames");
-  box.innerHTML = "";
-
-  if (groups.length === 0) {
-    if (unassigned.length === 0) {
-      box.innerHTML =
-        '<div class="name-loading" style="grid-column:1/-1">미배정 신청자가 없습니다.</div>';
-    } else {
-      unassigned.forEach(function(name) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "admin-name";
-        button.textContent = name;
-        box.appendChild(button);
-      });
-    }
-  }
-
-  renderGroups();
-}
-
-/* =========================================================
-   관리자 직접 추가
-========================================================= */
-
-async function addManualApplicant() {
-  const name = prompt("추가할 봉사자의 이름을 입력해 주세요.");
-
-  if (name === null) {
-    return;
-  }
-
-  const trimmed = name.trim();
-
-  if (!trimmed) {
-    alert("이름을 입력해 주세요.");
-    return;
-  }
-
-  if (applicants.includes(trimmed)) {
-    alert("이미 신청자 목록에 있습니다.");
-    return;
-  }
-
-  applicants.push(trimmed);
-  sortNames(applicants);
-  renderCurrentApplicants();
-  renderAdmin();
-
-  try {
-    await postJson({
-      action: "saveJeonsidaeApplicants",
-      applicants: applicants
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/* =========================================================
-   그룹 불러오기
-========================================================= */
-
-async function loadGroups() {
-  try {
-    const response = await fetch(
-      SCRIPT_URL +
-      "?action=groups&t=" +
-      Date.now()
-    );
-
-    const data = await response.json();
-
-    if (!data.success) {
-      throw new Error(
-        data.message ||
-        "그룹을 불러오지 못했습니다."
+locations.forEach(
+  function(location) {
+    const option =
+      document.createElement(
+        "option"
       );
-    }
 
-    const loaded =
-      Array.isArray(data.groups)
-        ? data.groups
-        : [];
+    option.value =
+      location;
 
-    groups = loaded.map(normalizeGroup);
-    adminSelections = groups.map(function(group) {
-      return [];
-    });
+    option.textContent =
+      location;
 
-    renderGroups();
-    renderAdmin();
-    renderAppoint();
-
-  } catch (error) {
-    console.error(error);
-
-    try {
-      const saved = localStorage.getItem(GROUP_KEY);
-      groups = saved
-        ? JSON.parse(saved).map(normalizeGroup)
-        : [];
-    } catch (storageError) {
-      groups = [];
-    }
-
-    adminSelections = groups.map(function(group) {
-      return [];
-    });
-
-    renderGroups();
-    renderAppoint();
+    title.appendChild(
+      option
+    );
   }
-}
-
-/* =========================================================
-   그룹 저장
-========================================================= */
-
-async function saveGroups() {
-  localStorage.setItem(
-    GROUP_KEY,
-    JSON.stringify(groups)
-  );
+);
 
-  try {
-    await postJson({
-      action: "saveGroups",
-      groups: groups
-    });
-
-    return true;
-
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/* =========================================================
-   그룹 추가
-   ---------------------------------------------------------
-   새 그룹은 마지막에 추가
-========================================================= */
-
-async function addGroup() {
-  groups.push({
-    count: "",
-    location: "",
-    time: "",
-    members: ["", "", "", "", "", "", ""]
-  });
-
-  adminSelections.push([]);
-
-  await saveGroups();
-
-  renderAdmin();
-  renderAppoint();
-}
-
-/* =========================================================
-   그룹 삭제
-========================================================= */
-
-async function deleteGroup(index) {
-  if (!confirm((index + 1) + "번째 봉사그룹을 삭제하시겠습니까?")) {
-    return;
-  }
-
-  groups.splice(index, 1);
-  adminSelections.splice(index, 1);
-
-  await saveGroups();
-
-  renderAdmin();
-  renderAppoint();
-}
-
-/* =========================================================
-   그룹 초기화
-========================================================= */
-
-async function resetGroup(index) {
-  if (!confirm((index + 1) + "번째 봉사그룹을 초기화하시겠습니까?")) {
-    return;
-  }
-
-  groups[index] = {
-    count: "",
-    location: "",
-    time: "",
-    members: ["", "", "", "", "", "", ""]
-  };
-
-  adminSelections[index] = [];
-
-  await saveGroups();
-
-  renderAdmin();
-  renderAppoint();
-}
-
-/* =========================================================
-   인원수 변경
-========================================================= */
-
-function changeGroupCount(index, value) {
-  const count = Number(value);
-  groups[index].count = count >= 4 && count <= 7 ? count : "";
-
-  const selected = adminSelections[index] || [];
-
-  if (groups[index].count && selected.length > groups[index].count) {
-    adminSelections[index] = selected.slice(0, groups[index].count);
-  }
-
-  renderAdmin();
-}
-
-/* =========================================================
-   구역 변경
-========================================================= */
-
-function changeGroupLocation(index, value) {
-  groups[index].location = value;
-  renderAdmin();
-}
-
-/* =========================================================
-   시간 변경
-========================================================= */
-
-function changeGroupTime(index, value) {
-  groups[index].time = value;
-  renderAdmin();
-}
-
-/* =========================================================
-   그룹별 사람 선택
-========================================================= */
-
-function toggleGroupApplicant(groupIndex, name) {
-  const group = groups[groupIndex];
-  const count = Number(group.count);
-
-  if (!count) {
-    alert("먼저 인원수를 4명~7명 중에서 선택해 주세요.");
-    return;
-  }
-
-  if (!group.location) {
-    alert("먼저 구역을 선택해 주세요.");
-    return;
-  }
-
-  if (!group.time) {
-    alert("먼저 시간을 선택해 주세요.");
-    return;
-  }
-
-  if (!adminSelections[groupIndex]) {
-    adminSelections[groupIndex] = [];
-  }
-
-  const list = adminSelections[groupIndex];
-  const existingIndex = list.indexOf(name);
-
-  if (existingIndex >= 0) {
-    list.splice(existingIndex, 1);
-  } else {
-    if (list.length >= count) {
-      alert("이 그룹은 " + count + "명까지 선택할 수 있습니다.");
-      return;
-    }
-
-    if (list.length >= 7) {
-      return;
-    }
-
-    list.push(name);
-  }
-
-  renderAdmin();
-}
-
-/* =========================================================
-   배정 확정
-========================================================= */
-
-async function confirmGroup(index) {
-  const group = groups[index];
-  const count = Number(group.count);
-  const selected = [...(adminSelections[index] || [])];
-
-  if (!(count >= 4 && count <= 7)) {
-    alert("인원수를 4명~7명 중에서 선택해 주세요.");
-    return;
-  }
-
-  if (!group.location) {
-    alert("구역을 선택해 주세요.");
-    return;
-  }
-
-  if (!group.time) {
-    alert("시간을 선택해 주세요.");
-    return;
-  }
-
-  if (selected.length !== count) {
-    alert("선택한 인원수가 " + count + "명과 같아야 합니다.");
-    return;
-  }
-
-  group.members = [
-    ...selected,
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
-  ].slice(0, 7);
-
-  adminSelections[index] = [];
-
-  const saved = await saveGroups();
-
-  if (!saved) {
-    alert("배정 저장에 실패했습니다. 잠시 후 다시 시도해 주세요.");
-    return;
-  }
-
-  renderAdmin();
-  renderAppoint();
-}
-
-/* =========================================================
-   그룹 표시
-========================================================= */
-
-function renderGroups() {
-  const box = document.getElementById("groups");
-  box.innerHTML = "";
-
-  if (groups.length === 0) {
-    box.innerHTML =
-      '<div class="name-loading">아직 만든 봉사 그룹이 없습니다.<br>「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.</div>';
-    return;
-  }
-
-  groups.forEach(function(group, groupIndex) {
-    const card = document.createElement("div");
-    card.className = "group-card";
-
-    const header = document.createElement("div");
-    header.className = "group-header";
-
-    const title = document.createElement("div");
-    title.className = "group-title";
-    title.textContent = (groupIndex + 1) + "번째 봉사그룹";
-
-    const buttons = document.createElement("div");
-    buttons.className = "group-buttons";
-
-    const resetButton = document.createElement("button");
-    resetButton.type = "button";
-    resetButton.className = "group-action";
-    resetButton.textContent = "초기화";
-    resetButton.onclick = function() {
-      resetGroup(groupIndex);
-    };
-
-    const deleteButton = document.createElement("button");
-    deleteButton.type = "button";
-    deleteButton.className = "group-action";
-    deleteButton.textContent = "삭제";
-    deleteButton.onclick = function() {
-      deleteGroup(groupIndex);
-    };
-
-    buttons.appendChild(resetButton);
-    buttons.appendChild(deleteButton);
-    header.appendChild(title);
-    header.appendChild(buttons);
-    card.appendChild(header);
-
-    /* 1. 인원수 / 2. 구역 / 3. 시간 */
-    const settingRow = document.createElement("div");
-    settingRow.className = "group-setting-row";
-
-    const countSelect = document.createElement("select");
-    countSelect.className = "group-setting-select";
-
-    const countFirst = document.createElement("option");
-    countFirst.value = "";
-    countFirst.textContent = "인원수 선택";
-    countSelect.appendChild(countFirst);
-
-    [4, 5, 6, 7].forEach(function(count) {
-      const option = document.createElement("option");
-      option.value = String(count);
-      option.textContent = count + "명";
-      countSelect.appendChild(option);
-    });
-
-    if (group.count) {
-      countSelect.value = String(group.count);
-    }
-
-    countSelect.onchange = function() {
-      changeGroupCount(groupIndex, this.value);
-    };
-
-    const locationSelect = document.createElement("select");
-    locationSelect.className = "group-setting-select";
-
-    const locationFirst = document.createElement("option");
-    locationFirst.value = "";
-    locationFirst.textContent = "구역 선택";
-    locationSelect.appendChild(locationFirst);
-
-    JEONSI_LOCATIONS.forEach(function(location) {
-      const option = document.createElement("option");
-      option.value = location;
-      option.textContent = location;
-      locationSelect.appendChild(option);
-    });
-
-    locationSelect.value = group.location || "";
-    locationSelect.onchange = function() {
-      changeGroupLocation(groupIndex, this.value);
-    };
-
-    const timeSelect = document.createElement("select");
-    timeSelect.className = "group-setting-select";
-    createTimeOptions(timeSelect, group.time || "");
-    timeSelect.onchange = function() {
-      changeGroupTime(groupIndex, this.value);
-    };
-
-    settingRow.appendChild(countSelect);
-    settingRow.appendChild(locationSelect);
-    settingRow.appendChild(timeSelect);
-    card.appendChild(settingRow);
-
-    const selected = adminSelections[groupIndex] || [];
-    const groupHasMembers = groupMembers(group).length > 0;
-
-    /* 이미 확정된 그룹 */
-    if (groupHasMembers) {
-      const memberTitle = document.createElement("div");
-      memberTitle.className = "group-members-title";
-      memberTitle.textContent =
-        "배정 인원 " + groupMembers(group).length + "명";
-      card.appendChild(memberTitle);
-
-      const memberGrid = document.createElement("div");
-      memberGrid.className = "group-members-grid";
-
-      groupMembers(group).forEach(function(name, memberIndex) {
-        const member = document.createElement("div");
-        member.className = "group-member";
-        member.textContent =
-          getCircleNumber(memberIndex) + name;
-        memberGrid.appendChild(member);
-      });
-
-      card.appendChild(memberGrid);
-    } else {
-      /* 4. 실제 인원 선택 */
-      const applicantTitle = document.createElement("div");
-      applicantTitle.className = "group-applicant-title";
-
-      const available = getGroupAvailableApplicants(groupIndex);
-      applicantTitle.textContent =
-        "미배정 신청자 " + available.length + "명";
-      card.appendChild(applicantTitle);
-
-      const applicantGrid = document.createElement("div");
-      applicantGrid.className = "group-applicant-grid";
-
-      if (available.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "group-applicant-empty";
-        empty.textContent = "미배정 신청자가 없습니다.";
-        applicantGrid.appendChild(empty);
-      } else {
-        available.forEach(function(name) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "admin-name";
-
-          const selectedIndex = selected.indexOf(name);
-
-          if (selectedIndex >= 0) {
-            button.classList.add("selected");
-
-            const number = document.createElement("span");
-            number.className = "admin-select-number";
-            number.textContent = getCircleNumber(selectedIndex);
-            button.appendChild(number);
-          }
-
-          const text = document.createElement("span");
-          text.textContent = name;
-          button.appendChild(text);
-
-          button.onclick = function() {
-            toggleGroupApplicant(groupIndex, name);
+      const buttons =
+        document.createElement(
+          "div"
+        );
+
+
+      buttons.className =
+        "group-buttons";
+
+
+      const resetButton =
+        document.createElement(
+          "button"
+        );
+
+
+      resetButton.type =
+        "button";
+
+
+      resetButton.className =
+        "group-action";
+
+
+      resetButton.textContent =
+        "초기화";
+
+
+      resetButton.onclick =
+        function() {
+
+          resetGroup(
+            groupIndex
+          );
+
+        };
+
+
+      const deleteButton =
+        document.createElement(
+          "button"
+        );
+
+
+      deleteButton.type =
+        "button";
+
+
+      deleteButton.className =
+        "group-action";
+
+
+      deleteButton.textContent =
+        "삭제";
+
+
+      deleteButton.onclick =
+        function() {
+
+          deleteGroup(
+            groupIndex
+          );
+
+        };
+
+
+      buttons.appendChild(
+        resetButton
+      );
+
+
+      buttons.appendChild(
+        deleteButton
+      );
+
+
+      header.appendChild(
+        title
+      );
+
+
+      header.appendChild(
+        buttons
+      );
+
+
+      const slots =
+        document.createElement(
+          "div"
+        );
+
+
+      slots.className =
+        "group-slots";
+
+
+      for (
+        let slotIndex = 0;
+        slotIndex < 6;
+        slotIndex++
+      ) {
+
+        const name =
+          group[slotIndex] ||
+          "";
+
+
+        const slot =
+          document.createElement(
+            "button"
+          );
+
+
+        slot.type =
+          "button";
+
+
+        slot.className =
+          "group-slot";
+
+
+        if (name) {
+
+          slot.classList.add(
+            "filled"
+          );
+
+          slot.textContent =
+            name;
+
+        } else {
+
+          slot.classList.add(
+            "empty"
+          );
+
+          slot.textContent =
+            "빈 자리";
+
+        }
+
+
+        slot.onclick =
+          function() {
+
+            handleSlotClick(
+              groupIndex,
+              slotIndex
+            );
+
           };
 
-          applicantGrid.appendChild(button);
-        });
+
+        slots.appendChild(
+          slot
+        );
+
       }
 
-      card.appendChild(applicantGrid);
 
-      /* + 추가는 각 그룹 인원선택의 맨 끝 */
-      const addWrap = document.createElement("div");
-      addWrap.className = "admin-add-wrap";
-      addWrap.style.marginTop = "8px";
-      addWrap.style.marginBottom = "0";
+      card.appendChild(
+        header
+      );
 
-      const addButton = document.createElement("button");
-      addButton.className = "admin-add-button";
-      addButton.textContent = "+ 추가";
-      addButton.onclick = function() {
-        addManualApplicant();
-      };
 
-      addWrap.appendChild(addButton);
-      card.appendChild(addWrap);
+      card.appendChild(
+        slots
+      );
 
-      /* 배정 확정 */
-      const confirmButton = document.createElement("button");
-      confirmButton.type = "button";
-      confirmButton.className = "group-confirm-button";
-      confirmButton.textContent = "배정 확정";
 
-      const ready =
-        Number(group.count) >= 4 &&
-        Number(group.count) <= 7 &&
-        Boolean(group.location) &&
-        Boolean(group.time) &&
-        selected.length === Number(group.count);
+      box.appendChild(
+        card
+      );
 
-      confirmButton.disabled = !ready;
-      confirmButton.onclick = function() {
-        confirmGroup(groupIndex);
-      };
-
-      card.appendChild(confirmButton);
     }
+  );
 
-    box.appendChild(card);
-  });
+}
+
+
+/* =========================================================
+   그룹 자리 배정
+========================================================= */
+
+async function handleSlotClick(
+  groupIndex,
+  slotIndex
+) {
+
+  const currentName =
+    groups[groupIndex][slotIndex];
+
+
+  /*
+    이미 들어있는 사람을 누르면
+    그 자리를 비웁니다.
+  */
+
+  if (currentName) {
+
+    groups[groupIndex][slotIndex] =
+      "";
+
+
+    selectedApplicant =
+      null;
+
+
+    await saveGroups();
+
+
+    renderAdmin();
+
+    renderAppoint();
+
+    return;
+
+  }
+
+
+  /*
+    먼저 신청자를 선택해야 합니다.
+  */
+
+  if (
+    !selectedApplicant
+  ) {
+
+    alert(
+      "먼저 위에서 봉사자 이름을 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    같은 사람을 다른 그룹에서 제거
+  */
+
+  groups =
+    groups.map(
+      function(group) {
+
+        return group.map(
+          function(name) {
+
+            return name ===
+              selectedApplicant
+              ? ""
+              : name;
+
+          }
+        );
+
+      }
+    );
+
+
+  /*
+    현재 선택한 자리에는
+    선택된 사람을 넣습니다.
+  */
+
+  groups[groupIndex][slotIndex] =
+    selectedApplicant;
+
+
+  selectedApplicant =
+    null;
+
+
+  await saveGroups();
+
+
+  renderAdmin();
+
+  renderAppoint();
+
 }
 
 
@@ -3714,62 +3891,155 @@ function renderGroups() {
 function renderAppoint() {
 
   const list =
-    document.getElementById("appointList");
+    document.getElementById(
+      "appointList"
+    );
 
-  list.innerHTML = "";
+
+  list.innerHTML =
+    "";
+
 
   const visibleGroups =
-    groups.filter(function(group) {
-      return groupMembers(group).length > 0;
-    });
+    groups.filter(
+      function(group) {
 
-  if (visibleGroups.length === 0) {
+        return group.some(
+          function(name) {
+
+            return Boolean(name);
+
+          }
+        );
+
+      }
+    );
+
+
+  if (
+    visibleGroups.length === 0
+  ) {
+
     list.innerHTML =
-      '<div class="appoint-empty">아직 임명된 그룹이 없습니다.</div>';
+      '<div class="appoint-empty">' +
+      '아직 임명된 그룹이 없습니다.' +
+      '</div>';
+
     return;
+
   }
 
-  groups.forEach(function(group, index) {
-    const members = groupMembers(group);
 
-    if (members.length === 0) {
-      return;
+  groups.forEach(
+    function(group, index) {
+
+      const hasPerson =
+        group.some(
+          function(name) {
+
+            return Boolean(name);
+
+          }
+        );
+
+
+      if (!hasPerson) {
+
+        return;
+
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "appoint-card";
+
+
+      const title =
+        document.createElement(
+          "div"
+        );
+
+
+      title.className =
+        "appoint-title";
+
+
+      title.textContent =
+        (index + 1) +
+        "번 그룹";
+
+
+      const members =
+        document.createElement(
+          "div"
+        );
+
+
+      members.className =
+        "appoint-members";
+
+
+      group.forEach(
+        function(name) {
+
+          const person =
+            document.createElement(
+              "div"
+            );
+
+
+          person.className =
+            "appoint-person";
+
+
+          if (name) {
+
+            person.classList.add(
+              "filled"
+            );
+
+            person.textContent =
+              name;
+
+          } else {
+
+            person.textContent =
+              "빈 자리";
+
+          }
+
+
+          members.appendChild(
+            person
+          );
+
+        }
+      );
+
+
+      card.appendChild(
+        title
+      );
+
+
+      card.appendChild(
+        members
+      );
+
+
+      list.appendChild(
+        card
+      );
+
     }
+  );
 
-    const card = document.createElement("div");
-    card.className = "appoint-card";
-
-    const title = document.createElement("div");
-    title.className = "appoint-title";
-    title.textContent =
-      (index + 1) +
-      "번째 봉사그룹";
-
-    const info = document.createElement("div");
-    info.style.marginBottom = "10px";
-    info.style.fontSize = "calc(15px * var(--font-scale))";
-    info.style.fontWeight = "700";
-    info.textContent =
-      (group.location || "구역 미선택") +
-      " · " +
-      (group.time || "시간 미선택");
-
-    const membersBox = document.createElement("div");
-    membersBox.className = "appoint-members";
-
-    members.forEach(function(name, memberIndex) {
-      const person = document.createElement("div");
-      person.className = "appoint-person filled";
-      person.textContent =
-        getCircleNumber(memberIndex) + name;
-      membersBox.appendChild(person);
-    });
-
-    card.appendChild(title);
-    card.appendChild(info);
-    card.appendChild(membersBox);
-    list.appendChild(card);
-  });
 }
 
 
@@ -4050,6 +4320,305 @@ document.addEventListener(
   }
 );
 
+</script>
+
+
+<style id="recentScheduleOnlyStyle">
+/* =========================================================
+   최근 요청: 일정별 화면 선택
+   기존 스타일은 수정하지 않고 아래 기능만 추가합니다.
+========================================================= */
+.schedule-selector { margin-top:18px; }
+.schedule-selector-title { font-size:1.05em; font-weight:700; margin:0 0 12px; }
+.schedule-list { display:grid; grid-template-columns:1fr; gap:10px; }
+.schedule-button-wrap { display:flex; gap:8px; align-items:stretch; }
+.schedule-button { flex:1; min-height:76px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(35,69,99,.72); color:inherit; padding:12px 14px; cursor:pointer; text-align:left; }
+.schedule-button-main { display:block; font-weight:800; font-size:1.05em; margin-bottom:6px; }
+.schedule-button-date,.schedule-button-time { display:block; font-size:.9em; line-height:1.45; opacity:.92; }
+.schedule-delete-button { width:58px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(150,60,60,.72); color:inherit; cursor:pointer; }
+.schedule-add-wrap { margin-top:10px; }
+.schedule-add-button { width:100%; min-height:48px; border:1px dashed rgba(255,255,255,.24); border-radius:12px; background:transparent; color:inherit; cursor:pointer; font-weight:700; }
+.schedule-detail { margin-top:18px; }
+.schedule-detail-head { margin-bottom:16px; }
+.schedule-back-button { border:0; border-radius:10px; padding:9px 12px; background:rgba(35,69,99,.72); color:inherit; cursor:pointer; margin-bottom:12px; }
+.schedule-detail-name { font-size:1.15em; font-weight:800; }
+.schedule-detail-date,.schedule-detail-time { line-height:1.5; }
+.schedule-detail-time { font-weight:700; }
+.schedule-editor { margin-top:12px; padding:14px; border:1px solid rgba(255,255,255,.15); border-radius:14px; background:rgba(0,0,0,.10); }
+.schedule-editor-grid { display:grid; grid-template-columns:1fr; gap:10px; }
+.schedule-editor label { display:block; font-weight:700; }
+.schedule-editor input,.schedule-editor select { width:100%; margin-top:5px; min-height:42px; border-radius:9px; border:1px solid rgba(127,127,127,.35); padding:8px 10px; background:inherit; color:inherit; }
+.schedule-editor-actions { display:flex; gap:8px; margin-top:12px; }
+.schedule-editor-actions button { flex:1; min-height:44px; border:0; border-radius:10px; cursor:pointer; }
+.schedule-empty { padding:20px 8px; text-align:center; opacity:.75; }
+@media (min-width:700px) { .schedule-list { grid-template-columns:1fr 1fr; } }
+</style>
+
+<script id="recentScheduleOnlyScript">
+/* =========================================================
+   최근 요청만 추가: 일정별 신청 / 임명 / 관리용
+   기존 함수와 기존 UI는 그대로 두고, 일정 선택 기능을 덧붙입니다.
+========================================================= */
+(function(){
+  const FIXED_KEYS = ["토오전","토오후","일오전"];
+  const ALL_KEYS = ["토오전","토오후","일오전","추가1","추가2","추가3"];
+  const LOCAL_SCHEDULE_KEY = "jeonsidaeRecentSchedules";
+  const LOCAL_APPLY_KEY = "jeonsidaeRecentApplySelections";
+  let schedules = [];
+  let currentApplyScheduleKey = null;
+  let currentAdminScheduleKey = null;
+  let currentAppointScheduleKey = null;
+  let legacyShowView = null;
+
+  function pad(n){ return String(n).padStart(2,"0"); }
+  function dateInput(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+  function nextSaturday(){
+    const d=new Date();
+    const diff=d.getDay()===0?6:6-d.getDay();
+    d.setDate(d.getDate()+diff);
+    return d;
+  }
+  function fmtDate(v){
+    if(!v) return "";
+    const d=new Date(String(v)+"T00:00:00");
+    if(Number.isNaN(d.getTime())) return String(v);
+    const days=["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+    return d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 ("+days[d.getDay()]+")";
+  }
+  function fmtTime(v){
+    const m=String(v||"").match(/^(\d{1,2}):(\d{2})$/);
+    if(!m) return String(v||"");
+    const h=Number(m[1]), min=m[2], ap=h<12?"오전":"오후";
+    const hh=h===0?12:(h>12?h-12:h);
+    return ap+" "+hh+":"+min;
+  }
+  function fmtRange(a,b){ return fmtTime(a)+" ~ "+fmtTime(b); }
+  function normalize(s){
+    if(!s || !s.key) return null;
+    const key=String(s.key);
+    return {
+      key:key,
+      label:String(s.label||key),
+      fixed:FIXED_KEYS.includes(key),
+      serviceDate:String(s.serviceDate||s.date||""),
+      startTime:String(s.startTime||s.serviceStart||"10:00"),
+      endTime:String(s.endTime||s.serviceEnd||"12:00")
+    };
+  }
+  function fixedSchedules(){
+    const sat=nextSaturday();
+    const sun=new Date(sat); sun.setDate(sat.getDate()+1);
+    return [
+      normalize({key:"토오전",label:"토오전",fixed:true,serviceDate:dateInput(sat),startTime:"10:00",endTime:"12:00"}),
+      normalize({key:"토오후",label:"토오후",fixed:true,serviceDate:dateInput(sat),startTime:"13:00",endTime:"15:00"}),
+      normalize({key:"일오전",label:"일오전",fixed:true,serviceDate:dateInput(sun),startTime:"10:00",endTime:"12:00"})
+    ];
+  }
+  function saveLocal(){ localStorage.setItem(LOCAL_SCHEDULE_KEY,JSON.stringify(schedules)); }
+  function loadLocal(){ try{return JSON.parse(localStorage.getItem(LOCAL_SCHEDULE_KEY)||"[]").map(normalize).filter(Boolean);}catch(e){return [];} }
+  function getSchedule(key){ return schedules.find(s=>s.key===key)||null; }
+  function order(a,b){ return ALL_KEYS.indexOf(a.key)-ALL_KEYS.indexOf(b.key); }
+
+  function makeSelector(section, title, allowAdd, allowDelete){
+    const selector=document.createElement("div");
+    selector.className="schedule-selector";
+    selector.id=section+"ScheduleSelector";
+    const h=document.createElement("div");
+    h.className="schedule-selector-title";
+    h.textContent=title;
+    const list=document.createElement("div");
+    list.className="schedule-list";
+    list.id=section+"ScheduleList";
+    selector.appendChild(h); selector.appendChild(list);
+    if(allowAdd){
+      const addWrap=document.createElement("div"); addWrap.className="schedule-add-wrap";
+      const add=document.createElement("button"); add.type="button"; add.className="schedule-add-button"; add.textContent="＋ 추가";
+      add.onclick=showExtraEditor; addWrap.appendChild(add); selector.appendChild(addWrap);
+    }
+    const detail=document.createElement("div"); detail.className="schedule-detail"; detail.id=section+"ScheduleDetail"; detail.style.display="none";
+    sectionElement(section).insertBefore(selector, sectionElement(section).children[1]);
+    sectionElement(section).insertBefore(detail, selector.nextSibling);
+    return {selector,list,detail};
+  }
+  function sectionElement(section){ return document.getElementById(section+"View"); }
+
+  function setLegacyVisible(section, visible){
+    const sec=sectionElement(section);
+    if(!sec) return;
+    Array.from(sec.children).forEach(function(el){
+      if(el.classList.contains("page-title")) return;
+      if(el.id===section+"ScheduleSelector" || el.id===section+"ScheduleDetail") return;
+      el.style.display=visible?"":"none";
+    });
+  }
+  function showList(section){
+    setLegacyVisible(section,false);
+    const sel=document.getElementById(section+"ScheduleSelector"), det=document.getElementById(section+"ScheduleDetail");
+    if(sel) sel.style.display="block"; if(det){det.style.display="none";det.innerHTML="";}
+  }
+  function detailHeader(s,back){
+    const head=document.createElement("div"); head.className="schedule-detail-head";
+    const b=document.createElement("button"); b.type="button"; b.className="schedule-back-button"; b.textContent="‹ 일정 선택으로 돌아가기"; b.onclick=back;
+    const n=document.createElement("div"); n.className="schedule-detail-name"; n.textContent=s.label;
+    const d=document.createElement("div"); d.className="schedule-detail-date"; d.textContent=fmtDate(s.serviceDate);
+    const t=document.createElement("div"); t.className="schedule-detail-time"; t.textContent=fmtRange(s.startTime,s.endTime);
+    head.append(b,n,d,t); return head;
+  }
+
+  function renderLists(){
+    ["apply","appoint","admin"].forEach(function(section){
+      const box=document.getElementById(section+"ScheduleList"); if(!box) return;
+      box.innerHTML="";
+      schedules.slice().sort(order).forEach(function(s){
+        const wrap=document.createElement("div"); wrap.className="schedule-button-wrap";
+        const b=document.createElement("button"); b.type="button"; b.className="schedule-button";
+        b.innerHTML='<span class="schedule-button-main"></span><span class="schedule-button-date"></span><span class="schedule-button-time"></span>';
+        b.querySelector(".schedule-button-main").textContent=s.label;
+        b.querySelector(".schedule-button-date").textContent=fmtDate(s.serviceDate);
+        b.querySelector(".schedule-button-time").textContent=fmtRange(s.startTime,s.endTime);
+        b.onclick=function(){ section==="apply"?openApply(s.key):section==="admin"?openAdmin(s.key):openAppoint(s.key); };
+        wrap.appendChild(b);
+        if(section==="admin" && !s.fixed){
+          const del=document.createElement("button"); del.type="button"; del.className="schedule-delete-button"; del.textContent="삭제";
+          del.onclick=function(e){e.stopPropagation();deleteExtra(s.key);}; wrap.appendChild(del);
+        }
+        box.appendChild(wrap);
+      });
+    });
+  }
+
+  async function loadSchedules(){
+    const map=new Map();
+    fixedSchedules().forEach(s=>map.set(s.key,s));
+    loadLocal().forEach(s=>{if(!s.fixed)map.set(s.key,s);});
+    try{
+      const r=await fetch(SCRIPT_URL+"?action=scheduleList&t="+Date.now());
+      const data=await r.json();
+      const arr=Array.isArray(data.schedules)?data.schedules:(Array.isArray(data.scheduleList)?data.scheduleList:[]);
+      arr.map(normalize).filter(Boolean).forEach(s=>{if(ALL_KEYS.includes(s.key))map.set(s.key,s);});
+    }catch(e){ console.warn("일정 목록 불러오기 실패",e); }
+    schedules=Array.from(map.values()).sort(order); saveLocal(); renderLists();
+  }
+
+  function getApplyMap(){try{return JSON.parse(localStorage.getItem(LOCAL_APPLY_KEY)||"{}")}catch(e){return {};}}
+  function setApplyMap(m){localStorage.setItem(LOCAL_APPLY_KEY,JSON.stringify(m));}
+
+  async function loadScheduleApplicants(key){
+    try{
+      const r=await fetch(SCRIPT_URL+"?action=scheduleApplicants&key="+encodeURIComponent(key)+"&scheduleKey="+encodeURIComponent(key)+"&t="+Date.now());
+      const d=await r.json();
+      if(d.success && Array.isArray(d.applicants)) return [...new Set(d.applicants.map(String).map(x=>x.trim()).filter(Boolean))];
+    }catch(e){console.warn(e);}
+    return [];
+  }
+  async function saveScheduleApplicants(key,names){
+    const s=getSchedule(key);
+    return postJson({action:"saveScheduleApplicants",key:key,scheduleKey:key,applicants:names,serviceDate:s?s.serviceDate:"",serviceTime:s?fmtRange(s.startTime,s.endTime):""});
+  }
+
+  function openApply(key){
+    const s=getSchedule(key); if(!s)return; currentApplyScheduleKey=key;
+    const selector=document.getElementById("applyScheduleSelector"), detail=document.getElementById("applyScheduleDetail");
+    selector.style.display="none"; detail.style.display="block"; detail.innerHTML=""; setLegacyVisible("apply",true);
+    detail.appendChild(detailHeader(s,closeApply));
+    const oldDateBox=document.querySelector("#applyView .apply-date-box");
+    if(oldDateBox) oldDateBox.style.display="none";
+    const grid=document.getElementById("applyNameGrid"), complete=document.getElementById("applyCompleteWrap");
+    if(grid) grid.style.display="none";
+    if(complete) complete.style.display="none";
+    const oldComplete=complete ? complete.querySelector("button") : null;
+    if(oldComplete) oldComplete.onclick=function(){completeRecentApply(key);};
+    const map=getApplyMap(); currentSelections=Array.isArray(map[key])?map[key].slice():[]; updateApplyCount();
+    loadScheduleApplicants(key).then(function(names){document.getElementById("currentApplicantTitle").textContent="신청자 "+names.length+"명";const box=document.getElementById("currentApplicantNames");box.innerHTML="";names.forEach(n=>{const x=document.createElement("div");x.className="current-name";x.textContent=n;box.appendChild(x);});});
+  }
+  function closeApply(){ currentApplyScheduleKey=null; const detail=document.getElementById("applyScheduleDetail"); const selector=document.getElementById("applyScheduleSelector"); selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("apply",false); }
+  async function completeRecentApply(key){
+    const selected=currentSelections.slice(); sortNames(selected);
+    if(!selected.length){alert("신청할 사람을 한 명 이상 선택해 주세요.");return;}
+    try{await saveScheduleApplicants(key,selected);const map=getApplyMap();map[key]=[];setApplyMap(map);currentSelections=[];await loadSchedules();alert(selected.length+"명이 신청되었습니다.");closeApply();}
+    catch(e){console.error(e);alert("신청 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}
+  }
+
+  async function loadScheduleGroups(key){
+    try{
+      const r=await fetch(SCRIPT_URL+"?action=scheduleGroups&key="+encodeURIComponent(key)+"&scheduleKey="+encodeURIComponent(key)+"&t="+Date.now());
+      const d=await r.json(); if(d.success&&Array.isArray(d.groups)) return d.groups.map(g=>{const a=Array.isArray(g)?g.slice(0,8):[];while(a.length<8)a.push("");return a;});
+    }catch(e){console.warn(e);} return [];
+  }
+  async function saveScheduleGroups(key,data){return postJson({action:"saveScheduleGroups",key:key,scheduleKey:key,groups:data});}
+
+  async function openAdmin(key){
+    const s=getSchedule(key);if(!s)return;currentAdminScheduleKey=key;selectedApplicant=null;
+    const selector=document.getElementById("adminScheduleSelector"),detail=document.getElementById("adminScheduleDetail");selector.style.display="none";detail.style.display="block";detail.innerHTML="";setLegacyVisible("admin",true);
+    detail.appendChild(detailHeader(s,closeAdmin));
+    const body=document.createElement("div");body.className="admin-section";
+    body.innerHTML='<div class="admin-count" id="recentAdminCount">미배정 신청자 0명</div><div class="admin-names" id="recentAdminNames"><div class="name-loading">신청자를 불러오는 중입니다.</div></div><div style="display:flex;justify-content:flex-end;margin-bottom:15px"><button class="admin-add-button" id="recentAdminAdd">+ 추가</button></div><div class="group-controls"><button class="add-group-button" id="recentAdminGroup">+ 봉사 그룹 추가</button></div><div class="groups" id="recentGroups"></div>';
+    detail.appendChild(body);
+    const [names,gs]=await Promise.all([loadScheduleApplicants(key),loadScheduleGroups(key)]);
+    applicants=names;groups=gs;renderRecentAdmin();
+    document.getElementById("recentAdminAdd").onclick=async function(){const n=prompt("추가할 봉사자의 이름을 입력해 주세요.");if(!n||!n.trim())return;const name=n.trim();if(!applicants.includes(name))applicants.push(name);sortNames(applicants);await saveScheduleApplicants(key,applicants);renderRecentAdmin();};
+    document.getElementById("recentAdminGroup").onclick=async function(){groups.unshift(["","","","","","","", "유타몰"]);await saveScheduleGroups(key,groups);renderRecentAdmin();};
+  }
+  function closeAdmin(){currentAdminScheduleKey=null;const selector=document.getElementById("adminScheduleSelector"),detail=document.getElementById("adminScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("admin",false);}
+  function renderRecentAdmin(){
+    const count=document.getElementById("recentAdminCount"),namesBox=document.getElementById("recentAdminNames"),box=document.getElementById("recentGroups");if(!count||!namesBox||!box)return;
+    const assigned=new Set();groups.forEach(g=>g.slice(0,7).forEach(n=>{if(n)assigned.add(n);}));const un=applicants.filter(n=>!assigned.has(n));sortNames(un);count.textContent="미배정 신청자 "+un.length+"명";namesBox.innerHTML="";
+    un.forEach(n=>{const b=document.createElement("button");b.type="button";b.className="admin-name";b.textContent=n;b.onclick=function(){selectedApplicant=selectedApplicant===n?null:n;renderRecentAdmin();};if(selectedApplicant===n)b.classList.add("selected");namesBox.appendChild(b);});
+    box.innerHTML="";groups.forEach((g,gi)=>{const card=document.createElement("div");card.className="group-card";const h=document.createElement("div");h.className="group-header";const title=document.createElement("select");title.className="group-title";["유타몰","성북천(보문2교-아래)","성북천(보문2교-위)","성북구청(광장)","보문역(주변)","성신여대(주변)","성북천(하늘다리)","성북천(바람마당교)","성북천(분수대)","성북천(용문교)","가두 증거"].forEach(loc=>{const o=document.createElement("option");o.value=loc;o.textContent=loc;title.appendChild(o);});title.value=g[7]||"유타몰";title.onchange=async function(){g[7]=title.value;await saveScheduleGroups(currentAdminScheduleKey,groups);};
+      const del=document.createElement("button");del.type="button";del.className="group-action";del.textContent="삭제";del.onclick=async function(){groups.splice(gi,1);await saveScheduleGroups(currentAdminScheduleKey,groups);renderRecentAdmin();};h.append(title,del);card.appendChild(h);
+      const slots=document.createElement("div");slots.className="group-slots";for(let si=0;si<7;si++){const b=document.createElement("button");b.type="button";b.className="group-slot "+(g[si]?"filled":"empty");b.textContent=g[si]||"빈 자리";b.onclick=async function(){if(g[si]){g[si]="";selectedApplicant=null;}else if(selectedApplicant){groups.forEach(x=>{for(let j=0;j<7;j++)if(x[j]===selectedApplicant)x[j]="";});g[si]=selectedApplicant;selectedApplicant=null;}else{alert("먼저 위에서 봉사자 이름을 선택해 주세요.");return;}await saveScheduleGroups(currentAdminScheduleKey,groups);renderRecentAdmin();};slots.appendChild(b);}card.appendChild(slots);box.appendChild(card);});
+  }
+
+  async function openAppoint(key){
+    const s=getSchedule(key);if(!s)return;currentAppointScheduleKey=key;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="none";detail.style.display="block";detail.innerHTML="";setLegacyVisible("appoint",true);detail.appendChild(detailHeader(s,closeAppoint));const list=document.createElement("div");list.className="appoint-list";list.innerHTML='<div class="appoint-empty">임명된 그룹을 불러오는 중입니다.</div>';detail.appendChild(list);const gs=await loadScheduleGroups(key);list.innerHTML="";const visible=gs.filter(g=>g.slice(0,7).some(Boolean));if(!visible.length){list.innerHTML='<div class="appoint-empty">아직 임명된 그룹이 없습니다.</div>';return;}gs.forEach((g,i)=>{if(!g.slice(0,7).some(Boolean))return;const card=document.createElement("div");card.className="appoint-card";const title=document.createElement("div");title.className="appoint-title";title.textContent=g[7]||"유타몰";const members=document.createElement("div");members.className="appoint-members";g.slice(0,7).forEach(n=>{const p=document.createElement("div");p.className="appoint-person "+(n?"filled":"");p.textContent=n||"빈 자리";members.appendChild(p);});card.append(title,members);list.appendChild(card);}); }
+  function closeAppoint(){currentAppointScheduleKey=null;const selector=document.getElementById("appointScheduleSelector"),detail=document.getElementById("appointScheduleDetail");selector.style.display="block";detail.style.display="none";detail.innerHTML="";setLegacyVisible("appoint",false);}
+
+  function makeTimeOptions(sel,selected){for(let h=10;h<=17;h++){for(let m=0;m<60;m+=10){if(h===17&&m>0)continue;const v=pad(h)+":"+pad(m),o=document.createElement("option");o.value=v;o.textContent=fmtTime(v);if(v===selected)o.selected=true;sel.appendChild(o);}}}
+  function showExtraEditor(){
+    if(schedules.filter(s=>!s.fixed).length>=3){alert("추가 일정은 최대 3개까지 만들 수 있습니다.");return;}
+    const used=new Set(schedules.map(s=>s.key));const key=ALL_KEYS.slice(3).find(k=>!used.has(k));if(!key)return;
+    const wrap=document.createElement("div");wrap.className="schedule-editor";wrap.id="recentScheduleEditor";
+    const d=nextSaturday();d.setDate(d.getDate()+7);
+    wrap.innerHTML='<div class="schedule-editor-grid"><label>봉사 날짜<input type="date" id="recentExtraDate" value="'+dateInput(d)+'"></label><label>시작 시간<select id="recentExtraStart"></select></label><label>종료 시간<select id="recentExtraEnd"></select></label></div><div class="schedule-editor-actions"><button type="button" id="recentExtraCancel">취소</button><button type="button" id="recentExtraSave">저장</button></div>';
+    document.getElementById("adminScheduleSelector").appendChild(wrap);makeTimeOptions(document.getElementById("recentExtraStart"),"10:00");makeTimeOptions(document.getElementById("recentExtraEnd"),"12:00");
+    document.getElementById("recentExtraCancel").onclick=function(){wrap.remove();};
+    document.getElementById("recentExtraSave").onclick=async function(){const date=document.getElementById("recentExtraDate").value,start=document.getElementById("recentExtraStart").value,end=document.getElementById("recentExtraEnd").value;if(!date){alert("봉사 날짜를 선택해 주세요.");return;}if(start>=end){alert("종료 시간은 시작 시간보다 늦어야 합니다.");return;}try{await postJson({action:"saveSchedule",key:key,scheduleKey:key,label:key,serviceDate:date,startTime:start,endTime:end});schedules.push(normalize({key:key,label:key,serviceDate:date,startTime:start,endTime:end}));schedules.sort(order);saveLocal();renderLists();wrap.remove();alert(key+" 일정이 추가되었습니다.");}catch(e){console.error(e);alert("일정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");}};
+  }
+  async function deleteExtra(key){
+    const s=getSchedule(key);if(!s||s.fixed)return;if(!confirm(s.label+" 일정을 삭제하시겠습니까?\n해당 일정의 신청자와 관리 데이터도 함께 초기화됩니다."))return;
+    try{await postJson({action:"deleteSchedule",key:key,scheduleKey:key});}catch(e){console.error(e);}
+    schedules=schedules.filter(x=>x.key!==key);saveLocal();const m=getApplyMap();delete m[key];setApplyMap(m);renderLists();alert(s.label+" 일정이 삭제되었습니다.");
+  }
+
+  function init(){
+    legacyShowView=window.showView;
+    const apply=sectionElement("apply"), appoint=sectionElement("appoint"), admin=sectionElement("admin");
+    if(!apply||!appoint||!admin)return;
+    makeSelector("apply","봉사 일정을 선택해 주세요",false,false);
+    makeSelector("appoint","봉사 일정을 선택해 주세요",false,false);
+    makeSelector("admin","봉사 일정을 선택해 주세요",true,true);
+    showList("apply");showList("appoint");showList("admin");
+    loadSchedules();
+
+    window.showView=function(view){
+      if(view==="admin" && !adminAuthenticated){
+        const saved=localStorage.getItem(ADMIN_PASSWORD_KEY);if(saved===ADMIN_PASSWORD)adminAuthenticated=true;else{showAdminLogin();return;}
+      }
+      currentView=view;
+      document.querySelectorAll(".view").forEach(e=>e.classList.remove("active"));document.querySelectorAll(".nav-button").forEach(e=>e.classList.remove("active"));
+      const ve=document.getElementById(view+"View");if(ve)ve.classList.add("active");const ne=document.getElementById("nav"+view.charAt(0).toUpperCase()+view.slice(1));if(ne)ne.classList.add("active");
+      document.getElementById("topTitle").textContent="전시대";window.scrollTo(0,0);
+      if(view==="apply")closeApply();
+      if(view==="appoint")closeAppoint();
+      if(view==="admin")closeAdmin();
+    };
+    window.getMySelections=function(){const m=getApplyMap();return currentApplyScheduleKey&&Array.isArray(m[currentApplyScheduleKey])?m[currentApplyScheduleKey].slice():[];};
+    window.saveMySelections=function(list){const m=getApplyMap();if(currentApplyScheduleKey)m[currentApplyScheduleKey]=Array.isArray(list)?list.slice():[];setApplyMap(m);};
+    const oldToggle=window.toggleSelection;
+    window.toggleSelection=function(name){if(currentApplyScheduleKey){let a=window.getMySelections();const i=a.indexOf(name);if(i>=0)a.splice(i,1);else a.push(name);sortNames(a);window.saveMySelections(a);currentSelections=a;renderApplyNames();return;}return oldToggle(name);};
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
 </script>
 
 </body>
