@@ -2143,7 +2143,7 @@ function renderAdmin() {
 
   const confirmButton = document.getElementById("confirmGroupButton");
   if (confirmButton) {
-    confirmButton.disabled = selectedApplicants.length !== 4;
+    confirmButton.disabled = selectedApplicants.length < 2;
   }
 
   renderGroups();
@@ -2170,10 +2170,10 @@ function toggleApplicantForGroup(name) {
 
 async function confirmSelectedGroup() {
 
-  if (selectedApplicants.length !== 4) {
-    alert("봉사자 4명을 선택해 주세요.");
-    return;
-  }
+  if (selectedApplicants.length < 2) {
+  alert("봉사자를 2명 이상 선택해 주세요.");
+  return;
+ }
 
   const newGroup = selectedApplicants.slice(0, 4);
   let targetIndex = -1;
