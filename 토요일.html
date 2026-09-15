@@ -1293,9 +1293,15 @@ body.light .submitted-volunteer-name {
     class="view"
   >
 
-    <h1 class="page-title">
-      관리자용
-    </h1>
+   <h1 class="page-title service-title-with-refresh">
+  관리자용
+  <button
+    type="button"
+    class="service-refresh-button"
+    onclick="refreshServiceGroups()"
+    aria-label="새로고침"
+  >↻</button>
+</h1>
 
     <div class="admin-section">
 
