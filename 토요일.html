@@ -3629,11 +3629,13 @@ async function refreshServiceGroups() {
   }
 
   try {
-    const results = await Promise.all([
-      loadGroups(),
-      loadServiceData(),
-      loadSaturdayReference()
-    ]);
+   await loadApplicants();
+
+const results = await Promise.all([
+  loadGroups(),
+  loadServiceData(),
+  loadSaturdayReference()
+]);
 
     if (!results[0] || !results[1]) {
       throw new Error("봉사용 정보를 불러오지 못했습니다.");
