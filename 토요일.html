@@ -2309,21 +2309,25 @@ async function addManualApplicant() {
 async function loadGroupSheetLabels() {
   try {
     const query =
-      "select B,C,D,E offset 3 limit 10";
+      "select B,C,D,E";
 
-  const url =
-  "https://docs.google.com/spreadsheets/d/" +
-  SATURDAY_SHEET_ID +
-  "/gviz/tq?tqx=out:json&sheet=" +
-  encodeURIComponent(SATURDAY_SHEET_NAME) +
-  "&range=B4:E13&t=" +
-  Date.now();
+    const url =
+      "https://docs.google.com/spreadsheets/d/" +
+      SATURDAY_SHEET_ID +
+      "/gviz/tq?tqx=out:json&sheet=" +
+      encodeURIComponent(SATURDAY_SHEET_NAME) +
+      "&range=B4:E13&tq=" +
+      encodeURIComponent(query) +
+      "&t=" +
+      Date.now();
 
     const response =
       await fetch(url, { cache: "no-store" });
 
     if (!response.ok) {
-      throw new Error("토요일 시트 그룹 정보를 불러오지 못했습니다.");
+      throw new Error(
+        "토요일 시트 그룹 정보를 불러오지 못했습니다."
+      );
     }
 
     const text = await response.text();
@@ -2334,7 +2338,9 @@ async function loadGroupSheetLabels() {
       );
 
     if (!match) {
-      throw new Error("토요일 시트 응답 형식을 확인할 수 없습니다.");
+      throw new Error(
+        "토요일 시트 응답 형식을 확인할 수 없습니다."
+      );
     }
 
     const json = JSON.parse(match[1]);
@@ -2348,6 +2354,7 @@ async function loadGroupSheetLabels() {
 
     window.SATURDAY_GROUP_LABELS =
       rows.map(function(row) {
+
         const cells =
           Array.isArray(row.c)
             ? row.c
@@ -2361,18 +2368,31 @@ async function loadGroupSheetLabels() {
             : "";
         }
 
+        // B열 = 번호
         const number = value(0);
-const house = value(2);
-const status = value(3);
 
-return [
-  number ? number.replace(/번$/i, "") + "번" : "",
-  house ? house.replace(/호$/i, "") + "호" : "",
-  status
-].filter(Boolean).join(" ");
+        // D열 = 호
+        const house = value(2);
+
+        // E열 = m
+        const status = value(3);
+
+        return [
+          number
+            ? number.replace(/번$/i, "") + "번"
+            : "",
+
+          house
+            ? house.replace(/호$/i, "") + "호"
+            : "",
+
+          status
+
+        ].filter(Boolean).join(" ");
       });
 
   } catch (error) {
+
     console.error(
       "토요일 시트 그룹 표시 정보:",
       error
@@ -2380,93 +2400,6 @@ return [
 
     window.SATURDAY_GROUP_LABELS = [];
   }
-}
-
-async function loadGroups() {
-
-  try {
-
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=groups&t=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
-
-    if (!data.success) {
-      throw new Error(
-        data.message ||
-        "그룹을 불러오지 못했습니다."
-      );
-    }
-
-    const loaded =
-      Array.isArray(data.groups)
-        ? data.groups
-        : [];
-
-    groups =
-      loaded.map(function(group) {
-
-        const result =
-          Array.isArray(group)
-            ? group.slice(0, 4)
-            : [];
-
-        while (result.length < 4) {
-          result.push("");
-        }
-
-        return result;
-
-      });
-
-    return true;
-
-  } catch (error) {
-
-    console.error(error);
-
-    return false;
-
-  }
-
-}
-
-
-async function saveGroups() {
-
-  const response =
-    await fetch(
-      SCRIPT_URL,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify({
-          action: "saveGroups",
-          groups: groups
-        })
-      }
-    );
-
-  const data =
-    await response.json();
-
-  if (!data.success) {
-    throw new Error(
-      data.message ||
-      "그룹 저장에 실패했습니다."
-    );
-  }
-
-  return true;
-
 }
 
 
