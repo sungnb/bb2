@@ -2309,15 +2309,13 @@ async function loadGroupSheetLabels() {
     const query =
       "select B,C,D,E offset 3 limit 10";
 
-    const url =
-      "https://docs.google.com/spreadsheets/d/" +
-      SATURDAY_SHEET_ID +
-      "/gviz/tq?tqx=out:json&sheet=" +
-      encodeURIComponent(SATURDAY_SHEET_NAME) +
-      "&tq=" +
-      encodeURIComponent(query) +
-      "&t=" +
-      Date.now();
+  const url =
+  "https://docs.google.com/spreadsheets/d/" +
+  SATURDAY_SHEET_ID +
+  "/gviz/tq?tqx=out:json&sheet=" +
+  encodeURIComponent(SATURDAY_SHEET_NAME) +
+  "&range=B4:E13&t=" +
+  Date.now();
 
     const response =
       await fetch(url, { cache: "no-store" });
