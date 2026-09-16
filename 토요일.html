@@ -2348,15 +2348,13 @@ async function loadGroupSheetLabels() {
         : "";
     }
 
-    const number = value(0);  // B열
-    const house = value(2);   // D열
-    const status = value(3);  // E열
+   const house = value(2);   // D열
+const status = value(3);  // E열
 
-    return [
-      number ? number + "번" : "",
-      house ? house + "호" : "",
-      status
-    ].filter(Boolean).join(" ");
+return [
+  house ? house + "호" : "",
+  status
+].filter(Boolean).join(" ");
   });
 
   } catch (error) {
