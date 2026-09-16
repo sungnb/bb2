@@ -2308,25 +2308,24 @@ async function addManualApplicant() {
 
 async function loadGroupSheetLabels() {
   try {
-    const query =
-      "select B,C,D,E";
-
     const url =
       "https://docs.google.com/spreadsheets/d/" +
       SATURDAY_SHEET_ID +
-      "/gviz/tq?tqx=out:json&sheet=" +
+      "/gviz/tq?tqx=out:json" +
+      "&sheet=" +
       encodeURIComponent(SATURDAY_SHEET_NAME) +
-      "&range=B4:E13&tq=" +
-      encodeURIComponent(query) +
+      "&range=D4:E13" +
       "&t=" +
       Date.now();
 
     const response =
-      await fetch(url, { cache: "no-store" });
+      await fetch(url, {
+        cache: "no-store"
+      });
 
     if (!response.ok) {
       throw new Error(
-        "토요일 시트 그룹 정보를 불러오지 못했습니다."
+        "토요일 시트 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2360,35 +2359,24 @@ async function loadGroupSheetLabels() {
             ? row.c
             : [];
 
-        function value(index) {
-          const cell = cells[index];
-
-          return cell && cell.v != null
-            ? String(cell.v).trim()
+        const house =
+          cells[0] && cells[0].v != null
+            ? String(cells[0].v).trim()
             : "";
-        }
 
-        // B열 = 번호
-        const number = value(0);
+        const status =
+          cells[1] && cells[1].v != null
+            ? String(cells[1].v).trim()
+            : "";
 
-        // D열 = 호
-        const house = value(2);
-
-        // E열 = m
-        const status = value(3);
-
-        return [
-          number
-            ? number.replace(/번$/i, "") + "번"
-            : "",
-
+        const houseText =
           house
             ? house.replace(/호$/i, "") + "호"
-            : "",
+            : "";
 
-          status
-
-        ].filter(Boolean).join(" ");
+        return [houseText, status]
+          .filter(Boolean)
+          .join(" ");
       });
 
   } catch (error) {
@@ -2401,7 +2389,6 @@ async function loadGroupSheetLabels() {
     window.SATURDAY_GROUP_LABELS = [];
   }
 }
-
 
 /* =========================================================
    그룹 정리
