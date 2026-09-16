@@ -3075,10 +3075,15 @@ async function loadSaturdayReference() {
               ? conductorRows[0].c[0]
               : null;
 
-          SERVICE_CONDUCTOR =
-            conductorCell && conductorCell.v != null
-              ? String(conductorCell.v).trim()
-              : "";
+         SERVICE_CONDUCTOR =
+  conductorCell && conductorCell.v != null
+    ? String(conductorCell.v).trim()
+    : "";
+
+console.log(
+  "토요일!F4 인도자 확인:",
+  SERVICE_CONDUCTOR
+);
         }
       }
     } catch (conductorError) {
