@@ -2357,19 +2357,20 @@ async function loadGroupSheetLabels() {
         : "";
     }
 
-   const house = value(2);   // D열
+  const house = value(2);   // D열
 const status = value(3);  // E열
 
 return [
-  house ? house + "호" : "",
+  house ? house.replace(/호$/i, "") + "호" : "",
   status
 ].filter(Boolean).join(" ");
   });
 
   } catch (error) {
 
-    console.error("토요일 시트 그룹 표시 정보:", error);
-    window.SATURDAY_GROUP_LABELS = [];
+  console.error("토요일 시트 그룹 표시 정보:", error);
+
+}
 
   }
 }
