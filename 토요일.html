@@ -2324,17 +2324,14 @@ async function loadGroupSheetLabels() {
     }
 
     const text = await response.text();
-    const start = text.indexOf("google.visualization.Query.setResponse(");
-    const jsonStart = text.indexOf("{", start);
-    const jsonEnd = text.lastIndexOf("}");
+    const match =
+      text.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
 
-    if (start === -1 || jsonStart === -1 || jsonEnd === -1) {
+    if (!match) {
       throw new Error("토요일 시트 응답 형식을 확인할 수 없습니다.");
     }
 
-    const json = JSON.parse(
-      text.slice(jsonStart, jsonEnd + 1)
-    );
+    const json = JSON.parse(match[1]);
     const rows =
       json && json.table && Array.isArray(json.table.rows)
         ? json.table.rows
@@ -2351,12 +2348,14 @@ async function loadGroupSheetLabels() {
         : "";
     }
 
+    const number = value(0);  // B열
     const house = value(2);   // D열
-    const person = value(3);  // E열
+    const status = value(3);  // E열
 
     return [
+      number ? number + "번" : "",
       house ? house + "호" : "",
-      person
+      status
     ].filter(Boolean).join(" ");
   });
 
@@ -2993,7 +2992,7 @@ async function loadSaturdayReference() {
       encodeURIComponent(SATURDAY_SHEET_NAME) +
       "&tq=" +
       encodeURIComponent(query) +
-      "&range=B4:F13&t=" +
+      "&t=" +
       Date.now();
 
     const response =
@@ -3005,17 +3004,14 @@ async function loadSaturdayReference() {
 
     const text = await response.text();
 
-    const start = text.indexOf("google.visualization.Query.setResponse(");
-    const jsonStart = text.indexOf("{", start);
-    const jsonEnd = text.lastIndexOf("}");
+    const match =
+      text.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
 
-    if (start === -1 || jsonStart === -1 || jsonEnd === -1) {
+    if (!match) {
       throw new Error("토요일 시트 응답 형식을 확인할 수 없습니다.");
     }
 
-    const json = JSON.parse(
-      text.slice(jsonStart, jsonEnd + 1)
-    );
+    const json = JSON.parse(match[1]);
     const rows =
       json && json.table && Array.isArray(json.table.rows)
         ? json.table.rows
@@ -3046,11 +3042,48 @@ async function loadSaturdayReference() {
       });
 
     // 인도자는 토요일 시트 F4 셀의 값을 그대로 사용합니다.
-    // 위 조회 범위가 B4:F13이므로 첫 번째 행의 F값이 F4입니다.
-    SERVICE_CONDUCTOR =
-      SATURDAY_REFERENCE[0] && SATURDAY_REFERENCE[0].conductor
-        ? SATURDAY_REFERENCE[0].conductor
-        : "";
+    // 기존 Apps Script의 bon 데이터는 변경하지 않습니다.
+    try {
+      const conductorUrl =
+        "https://docs.google.com/spreadsheets/d/" +
+        SATURDAY_SHEET_ID +
+        "/gviz/tq?tqx=out:json&sheet=" +
+        encodeURIComponent(SATURDAY_SHEET_NAME) +
+        "&range=F4:F4&t=" +
+        Date.now();
+
+      const conductorResponse =
+        await fetch(conductorUrl, { cache: "no-store" });
+
+      if (conductorResponse.ok) {
+        const conductorText = await conductorResponse.text();
+        const conductorMatch =
+          conductorText.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
+
+        if (conductorMatch) {
+          const conductorJson = JSON.parse(conductorMatch[1]);
+          const conductorRows =
+            conductorJson &&
+            conductorJson.table &&
+            Array.isArray(conductorJson.table.rows)
+              ? conductorJson.table.rows
+              : [];
+
+          const conductorCell =
+            conductorRows[0] &&
+            Array.isArray(conductorRows[0].c)
+              ? conductorRows[0].c[0]
+              : null;
+
+          SERVICE_CONDUCTOR =
+            conductorCell && conductorCell.v != null
+              ? String(conductorCell.v).trim()
+              : "";
+        }
+      }
+    } catch (conductorError) {
+      console.error("토요일 시트 F4 인도자:", conductorError);
+    }
 
     return true;
 
@@ -3322,9 +3355,9 @@ function renderService() {
 
       if (area) {
         detail.textContent =
-          area.ho
-            ? area.ho + "호"
-            : "";
+          area.ho +
+          " 호 " +
+          area.m;
       } else {
         detail.textContent =
           "등록된 봉사 구역 정보가 없습니다.";
