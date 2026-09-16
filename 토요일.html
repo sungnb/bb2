@@ -2359,20 +2359,15 @@ async function loadGroupSheetLabels() {
             : "";
         }
 
-        const house =
-          value(2);
+        const number = value(0);
+const house = value(2);
+const status = value(3);
 
-        const status =
-          value(3);
-
-        return [
-          house
-            ? house.replace(/호$/i, "") + "호"
-            : "",
-          status
-        ]
-          .filter(Boolean)
-          .join(" ");
+return [
+  number ? number.replace(/번$/i, "") + "번" : "",
+  house ? house.replace(/호$/i, "") + "호" : "",
+  status
+].filter(Boolean).join(" ");
       });
 
   } catch (error) {
@@ -3219,15 +3214,13 @@ function renderService() {
 
   list.innerHTML = "";
 
-  const conductor =
-    document.getElementById("serviceConductor");
+const conductor =
+  document.getElementById("serviceConductor");
 
-  if (conductor) {
-    conductor.textContent =
-      "인도자 : " +
-      (SERVICE_CONDUCTOR || "");
-  }
-
+if (conductor) {
+  conductor.textContent =
+    "인도자 : " + (SERVICE_CONDUCTOR || "");
+}
 
   if (groups.length === 0) {
 
