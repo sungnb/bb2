@@ -1537,7 +1537,7 @@ let adminAuthenticated = false;
 
 document.addEventListener(
   "DOMContentLoaded",
-  function() {
+  async function() {
 
     loadSettings();
 
@@ -1547,7 +1547,7 @@ document.addEventListener(
 
     loadServiceData();
 
-    loadSaturdayReference();
+    await loadSaturdayReference();
 
     renderService();
 
