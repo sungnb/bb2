@@ -2348,14 +2348,12 @@ async function loadGroupSheetLabels() {
         : "";
     }
 
-    const number = value(0);  // B열
     const house = value(2);   // D열
-    const status = value(3);  // E열
+    const person = value(3);  // E열
 
     return [
-      number ? number + "번" : "",
       house ? house + "호" : "",
-      status
+      person
     ].filter(Boolean).join(" ");
   });
 
@@ -3282,7 +3280,7 @@ function renderService() {
             "noopener";
 
           link.textContent =
-            area.number;
+            area.number + " 구역카드";
 
           link.style.color =
             "inherit";
