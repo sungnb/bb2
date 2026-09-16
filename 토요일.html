@@ -2029,26 +2029,17 @@ async function loadApplicants() {
 
   try {
 
-   const [response] =
-  await Promise.all([
-    fetch(
-      SCRIPT_URL +
-      "?action=applicants&t=" +
-      Date.now()
-    ),
-    loadGroups(),
-    loadSaturdayReference()
-  ]);
+    const [response] =
+      await Promise.all([
+        fetch(
+          SCRIPT_URL +
+          "?action=applicants&t=" +
+          Date.now()
+        ),
+        loadGroups(),
+        loadGroupSheetLabels()
+      ]);
 
-window.SATURDAY_GROUP_LABELS =
-  SATURDAY_REFERENCE.slice(0, 10).map(function(item) {
-
-    return [
-      item.ho ? item.ho + "호" : "",
-      item.m || ""
-    ].filter(Boolean).join(" ");
-
-  });
     const data =
       await response.json();
 
@@ -2357,20 +2348,21 @@ async function loadGroupSheetLabels() {
         : "";
     }
 
-  const house = value(2);   // D열
-const status = value(3);  // E열
+    const number = value(0);  // B열
+    const house = value(2);   // D열
+    const status = value(3);  // E열
 
-return [
-  house ? house.replace(/호$/i, "") + "호" : "",
-  status
-].filter(Boolean).join(" ");
+    return [
+      number ? number + "번" : "",
+      house ? house + "호" : "",
+      status
+    ].filter(Boolean).join(" ");
   });
 
   } catch (error) {
 
-  console.error("토요일 시트 그룹 표시 정보:", error);
-
-}
+    console.error("토요일 시트 그룹 표시 정보:", error);
+    window.SATURDAY_GROUP_LABELS = [];
 
   }
 }
@@ -2598,8 +2590,6 @@ async function addGroup() {
 
   /* 새 그룹은 생성 순서의 맨 뒤에 추가합니다. */
 
-  await loadGroupSheetLabels();
-
   groups.push([
     "",
     "",
@@ -2614,7 +2604,8 @@ async function addGroup() {
   renderService();
 
 }
-   
+
+
 /* =========================================================
    그룹 삭제
 ========================================================= */
