@@ -3017,41 +3017,29 @@ async function loadSaturdayReference() {
         ? json.table.rows
         : [];
 
-  SATURDAY_REFERENCE =
-  rows.map(function(row) {
+    SATURDAY_REFERENCE =
+      rows.map(function(row) {
 
-    const cells = Array.isArray(row.c) ? row.c : [];
+        const cells = Array.isArray(row.c) ? row.c : [];
 
-    function cellValue(index) {
-      const cell = cells[index];
-      return cell && cell.v != null
-        ? String(cell.v).trim()
-        : "";
-    }
+        function cellValue(index) {
+          const cell = cells[index];
+          return cell && cell.v != null
+            ? String(cell.v).trim()
+            : "";
+        }
 
-    return {
-      number: cellValue(0),
-      name: cellValue(1),
-      ho: cellValue(2),
-      m: cellValue(3),
-      conductor: cellValue(4)
-    };
+        return {
+          number: cellValue(0),
+          name: cellValue(1),
+          ho: cellValue(2),
+          m: cellValue(3),
+          conductor: cellValue(4)
+        };
 
-  }).filter(function(item) {
-    return item.number || item.name || item.ho || item.m || item.conductor;
-  });
-
-console.log(
-  "토요일 시트에서 읽은 첫 번째 행:",
-  SATURDAY_REFERENCE[0]
-);
-
-console.log(
-  "토요일!F4 인도자:",
-  SATURDAY_REFERENCE[0]
-    ? SATURDAY_REFERENCE[0].conductor
-    : ""
-);
+      }).filter(function(item) {
+        return item.number || item.name || item.ho || item.m || item.conductor;
+      });
 
     // 인도자는 토요일 시트 F4 셀의 값을 그대로 사용합니다.
     // 기존 Apps Script의 bon 데이터는 변경하지 않습니다.
@@ -3087,15 +3075,10 @@ console.log(
               ? conductorRows[0].c[0]
               : null;
 
-         SERVICE_CONDUCTOR =
-  conductorCell && conductorCell.v != null
-    ? String(conductorCell.v).trim()
-    : "";
-
-console.log(
-  "토요일!F4 인도자 확인:",
-  SERVICE_CONDUCTOR
-);
+          SERVICE_CONDUCTOR =
+            conductorCell && conductorCell.v != null
+              ? String(conductorCell.v).trim()
+              : "";
         }
       }
     } catch (conductorError) {
