@@ -2029,17 +2029,26 @@ async function loadApplicants() {
 
   try {
 
-    const [response] =
-      await Promise.all([
-        fetch(
-          SCRIPT_URL +
-          "?action=applicants&t=" +
-          Date.now()
-        ),
-        loadGroups(),
-        loadGroupSheetLabels()
-      ]);
+   const [response] =
+  await Promise.all([
+    fetch(
+      SCRIPT_URL +
+      "?action=applicants&t=" +
+      Date.now()
+    ),
+    loadGroups(),
+    loadSaturdayReference()
+  ]);
 
+window.SATURDAY_GROUP_LABELS =
+  SATURDAY_REFERENCE.slice(0, 10).map(function(item) {
+
+    return [
+      item.ho ? item.ho + "호" : "",
+      item.m || ""
+    ].filter(Boolean).join(" ");
+
+  });
     const data =
       await response.json();
 
