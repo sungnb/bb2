@@ -1518,11 +1518,23 @@ body.light .submitted-volunteer-name {
 
 
 <script>
+
+let selectedVolunteerSchedule = "";
+
+/* =========================================================
+   봉사 일정 선택
+========================================================= */
+
 function selectVolunteerSchedule(schedule) {
 
-  if (schedule !== "토오전") {
+  if (
+    schedule !== "토오전"
+  ) {
     return;
   }
+
+  selectedVolunteerSchedule =
+    schedule;
 
   const scheduleArea =
     document.getElementById(
@@ -1539,22 +1551,39 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
+  const applyButton =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
   if (scheduleArea) {
-    scheduleArea.style.display = "none";
+    scheduleArea.style.display =
+      "none";
+  }
+
+  if (applyButton) {
+    applyButton.style.display =
+      "none";
   }
 
   if (applyArea) {
-    applyArea.style.display = "block";
-    applyArea.classList.add("show");
+    applyArea.style.display =
+      "block";
+
+    applyArea.classList.add(
+      "show"
+    );
   }
 
   if (submittedArea) {
-    submittedArea.style.display = "block";
+    submittedArea.style.display =
+      "none";
   }
 
   loadMasterNames();
 
 }
+
 /* =========================================================
    기본 설정
 ========================================================= */
