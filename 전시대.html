@@ -3783,76 +3783,44 @@ async function submitVolunteerApplication() {
     button.textContent = "제출 중...";
   }
 
-
   try {
 
     const newSelections =
       getMySelections();
 
+    if (!newSelections.length) {
+      alert("봉사자를 한 명 이상 선택해 주세요.");
 
-    /*
-      현재 서버에 저장된 신청자 명단을 가져옵니다.
-      새로 체크한 사람은 추가하고,
-      체크를 해제한 사람은 삭제합니다.
-    */
-
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=applicants&t=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
-
-
-    if (!data.success) {
-
-      throw new Error(
-        data.message ||
-        "현재 신청자 명단을 가져오지 못했습니다."
-      );
-
-    }
-
-
-    const serverApplicants =
-      Array.isArray(data.applicants)
-        ? data.applicants
-        : [];
-
-
-     const newSet =
-      new Set(newSelections);
-
-    const serverSet =
-      new Set(serverApplicants);
-
-
-    /*
-      이번 제출에서 체크한 이름 중
-      서버에 없는 이름만 추가합니다.
-
-      다른 PC나 휴대폰에서 이미 신청한 사람은
-      절대로 삭제하지 않습니다.
-    */
-
-    for (
-      const name of newSelections
-    ) {
-
-      if (!serverSet.has(name)) {
-
-        await updateVolunteerApplication(
-          name,
-          true
-        );
-
+      if (button) {
+        button.disabled = false;
+        button.textContent = "제출";
       }
 
+      return;
     }
 
+    /*
+      현재 선택된 일정
+      토오전 / 토오후 / 일오전
+    */
+
+    const scheduleKey =
+      selectedVolunteerSchedule;
+
+    if (!scheduleKey) {
+      throw new Error(
+        "봉사 일정이 선택되지 않았습니다."
+      );
+    }
+
+    /*
+      선택한 일정에 신청자를 저장합니다.
+    */
+
+    await saveScheduleApplicants(
+      scheduleKey,
+      newSelections
+    );
 
     /*
       제출 완료 후 화면을 닫습니다.
@@ -3863,35 +3831,41 @@ async function submitVolunteerApplication() {
         "volunteerApplyArea"
       );
 
-    const applyButton =
+    const scheduleArea =
       document.getElementById(
-        "volunteerApplyButton"
+        "volunteerScheduleArea"
       );
-
 
     if (area) {
       area.classList.remove("show");
+      area.style.display = "none";
     }
-
-    if (applyButton) {
-      applyButton.style.display = "block";
-    }
-
 
     /*
-      제출된 봉사자 명단을 바로 표시합니다.
+      제출된 봉사자 명단 표시
     */
 
     renderSubmittedVolunteers(
       newSelections
     );
 
+    /*
+      다시 일정 선택 화면으로 돌아갑니다.
+    */
+
+    if (scheduleArea) {
+      scheduleArea.style.display = "block";
+    }
 
     if (button) {
       button.disabled = false;
       button.textContent = "제출";
     }
 
+    alert(
+      newSelections.length +
+      "명이 신청되었습니다."
+    );
 
   } catch (error) {
 
@@ -3899,9 +3873,9 @@ async function submitVolunteerApplication() {
 
     alert(
       "봉사 신청 제출에 실패했습니다.\n" +
-      "잠시 후 다시 시도해 주세요."
+      (error.message ||
+       "잠시 후 다시 시도해 주세요.")
     );
-
 
     if (button) {
       button.disabled = false;
