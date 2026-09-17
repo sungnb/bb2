@@ -1518,7 +1518,43 @@ body.light .submitted-volunteer-name {
 
 
 <script>
+function selectVolunteerSchedule(schedule) {
 
+  if (schedule !== "토오전") {
+    return;
+  }
+
+  const scheduleArea =
+    document.getElementById(
+      "volunteerScheduleArea"
+    );
+
+  const applyArea =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const submittedArea =
+    document.getElementById(
+      "submittedVolunteerArea"
+    );
+
+  if (scheduleArea) {
+    scheduleArea.style.display = "none";
+  }
+
+  if (applyArea) {
+    applyArea.style.display = "block";
+    applyArea.classList.add("show");
+  }
+
+  if (submittedArea) {
+    submittedArea.style.display = "block";
+  }
+
+  loadMasterNames();
+
+}
 /* =========================================================
    기본 설정
 ========================================================= */
