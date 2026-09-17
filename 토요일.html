@@ -2308,65 +2308,73 @@ async function loadGroupSheetLabels() {
 
   try {
 
-    const url =
-      "https://docs.google.com/spreadsheets/d/" +
-      SATURDAY_SHEET_ID +
-      "/gviz/tq?tqx=out:json&sheet=" +
-      encodeURIComponent(SATURDAY_SHEET_NAME) +
-      "&range=B4:E13&t=" +
-      Date.now();
-
     const response =
-      await fetch(url, { cache: "no-store" });
+      await fetch(
+        SCRIPT_URL +
+        "?action=saturdayReference&t=" +
+        Date.now()
+      );
 
     if (!response.ok) {
-      throw new Error("토요일 시트 그룹 정보를 불러오지 못했습니다.");
+      throw new Error(
+        "토요일 시트 그룹 정보를 불러오지 못했습니다."
+      );
     }
 
-    const text = await response.text();
-    const match =
-      text.match(/google\.visualization\.Query\.setResponse\((.*)\);\s*$/s);
+    const data =
+      await response.json();
 
-    if (!match) {
-      throw new Error("토요일 시트 응답 형식을 확인할 수 없습니다.");
+    if (!data.success) {
+      throw new Error(
+        data.message ||
+        "토요일 시트 그룹 정보를 불러오지 못했습니다."
+      );
     }
 
-    const json = JSON.parse(match[1]);
     const rows =
-      json && json.table && Array.isArray(json.table.rows)
-        ? json.table.rows
+      Array.isArray(data.reference)
+        ? data.reference
         : [];
 
- window.SATURDAY_GROUP_LABELS =
-  rows.slice(0, 10).map(function(row) {
-    const cells = Array.isArray(row.c) ? row.c : [];
+    window.SATURDAY_GROUP_LABELS =
+      rows.slice(0, 10).map(function(item) {
 
-    function value(index) {
-      const cell = cells[index];
-      return cell && cell.v != null
-        ? String(cell.v).trim()
-        : "";
-    }
+        const number =
+          String(
+            item.number || ""
+          ).trim();
 
-    const number = value(0);  // B열
-    const house = value(2);   // D열
-    const status = value(3);  // E열
+        const house =
+          String(
+            item.ho || ""
+          ).trim();
 
-    return [
-      number ? number + "번" : "",
-      house ? house + "호" : "",
-      status
-    ].filter(Boolean).join(" ");
-  });
+        const status =
+          String(
+            item.m || ""
+          ).trim();
+
+        return [
+          number ? number + "번" : "",
+          house ? house + "호" : "",
+          status
+        ]
+        .filter(Boolean)
+        .join(" ");
+
+      });
 
   } catch (error) {
 
-    console.error("토요일 시트 그룹 표시 정보:", error);
+    console.error(
+      "토요일 시트 그룹 표시 정보:",
+      error
+    );
+
     window.SATURDAY_GROUP_LABELS = [];
 
   }
 }
-
 
 async function loadGroups() {
 
