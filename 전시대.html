@@ -1120,7 +1120,7 @@ body.light .submitted-volunteer-name {
     class="top-title"
     id="topTitle"
   >
-    토요일
+    전시대
   </div>
 
   <button
@@ -1592,7 +1592,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "토요일";
+      .textContent = "전시대";
 
     setActiveNav("navApply");
 
@@ -1609,7 +1609,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "토요일";
+      .textContent = "전시대";
 
     setActiveNav("navAdmin");
 
@@ -1626,7 +1626,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "토요일";
+      .textContent = "전시대";
 
     setActiveNav("navService");
 
@@ -2317,7 +2317,7 @@ async function loadGroupSheetLabels() {
 
     if (!response.ok) {
       throw new Error(
-        "토요일 시트 그룹 정보를 불러오지 못했습니다."
+        "전시대 시트 그룹 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2327,7 +2327,7 @@ async function loadGroupSheetLabels() {
     if (!data.success) {
       throw new Error(
         data.message ||
-        "토요일 시트 그룹 정보를 불러오지 못했습니다."
+        "전시대 시트 그룹 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2367,7 +2367,7 @@ async function loadGroupSheetLabels() {
   } catch (error) {
 
     console.error(
-      "토요일 시트 그룹 표시 정보:",
+      "전시대 시트 그룹 표시 정보:",
       error
     );
 
@@ -2999,7 +2999,7 @@ async function loadSaturdayReference() {
 
     if (!response.ok) {
       throw new Error(
-        "토요일 데이터를 불러오지 못했습니다."
+        "전시대 데이터를 불러오지 못했습니다."
       );
     }
 
@@ -3009,7 +3009,7 @@ async function loadSaturdayReference() {
     if (!data.success) {
       throw new Error(
         data.message ||
-        "토요일 데이터를 불러오지 못했습니다."
+        "전시대 데이터를 불러오지 못했습니다."
       );
     }
 
@@ -3069,7 +3069,7 @@ async function loadSaturdayReference() {
   } catch (error) {
 
     console.error(
-      "토요일 시트 기준 데이터:",
+      "전시대 시트 기준 데이터:",
       error
     );
 
