@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>토요일</title>
+<title>전시대</title>
 
 <style>
 /* =========================================================
@@ -1219,23 +1219,56 @@ body.light .submitted-volunteer-name {
   class="view active"
 >
 
-  <h1 class="page-title">
-    봉사자 선택
-  </h1>
+ <h1 class="page-title">
+  봉사자 선택
+</h1>
+
+<!-- 봉사 일정 선택 -->
+<div
+  id="volunteerScheduleArea"
+  class="volunteer-schedule-area"
+>
 
   <button
     type="button"
-    id="volunteerApplyButton"
-    class="volunteer-apply-button"
-    onclick="openVolunteerApply()"
+    class="volunteer-schedule-button"
+    onclick="selectVolunteerSchedule('토요일 오전')"
   >
-    <span
-      class="apply-back-icon"
-      onclick="event.stopPropagation(); closeVolunteerApply();"
-      aria-label="신청 취소"
-    >‹</span>
-    <span>봉사 신청</span>
+    토요일 오전
   </button>
+
+  <button
+    type="button"
+    class="volunteer-schedule-button"
+    onclick="selectVolunteerSchedule('토요일 오후')"
+  >
+    토요일 오후
+  </button>
+
+  <button
+    type="button"
+    class="volunteer-schedule-button"
+    onclick="selectVolunteerSchedule('일요일 오전')"
+  >
+    일요일 오전
+  </button>
+
+</div>
+
+<button
+  type="button"
+  id="volunteerApplyButton"
+  class="volunteer-apply-button"
+  onclick="openVolunteerApply()"
+  style="display:none;"
+>
+  <span
+    class="apply-back-icon"
+    onclick="event.stopPropagation(); closeVolunteerApply();"
+    aria-label="신청 취소"
+  >‹</span>
+  <span>봉사 신청</span>
+</button>
 
   <div
     id="volunteerApplyArea"
