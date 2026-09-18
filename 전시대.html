@@ -3891,9 +3891,9 @@ async function submitVolunteerApplication() {
    봉사 신청 서버 반영
 ========================================================= */
 
-async function updateVolunteerApplication(
-  name,
-  checked
+async function saveScheduleApplicants(
+  scheduleKey,
+  applicants
 ) {
 
   const response =
@@ -3908,8 +3908,14 @@ async function updateVolunteerApplication(
         },
 
         body: JSON.stringify({
-          name: name,
-          checked: checked
+          action:
+            "saveJeonsidaeScheduleApplicants",
+
+          key:
+            scheduleKey,
+
+          applicants:
+            applicants
         })
       }
     );
