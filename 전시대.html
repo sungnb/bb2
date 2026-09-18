@@ -1684,13 +1684,19 @@ function selectVolunteerSchedule(schedule) {
 
   selectedVolunteerSchedule = schedule;
 
-  if (schedule !== "토오전") {
-    return;
-  }
-
   const scheduleArea =
     document.getElementById(
       "volunteerScheduleArea"
+    );
+
+  const applyButton =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
     );
 
   const applyArea =
@@ -1703,23 +1709,35 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
+  /* 일정 선택 화면 숨기기 */
   if (scheduleArea) {
     scheduleArea.style.display = "none";
   }
 
+  /* 봉사자 선택 버튼 표시 */
+  if (applyButton) {
+    applyButton.style.display = "flex";
+  }
+
+  /* 뒤로가기 / 새로고침 표시 */
+  if (controlRow) {
+    controlRow.style.display = "flex";
+  }
+
+  /* 이름 명단은 아직 열지 않음 */
   if (applyArea) {
-    applyArea.style.display = "block";
-    applyArea.classList.add("show");
+    applyArea.style.display = "none";
+    applyArea.classList.remove("show");
   }
 
+  /* 제출된 명단도 숨김 */
   if (submittedArea) {
-    submittedArea.style.display = "block";
+    submittedArea.style.display = "none";
   }
-
-  loadMasterNames();
 
 }
-   
+</script>
+  
 /* =========================================================
    기본 설정
 ========================================================= */
