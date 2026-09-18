@@ -3922,6 +3922,7 @@ function openVolunteerApply() {
     return;
   }
 
+  area.style.display = "block";
   area.classList.add("show");
 
   if (button) {
@@ -3978,8 +3979,8 @@ function goToApplyHome() {
     );
 
   if (scheduleArea) {
-    scheduleArea.style.display = "flex";
-  }
+  scheduleArea.style.display = "";
+}
 
   if (applyButton) {
     applyButton.style.display = "none";
