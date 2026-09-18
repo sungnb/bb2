@@ -1250,7 +1250,10 @@ body.light .submitted-volunteer-name {
   class="view active"
 >
 
- <h1 class="page-title">
+ <h1
+  id="volunteerMainTitle"
+  class="page-title"
+>
   봉사를 선택해 주세요
 </h1>
 
@@ -1344,11 +1347,42 @@ body.light .submitted-volunteer-name {
     </button>
    
   </div>
-  
-  </section>
+ 
+  <!-- 제출 후 봉사자 명단 -->
+  <div
+    id="submittedVolunteerArea"
+    class="submitted-volunteer-area"
+    style="display:none;"
+  >
 
+    <div class="volunteer-select-header">
 
-  <!-- =====================================================
+      <button
+        type="button"
+        class="apply-back-button"
+        onclick="closeSubmittedVolunteer()"
+        aria-label="뒤로가기"
+      >
+        ‹
+      </button>
+
+      <h1 class="page-title">
+        봉사자 명단
+      </h1>
+
+    </div>
+
+    <div
+      id="submittedVolunteerNames"
+      class="submitted-volunteer-names"
+    >
+    </div>
+
+  </div>
+
+</section>
+    
+   <!-- =====================================================
        2. 관리자용
   ====================================================== -->
 
@@ -1421,9 +1455,9 @@ body.light .submitted-volunteer-name {
       ></div>
 
     </div>
+  </div>
 
   </section>
-
 
   <!-- =====================================================
        3. 봉사하기
@@ -1570,8 +1604,17 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
+  const mainTitle =
+    document.getElementById(
+      "volunteerMainTitle"
+    );
+
   if (scheduleArea) {
     scheduleArea.style.display = "none";
+  }
+
+  if (mainTitle) {
+    mainTitle.style.display = "none";
   }
 
   if (applyArea) {
@@ -1580,7 +1623,7 @@ function selectVolunteerSchedule(schedule) {
   }
 
   if (submittedArea) {
-    submittedArea.style.display = "block";
+    submittedArea.style.display = "none";
   }
 
   loadMasterNames();
