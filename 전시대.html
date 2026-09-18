@@ -7,8 +7,6 @@
 <title>전시대</title>
 
 <style>
-   
-
 /* =========================================================
    기본
 ========================================================= */
@@ -121,35 +119,6 @@ body.light {
   letter-spacing: -1px;
 }
 
-/* =========================================================
-   봉사자 선택 화면 뒤로가기 버튼
-========================================================= */
-
-.volunteer-select-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.apply-back-button {
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: none;
-  border-radius: 12px;
-  background: #234563;
-  color: #ffffff;
-  font-size: 30px;
-  line-height: 1;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.volunteer-select-header .page-title {
-  margin: 0;
-}
-   
 /* =========================================================
    선택 인원
 ========================================================= */
@@ -1250,11 +1219,8 @@ body.light .submitted-volunteer-name {
   class="view active"
 >
 
- <h1
-  id="volunteerMainTitle"
-  class="page-title"
->
-  봉사를 선택해 주세요
+ <h1 class="page-title">
+  봉사자 선택
 </h1>
 
 <!-- 봉사 일정 선택 -->
@@ -1289,48 +1255,31 @@ body.light .submitted-volunteer-name {
 
 </div>
 
-  <button
-    type="button"
-    id="volunteerApplyButton"
-    class="volunteer-apply-button open"
-    onclick="openVolunteerApply()"
-  >
-    <span
-      class="apply-back-icon"
-      onclick="event.stopPropagation(); closeVolunteerApply();"
-      aria-label="신청 취소"
-    >‹</span>
-    <span>봉사 신청</span>
-  </button>
-
- <div
-    <div
-    id="volunteerApplyArea"
-    class="volunteer-apply-area show"
-  >
+<button
+  type="button"
+  id="volunteerApplyButton"
+  class="volunteer-apply-button"
+  onclick="openVolunteerApply()"
+  style="display:none;"
 >
-
-  <div class="volunteer-select-header">
-
-    <button
-      type="button"
-      class="apply-back-button"
-      onclick="closeVolunteerApply()"
-      aria-label="뒤로가기"
-    >
-      ‹
-    </button>
-
-    <h1 class="page-title">
-      봉사자 선택
-    </h1>
-
-  </div>
+  <span
+    class="apply-back-icon"
+    onclick="event.stopPropagation(); closeVolunteerApply();"
+    aria-label="신청 취소"
+  >‹</span>
+  <span>봉사 신청</span>
+</button>
 
   <div
-    class="name-grid"
-    id="nameGrid"
-  >
+  id="volunteerApplyArea"
+  class="volunteer-apply-area"
+  style="display:none;"
+>
+
+    <div
+      class="name-grid"
+      id="nameGrid"
+    >
 
       <div class="name-loading">
         봉사자 명단을 불러오는 중입니다.
@@ -1346,31 +1295,17 @@ body.light .submitted-volunteer-name {
     >
       제출
     </button>
-   
+
   </div>
- 
-  <!-- 제출 후 봉사자 명단 -->
+
   <div
-    id="submittedVolunteerArea"
-    class="submitted-volunteer-area"
-    style="display:none;"
-  >
+  id="submittedVolunteerArea"
+  class="submitted-volunteer-area"
+  style="display:none;"
+>
 
-    <div class="volunteer-select-header">
-
-      <button
-        type="button"
-        class="apply-back-button"
-        onclick="closeSubmittedVolunteer()"
-        aria-label="뒤로가기"
-      >
-        ‹
-      </button>
-
-      <h1 class="page-title">
-        봉사자 명단
-      </h1>
-
+    <div class="submitted-volunteer-title">
+      봉사자 명단
     </div>
 
     <div
@@ -1382,8 +1317,9 @@ body.light .submitted-volunteer-name {
   </div>
 
 </section>
-    
-   <!-- =====================================================
+
+
+  <!-- =====================================================
        2. 관리자용
   ====================================================== -->
 
@@ -1456,9 +1392,9 @@ body.light .submitted-volunteer-name {
       ></div>
 
     </div>
-  </div>
 
   </section>
+
 
   <!-- =====================================================
        3. 봉사하기
@@ -1605,17 +1541,8 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
-  const mainTitle =
-    document.getElementById(
-      "volunteerMainTitle"
-    );
-
   if (scheduleArea) {
     scheduleArea.style.display = "none";
-  }
-
-  if (mainTitle) {
-    mainTitle.style.display = "none";
   }
 
   if (applyArea) {
@@ -1624,7 +1551,7 @@ function selectVolunteerSchedule(schedule) {
   }
 
   if (submittedArea) {
-    submittedArea.style.display = "none";
+    submittedArea.style.display = "block";
   }
 
   loadMasterNames();
@@ -3836,7 +3763,7 @@ function closeVolunteerApply() {
   }
 
   if (button) {
-    button.classList.add("open");
+    button.classList.remove("open");
     button.style.display = "flex";
   }
 
@@ -3901,17 +3828,23 @@ async function submitVolunteerApplication() {
     );
 
     /*
-  제출 후에도 신청 화면을 그대로 유지합니다.
-*/
+      제출 완료 후 화면을 닫습니다.
+    */
 
-const area =
-  document.getElementById(
-    "volunteerApplyArea"
-  );
+    const area =
+      document.getElementById(
+        "volunteerApplyArea"
+      );
 
-if (area) {
-  area.classList.add("show");
-}
+    const scheduleArea =
+      document.getElementById(
+        "volunteerScheduleArea"
+      );
+
+    if (area) {
+      area.classList.remove("show");
+      area.style.display = "none";
+    }
 
     /*
       제출된 봉사자 명단 표시
