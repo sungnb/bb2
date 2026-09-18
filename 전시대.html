@@ -1109,25 +1109,14 @@ body.light .submitted-volunteer-name {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
 }
 
-
-/* 추가 신청 및 임명 취소 안내 */
-.notice-contact-card strong {
-  font-size: calc(18px * var(--font-scale));
-  color: #fff;
-}
-
-body.light .notice-contact-card strong {
-  color: #000;
-}
-
-
 .notice-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding: 9px 0;
-  font-size: 17px;
+  font-size: calc(17px * var(--font-scale));
+  color: #fff;
 }
 
 .notice-row + .notice-row {
@@ -1136,11 +1125,17 @@ body.light .notice-contact-card strong {
 
 .notice-row strong {
   font-weight: 700;
+  color: inherit;
 }
 
 .notice-row span {
   font-weight: 600;
   text-align: right;
+  color: inherit;
+}
+
+body.light .notice-row {
+  color: #000;
 }
    
 </style>
