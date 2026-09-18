@@ -776,7 +776,7 @@ body.light .admin-login-input {
   z-index: 1000;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   background: #18324a;
   border-top: 1px solid rgba(255,255,255,.10);
@@ -1360,6 +1360,68 @@ body.light .submitted-volunteer-name {
 
   </section>
 
+<!-- =====================================================
+       알림
+====================================================== -->
+
+  <section
+    id="noticeView"
+    class="view"
+  >
+
+    <div class="notice-container">
+
+      <h1 class="page-title">
+        알림
+      </h1>
+
+      <div class="notice-card">
+
+        <div class="notice-row">
+          <strong>토요일 신청</strong>
+          <span>수요일</span>
+        </div>
+
+        <div class="notice-row">
+          <strong>토요일 마감</strong>
+          <span>금요일</span>
+        </div>
+
+      </div>
+
+
+      <div class="notice-card">
+
+        <div class="notice-row">
+          <strong>일요일 신청</strong>
+          <span>금요일</span>
+        </div>
+
+        <div class="notice-row">
+          <strong>일요일 마감</strong>
+          <span>토요일</span>
+        </div>
+
+      </div>
+
+
+      <div class="notice-card">
+
+        <div class="notice-row">
+          <strong>토요일 (오전)</strong>
+          <span>김경수 형제</span>
+        </div>
+
+        <div class="notice-row">
+          <strong>일요일 (오전)</strong>
+          <span>정지원 형제</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
   <!-- =====================================================
        3. 봉사하기
@@ -1405,6 +1467,14 @@ body.light .submitted-volunteer-name {
 <nav class="bottom-nav">
 
   <button
+  class="nav-button"
+  id="navNotice"
+  onclick="showView('notice')"
+ >
+  알림
+   </button>
+
+   <button
     class="nav-button active"
     id="navApply"
     onclick="showView('apply')"
@@ -1559,6 +1629,21 @@ document.addEventListener(
 ========================================================= */
 
 function showView(view) {
+
+  if (view === "notice") {
+
+    document
+      .getElementById("noticeView")
+      .classList.add("active");
+
+    document
+      .getElementById("topTitle")
+      .textContent = "알림";
+
+    setActiveNav("navNotice");
+
+    return;
+  }
 
   if (view === "admin" && !adminAuthenticated) {
 
