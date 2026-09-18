@@ -4392,7 +4392,22 @@ document.addEventListener(
     const hh=h===0?12:(h>12?h-12:h);
     return ap+" "+hh+":"+min;
   }
-  function fmtRange(a,b){ return fmtTime(a)+" ~ "+fmtTime(b); }
+  function fmtRange(a,b){
+    const sa=fmtTime(a), sb=fmtTime(b);
+    if(!sa) return "";
+    if(!sb) return sa;
+    const aa=sa.split(" ")[0], bb=sb.split(" ")[0];
+    const range=aa===bb ? sa+" ~ "+sb.slice(3) : sa+" ~ "+sb;
+    const ma=String(a||"").match(/^(\d{1,2}):(\d{2})$/);
+    const mb=String(b||"").match(/^(\d{1,2}):(\d{2})$/);
+    if(!ma||!mb) return range;
+    const mins=(Number(mb[1])*60+Number(mb[2]))-(Number(ma[1])*60+Number(ma[2]));
+    if(mins>0){
+      const h=Math.floor(mins/60), m=mins%60;
+      return range+" ("+(h?h+"시간 ":"")+(m?m+"분":"").trim()+")";
+    }
+    return range;
+  }
   function normalize(s){
     if(!s || !s.key) return null;
     const key=String(s.key);
@@ -4409,9 +4424,9 @@ document.addEventListener(
     const sat=nextSaturday();
     const sun=new Date(sat); sun.setDate(sat.getDate()+1);
     return [
-      normalize({key:"토오전",label:"토오전",fixed:true,serviceDate:dateInput(sat),startTime:"10:00",endTime:"12:00"}),
-      normalize({key:"토오후",label:"토오후",fixed:true,serviceDate:dateInput(sat),startTime:"13:00",endTime:"15:00"}),
-      normalize({key:"일오전",label:"일오전",fixed:true,serviceDate:dateInput(sun),startTime:"10:00",endTime:"12:00"})
+      normalize({key:"토오전",label:"토요일 오전",fixed:true,serviceDate:dateInput(sat),startTime:"10:00",endTime:"12:00"}),
+      normalize({key:"토오후",label:"토요일 오후",fixed:true,serviceDate:dateInput(sat),startTime:"13:00",endTime:"15:00"}),
+      normalize({key:"일오전",label:"일요일 오전",fixed:true,serviceDate:dateInput(sun),startTime:"10:00",endTime:"12:00"})
     ];
   }
   function saveLocal(){ localStorage.setItem(LOCAL_SCHEDULE_KEY,JSON.stringify(schedules)); }
@@ -4490,13 +4505,32 @@ document.addEventListener(
   async function loadSchedules(){
     const map=new Map();
     fixedSchedules().forEach(s=>map.set(s.key,s));
-    loadLocal().forEach(s=>{if(!s.fixed)map.set(s.key,s);});
+    let serverLoaded=false;
     try{
       const r=await fetch(SCRIPT_URL+"?action=jeonsidaeSchedules&t="+Date.now());
       const data=await r.json();
       const arr=Array.isArray(data.schedules)?data.schedules:(Array.isArray(data.scheduleList)?data.scheduleList:[]);
-      arr.map(normalize).filter(Boolean).forEach(s=>{if(ALL_KEYS.includes(s.key))map.set(s.key,s);});
+      serverLoaded=!!data.success;
+      arr.map(normalize).filter(Boolean).forEach(s=>{
+        if(!ALL_KEYS.includes(s.key)) return;
+        if(FIXED_KEYS.includes(s.key)){
+          const base=map.get(s.key);
+          map.set(s.key,normalize({
+            key:s.key,
+            label:base ? base.label : s.label,
+            fixed:true,
+            serviceDate:s.serviceDate|| (base&&base.serviceDate) || "",
+            startTime:s.startTime|| (base&&base.startTime) || "10:00",
+            endTime:s.endTime|| (base&&base.endTime) || "12:00"
+          }));
+        }else if(s.serviceDate || s.time || s.startTime || s.endTime){
+          map.set(s.key,s);
+        }
+      });
     }catch(e){ console.warn("일정 목록 불러오기 실패",e); }
+    if(!serverLoaded){
+      loadLocal().forEach(s=>{if(!s.fixed)map.set(s.key,s);});
+    }
     schedules=Array.from(map.values()).sort(order); saveLocal(); renderLists();
   }
 
