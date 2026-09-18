@@ -1785,7 +1785,21 @@ function showView(view) {
       element.classList.remove("active");
 
     });
+  
+   if (view === "notice") {
 
+    document
+      .getElementById("noticeView")
+      .classList.add("active");
+
+    document
+      .getElementById("topTitle")
+      .textContent = "알림";
+
+    setActiveNav("navNotice");
+
+    return;
+  }
 
   if (view === "apply") {
 
