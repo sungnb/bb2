@@ -3951,6 +3951,16 @@ function closeVolunteerApply() {
     button.style.display = "flex";
   }
 
+  /* 뒤로가기 / 새로고침 버튼 숨기기 */
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
+    );
+
+  if (controlRow) {
+    controlRow.style.display = "none";
+  }
+
 }
    
 /* =========================================================
