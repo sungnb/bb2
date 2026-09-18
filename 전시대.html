@@ -1309,13 +1309,31 @@ body.light .notice-row {
   onclick="openVolunteerApply()"
   style="display:none;"
 >
-  <span
-    class="apply-back-icon"
-    onclick="event.stopPropagation(); closeVolunteerApply();"
-    aria-label="신청 취소"
-  >‹</span>
-  <span>봉사 신청</span>
+  <span>봉사자 선택</span>
 </button>
+
+<!-- 뒤로가기 / 새로고침 -->
+<div
+  id="volunteerControlRow"
+  class="volunteer-control-row"
+  style="display:none;"
+>
+
+  <button
+    type="button"
+    class="volunteer-control-button"
+    onclick="goToApplyHome()"
+  >
+    ‹ 뒤로가기
+  </button>
+
+  <button
+    type="button"
+    class="volunteer-control-button"
+    onclick="refreshVolunteerNames()"
+  >
+    ↻ 새로고침
+  </button>
 
   <div
   id="volunteerApplyArea"
@@ -3895,6 +3913,16 @@ function openVolunteerApply() {
   }
 
   loadMasterNames();
+
+  /* 뒤로가기 / 새로고침 버튼 표시 */
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
+    );
+
+  if (controlRow) {
+    controlRow.style.display = "flex";
+  }
 
 }
 
