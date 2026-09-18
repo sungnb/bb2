@@ -7,6 +7,8 @@
 <title>전시대</title>
 
 <style>
+   
+
 /* =========================================================
    기본
 ========================================================= */
@@ -119,6 +121,35 @@ body.light {
   letter-spacing: -1px;
 }
 
+/* =========================================================
+   봉사자 선택 화면 뒤로가기 버튼
+========================================================= */
+
+.volunteer-select-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.apply-back-button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: #234563;
+  color: #ffffff;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.volunteer-select-header .page-title {
+  margin: 0;
+}
+   
 /* =========================================================
    선택 인원
 ========================================================= */
@@ -1220,7 +1251,7 @@ body.light .submitted-volunteer-name {
 >
 
  <h1 class="page-title">
-  봉사자 선택
+  봉사를 선택해 주세요
 </h1>
 
 <!-- 봉사 일정 선택 -->
@@ -1270,16 +1301,32 @@ body.light .submitted-volunteer-name {
   <span>봉사 신청</span>
 </button>
 
-  <div
+ <div
   id="volunteerApplyArea"
   class="volunteer-apply-area"
-  style="display:none;"
 >
 
-    <div
-      class="name-grid"
-      id="nameGrid"
+  <div class="volunteer-select-header">
+
+    <button
+      type="button"
+      class="apply-back-button"
+      onclick="closeVolunteerApply()"
+      aria-label="뒤로가기"
     >
+      ‹
+    </button>
+
+    <h1 class="page-title">
+      봉사자 선택
+    </h1>
+
+  </div>
+
+  <div
+    class="name-grid"
+    id="nameGrid"
+  >
 
       <div class="name-loading">
         봉사자 명단을 불러오는 중입니다.
@@ -1295,28 +1342,10 @@ body.light .submitted-volunteer-name {
     >
       제출
     </button>
-
+   
   </div>
-
-  <div
-  id="submittedVolunteerArea"
-  class="submitted-volunteer-area"
-  style="display:none;"
->
-
-    <div class="submitted-volunteer-title">
-      봉사자 명단
-    </div>
-
-    <div
-      id="submittedVolunteerNames"
-      class="submitted-volunteer-names"
-    >
-    </div>
-
-  </div>
-
-</section>
+  
+  </section>
 
 
   <!-- =====================================================
