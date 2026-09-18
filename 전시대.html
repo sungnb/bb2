@@ -35,36 +35,51 @@ body.light {
 .volunteer-schedule-area {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
   width: 100%;
-  max-width: 690px;
+  max-width: 600px;
   margin: 20px auto 0;
   padding: 0 20px;
 }
 
 .volunteer-schedule-btn {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   width: 100%;
-  min-height: 95px;
+  height: 48px;
 
-  border: none;
-  border-radius: 16px;
+  border: 0;
+  border-radius: 12px;
 
-  background: #234563;
+  background: #3374A9;
   color: #fff;
 
-  font-size: 28px;
+  font-size: calc(18px * var(--font-scale));
   font-weight: 700;
 
   text-align: left;
-  padding: 0 30px;
+  padding: 0 18px 0 20px;
 
   cursor: pointer;
+}
+
+.volunteer-schedule-btn::after {
+  content: "›";
+
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+
+  margin-left: 12px;
 }
 
 .volunteer-schedule-btn:active {
   transform: scale(0.99);
 }
-
     
 /* =========================================================
    상단
@@ -1311,37 +1326,37 @@ body.light .notice-row {
   </h1>
 
   <!-- 봉사 일정 선택 -->
-  <div
-    id="volunteerScheduleArea"
-    class="volunteer-schedule-area"
+<div
+  id="volunteerScheduleArea"
+  class="volunteer-schedule-area"
+>
+
+  <button
+    type="button"
+    class="volunteer-schedule-btn"
+    onclick="selectVolunteerSchedule('토요일 오전')"
   >
+    <span>토요일 오전</span>
+  </button>
 
-    <button
-      type="button"
-      class="volunteer-schedule-btn"
-      onclick="selectVolunteerSchedule('토요일 오전')"
-    >
-      토요일 오전
-    </button>
+  <button
+    type="button"
+    class="volunteer-schedule-btn"
+    onclick="selectVolunteerSchedule('토요일 오후')"
+  >
+    <span>토요일 오후</span>
+  </button>
 
-    <button
-      type="button"
-      class="volunteer-schedule-btn"
-      onclick="selectVolunteerSchedule('토요일 오후')"
-    >
-      토요일 오후
-    </button>
+  <button
+    type="button"
+    class="volunteer-schedule-btn"
+    onclick="selectVolunteerSchedule('일요일 오전')"
+  >
+    <span>일요일 오전</span>
+  </button>
 
-    <button
-      type="button"
-      class="volunteer-schedule-btn"
-      onclick="selectVolunteerSchedule('일요일 오전')"
-    >
-      일요일 오전
-    </button>
-
-  </div>
-
+</div>
+  
 </section>
   
   <!-- =====================================================
