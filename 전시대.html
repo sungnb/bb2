@@ -1680,6 +1680,7 @@ body.light .notice-row {
 
 
 <script>
+  
 function selectVolunteerSchedule(schedule) {
 
   selectedVolunteerSchedule = schedule;
@@ -1709,7 +1710,7 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
-  /* 일정 선택 화면 숨기기 */
+  /* 일정 선택 화면 숨김 */
   if (scheduleArea) {
     scheduleArea.style.display = "none";
   }
@@ -1724,18 +1725,19 @@ function selectVolunteerSchedule(schedule) {
     controlRow.style.display = "flex";
   }
 
-  /* 이름 명단은 아직 열지 않음 */
+  /* 명단은 아직 표시하지 않음 */
   if (applyArea) {
     applyArea.style.display = "none";
     applyArea.classList.remove("show");
   }
 
-  /* 제출된 명단도 숨김 */
+  /* 기존 제출 명단 숨김 */
   if (submittedArea) {
     submittedArea.style.display = "none";
   }
 
 }
+  
 </script>
   
 /* =========================================================
@@ -3946,6 +3948,95 @@ function openVolunteerApply() {
 
 }
 
+          
+/* =========================================================
+   신청용 처음 화면으로 돌아가기
+========================================================= */
+
+function goToApplyHome() {
+
+  selectedVolunteerSchedule = "";
+
+  const scheduleArea =
+    document.getElementById(
+      "volunteerScheduleArea"
+    );
+
+  const applyButton =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
+    );
+
+  const applyArea =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const submittedArea =
+    document.getElementById(
+      "submittedVolunteerArea"
+    );
+
+  if (scheduleArea) {
+    scheduleArea.style.display = "flex";
+  }
+
+  if (applyButton) {
+    applyButton.style.display = "none";
+    applyButton.classList.remove("open");
+  }
+
+  if (controlRow) {
+    controlRow.style.display = "none";
+  }
+
+  if (applyArea) {
+    applyArea.style.display = "none";
+    applyArea.classList.remove("show");
+  }
+
+  if (submittedArea) {
+    submittedArea.style.display = "none";
+  }
+
+}
+
+/* =========================================================
+   봉사자 명단 새로고침
+========================================================= */
+
+async function refreshVolunteerNames() {
+
+  const button =
+    document.querySelector(
+      "#volunteerControlRow .volunteer-control-button:last-child"
+    );
+
+  if (button) {
+    button.textContent = "↻ 불러오는 중...";
+    button.disabled = true;
+  }
+
+  try {
+
+    await loadMasterNames();
+
+  } finally {
+
+    if (button) {
+      button.textContent = "↻ 새로고침";
+      button.disabled = false;
+    }
+
+  }
+
+}          
+          
 /* =========================================================
    봉사 신청 화면 닫기
 ========================================================= */
