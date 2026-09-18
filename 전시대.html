@@ -7,20 +7,6 @@
 <title>전시대</title>
 
 <style>
-/* =========================================================
-   기본
-========================================================= */
-
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html {
-  font-size: 100%;
-  --font-scale: 1;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -37,6 +23,20 @@ body.light {
   color: #222;
 }
 
+
+/* 알림 글자 색상 */
+.notice-container .notice-row,
+.notice-container .notice-row strong,
+.notice-container .notice-row span {
+  color: #fff !important;
+}
+
+body.light .notice-container .notice-row,
+body.light .notice-container .notice-row strong,
+body.light .notice-container .notice-row span {
+  color: #000 !important;
+}
+   
 /* =========================================================
    상단
 ========================================================= */
