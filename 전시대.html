@@ -1289,24 +1289,25 @@ body.light .submitted-volunteer-name {
 
 </div>
 
-<button
-  type="button"
-  id="volunteerApplyButton"
-  class="volunteer-apply-button"
-  onclick="openVolunteerApply()"
-  style="display:none;"
->
-  <span
-    class="apply-back-icon"
-    onclick="event.stopPropagation(); closeVolunteerApply();"
-    aria-label="신청 취소"
-  >‹</span>
-  <span>봉사 신청</span>
-</button>
+  <button
+    type="button"
+    id="volunteerApplyButton"
+    class="volunteer-apply-button open"
+    onclick="openVolunteerApply()"
+  >
+    <span
+      class="apply-back-icon"
+      onclick="event.stopPropagation(); closeVolunteerApply();"
+      aria-label="신청 취소"
+    >‹</span>
+    <span>봉사 신청</span>
+  </button>
 
  <div
-  id="volunteerApplyArea"
-  class="volunteer-apply-area"
+    <div
+    id="volunteerApplyArea"
+    class="volunteer-apply-area show"
+  >
 >
 
   <div class="volunteer-select-header">
@@ -3835,7 +3836,7 @@ function closeVolunteerApply() {
   }
 
   if (button) {
-    button.classList.remove("open");
+    button.classList.add("open");
     button.style.display = "flex";
   }
 
@@ -3900,23 +3901,17 @@ async function submitVolunteerApplication() {
     );
 
     /*
-      제출 완료 후 화면을 닫습니다.
-    */
+  제출 후에도 신청 화면을 그대로 유지합니다.
+*/
 
-    const area =
-      document.getElementById(
-        "volunteerApplyArea"
-      );
+const area =
+  document.getElementById(
+    "volunteerApplyArea"
+  );
 
-    const scheduleArea =
-      document.getElementById(
-        "volunteerScheduleArea"
-      );
-
-    if (area) {
-      area.classList.remove("show");
-      area.style.display = "none";
-    }
+if (area) {
+  area.classList.add("show");
+}
 
     /*
       제출된 봉사자 명단 표시
