@@ -4050,8 +4050,9 @@ function closeVolunteerApply() {
     );
 
   if (area) {
-    area.classList.remove("show");
-  }
+  area.style.display = "none";
+  area.classList.remove("show");
+}
 
   if (button) {
     button.classList.remove("open");
