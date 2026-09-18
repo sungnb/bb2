@@ -1710,28 +1710,23 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
-  /* 일정 선택 화면 숨김 */
   if (scheduleArea) {
     scheduleArea.style.display = "none";
   }
 
-  /* 봉사자 선택 버튼 표시 */
   if (applyButton) {
     applyButton.style.display = "flex";
   }
 
-  /* 뒤로가기 / 새로고침 표시 */
   if (controlRow) {
     controlRow.style.display = "flex";
   }
 
-  /* 명단은 아직 표시하지 않음 */
   if (applyArea) {
     applyArea.style.display = "none";
     applyArea.classList.remove("show");
   }
 
-  /* 기존 제출 명단 숨김 */
   if (submittedArea) {
     submittedArea.style.display = "none";
   }
