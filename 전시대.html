@@ -776,7 +776,7 @@ body.light .admin-login-input {
   z-index: 1000;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   background: #18324a;
   border-top: 1px solid rgba(255,255,255,.10);
@@ -1091,9 +1091,51 @@ body.light .service-refresh-button {
   font-weight: 600;
 }
 
+   
 body.light .submitted-volunteer-name {
   background: #fff;
   border-color: #ddd;
+}
+
+.notice-container {
+  padding: 18px 14px 80px;
+}
+
+.notice-heading {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.notice-card {
+  margin-bottom: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+}
+
+.notice-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 17px;
+}
+
+.notice-row + .notice-row {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.notice-row strong {
+  font-weight: 700;
+}
+
+.notice-row span {
+  font-weight: 600;
+  text-align: right;
 }
    
 </style>
@@ -1394,6 +1436,67 @@ body.light .submitted-volunteer-name {
     </div>
 
   </section>
+  
+  <!-- =====================================================
+       알림
+  ====================================================== -->
+
+  <section
+    id="noticeView"
+    class="view"
+  >
+
+    <div class="notice-container">
+
+      <h1 class="page-title">
+        알림
+      </h1>
+
+      <div class="notice-card">
+
+        <div class="notice-row">
+          <strong>토요일 신청</strong>
+          <span>수요일</span>
+        </div>
+
+        <div class="notice-row">
+          <strong>토요일 마감</strong>
+          <span>금요일</span>
+        </div>
+
+      </div>
+
+      <div class="notice-card">
+
+        <div class="notice-row">
+          <strong>일요일 신청</strong>
+          <span>금요일</span>
+        </div>
+
+        <div class="notice-row">
+          <strong>일요일 마감</strong>
+          <span>토요일</span>
+        </div>
+
+      </div>
+
+      <div class="notice-card">
+
+        <div class="notice-row">
+          <strong>토요일 (오전)</strong>
+          <span>김경수 형제</span>
+        </div>
+
+        <div class="notice-row">
+          <strong>일요일 (오전)</strong>
+          <span>정지원 형제</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
   <!-- =====================================================
@@ -1439,6 +1542,14 @@ body.light .submitted-volunteer-name {
 
 <nav class="bottom-nav">
 
+   <button
+    class="nav-button"
+    id="navNotice"
+    onclick="showView('notice')"
+  >
+    알림
+  </button>
+
   <button
     class="nav-button active"
     id="navApply"
@@ -1446,6 +1557,24 @@ body.light .submitted-volunteer-name {
   >
     신청용
   </button>
+
+  <button
+    class="nav-button"
+    id="navService"
+    onclick="showView('service')"
+  >
+    봉사용
+  </button>
+
+  <button
+    class="nav-button"
+    id="navAdmin"
+    onclick="showView('admin')"
+  >
+    관리용
+  </button>
+
+</nav>
 
   <button
     class="nav-button"
