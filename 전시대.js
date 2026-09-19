@@ -87,6 +87,12 @@ let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
 
+/* =========================================================
+   관리자용 선택 일정
+========================================================= */
+
+let selectedAdminSchedule = "토오전";
+
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
 let adminAuthenticated = false;
@@ -106,6 +112,63 @@ document.addEventListener(
 
   }
 );
+
+/* =========================================================
+   관리자용 봉사 일정 선택
+========================================================= */
+
+function selectAdminSchedule(scheduleKey) {
+
+  selectedAdminSchedule =
+    scheduleKey;
+
+  selectedApplicants = [];
+
+  const scheduleButtons =
+    document.querySelectorAll(
+      ".admin-schedule-button"
+    );
+
+  scheduleButtons.forEach(
+    function(button) {
+
+      button.classList.toggle(
+        "selected",
+        button.dataset.schedule === scheduleKey
+      );
+
+    }
+  );
+
+  const title =
+    document.getElementById(
+      "adminScheduleTitle"
+    );
+
+  if (title) {
+
+    const titleMap = {
+
+      "토오전":
+        "토요일 오전",
+
+      "토오후":
+        "토요일 오후",
+
+      "일오전":
+        "일요일 오전"
+
+    };
+
+    title.textContent =
+      titleMap[scheduleKey] ||
+      "토요일 오전";
+
+  }
+
+  loadApplicants();
+
+}
 
 function showView(view) {
 
@@ -184,21 +247,23 @@ function showView(view) {
 
   if (view === "admin") {
 
-    document
-      .getElementById("adminView")
-      .classList.add("active");
+  document
+    .getElementById("adminView")
+    .classList.add("active");
 
-    document
-      .getElementById("topTitle")
-      .textContent = "전시대";
+  document
+    .getElementById("topTitle")
+    .textContent = "전시대";
 
-    setActiveNav("navAdmin");
+  setActiveNav("navAdmin");
 
-    loadApplicants();
+  selectAdminSchedule(
+    selectedAdminSchedule
+  );
 
-    return;
+  return;
 
-  }
+}
 
 
   if (view === "service") {
@@ -628,16 +693,24 @@ async function loadApplicants() {
   try {
 
     const [response] =
-  await Promise.all([
-    fetch(
-      SCRIPT_URL +
-      "?action=jeonsidaeScheduleApplicants" +
-      "&key=토오전&t=" +
-      Date.now()
-    ),
-    loadGroups(),
-    loadGroupSheetLabels()
-  ]);
+      await Promise.all([
+
+        fetch(
+          SCRIPT_URL +
+          "?action=jeonsidaeScheduleApplicants" +
+          "&key=" +
+          encodeURIComponent(
+            selectedAdminSchedule
+          ) +
+          "&t=" +
+          Date.now()
+        ),
+
+        loadGroups(),
+
+        loadGroupSheetLabels()
+
+      ]);
 
     const data =
       await response.json();
@@ -658,6 +731,7 @@ async function loadApplicants() {
 
 
     await cleanGroups();
+
     renderAdmin();
 
   } catch (error) {
@@ -865,9 +939,17 @@ async function addManualApplicant() {
               "text/plain;charset=utf-8"
           },
           body: JSON.stringify({
-            name: trimmedName,
-            checked: true
-          })
+
+  name:
+    trimmedName,
+
+  checked:
+    true,
+
+  key:
+    selectedAdminSchedule
+
+})
         }
       );
 
@@ -985,11 +1067,16 @@ async function loadGroups() {
   try {
 
     const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=groups&t=" +
-        Date.now()
-      );
+  await fetch(
+    SCRIPT_URL +
+    "?action=groups" +
+    "&key=" +
+    encodeURIComponent(
+      selectedAdminSchedule
+    ) +
+    "&t=" +
+    Date.now()
+  );
 
     const data =
       await response.json();
@@ -1047,9 +1134,16 @@ async function saveGroups() {
             "text/plain;charset=utf-8"
         },
         body: JSON.stringify({
-          action: "saveGroups",
-          groups: groups
-        })
+
+  action: "saveGroups",
+
+  key:
+    selectedAdminSchedule,
+
+  groups:
+    groups
+
+})
       }
     );
 
