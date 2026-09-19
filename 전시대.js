@@ -148,7 +148,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "알림";
+      .textContent = "전시대";
 
     setActiveNav("navNotice");
 
