@@ -7,16 +7,6 @@ function selectVolunteerSchedule(schedule) {
       "volunteerScheduleArea"
     );
 
-  const applyButton =
-    document.getElementById(
-      "volunteerApplyButton"
-    );
-
-  const controlRow =
-    document.getElementById(
-      "volunteerControlRow"
-    );
-
   const applyArea =
     document.getElementById(
       "volunteerApplyArea"
@@ -27,29 +17,42 @@ function selectVolunteerSchedule(schedule) {
       "submittedVolunteerArea"
     );
 
+  const mainTitle =
+    document.getElementById(
+      "volunteerMainTitle"
+    );
+
+
+  /* 봉사 요일 선택 화면 숨기기 */
   if (scheduleArea) {
     scheduleArea.style.display = "none";
   }
 
-  if (applyButton) {
-    applyButton.style.display = "flex";
+
+  /* 제목 변경 */
+  if (mainTitle) {
+    mainTitle.textContent =
+      "봉사자를 선택해주세요";
   }
 
-  if (controlRow) {
-    controlRow.style.display = "flex";
-  }
 
+  /* 봉사자 선택 화면 열기 */
   if (applyArea) {
-    applyArea.style.display = "none";
-    applyArea.classList.remove("show");
+    applyArea.style.display = "block";
+    applyArea.classList.add("show");
   }
 
+
+  /* 이전 신청 결과 숨기기 */
   if (submittedArea) {
     submittedArea.style.display = "none";
   }
 
-}
 
+  /* 봉사자 명단 불러오기 */
+  loadMasterNames();
+
+}
 
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
@@ -2317,9 +2320,19 @@ function goToApplyHome() {
       "submittedVolunteerArea"
     );
 
-  if (scheduleArea) {
-    scheduleArea.style.display = "";
-  }
+ if (scheduleArea) {
+  scheduleArea.style.display = "";
+}
+
+const mainTitle =
+  document.getElementById(
+    "volunteerMainTitle"
+  );
+
+if (mainTitle) {
+  mainTitle.textContent =
+    "봉사 요일을 선택해주세요";
+}
 
   if (applyButton) {
 
