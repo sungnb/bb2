@@ -1063,6 +1063,10 @@ body.light .service-refresh-button {
   transform: scale(0.99);
 }
 
+.volunteer-apply-area {
+  display: none;
+}
+
 .volunteer-apply-area.show {
   display: block;
 }
