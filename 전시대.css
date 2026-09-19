@@ -29,7 +29,7 @@ body.light {
   width: 100%;
   max-width: 600px;
   margin: 20px auto 0;
-  padding: 0 20px;
+  padding: 0;
 }
 
 .volunteer-schedule-btn {
@@ -1153,7 +1153,7 @@ body.light .submitted-volunteer-name {
 }
 
 .notice-container {
-  padding: 18px 14px 80px;
+  padding: 18px 14px 30px;
 }
 
 .notice-card {
