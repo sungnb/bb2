@@ -628,15 +628,16 @@ async function loadApplicants() {
   try {
 
     const [response] =
-      await Promise.all([
-        fetch(
-          SCRIPT_URL +
-          "?action=applicants&t=" +
-          Date.now()
-        ),
-        loadGroups(),
-        loadGroupSheetLabels()
-      ]);
+  await Promise.all([
+    fetch(
+      SCRIPT_URL +
+      "?action=jeonsidaeScheduleApplicants" +
+      "&key=토오전&t=" +
+      Date.now()
+    ),
+    loadGroups(),
+    loadGroupSheetLabels()
+  ]);
 
     const data =
       await response.json();
@@ -675,7 +676,7 @@ async function loadApplicants() {
 }
 
 /* =========================================================
-   관리자 화면
+   관리자 - 신청자 선택
 ========================================================= */
 
 function renderAdmin() {
@@ -699,15 +700,14 @@ function renderAdmin() {
   namesBox.innerHTML = "";
 
   if (selectedApplicants.length > 0) {
-    const info = document.createElement("div");
-    info.style.width = "100%";
-    info.style.color = "#6FA8D8";
-    info.style.fontWeight = "700";
-    info.style.marginBottom = "2px";
-    info.textContent = "선택 " + selectedApplicants.length + "/4명";
-    namesBox.appendChild(info);
-  }
-
+  const info = document.createElement("div");
+  info.style.width = "100%";
+  info.style.color = "#6FA8D8";
+  info.style.fontWeight = "700";
+  info.style.marginBottom = "2px";
+  info.textContent = "선택 " + selectedApplicants.length + "/7명";
+  namesBox.appendChild(info);
+}
   const addButton = document.createElement("button");
   addButton.type = "button";
   addButton.className = "admin-add-button";
@@ -746,9 +746,9 @@ function renderAdmin() {
   namesBox.appendChild(addButton);
 
   const confirmButton = document.getElementById("confirmGroupButton");
-  if (confirmButton) {
-    confirmButton.disabled = selectedApplicants.length < 2;
-  }
+if (confirmButton) {
+  confirmButton.disabled = selectedApplicants.length < 4;
+}
 
   renderGroups();
 }
@@ -763,10 +763,12 @@ function toggleApplicantForGroup(name) {
     return;
   }
 
-  if (selectedApplicants.length >= 4) {
-    alert("한 그룹에는 4명까지만 선택할 수 있습니다.");
-    return;
-  }
+  if (selectedApplicants.length >= 7) {
+
+  alert("한 그룹에는 7명까지만 선택할 수 있습니다.");
+
+  return;
+}
 
   selectedApplicants.push(name);
   renderAdmin();
@@ -774,12 +776,12 @@ function toggleApplicantForGroup(name) {
 
 async function confirmSelectedGroup() {
 
-  if (selectedApplicants.length < 2) {
-  alert("봉사자를 2명 이상 선택해 주세요.");
+  if (selectedApplicants.length < 4) {
+  alert("봉사자를 4명 이상 선택해 주세요.");
   return;
  }
 
-  const newGroup = selectedApplicants.slice(0, 4);
+  const newGroup = selectedApplicants.slice(0, 7);
   let targetIndex = -1;
 
   for (let i = 0; i < groups.length; i++) {
@@ -791,28 +793,31 @@ async function confirmSelectedGroup() {
   }
 
   if (targetIndex === -1) {
-    groups.push(newGroup);
-  } else {
-    groups[targetIndex] = newGroup;
-  }
-
-  try {
-    await saveGroups();
-    selectedApplicants = [];
-    renderAdmin();
-    renderService();
-  } catch (error) {
-    console.error(error);
-    if (targetIndex === -1) {
-      groups.pop();
-    } else {
-      groups[targetIndex] = ["", "", "", ""];
-    }
-    alert("그룹 배정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
-    renderAdmin();
-  }
+  groups.push(newGroup);
+} else {
+  groups[targetIndex] = newGroup;
 }
 
+while (groups[targetIndex === -1 ? groups.length - 1 : targetIndex].length < 7) {
+  groups[targetIndex === -1 ? groups.length - 1 : targetIndex].push("");
+}
+
+  try {
+  await saveGroups();
+  selectedApplicants = [];
+  renderAdmin();
+  renderService();
+} catch (error) {
+  console.error(error);
+  if (targetIndex === -1) {
+    groups.pop();
+  } else {
+    groups[targetIndex] = ["", "", "", "", "", "", ""];
+  }
+  alert("그룹 배정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
+  renderAdmin();
+}
+  
 /* =========================================================
    관리자 직접 신청자 추가
 ========================================================= */
