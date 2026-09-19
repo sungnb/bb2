@@ -37,10 +37,9 @@ function selectVolunteerSchedule(schedule) {
 
 
   /* 봉사자 선택 화면 열기 */
-  if (applyArea) {
-    applyArea.style.display = "block";
-    applyArea.classList.add("show");
-  }
+if (applyArea) {
+  applyArea.classList.add("show");
+}
 
 
   /* 이전 신청 결과 숨기기 */
@@ -93,8 +92,6 @@ document.addEventListener(
 
     loadSettings();
 
-    loadMasterNames();
-
     loadGroups();
 
     loadServiceData();
@@ -103,7 +100,6 @@ document.addEventListener(
 
   }
 );
-
 
 function showView(view) {
 
@@ -2262,10 +2258,8 @@ function openVolunteerApply() {
     return;
   }
 
-  area.style.display = "block";
-
   area.classList.add("show");
-
+  
   if (button) {
 
     button.classList.add("open");
