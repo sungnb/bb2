@@ -2540,12 +2540,12 @@ async function submitVolunteerApplication() {
     );
 
 
-    if (scheduleArea) {
+   if (scheduleArea) {
 
-      scheduleArea.style.display =
-        "block";
+  scheduleArea.style.display =
+    "flex";
 
-    }
+}
 
 
     if (button) {
