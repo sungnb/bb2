@@ -1205,3 +1205,53 @@ body.light .notice-card {
 body.light .notice-row {
   color: #000;
 }
+
+/* =========================================================
+   관리자용 일정 선택
+========================================================= */
+
+.admin-schedule-selector {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 18px;
+}
+
+.admin-schedule-title {
+  text-align: center;
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.admin-schedule-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-schedule-button {
+  flex: 1;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: #234563;
+  color: #fff;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-schedule-button.selected {
+  background: #3377aa;
+}
+
+@media (max-width: 600px) {
+
+  .admin-schedule-buttons {
+    flex-direction: column;
+  }
+
+  .admin-schedule-button {
+    width: 100%;
+  }
+
+}
