@@ -816,6 +816,7 @@ while (groups[targetIndex === -1 ? groups.length - 1 : targetIndex].length < 7) 
   }
   alert("그룹 배정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
   renderAdmin();
+  }
 }
   
 /* =========================================================
