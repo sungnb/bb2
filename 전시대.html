@@ -252,52 +252,88 @@
 
     </h1>
 
-    <div class="admin-section">
+   <div class="admin-section">
 
-      <div
-  id="adminScheduleSelector"
-  class="admin-schedule-selector"
->
-  ...
-</div>
+  <!-- 관리자용 일정 선택 -->
+  <div
+    id="adminScheduleSelector"
+    class="admin-schedule-selector"
+  >
 
-<div
-  class="admin-count"
-  id="adminCount"
->
-  신청자 0명
-</div>
+    <div class="admin-schedule-buttons">
 
-   <div class="admin-schedule-buttons">
+      <button
+        type="button"
+        class="admin-schedule-button selected"
+        data-schedule="토오전"
+        onclick="selectAdminSchedule('토오전')"
+      >
+        토요일 오전
+      </button>
+
+      <button
+        type="button"
+        class="admin-schedule-button"
+        data-schedule="토오후"
+        onclick="selectAdminSchedule('토오후')"
+      >
+        토요일 오후
+      </button>
+
+      <button
+        type="button"
+        class="admin-schedule-button"
+        data-schedule="일오전"
+        onclick="selectAdminSchedule('일오전')"
+      >
+        일요일 오전
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- 신청자 명단 -->
+  <div
+    class="admin-names"
+    id="adminNames"
+  >
+    <div class="service-empty">
+      신청자를 불러오는 중입니다.
+    </div>
+  </div>
+
+
+  <!-- 배정 확정 -->
+  <button
+    type="button"
+    id="confirmGroupButton"
+    class="confirm-group-button"
+    onclick="confirmSelectedGroup()"
+    disabled
+  >
+    배정 확정
+  </button>
+
+
+  <!-- 그룹 관리 -->
+  <div class="group-controls">
 
     <button
-      type="button"
-      class="admin-schedule-button selected"
-      data-schedule="토오전"
-      onclick="selectAdminSchedule('토오전')"
+      class="add-group-button"
+      onclick="addGroup()"
     >
-      토요일 오전
-    </button>
-
-    <button
-      type="button"
-      class="admin-schedule-button"
-      data-schedule="토오후"
-      onclick="selectAdminSchedule('토오후')"
-    >
-      토요일 오후
-    </button>
-
-    <button
-      type="button"
-      class="admin-schedule-button"
-      data-schedule="일오전"
-      onclick="selectAdminSchedule('일오전')"
-    >
-      일요일 오전
+      + 봉사 그룹 추가
     </button>
 
   </div>
+
+
+  <div
+    class="groups"
+    id="groups"
+  ></div>
 
 </div>
 
