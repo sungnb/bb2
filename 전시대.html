@@ -120,55 +120,116 @@
 <main class="main">
 
 
-  <!-- =====================================================
-       1. 봉사신청
-  ====================================================== -->
+ <!-- =====================================================
+     1. 봉사신청
+====================================================== -->
 
-  <section
-    id="applyView"
-    class="view active"
+<section
+  id="applyView"
+  class="view active"
+>
+
+  <!-- 봉사 요일 선택 제목 -->
+  <h1
+    id="volunteerMainTitle"
+    class="page-title"
+  >
+    봉사 요일을 선택해주세요
+  </h1>
+
+  <!-- 봉사 요일 선택 -->
+  <div
+    id="volunteerScheduleArea"
+    class="volunteer-schedule-area"
   >
 
-    <h1
-      id="volunteerMainTitle"
-      class="page-title"
+    <button
+      type="button"
+      class="volunteer-schedule-btn"
+      onclick="selectVolunteerSchedule('토요일 오전')"
     >
-      봉사 요일을 선택해주세요
-    </h1>
+      <span>토요일 오전</span>
+    </button>
+
+    <button
+      type="button"
+      class="volunteer-schedule-btn"
+      onclick="selectVolunteerSchedule('토요일 오후')"
+    >
+      <span>토요일 오후</span>
+    </button>
+
+    <button
+      type="button"
+      class="volunteer-schedule-btn"
+      onclick="selectVolunteerSchedule('일요일 오전')"
+    >
+      <span>일요일 오전</span>
+    </button>
+
+  </div>
+
+
+  <!-- =================================================
+       봉사자 선택 화면
+  ================================================== -->
+
+  <div
+    id="volunteerApplyArea"
+    class="volunteer-apply-area"
+  >
+
+    <!-- 뒤로가기 -->
+    <button
+      type="button"
+      class="volunteer-back-button"
+      onclick="goToApplyHome()"
+    >
+      뒤로가기
+    </button>
+
+
+    <!-- 봉사자 명단 -->
+    <div
+      id="nameGrid"
+      class="name-grid"
+    ></div>
+
+
+    <!-- 제출 -->
+    <button
+      type="button"
+      id="volunteerSubmitButton"
+      class="volunteer-submit-button"
+      onclick="submitVolunteerApplication()"
+    >
+      제출
+    </button>
+
+  </div>
+
+
+  <!-- 제출 후 신청한 봉사자 -->
+  <div
+    id="submittedVolunteerArea"
+    class="submitted-volunteer-area"
+    style="display:none;"
+  >
 
     <div
-      id="volunteerScheduleArea"
-      class="volunteer-schedule-area"
+      class="submitted-volunteer-title"
     >
-
-      <button
-        type="button"
-        class="volunteer-schedule-btn"
-        onclick="selectVolunteerSchedule('토요일 오전')"
-      >
-        <span>토요일 오전</span>
-      </button>
-
-      <button
-        type="button"
-        class="volunteer-schedule-btn"
-        onclick="selectVolunteerSchedule('토요일 오후')"
-      >
-        <span>토요일 오후</span>
-      </button>
-
-      <button
-        type="button"
-        class="volunteer-schedule-btn"
-        onclick="selectVolunteerSchedule('일요일 오전')"
-      >
-        <span>일요일 오전</span>
-      </button>
-
+      신청한 봉사자
     </div>
 
-  </section>
+    <div
+      id="submittedVolunteerNames"
+      class="submitted-volunteer-names"
+    ></div>
 
+  </div>
+
+</section>
 
   <!-- =====================================================
        2. 관리자용
