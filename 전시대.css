@@ -1225,7 +1225,8 @@ body.light .notice-row {
 
 .admin-schedule-buttons {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .admin-schedule-button {
