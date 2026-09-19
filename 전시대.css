@@ -1167,7 +1167,7 @@ body.light .submitted-volunteer-name {
 
 /* 어두운 화면 */
 body:not(.light) .notice-card {
-  background: #111;
+  background: rgba(255,255,255,.07);
   color: #fff;
 }
 
