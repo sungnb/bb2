@@ -1,6 +1,12 @@
 function selectVolunteerSchedule(schedule) {
 
-  selectedVolunteerSchedule = schedule;
+  selectedVolunteerSchedule =
+    String(schedule || "").trim();
+
+  if (!selectedVolunteerSchedule) {
+    return;
+  }
+
 
   const scheduleArea =
     document.getElementById(
@@ -37,9 +43,10 @@ function selectVolunteerSchedule(schedule) {
 
 
   /* 봉사자 선택 화면 열기 */
-if (applyArea) {
-  applyArea.classList.add("show");
-}
+  if (applyArea) {
+    applyArea.style.display = "block";
+    applyArea.classList.add("show");
+  }
 
 
   /* 이전 신청 결과 숨기기 */
@@ -50,7 +57,6 @@ if (applyArea) {
 
   /* 봉사자 명단 불러오기 */
   loadMasterNames();
-
 }
 
 const SCRIPT_URL =
