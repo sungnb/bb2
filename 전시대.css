@@ -1062,6 +1062,36 @@ body.light .service-refresh-button {
   transform: scale(0.99);
 }
 
+/* =========================================================
+   봉사자 선택 - 뒤로가기 / 제출 좌우 분할
+========================================================= */
+
+.volunteer-action-buttons {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 18px;
+  gap: 0;
+}
+
+.volunteer-action-buttons .volunteer-back-button,
+.volunteer-action-buttons .volunteer-submit-button {
+  flex: 1;
+  width: 50%;
+  max-width: none;
+  height: 48px;
+  margin: 0;
+  border-radius: 0;
+}
+
+.volunteer-action-buttons .volunteer-back-button {
+  border-radius: 12px 0 0 12px;
+}
+
+.volunteer-action-buttons .volunteer-submit-button {
+  border-radius: 0 12px 12px 0;
+}
+
 .volunteer-apply-area {
   display: none;
 }
