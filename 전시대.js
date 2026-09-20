@@ -2431,7 +2431,7 @@ const mainTitle =
 
 if (mainTitle) {
   mainTitle.textContent =
-    "봉사 요일을 선택해주세요";
+    "요일을 선택해주세요";
 }
 
   if (applyButton) {
