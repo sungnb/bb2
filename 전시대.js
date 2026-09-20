@@ -916,114 +916,35 @@ async function confirmSelectedGroup() {
   }
 
 
-  /* 그룹이 하나도 없으면 그룹1 자동 생성 */
+  /*
+     선택한 봉사자로 새로운 그룹 생성
+  */
 
-  if (groups.length === 0) {
+  const newGroup = {
 
-    groups.push({
+    members:
+      selectedApplicants.slice(0, 7),
 
-      members: [],
+    count:
+      selectedApplicants.length,
 
-      count: 4,
+    location:
+      ""
 
-      location: ""
-
-    });
-
-  }
-
-
-  const group =
-    groups[groups.length - 1];
+  };
 
 
-  /* 기존 배열 구조라면 새 구조로 변환 */
-
-  if (Array.isArray(group)) {
-
-    groups[groups.length - 1] = {
-
-      members:
-        group.filter(function(name) {
-          return Boolean(name);
-        }),
-
-      count: 4,
-
-      location: ""
-
-    };
-
-  }
-
-
-  const targetGroup =
-    groups[groups.length - 1];
-
-
-  if (!Array.isArray(
-    targetGroup.members
-  )) {
-
-    targetGroup.members = [];
-
-  }
-
-
-  if (!targetGroup.count) {
-
-    targetGroup.count = 4;
-
-  }
-
-
-  /* 현재 그룹에 남은 자리 */
-
-  const remaining =
-    targetGroup.count -
-    targetGroup.members.length;
-
-
-  if (
-    selectedApplicants.length >
-    remaining
-  ) {
-
-    alert(
-      "현재 그룹에 남은 자리가 " +
-      remaining +
-      "명입니다.\n\n" +
-      "인원 수를 늘리거나 새로운 그룹을 추가해 주세요."
-    );
-
-    return;
-
-  }
-
-
-  /* 선택한 순서대로 이름 배정 */
-
-  selectedApplicants.forEach(
-    function(name) {
-
-      if (
-        targetGroup.members.length <
-        targetGroup.count
-      ) {
-
-        targetGroup.members.push(
-          name
-        );
-
-      }
-
-    }
-  );
+  groups.push(newGroup);
 
 
   try {
 
     await saveGroups();
+
+    /*
+       배정이 끝났으므로
+       현재 선택 표시 초기화
+    */
 
     selectedApplicants = [];
 
@@ -1034,6 +955,12 @@ async function confirmSelectedGroup() {
   } catch (error) {
 
     console.error(error);
+
+    /*
+       저장 실패 시 방금 만든 그룹 제거
+    */
+
+    groups.pop();
 
     alert(
       "그룹 배정 저장에 실패했습니다.\n" +
@@ -1918,224 +1845,295 @@ function renderGroups() {
       );
 
 
-      /* ===================================================
-         인원
-      =================================================== */
+/* ===================================================
+   인원 + 봉사장소
+=================================================== */
 
-      const countLabel =
-        document.createElement("div");
+const settingRow =
+  document.createElement("div");
 
-      countLabel.textContent =
-        "인원";
+settingRow.style.display =
+  "flex";
 
-      countLabel.style.fontWeight =
-        "700";
+settingRow.style.alignItems =
+  "flex-end";
 
-      countLabel.style.marginBottom =
-        "5px";
+settingRow.style.gap =
+  "12px";
 
-
-      const countSelect =
-        document.createElement("select");
-
-      countSelect.className =
-        "group-count-select";
+settingRow.style.width =
+  "100%";
 
 
-      [4, 5, 6, 7].forEach(
-        function(count) {
+/* ===================================================
+   인원
+=================================================== */
 
-          const option =
-            document.createElement("option");
+const countArea =
+  document.createElement("div");
 
-          option.value =
-            String(count);
+countArea.style.flex =
+  "1";
 
-          option.textContent =
-            count + "명";
+const countLabel =
+  document.createElement("div");
 
+countLabel.textContent =
+  "인원";
 
-          if (
-            Number(group.count) ===
-            count
-          ) {
+countLabel.style.fontWeight =
+  "700";
 
-            option.selected =
-              true;
-
-          }
+countLabel.style.marginBottom =
+  "5px";
 
 
-          countSelect.appendChild(
-            option
-          );
+const countSelect =
+  document.createElement("select");
 
-        }
+countSelect.className =
+  "group-count-select";
+
+countSelect.style.width =
+  "100%";
+
+
+[4, 5, 6, 7].forEach(
+  function(count) {
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      String(count);
+
+    option.textContent =
+      count + "명";
+
+
+    if (
+      Number(group.count) ===
+      count
+    ) {
+
+      option.selected =
+        true;
+
+    }
+
+
+    countSelect.appendChild(
+      option
+    );
+
+  }
+);
+
+
+countSelect.onchange =
+  async function() {
+
+    const newCount =
+      Number(this.value);
+
+
+    group.count =
+      newCount;
+
+
+    /*
+       인원을 줄였을 경우
+       뒤쪽 이름 제거
+    */
+
+    if (
+      group.members.length >
+      newCount
+    ) {
+
+      group.members =
+        group.members.slice(
+          0,
+          newCount
+        );
+
+    }
+
+
+    try {
+
+      await saveGroups();
+
+      renderGroups();
+
+      renderService();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "인원 변경 저장에 실패했습니다."
       );
 
+    }
 
-      countSelect.onchange =
-        async function() {
+  };
 
-          const newCount =
-            Number(this.value);
 
+countArea.appendChild(
+  countLabel
+);
 
-          group.count =
-            newCount;
+countArea.appendChild(
+  countSelect
+);
 
 
-          /*
-             인원을 줄였을 경우
-             뒤쪽 이름 제거
-          */
+/* ===================================================
+   봉사장소
+=================================================== */
 
-          if (
-            group.members.length >
-            newCount
-          ) {
+const locationArea =
+  document.createElement("div");
 
-            group.members =
-              group.members.slice(
-                0,
-                newCount
-              );
+locationArea.style.flex =
+  "2";
 
-          }
 
+const locationLabel =
+  document.createElement("div");
 
-          try {
+locationLabel.textContent =
+  "봉사장소";
 
-            await saveGroups();
+locationLabel.style.fontWeight =
+  "700";
 
-            renderGroups();
+locationLabel.style.marginBottom =
+  "5px";
 
-            renderService();
 
-          } catch (error) {
+const locationSelect =
+  document.createElement("select");
 
-            console.error(error);
+locationSelect.className =
+  "group-location-select";
 
-            alert(
-              "인원 변경 저장에 실패했습니다."
-            );
+locationSelect.style.width =
+  "100%";
 
-          }
 
-        };
+const locations = [
 
+  "",
 
-      card.appendChild(
-        countLabel
-      );
+  "유타몰",
 
-      card.appendChild(
-        countSelect
-      );
+  "성북천(보문2교-아래)",
 
+  "성북천(보문2교-위)",
 
-      /* ===================================================
-         봉사위치
-      =================================================== */
+  "성북구청(광장)",
 
-      const locationLabel =
-        document.createElement("div");
+  "보문역(주변)",
 
-      locationLabel.textContent =
-        "봉사위치";
+  "성신여대(주변)",
 
-      locationLabel.style.fontWeight =
-        "700";
+  "성북천(하늘다리)",
 
-      locationLabel.style.margin =
-        "14px 0 5px";
+  "성북천(바람마당교)",
 
+  "성북천(분수대)",
 
-      const locationSelect =
-        document.createElement("select");
+  "성북천(용문교)",
 
-      locationSelect.className =
-        "group-location-select";
+  "가두 증거"
 
+];
 
-      const locations = [
 
-        "",
+locations.forEach(
+  function(location) {
 
-        "유타몰",
+    const option =
+      document.createElement("option");
 
-        "보문역",
+    option.value =
+      location;
 
-        "기타"
+    option.textContent =
+      location ||
+      "선택해 주세요";
 
-      ];
 
+    if (
+      group.location ===
+      location
+    ) {
 
-      locations.forEach(
-        function(location) {
+      option.selected =
+        true;
 
-          const option =
-            document.createElement("option");
+    }
 
-          option.value =
-            location;
 
-          option.textContent =
-            location ||
-            "선택해 주세요";
+    locationSelect.appendChild(
+      option
+    );
 
+  }
+);
 
-          if (
-            group.location ===
-            location
-          ) {
 
-            option.selected =
-              true;
+locationSelect.onchange =
+  async function() {
 
-          }
+    group.location =
+      this.value;
 
 
-          locationSelect.appendChild(
-            option
-          );
+    try {
 
-        }
-      );
+      await saveGroups();
 
+    } catch (error) {
 
-      locationSelect.onchange =
-        async function() {
+      console.error(error);
 
-          group.location =
-            this.value;
+    }
 
+  };
 
-          try {
 
-            await saveGroups();
+locationArea.appendChild(
+  locationLabel
+);
 
-          } catch (error) {
+locationArea.appendChild(
+  locationSelect
+);
 
-            console.error(error);
 
-          }
+/* ===================================================
+   한 줄에 인원 + 봉사장소
+=================================================== */
 
-        };
+settingRow.appendChild(
+  countArea
+);
 
+settingRow.appendChild(
+  locationArea
+);
 
-      card.appendChild(
-        locationLabel
-      );
-
-      card.appendChild(
-        locationSelect
-      );
-
-
-      /* ===================================================
+card.appendChild(
+  settingRow
+);
+      
+/* ===================================================
          봉사자 명단
-      =================================================== */
+=================================================== */
 
       const slots =
         document.createElement("div");
