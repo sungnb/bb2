@@ -126,27 +126,36 @@ function selectAdminSchedule(scheduleKey) {
     return;
   }
 
-  selectedApplicants = [];
-
-
-  /* 일정 버튼 선택 표시 */
-
-  const scheduleButtons =
-    document.querySelectorAll(
-      ".admin-schedule-button"
+  const scheduleSelector =
+    document.getElementById(
+      "adminScheduleSelector"
     );
 
-  scheduleButtons.forEach(
-    function(button) {
+  const managementArea =
+    document.getElementById(
+      "adminManagementArea"
+    );
 
-      button.classList.toggle(
-        "selected",
-        button.dataset.schedule ===
-        selectedAdminSchedule
-      );
+  /* 일정 선택 화면은 숨기고
+     선택한 일정의 1세트 화면만 표시 */
+  if (scheduleSelector) {
+    scheduleSelector.style.display =
+      "none";
+  }
 
-    }
+  if (managementArea) {
+    managementArea.style.display =
+      "block";
+  }
+
+  loadAdminApplicants(
+    selectedAdminSchedule
   );
+
+  loadAdminGroups(
+    selectedAdminSchedule
+  );
+}
 
 
   /* 선택한 일정의 관리자 영역 표시 */
