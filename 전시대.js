@@ -1728,37 +1728,7 @@ async function resetGroup(index) {
 
 }
 
-
-          }
-
-
-          slot.onclick =
-            function() {
-
-              handleSlotClick(
-                groupIndex,
-                slotIndex
-              );
-
-            };
-
-
-          slots.appendChild(slot);
-
-        }
-      );
-
-
-      card.appendChild(header);
-
-      card.appendChild(slots);
-
-      box.appendChild(card);
-
-    }
-  );
-
-}
+         }
 
 /* =========================================================
    관리자 - 봉사 그룹 표시
@@ -2234,43 +2204,14 @@ function renderGroups() {
 
 }
 
-          }
-
-
-          slot.onclick =
-            function() {
-
-              handleSlotClick(
-                groupIndex,
-                slotIndex
-              );
-
-            };
-
-
-          slots.appendChild(slot);
-
-        }
-      );
-
-
-      card.appendChild(header);
-
-      card.appendChild(slots);
-
-      box.appendChild(card);
-
-    }
-  );
-
-}
+         }
 
 
 async function handleSlotClick(
   groupIndex,
   slotIndex
 ) {
-
+  
   if (groups[groupIndex] && groups[groupIndex][slotIndex]) {
     groups[groupIndex][slotIndex] = "";
     renderAdmin();
