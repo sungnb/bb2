@@ -1090,6 +1090,7 @@ body.light .service-refresh-button {
 
 .volunteer-action-buttons .volunteer-submit-button {
   border-radius: 0 12px 12px 0;
+  border-left: 1px solid #fff;
 }
 
 .volunteer-apply-area {
