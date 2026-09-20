@@ -81,7 +81,7 @@ let SATURDAY_REFERENCE = [];
 let SERVICE_ORDER = [];
 
 
-let masterNames = [];
+let masterNames = [...DEFAULT_MASTER_NAMES];
 let applicants = [];
 let groups = [];
 let selectedApplicants = [];
@@ -459,56 +459,13 @@ function goBack() {
 }
 
 
-async function loadMasterNames() {
+function loadMasterNames() {
 
-  try {
+  masterNames = [...DEFAULT_MASTER_NAMES];
 
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=jeonsidaeNames&t=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
-
-    if (!data.success) {
-
-      throw new Error(
-        data.message ||
-        "봉사자 명단을 불러오지 못했습니다."
-      );
-
-    }
-
-    masterNames =
-      Array.isArray(data.names)
-        ? data.names
-        : [];
-
-    renderNames();
-
-  } catch (error) {
-
-    console.error(error);
-
-    const grid =
-      document.getElementById("nameGrid");
-
-    if (grid) {
-
-      grid.innerHTML =
-        '<div class="name-loading">' +
-        '봉사자 명단을 불러오지 못했습니다.' +
-        '</div>';
-
-    }
-
-  }
+  renderNames();
 
 }
-
 
 function getMySelections() {
 
