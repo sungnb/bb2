@@ -91,7 +91,7 @@ let currentView = "apply";
    관리자용 선택 일정
 ========================================================= */
 
-let selectedAdminSchedule = "토오전";
+let selectedAdminSchedule = "";
 
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
@@ -120,9 +120,16 @@ document.addEventListener(
 function selectAdminSchedule(scheduleKey) {
 
   selectedAdminSchedule =
-    scheduleKey;
+    String(scheduleKey || "").trim();
+
+  if (!selectedAdminSchedule) {
+    return;
+  }
 
   selectedApplicants = [];
+
+
+  /* 일정 버튼 선택 표시 */
 
   const scheduleButtons =
     document.querySelectorAll(
@@ -134,37 +141,30 @@ function selectAdminSchedule(scheduleKey) {
 
       button.classList.toggle(
         "selected",
-        button.dataset.schedule === scheduleKey
+        button.dataset.schedule ===
+        selectedAdminSchedule
       );
 
     }
   );
 
-  const title =
+
+  /* 선택한 일정의 관리자 영역 표시 */
+
+  const managementArea =
     document.getElementById(
-      "adminScheduleTitle"
+      "adminManagementArea"
     );
 
-  if (title) {
+  if (managementArea) {
 
-    const titleMap = {
-
-      "토오전":
-        "토요일 오전",
-
-      "토오후":
-        "토요일 오후",
-
-      "일오전":
-        "일요일 오전"
-
-    };
-
-    title.textContent =
-      titleMap[scheduleKey] ||
-      "토요일 오전";
+    managementArea.style.display =
+      "block";
 
   }
+
+
+  /* 신청자 명단 불러오기 */
 
   loadApplicants();
 
@@ -257,14 +257,44 @@ function showView(view) {
 
   setActiveNav("navAdmin");
 
-  selectAdminSchedule(
-    selectedAdminSchedule
-  );
+
+  /* 관리자 화면에 처음 들어오면
+     일정 선택 화면만 표시 */
+
+  selectedAdminSchedule = "";
+
+  selectedApplicants = [];
+
+
+  const managementArea =
+    document.getElementById(
+      "adminManagementArea"
+    );
+
+  if (managementArea) {
+
+    managementArea.style.display =
+      "none";
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".admin-schedule-button"
+    )
+    .forEach(function(button) {
+
+      button.classList.remove(
+        "selected"
+      );
+
+    });
+
 
   return;
 
 }
-
 
   if (view === "service") {
 
