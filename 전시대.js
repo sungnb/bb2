@@ -136,45 +136,19 @@ function selectAdminSchedule(scheduleKey) {
       "adminManagementArea"
     );
 
-  /* 일정 선택 화면은 숨기고
-     선택한 일정의 1세트 화면만 표시 */
+  /* 일정 선택 화면 숨기기 */
   if (scheduleSelector) {
     scheduleSelector.style.display =
       "none";
   }
 
+  /* 선택한 일정의 관리자 화면 표시 */
   if (managementArea) {
     managementArea.style.display =
       "block";
   }
-
-  loadAdminApplicants(
-    selectedAdminSchedule
-  );
-
-  loadAdminGroups(
-    selectedAdminSchedule
-  );
-}
-
-
-  /* 선택한 일정의 관리자 영역 표시 */
-
-  const managementArea =
-    document.getElementById(
-      "adminManagementArea"
-    );
-
-  if (managementArea) {
-
-    managementArea.style.display =
-      "block";
-
-  }
-
 
   /* 신청자 명단 불러오기 */
-
   loadApplicants();
 
 }
