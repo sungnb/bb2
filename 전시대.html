@@ -179,32 +179,37 @@
     class="volunteer-apply-area"
   >
 
-    <!-- 뒤로가기 -->
-    <button
-      type="button"
-      class="volunteer-back-button"
-      onclick="goToApplyHome()"
-    >
-      뒤로가기
-    </button>
+    <!-- 뒤로가기 + 제출 -->
+<div
+  class="volunteer-action-buttons"
+>
+
+  <button
+    type="button"
+    class="volunteer-back-button"
+    onclick="goToApplyHome()"
+  >
+    뒤로가기
+  </button>
 
 
-    <!-- 봉사자 명단 -->
-    <div
-      id="nameGrid"
-      class="name-grid"
-    ></div>
+  <button
+    type="button"
+    id="volunteerSubmitButton"
+    class="volunteer-submit-button"
+    onclick="submitVolunteerApplication()"
+  >
+    제출
+  </button>
+
+</div>
 
 
-    <!-- 제출 -->
-    <button
-      type="button"
-      id="volunteerSubmitButton"
-      class="volunteer-submit-button"
-      onclick="submitVolunteerApplication()"
-    >
-      제출
-    </button>
+<!-- 봉사자 명단 -->
+<div
+  id="nameGrid"
+  class="name-grid"
+></div>
 
   </div>
 
