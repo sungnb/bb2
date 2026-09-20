@@ -1248,27 +1248,36 @@ body.light .notice-row {
 }
 
 .admin-schedule-title {
-  text-align: center;
-  font-size: calc(20px * var(--font-scale));
-  font-weight: 800;
   margin-bottom: 10px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .admin-schedule-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .admin-schedule-button {
-  flex: 1;
+  width: 100%;
   min-height: 48px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   border: 0;
   border-radius: 12px;
+
   background: #234563;
   color: #fff;
-  font-size: calc(15px * var(--font-scale));
+
+  font-size: 16px;
   font-weight: 700;
+  text-align: left;
+
   cursor: pointer;
 }
 
@@ -1276,14 +1285,22 @@ body.light .notice-row {
   background: #3377aa;
 }
 
-@media (max-width: 600px) {
+.admin-schedule-arrow {
+  flex-shrink: 0;
+  margin-left: 12px;
 
+  font-size: 24px;
+  line-height: 1;
+}
+
+.admin-management-area {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
   .admin-schedule-buttons {
     flex-direction: column;
   }
-
-  .admin-schedule-button {
-    width: 100%;
-  }
-
 }
