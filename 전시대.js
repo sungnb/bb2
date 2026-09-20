@@ -787,11 +787,30 @@ function renderAdmin() {
 
   const assignedNames = new Set();
 
-  groups.forEach(function(group) {
-    group.forEach(function(name) {
-      if (name) assignedNames.add(name);
-    });
+groups.forEach(function(group) {
+
+  if (!group) {
+    return;
+  }
+
+  const members =
+    Array.isArray(group)
+      ? group
+      : (
+          Array.isArray(group.members)
+            ? group.members
+            : []
+        );
+
+  members.forEach(function(name) {
+
+    if (name) {
+      assignedNames.add(name);
+    }
+
   });
+
+});
 
   const unassignedApplicants = applicants.filter(function(name) {
     return !assignedNames.has(name);
@@ -878,49 +897,151 @@ function toggleApplicantForGroup(name) {
   renderAdmin();
 }
 
+/* =========================================================
+   관리자 - 배정 확정
+========================================================= */
+
 async function confirmSelectedGroup() {
 
-  if (selectedApplicants.length < 4) {
-  alert("봉사자를 4명 이상 선택해 주세요.");
-  return;
- }
+  if (
+    selectedApplicants.length < 4
+  ) {
 
-  const newGroup = selectedApplicants.slice(0, 7);
-  let targetIndex = -1;
+    alert(
+      "봉사자를 4명 이상 선택해 주세요."
+    );
 
-  for (let i = 0; i < groups.length; i++) {
-    const group = groups[i] || [];
-    if (group.every(function(name) { return !name; })) {
-      targetIndex = i;
-      break;
-    }
+    return;
+
   }
 
-  if (targetIndex === -1) {
-  groups.push(newGroup);
-} else {
-  groups[targetIndex] = newGroup;
-}
 
-while (groups[targetIndex === -1 ? groups.length - 1 : targetIndex].length < 7) {
-  groups[targetIndex === -1 ? groups.length - 1 : targetIndex].push("");
-}
+  /* 그룹이 하나도 없으면 그룹1 자동 생성 */
+
+  if (groups.length === 0) {
+
+    groups.push({
+
+      members: [],
+
+      count: 4,
+
+      location: ""
+
+    });
+
+  }
+
+
+  const group =
+    groups[groups.length - 1];
+
+
+  /* 기존 배열 구조라면 새 구조로 변환 */
+
+  if (Array.isArray(group)) {
+
+    groups[groups.length - 1] = {
+
+      members:
+        group.filter(function(name) {
+          return Boolean(name);
+        }),
+
+      count: 4,
+
+      location: ""
+
+    };
+
+  }
+
+
+  const targetGroup =
+    groups[groups.length - 1];
+
+
+  if (!Array.isArray(
+    targetGroup.members
+  )) {
+
+    targetGroup.members = [];
+
+  }
+
+
+  if (!targetGroup.count) {
+
+    targetGroup.count = 4;
+
+  }
+
+
+  /* 현재 그룹에 남은 자리 */
+
+  const remaining =
+    targetGroup.count -
+    targetGroup.members.length;
+
+
+  if (
+    selectedApplicants.length >
+    remaining
+  ) {
+
+    alert(
+      "현재 그룹에 남은 자리가 " +
+      remaining +
+      "명입니다.\n\n" +
+      "인원 수를 늘리거나 새로운 그룹을 추가해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  /* 선택한 순서대로 이름 배정 */
+
+  selectedApplicants.forEach(
+    function(name) {
+
+      if (
+        targetGroup.members.length <
+        targetGroup.count
+      ) {
+
+        targetGroup.members.push(
+          name
+        );
+
+      }
+
+    }
+  );
+
 
   try {
-  await saveGroups();
-  selectedApplicants = [];
-  renderAdmin();
-  renderService();
-} catch (error) {
-  console.error(error);
-  if (targetIndex === -1) {
-    groups.pop();
-  } else {
-    groups[targetIndex] = ["", "", "", "", "", "", ""];
+
+    await saveGroups();
+
+    selectedApplicants = [];
+
+    renderAdmin();
+
+    renderService();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "그룹 배정 저장에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
   }
-  alert("그룹 배정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
-  renderAdmin();
-  }
+
 }
   
 /* =========================================================
@@ -1092,65 +1213,149 @@ async function loadGroupSheetLabels() {
   }
 }
 
+/* =========================================================
+   그룹 불러오기
+========================================================= */
+
 async function loadGroups() {
 
   try {
 
     const response =
-  await fetch(
-    SCRIPT_URL +
-    "?action=groups" +
-    "&key=" +
-    encodeURIComponent(
-      selectedAdminSchedule
-    ) +
-    "&t=" +
-    Date.now()
-  );
+      await fetch(
+        SCRIPT_URL +
+        "?action=groups" +
+        "&key=" +
+        encodeURIComponent(
+          selectedAdminSchedule
+        ) +
+        "&t=" +
+        Date.now()
+      );
+
 
     const data =
       await response.json();
 
+
     if (!data.success) {
+
       throw new Error(
         data.message ||
         "그룹을 불러오지 못했습니다."
       );
+
     }
+
 
     const loaded =
       Array.isArray(data.groups)
         ? data.groups
         : [];
 
+
     groups =
       loaded.map(function(group) {
 
-        const result =
-          Array.isArray(group)
-            ? group.slice(0, 4)
-            : [];
+        /*
+           새 구조
+        */
 
-        while (result.length < 4) {
-          result.push("");
+        if (
+          group &&
+          !Array.isArray(group) &&
+          typeof group === "object"
+        ) {
+
+          return {
+
+            members:
+              Array.isArray(group.members)
+                ? group.members.slice(0, 7)
+                : [],
+
+            count:
+              [4, 5, 6, 7].includes(
+                Number(group.count)
+              )
+                ? Number(group.count)
+                : 4,
+
+            location:
+              String(
+                group.location || ""
+              ).trim()
+
+          };
+
         }
 
-        return result;
+
+        /*
+           기존 A팀/B팀 데이터가 남아 있다면
+           새 구조로 변환
+        */
+
+        if (Array.isArray(group)) {
+
+          const oldMembers =
+            group.filter(function(name) {
+
+              return (
+                name &&
+                name !== "A팀" &&
+                name !== "B팀"
+              );
+
+            }).slice(0, 7);
+
+
+          return {
+
+            members: oldMembers,
+
+            count:
+              oldMembers.length >= 4
+                ? Math.min(
+                    oldMembers.length,
+                    7
+                  )
+                : 4,
+
+            location: ""
+
+          };
+
+        }
+
+
+        return {
+
+          members: [],
+
+          count: 4,
+
+          location: ""
+
+        };
 
       });
 
+
     return true;
+
 
   } catch (error) {
 
     console.error(error);
+
+    groups = [];
 
     return false;
 
   }
 
 }
-
 
 async function saveGroups() {
 
@@ -1201,28 +1406,9 @@ async function cleanGroups() {
   const before =
     JSON.stringify(groups);
 
+
   const applicantSet =
     new Set(applicants);
-
-  groups =
-    groups.map(function(group) {
-
-      return group.map(function(name) {
-
-        if (
-          name &&
-          applicantSet.has(name)
-        ) {
-
-          return name;
-
-        }
-
-        return "";
-
-      });
-
-    });
 
 
   const used =
@@ -1232,21 +1418,111 @@ async function cleanGroups() {
   groups =
     groups.map(function(group) {
 
-      return group.map(function(name) {
+      if (!group) {
 
-        if (!name) {
-          return "";
-        }
+        return {
 
-        if (used.has(name)) {
-          return "";
-        }
+          members: [],
 
-        used.add(name);
+          count: 4,
 
-        return name;
+          location: ""
 
-      });
+        };
+
+      }
+
+
+      /*
+         기존 배열 구조가 남아 있는 경우
+      */
+
+      if (Array.isArray(group)) {
+
+        group = {
+
+          members:
+            group.filter(function(name) {
+
+              return (
+                name &&
+                name !== "A팀" &&
+                name !== "B팀"
+              );
+
+            }),
+
+          count: 4,
+
+          location: ""
+
+        };
+
+      }
+
+
+      if (
+        !Array.isArray(group.members)
+      ) {
+
+        group.members = [];
+
+      }
+
+
+      if (
+        ![4, 5, 6, 7].includes(
+          Number(group.count)
+        )
+      ) {
+
+        group.count = 4;
+
+      }
+
+
+      group.members =
+        group.members
+          .slice(0, 7)
+          .map(function(name) {
+
+            name =
+              String(
+                name || ""
+              ).trim();
+
+
+            if (!name) {
+              return "";
+            }
+
+
+            if (
+              !applicantSet.has(name)
+            ) {
+
+              return "";
+
+            }
+
+
+            if (
+              used.has(name)
+            ) {
+
+              return "";
+
+            }
+
+
+            used.add(name);
+
+            return name;
+
+          });
+
+
+      return group;
 
     });
 
@@ -1254,12 +1530,14 @@ async function cleanGroups() {
   const after =
     JSON.stringify(groups);
 
+
   if (before !== after) {
+
     await saveGroups();
+
   }
 
 }
-
 
 async function resetServiceDateOrder() {
 
@@ -1309,61 +1587,109 @@ async function resetServiceDateOrder() {
 }
 
 
+/* =========================================================
+   봉사 그룹 추가
+========================================================= */
+
 async function addGroup() {
 
-  groups.push([
-    "",
-    "",
-    "",
-    ""
-  ]);
+  groups.push({
 
-  await saveGroups();
+    members: [],
 
-  renderAdmin();
+    count: 4,
 
-  renderService();
+    location: ""
+
+  });
+
+
+  try {
+
+    await saveGroups();
+
+    renderAdmin();
+
+    renderService();
+
+  } catch (error) {
+
+    console.error(error);
+
+    groups.pop();
+
+    alert(
+      "봉사 그룹 추가에 실패했습니다."
+    );
+
+  }
 
 }
 
+/* =========================================================
+   그룹 삭제
+========================================================= */
 
 async function deleteGroup(index) {
 
   if (
     !confirm(
+      "그룹" +
       (index + 1) +
-      "번 그룹을 삭제하시겠습니까?"
+      "을 삭제하시겠습니까?"
     )
   ) {
 
     return;
 
   }
+
 
   groups.splice(
     index,
     1
   );
 
+
   selectedApplicants = [];
 
-  renderAdmin();
 
-  renderService();
+  try {
 
-  saveGroups().catch(function(error) {
+    await saveGroups();
+
+    renderAdmin();
+
+    renderService();
+
+  } catch (error) {
+
     console.error(error);
-  });
+
+    alert(
+      "그룹 삭제 저장에 실패했습니다."
+    );
+
+  }
 
 }
 
+/* =========================================================
+   그룹 초기화
+========================================================= */
 
 async function resetGroup(index) {
 
+  if (!groups[index]) {
+    return;
+  }
+
+
   if (
     !confirm(
+      "그룹" +
       (index + 1) +
-      "번 그룹의 봉사자를 초기화하시겠습니까?"
+      "의 봉사자 명단을 초기화하시겠습니까?"
     )
   ) {
 
@@ -1371,22 +1697,34 @@ async function resetGroup(index) {
 
   }
 
-  groups[index] = [
-    "",
-    "",
-    "",
-    ""
-  ];
+
+  /*
+     인원과 봉사위치는 유지
+     봉사자 이름만 초기화
+  */
+
+  groups[index].members = [];
 
   selectedApplicants = [];
 
-  renderAdmin();
 
-  renderService();
+  try {
 
-  saveGroups().catch(function(error) {
+    await saveGroups();
+
+    renderAdmin();
+
+    renderService();
+
+  } catch (error) {
+
     console.error(error);
-  });
+
+    alert(
+      "그룹 초기화 저장에 실패했습니다."
+    );
+
+  }
 
 }
 
@@ -1549,8 +1887,479 @@ function renderGroups() {
               "empty"
             );
 
-            slot.textContent =
-              slotIndex < 2 ? "A팀" : "B팀";
+            /* =========================================================
+   관리자 - 봉사 그룹 표시
+========================================================= */
+
+function renderGroups() {
+
+  const box =
+    document.getElementById("groups");
+
+  if (!box) {
+    return;
+  }
+
+
+  box.innerHTML = "";
+
+
+  if (groups.length === 0) {
+
+    box.innerHTML =
+      '<div class="service-empty">' +
+      '아직 만든 봉사 그룹이 없습니다.<br>' +
+      '「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  groups.forEach(
+    function(group, groupIndex) {
+
+
+      /*
+         기존 배열 데이터가 남아 있으면
+         새 구조로 변환
+      */
+
+      if (Array.isArray(group)) {
+
+        group = {
+
+          members:
+            group.filter(function(name) {
+
+              return (
+                name &&
+                name !== "A팀" &&
+                name !== "B팀"
+              );
+
+            }),
+
+          count: 4,
+
+          location: ""
+
+        };
+
+        groups[groupIndex] =
+          group;
+
+      }
+
+
+      if (!group.members) {
+        group.members = [];
+      }
+
+      if (!group.count) {
+        group.count = 4;
+      }
+
+
+      /* ===================================================
+         그룹 카드
+      =================================================== */
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "group-card";
+
+
+      /* ===================================================
+         그룹 제목
+      =================================================== */
+
+      const header =
+        document.createElement("div");
+
+      header.className =
+        "group-header";
+
+
+      const title =
+        document.createElement("div");
+
+      title.className =
+        "group-title";
+
+      title.textContent =
+        "그룹" +
+        (groupIndex + 1);
+
+
+      const headerButtons =
+        document.createElement("div");
+
+      headerButtons.style.display =
+        "flex";
+
+      headerButtons.style.gap =
+        "8px";
+
+
+      /* 초기화 */
+
+      const resetButton =
+        document.createElement("button");
+
+      resetButton.type =
+        "button";
+
+      resetButton.className =
+        "delete-group";
+
+      resetButton.textContent =
+        "초기화";
+
+      resetButton.onclick =
+        function() {
+
+          resetGroup(
+            groupIndex
+          );
+
+        };
+
+
+      /* 삭제 */
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.type =
+        "button";
+
+      deleteButton.className =
+        "delete-group";
+
+      deleteButton.textContent =
+        "삭제";
+
+      deleteButton.onclick =
+        function() {
+
+          deleteGroup(
+            groupIndex
+          );
+
+        };
+
+
+      headerButtons.appendChild(
+        resetButton
+      );
+
+      headerButtons.appendChild(
+        deleteButton
+      );
+
+
+      header.appendChild(
+        title
+      );
+
+      header.appendChild(
+        headerButtons
+      );
+
+
+      card.appendChild(
+        header
+      );
+
+
+      /* ===================================================
+         인원
+      =================================================== */
+
+      const countLabel =
+        document.createElement("div");
+
+      countLabel.textContent =
+        "인원";
+
+      countLabel.style.fontWeight =
+        "700";
+
+      countLabel.style.marginBottom =
+        "5px";
+
+
+      const countSelect =
+        document.createElement("select");
+
+      countSelect.className =
+        "group-count-select";
+
+
+      [4, 5, 6, 7].forEach(
+        function(count) {
+
+          const option =
+            document.createElement("option");
+
+          option.value =
+            String(count);
+
+          option.textContent =
+            count + "명";
+
+
+          if (
+            Number(group.count) ===
+            count
+          ) {
+
+            option.selected =
+              true;
+
+          }
+
+
+          countSelect.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      countSelect.onchange =
+        async function() {
+
+          const newCount =
+            Number(this.value);
+
+
+          group.count =
+            newCount;
+
+
+          /*
+             인원을 줄였을 경우
+             뒤쪽 이름 제거
+          */
+
+          if (
+            group.members.length >
+            newCount
+          ) {
+
+            group.members =
+              group.members.slice(
+                0,
+                newCount
+              );
+
+          }
+
+
+          try {
+
+            await saveGroups();
+
+            renderGroups();
+
+            renderService();
+
+          } catch (error) {
+
+            console.error(error);
+
+            alert(
+              "인원 변경 저장에 실패했습니다."
+            );
+
+          }
+
+        };
+
+
+      card.appendChild(
+        countLabel
+      );
+
+      card.appendChild(
+        countSelect
+      );
+
+
+      /* ===================================================
+         봉사위치
+      =================================================== */
+
+      const locationLabel =
+        document.createElement("div");
+
+      locationLabel.textContent =
+        "봉사위치";
+
+      locationLabel.style.fontWeight =
+        "700";
+
+      locationLabel.style.margin =
+        "14px 0 5px";
+
+
+      const locationSelect =
+        document.createElement("select");
+
+      locationSelect.className =
+        "group-location-select";
+
+
+      const locations = [
+
+        "",
+
+        "유타몰",
+
+        "보문역",
+
+        "기타"
+
+      ];
+
+
+      locations.forEach(
+        function(location) {
+
+          const option =
+            document.createElement("option");
+
+          option.value =
+            location;
+
+          option.textContent =
+            location ||
+            "선택해 주세요";
+
+
+          if (
+            group.location ===
+            location
+          ) {
+
+            option.selected =
+              true;
+
+          }
+
+
+          locationSelect.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      locationSelect.onchange =
+        async function() {
+
+          group.location =
+            this.value;
+
+
+          try {
+
+            await saveGroups();
+
+          } catch (error) {
+
+            console.error(error);
+
+          }
+
+        };
+
+
+      card.appendChild(
+        locationLabel
+      );
+
+      card.appendChild(
+        locationSelect
+      );
+
+
+      /* ===================================================
+         봉사자 명단
+      =================================================== */
+
+      const slots =
+        document.createElement("div");
+
+      slots.className =
+        "group-slots";
+
+
+      for (
+        let slotIndex = 0;
+        slotIndex < group.count;
+        slotIndex++
+      ) {
+
+        const slot =
+          document.createElement("div");
+
+        slot.className =
+          "group-slot";
+
+
+        const person =
+          group.members[slotIndex];
+
+
+        if (person) {
+
+          slot.classList.add(
+            "filled"
+          );
+
+          slot.textContent =
+            person;
+
+        } else {
+
+          slot.classList.add(
+            "empty"
+          );
+
+          slot.textContent =
+            "봉사자";
+
+        }
+
+
+        slots.appendChild(
+          slot
+        );
+
+      }
+
+
+      card.appendChild(
+        slots
+      );
+
+
+      box.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
 
           }
 
@@ -2074,65 +2883,80 @@ function renderService() {
         "service-volunteers";
 
 
-      for (
-        let pairIndex = 0;
-        pairIndex < 2;
-        pairIndex++
-      ) {
+      /* =====================================================
+   봉사자 명단
+===================================================== */
 
-        const pair =
-          document.createElement("div");
+const volunteers =
+  document.createElement("div");
 
-        pair.className =
-          "service-pair";
+volunteers.className =
+  "service-volunteers";
 
-        const teamLabel =
-          document.createElement("div");
 
-        teamLabel.className =
-          "service-team-label";
+const members =
+  Array.isArray(group)
+    ? group
+    : (
+        Array.isArray(group.members)
+          ? group.members
+          : []
+      );
 
-        teamLabel.textContent =
-          pairIndex === 0
-            ? "A팀"
-            : "B팀";
 
-        pair.appendChild(teamLabel);
+const count =
+  Array.isArray(group)
+    ? group.length
+    : (
+        Number(group.count) || 4
+      );
 
-        const pairPeople =
-          document.createElement("div");
 
-        pairPeople.className =
-          "service-pair-people";
+for (
+  let slotIndex = 0;
+  slotIndex < count;
+  slotIndex++
+) {
 
-        for (
-          let i = 0;
-          i < 2;
-          i++
-        ) {
+  const person =
+    members[slotIndex] || "";
 
-          const slotIndex =
-            pairIndex * 2 + i;
 
-          const person =
-            group[slotIndex];
+  const personBox =
+    document.createElement("div");
 
-          const personBox =
-            document.createElement("div");
+  personBox.className =
+    "service-person" +
+    (
+      person
+        ? " filled"
+        : ""
+    );
 
-          personBox.className =
-            "service-person" +
-            (person ? " filled" : "");
 
-          personBox.textContent =
-            person || "배정 전";
+  personBox.textContent =
+    person || "배정 전";
 
-          pairPeople.appendChild(
-            personBox
-          );
 
-        }
+  volunteers.appendChild(
+    personBox
+  );
 
+}
+
+
+card.appendChild(
+  head
+);
+
+card.appendChild(
+  volunteers
+);
+
+list.appendChild(
+  card
+);
+      
         pair.appendChild(pairPeople);
 
         volunteers.appendChild(pair);
