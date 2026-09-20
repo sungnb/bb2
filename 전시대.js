@@ -1729,165 +1729,38 @@ async function resetGroup(index) {
 }
 
 
-function renderGroups() {
-
-  const box =
-    document.getElementById("groups");
-
-  box.innerHTML = "";
+          }
 
 
-  if (groups.length === 0) {
+          slot.onclick =
+            function() {
 
-    box.innerHTML =
-      '<div class="service-empty">' +
-      '아직 만든 봉사 그룹이 없습니다.<br>' +
-      '「+ 봉사 그룹 추가」를 눌러 그룹을 만들어 주세요.' +
-      '</div>';
+              handleSlotClick(
+                groupIndex,
+                slotIndex
+              );
 
-    return;
-
-  }
+            };
 
 
-  groups.slice().reverse().forEach(
-    function(group, reverseIndex) {
+          slots.appendChild(slot);
 
-      const groupIndex =
-        groups.length - 1 - reverseIndex;
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "group-card";
-
-
-      const header =
-        document.createElement("div");
-
-      header.className =
-        "group-header";
-
-
-      const title =
-        document.createElement("div");
-
-      title.className =
-        "group-title";
-
-      const sheetLabel =
-        Array.isArray(window.SATURDAY_GROUP_LABELS)
-          ? (window.SATURDAY_GROUP_LABELS[groupIndex] || "")
-          : "";
-
-      title.textContent =
-        "그룹" +
-        (groupIndex + 1) +
-        (sheetLabel ? "  " + sheetLabel : "");
-
-
-      const resetButton =
-        document.createElement("button");
-
-      resetButton.type =
-        "button";
-
-      resetButton.className =
-        "delete-group";
-
-      resetButton.textContent =
-        "초기화";
-
-      resetButton.onclick =
-        function() {
-
-          resetGroup(
-            groupIndex
-          );
-
-        };
-
-
-      const deleteButton =
-        document.createElement("button");
-
-      deleteButton.type =
-        "button";
-
-      deleteButton.className =
-        "delete-group";
-
-      deleteButton.textContent =
-        "삭제";
-
-      deleteButton.onclick =
-        function() {
-
-          deleteGroup(
-            groupIndex
-          );
-
-        };
-
-
-      const headerButtons =
-        document.createElement("div");
-
-      headerButtons.style.display = "flex";
-      headerButtons.style.gap = "6px";
-
-      header.appendChild(title);
-
-      headerButtons.appendChild(
-        resetButton
-      );
-
-      headerButtons.appendChild(
-        deleteButton
-      );
-
-      header.appendChild(
-        headerButtons
+        }
       );
 
 
-      const slots =
-        document.createElement("div");
+      card.appendChild(header);
 
-      slots.className =
-        "group-slots";
+      card.appendChild(slots);
 
+      box.appendChild(card);
 
-      group.forEach(
-        function(name, slotIndex) {
+    }
+  );
 
-          const slot =
-            document.createElement("button");
+}
 
-          slot.type =
-            "button";
-
-          slot.className =
-            "group-slot";
-
-
-          if (name) {
-
-            slot.classList.add(
-              "filled"
-            );
-
-            slot.textContent =
-              name;
-
-          } else {
-
-            slot.classList.add(
-              "empty"
-            );
-
-            /* =========================================================
+/* =========================================================
    관리자 - 봉사 그룹 표시
 ========================================================= */
 
@@ -2725,17 +2598,42 @@ function renderService() {
   const displayAreas =
     getServiceAreasForDisplay();
 
+
   groups.forEach(
     function(group, index) {
 
+      const members =
+        Array.isArray(group)
+          ? group
+          : (
+              group &&
+              Array.isArray(group.members)
+                ? group.members
+                : []
+            );
+
+
+      const count =
+        Array.isArray(group)
+          ? group.length
+          : (
+              group &&
+              Number(group.count)
+                ? Number(group.count)
+                : 4
+            );
+
+
       const hasVolunteer =
-        group.some(function(person) {
+        members.some(function(person) {
           return Boolean(person);
         });
+
 
       if (!hasVolunteer) {
         return;
       }
+
 
       const area =
         displayAreas[index];
@@ -2883,98 +2781,55 @@ function renderService() {
         "service-volunteers";
 
 
-      /* =====================================================
-   봉사자 명단
-===================================================== */
+      for (
+        let slotIndex = 0;
+        slotIndex < count;
+        slotIndex++
+      ) {
 
-const volunteers =
-  document.createElement("div");
-
-volunteers.className =
-  "service-volunteers";
-
-
-const members =
-  Array.isArray(group)
-    ? group
-    : (
-        Array.isArray(group.members)
-          ? group.members
-          : []
-      );
+        const person =
+          members[slotIndex] || "";
 
 
-const count =
-  Array.isArray(group)
-    ? group.length
-    : (
-        Number(group.count) || 4
-      );
+        const personBox =
+          document.createElement("div");
+
+        personBox.className =
+          "service-person" +
+          (
+            person
+              ? " filled"
+              : ""
+          );
 
 
-for (
-  let slotIndex = 0;
-  slotIndex < count;
-  slotIndex++
-) {
-
-  const person =
-    members[slotIndex] || "";
+        personBox.textContent =
+          person || "배정 전";
 
 
-  const personBox =
-    document.createElement("div");
-
-  personBox.className =
-    "service-person" +
-    (
-      person
-        ? " filled"
-        : ""
-    );
-
-
-  personBox.textContent =
-    person || "배정 전";
-
-
-  volunteers.appendChild(
-    personBox
-  );
-
-}
-
-
-card.appendChild(
-  head
-);
-
-card.appendChild(
-  volunteers
-);
-
-list.appendChild(
-  card
-);
-      
-        pair.appendChild(pairPeople);
-
-        volunteers.appendChild(pair);
+        volunteers.appendChild(
+          personBox
+        );
 
       }
 
 
-      card.appendChild(head);
+      card.appendChild(
+        head
+      );
 
-      card.appendChild(volunteers);
+      card.appendChild(
+        volunteers
+      );
 
-      list.appendChild(card);
+      list.appendChild(
+        card
+      );
 
     }
   );
 
 }
-
 
 function toggleSettings() {
 
@@ -3642,3 +3497,6 @@ function renderSubmittedVolunteers(
   });
 
 }
+
+
+
