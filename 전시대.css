@@ -496,6 +496,40 @@ body.light .group-slot.filled {
 }
 
 /* =========================================================
+   관리자 - 배정 확정 / 봉사 그룹 추가 버튼
+========================================================= */
+
+.admin-action-buttons {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 18px;
+}
+
+.admin-action-buttons > button {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-action-buttons .confirm-group-button,
+.admin-action-buttons .add-group-button {
+  height: 48px;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+
+  .admin-action-buttons {
+    gap: 8px;
+  }
+
+  .admin-action-buttons > button {
+    font-size: 15px;
+  }
+
+}
+
+/* =========================================================
    봉사하기
 ========================================================= */
 
