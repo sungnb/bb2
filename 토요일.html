@@ -1259,12 +1259,7 @@ body.light .submitted-volunteer-name {
     class="volunteer-apply-button"
     onclick="openVolunteerApply()"
   >
-    <span
-      class="apply-back-icon"
-      onclick="event.stopPropagation(); closeVolunteerApply();"
-      aria-label="신청 취소"
-    >‹</span>
-    <span>봉사 신청</span>
+    봉사 신청
   </button>
 
   <div
@@ -1272,58 +1267,39 @@ body.light .submitted-volunteer-name {
     class="volunteer-apply-area"
   >
 
+    <div class="volunteer-apply-toolbar">
+
+      <button
+        type="button"
+        class="volunteer-back-button"
+        onclick="closeVolunteerApply()"
+      >
+        ‹ 뒤로가기
+      </button>
+
+      <button
+        type="button"
+        id="volunteerSubmitButton"
+        class="volunteer-submit-button"
+        onclick="submitVolunteerApplication()"
+      >
+        제출
+      </button>
+
+    </div>
+
     <div
       class="name-grid"
       id="nameGrid"
     >
 
-     <button
-  type="button"
-  id="volunteerApplyButton"
-  class="volunteer-apply-button"
-  onclick="openVolunteerApply()"
->
-  봉사 신청
-</button>
+      <div class="name-loading">
+        봉사자 명단을 불러오는 중입니다.
+      </div>
 
-<div
-  id="volunteerApplyArea"
-  class="volunteer-apply-area"
->
-
-  <div class="volunteer-apply-toolbar">
-
-    <button
-      type="button"
-      class="volunteer-back-button"
-      onclick="closeVolunteerApply()"
-    >
-      ‹ 뒤로가기
-    </button>
-
-    <button
-      type="button"
-      id="volunteerSubmitButton"
-      class="volunteer-submit-button"
-      onclick="submitVolunteerApplication()"
-    >
-      제출
-    </button>
-
-  </div>
-
-  <div
-    class="name-grid"
-    id="nameGrid"
-  >
-
-    <div class="name-loading">
-      봉사자 명단을 불러오는 중입니다.
     </div>
 
   </div>
-
-</div>
 
   <div
     id="submittedVolunteerArea"
@@ -1343,7 +1319,6 @@ body.light .submitted-volunteer-name {
   </div>
 
 </section>
-
 
   <!-- =====================================================
        2. 관리자용
