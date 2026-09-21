@@ -1236,44 +1236,48 @@ body.light .service-refresh-button {
   class="view active"
 >
 
-<div
-  id="volunteerApplyArea"
-  class="volunteer-apply-area show"
->
-        ‹ 뒤로가기
-    </button>
-
-    <button
-      type="button"
-      id="volunteerSubmitButton"
-      class="volunteer-submit-button"
-      onclick="submitVolunteerApplication()"
-    >
-      제출
-    </button>
-
-  </div>
+  <h1 class="page-title">
+    봉사자 선택
+  </h1>
 
   <div
-    class="name-grid"
-    id="nameGrid"
+    id="volunteerApplyArea"
+    class="volunteer-apply-area show"
   >
 
-    <div class="name-loading">
-      봉사자 명단을 불러오는 중입니다.
+    <div class="volunteer-apply-toolbar">
+
+      <button
+        type="button"
+        id="volunteerSubmitButton"
+        class="volunteer-submit-button"
+        onclick="submitVolunteerApplication()"
+      >
+        제출
+      </button>
+
+    </div>
+
+    <div
+      class="name-grid"
+      id="nameGrid"
+    >
+
+      <div class="name-loading">
+        봉사자 명단을 불러오는 중입니다.
+      </div>
+
     </div>
 
   </div>
 
-</div>
-
-<div
-  id="applicationCompleteMessage"
-  class="application-complete-message"
-></div>
+  <div
+    id="applicationCompleteMessage"
+    class="application-complete-message"
+  ></div>
 
 </section>
-
+   
   <!-- =====================================================
        2. 관리자용
   ====================================================== -->
@@ -3814,10 +3818,6 @@ async function submitVolunteerApplication() {
     }
 
 
-    /*
-  제출 완료 메시지를 3초간 표시합니다.
-*/
-
 const message =
   document.getElementById(
     "applicationCompleteMessage"
@@ -3825,30 +3825,20 @@ const message =
 
 if (message) {
 
-  message.textContent =
+  message.innerHTML =
     newSelections.length +
-    "명이 신청되었습니다";
+    "명이 신청되었습니다" +
+    "<button" +
+    " type=\"button\"" +
+    " class=\"application-confirm-button\"" +
+    " onclick=\"closeApplicationCompleteMessage()\"" +
+    ">" +
+    "확인" +
+    "</button>";
 
   message.classList.add("show");
 
-  setTimeout(function() {
-
-  completeMessage.classList.remove("show");
-
-  document
-    .getElementById("volunteerApplyArea")
-    .classList.remove("show");
-
-  document
-    .getElementById("volunteerApplyButton")
-    .style.display = "flex";
-
-  volunteerSubmitButton.textContent = "제출";
-  volunteerSubmitButton.disabled = false;
-
-}, 3000);
 }
-
 
 if (button) {
   button.disabled = false;
@@ -3873,7 +3863,23 @@ if (button) {
   }
 
 }
+   
+function closeApplicationCompleteMessage() {
 
+  const message =
+    document.getElementById(
+      "applicationCompleteMessage"
+    );
+
+  if (message) {
+
+    message.classList.remove("show");
+
+    message.innerHTML = "";
+
+  }
+
+}
 
 /* =========================================================
    봉사 신청 서버 반영
