@@ -1455,10 +1455,10 @@ const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbws3Uvn2tFpkRzd3TDXhMqXH8lnqiSCtvHMUUnfi_k5vSgaYXAtZy8e4-rzBpWkrQ3i/exec";
 
 const MY_SELECTION_KEY =
-  "saturdayMySelections";
+  "thursdayMySelections";
 
 const GROUP_KEY =
-  "saturdayVolunteerGroups";
+  "thursdayVolunteerGroups";
 
 const SATURDAY_SHEET_ID =
   "1tYhxniRcyuhK1qpBPCej40Zxmey6E-UjKfu3-XoEa5o";
@@ -1471,7 +1471,7 @@ const SATURDAY_SHEET_NAME = "목요일";
 
 let SERVICE_AREAS = [];
 let SERVICE_CONDUCTOR = "";
-let SATURDAY_REFERENCE = [];
+let DAY_REFERENCE = [];
 let SERVICE_ORDER = [];
 
 
@@ -1679,7 +1679,7 @@ function showView(view) {
     Promise.all([
       loadGroups(),
       loadServiceData(),
-      loadSaturdayReference()
+      loadDayReference()
     ]).then(function() {
       renderService();
     });
@@ -2342,7 +2342,7 @@ async function loadGroupSheetLabels() {
         ? data.reference
         : [];
 
-    window.SATURDAY_GROUP_LABELS =
+    window.DAY_GROUP_LABELS =
       rows.slice(0, 10).map(function(item) {
 
         const number =
@@ -2377,7 +2377,7 @@ async function loadGroupSheetLabels() {
       error
     );
 
-    window.SATURDAY_GROUP_LABELS = [];
+    window.DAY_GROUP_LABELS = [];
 
   }
 }
@@ -2756,8 +2756,8 @@ function renderGroups() {
         "group-title";
 
       const sheetLabel =
-        Array.isArray(window.SATURDAY_GROUP_LABELS)
-          ? (window.SATURDAY_GROUP_LABELS[groupIndex] || "")
+        Array.isArray(window.DAY_GROUP_LABELS)
+          ? (window.DAY_GROUP_LABELS[groupIndex] || "")
           : "";
 
   title.textContent =
@@ -2990,7 +2990,7 @@ async function loadServiceData() {
    - Apps Script의 bon 봉사 데이터는 변경하지 않습니다.
    - 목요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
 ========================================================= */
-async function loadSaturdayReference() {
+async function loadDayReference() {
 
   SERVICE_CONDUCTOR = "";
 
@@ -3019,7 +3019,7 @@ async function loadSaturdayReference() {
       );
     }
 
-    SATURDAY_REFERENCE =
+    DAY_REFERENCE =
       Array.isArray(data.reference)
         ? data.reference.map(function(item) {
 
@@ -3061,8 +3061,8 @@ async function loadSaturdayReference() {
       ).trim();
 
     console.log(
-      "★★★★★ 지금 확인할 SATURDAY_REFERENCE ★★★★★",
-      SATURDAY_REFERENCE
+      "★★★★★ 지금 확인할 DAY_REFERENCE ★★★★★",
+      DAY_REFERENCE
     );
 
     console.log(
@@ -3079,7 +3079,7 @@ async function loadSaturdayReference() {
       error
     );
 
-    SATURDAY_REFERENCE = [];
+    DAY_REFERENCE = [];
 
     SERVICE_CONDUCTOR = "";
 
@@ -3103,8 +3103,8 @@ function getServiceAreasForDisplay() {
   });
 
   const refByNumber = new Map();
-  if (Array.isArray(SATURDAY_REFERENCE)) {
-    SATURDAY_REFERENCE.forEach(function(ref) {
+  if (Array.isArray(DAY_REFERENCE)) {
+    DAY_REFERENCE.forEach(function(ref) {
       const key = String(ref.number || "").trim();
       if (key) {
         refByNumber.set(key, ref);
@@ -3139,9 +3139,9 @@ function getServiceAreasForDisplay() {
 
       used.add(key);
     });
-  } else if (Array.isArray(SATURDAY_REFERENCE) && SATURDAY_REFERENCE.length > 0) {
+  } else if (Array.isArray(DAY_REFERENCE) && DAY_REFERENCE.length > 0) {
     // 저장된 순서가 아직 없을 때만 기존 목요일 시트 순서를 사용합니다.
-    SATURDAY_REFERENCE.forEach(function(ref) {
+    DAY_REFERENCE.forEach(function(ref) {
       const key = String(ref.number || "").trim();
       if (!key || !byNumber.has(key) || used.has(key)) {
         return;
@@ -3452,7 +3452,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "saturdayTheme",
+      "thursdayTheme",
       "light"
     );
 
@@ -3463,7 +3463,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "saturdayTheme",
+      "thursdayTheme",
       "dark"
     );
 
@@ -3511,7 +3511,7 @@ function loadSettings() {
 
   const theme =
     localStorage.getItem(
-      "saturdayTheme"
+      "thursdayTheme"
     ) || "dark";
 
 
@@ -3624,7 +3624,7 @@ async function refreshServiceGroups() {
 const results = await Promise.all([
   loadGroups(),
   loadServiceData(),
-  loadSaturdayReference()
+  loadDayReference()
 ]);
 
     if (!results[0] || !results[1]) {
