@@ -3861,9 +3861,17 @@ if (message) {
 
   setTimeout(function() {
 
-    message.classList.remove("show");
+  completeMessage.classList.remove("show");
 
-  }, 3000);
+  document
+    .getElementById("volunteerApplyArea")
+    .classList.remove("show");
+
+  document
+    .getElementById("volunteerApplyButton")
+    .style.display = "flex";
+
+}, 3000);
 
 }
 
