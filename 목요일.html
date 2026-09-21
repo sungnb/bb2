@@ -2315,11 +2315,11 @@ async function loadGroupSheetLabels() {
   try {
 
     const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=saturdayReference&t=" +
-        Date.now()
-      );
+  await fetch(
+    SCRIPT_URL +
+    "?action=dayReference&t=" +
+    Date.now()
+  );
 
     if (!response.ok) {
       throw new Error(
