@@ -1085,45 +1085,39 @@ body.light .service-refresh-button {
   cursor: default;
 }
 
-.submitted-volunteer-area {
-  width: 100%;
-  max-width: 900px;
-  margin: 20px auto 0;
+.volunteer-apply-area {
+  display: none;
 }
 
-.submitted-volunteer-title {
-  margin-bottom: 10px;
+.volunteer-apply-area.show {
+  display: block;
+}
+
+.application-complete-message {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 3000;
+
+  padding: 14px 22px;
+
+  border-radius: 10px;
+
+  background: #333;
+  color: #fff;
 
   font-size: calc(18px * var(--font-scale));
-  font-weight: 800;
+  font-weight: 700;
+
+  text-align: center;
+  white-space: nowrap;
 }
 
-.submitted-volunteer-names {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.submitted-volunteer-name {
-  min-height: 40px;
-  padding: 8px 13px;
-
-  border-radius: 9px;
-  border: 1px solid rgba(255,255,255,.15);
-
-  background: rgba(255,255,255,.08);
-  color: inherit;
-
-  display: flex;
-  align-items: center;
-
-  font-size: calc(18px * var(--font-scale));
-  font-weight: 600;
-}
-
-body.light .submitted-volunteer-name {
-  background: #fff;
-  border-color: #ddd;
+.application-complete-message.show {
+  display: block;
 }
    
 </style>
@@ -1301,22 +1295,62 @@ body.light .submitted-volunteer-name {
 
   </div>
 
+  <h1 class="page-title">
+  봉사자 선택
+</h1>
+
+<button
+  type="button"
+  id="volunteerApplyButton"
+  class="volunteer-apply-button"
+  onclick="openVolunteerApply()"
+>
+  봉사 신청
+</button>
+
+<div
+  id="volunteerApplyArea"
+  class="volunteer-apply-area"
+>
+
+  <div class="volunteer-apply-toolbar">
+
+    <button
+      type="button"
+      class="volunteer-back-button"
+      onclick="closeVolunteerApply()"
+    >
+      ‹ 뒤로가기
+    </button>
+
+    <button
+      type="button"
+      id="volunteerSubmitButton"
+      class="volunteer-submit-button"
+      onclick="submitVolunteerApplication()"
+    >
+      제출
+    </button>
+
+  </div>
+
   <div
-    id="submittedVolunteerArea"
-    class="submitted-volunteer-area"
+    class="name-grid"
+    id="nameGrid"
   >
 
-    <div class="submitted-volunteer-title">
-      봉사자 명단
-    </div>
-
-    <div
-      id="submittedVolunteerNames"
-      class="submitted-volunteer-names"
-    >
+    <div class="name-loading">
+      봉사자 명단을 불러오는 중입니다.
     </div>
 
   </div>
+
+</div>
+
+<div
+  id="applicationCompleteMessage"
+  class="application-complete-message"
+></div>
 
 </section>
 
@@ -3861,43 +3895,35 @@ async function submitVolunteerApplication() {
 
 
     /*
-      제출 완료 후 화면을 닫습니다.
-    */
+  제출 완료 메시지를 3초간 표시합니다.
+*/
 
-    const area =
-      document.getElementById(
-        "volunteerApplyArea"
-      );
+const message =
+  document.getElementById(
+    "applicationCompleteMessage"
+  );
 
-    const applyButton =
-      document.getElementById(
-        "volunteerApplyButton"
-      );
+if (message) {
 
+  message.textContent =
+    newSelections.length +
+    "명이 신청되었습니다";
 
-    if (area) {
-      area.classList.remove("show");
-    }
+  message.classList.add("show");
 
-    if (applyButton) {
-      applyButton.style.display = "block";
-    }
+  setTimeout(function() {
 
+    message.classList.remove("show");
 
-    /*
-      제출된 봉사자 명단을 바로 표시합니다.
-    */
+  }, 3000);
 
-    renderSubmittedVolunteers(
-      newSelections
-    );
+}
 
 
-    if (button) {
-      button.disabled = false;
-      button.textContent = "제출";
-    }
-
+if (button) {
+  button.disabled = false;
+  button.textContent = "제출";
+}
 
   } catch (error) {
 
