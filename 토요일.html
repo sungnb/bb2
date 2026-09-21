@@ -994,17 +994,22 @@ body.light .service-refresh-button {
   height: 48px;
   margin: 0 auto 12px;
 
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr;
+  display: block;
 
   background: #3374A9;
   border-radius: 12px;
   overflow: hidden;
 }
 
-.volunteer-back-button,
 .volunteer-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
   height: 48px;
+  max-width: none;
+  margin: 0;
 
   border: 0;
   border-radius: 0;
@@ -1016,42 +1021,6 @@ body.light .service-refresh-button {
   font-weight: 700;
 
   cursor: pointer;
-}
-
-.volunteer-back-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.volunteer-submit-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-}
-
-.volunteer-apply-toolbar::before {
-  content: "";
-  grid-column: 2;
-  grid-row: 1;
-
-  width: 1px;
-  height: 48px;
-
-  background: #fff;
-}
-
-.volunteer-back-button {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.volunteer-submit-button {
-  grid-column: 3;
-  grid-row: 1;
 }
 
 .volunteer-submit-button:disabled {
