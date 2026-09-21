@@ -3871,8 +3871,10 @@ if (message) {
     .getElementById("volunteerApplyButton")
     .style.display = "flex";
 
-}, 3000);
+  volunteerSubmitButton.textContent = "제출";
+  volunteerSubmitButton.disabled = false;
 
+}, 3000);
 }
 
 
