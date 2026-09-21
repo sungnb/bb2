@@ -1455,7 +1455,7 @@ const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbws3Uvn2tFpkRzd3TDXhMqXH8lnqiSCtvHMUUnfi_k5vSgaYXAtZy8e4-rzBpWkrQ3i/exec";
 
 const MY_SELECTION_KEY =
-  "saturdayMySelections";
+  "thursdayMySelections";
 
 const GROUP_KEY =
   "saturdayVolunteerGroups";
@@ -1573,7 +1573,7 @@ let selectedApplicants = [];
 let currentView = "apply";
 
 const ADMIN_PASSWORD = "3061";
-const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
+const ADMIN_PASSWORD_KEY = "thursdayAdminPassword";
 let adminAuthenticated = false;
 
 
@@ -3452,7 +3452,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "saturdayTheme",
+      "thursdayTheme",
       "light"
     );
 
@@ -3463,7 +3463,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "saturdayTheme",
+      "thursdayTheme",
       "dark"
     );
 
@@ -3484,7 +3484,7 @@ function setFontSize(size) {
   );
 
   localStorage.setItem(
-    "saturdayFontSize",
+    "thursdayFontSize",
     String(size)
   );
 
@@ -3498,7 +3498,7 @@ function changeFontSize(amount) {
   const current =
     Number(
       localStorage.getItem(
-        "saturdayFontSize"
+        "thursdayFontSize"
       ) || "100"
     );
 
@@ -3511,13 +3511,13 @@ function loadSettings() {
 
   const theme =
     localStorage.getItem(
-      "saturdayTheme"
+      "thursdayTheme"
     ) || "dark";
 
 
   const fontSize =
     localStorage.getItem(
-      "saturdayFontSize"
+      "thursdayFontSize"
     ) || "100";
 
 
@@ -3565,7 +3565,7 @@ function updateSettingButtons() {
       (
         Number(
           localStorage.getItem(
-            "saturdayFontSize"
+            "thursdayFontSize"
           ) || "100"
         )
       ) + "%";
