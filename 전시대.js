@@ -1089,16 +1089,12 @@ async function loadGroups() {
   try {
 
     const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=groups" +
-        "&key=" +
-        encodeURIComponent(
-          selectedAdminSchedule
-        ) +
-        "&t=" +
-        Date.now()
-      );
+  await fetch(
+    SCRIPT_URL +
+    "?action=jeonsidaeGroups" +
+    "&t=" +
+    Date.now()
+  );
 
 
     const data =
@@ -1235,12 +1231,9 @@ async function saveGroups() {
           "Content-Type":
             "text/plain;charset=utf-8"
         },
-        body: JSON.stringify({
+       body: JSON.stringify({
 
-  action: "saveGroups",
-
-  key:
-    selectedAdminSchedule,
+  action: "saveJeonsidaeGroups",
 
   groups:
     groups
