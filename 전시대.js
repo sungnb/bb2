@@ -1458,15 +1458,198 @@ async function resetServiceDateOrder() {
    봉사 그룹 추가
 ========================================================= */
 
-async function addGroup() {
+function addGroup() {
+
+  const groupsEl =
+    document.getElementById("groups");
+
+  if (!groupsEl) {
+    return;
+  }
+
+  /* 이미 추가 선택창이 있으면 다시 만들지 않음 */
+  if (
+    document.getElementById("newGroupForm")
+  ) {
+    return;
+  }
+
+  const form =
+    document.createElement("div");
+
+  form.id =
+    "newGroupForm";
+
+  form.className =
+    "new-group-form";
+
+  form.innerHTML = `
+
+    <div class="new-group-select-row">
+
+      <div class="new-group-select-box">
+
+        <label for="newGroupCount">
+          인원
+        </label>
+
+        <select id="newGroupCount">
+
+          <option value="4">4명</option>
+          <option value="5">5명</option>
+          <option value="6">6명</option>
+          <option value="7">7명</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="new-group-select-box">
+
+        <label for="newGroupLocation">
+          봉사장소
+        </label>
+
+        <select id="newGroupLocation">
+
+          <option value="">
+            봉사장소를 선택하세요
+          </option>
+
+          <option value="유타몰">
+            유타몰
+          </option>
+
+          <option value="성북천(보문2교-아래)">
+            성북천(보문2교-아래)
+          </option>
+
+          <option value="성북천(보문2교-위)">
+            성북천(보문2교-위)
+          </option>
+
+          <option value="성북구청(광장)">
+            성북구청(광장)
+          </option>
+
+          <option value="보문역(주변)">
+            보문역(주변)
+          </option>
+
+          <option value="성신여대(주변)">
+            성신여대(주변)
+          </option>
+
+          <option value="성북천(하늘다리)">
+            성북천(하늘다리)
+          </option>
+
+          <option value="성북천(바람마당교)">
+            성북천(바람마당교)
+          </option>
+
+          <option value="성북천(분수대)">
+            성북천(분수대)
+          </option>
+
+          <option value="성북천(용문교)">
+            성북천(용문교)
+          </option>
+
+          <option value="가두 증거">
+            가두 증거
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="new-group-action-row">
+
+      <button
+        type="button"
+        class="new-group-create-button"
+        onclick="createNewGroup()"
+      >
+        그룹 추가
+      </button>
+
+      <button
+        type="button"
+        class="new-group-cancel-button"
+        onclick="cancelNewGroup()"
+      >
+        취소
+      </button>
+
+    </div>
+
+  `;
+
+  groupsEl.prepend(form);
+
+}
+
+
+/* =========================================================
+   새 봉사 그룹 생성
+========================================================= */
+
+async function createNewGroup() {
+
+  const countEl =
+    document.getElementById(
+      "newGroupCount"
+    );
+
+  const locationEl =
+    document.getElementById(
+      "newGroupLocation"
+    );
+
+  if (
+    !countEl ||
+    !locationEl
+  ) {
+    return;
+  }
+
+  const count =
+    Number(countEl.value);
+
+  const location =
+    String(
+      locationEl.value || ""
+    ).trim();
+
+  if (
+    ![4, 5, 6, 7].includes(count)
+  ) {
+    alert(
+      "인원을 선택해 주세요."
+    );
+    return;
+  }
+
+  if (!location) {
+    alert(
+      "봉사장소를 선택해 주세요."
+    );
+    return;
+  }
+
 
   groups.push({
 
     members: [],
 
-    count: 4,
+    count: count,
 
-    location: ""
+    location: location
 
   });
 
@@ -1488,6 +1671,26 @@ async function addGroup() {
     alert(
       "봉사 그룹 추가에 실패했습니다."
     );
+
+  }
+
+}
+
+
+/* =========================================================
+   새 봉사 그룹 추가 취소
+========================================================= */
+
+function cancelNewGroup() {
+
+  const form =
+    document.getElementById(
+      "newGroupForm"
+    );
+
+  if (form) {
+
+    form.remove();
 
   }
 
