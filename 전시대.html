@@ -498,7 +498,7 @@
 
   <!-- =====================================================
        3. 봉사하기
-  ====================================================== -->
+  ===================================================== -->
 
   <section
     id="serviceView"
@@ -518,16 +518,75 @@
 
     </h1>
 
-    <div class="service-section">
 
-      <div class="service-conductor">
-        <strong id="serviceConductor">인도자 : </strong>
+    <!-- =====================================================
+         봉사용 일정 선택
+    ===================================================== -->
+
+    <div
+      id="serviceScheduleSelector"
+      class="service-schedule-selector"
+    >
+
+      <div class="service-schedule-buttons">
+
+        <button
+          type="button"
+          class="service-schedule-button"
+          data-schedule="토오전"
+          onclick="selectServiceSchedule('토오전')"
+        >
+          <span>토요일 오전</span>
+          <span class="service-schedule-arrow">›</span>
+        </button>
+
+        <button
+          type="button"
+          class="service-schedule-button"
+          data-schedule="토오후"
+          onclick="selectServiceSchedule('토오후')"
+        >
+          <span>토요일 오후</span>
+          <span class="service-schedule-arrow">›</span>
+        </button>
+
+        <button
+          type="button"
+          class="service-schedule-button"
+          data-schedule="일오전"
+          onclick="selectServiceSchedule('일오전')"
+        >
+          <span>일요일 오전</span>
+          <span class="service-schedule-arrow">›</span>
+        </button>
+
       </div>
 
-      <div
-        class="service-list"
-        id="serviceList"
-      ></div>
+    </div>
+
+
+    <!-- =====================================================
+         봉사용 실제 내용
+    ===================================================== -->
+
+    <div
+      id="serviceManagementArea"
+      class="service-management-area"
+      style="display:none;"
+    >
+
+      <div class="service-section">
+
+        <div class="service-conductor">
+          <strong id="serviceConductor">인도자 : </strong>
+        </div>
+
+        <div
+          class="service-list"
+          id="serviceList"
+        ></div>
+
+      </div>
 
     </div>
 
