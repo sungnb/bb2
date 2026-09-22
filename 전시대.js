@@ -1092,6 +1092,10 @@ async function loadGroups() {
   await fetch(
     SCRIPT_URL +
     "?action=jeonsidaeGroups" +
+    "&key=" +
+    encodeURIComponent(
+      selectedAdminSchedule
+    ) +
     "&t=" +
     Date.now()
   );
@@ -1227,30 +1231,41 @@ async function saveGroups() {
       SCRIPT_URL,
       {
         method: "POST",
+
         headers: {
           "Content-Type":
             "text/plain;charset=utf-8"
         },
-       body: JSON.stringify({
 
-  action: "saveJeonsidaeGroups",
+        body: JSON.stringify({
 
-  groups:
-    groups
+          action:
+            "saveJeonsidaeGroups",
 
-})
+          key:
+            selectedAdminSchedule,
+
+          groups:
+            groups
+
+        })
       }
     );
+
 
   const data =
     await response.json();
 
+
   if (!data.success) {
+
     throw new Error(
       data.message ||
       "그룹 저장에 실패했습니다."
     );
+
   }
+
 
   return true;
 
