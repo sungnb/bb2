@@ -1396,8 +1396,8 @@ body.light .notice-row {
 }
 
 /* =========================================================
-   관리자 - 봉사 그룹 추가 입력 영역
-   기존 기능 및 다른 화면의 CSS는 변경하지 않습니다.
+   관리자 - 봉사 그룹 추가
+   기존 다른 화면의 CSS는 변경하지 않습니다.
 ========================================================= */
 
 .new-group-form {
@@ -1413,7 +1413,7 @@ body.light .notice-row {
 }
 
 
-/* 인원 / 봉사장소 선택 영역 */
+/* 인원 / 봉사장소 */
 .new-group-select-row {
   display: flex;
   align-items: stretch;
@@ -1425,7 +1425,6 @@ body.light .notice-row {
 
 /* 각각의 선택 영역 */
 .new-group-select-box {
-  flex: 1;
   min-width: 0;
 
   display: flex;
@@ -1434,17 +1433,19 @@ body.light .notice-row {
 }
 
 
-/* 인원은 조금 작게, 봉사장소는 넓게 */
+/* 인원 */
 .new-group-select-box:first-child {
   flex: 0 0 34%;
 }
 
+
+/* 봉사장소 */
 .new-group-select-box:last-child {
   flex: 1;
 }
 
 
-/* 선택 제목 */
+/* 제목 */
 .new-group-select-box label,
 .new-group-select-box > span {
   font-size: calc(15px * var(--font-scale));
@@ -1458,7 +1459,6 @@ body.light .notice-row {
   width: 100%;
   height: 46px;
   padding: 0 12px;
-
   box-sizing: border-box;
 
   border: 1px solid rgba(255,255,255,.18);
@@ -1475,14 +1475,14 @@ body.light .notice-row {
 }
 
 
-/* 드롭다운 선택 시 */
+/* 선택했을 때 */
 .new-group-select-box select:focus {
   border-color: #6FA8D8;
   box-shadow: 0 0 0 2px rgba(111,168,216,.18);
 }
 
 
-/* 버튼 영역 */
+/* 그룹 추가 / 취소 */
 .new-group-form .new-group-create-button,
 .new-group-form .new-group-cancel-button {
   height: 46px;
@@ -1517,19 +1517,12 @@ body.light .notice-row {
 }
 
 
-/* 버튼 영역이 따로 있을 경우 */
+/* 버튼 정렬 */
 .new-group-form > div:last-child {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 8px;
-}
-
-
-/* 버튼 누를 때 */
-.new-group-form .new-group-create-button:active,
-.new-group-form .new-group-cancel-button:active {
-  transform: scale(.98);
 }
 
 
@@ -1545,12 +1538,6 @@ body.light .new-group-select-box select {
   background: #fff;
   color: #222;
   border-color: #ccc;
-}
-
-
-body.light .new-group-select-box select:focus {
-  border-color: #3F6F9F;
-  box-shadow: 0 0 0 2px rgba(63,111,159,.12);
 }
 
 
