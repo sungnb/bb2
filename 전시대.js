@@ -1088,17 +1088,25 @@ async function loadGroups() {
 
   try {
 
+    if (!selectedAdminSchedule) {
+
+      groups = [];
+
+      return true;
+    }
+
+
     const response =
-  await fetch(
-    SCRIPT_URL +
-    "?action=jeonsidaeGroups" +
-    "&key=" +
-    encodeURIComponent(
-      selectedAdminSchedule
-    ) +
-    "&t=" +
-    Date.now()
-  );
+      await fetch(
+        SCRIPT_URL +
+        "?action=jeonsidaeScheduleGroups" +
+        "&key=" +
+        encodeURIComponent(
+          selectedAdminSchedule
+        ) +
+        "&t=" +
+        Date.now()
+      );
 
 
     const data =
@@ -1123,10 +1131,6 @@ async function loadGroups() {
 
     groups =
       loaded.map(function(group) {
-
-        /*
-           새 구조
-        */
 
         if (
           group &&
@@ -1158,28 +1162,34 @@ async function loadGroups() {
         }
 
 
-        /*
-           기존 A팀/B팀 데이터가 남아 있다면
-           새 구조로 변환
-        */
-
         if (Array.isArray(group)) {
 
           const oldMembers =
-            group.filter(function(name) {
+            group
+              .slice(0, 7)
+              .filter(function(name) {
 
-              return (
-                name &&
-                name !== "A팀" &&
-                name !== "B팀"
-              );
+                return (
+                  name &&
+                  name !== "A팀" &&
+                  name !== "B팀"
+                );
 
-            }).slice(0, 7);
+              });
+
+
+          const location =
+            group.length >= 8
+              ? String(
+                  group[7] || ""
+                ).trim()
+              : "";
 
 
           return {
 
-            members: oldMembers,
+            members:
+              oldMembers,
 
             count:
               oldMembers.length >= 4
@@ -1189,7 +1199,8 @@ async function loadGroups() {
                   )
                 : 4,
 
-            location: ""
+            location:
+              location
 
           };
 
@@ -1224,6 +1235,7 @@ async function loadGroups() {
 
 }
 
+
 async function saveGroups() {
 
   const response =
@@ -1240,7 +1252,7 @@ async function saveGroups() {
         body: JSON.stringify({
 
           action:
-            "saveJeonsidaeGroups",
+            "saveJeonsidaeScheduleGroups",
 
           key:
             selectedAdminSchedule,
