@@ -530,6 +530,62 @@ body.light .group-slot.filled {
 }
 
 /* =========================================================
+   봉사용 일정 선택
+========================================================= */
+
+.service-schedule-selector {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 18px;
+}
+
+.service-schedule-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-schedule-button {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #234563;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.service-schedule-button.selected {
+  background: #3377aa;
+}
+
+.service-schedule-arrow {
+  flex-shrink: 0;
+  margin-left: 12px;
+
+  font-size: 24px;
+  line-height: 1;
+}
+
+.service-management-area {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* =========================================================
    봉사하기
 ========================================================= */
 
