@@ -1810,34 +1810,51 @@ function addGroup() {
       "#newGroupDate"
     );
 
-  const today =
+ const today =
     new Date();
 
-  const saturday =
+const targetDate =
     new Date(today);
 
-  const day =
-    saturday.getDay();
+const day =
+    targetDate.getDay();
 
-  const daysUntilSaturday =
+let daysUntilTarget;
+
+if (
+    selectedAdminSchedule === "일오전"
+) {
+
+  daysUntilTarget =
+    (0 - day + 7) % 7;
+
+} else {
+
+  daysUntilTarget =
     (6 - day + 7) % 7;
 
-  saturday.setDate(
-    saturday.getDate() + daysUntilSaturday
-  );
+}
 
-  const year =
-    saturday.getFullYear();
+targetDate.setDate(
+    targetDate.getDate() + daysUntilTarget
+);
 
-  const month =
-    saturday.getMonth() + 1;
+const year =
+    targetDate.getFullYear();
 
-  const date =
-    saturday.getDate();
+const month =
+    targetDate.getMonth() + 1;
 
-  dateEl.value =
-    `${year}. ${month}. ${date}(토)`;
+const date =
+    targetDate.getDate();
 
+const dayText =
+    selectedAdminSchedule === "일오전"
+      ? "일"
+      : "토";
+
+dateEl.value =
+    `${year}. ${month}. ${date}(${dayText})`;
   groupsEl.prepend(form);
 
 }
