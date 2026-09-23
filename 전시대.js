@@ -114,6 +114,56 @@ document.addEventListener(
   }
 );
 
+let selectedServiceSchedule = "";
+
+
+async function selectServiceSchedule(scheduleKey) {
+
+  selectedServiceSchedule =
+    String(scheduleKey || "").trim();
+
+  if (!selectedServiceSchedule) {
+    return;
+  }
+
+
+  const scheduleSelector =
+    document.getElementById(
+      "serviceScheduleSelector"
+    );
+
+  const managementArea =
+    document.getElementById(
+      "serviceManagementArea"
+    );
+
+
+  if (scheduleSelector) {
+
+    scheduleSelector.style.display =
+      "none";
+
+  }
+
+
+  if (managementArea) {
+
+    managementArea.style.display =
+      "block";
+
+  }
+
+
+  selectedAdminSchedule =
+    selectedServiceSchedule;
+
+
+  await loadGroups();
+
+  renderService();
+
+}
+
 /* =========================================================
    관리자용 봉사 일정 선택
 ========================================================= */
