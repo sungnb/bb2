@@ -92,7 +92,6 @@ let currentView = "apply";
 ========================================================= */
 
 let selectedAdminSchedule = "";
-let selectedServiceSchedule = "";
 
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
@@ -113,56 +112,6 @@ document.addEventListener(
 
   }
 );
-
-let selectedServiceSchedule = "";
-
-
-async function selectServiceSchedule(scheduleKey) {
-
-  selectedServiceSchedule =
-    String(scheduleKey || "").trim();
-
-  if (!selectedServiceSchedule) {
-    return;
-  }
-
-
-  const scheduleSelector =
-    document.getElementById(
-      "serviceScheduleSelector"
-    );
-
-  const managementArea =
-    document.getElementById(
-      "serviceManagementArea"
-    );
-
-
-  if (scheduleSelector) {
-
-    scheduleSelector.style.display =
-      "none";
-
-  }
-
-
-  if (managementArea) {
-
-    managementArea.style.display =
-      "block";
-
-  }
-
-
-  selectedAdminSchedule =
-    selectedServiceSchedule;
-
-
-  await loadGroups();
-
-  renderService();
-
-}
 
 /* =========================================================
    관리자용 봉사 일정 선택
@@ -292,6 +241,11 @@ function showView(view) {
   setActiveNav("navAdmin");
 
 
+  /* 관리자 화면에 처음 들어오면
+     일정 선택 화면만 표시 */
+
+  selectedAdminSchedule = "";
+
   selectedApplicants = [];
 
 
@@ -300,63 +254,25 @@ function showView(view) {
       "adminManagementArea"
     );
 
-  const scheduleSelector =
-    document.getElementById(
-      "adminScheduleSelector"
-    );
+  if (managementArea) {
 
-
-  if (selectedAdminSchedule) {
-
-    if (scheduleSelector) {
-
-      scheduleSelector.style.display =
-        "none";
-
-    }
-
-    if (managementArea) {
-
-      managementArea.style.display =
-        "block";
-
-    }
-
-
-    document
-      .querySelectorAll(
-        ".admin-schedule-button"
-      )
-      .forEach(function(button) {
-
-        button.classList.toggle(
-          "selected",
-          button.dataset.schedule ===
-            selectedAdminSchedule
-        );
-
-      });
-
-
-    loadApplicants();
-
-  } else {
-
-    if (scheduleSelector) {
-
-      scheduleSelector.style.display =
-        "";
-
-    }
-
-    if (managementArea) {
-
-      managementArea.style.display =
-        "none";
-
-    }
+    managementArea.style.display =
+      "none";
 
   }
+
+
+  document
+    .querySelectorAll(
+      ".admin-schedule-button"
+    )
+    .forEach(function(button) {
+
+      button.classList.remove(
+        "selected"
+      );
+
+    });
 
 
   return;
@@ -1172,25 +1088,17 @@ async function loadGroups() {
 
   try {
 
-    if (!selectedAdminSchedule) {
-
-      groups = [];
-
-      return true;
-    }
-
-
     const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=jeonsidaeScheduleGroups" +
-        "&key=" +
-        encodeURIComponent(
-          selectedAdminSchedule
-        ) +
-        "&t=" +
-        Date.now()
-      );
+  await fetch(
+    SCRIPT_URL +
+    "?action=jeonsidaeGroups" +
+    "&key=" +
+    encodeURIComponent(
+      selectedAdminSchedule
+    ) +
+    "&t=" +
+    Date.now()
+  );
 
 
     const data =
@@ -1215,6 +1123,10 @@ async function loadGroups() {
 
     groups =
       loaded.map(function(group) {
+
+        /*
+           새 구조
+        */
 
         if (
           group &&
@@ -1246,34 +1158,28 @@ async function loadGroups() {
         }
 
 
+        /*
+           기존 A팀/B팀 데이터가 남아 있다면
+           새 구조로 변환
+        */
+
         if (Array.isArray(group)) {
 
           const oldMembers =
-            group
-              .slice(0, 7)
-              .filter(function(name) {
+            group.filter(function(name) {
 
-                return (
-                  name &&
-                  name !== "A팀" &&
-                  name !== "B팀"
-                );
+              return (
+                name &&
+                name !== "A팀" &&
+                name !== "B팀"
+              );
 
-              });
-
-
-          const location =
-            group.length >= 8
-              ? String(
-                  group[7] || ""
-                ).trim()
-              : "";
+            }).slice(0, 7);
 
 
           return {
 
-            members:
-              oldMembers,
+            members: oldMembers,
 
             count:
               oldMembers.length >= 4
@@ -1283,8 +1189,7 @@ async function loadGroups() {
                   )
                 : 4,
 
-            location:
-              location
+            location: ""
 
           };
 
@@ -1319,7 +1224,6 @@ async function loadGroups() {
 
 }
 
-
 async function saveGroups() {
 
   const response =
@@ -1336,7 +1240,7 @@ async function saveGroups() {
         body: JSON.stringify({
 
           action:
-            "saveJeonsidaeScheduleGroups",
+            "saveJeonsidaeGroups",
 
           key:
             selectedAdminSchedule,
@@ -3011,5 +2915,672 @@ function renderService() {
 
     }
   );
+
+}
+
+function toggleSettings() {
+
+  document
+    .getElementById("settingsPanel")
+    .classList.toggle("show");
+
+}
+
+
+function setTheme(theme) {
+
+  if (theme === "light") {
+
+    document.body.classList.add(
+      "light"
+    );
+
+    localStorage.setItem(
+      "saturdayTheme",
+      "light"
+    );
+
+  } else {
+
+    document.body.classList.remove(
+      "light"
+    );
+
+    localStorage.setItem(
+      "saturdayTheme",
+      "dark"
+    );
+
+  }
+
+  updateSettingButtons();
+
+}
+
+
+function setFontSize(size) {
+
+  size =
+    Math.max(
+      80,
+      Math.min(150, size)
+    );
+
+  document.documentElement.style.setProperty(
+    "--font-scale",
+    size / 100
+  );
+
+  localStorage.setItem(
+    "saturdayFontSize",
+    String(size)
+  );
+
+  updateSettingButtons();
+
+}
+
+
+function changeFontSize(amount) {
+
+  const current =
+    Number(
+      localStorage.getItem(
+        "saturdayFontSize"
+      ) || "100"
+    );
+
+  setFontSize(
+    current + amount
+  );
+
+}
+
+
+function loadSettings() {
+
+  const theme =
+    localStorage.getItem(
+      "saturdayTheme"
+    ) || "dark";
+
+  const fontSize =
+    localStorage.getItem(
+      "saturdayFontSize"
+    ) || "100";
+
+  setTheme(theme);
+
+  setFontSize(
+    Number(fontSize)
+  );
+
+}
+
+
+function updateSettingButtons() {
+
+  const theme =
+    document.body.classList.contains(
+      "light"
+    )
+      ? "light"
+      : "dark";
+
+
+  document
+    .getElementById("darkButton")
+    .classList.toggle(
+      "active",
+      theme === "dark"
+    );
+
+
+  document
+    .getElementById("lightButton")
+    .classList.toggle(
+      "active",
+      theme === "light"
+    );
+
+  const fontSizeDisplay =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+  if (fontSizeDisplay) {
+
+    fontSizeDisplay.textContent =
+      (
+        Number(
+          localStorage.getItem(
+            "saturdayFontSize"
+          ) || "100"
+        )
+      ) + "%";
+
+  }
+
+}
+
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+    const panel =
+      document.getElementById(
+        "settingsPanel"
+      );
+
+    const button =
+      document.querySelector(
+        ".top-right"
+      );
+
+
+    if (
+      panel.classList.contains("show") &&
+      !panel.contains(event.target) &&
+      !button.contains(event.target)
+    ) {
+
+      panel.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
+
+
+async function refreshServiceGroups() {
+
+  const button =
+    document.querySelector(
+      ".service-refresh-button"
+    );
+
+  if (button) {
+    button.disabled = true;
+  }
+
+  try {
+
+    await loadApplicants();
+
+    const results =
+      await Promise.all([
+        loadGroups(),
+        loadServiceData(),
+        loadSaturdayReference()
+      ]);
+
+    if (!results[0] || !results[1]) {
+      throw new Error(
+        "봉사용 정보를 불러오지 못했습니다."
+      );
+    }
+
+    renderService();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "새로고침에 실패했습니다."
+    );
+
+  } finally {
+
+    if (button) {
+      button.disabled = false;
+    }
+
+  }
+
+}
+
+
+function openVolunteerApply() {
+
+  const area =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const button =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  if (!area) {
+    return;
+  }
+
+  area.classList.add("show");
+  
+  if (button) {
+
+    button.classList.add("open");
+
+    button.style.display = "flex";
+
+  }
+
+  loadMasterNames();
+
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
+    );
+
+  if (controlRow) {
+
+    controlRow.style.display =
+      "flex";
+
+  }
+
+}
+
+
+function goToApplyHome() {
+
+  selectedVolunteerSchedule = "";
+
+  const scheduleArea =
+    document.getElementById(
+      "volunteerScheduleArea"
+    );
+
+  const applyButton =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
+    );
+
+  const applyArea =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const submittedArea =
+    document.getElementById(
+      "submittedVolunteerArea"
+    );
+
+ if (scheduleArea) {
+  scheduleArea.style.display = "";
+}
+
+const mainTitle =
+  document.getElementById(
+    "volunteerMainTitle"
+  );
+
+if (mainTitle) {
+  mainTitle.textContent =
+    "요일을 선택해주세요";
+}
+
+  if (applyButton) {
+
+    applyButton.style.display =
+      "none";
+
+    applyButton.classList.remove(
+      "open"
+    );
+
+  }
+
+  if (controlRow) {
+    controlRow.style.display = "none";
+  }
+
+  if (applyArea) {
+
+    applyArea.style.display =
+      "none";
+
+    applyArea.classList.remove(
+      "show"
+    );
+
+  }
+
+  if (submittedArea) {
+    submittedArea.style.display = "none";
+  }
+
+}
+
+
+async function refreshVolunteerNames() {
+
+  const button =
+    document.querySelector(
+      "#volunteerControlRow .volunteer-control-button:last-child"
+    );
+
+  if (button) {
+
+    button.textContent =
+      "↻ 불러오는 중...";
+
+    button.disabled = true;
+
+  }
+
+  try {
+
+    await loadMasterNames();
+
+  } finally {
+
+    if (button) {
+
+      button.textContent =
+        "↻ 새로고침";
+
+      button.disabled = false;
+
+    }
+
+  }
+
+}
+
+
+function closeVolunteerApply() {
+
+  const area =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const button =
+    document.getElementById(
+      "volunteerApplyButton"
+    );
+
+  if (area) {
+
+    area.style.display =
+      "none";
+
+    area.classList.remove(
+      "show"
+    );
+
+  }
+
+  if (button) {
+
+    button.classList.remove(
+      "open"
+    );
+
+    button.style.display =
+      "flex";
+
+  }
+
+  const controlRow =
+    document.getElementById(
+      "volunteerControlRow"
+    );
+
+  if (controlRow) {
+
+    controlRow.style.display =
+      "none";
+
+  }
+
+}
+
+
+let selectedVolunteerSchedule = "";
+
+async function submitVolunteerApplication() {
+
+  const button =
+    document.getElementById(
+      "volunteerSubmitButton"
+    );
+
+  if (button) {
+
+    button.disabled = true;
+
+    button.textContent =
+      "제출 중...";
+
+  }
+
+  try {
+
+    const newSelections =
+      getMySelections();
+
+    if (!newSelections.length) {
+
+      alert(
+        "봉사자를 한 명 이상 선택해 주세요."
+      );
+
+      if (button) {
+
+        button.disabled = false;
+
+        button.textContent =
+          "제출";
+
+      }
+
+      return;
+
+    }
+
+
+    const scheduleKey =
+      selectedVolunteerSchedule;
+
+    if (!scheduleKey) {
+
+      throw new Error(
+        "봉사 일정이 선택되지 않았습니다."
+      );
+
+    }
+
+
+    await saveScheduleApplicants(
+      scheduleKey,
+      newSelections
+    );
+
+
+    const area =
+      document.getElementById(
+        "volunteerApplyArea"
+      );
+
+    const scheduleArea =
+      document.getElementById(
+        "volunteerScheduleArea"
+      );
+
+    if (area) {
+
+      area.classList.remove(
+        "show"
+      );
+
+      area.style.display =
+        "none";
+
+    }
+
+
+    renderSubmittedVolunteers(
+      newSelections
+    );
+
+
+   if (scheduleArea) {
+
+  scheduleArea.style.display =
+    "flex";
+
+}
+
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.textContent =
+        "제출";
+
+    }
+
+
+    alert(
+      newSelections.length +
+      "명이 신청되었습니다."
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "봉사 신청 제출에 실패했습니다.\n" +
+      (
+        error.message ||
+        "잠시 후 다시 시도해 주세요."
+      )
+    );
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.textContent =
+        "제출";
+
+    }
+
+  }
+
+}
+
+
+async function saveScheduleApplicants(
+  scheduleKey,
+  applicants
+) {
+
+  const response =
+    await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+          action:
+            "saveJeonsidaeScheduleApplicants",
+
+          key:
+            scheduleKey,
+
+          applicants:
+            applicants
+        })
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "봉사 신청 저장에 실패했습니다."
+    );
+
+  }
+
+}
+
+
+function renderSubmittedVolunteers(
+  names
+) {
+
+  const box =
+    document.getElementById(
+      "submittedVolunteerNames"
+    );
+
+  if (!box) {
+    return;
+  }
+
+  box.innerHTML = "";
+
+
+  if (
+    !Array.isArray(names) ||
+    names.length === 0
+  ) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "service-empty";
+
+    empty.textContent =
+      "신청한 봉사자가 없습니다.";
+
+    box.appendChild(empty);
+
+    return;
+
+  }
+
+
+  names.forEach(function(name) {
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "submitted-volunteer-name";
+
+    item.textContent =
+      name;
+
+    box.appendChild(item);
+
+  });
 
 }
