@@ -1804,7 +1804,6 @@ function addGroup() {
     }
   );
 
-  `;
 
   const dateEl =
     form.querySelector(
