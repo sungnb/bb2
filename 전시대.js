@@ -1591,7 +1591,7 @@ function addGroup() {
     </div>
 
 
-    <div class="new-group-select-row">
+       <div class="new-group-select-row">
 
       <div class="new-group-select-box">
 
@@ -1611,8 +1611,12 @@ function addGroup() {
           봉사마감
         </label>
 
-        <select id="newGroupEndTime">
-        </select>
+        <input
+          type="text"
+          id="newGroupEndTime"
+          value="오후 12:00"
+          readonly
+        >
 
       </div>
 
@@ -1723,6 +1727,88 @@ function addGroup() {
     </div>
 
   `;
+
+   const startTimeEl =
+    form.querySelector(
+      "#newGroupStartTime"
+    );
+
+  const endTimeEl =
+    form.querySelector(
+      "#newGroupEndTime"
+    );
+
+
+  for (
+    let minutes = 10 * 60;
+    minutes <= 17 * 60;
+    minutes += 10
+  ) {
+
+    const hour =
+      Math.floor(minutes / 60);
+
+    const minute =
+      minutes % 60;
+
+    const ampm =
+      hour < 12
+        ? "오전"
+        : "오후";
+
+    const displayHour =
+      hour > 12
+        ? hour - 12
+        : hour;
+
+    const timeText =
+      `${ampm} ${String(displayHour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      minutes;
+
+    option.textContent =
+      timeText;
+
+    startTimeEl.appendChild(option);
+  }
+
+
+  startTimeEl.addEventListener(
+    "change",
+    function() {
+
+      const startMinutes =
+        Number(this.value);
+
+      const endMinutes =
+        startMinutes + 120;
+
+      const endHour =
+        Math.floor(endMinutes / 60);
+
+      const endMinute =
+        endMinutes % 60;
+
+      const endAmpm =
+        endHour < 12
+          ? "오전"
+          : "오후";
+
+      const endDisplayHour =
+        endHour > 12
+          ? endHour - 12
+          : endHour;
+
+      endTimeEl.value =
+        `${endAmpm} ${String(endDisplayHour).padStart(2, "0")}:${String(endMinute).padStart(2, "0")}`;
+
+    }
+  );
+
 
   groupsEl.prepend(form);
 
