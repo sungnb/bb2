@@ -114,11 +114,9 @@ document.addEventListener(
   }
 );
 
-let selectedServiceSchedule = "";
-
 
 async function selectServiceSchedule(scheduleKey) {
-
+  
   selectedServiceSchedule =
     String(scheduleKey || "").trim();
 
