@@ -1765,8 +1765,8 @@ function addGroup() {
         ? hour - 12
         : hour;
 
-    const timeText =
-      `${ampm} ${String(displayHour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+   const timeText =
+  `${ampm} ${displayHour}:${String(minute).padStart(2, "0")}`;
 
     const option =
       document.createElement("option");
@@ -1808,8 +1808,7 @@ function addGroup() {
           : endHour;
 
       endTimeEl.value =
-        `${endAmpm} ${String(endDisplayHour).padStart(2, "0")}:${String(endMinute).padStart(2, "0")}`;
-
+  `${endAmpm} ${endDisplayHour}:${String(endMinute).padStart(2, "0")}`;
     }
   );
 
