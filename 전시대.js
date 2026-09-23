@@ -281,11 +281,27 @@ function showView(view) {
   selectedApplicants = [];
 
 
+  const scheduleSelector =
+    document.getElementById(
+      "adminScheduleSelector"
+    );
+
   const managementArea =
     document.getElementById(
       "adminManagementArea"
     );
 
+
+  /* 일정 선택 화면 다시 표시 */
+  if (scheduleSelector) {
+
+    scheduleSelector.style.display =
+      "block";
+
+  }
+
+
+  /* 관리자 관리 화면 숨기기 */
   if (managementArea) {
 
     managementArea.style.display =
