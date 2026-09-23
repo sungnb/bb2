@@ -1180,8 +1180,7 @@ async function loadGroups() {
   try {
 
     const scheduleKey =
-      selectedAdminSchedule ||
-      selectedServiceSchedule;
+      selectedAdminSchedule;
 
     if (!scheduleKey) {
 
