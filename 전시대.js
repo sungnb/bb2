@@ -153,6 +153,38 @@ function selectAdminSchedule(scheduleKey) {
 
 }
 
+
+/* =========================================================
+   관리자용 일정 선택으로 돌아가기
+========================================================= */
+
+function backToAdminSchedule() {
+
+  selectedAdminSchedule = "";
+  selectedApplicants = [];
+
+  const scheduleSelector =
+    document.getElementById(
+      "adminScheduleSelector"
+    );
+
+  const managementArea =
+    document.getElementById(
+      "adminManagementArea"
+    );
+
+  if (managementArea) {
+    managementArea.style.display =
+      "none";
+  }
+
+  if (scheduleSelector) {
+    scheduleSelector.style.display =
+      "block";
+  }
+
+}
+
 function showView(view) {
 
   if (
