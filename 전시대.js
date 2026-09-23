@@ -91,8 +91,11 @@ let currentView = "apply";
    관리자용 선택 일정
 ========================================================= */
 
-let selectedAdminSchedule = "";
-let selectedServiceSchedule = "";
+let selectedAdminSchedule =
+  localStorage.getItem("selectedAdminSchedule") || "";
+
+let selectedServiceSchedule =
+  localStorage.getItem("selectedServiceSchedule") || "";
 
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
@@ -118,11 +121,16 @@ document.addEventListener(
 async function selectServiceSchedule(scheduleKey) {
   
   selectedServiceSchedule =
-    String(scheduleKey || "").trim();
+  String(scheduleKey || "").trim();
 
-  if (!selectedServiceSchedule) {
-    return;
-  }
+if (!selectedServiceSchedule) {
+  return;
+}
+
+localStorage.setItem(
+  "selectedServiceSchedule",
+  selectedServiceSchedule
+);
 
 
   const scheduleSelector =
@@ -164,12 +172,17 @@ async function selectServiceSchedule(scheduleKey) {
 
 function selectAdminSchedule(scheduleKey) {
 
-  selectedAdminSchedule =
-    String(scheduleKey || "").trim();
+ selectedAdminSchedule =
+  String(scheduleKey || "").trim();
 
-  if (!selectedAdminSchedule) {
-    return;
-  }
+if (!selectedAdminSchedule) {
+  return;
+}
+
+localStorage.setItem(
+  "selectedAdminSchedule",
+  selectedAdminSchedule
+);
 
   const scheduleSelector =
     document.getElementById(
