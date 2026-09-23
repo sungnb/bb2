@@ -152,10 +152,6 @@ async function selectServiceSchedule(scheduleKey) {
   }
 
 
-  selectedAdminSchedule =
-    selectedServiceSchedule;
-
-
   await loadGroups();
 
   renderService();
@@ -1170,7 +1166,11 @@ async function loadGroups() {
 
   try {
 
-    if (!selectedAdminSchedule) {
+    const scheduleKey =
+      selectedAdminSchedule ||
+      selectedServiceSchedule;
+
+    if (!scheduleKey) {
 
       groups = [];
 
@@ -1184,7 +1184,7 @@ async function loadGroups() {
         "?action=jeonsidaeScheduleGroups" +
         "&key=" +
         encodeURIComponent(
-          selectedAdminSchedule
+          scheduleKey
         ) +
         "&t=" +
         Date.now()
