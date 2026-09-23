@@ -921,19 +921,53 @@ async function confirmSelectedGroup() {
      선택한 봉사자로 새로운 그룹 생성
   */
 
-  const newGroup = {
+ const scheduleTimes = {
 
-    members:
-      selectedApplicants.slice(0, 7),
+  "토오전": {
+    startTime: "오전 10:00",
+    endTime: "오후 12:00"
+  },
 
-    count:
-      selectedApplicants.length,
+  "토오후": {
+    startTime: "오후 1:00",
+    endTime: "오후 3:00"
+  },
 
-    location:
-      ""
+  "일오전": {
+    startTime: "오전 10:00",
+    endTime: "오후 12:00"
+  }
 
+};
+
+const selectedTimes =
+  scheduleTimes[selectedAdminSchedule] || {
+    startTime: "",
+    endTime: ""
   };
 
+
+const newGroup = {
+
+  members:
+    selectedApplicants.slice(0, 7),
+
+  count:
+    selectedApplicants.length,
+
+  location:
+    "",
+
+  schedule:
+    selectedAdminSchedule,
+
+  startTime:
+    selectedTimes.startTime,
+
+  endTime:
+    selectedTimes.endTime
+
+};
 
   groups.push(newGroup);
 
@@ -1197,24 +1231,41 @@ async function loadGroups() {
 
           return {
 
-            members:
-              Array.isArray(group.members)
-                ? group.members.slice(0, 7)
-                : [],
+           return {
 
-            count:
-              [4, 5, 6, 7].includes(
-                Number(group.count)
-              )
-                ? Number(group.count)
-                : 4,
+  members:
+    Array.isArray(group.members)
+      ? group.members.slice(0, 7)
+      : [],
 
-            location:
-              String(
-                group.location || ""
-              ).trim()
+  count:
+    [4, 5, 6, 7].includes(
+      Number(group.count)
+    )
+      ? Number(group.count)
+      : 4,
 
-          };
+  location:
+    String(
+      group.location || ""
+    ).trim(),
+
+  schedule:
+    String(
+      group.schedule || ""
+    ).trim(),
+
+  startTime:
+    String(
+      group.startTime || ""
+    ).trim(),
+
+  endTime:
+    String(
+      group.endTime || ""
+    ).trim()
+
+};
 
         }
 
@@ -2058,6 +2109,61 @@ function renderGroups() {
 
 
 /* ===================================================
+   봉사시간
+=================================================== */
+
+const timeArea =
+  document.createElement("div");
+
+timeArea.style.width =
+  "100%";
+
+timeArea.style.marginBottom =
+  "10px";
+
+
+const startTimeText =
+  document.createElement("div");
+
+startTimeText.style.fontWeight =
+  "700";
+
+startTimeText.textContent =
+  "봉사시작 : " +
+  (
+    group.startTime ||
+    ""
+  );
+
+
+const endTimeText =
+  document.createElement("div");
+
+endTimeText.style.fontWeight =
+  "700";
+
+endTimeText.textContent =
+  "봉사마감 : " +
+  (
+    group.endTime ||
+    ""
+  );
+
+
+timeArea.appendChild(
+  startTimeText
+);
+
+timeArea.appendChild(
+  endTimeText
+);
+
+card.appendChild(
+  timeArea
+);
+
+
+/* ===================================================
    인원 + 봉사장소
 =================================================== */
 
@@ -2086,6 +2192,7 @@ const countArea =
 
 countArea.style.flex =
   "1";
+
 
 const countLabel =
   document.createElement("div");
