@@ -3011,3 +3011,954 @@ function renderService() {
   );
 
 }
+
+```javascript
+/* =========================================================
+   설정 - 밝게 / 어둡게 / 글자 크기
+========================================================= */
+
+function toggleSettings() {
+
+  const panel =
+    document.getElementById("settingsPanel");
+
+  if (!panel) {
+    return;
+  }
+
+  if (
+    panel.style.display === "block"
+  ) {
+
+    panel.style.display = "none";
+
+  } else {
+
+    panel.style.display = "block";
+
+  }
+
+}
+
+
+/* =========================================================
+   테마 설정
+========================================================= */
+
+function setTheme(theme) {
+
+  const body =
+    document.body;
+
+  if (!body) {
+    return;
+  }
+
+
+  if (theme === "dark") {
+
+    body.classList.remove("light");
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "dark"
+    );
+
+  } else {
+
+    body.classList.add("light");
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "light"
+    );
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+/* =========================================================
+   설정 불러오기
+========================================================= */
+
+function loadSettings() {
+
+  const savedTheme =
+    localStorage.getItem(
+      "jeonsidaeTheme"
+    );
+
+
+  if (savedTheme === "dark") {
+
+    document.body.classList.remove(
+      "light"
+    );
+
+  } else {
+
+    document.body.classList.add(
+      "light"
+    );
+
+  }
+
+
+  const savedFontSize =
+    localStorage.getItem(
+      "jeonsidaeFontSize"
+    );
+
+
+  if (savedFontSize) {
+
+    const fontScale =
+      Number(savedFontSize);
+
+    if (
+      !isNaN(fontScale) &&
+      fontScale >= 80 &&
+      fontScale <= 130
+    ) {
+
+      document.documentElement.style
+        .setProperty(
+          "--font-scale",
+          fontScale / 100
+        );
+
+      const display =
+        document.getElementById(
+          "fontSizeDisplay"
+        );
+
+      if (display) {
+
+        display.textContent =
+          fontScale + "%";
+
+      }
+
+    }
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+/* =========================================================
+   밝게 / 어둡게 버튼 표시
+========================================================= */
+
+function updateSettingButtons() {
+
+  const lightButton =
+    document.getElementById(
+      "lightButton"
+    );
+
+  const darkButton =
+    document.getElementById(
+      "darkButton"
+    );
+
+
+  const isDark =
+    !document.body.classList.contains(
+      "light"
+    );
+
+
+  if (lightButton) {
+
+    lightButton.classList.toggle(
+      "selected",
+      !isDark
+    );
+
+  }
+
+
+  if (darkButton) {
+
+    darkButton.classList.toggle(
+      "selected",
+      isDark
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   글자 크기
+========================================================= */
+
+function changeFontSize(amount) {
+
+  let current =
+    Number(
+      localStorage.getItem(
+        "jeonsidaeFontSize"
+      )
+    );
+
+
+  if (
+    isNaN(current)
+  ) {
+
+    current = 100;
+
+  }
+
+
+  current += amount;
+
+
+  if (current < 80) {
+
+    current = 80;
+
+  }
+
+
+  if (current > 130) {
+
+    current = 130;
+
+  }
+
+
+  document.documentElement.style
+    .setProperty(
+      "--font-scale",
+      current / 100
+    );
+
+
+  localStorage.setItem(
+    "jeonsidaeFontSize",
+    String(current)
+  );
+
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+
+  if (display) {
+
+    display.textContent =
+      current + "%";
+
+  }
+
+}
+
+```javascript
+/* =========================================================
+   설정 - 밝게 / 어둡게 / 글자 크기
+========================================================= */
+
+function toggleSettings() {
+
+  const panel =
+    document.getElementById("settingsPanel");
+
+  if (!panel) {
+    return;
+  }
+
+  if (
+    panel.style.display === "block"
+  ) {
+
+    panel.style.display = "none";
+
+  } else {
+
+    panel.style.display = "block";
+
+  }
+
+}
+
+
+/* =========================================================
+   테마 설정
+========================================================= */
+
+function setTheme(theme) {
+
+  const body =
+    document.body;
+
+  if (!body) {
+    return;
+  }
+
+
+  if (theme === "dark") {
+
+    body.classList.remove("light");
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "dark"
+    );
+
+  } else {
+
+    body.classList.add("light");
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "light"
+    );
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+/* =========================================================
+   설정 불러오기
+========================================================= */
+
+function loadSettings() {
+
+  const savedTheme =
+    localStorage.getItem(
+      "jeonsidaeTheme"
+    );
+
+
+  if (savedTheme === "dark") {
+
+    document.body.classList.remove(
+      "light"
+    );
+
+  } else {
+
+    document.body.classList.add(
+      "light"
+    );
+
+  }
+
+
+  const savedFontSize =
+    localStorage.getItem(
+      "jeonsidaeFontSize"
+    );
+
+
+  if (savedFontSize) {
+
+    const fontScale =
+      Number(savedFontSize);
+
+    if (
+      !isNaN(fontScale) &&
+      fontScale >= 80 &&
+      fontScale <= 130
+    ) {
+
+      document.documentElement.style
+        .setProperty(
+          "--font-scale",
+          fontScale / 100
+        );
+
+      const display =
+        document.getElementById(
+          "fontSizeDisplay"
+        );
+
+      if (display) {
+
+        display.textContent =
+          fontScale + "%";
+
+      }
+
+    }
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+/* =========================================================
+   밝게 / 어둡게 버튼 표시
+========================================================= */
+
+function updateSettingButtons() {
+
+  const lightButton =
+    document.getElementById(
+      "lightButton"
+    );
+
+  const darkButton =
+    document.getElementById(
+      "darkButton"
+    );
+
+
+  const isDark =
+    !document.body.classList.contains(
+      "light"
+    );
+
+
+  if (lightButton) {
+
+    lightButton.classList.toggle(
+      "selected",
+      !isDark
+    );
+
+  }
+
+
+  if (darkButton) {
+
+    darkButton.classList.toggle(
+      "selected",
+      isDark
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   글자 크기
+========================================================= */
+
+function changeFontSize(amount) {
+
+  let current =
+    Number(
+      localStorage.getItem(
+        "jeonsidaeFontSize"
+      )
+    );
+
+
+  if (
+    isNaN(current)
+  ) {
+
+    current = 100;
+
+  }
+
+
+  current += amount;
+
+
+  if (current < 80) {
+
+    current = 80;
+
+  }
+
+
+  if (current > 130) {
+
+    current = 130;
+
+  }
+
+
+  document.documentElement.style
+    .setProperty(
+      "--font-scale",
+      current / 100
+    );
+
+
+  localStorage.setItem(
+    "jeonsidaeFontSize",
+    String(current)
+  );
+
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+
+  if (display) {
+
+    display.textContent =
+      current + "%";
+
+  }
+
+}
+```javascript
+/* =========================================================
+   설정 - 밝게 / 어둡게 / 글자 크기
+========================================================= */
+
+function toggleSettings() {
+
+  const panel =
+    document.getElementById("settingsPanel");
+
+  if (!panel) {
+    return;
+  }
+
+  if (
+    panel.style.display === "block"
+  ) {
+
+    panel.style.display = "none";
+
+  } else {
+
+    panel.style.display = "block";
+
+  }
+
+}
+
+
+/* =========================================================
+   테마 설정
+========================================================= */
+
+function setTheme(theme) {
+
+  const body =
+    document.body;
+
+  if (!body) {
+    return;
+  }
+
+
+  if (theme === "dark") {
+
+    body.classList.remove("light");
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "dark"
+    );
+
+  } else {
+
+    body.classList.add("light");
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "light"
+    );
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+/* =========================================================
+   설정 불러오기
+========================================================= */
+
+function loadSettings() {
+
+  const savedTheme =
+    localStorage.getItem(
+      "jeonsidaeTheme"
+    );
+
+
+  if (savedTheme === "dark") {
+
+    document.body.classList.remove(
+      "light"
+    );
+
+  } else {
+
+    document.body.classList.add(
+      "light"
+    );
+
+  }
+
+
+  const savedFontSize =
+    localStorage.getItem(
+      "jeonsidaeFontSize"
+    );
+
+
+  if (savedFontSize) {
+
+    const fontScale =
+      Number(savedFontSize);
+
+    if (
+      !isNaN(fontScale) &&
+      fontScale >= 80 &&
+      fontScale <= 130
+    ) {
+
+      document.documentElement.style
+        .setProperty(
+          "--font-scale",
+          fontScale / 100
+        );
+
+      const display =
+        document.getElementById(
+          "fontSizeDisplay"
+        );
+
+      if (display) {
+
+        display.textContent =
+          fontScale + "%";
+
+      }
+
+    }
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+/* =========================================================
+   밝게 / 어둡게 버튼 표시
+========================================================= */
+
+function updateSettingButtons() {
+
+  const lightButton =
+    document.getElementById(
+      "lightButton"
+    );
+
+  const darkButton =
+    document.getElementById(
+      "darkButton"
+    );
+
+
+  const isDark =
+    !document.body.classList.contains(
+      "light"
+    );
+
+
+  if (lightButton) {
+
+    lightButton.classList.toggle(
+      "selected",
+      !isDark
+    );
+
+  }
+
+
+  if (darkButton) {
+
+    darkButton.classList.toggle(
+      "selected",
+      isDark
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   글자 크기
+========================================================= */
+
+function changeFontSize(amount) {
+
+  let current =
+    Number(
+      localStorage.getItem(
+        "jeonsidaeFontSize"
+      )
+    );
+
+
+  if (
+    isNaN(current)
+  ) {
+
+    current = 100;
+
+  }
+
+
+  current += amount;
+
+
+  if (current < 80) {
+
+    current = 80;
+
+  }
+
+
+  if (current > 130) {
+
+    current = 130;
+
+  }
+
+
+  document.documentElement.style
+    .setProperty(
+      "--font-scale",
+      current / 100
+    );
+
+
+  localStorage.setItem(
+    "jeonsidaeFontSize",
+    String(current)
+  );
+
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+
+  if (display) {
+
+    display.textContent =
+      current + "%";
+
+  }
+
+}
+
+/* =========================================================
+   설정
+========================================================= */
+
+function toggleSettings() {
+
+  document
+    .getElementById(
+      "settingsPanel"
+    )
+    .classList.toggle(
+      "show"
+    );
+
+}
+
+
+function setTheme(
+  theme
+) {
+
+  if (
+    theme === "light"
+  ) {
+
+    document.body.classList.add(
+      "light"
+    );
+
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "light"
+    );
+
+  } else {
+
+    document.body.classList.remove(
+      "light"
+    );
+
+
+    localStorage.setItem(
+      "jeonsidaeTheme",
+      "dark"
+    );
+
+  }
+
+
+  updateSettingButtons();
+
+}
+
+
+function setFontSize(
+  size
+) {
+
+  size =
+    Math.max(
+      80,
+      Math.min(
+        150,
+        size
+      )
+    );
+
+
+  document.documentElement
+    .style
+    .setProperty(
+      "--font-scale",
+      size / 100
+    );
+
+
+  localStorage.setItem(
+    "jeonsidaeFontSize",
+    String(size)
+  );
+
+
+  updateSettingButtons();
+
+}
+
+
+function changeFontSize(
+  amount
+) {
+
+  const current =
+    Number(
+      localStorage.getItem(
+        "jeonsidaeFontSize"
+      ) ||
+      "100"
+    );
+
+
+  setFontSize(
+    current + amount
+  );
+
+}
+
+
+function loadSettings() {
+
+  const theme =
+    localStorage.getItem(
+      "jeonsidaeTheme"
+    ) ||
+    "dark";
+
+
+  const fontSize =
+    localStorage.getItem(
+      "jeonsidaeFontSize"
+    ) ||
+    "100";
+
+
+  setTheme(
+    theme
+  );
+
+
+  setFontSize(
+    Number(fontSize)
+  );
+
+}
+
+
+function updateSettingButtons() {
+
+  const theme =
+    document.body.classList.contains(
+      "light"
+    )
+      ? "light"
+      : "dark";
+
+
+  document
+    .getElementById(
+      "darkButton"
+    )
+    .classList.toggle(
+      "active",
+      theme === "dark"
+    );
+
+
+  document
+    .getElementById(
+      "lightButton"
+    )
+    .classList.toggle(
+      "active",
+      theme === "light"
+    );
+
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+
+  if (display) {
+
+    display.textContent =
+      (
+        Number(
+          localStorage.getItem(
+            "jeonsidaeFontSize"
+          ) ||
+          "100"
+        )
+      ) +
+      "%";
+
+  }
+
+}
+
