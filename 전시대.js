@@ -906,6 +906,17 @@ function toggleApplicantForGroup(name) {
 
 async function confirmSelectedGroup() {
 
+  if (!groups.length) {
+
+    alert(
+      "먼저 + 봉사 그룹 추가을 추가해 주세요."
+    );
+
+    return;
+
+  }
+
+
   if (
     selectedApplicants.length < 4
   ) {
@@ -1679,23 +1690,7 @@ function addGroup() {
             성신여대(주변)
           </option>
 
-          <option value="성북천(하늘다리)">
-            성북천(하늘다리)
-          </option>
-
-          <option value="성북천(바람마당교)">
-            성북천(바람마당교)
-          </option>
-
-          <option value="성북천(분수대)">
-            성북천(분수대)
-          </option>
-
-          <option value="성북천(용문교)">
-            성북천(용문교)
-          </option>
-
-          <option value="가두 증거">
+           <option value="가두 증거">
             가두 증거
           </option>
 
@@ -2497,15 +2492,7 @@ const locations = [
 
   "성신여대(주변)",
 
-  "성북천(하늘다리)",
-
-  "성북천(바람마당교)",
-
-  "성북천(분수대)",
-
-  "성북천(용문교)",
-
-  "가두 증거"
+   "가두 증거"
 
 ];
 
