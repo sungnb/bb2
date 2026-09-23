@@ -1740,6 +1740,15 @@ function addGroup() {
     minutes += 10
   ) {
 
+  if (selectedAdminSchedule === "토오후") {
+
+  startTimeEl.value = 13 * 60;
+
+  startTimeEl.dispatchEvent(
+    new Event("change")
+  );
+
+}  
     const hour =
       Math.floor(minutes / 60);
 
