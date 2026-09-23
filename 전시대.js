@@ -471,9 +471,16 @@ function getMySelections() {
 
   try {
 
+    const storageKey =
+      MY_SELECTION_KEY +
+      "_" +
+      String(
+        selectedVolunteerSchedule || "default"
+      ).trim();
+
     const saved =
       localStorage.getItem(
-        MY_SELECTION_KEY
+        storageKey
       );
 
     if (!saved) {
@@ -498,13 +505,19 @@ function getMySelections() {
 
 function saveMySelections(list) {
 
+  const storageKey =
+    MY_SELECTION_KEY +
+    "_" +
+    String(
+      selectedVolunteerSchedule || "default"
+    ).trim();
+
   localStorage.setItem(
-    MY_SELECTION_KEY,
+    storageKey,
     JSON.stringify(list)
   );
 
 }
-
 
 /* =========================================================
    봉사자 화면
