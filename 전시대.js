@@ -1184,16 +1184,16 @@ async function loadGroups() {
   try {
 
     const response =
-  await fetch(
-    SCRIPT_URL +
-    "?action=jeonsidaeGroups" +
-    "&key=" +
-    encodeURIComponent(
-      selectedAdminSchedule
-    ) +
-    "&t=" +
-    Date.now()
-  );
+      await fetch(
+        SCRIPT_URL +
+        "?action=jeonsidaeGroups" +
+        "&key=" +
+        encodeURIComponent(
+          selectedAdminSchedule
+        ) +
+        "&t=" +
+        Date.now()
+      );
 
 
     const data =
@@ -1231,41 +1231,39 @@ async function loadGroups() {
 
           return {
 
-           return {
+            members:
+              Array.isArray(group.members)
+                ? group.members.slice(0, 7)
+                : [],
 
-  members:
-    Array.isArray(group.members)
-      ? group.members.slice(0, 7)
-      : [],
+            count:
+              [4, 5, 6, 7].includes(
+                Number(group.count)
+              )
+                ? Number(group.count)
+                : 4,
 
-  count:
-    [4, 5, 6, 7].includes(
-      Number(group.count)
-    )
-      ? Number(group.count)
-      : 4,
+            location:
+              String(
+                group.location || ""
+              ).trim(),
 
-  location:
-    String(
-      group.location || ""
-    ).trim(),
+            schedule:
+              String(
+                group.schedule || ""
+              ).trim(),
 
-  schedule:
-    String(
-      group.schedule || ""
-    ).trim(),
+            startTime:
+              String(
+                group.startTime || ""
+              ).trim(),
 
-  startTime:
-    String(
-      group.startTime || ""
-    ).trim(),
+            endTime:
+              String(
+                group.endTime || ""
+              ).trim()
 
-  endTime:
-    String(
-      group.endTime || ""
-    ).trim()
-
-};
+          };
 
         }
 
@@ -1291,7 +1289,8 @@ async function loadGroups() {
 
           return {
 
-            members: oldMembers,
+            members:
+              oldMembers,
 
             count:
               oldMembers.length >= 4
@@ -1301,7 +1300,14 @@ async function loadGroups() {
                   )
                 : 4,
 
-            location: ""
+            location: "",
+
+            schedule:
+              selectedAdminSchedule,
+
+            startTime: "",
+
+            endTime: ""
 
           };
 
@@ -1314,7 +1320,14 @@ async function loadGroups() {
 
           count: 4,
 
-          location: ""
+          location: "",
+
+          schedule:
+            selectedAdminSchedule,
+
+          startTime: "",
+
+          endTime: ""
 
         };
 
@@ -1335,54 +1348,6 @@ async function loadGroups() {
   }
 
 }
-
-async function saveGroups() {
-
-  const response =
-    await fetch(
-      SCRIPT_URL,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body: JSON.stringify({
-
-          action:
-            "saveJeonsidaeGroups",
-
-          key:
-            selectedAdminSchedule,
-
-          groups:
-            groups
-
-        })
-      }
-    );
-
-
-  const data =
-    await response.json();
-
-
-  if (!data.success) {
-
-    throw new Error(
-      data.message ||
-      "그룹 저장에 실패했습니다."
-    );
-
-  }
-
-
-  return true;
-
-}
-
 
 /* =========================================================
    그룹 정리
@@ -2112,6 +2077,51 @@ function renderGroups() {
    봉사시간
 =================================================== */
 
+const scheduleTimes = {
+
+  "토오전": {
+    startTime: "오전 10:00",
+    endTime: "오후 12:00"
+  },
+
+  "토오후": {
+    startTime: "오후 1:00",
+    endTime: "오후 3:00"
+  },
+
+  "일오전": {
+    startTime: "오전 10:00",
+    endTime: "오후 12:00"
+  }
+
+};
+
+
+const groupSchedule =
+  String(
+    group.schedule ||
+    selectedAdminSchedule ||
+    ""
+  ).trim();
+
+
+const scheduleTime =
+  scheduleTimes[groupSchedule] || {
+    startTime: "",
+    endTime: ""
+  };
+
+
+const startTime =
+  group.startTime ||
+  scheduleTime.startTime;
+
+
+const endTime =
+  group.endTime ||
+  scheduleTime.endTime;
+
+
 const timeArea =
   document.createElement("div");
 
@@ -2130,10 +2140,7 @@ startTimeText.style.fontWeight =
 
 startTimeText.textContent =
   "봉사시작 : " +
-  (
-    group.startTime ||
-    ""
-  );
+  startTime;
 
 
 const endTimeText =
@@ -2144,10 +2151,7 @@ endTimeText.style.fontWeight =
 
 endTimeText.textContent =
   "봉사마감 : " +
-  (
-    group.endTime ||
-    ""
-  );
+  endTime;
 
 
 timeArea.appendChild(
@@ -2161,7 +2165,6 @@ timeArea.appendChild(
 card.appendChild(
   timeArea
 );
-
 
 /* ===================================================
    인원 + 봉사장소
