@@ -1804,11 +1804,44 @@ function addGroup() {
     }
   );
 
+  `;
+
+  const dateEl =
+    form.querySelector(
+      "#newGroupDate"
+    );
+
+  const today =
+    new Date();
+
+  const saturday =
+    new Date(today);
+
+  const day =
+    saturday.getDay();
+
+  const daysUntilSaturday =
+    (6 - day + 7) % 7;
+
+  saturday.setDate(
+    saturday.getDate() + daysUntilSaturday
+  );
+
+  const year =
+    saturday.getFullYear();
+
+  const month =
+    saturday.getMonth() + 1;
+
+  const date =
+    saturday.getDate();
+
+  dateEl.value =
+    `${year}. ${month}. ${date}(토)`;
 
   groupsEl.prepend(form);
 
 }
-
 
 /* =========================================================
    새 봉사 그룹 생성
