@@ -1570,7 +1570,54 @@ function addGroup() {
   form.className =
     "new-group-form";
 
-  form.innerHTML = `
+    form.innerHTML = `
+
+    <div class="new-group-date-row">
+
+      <div class="new-group-select-box">
+
+        <label for="newGroupDate">
+          날짜
+        </label>
+
+        <input
+          type="text"
+          id="newGroupDate"
+          readonly
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="new-group-select-row">
+
+      <div class="new-group-select-box">
+
+        <label for="newGroupStartTime">
+          봉사시작
+        </label>
+
+        <select id="newGroupStartTime">
+        </select>
+
+      </div>
+
+
+      <div class="new-group-select-box">
+
+        <label for="newGroupEndTime">
+          봉사마감
+        </label>
+
+        <select id="newGroupEndTime">
+        </select>
+
+      </div>
+
+    </div>
+
 
     <div class="new-group-select-row">
 
