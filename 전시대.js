@@ -126,6 +126,8 @@ function selectAdminSchedule(scheduleKey) {
     return;
   }
 
+  selectedApplicants = [];
+
   const scheduleSelector =
     document.getElementById(
       "adminScheduleSelector"
