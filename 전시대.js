@@ -292,11 +292,6 @@ function showView(view) {
   setActiveNav("navAdmin");
 
 
-  /* 관리자 화면에 처음 들어오면
-     일정 선택 화면만 표시 */
-
-  selectedAdminSchedule = "";
-
   selectedApplicants = [];
 
 
@@ -305,25 +300,63 @@ function showView(view) {
       "adminManagementArea"
     );
 
-  if (managementArea) {
+  const scheduleSelector =
+    document.getElementById(
+      "adminScheduleSelector"
+    );
 
-    managementArea.style.display =
-      "none";
+
+  if (selectedAdminSchedule) {
+
+    if (scheduleSelector) {
+
+      scheduleSelector.style.display =
+        "none";
+
+    }
+
+    if (managementArea) {
+
+      managementArea.style.display =
+        "block";
+
+    }
+
+
+    document
+      .querySelectorAll(
+        ".admin-schedule-button"
+      )
+      .forEach(function(button) {
+
+        button.classList.toggle(
+          "selected",
+          button.dataset.schedule ===
+            selectedAdminSchedule
+        );
+
+      });
+
+
+    loadApplicants();
+
+  } else {
+
+    if (scheduleSelector) {
+
+      scheduleSelector.style.display =
+        "";
+
+    }
+
+    if (managementArea) {
+
+      managementArea.style.display =
+        "none";
+
+    }
 
   }
-
-
-  document
-    .querySelectorAll(
-      ".admin-schedule-button"
-    )
-    .forEach(function(button) {
-
-      button.classList.remove(
-        "selected"
-      );
-
-    });
 
 
   return;
