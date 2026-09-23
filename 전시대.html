@@ -329,14 +329,29 @@
 >
 
 
-  <!-- 미배정 신청자 수 -->
+  <!-- 관리자용 일정 뒤로가기 -->
 
-  <div
-    class="admin-count"
-    id="adminCount"
+<div class="admin-back-area">
+
+  <button
+    type="button"
+    class="admin-back-button"
+    onclick="backToAdminSchedule()"
   >
-    미배정 신청자 0명
-  </div>
+    &lt; 뒤로가기
+  </button>
+
+</div>
+
+
+<!-- 미배정 신청자 수 -->
+
+<div
+  class="admin-count"
+  id="adminCount"
+>
+  미배정 신청자 0명
+</div>
 
 
   <!-- 신청자 명단 -->
