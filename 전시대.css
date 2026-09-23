@@ -1383,6 +1383,37 @@ body.light .notice-row {
   line-height: 1;
 }
 
+
+/* 관리자 일정 선택으로 돌아가기 */
+
+.admin-back-area {
+  display: flex;
+  justify-content: center;
+
+  margin: 12px 0 14px;
+}
+
+.admin-back-button {
+  width: 160px;
+  height: 42px;
+
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #333;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.admin-back-button:active {
+  transform: scale(0.98);
+}
+
+
 .admin-management-area {
   width: 100%;
   max-width: 600px;
