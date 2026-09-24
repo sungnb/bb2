@@ -528,20 +528,25 @@ body.light .group-slot.filled {
 
 .admin-action-buttons .confirm-group-button,
 .admin-action-buttons .add-group-button {
-  height: 100px;
+  height: 96px;
   margin: 0;
+  border-radius: 12px;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 800;
 }
 
 @media (max-width: 600px) {
-
   .admin-action-buttons {
     gap: 8px;
   }
 
   .admin-action-buttons > button {
-    font-size: 15px;
+    font-size: calc(17px * var(--font-scale));
   }
 
+  .admin-action-buttons .add-group-button {
+    height: 96px;
+  }
 }
 
 /* =========================================================
