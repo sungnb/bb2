@@ -55,8 +55,13 @@ function selectVolunteerSchedule(schedule) {
   }
 
 
-  /* 봉사자 명단 불러오기 */
+    /* 봉사자 명단 불러오기 */
   loadMasterNames();
+
+  /* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
+  loadGroups().then(function() {
+    renderService();
+  });
 }
 
 const SCRIPT_URL =
@@ -1078,7 +1083,9 @@ async function loadGroups() {
         "?action=jeonsidaeGroups" +
         "&key=" +
         encodeURIComponent(
-          selectedAdminSchedule
+          selectedAdminSchedule ||
+          selectedVolunteerSchedule ||
+          ""
         ) +
         "&t=" +
         Date.now()
@@ -3527,44 +3534,264 @@ function renderService() {
       head.appendChild(info);
 
 
-      const volunteers =
+            const volunteers =
         document.createElement("div");
 
       volunteers.className =
         "service-volunteers";
 
 
-      for (
-        let slotIndex = 0;
-        slotIndex < count;
-        slotIndex++
-      ) {
+      /* ===================================================
+         봉사 시작 / 종료 시간
+      =================================================== */
 
-        const person =
-          members[slotIndex] || "";
+      const scheduleTimes = {
+
+        "토오전": {
+          startTime: "오전 10:00",
+          endTime: "오후 12:00"
+        },
+
+        "토오후": {
+          startTime: "오후 1:00",
+          endTime: "오후 3:00"
+        },
+
+        "일오전": {
+          startTime: "오전 10:00",
+          endTime: "오후 12:00"
+        }
+
+      };
 
 
-        const personBox =
-          document.createElement("div");
+      const groupSchedule =
+        String(
+          group.schedule ||
+          selectedVolunteerSchedule ||
+          ""
+        ).trim();
 
-        personBox.className =
-          "service-person" +
-          (
-            person
-              ? " filled"
-              : ""
+
+      const scheduleTime =
+        scheduleTimes[groupSchedule] || {
+          startTime: "",
+          endTime: ""
+        };
+
+
+      const startTime =
+        group.startTime ||
+        scheduleTime.startTime;
+
+
+      const endTime =
+        group.endTime ||
+        scheduleTime.endTime;
+
+
+      const timeArea =
+        document.createElement("div");
+
+      timeArea.style.width =
+        "100%";
+
+      timeArea.style.marginBottom =
+        "12px";
+
+
+      const startTimeText =
+        document.createElement("div");
+
+      startTimeText.style.fontWeight =
+        "700";
+
+      startTimeText.textContent =
+        "봉사시작 : " +
+        startTime;
+
+
+      const endTimeText =
+        document.createElement("div");
+
+      endTimeText.style.fontWeight =
+        "700";
+
+      endTimeText.textContent =
+        "봉사마감 : " +
+        endTime;
+
+
+      timeArea.appendChild(
+        startTimeText
+      );
+
+      timeArea.appendChild(
+        endTimeText
+      );
+
+      volunteers.appendChild(
+        timeArea
+      );
+
+
+      /* ===================================================
+         인원별 봉사 시간표
+      =================================================== */
+
+      const schedules = {
+
+        4: [
+          [0, 1, "오전 10:00"],
+          [2, 3, "오전 10:30"],
+          [0, 1, "오전 11:00"],
+          [2, 3, "오전 11:30"]
+        ],
+
+        5: [
+          [0, 1, "오전 10:00"],
+          [2, 3, "오전 10:25"],
+          [4, 0, "오전 10:50"],
+          [1, 2, "오전 11:15"],
+          [3, 4, "오전 11:35"]
+        ],
+
+        6: [
+          [0, 1, "오전 10:00"],
+          [2, 3, "오전 10:20"],
+          [4, 5, "오전 10:40"],
+          [0, 1, "오전 11:00"],
+          [2, 3, "오전 11:20"],
+          [4, 5, "오전 11:40"]
+        ],
+
+        7: [
+          [0, 1, "오전 10:00"],
+          [2, 3, "오전 10:20"],
+          [4, 5, "오전 10:40"],
+          [6, 0, "오전 11:00"],
+          [1, 2, "오전 11:15"],
+          [3, 4, "오전 11:30"],
+          [5, 6, "오전 11:45"]
+        ]
+
+      };
+
+
+      const scheduleRows =
+        schedules[count] || [];
+
+
+      scheduleRows.forEach(
+        function(row) {
+
+          const firstIndex =
+            row[0];
+
+          const secondIndex =
+            row[1];
+
+          const time =
+            row[2];
+
+
+          const scheduleRow =
+            document.createElement("div");
+
+          scheduleRow.style.display =
+            "flex";
+
+          scheduleRow.style.alignItems =
+            "center";
+
+          scheduleRow.style.width =
+            "100%";
+
+          scheduleRow.style.gap =
+            "8px";
+
+          scheduleRow.style.marginBottom =
+            "7px";
+
+
+          const timeBox =
+            document.createElement("div");
+
+          timeBox.style.flex =
+            "0 0 82px";
+
+          timeBox.style.fontWeight =
+            "700";
+
+          timeBox.textContent =
+            time;
+
+
+          const firstPerson =
+            members[firstIndex] ||
+            "배정 전";
+
+
+          const secondPerson =
+            members[secondIndex] ||
+            "배정 전";
+
+
+          const firstBox =
+            document.createElement("div");
+
+          firstBox.className =
+            "service-person" +
+            (
+              members[firstIndex]
+                ? " filled"
+                : ""
+            );
+
+          firstBox.textContent =
+            firstPerson;
+
+          firstBox.style.flex =
+            "1";
+
+
+          const secondBox =
+            document.createElement("div");
+
+          secondBox.className =
+            "service-person" +
+            (
+              members[secondIndex]
+                ? " filled"
+                : ""
+            );
+
+          secondBox.textContent =
+            secondPerson;
+
+          secondBox.style.flex =
+            "1";
+
+
+          scheduleRow.appendChild(
+            timeBox
+          );
+
+          scheduleRow.appendChild(
+            firstBox
+          );
+
+          scheduleRow.appendChild(
+            secondBox
           );
 
 
-        personBox.textContent =
-          person || "배정 전";
+          volunteers.appendChild(
+            scheduleRow
+          );
 
-
-        volunteers.appendChild(
-          personBox
-        );
-
-      }
+        }
+      );
 
 
       card.appendChild(
