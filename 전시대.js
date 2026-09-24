@@ -1329,7 +1329,7 @@ async function cleanGroups() {
       }
 
 
-      group.members =
+            group.members =
         group.members
           .slice(0, 7)
           .map(function(name) {
@@ -1346,20 +1346,10 @@ async function cleanGroups() {
 
 
             if (
-              !applicantSet.has(name)
-            ) {
-
-              return "";
-
-            }
-
-
-            if (
               used.has(name)
             ) {
 
               return "";
-
             }
 
 
@@ -1368,7 +1358,6 @@ async function cleanGroups() {
             return name;
 
           });
-
 
       return group;
 
