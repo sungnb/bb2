@@ -871,11 +871,6 @@ groups.forEach(function(group) {
 
   namesBox.appendChild(addButton);
 
-  const confirmButton = document.getElementById("confirmGroupButton");
-if (confirmButton) {
-  confirmButton.disabled = selectedApplicants.length < 4;
-}
-
   renderGroups();
 }
 
