@@ -1446,6 +1446,31 @@ body.light .notice-row {
   background: rgba(255,255,255,.07);
 }
 
+/* 날짜 선택 영역 */
+.new-group-date-row {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+/* 날짜 입력 */
+.new-group-date-row input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  border: 1px solid #777;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #222;
+
+  font-family: inherit;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 600;
+
+  outline: none;
+}
 
 /* 인원 / 봉사장소 */
 .new-group-select-row {
@@ -1481,12 +1506,12 @@ body.light .notice-row {
 
 /* 제목 */
 .new-group-select-box label,
-.new-group-select-box > span {
+.new-group-select-box > span,
+.new-group-date-row label {
   font-size: calc(14px * var(--font-scale));
   font-weight: 700;
   color: inherit;
 }
-
 
 /* 드롭다운 */
 .new-group-select-box select {
