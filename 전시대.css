@@ -528,7 +528,7 @@ body.light .group-slot.filled {
 
 .admin-action-buttons .confirm-group-button,
 .admin-action-buttons .add-group-button {
-  height: 48px;
+  height: 100px;
   margin: 0;
 }
 
@@ -1515,8 +1515,6 @@ body.light .notice-row {
 }
 
 
-/* 각각의 선택 영역 */
-
 .new-group-select-box {
   min-width: 0;
 
@@ -1525,8 +1523,6 @@ body.light .notice-row {
   gap: 6px;
 }
 
-
-/* 제목 */
 
 .new-group-select-box label,
 .new-group-select-box > span {
@@ -1538,7 +1534,7 @@ body.light .notice-row {
 }
 
 
-/* 드롭다운 */
+/* 모든 선택창 동일한 높이 */
 
 .new-group-select-box select {
   width: 100%;
@@ -1575,7 +1571,11 @@ body.light .notice-row {
 
 .new-group-form .new-group-create-button,
 .new-group-form .new-group-cancel-button {
+  width: 50%;
+  min-width: 0;
   height: 48px;
+
+  padding: 0;
 
   border-radius: 10px;
 
@@ -1589,10 +1589,6 @@ body.light .notice-row {
 /* 그룹 추가 */
 
 .new-group-form .new-group-create-button {
-  min-width: 130px;
-
-  padding: 0 20px;
-
   border: 0;
 
   background: #3374A9;
@@ -1603,10 +1599,6 @@ body.light .notice-row {
 /* 취소 */
 
 .new-group-form .new-group-cancel-button {
-  min-width: 90px;
-
-  padding: 0 18px;
-
   border: 0;
 
   background: #B83232;
@@ -1619,7 +1611,9 @@ body.light .notice-row {
 .new-group-form > div:last-child {
   display: flex;
 
-  justify-content: flex-end;
+  width: 100%;
+
+  justify-content: stretch;
   align-items: center;
 
   gap: 8px;
@@ -1704,10 +1698,10 @@ body:not(.light) .new-group-date-row input {
   }
 
 
-  /* 버튼은 세로 배치 */
+  /* 그룹 추가 / 취소도 50 : 50 */
 
   .new-group-form > div:last-child {
-    flex-direction: column;
+    flex-direction: row;
     align-items: stretch;
 
     gap: 8px;
@@ -1718,7 +1712,8 @@ body:not(.light) .new-group-date-row input {
 
   .new-group-form .new-group-create-button,
   .new-group-form .new-group-cancel-button {
-    width: 100%;
+    width: 50%;
+    flex: 1 1 0;
     min-width: 0;
     height: 48px;
   }
