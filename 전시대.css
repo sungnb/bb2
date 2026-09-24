@@ -1450,7 +1450,8 @@ body.light .notice-row {
   width: 100%;
   max-width: 600px;
   margin: 0 auto 20px;
-  padding: 18px;
+  padding: 20px;
+
   box-sizing: border-box;
 
   border-radius: 14px;
@@ -1458,21 +1459,33 @@ body.light .notice-row {
   background: rgba(255,255,255,.07);
 }
 
-/* 날짜 선택 영역 */
+
+/* =========================================================
+   날짜
+========================================================= */
+
 .new-group-date-row {
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-/* 날짜 입력 */
+.new-group-date-row label {
+  display: block;
+  margin-bottom: 6px;
+
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 700;
+}
+
 .new-group-date-row input {
   width: 100%;
-  height: 40px;
+  height: 44px;
+
   padding: 0 12px;
   box-sizing: border-box;
 
   border: 1px solid #777;
-  border-radius: 8px;
+  border-radius: 9px;
 
   background: #fff;
   color: #222;
@@ -1484,59 +1497,62 @@ body.light .notice-row {
   outline: none;
 }
 
-/* 인원 / 봉사장소 */
+
+/* =========================================================
+   봉사시작 / 봉사마감
+   인원 / 봉사장소
+========================================================= */
+
 .new-group-select-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 14px;
+
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 
 /* 각각의 선택 영역 */
+
 .new-group-select-box {
   min-width: 0;
 
   display: flex;
   flex-direction: column;
-  gap: 5px;
-}
-
-
-/* 인원 */
-.new-group-select-box:first-child {
-  flex: 0 0 34%;
-}
-
-
-/* 봉사장소 */
-.new-group-select-box:last-child {
-  flex: 1;
+  gap: 6px;
 }
 
 
 /* 제목 */
+
 .new-group-select-box label,
-.new-group-select-box > span,
-.new-group-date-row label {
+.new-group-select-box > span {
+  display: block;
+
   font-size: calc(14px * var(--font-scale));
   font-weight: 700;
   color: inherit;
 }
 
+
 /* 드롭다운 */
+
 .new-group-select-box select {
   width: 100%;
-  height: 40px;
+  height: 44px;
+
   padding: 0 10px;
+
   box-sizing: border-box;
 
   border: 1px solid #777;
-  border-radius: 8px;
+  border-radius: 9px;
 
-  background: #fff;
-  color: #222;
+  background: #222;
+  color: #fff;
 
   font-family: inherit;
   font-size: calc(15px * var(--font-scale));
@@ -1547,64 +1563,80 @@ body.light .notice-row {
 }
 
 
-/* 선택했을 때 */
 .new-group-select-box select:focus {
   border-color: #6FA8D8;
   box-shadow: 0 0 0 2px rgba(111,168,216,.18);
 }
 
 
-/* 그룹 추가 / 취소 */
+/* =========================================================
+   그룹 추가 / 취소
+========================================================= */
+
 .new-group-form .new-group-create-button,
 .new-group-form .new-group-cancel-button {
-  height: 46px;
+  height: 48px;
+
   border-radius: 10px;
 
   font-size: calc(16px * var(--font-scale));
-  font-weight: 700;
+  font-weight: 800;
 
   cursor: pointer;
 }
 
 
 /* 그룹 추가 */
+
 .new-group-form .new-group-create-button {
   min-width: 130px;
-  padding: 0 18px;
+
+  padding: 0 20px;
 
   border: 0;
+
   background: #3374A9;
   color: #fff;
 }
 
 
 /* 취소 */
-.new-group-form .new-group-cancel-button {
-  min-width: 76px;
-  padding: 0 16px;
 
-  border: 1px solid rgba(255,255,255,.20);
-  background: rgba(255,255,255,.08);
-  color: inherit;
+.new-group-form .new-group-cancel-button {
+  min-width: 90px;
+
+  padding: 0 18px;
+
+  border: 0;
+
+  background: #B83232;
+  color: #fff;
 }
 
 
 /* 버튼 정렬 */
+
 .new-group-form > div:last-child {
   display: flex;
+
   justify-content: flex-end;
   align-items: center;
+
   gap: 8px;
+
+  margin-top: 4px;
 }
 
 
-/* 밝은 화면 */
+/* =========================================================
+   밝은 화면
+========================================================= */
+
 body.light .new-group-form {
   background: #fff;
   border-color: #ddd;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
-
 
 body.light .new-group-select-box select {
   background: #fff;
@@ -1612,49 +1644,82 @@ body.light .new-group-select-box select {
   border-color: #aaa;
 }
 
-
-body.light .new-group-form .new-group-cancel-button {
-  background: #f5f5f5;
-  border-color: #ccc;
-  color: #333;
+body.light .new-group-date-row input {
+  background: #fff;
+  color: #222;
+  border-color: #aaa;
 }
 
 
-/* 어두운 화면 */
+/* =========================================================
+   어두운 화면
+========================================================= */
+
 body:not(.light) .new-group-select-box select {
   background: #222;
   color: #fff;
   border-color: #666;
 }
 
+body:not(.light) .new-group-date-row input {
+  background: #222;
+  color: #fff;
+  border-color: #666;
+}
 
-/* 휴대폰 */
+
+/* =========================================================
+   휴대폰
+========================================================= */
+
 @media (max-width: 600px) {
 
   .new-group-form {
-    padding: 15px;
+    width: 100%;
+    padding: 16px;
     margin-bottom: 18px;
   }
 
+
+  /* 날짜는 전체 폭 */
+
+  .new-group-date-row {
+    margin-bottom: 16px;
+  }
+
+
+  /* 시작/마감, 인원/장소는 2칸 유지 */
+
   .new-group-select-row {
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
 
-  .new-group-select-box:first-child {
-    flex: 0 0 32%;
-  }
 
   .new-group-select-box select {
-    height: 40px;
-    padding: 0 8px;
-    font-size: calc(15px * var(--font-scale));
+    height: 44px;
+    padding: 0 7px;
+
+    font-size: calc(14px * var(--font-scale));
   }
 
-  .new-group-form .new-group-create-button {
-    flex: 1;
+
+  /* 버튼은 세로 배치 */
+
+  .new-group-form > div:last-child {
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 8px;
+
+    margin-top: 6px;
   }
 
+
+  .new-group-form .new-group-create-button,
   .new-group-form .new-group-cancel-button {
-    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    height: 48px;
   }
 }
