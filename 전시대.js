@@ -899,50 +899,6 @@ function toggleApplicantForGroup(name) {
   selectedApplicants.push(name);
   renderAdmin();
 }
-
-/* =========================================================
-   관리자 - 배정 확정
-========================================================= */
-
-async function confirmSelectedGroup() {
-
-  if (
-    selectedApplicants.length < 4
-  ) {
-
-    alert(
-      "봉사자를 4명 이상 선택해 주세요."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    selectedApplicants.length > 7
-  ) {
-
-    alert(
-      "한 그룹에는 7명까지만 선택할 수 있습니다."
-    );
-
-    return;
-
-  }
-
-
-  /*
-     선택한 봉사자는 그대로 유지합니다.
-     실제 그룹 생성은
-     + 봉사 그룹 추가 버튼에서 합니다.
-  */
-
-  renderAdmin();
-
-  renderService();
-
-}
   
 /* =========================================================
    관리자 직접 신청자 추가
