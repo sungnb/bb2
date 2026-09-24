@@ -1920,16 +1920,28 @@ async function createNewGroup() {
   }
 
 
-  groups.push({
+ groups.push({
 
-    members: [],
+  members: [],
 
-    count: count,
+  count: count,
 
-    location: location
+  location: location,
 
-  });
+  schedule:
+    selectedAdminSchedule,
 
+  startTime:
+    document.getElementById(
+      "newGroupStartTime"
+    )?.selectedOptions[0]?.textContent || "",
+
+  endTime:
+    document.getElementById(
+      "newGroupEndTime"
+    )?.value || ""
+
+});
 
   try {
 
@@ -2020,6 +2032,63 @@ async function deleteGroup(index) {
   }
 
 }
+
+/* =========================================================
+   봉사 그룹 저장
+========================================================= */
+
+async function saveGroups() {
+
+  if (!selectedAdminSchedule) {
+
+    throw new Error(
+      "관리 일정이 선택되지 않았습니다."
+    );
+
+  }
+
+  const response =
+    await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+
+          action:
+            "saveGroups",
+
+          key:
+            selectedAdminSchedule,
+
+          groups:
+            groups
+
+        })
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "봉사 그룹 저장에 실패했습니다."
+    );
+
+  }
+
+  return true;
+
+}
+
 
 /* =========================================================
    그룹 초기화
