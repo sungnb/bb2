@@ -1740,20 +1740,7 @@ function addGroup() {
     minutes += 10
   ) {
 
-  if (selectedAdminSchedule === "토오후") {
-
-  startTimeEl.value = 13 * 60;
-
-} else {
-
-  startTimeEl.value = 10 * 60;
-
-}
-
-startTimeEl.dispatchEvent(
-  new Event("change")
-);
-    const hour =
+      const hour =
       Math.floor(minutes / 60);
 
     const minute =
@@ -1781,7 +1768,18 @@ startTimeEl.dispatchEvent(
     option.textContent =
       timeText;
 
-    startTimeEl.appendChild(option);
+        startTimeEl.appendChild(option);
+  }
+
+
+  if (selectedAdminSchedule === "토오후") {
+
+    startTimeEl.value = 13 * 60;
+
+  } else {
+
+    startTimeEl.value = 10 * 60;
+
   }
 
 
@@ -1816,6 +1814,9 @@ startTimeEl.dispatchEvent(
     }
   );
 
+  startTimeEl.dispatchEvent(
+    new Event("change")
+  );
 
   const dateEl =
     form.querySelector(
