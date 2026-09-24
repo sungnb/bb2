@@ -906,17 +906,6 @@ function toggleApplicantForGroup(name) {
 
 async function confirmSelectedGroup() {
 
-  if (!groups.length) {
-
-    alert(
-      "먼저 + 봉사 그룹 추가을 추가해 주세요."
-    );
-
-    return;
-
-  }
-
-
   if (
     selectedApplicants.length < 4
   ) {
@@ -930,72 +919,30 @@ async function confirmSelectedGroup() {
   }
 
 
-  /*
-     선택한 봉사자로 새로운 그룹 생성
-  */
+  if (
+    selectedApplicants.length > 7
+  ) {
 
- const scheduleTimes = {
+    alert(
+      "한 그룹에는 7명까지만 선택할 수 있습니다."
+    );
 
-  "토오전": {
-    startTime: "오전 10:00",
-    endTime: "오후 12:00"
-  },
+    return;
 
-  "토오후": {
-    startTime: "오후 1:00",
-    endTime: "오후 3:00"
-  },
-
-  "일오전": {
-    startTime: "오전 10:00",
-    endTime: "오후 12:00"
   }
 
-};
-
-const selectedTimes =
-  scheduleTimes[selectedAdminSchedule] || {
-    startTime: "",
-    endTime: ""
-  };
-
-
-const newGroup = {
-
-  members:
-    selectedApplicants.slice(0, 7),
-
-  count:
-    selectedApplicants.length,
-
-  location:
-    "",
-
-  schedule:
-    selectedAdminSchedule,
-
-  startTime:
-    selectedTimes.startTime,
-
-  endTime:
-    selectedTimes.endTime
-
-};
-
-  groups.push(newGroup);
 
   /*
-     배정 확정은 화면에 그룹을 만드는 단계입니다.
-     실제 저장은 각 그룹의 [제출] 버튼을 눌렀을 때 합니다.
+     선택한 봉사자는 그대로 유지합니다.
+     실제 그룹 생성은
+     + 봉사 그룹 추가 버튼에서 합니다.
   */
-
-  selectedApplicants = [];
 
   renderAdmin();
 
   renderService();
-  
-  } 
+
+}
   
 /* =========================================================
    관리자 직접 신청자 추가
@@ -1898,9 +1845,21 @@ async function createNewGroup() {
   }
 
 
+  /*
+     선택되어 있던 봉사자를
+     새 그룹에 넣습니다.
+  */
+
+  const members =
+    selectedApplicants.slice(
+      0,
+      count
+    );
+
+
   groups.push({
 
-    members: [],
+    members: members,
 
     count: count,
 
@@ -1921,9 +1880,22 @@ async function createNewGroup() {
 
   });
 
+
   /*
-     그룹 추가는 화면에 그룹을 만드는 단계입니다.
-     실제 저장은 각 그룹의 [제출] 버튼을 눌렀을 때 합니다.
+     그룹에 배정된 봉사자는
+     선택 목록에서 제거합니다.
+  */
+
+  selectedApplicants =
+    selectedApplicants.slice(
+      count
+    );
+
+
+  /*
+     그룹 추가 단계에서는
+     서버에 저장하지 않습니다.
+     실제 저장은 [제출] 버튼에서 합니다.
   */
 
   const form =
@@ -1935,10 +1907,14 @@ async function createNewGroup() {
     form.remove();
   }
 
+
   renderAdmin();
+
+  renderGroups();
 
   renderService();
 
+}
 /* =========================================================
    새 봉사 그룹 추가 취소
 ========================================================= */
@@ -2913,18 +2889,18 @@ async function handleSlotClick(
      해당 자리만 비웁니다.
   */
 
-  if (currentName) {
+if (currentName) {
 
-    group.members[slotIndex] = "";
+  group.members[slotIndex] = "";
 
-    renderAdmin();
+  renderAdmin();
 
-    renderGroups();
+  renderGroups();
 
-    renderService();
+  renderService();
 
-    return;
-  }
+  return;
+}
 
 
   /*
