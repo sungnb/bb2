@@ -1744,11 +1744,15 @@ function addGroup() {
 
   startTimeEl.value = 13 * 60;
 
-  startTimeEl.dispatchEvent(
-    new Event("change")
-  );
+} else {
 
-}  
+  startTimeEl.value = 10 * 60;
+
+}
+
+startTimeEl.dispatchEvent(
+  new Event("change")
+);
     const hour =
       Math.floor(minutes / 60);
 
