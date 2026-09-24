@@ -1898,51 +1898,46 @@ async function createNewGroup() {
   }
 
 
- groups.push({
+  groups.push({
 
-  members: [],
+    members: [],
 
-  count: count,
+    count: count,
 
-  location: location,
+    location: location,
 
-  schedule:
-    selectedAdminSchedule,
+    schedule:
+      selectedAdminSchedule,
 
-  startTime:
+    startTime:
+      document.getElementById(
+        "newGroupStartTime"
+      )?.selectedOptions[0]?.textContent || "",
+
+    endTime:
+      document.getElementById(
+        "newGroupEndTime"
+      )?.value || ""
+
+  });
+
+  /*
+     그룹 추가는 화면에 그룹을 만드는 단계입니다.
+     실제 저장은 각 그룹의 [제출] 버튼을 눌렀을 때 합니다.
+  */
+
+  const form =
     document.getElementById(
-      "newGroupStartTime"
-    )?.selectedOptions[0]?.textContent || "",
-
-  endTime:
-    document.getElementById(
-      "newGroupEndTime"
-    )?.value || ""
-
-});
-
-  try {
-
-    await saveGroups();
-
-    renderAdmin();
-
-    renderService();
-
-  } catch (error) {
-
-    console.error(error);
-
-    groups.pop();
-
-    alert(
-      "봉사 그룹 추가에 실패했습니다."
+      "newGroupForm"
     );
 
+  if (form) {
+    form.remove();
   }
 
-}
+  renderAdmin();
 
+  renderService();
 
 /* =========================================================
    새 봉사 그룹 추가 취소
@@ -2915,15 +2910,12 @@ async function handleSlotClick(
 
   /*
      이미 배정된 봉사자를 클릭하면
-     그룹에서 제거합니다.
+     해당 자리만 비웁니다.
   */
 
   if (currentName) {
 
-    group.members.splice(
-      slotIndex,
-      1
-    );
+    group.members[slotIndex] = "";
 
     renderAdmin();
 
@@ -2938,7 +2930,7 @@ async function handleSlotClick(
   /*
      위 신청자 명단에서
      선택한 사람이 있으면
-     빈 슬롯에 배정합니다.
+     현재 빈 자리에 배정합니다.
   */
 
   if (
@@ -2946,21 +2938,32 @@ async function handleSlotClick(
   ) {
 
     const name =
-      selectedApplicants.shift();
+      selectedApplicants[0];
+
+
+    /*
+       이미 다른 자리에 배정된 사람은
+       다시 배정하지 않습니다.
+    */
 
     if (
-      !group.members.includes(name) &&
-      group.members.length <
-        Number(group.count)
+      group.members.includes(name)
     ) {
 
-      group.members.splice(
-        slotIndex,
-        0,
-        name
-      );
+      selectedApplicants.shift();
+
+      renderAdmin();
+
+      renderGroups();
+
+      return;
 
     }
+
+
+    group.members[slotIndex] =
+      selectedApplicants.shift();
+
 
     renderAdmin();
 
@@ -2975,6 +2978,7 @@ async function handleSlotClick(
   alert(
     "위 신청자 명단에서 봉사자를 선택한 후 이 칸을 눌러 주세요."
   );
+
 }
 
 /* =========================================================
