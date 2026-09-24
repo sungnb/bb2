@@ -984,40 +984,16 @@ const newGroup = {
 
   groups.push(newGroup);
 
+  /*
+     배정 확정은 화면에 그룹을 만드는 단계입니다.
+     실제 저장은 각 그룹의 [제출] 버튼을 눌렀을 때 합니다.
+  */
 
-  try {
+  selectedApplicants = [];
 
-    await saveGroups();
+  renderAdmin();
 
-    /*
-       배정이 끝났으므로
-       현재 선택 표시 초기화
-    */
-
-    selectedApplicants = [];
-
-    renderAdmin();
-
-    renderService();
-
-  } catch (error) {
-
-    console.error(error);
-
-    /*
-       저장 실패 시 방금 만든 그룹 제거
-    */
-
-    groups.pop();
-
-    alert(
-      "그룹 배정 저장에 실패했습니다.\n" +
-      "잠시 후 다시 시도해 주세요."
-    );
-
-  }
-
-}
+  renderService();
   
 /* =========================================================
    관리자 직접 신청자 추가
@@ -2158,9 +2134,7 @@ function renderGroups() {
     return;
   }
 
-
   box.innerHTML = "";
-
 
   if (groups.length === 0) {
 
@@ -2171,18 +2145,11 @@ function renderGroups() {
       '</div>';
 
     return;
-
   }
 
 
   groups.forEach(
     function(group, groupIndex) {
-
-
-      /*
-         기존 배열 데이터가 남아 있으면
-         새 구조로 변환
-      */
 
       if (Array.isArray(group)) {
 
@@ -2201,21 +2168,31 @@ function renderGroups() {
 
           count: 4,
 
-          location: ""
+          location: "",
+
+          schedule:
+            selectedAdminSchedule,
+
+          startTime: "",
+
+          endTime: ""
 
         };
 
         groups[groupIndex] =
           group;
-
       }
 
 
-      if (!group.members) {
+      if (!Array.isArray(group.members)) {
         group.members = [];
       }
 
-      if (!group.count) {
+      if (
+        ![4, 5, 6, 7].includes(
+          Number(group.count)
+        )
+      ) {
         group.count = 4;
       }
 
@@ -2232,7 +2209,7 @@ function renderGroups() {
 
 
       /* ===================================================
-         그룹 제목
+         그룹 제목 + 초기화 + 삭제
       =================================================== */
 
       const header =
@@ -2263,8 +2240,6 @@ function renderGroups() {
         "8px";
 
 
-      /* 초기화 */
-
       const resetButton =
         document.createElement("button");
 
@@ -2286,8 +2261,6 @@ function renderGroups() {
 
         };
 
-
-      /* 삭제 */
 
       const deleteButton =
         document.createElement("button");
@@ -2319,7 +2292,6 @@ function renderGroups() {
         deleteButton
       );
 
-
       header.appendChild(
         title
       );
@@ -2328,387 +2300,446 @@ function renderGroups() {
         headerButtons
       );
 
-
       card.appendChild(
         header
       );
 
 
-/* ===================================================
-   봉사시간
-=================================================== */
+      /* ===================================================
+         날짜
+      =================================================== */
 
-const scheduleTimes = {
+      const dateArea =
+        document.createElement("div");
 
-  "토오전": {
-    startTime: "오전 10:00",
-    endTime: "오후 12:00"
-  },
+      dateArea.style.fontWeight =
+        "700";
 
-  "토오후": {
-    startTime: "오후 1:00",
-    endTime: "오후 3:00"
-  },
+      dateArea.style.marginBottom =
+        "8px";
 
-  "일오전": {
-    startTime: "오전 10:00",
-    endTime: "오후 12:00"
-  }
 
-};
+      const today =
+        new Date();
 
+      const targetDate =
+        new Date(today);
 
-const groupSchedule =
-  String(
-    group.schedule ||
-    selectedAdminSchedule ||
-    ""
-  ).trim();
+      const todayDay =
+        targetDate.getDay();
 
+      let daysUntilTarget;
 
-const scheduleTime =
-  scheduleTimes[groupSchedule] || {
-    startTime: "",
-    endTime: ""
-  };
+      if (
+        selectedAdminSchedule ===
+        "일오전"
+      ) {
 
+        daysUntilTarget =
+          (0 - todayDay + 7) % 7;
 
-const startTime =
-  group.startTime ||
-  scheduleTime.startTime;
+      } else {
 
+        daysUntilTarget =
+          (6 - todayDay + 7) % 7;
 
-const endTime =
-  group.endTime ||
-  scheduleTime.endTime;
+      }
 
-
-const timeArea =
-  document.createElement("div");
-
-timeArea.style.width =
-  "100%";
-
-timeArea.style.marginBottom =
-  "10px";
-
-
-const startTimeText =
-  document.createElement("div");
-
-startTimeText.style.fontWeight =
-  "700";
-
-startTimeText.textContent =
-  "봉사시작 : " +
-  startTime;
-
-
-const endTimeText =
-  document.createElement("div");
-
-endTimeText.style.fontWeight =
-  "700";
-
-endTimeText.textContent =
-  "봉사마감 : " +
-  endTime;
-
-
-timeArea.appendChild(
-  startTimeText
-);
-
-timeArea.appendChild(
-  endTimeText
-);
-
-card.appendChild(
-  timeArea
-);
-
-/* ===================================================
-   인원 + 봉사장소
-=================================================== */
-
-const settingRow =
-  document.createElement("div");
-
-settingRow.style.display =
-  "flex";
-
-settingRow.style.alignItems =
-  "flex-end";
-
-settingRow.style.gap =
-  "12px";
-
-settingRow.style.width =
-  "100%";
-
-
-/* ===================================================
-   인원
-=================================================== */
-
-const countArea =
-  document.createElement("div");
-
-countArea.style.flex =
-  "1";
-
-
-const countLabel =
-  document.createElement("div");
-
-countLabel.textContent =
-  "인원";
-
-countLabel.style.fontWeight =
-  "700";
-
-countLabel.style.marginBottom =
-  "5px";
-
-
-const countSelect =
-  document.createElement("select");
-
-countSelect.className =
-  "group-count-select";
-
-countSelect.style.width =
-  "100%";
-
-
-[4, 5, 6, 7].forEach(
-  function(count) {
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      String(count);
-
-    option.textContent =
-      count + "명";
-
-
-    if (
-      Number(group.count) ===
-      count
-    ) {
-
-      option.selected =
-        true;
-
-    }
-
-
-    countSelect.appendChild(
-      option
-    );
-
-  }
-);
-
-
-countSelect.onchange =
-  async function() {
-
-    const newCount =
-      Number(this.value);
-
-
-    group.count =
-      newCount;
-
-
-    /*
-       인원을 줄였을 경우
-       뒤쪽 이름 제거
-    */
-
-    if (
-      group.members.length >
-      newCount
-    ) {
-
-      group.members =
-        group.members.slice(
-          0,
-          newCount
-        );
-
-    }
-
-
-    try {
-
-      await saveGroups();
-
-      renderGroups();
-
-      renderService();
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "인원 변경 저장에 실패했습니다."
+      targetDate.setDate(
+        targetDate.getDate() +
+        daysUntilTarget
       );
 
-    }
 
-  };
+      const year =
+        targetDate.getFullYear();
 
+      const month =
+        targetDate.getMonth() + 1;
 
-countArea.appendChild(
-  countLabel
-);
+      const date =
+        targetDate.getDate();
 
-countArea.appendChild(
-  countSelect
-);
-
-
-/* ===================================================
-   봉사장소
-=================================================== */
-
-const locationArea =
-  document.createElement("div");
-
-locationArea.style.flex =
-  "2";
+      const dayText =
+        selectedAdminSchedule ===
+        "일오전"
+          ? "일"
+          : "토";
 
 
-const locationLabel =
-  document.createElement("div");
-
-locationLabel.textContent =
-  "봉사장소";
-
-locationLabel.style.fontWeight =
-  "700";
-
-locationLabel.style.marginBottom =
-  "5px";
-
-
-const locationSelect =
-  document.createElement("select");
-
-locationSelect.className =
-  "group-location-select";
-
-locationSelect.style.width =
-  "100%";
+      dateArea.textContent =
+        "날짜 : " +
+        year +
+        ". " +
+        month +
+        ". " +
+        date +
+        "(" +
+        dayText +
+        ")";
 
 
-const locations = [
-
-  "",
-
-  "유타몰",
-
-  "성북천(보문2교-아래)",
-
-  "성북천(보문2교-위)",
-
-  "성북구청(광장)",
-
-  "보문역(주변)",
-
-  "성신여대(주변)",
-
-   "가두 증거"
-
-];
+      card.appendChild(
+        dateArea
+      );
 
 
-locations.forEach(
-  function(location) {
+      /* ===================================================
+         봉사시간
+      =================================================== */
 
-    const option =
-      document.createElement("option");
+      const scheduleTimes = {
 
-    option.value =
-      location;
+        "토오전": {
+          startTime: "오전 10:00",
+          endTime: "오후 12:00"
+        },
 
-    option.textContent =
-      location ||
-      "선택해 주세요";
+        "토오후": {
+          startTime: "오후 1:00",
+          endTime: "오후 3:00"
+        },
 
+        "일오전": {
+          startTime: "오전 10:00",
+          endTime: "오후 12:00"
+        }
 
-    if (
-      group.location ===
-      location
-    ) {
-
-      option.selected =
-        true;
-
-    }
-
-
-    locationSelect.appendChild(
-      option
-    );
-
-  }
-);
+      };
 
 
-locationSelect.onchange =
-  async function() {
-
-    group.location =
-      this.value;
-
-
-    try {
-
-      await saveGroups();
-
-    } catch (error) {
-
-      console.error(error);
-
-    }
-
-  };
+      const groupSchedule =
+        String(
+          group.schedule ||
+          selectedAdminSchedule ||
+          ""
+        ).trim();
 
 
-locationArea.appendChild(
-  locationLabel
-);
+      const scheduleTime =
+        scheduleTimes[groupSchedule] || {
 
-locationArea.appendChild(
-  locationSelect
-);
+          startTime: "",
+          endTime: ""
+
+        };
 
 
-/* ===================================================
-   한 줄에 인원 + 봉사장소
-=================================================== */
+      const startTime =
+        group.startTime ||
+        scheduleTime.startTime;
 
-settingRow.appendChild(
-  countArea
-);
 
-settingRow.appendChild(
-  locationArea
-);
+      const endTime =
+        group.endTime ||
+        scheduleTime.endTime;
 
-card.appendChild(
-  settingRow
-);
-      
-/* ===================================================
+
+      const timeArea =
+        document.createElement("div");
+
+      timeArea.style.width =
+        "100%";
+
+      timeArea.style.marginBottom =
+        "10px";
+
+
+      const startTimeText =
+        document.createElement("div");
+
+      startTimeText.style.fontWeight =
+        "700";
+
+      startTimeText.textContent =
+        "봉사시작 : " +
+        startTime;
+
+
+      const endTimeText =
+        document.createElement("div");
+
+      endTimeText.style.fontWeight =
+        "700";
+
+      endTimeText.textContent =
+        "봉사마감 : " +
+        endTime;
+
+
+      timeArea.appendChild(
+        startTimeText
+      );
+
+      timeArea.appendChild(
+        endTimeText
+      );
+
+      card.appendChild(
+        timeArea
+      );
+
+
+      /* ===================================================
+         인원 + 봉사장소
+      =================================================== */
+
+      const settingRow =
+        document.createElement("div");
+
+      settingRow.style.display =
+        "flex";
+
+      settingRow.style.alignItems =
+        "flex-end";
+
+      settingRow.style.gap =
+        "12px";
+
+      settingRow.style.width =
+        "100%";
+
+
+      /* 인원 */
+
+      const countArea =
+        document.createElement("div");
+
+      countArea.style.flex =
+        "1";
+
+
+      const countLabel =
+        document.createElement("div");
+
+      countLabel.textContent =
+        "인원";
+
+      countLabel.style.fontWeight =
+        "700";
+
+      countLabel.style.marginBottom =
+        "5px";
+
+
+      const countSelect =
+        document.createElement("select");
+
+      countSelect.className =
+        "group-count-select";
+
+      countSelect.style.width =
+        "100%";
+
+
+      [4, 5, 6, 7].forEach(
+        function(count) {
+
+          const option =
+            document.createElement("option");
+
+          option.value =
+            String(count);
+
+          option.textContent =
+            count + "명";
+
+
+          if (
+            Number(group.count) ===
+            count
+          ) {
+
+            option.selected =
+              true;
+
+          }
+
+
+          countSelect.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      countSelect.onchange =
+        function() {
+
+          const newCount =
+            Number(this.value);
+
+          group.count =
+            newCount;
+
+
+          if (
+            group.members.length >
+            newCount
+          ) {
+
+            group.members =
+              group.members.slice(
+                0,
+                newCount
+              );
+
+          }
+
+
+          /*
+             제출하기 전에는
+             서버에 저장하지 않습니다.
+          */
+
+          renderAdmin();
+
+          renderGroups();
+
+          renderService();
+
+        };
+
+
+      countArea.appendChild(
+        countLabel
+      );
+
+      countArea.appendChild(
+        countSelect
+      );
+
+
+      /* ===================================================
+         봉사장소
+      =================================================== */
+
+      const locationArea =
+        document.createElement("div");
+
+      locationArea.style.flex =
+        "2";
+
+
+      const locationLabel =
+        document.createElement("div");
+
+      locationLabel.textContent =
+        "봉사장소";
+
+      locationLabel.style.fontWeight =
+        "700";
+
+      locationLabel.style.marginBottom =
+        "5px";
+
+
+      const locationSelect =
+        document.createElement("select");
+
+      locationSelect.className =
+        "group-location-select";
+
+      locationSelect.style.width =
+        "100%";
+
+
+      const locations = [
+
+        "",
+
+        "유타몰",
+
+        "성북천(보문2교-아래)",
+
+        "성북천(보문2교-위)",
+
+        "성북구청(광장)",
+
+        "보문역(주변)",
+
+        "성신여대(주변)",
+
+        "가두 증거"
+
+      ];
+
+
+      locations.forEach(
+        function(location) {
+
+          const option =
+            document.createElement("option");
+
+          option.value =
+            location;
+
+          option.textContent =
+            location ||
+            "선택해 주세요";
+
+
+          if (
+            group.location ===
+            location
+          ) {
+
+            option.selected =
+              true;
+
+          }
+
+
+          locationSelect.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      locationSelect.onchange =
+        function() {
+
+          group.location =
+            this.value;
+
+          /*
+             제출하기 전에는
+             서버에 저장하지 않습니다.
+          */
+
+          renderGroups();
+
+        };
+
+
+      locationArea.appendChild(
+        locationLabel
+      );
+
+      locationArea.appendChild(
+        locationSelect
+      );
+
+
+      settingRow.appendChild(
+        countArea
+      );
+
+      settingRow.appendChild(
+        locationArea
+      );
+
+      card.appendChild(
+        settingRow
+      );
+
+
+      /* ===================================================
          봉사자 명단
-=================================================== */
+      =================================================== */
 
       const slots =
         document.createElement("div");
@@ -2724,7 +2755,10 @@ card.appendChild(
       ) {
 
         const slot =
-          document.createElement("div");
+          document.createElement("button");
+
+        slot.type =
+          "button";
 
         slot.className =
           "group-slot";
@@ -2755,6 +2789,17 @@ card.appendChild(
         }
 
 
+        slot.onclick =
+          function() {
+
+            handleSlotClick(
+              groupIndex,
+              slotIndex
+            );
+
+          };
+
+
         slots.appendChild(
           slot
         );
@@ -2764,6 +2809,68 @@ card.appendChild(
 
       card.appendChild(
         slots
+      );
+
+
+      /* ===================================================
+         제출 버튼
+      =================================================== */
+
+      const submitButton =
+        document.createElement("button");
+
+      submitButton.type =
+        "button";
+
+      submitButton.textContent =
+        "제출";
+
+      submitButton.style.display =
+        "block";
+
+      submitButton.style.width =
+        "100%";
+
+      submitButton.style.height =
+        "44px";
+
+      submitButton.style.marginTop =
+        "12px";
+
+      submitButton.style.border =
+        "0";
+
+      submitButton.style.borderRadius =
+        "10px";
+
+      submitButton.style.background =
+        "#3374A9";
+
+      submitButton.style.color =
+        "#fff";
+
+      submitButton.style.fontSize =
+        "18px";
+
+      submitButton.style.fontWeight =
+        "700";
+
+      submitButton.style.cursor =
+        "pointer";
+
+
+      submitButton.onclick =
+        function() {
+
+          submitGroup(
+            groupIndex
+          );
+
+        };
+
+
+      card.appendChild(
+        submitButton
       );
 
 
@@ -2781,19 +2888,221 @@ async function handleSlotClick(
   groupIndex,
   slotIndex
 ) {
-  
-  if (groups[groupIndex] && groups[groupIndex][slotIndex]) {
-    groups[groupIndex][slotIndex] = "";
-    renderAdmin();
-    renderService();
-    saveGroups().catch(function(error) { console.error(error); });
+
+  const group =
+    groups[groupIndex];
+
+  if (!group) {
     return;
   }
 
-  alert("위에서 봉사자 4명을 선택한 후 배정 확정 버튼을 눌러 주세요.");
+
+  if (
+    !Array.isArray(
+      group.members
+    )
+  ) {
+    group.members = [];
+  }
+
+
+  const currentName =
+    group.members[slotIndex] ||
+    "";
+
+
+  /*
+     이미 배정된 봉사자를 클릭하면
+     그룹에서 제거합니다.
+  */
+
+  if (currentName) {
+
+    group.members.splice(
+      slotIndex,
+      1
+    );
+
+    renderAdmin();
+
+    renderGroups();
+
+    renderService();
+
+    return;
+  }
+
+
+  /*
+     위 신청자 명단에서
+     선택한 사람이 있으면
+     빈 슬롯에 배정합니다.
+  */
+
+  if (
+    selectedApplicants.length > 0
+  ) {
+
+    const name =
+      selectedApplicants.shift();
+
+    if (
+      !group.members.includes(name) &&
+      group.members.length <
+        Number(group.count)
+    ) {
+
+      group.members.splice(
+        slotIndex,
+        0,
+        name
+      );
+
+    }
+
+    renderAdmin();
+
+    renderGroups();
+
+    renderService();
+
+    return;
+  }
+
+
+  alert(
+    "위 신청자 명단에서 봉사자를 선택한 후 이 칸을 눌러 주세요."
+  );
 }
 
+/* =========================================================
+   그룹 제출
+   - 실제 저장은 제출할 때만 합니다.
+========================================================= */
 
+async function submitGroup(
+  groupIndex
+) {
+
+  const group =
+    groups[groupIndex];
+
+  if (!group) {
+    return;
+  }
+
+
+  const count =
+    Number(group.count);
+
+
+  /*
+     봉사장소 확인
+  */
+
+  if (
+    !String(
+      group.location || ""
+    ).trim()
+  ) {
+
+    alert(
+      "봉사장소를 선택해 주세요."
+    );
+
+    return;
+  }
+
+
+  /*
+     인원수만큼 봉사자가 배정되었는지 확인
+  */
+
+  const members =
+    Array.isArray(
+      group.members
+    )
+      ? group.members.filter(
+          function(name) {
+            return String(
+              name || ""
+            ).trim() !== "";
+          }
+        )
+      : [];
+
+
+  if (
+    members.length <
+    count
+  ) {
+
+    alert(
+      "선택한 인원 " +
+      count +
+      "명 모두 배정해 주세요."
+    );
+
+    return;
+  }
+
+
+  /*
+     중복 봉사자 확인
+  */
+
+  const uniqueMembers =
+    [
+      ...new Set(
+        members
+      )
+    ];
+
+
+  if (
+    uniqueMembers.length !==
+    members.length
+  ) {
+
+    alert(
+      "같은 봉사자가 중복 배정되어 있습니다."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    await saveGroups();
+
+    selectedApplicants = [];
+
+    renderAdmin();
+
+    renderGroups();
+
+    renderService();
+
+    alert(
+      "그룹" +
+      (groupIndex + 1) +
+      "이 저장되었습니다."
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "그룹 저장에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
+  }
+
+}
+  
 async function loadServiceData() {
 
   try {
