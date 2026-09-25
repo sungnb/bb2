@@ -1259,7 +1259,7 @@ body.light .service-refresh-button {
   border: 0;
   border-radius: 12px;
 
-  background: #3374A9;
+  background: #455A64;
   color: #fff;
 
   font-size: calc(18px * var(--font-scale));
