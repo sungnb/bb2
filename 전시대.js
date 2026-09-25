@@ -3862,29 +3862,25 @@ function renderService() {
      그룹이 없는 경우
   --------------------------------------------------------- */
 
-  if (serviceGroups.length === 0) {
+ if (serviceGroups.length === 0) {
 
-    const empty =
-      document.createElement(
-        "div"
-      );
-
-    empty.className =
-      "service-empty";
-
-    empty.textContent =
-      scheduleNames[
-        selectedServiceSchedule
-      ] +
-      " 임명이 아직 없습니다.";
-
-    list.appendChild(
-      empty
+  const empty =
+    document.createElement(
+      "div"
     );
 
-    return;
-  }
+  empty.className =
+    "service-empty";
 
+  empty.textContent =
+    "잠시만 기다려 주세요";
+
+  list.appendChild(
+    empty
+  );
+
+  return;
+}
 
   /* =========================================================
      4명 / 5명 / 6명 / 7명 시간표
