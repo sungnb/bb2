@@ -1387,23 +1387,28 @@ async function loadGroups() {
 
   try {
 
-  const groupScheduleKey =
-  selectedAdminSchedule ||
-  selectedServiceSchedule ||
-  selectedVolunteerSchedule ||
-  "";
+    const groupScheduleKey =
+      selectedAdminSchedule ||
+      selectedServiceSchedule ||
+      selectedVolunteerSchedule ||
+      "";
 
-const response =
-  await fetch(
-    SCRIPT_URL +
-    "?action=jeonsidaeGroups" +
-    "&key=" +
-    encodeURIComponent(
-      groupScheduleKey
-    ) +
-    "&t=" +
-    Date.now()
-  );
+    if (!groupScheduleKey) {
+      groups = [];
+      return true;
+    }
+
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=jeonsidaeScheduleGroups" +
+        "&key=" +
+        encodeURIComponent(
+          groupScheduleKey
+        ) +
+        "&t=" +
+        Date.now()
+      );
 
 
     const data =
@@ -1430,28 +1435,81 @@ const response =
       loaded.map(function(group) {
 
         /*
+           Apps Script의 관리용 시트 데이터
+           [1번~7번 봉사자, 봉사장소]
+        */
+
+        if (Array.isArray(group)) {
+
+          const members =
+            group
+              .slice(0, 7)
+              .map(function(name) {
+                return String(
+                  name || ""
+                ).trim();
+              })
+              .filter(Boolean);
+
+
+          const location =
+            String(
+              group[7] || ""
+            ).trim();
+
+
+          return {
+
+            members:
+              members,
+
+            count:
+              members.length,
+
+            location:
+              location,
+
+            schedule:
+              groupScheduleKey,
+
+            startTime: "",
+
+            endTime: ""
+
+          };
+
+        }
+
+
+        /*
            새 구조
         */
 
         if (
           group &&
-          !Array.isArray(group) &&
           typeof group === "object"
         ) {
+
+          const members =
+            Array.isArray(group.members)
+              ? group.members
+                  .slice(0, 7)
+                  .map(function(name) {
+                    return String(
+                      name || ""
+                    ).trim();
+                  })
+                  .filter(Boolean)
+              : [];
+
 
           return {
 
             members:
-              Array.isArray(group.members)
-                ? group.members.slice(0, 7)
-                : [],
+              members,
 
             count:
-              [4, 5, 6, 7].includes(
-                Number(group.count)
-              )
-                ? Number(group.count)
-                : 4,
+              members.length,
 
             location:
               String(
@@ -1460,7 +1518,9 @@ const response =
 
             schedule:
               String(
-                group.schedule || ""
+                group.schedule ||
+                groupScheduleKey ||
+                ""
               ).trim(),
 
             startTime:
@@ -1478,62 +1538,16 @@ const response =
         }
 
 
-        /*
-           기존 A팀/B팀 데이터가 남아 있다면
-           새 구조로 변환
-        */
-
-        if (Array.isArray(group)) {
-
-          const oldMembers =
-            group.filter(function(name) {
-
-              return (
-                name &&
-                name !== "A팀" &&
-                name !== "B팀"
-              );
-
-            }).slice(0, 7);
-
-
-          return {
-
-            members:
-              oldMembers,
-
-            count:
-              oldMembers.length >= 4
-                ? Math.min(
-                    oldMembers.length,
-                    7
-                  )
-                : 4,
-
-            location: "",
-
-            schedule:
-              selectedAdminSchedule,
-
-            startTime: "",
-
-            endTime: ""
-
-          };
-
-        }
-
-
         return {
 
           members: [],
 
-          count: 4,
+          count: 0,
 
           location: "",
 
           schedule:
-            selectedAdminSchedule,
+            groupScheduleKey,
 
           startTime: "",
 
@@ -1558,7 +1572,6 @@ const response =
   }
 
 }
-
 /* =========================================================
    그룹 정리
 ========================================================= */
