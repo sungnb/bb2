@@ -877,10 +877,14 @@ function saveMySelections(list) {
       selectedVolunteerSchedule || "default"
     ).trim();
 
- localStorage.setItem(
-  "jeonsidaeFontSize",
-  String(next)
-);
+  localStorage.setItem(
+    storageKey,
+    JSON.stringify(
+      Array.isArray(list)
+        ? list
+        : []
+    )
+  );
 
 }
 
