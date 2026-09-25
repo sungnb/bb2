@@ -481,6 +481,7 @@ body.light .group-card {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
+  margin-top: 5px;
 }
 
 .group-slot {
@@ -1767,9 +1768,8 @@ body:not(.light) .new-group-date-row input {
 
   box-sizing: border-box;
 
-  border: 1px solid #777;
+  border: 3px solid #777;
   border-radius: 9px;
-
   background: #222;
   color: #fff;
 
