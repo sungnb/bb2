@@ -437,6 +437,18 @@ body.light .admin-name.selected {
   background: rgba(255,255,255,.07);
 }
 
+/* 그룹 카드 - 인원 / 봉사장소 50 : 50 */
+.group-card .group-count-select,
+.group-card .group-location-select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.group-card .group-count-select,
+.group-card .group-location-select {
+  flex: 1 1 0 !important;
+}
+
 body.light .group-card {
   background: #fff;
   border-color: #ddd;
