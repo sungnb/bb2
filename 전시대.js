@@ -3,7 +3,12 @@ function selectVolunteerSchedule(schedule) {
   selectedVolunteerSchedule =
     String(schedule || "").trim();
 
-  if (!selectedVolunteerSchedule) {
+  selectedServiceSchedule =
+    selectedVolunteerSchedule;
+
+  selectedAdminSchedule = "";
+
+  if (!selectedServiceSchedule) {
     return;
   }
 
@@ -56,12 +61,15 @@ function selectVolunteerSchedule(schedule) {
 
 
     /* 봉사자 명단 불러오기 */
-  loadMasterNames();
+  selectedServiceSchedule =
+  selectedVolunteerSchedule;
 
-  /* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
-  loadGroups().then(function() {
-    renderService();
-  });
+loadMasterNames();
+
+/* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
+loadGroups().then(function() {
+  renderService();
+});
 }
 
 const SCRIPT_URL =
@@ -1083,20 +1091,23 @@ async function loadGroups() {
 
   try {
 
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=jeonsidaeGroups" +
-        "&key=" +
-encodeURIComponent(
+  const groupScheduleKey =
   selectedAdminSchedule ||
   selectedServiceSchedule ||
   selectedVolunteerSchedule ||
-  ""
-) +
-"&t=" +
-Date.now()
-      );
+  "";
+
+const response =
+  await fetch(
+    SCRIPT_URL +
+    "?action=jeonsidaeGroups" +
+    "&key=" +
+    encodeURIComponent(
+      groupScheduleKey
+    ) +
+    "&t=" +
+    Date.now()
+  );
 
 
     const data =
@@ -3735,6 +3746,8 @@ async function selectServiceSchedule(
       schedule || ""
     ).trim();
 
+  /* 봉사용에서는 관리자 일정 선택값을 사용하지 않습니다. */
+  selectedAdminSchedule = "";
 
   if (!selectedServiceSchedule) {
     return;
