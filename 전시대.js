@@ -92,7 +92,7 @@ let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
 
-let selectedAdminSchedule = "";
+let selectedServiceSchedule = "";
 
 /* =========================================================
    봉사용에서 선택한 전시대 일정
@@ -1085,9 +1085,10 @@ async function loadGroups() {
         "?action=jeonsidaeGroups" +
         "&key=" +
 encodeURIComponent(
-  selectedAdminSchedule ||
-  selectedServiceSchedule ||
-  selectedVolunteerSchedule ||
+selectedAdminSchedule ||
+selectedServiceSchedule ||
+selectedVolunteerSchedule ||
+""
   ""
 ) +
 "&t=" +
