@@ -92,11 +92,13 @@ let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
 
+let selectedAdminSchedule = "";
+
 /* =========================================================
-   관리자용 선택 일정
+   봉사용에서 선택한 전시대 일정
 ========================================================= */
 
-let selectedAdminSchedule = "";
+let selectedServiceSchedule = "";
 
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
@@ -1082,13 +1084,14 @@ async function loadGroups() {
         SCRIPT_URL +
         "?action=jeonsidaeGroups" +
         "&key=" +
-        encodeURIComponent(
-          selectedAdminSchedule ||
-          selectedVolunteerSchedule ||
-          ""
-        ) +
-        "&t=" +
-        Date.now()
+encodeURIComponent(
+  selectedAdminSchedule ||
+  selectedServiceSchedule ||
+  selectedVolunteerSchedule ||
+  ""
+) +
+"&t=" +
+Date.now()
       );
 
 
@@ -3309,362 +3312,317 @@ function getServiceAreasForDisplay() {
 }
 
 
+/* =========================================================
+   봉사용 - 전시대 임명 표시
+========================================================= */
+
 function renderService() {
 
   const list =
-    document.getElementById("serviceList");
+    document.getElementById(
+      "serviceList"
+    );
 
   if (!list) {
     return;
   }
 
+
   list.innerHTML = "";
 
-  const conductor =
-    document.getElementById("serviceConductor");
 
-  if (conductor) {
+  /* ---------------------------------------------------------
+     일정이 아직 선택되지 않은 경우
+  --------------------------------------------------------- */
 
-    conductor.textContent =
-      "인도자 : " +
-      (SERVICE_CONDUCTOR || "");
-
-  }
-
-
-  if (groups.length === 0) {
-
-    list.innerHTML =
-      '<div class="service-empty">' +
-      '관리자용에서 봉사 그룹을 만들어 주세요.' +
-      '</div>';
+  if (!selectedServiceSchedule) {
 
     return;
 
   }
 
 
-  const displayAreas =
-    getServiceAreasForDisplay();
+  /* ---------------------------------------------------------
+     일정 이름
+  --------------------------------------------------------- */
+
+  const scheduleNames = {
+
+    "토오전":
+      "토요일 오전",
+
+    "토오후":
+      "토요일 오후",
+
+    "일오전":
+      "일요일 오전"
+
+  };
 
 
-  groups.forEach(
-    function(group, index) {
+  /* ---------------------------------------------------------
+     선택된 일정의 그룹만 표시
+  --------------------------------------------------------- */
+
+  const serviceGroups =
+    groups.filter(
+      function(group) {
+
+        if (!group) {
+          return false;
+        }
+
+
+        const schedule =
+          String(
+            group.schedule || ""
+          ).trim();
+
+
+        return (
+          schedule ===
+          selectedServiceSchedule
+        );
+
+      }
+    );
+
+
+  /* ---------------------------------------------------------
+     그룹이 없는 경우
+  --------------------------------------------------------- */
+
+  if (serviceGroups.length === 0) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+    empty.className =
+      "service-empty";
+
+    empty.textContent =
+      scheduleNames[
+        selectedServiceSchedule
+      ] +
+      " 임명이 아직 없습니다.";
+
+    list.appendChild(
+      empty
+    );
+
+    return;
+  }
+
+
+  /* =========================================================
+     4명 / 5명 / 6명 / 7명 시간표
+  ========================================================= */
+
+  const schedules = {
+
+    4: [
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:30"],
+      [0, 1, "오전 11:00"],
+      [2, 3, "오전 11:30"]
+    ],
+
+    5: [
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:25"],
+      [4, 0, "오전 10:50"],
+      [1, 2, "오전 11:15"],
+      [3, 4, "오전 11:35"]
+    ],
+
+    6: [
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:20"],
+      [4, 5, "오전 10:40"],
+      [0, 1, "오전 11:00"],
+      [2, 3, "오전 11:20"],
+      [4, 5, "오전 11:40"]
+    ],
+
+    7: [
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:20"],
+      [4, 5, "오전 10:40"],
+      [6, 0, "오전 11:00"],
+      [1, 2, "오전 11:15"],
+      [3, 4, "오전 11:30"],
+      [5, 6, "오전 11:45"]
+    ]
+
+  };
+
+
+  /* =========================================================
+     그룹 표시
+  ========================================================= */
+
+  serviceGroups.forEach(
+    function(group) {
 
       const members =
-        Array.isArray(group)
-          ? group
-          : (
-              group &&
-              Array.isArray(group.members)
-                ? group.members
-                : []
-            );
+        Array.isArray(
+          group.members
+        )
+          ? group.members
+          : [];
 
 
       const count =
-        Array.isArray(group)
-          ? group.length
-          : (
-              group &&
-              Number(group.count)
-                ? Number(group.count)
-                : 4
-            );
+        Number(group.count) ||
+        members.length;
 
 
-      const hasVolunteer =
-        members.some(function(person) {
-          return Boolean(person);
-        });
-
-
-      if (!hasVolunteer) {
+      if (
+        ![4, 5, 6, 7].includes(
+          count
+        )
+      ) {
         return;
       }
 
 
-      const area =
-        displayAreas[index];
-
+      /* -----------------------------------------------------
+         카드
+      ----------------------------------------------------- */
 
       const card =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       card.className =
-        "service-card";
+        "service-appointment-card";
 
 
-      const head =
-        document.createElement("div");
+      /* -----------------------------------------------------
+         제목
+      ----------------------------------------------------- */
 
-      head.className =
-        "service-head";
+      const title =
+        document.createElement(
+          "div"
+        );
 
+      title.className =
+        "service-appointment-title";
 
-      const number =
-        document.createElement("div");
+      title.textContent =
+        "📋 전시대 임명 (" +
+        count +
+        "명)";
 
-      number.className =
-        "service-number";
-
-
-      if (area) {
-
-        if (area.linkUrl) {
-
-          const link =
-            document.createElement("a");
-
-          link.href =
-            area.linkUrl;
-
-          link.target =
-            "_blank";
-
-          link.rel =
-            "noopener";
-
-          link.textContent =
-            area.number;
-
-          link.style.color =
-            "inherit";
-
-          link.style.textDecoration =
-            "none";
-
-          link.style.display =
-            "flex";
-
-          link.style.width =
-            "100%";
-
-          link.style.height =
-            "100%";
-
-          link.style.alignItems =
-            "center";
-
-          link.style.justifyContent =
-            "center";
-
-          number.appendChild(
-            link
-          );
-
-        } else {
-
-          number.textContent =
-            area.number;
-
-        }
-
-      } else {
-
-        number.textContent =
-          index + 1;
-
-      }
+      card.appendChild(
+        title
+      );
 
 
-      const name =
-        document.createElement("div");
+      /* -----------------------------------------------------
+         시작 / 종료
+      ----------------------------------------------------- */
 
-      name.className =
-        "service-name";
-
-      if (area) {
-
-        name.textContent =
-          area.name;
-
-      } else {
-
-        name.textContent =
-          "봉사 구역 " +
-          (index + 1);
-
-      }
-
-
-      const info =
-        document.createElement("div");
-
-      info.className =
-        "service-info";
-
-      info.appendChild(name);
-
-
-      const detail =
-        document.createElement("div");
-
-      detail.className =
-        "service-detail";
-
-      if (area) {
-
-        detail.textContent =
-          area.ho +
-          " 호 " +
-          area.m;
-
-      } else {
-
-        detail.textContent =
-          "등록된 봉사 구역 정보가 없습니다.";
-
-      }
-
-      info.appendChild(detail);
-
-      head.appendChild(number);
-      head.appendChild(info);
-
-
-            const volunteers =
-        document.createElement("div");
-
-      volunteers.className =
-        "service-volunteers";
-
-
-      /* ===================================================
-         봉사 시작 / 종료 시간
-      =================================================== */
-
-      const scheduleTimes = {
+      const defaultTimes = {
 
         "토오전": {
-          startTime: "오전 10:00",
-          endTime: "오후 12:00"
+          start:
+            "오전 10:00",
+          end:
+            "오후 12:00"
         },
 
         "토오후": {
-          startTime: "오후 1:00",
-          endTime: "오후 3:00"
+          start:
+            "오후 1:00",
+          end:
+            "오후 3:00"
         },
 
         "일오전": {
-          startTime: "오전 10:00",
-          endTime: "오후 12:00"
+          start:
+            "오전 10:00",
+          end:
+            "오후 12:00"
         }
 
       };
 
 
-      const groupSchedule =
-        String(
-          group.schedule ||
-          selectedVolunteerSchedule ||
-          ""
-        ).trim();
-
-
-      const scheduleTime =
-        scheduleTimes[groupSchedule] || {
-          startTime: "",
-          endTime: ""
+      const defaultTime =
+        defaultTimes[
+          selectedServiceSchedule
+        ] || {
+          start: "",
+          end: ""
         };
 
 
       const startTime =
-        group.startTime ||
-        scheduleTime.startTime;
+        String(
+          group.startTime ||
+          defaultTime.start ||
+          ""
+        ).trim();
 
 
       const endTime =
-        group.endTime ||
-        scheduleTime.endTime;
+        String(
+          group.endTime ||
+          defaultTime.end ||
+          ""
+        ).trim();
 
 
-      const timeArea =
-        document.createElement("div");
+      const start =
+        document.createElement(
+          "div"
+        );
 
-      timeArea.style.width =
-        "100%";
+      start.className =
+        "service-appointment-time";
 
-      timeArea.style.marginBottom =
-        "12px";
-
-
-      const startTimeText =
-        document.createElement("div");
-
-      startTimeText.style.fontWeight =
-        "700";
-
-      startTimeText.textContent =
-        "봉사시작 : " +
+      start.textContent =
+        "시작 : " +
         startTime;
 
+      card.appendChild(
+        start
+      );
 
-      const endTimeText =
-        document.createElement("div");
 
-      endTimeText.style.fontWeight =
-        "700";
+      const end =
+        document.createElement(
+          "div"
+        );
 
-      endTimeText.textContent =
-        "봉사마감 : " +
+      end.className =
+        "service-appointment-time";
+
+      end.textContent =
+        "종료 : " +
         endTime;
 
-
-      timeArea.appendChild(
-        startTimeText
-      );
-
-      timeArea.appendChild(
-        endTimeText
-      );
-
-      volunteers.appendChild(
-        timeArea
+      card.appendChild(
+        end
       );
 
 
-      /* ===================================================
-         인원별 봉사 시간표
-      =================================================== */
+      /* -----------------------------------------------------
+         시간표
+      ----------------------------------------------------- */
 
-      const schedules = {
+      const rows =
+        document.createElement(
+          "div"
+        );
 
-        4: [
-          [0, 1, "오전 10:00"],
-          [2, 3, "오전 10:30"],
-          [0, 1, "오전 11:00"],
-          [2, 3, "오전 11:30"]
-        ],
-
-        5: [
-          [0, 1, "오전 10:00"],
-          [2, 3, "오전 10:25"],
-          [4, 0, "오전 10:50"],
-          [1, 2, "오전 11:15"],
-          [3, 4, "오전 11:35"]
-        ],
-
-        6: [
-          [0, 1, "오전 10:00"],
-          [2, 3, "오전 10:20"],
-          [4, 5, "오전 10:40"],
-          [0, 1, "오전 11:00"],
-          [2, 3, "오전 11:20"],
-          [4, 5, "오전 11:40"]
-        ],
-
-        7: [
-          [0, 1, "오전 10:00"],
-          [2, 3, "오전 10:20"],
-          [4, 5, "오전 10:40"],
-          [6, 0, "오전 11:00"],
-          [1, 2, "오전 11:15"],
-          [3, 4, "오전 11:30"],
-          [5, 6, "오전 11:45"]
-        ]
-
-      };
+      rows.className =
+        "service-appointment-rows";
 
 
       const scheduleRows =
@@ -3685,97 +3643,59 @@ function renderService() {
 
 
           const scheduleRow =
-            document.createElement("div");
+            document.createElement(
+              "div"
+            );
 
-          scheduleRow.style.display =
-            "flex";
-
-          scheduleRow.style.alignItems =
-            "center";
-
-          scheduleRow.style.width =
-            "100%";
-
-          scheduleRow.style.gap =
-            "8px";
-
-          scheduleRow.style.marginBottom =
-            "7px";
+          scheduleRow.className =
+            "service-appointment-row";
 
 
-          const timeBox =
-            document.createElement("div");
+          const names =
+            document.createElement(
+              "span"
+            );
 
-          timeBox.style.flex =
-            "0 0 82px";
-
-          timeBox.style.fontWeight =
-            "700";
-
-          timeBox.textContent =
-            time;
+          names.className =
+            "service-appointment-names";
 
 
           const firstPerson =
             members[firstIndex] ||
             "배정 전";
 
-
           const secondPerson =
             members[secondIndex] ||
             "배정 전";
 
 
-          const firstBox =
-            document.createElement("div");
-
-          firstBox.className =
-            "service-person" +
-            (
-              members[firstIndex]
-                ? " filled"
-                : ""
-            );
-
-          firstBox.textContent =
-            firstPerson;
-
-          firstBox.style.flex =
-            "1";
-
-
-          const secondBox =
-            document.createElement("div");
-
-          secondBox.className =
-            "service-person" +
-            (
-              members[secondIndex]
-                ? " filled"
-                : ""
-            );
-
-          secondBox.textContent =
+          names.textContent =
+            firstPerson +
+            ", " +
             secondPerson;
 
-          secondBox.style.flex =
-            "1";
+
+          const timeText =
+            document.createElement(
+              "span"
+            );
+
+          timeText.className =
+            "service-appointment-slot";
+
+          timeText.textContent =
+            time;
 
 
           scheduleRow.appendChild(
-            timeBox
+            names
           );
 
           scheduleRow.appendChild(
-            firstBox
+            timeText
           );
 
-          scheduleRow.appendChild(
-            secondBox
-          );
-
-
-          volunteers.appendChild(
+          rows.appendChild(
             scheduleRow
           );
 
@@ -3784,12 +3704,9 @@ function renderService() {
 
 
       card.appendChild(
-        head
+        rows
       );
 
-      card.appendChild(
-        volunteers
-      );
 
       list.appendChild(
         card
@@ -3800,669 +3717,82 @@ function renderService() {
 
 }
 
-function toggleSettings() {
 
-  document
-    .getElementById("settingsPanel")
-    .classList.toggle("show");
+/* =========================================================
+   봉사용 - 토요일 오전 / 토요일 오후 / 일요일 오전 선택
+========================================================= */
 
-}
+async function selectServiceSchedule(
+  schedule
+) {
+
+  selectedServiceSchedule =
+    String(
+      schedule || ""
+    ).trim();
 
 
-function setTheme(theme) {
-
-  if (theme === "light") {
-
-    document.body.classList.add(
-      "light"
-    );
-
-    localStorage.setItem(
-      "saturdayTheme",
-      "light"
-    );
-
-  } else {
-
-    document.body.classList.remove(
-      "light"
-    );
-
-    localStorage.setItem(
-      "saturdayTheme",
-      "dark"
-    );
-
+  if (!selectedServiceSchedule) {
+    return;
   }
 
-  updateSettingButtons();
 
-}
-
-
-function setFontSize(size) {
-
-  size =
-    Math.max(
-      80,
-      Math.min(150, size)
-    );
-
-  document.documentElement.style.setProperty(
-    "--font-scale",
-    size / 100
-  );
-
-  localStorage.setItem(
-    "saturdayFontSize",
-    String(size)
-  );
-
-  updateSettingButtons();
-
-}
-
-
-function changeFontSize(amount) {
-
-  const current =
-    Number(
-      localStorage.getItem(
-        "saturdayFontSize"
-      ) || "100"
-    );
-
-  setFontSize(
-    current + amount
-  );
-
-}
-
-
-function loadSettings() {
-
-  const theme =
-    localStorage.getItem(
-      "saturdayTheme"
-    ) || "dark";
-
-  const fontSize =
-    localStorage.getItem(
-      "saturdayFontSize"
-    ) || "100";
-
-  setTheme(theme);
-
-  setFontSize(
-    Number(fontSize)
-  );
-
-}
-
-
-function updateSettingButtons() {
-
-  const theme =
-    document.body.classList.contains(
-      "light"
-    )
-      ? "light"
-      : "dark";
-
-
-  document
-    .getElementById("darkButton")
-    .classList.toggle(
-      "active",
-      theme === "dark"
-    );
-
-
-  document
-    .getElementById("lightButton")
-    .classList.toggle(
-      "active",
-      theme === "light"
-    );
-
-  const fontSizeDisplay =
+  const selector =
     document.getElementById(
-      "fontSizeDisplay"
+      "serviceScheduleSelector"
     );
 
-  if (fontSizeDisplay) {
-
-    fontSizeDisplay.textContent =
-      (
-        Number(
-          localStorage.getItem(
-            "saturdayFontSize"
-          ) || "100"
-        )
-      ) + "%";
-
-  }
-
-}
-
-
-document.addEventListener(
-  "click",
-  function(event) {
-
-    const panel =
-      document.getElementById(
-        "settingsPanel"
-      );
-
-    const button =
-      document.querySelector(
-        ".top-right"
-      );
-
-
-    if (
-      panel.classList.contains("show") &&
-      !panel.contains(event.target) &&
-      !button.contains(event.target)
-    ) {
-
-      panel.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
-);
-
-
-async function refreshServiceGroups() {
-
-  const button =
-    document.querySelector(
-      ".service-refresh-button"
+  const managementArea =
+    document.getElementById(
+      "serviceManagementArea"
     );
 
-  if (button) {
-    button.disabled = true;
+
+  /* 일정 선택 버튼 숨기기 */
+
+  if (selector) {
+    selector.style.display =
+      "none";
   }
+
+
+  /* 임명 화면 표시 */
+
+  if (managementArea) {
+    managementArea.style.display =
+      "block";
+  }
+
+
+  /* 선택한 일정의 그룹을 서버에서 다시 불러오기 */
 
   try {
 
-    await loadApplicants();
-
-    const results =
-      await Promise.all([
-        loadGroups(),
-        loadServiceData(),
-        loadSaturdayReference()
-      ]);
-
-    if (!results[0] || !results[1]) {
-      throw new Error(
-        "봉사용 정보를 불러오지 못했습니다."
-      );
-    }
+    await loadGroups();
 
     renderService();
 
   } catch (error) {
 
-    console.error(error);
-
-    alert(
-      "새로고침에 실패했습니다."
+    console.error(
+      "봉사용 전시대 그룹 불러오기 오류:",
+      error
     );
 
-  } finally {
-
-    if (button) {
-      button.disabled = false;
-    }
-
-  }
-
-}
-
-
-function openVolunteerApply() {
-
-  const area =
-    document.getElementById(
-      "volunteerApplyArea"
-    );
-
-  const button =
-    document.getElementById(
-      "volunteerApplyButton"
-    );
-
-  if (!area) {
-    return;
-  }
-
-  area.classList.add("show");
-  
-  if (button) {
-
-    button.classList.add("open");
-
-    button.style.display = "flex";
-
-  }
-
-  loadMasterNames();
-
-  const controlRow =
-    document.getElementById(
-      "volunteerControlRow"
-    );
-
-  if (controlRow) {
-
-    controlRow.style.display =
-      "flex";
-
-  }
-
-}
-
-
-function goToApplyHome() {
-
-  selectedVolunteerSchedule = "";
-
-  const scheduleArea =
-    document.getElementById(
-      "volunteerScheduleArea"
-    );
-
-  const applyButton =
-    document.getElementById(
-      "volunteerApplyButton"
-    );
-
-  const controlRow =
-    document.getElementById(
-      "volunteerControlRow"
-    );
-
-  const applyArea =
-    document.getElementById(
-      "volunteerApplyArea"
-    );
-
-  const submittedArea =
-    document.getElementById(
-      "submittedVolunteerArea"
-    );
-
- if (scheduleArea) {
-  scheduleArea.style.display = "";
-}
-
-const mainTitle =
-  document.getElementById(
-    "volunteerMainTitle"
-  );
-
-if (mainTitle) {
-  mainTitle.textContent =
-    "요일을 선택해주세요";
-}
-
-  if (applyButton) {
-
-    applyButton.style.display =
-      "none";
-
-    applyButton.classList.remove(
-      "open"
-    );
-
-  }
-
-  if (controlRow) {
-    controlRow.style.display = "none";
-  }
-
-  if (applyArea) {
-
-    applyArea.style.display =
-      "none";
-
-    applyArea.classList.remove(
-      "show"
-    );
-
-  }
-
-  if (submittedArea) {
-    submittedArea.style.display = "none";
-  }
-
-}
-
-
-async function refreshVolunteerNames() {
-
-  const button =
-    document.querySelector(
-      "#volunteerControlRow .volunteer-control-button:last-child"
-    );
-
-  if (button) {
-
-    button.textContent =
-      "↻ 불러오는 중...";
-
-    button.disabled = true;
-
-  }
-
-  try {
-
-    await loadMasterNames();
-
-  } finally {
-
-    if (button) {
-
-      button.textContent =
-        "↻ 새로고침";
-
-      button.disabled = false;
-
-    }
-
-  }
-
-}
-
-
-function closeVolunteerApply() {
-
-  const area =
-    document.getElementById(
-      "volunteerApplyArea"
-    );
-
-  const button =
-    document.getElementById(
-      "volunteerApplyButton"
-    );
-
-  if (area) {
-
-    area.style.display =
-      "none";
-
-    area.classList.remove(
-      "show"
-    );
-
-  }
-
-  if (button) {
-
-    button.classList.remove(
-      "open"
-    );
-
-    button.style.display =
-      "flex";
-
-  }
-
-  const controlRow =
-    document.getElementById(
-      "volunteerControlRow"
-    );
-
-  if (controlRow) {
-
-    controlRow.style.display =
-      "none";
-
-  }
-
-}
-
-
-let selectedVolunteerSchedule = "";
-
-async function submitVolunteerApplication() {
-
-  const button =
-    document.getElementById(
-      "volunteerSubmitButton"
-    );
-
-  if (button) {
-
-    button.disabled = true;
-
-    button.textContent =
-      "제출 중...";
-
-  }
-
-  try {
-
-    const newSelections =
-      getMySelections();
-
-    if (!newSelections.length) {
-
-      alert(
-        "봉사자를 한 명 이상 선택해 주세요."
-      );
-
-      if (button) {
-
-        button.disabled = false;
-
-        button.textContent =
-          "제출";
-
-      }
-
-      return;
-
-    }
-
-
-    const scheduleKey =
-      selectedVolunteerSchedule;
-
-    if (!scheduleKey) {
-
-      throw new Error(
-        "봉사 일정이 선택되지 않았습니다."
-      );
-
-    }
-
-
-    await saveScheduleApplicants(
-      scheduleKey,
-      newSelections
-    );
-
-
-    const area =
+    const list =
       document.getElementById(
-        "volunteerApplyArea"
+        "serviceList"
       );
 
-    const scheduleArea =
-      document.getElementById(
-        "volunteerScheduleArea"
-      );
+    if (list) {
 
-    if (area) {
-
-      area.classList.remove(
-        "show"
-      );
-
-      area.style.display =
-        "none";
-
-    }
-
-
-    renderSubmittedVolunteers(
-      newSelections
-    );
-
-
-   if (scheduleArea) {
-
-  scheduleArea.style.display =
-    "flex";
-
-}
-
-
-    if (button) {
-
-      button.disabled = false;
-
-      button.textContent =
-        "제출";
-
-    }
-
-
-    alert(
-      newSelections.length +
-      "명이 신청되었습니다."
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert(
-      "봉사 신청 제출에 실패했습니다.\n" +
-      (
-        error.message ||
-        "잠시 후 다시 시도해 주세요."
-      )
-    );
-
-    if (button) {
-
-      button.disabled = false;
-
-      button.textContent =
-        "제출";
+      list.innerHTML =
+        '<div class="service-empty">' +
+        '임명 정보를 불러오지 못했습니다.' +
+        '</div>';
 
     }
 
   }
-
-}
-
-
-async function saveScheduleApplicants(
-  scheduleKey,
-  applicants
-) {
-
-  const response =
-    await fetch(
-      SCRIPT_URL,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body: JSON.stringify({
-          action:
-            "saveJeonsidaeScheduleApplicants",
-
-          key:
-            scheduleKey,
-
-          applicants:
-            applicants
-        })
-      }
-    );
-
-
-  const data =
-    await response.json();
-
-
-  if (!data.success) {
-
-    throw new Error(
-      data.message ||
-      "봉사 신청 저장에 실패했습니다."
-    );
-
-  }
-
-}
-
-
-function renderSubmittedVolunteers(
-  names
-) {
-
-  const box =
-    document.getElementById(
-      "submittedVolunteerNames"
-    );
-
-  if (!box) {
-    return;
-  }
-
-  box.innerHTML = "";
-
-
-  if (
-    !Array.isArray(names) ||
-    names.length === 0
-  ) {
-
-    const empty =
-      document.createElement("div");
-
-    empty.className =
-      "service-empty";
-
-    empty.textContent =
-      "신청한 봉사자가 없습니다.";
-
-    box.appendChild(empty);
-
-    return;
-
-  }
-
-
-  names.forEach(function(name) {
-
-    const item =
-      document.createElement("div");
-
-    item.className =
-      "submitted-volunteer-name";
-
-    item.textContent =
-      name;
-
-    box.appendChild(item);
-
-  });
 
 }
