@@ -322,6 +322,14 @@ body.light .name-loading {
   border: 3px solid #6FA8D8;
 }
 
+body:not(.light) .admin-name {
+  color: #fff;
+}
+
+body:not(.light) .admin-name.selected {
+  color: #fff;
+}
+
 .admin-add-button {
   padding: 10px 13px;
   border-radius: 9px;
@@ -347,7 +355,6 @@ body.light .admin-name.selected {
   color: inherit;
   border: 3px solid #3F6F9F;
 }
-
 .admin-selection-badge {
   display: inline-flex;
   align-items: center;
