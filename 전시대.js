@@ -2897,11 +2897,10 @@ function renderGroups() {
       /* 인원 */
 
       const countArea =
-        document.createElement("div");
+  document.createElement("div");
 
-      countArea.style.flex =
-        "1";
-
+countArea.style.flex =
+  "1";
 
       const countLabel =
         document.createElement("div");
@@ -3010,10 +3009,10 @@ function renderGroups() {
       =================================================== */
 
       const locationArea =
-        document.createElement("div");
+  document.createElement("div");
 
-      locationArea.style.flex =
-        "2";
+locationArea.style.flex =
+  "1";
 
 
       const locationLabel =
