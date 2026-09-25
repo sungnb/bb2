@@ -2902,28 +2902,28 @@ function renderGroups() {
 countArea.style.flex =
   "1";
 
-      const countLabel =
-        document.createElement("div");
 
-      countLabel.textContent =
-        "인원";
+const countLabel =
+  document.createElement("div");
 
-      countLabel.style.fontWeight =
-        "700";
+countLabel.textContent =
+  "인원";
 
-      countLabel.style.marginBottom =
-        "5px";
+countLabel.style.fontWeight =
+  "700";
+
+countLabel.style.marginBottom =
+  "5px";
 
 
-      const countSelect =
-        document.createElement("select");
+const countSelect =
+  document.createElement("select");
 
-      countSelect.className =
-        "group-count-select";
+countSelect.className =
+  "group-count-select";
 
-      countSelect.style.width =
-        "100%";
-
+countSelect.style.width =
+  "100%";
 
       [4, 5, 6, 7].forEach(
         function(count) {
@@ -3015,11 +3015,11 @@ locationArea.style.flex =
   "1";
 
 
-      const locationLabel =
-        document.createElement("div");
+const locationLabel =
+  document.createElement("div");
 
-      locationLabel.textContent =
-        "봉사장소";
+locationLabel.textContent =
+  "봉사장소";
 
       locationLabel.style.fontWeight =
         "700";
