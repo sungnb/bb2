@@ -124,101 +124,129 @@ function goToApplyHome() {
 
 async function submitVolunteerApplication() {
 
-  const selections =
-    getMySelections();
-
-  if (
-    !Array.isArray(selections) ||
-    selections.length === 0
-  ) {
-
-    alert(
-      "봉사자를 한 명 이상 선택해 주세요."
+  const button =
+    document.getElementById(
+      "volunteerSubmitButton"
     );
 
-    return;
+  if (button) {
+
+    button.disabled = true;
+
+    button.textContent =
+      "제출 중...";
+
   }
 
   try {
 
-    const response =
-      await fetch(
-        SCRIPT_URL,
-        {
-          method: "POST",
+    const newSelections =
+      getMySelections();
 
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
 
-          body: JSON.stringify({
+    const scheduleKey =
+      selectedVolunteerSchedule;
 
-            action:
-              "saveVolunteerApplication",
 
-            key:
-              selectedVolunteerSchedule,
-
-            names:
-              selections
-
-          })
-
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!data.success) {
+    if (!scheduleKey) {
 
       throw new Error(
-        data.message ||
-        "봉사 신청 저장에 실패했습니다."
+        "봉사 일정이 선택되지 않았습니다."
       );
 
     }
 
-    const submittedArea =
+
+    /*
+       선택한 사람이 0명이어도 정상 제출
+    */
+    await saveScheduleApplicants(
+      scheduleKey,
+      newSelections
+    );
+
+
+    const area =
       document.getElementById(
-        "submittedVolunteerArea"
+        "volunteerApplyArea"
       );
 
-    const submittedNames =
+    const scheduleArea =
       document.getElementById(
-        "submittedVolunteerNames"
+        "volunteerScheduleArea"
       );
 
-    if (submittedArea) {
-      submittedArea.style.display =
-        "block";
+
+    if (area) {
+
+      area.classList.remove(
+        "show"
+      );
+
+      area.style.display =
+        "none";
+
     }
 
-    if (submittedNames) {
 
-      submittedNames.textContent =
-        selections.join(", ");
+    renderSubmittedVolunteers(
+      newSelections
+    );
+
+
+    if (scheduleArea) {
+
+      scheduleArea.style.display =
+        "flex";
 
     }
+
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.textContent =
+        "제출";
+
+    }
+
 
     alert(
-      "봉사 신청이 제출되었습니다."
+      newSelections.length +
+      "명이 신청되었습니다."
     );
+
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "봉사 신청 제출 오류:",
+      error
+    );
+
 
     alert(
-      "봉사 신청에 실패했습니다.\n" +
-      "잠시 후 다시 시도해 주세요."
+      "봉사 신청 제출에 실패했습니다.\n" +
+      (
+        error.message ||
+        "잠시 후 다시 시도해 주세요."
+      )
     );
+
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.textContent =
+        "제출";
+
+    }
 
   }
 
 }
-
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
 
