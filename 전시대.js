@@ -502,7 +502,7 @@ function updateSettingButtons() {
 
   const theme =
     localStorage.getItem(
-      "theme"
+      "jeonsidaeTheme"
     ) || "light";
 
   const lightButton =
