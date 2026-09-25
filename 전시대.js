@@ -247,6 +247,61 @@ async function submitVolunteerApplication() {
   }
 
 }
+
+/* =========================================================
+   일정별 봉사 신청자 저장
+========================================================= */
+
+async function saveScheduleApplicants(
+  scheduleKey,
+  applicants
+) {
+
+  const response =
+    await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+
+          action:
+            "saveJeonsidaeScheduleApplicants",
+
+          key:
+            scheduleKey,
+
+          applicants:
+            Array.isArray(applicants)
+              ? applicants
+              : []
+
+        })
+
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "봉사 신청 저장에 실패했습니다."
+    );
+
+  }
+
+}
+
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
 
@@ -274,6 +329,65 @@ let applicants = [];
 let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
+
+/* =========================================================
+   제출한 봉사자 표시
+========================================================= */
+
+function renderSubmittedVolunteers(
+  names
+) {
+
+  const box =
+    document.getElementById(
+      "submittedVolunteerNames"
+    );
+
+  if (!box) {
+    return;
+  }
+
+
+  box.innerHTML = "";
+
+
+  if (
+    !Array.isArray(names) ||
+    names.length === 0
+  ) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "service-empty";
+
+    empty.textContent =
+      "신청한 봉사자가 없습니다.";
+
+    box.appendChild(empty);
+
+    return;
+
+  }
+
+
+  names.forEach(function(name) {
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "submitted-volunteer-name";
+
+    item.textContent =
+      name;
+
+    box.appendChild(item);
+
+  });
+
+}
 
 /* =========================================================
    봉사용에서 선택한 전시대 일정
