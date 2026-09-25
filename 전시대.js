@@ -4076,14 +4076,32 @@ card.appendChild(
 time.className =
   "service-appointment-time";
 
-time.textContent =
+time.innerHTML =
   "시작 : " +
   startTime +
-  "    종료 : " +
+  '<span class="service-time-gap"></span>' +
+  "종료 : " +
   endTime;
 
 card.appendChild(
   time
+);
+
+
+/* -----------------------------------------------------
+   구분선
+----------------------------------------------------- */
+
+const divider =
+  document.createElement(
+    "div"
+  );
+
+divider.className =
+  "service-appointment-divider";
+
+card.appendChild(
+  divider
 );
 
       /* -----------------------------------------------------
