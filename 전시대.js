@@ -4013,9 +4013,9 @@ card.appendChild(
   location
 );
 
-      /* -----------------------------------------------------
-         시작 / 종료
-      ----------------------------------------------------- */
+/* -----------------------------------------------------
+   시작 / 종료
+----------------------------------------------------- */
 
       const defaultTimes = {
 
@@ -4068,39 +4068,23 @@ card.appendChild(
         ).trim();
 
 
-      const start =
-        document.createElement(
-          "div"
-        );
+      const time =
+  document.createElement(
+    "div"
+  );
 
-      start.className =
-        "service-appointment-time";
+time.className =
+  "service-appointment-time";
 
-      start.textContent =
-        "시작 : " +
-        startTime;
+time.textContent =
+  "시작 : " +
+  startTime +
+  "    종료 : " +
+  endTime;
 
-      card.appendChild(
-        start
-      );
-
-
-      const end =
-        document.createElement(
-          "div"
-        );
-
-      end.className =
-        "service-appointment-time";
-
-      end.textContent =
-        "종료 : " +
-        endTime;
-
-      card.appendChild(
-        end
-      );
-
+card.appendChild(
+  time
+);
 
       /* -----------------------------------------------------
          시간표
