@@ -528,7 +528,8 @@ body.light .group-slot.filled {
 
 .admin-action-buttons .confirm-group-button,
 .admin-action-buttons .add-group-button {
-  height: 96px;
+  height: 70px;
+  min-height: 70px;
   margin: 0;
   border-radius: 12px;
   font-size: calc(17px * var(--font-scale));
