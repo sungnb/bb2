@@ -578,25 +578,29 @@
     ===================================================== -->
 
     <div
-      id="serviceManagementArea"
-      class="service-management-area"
-      style="display:none;"
-    >
+  id="serviceManagementArea"
+  class="service-management-area"
+  style="display:none;"
+>
+  <div class="service-section">
 
-      <div class="service-section">
-
-        <div class="service-conductor">
-          <strong id="serviceConductor">인도자 : </strong>
-        </div>
-
-        <div
-          class="service-list"
-          id="serviceList"
-        ></div>
-
-      </div>
-
+    <div class="admin-back-area">
+      <button
+        type="button"
+        class="admin-back-button"
+        onclick="backToServiceSchedule()"
+      >
+        &lt; 뒤로가기
+      </button>
     </div>
+
+    <div
+      class="service-list"
+      id="serviceList"
+    ></div>
+
+  </div>
+</div>
 
   </section>
 
