@@ -3237,7 +3237,7 @@ locationLabel.textContent =
         "10px";
 
       submitButton.style.background =
-        "#3374A9";
+        "#455A64";
 
       submitButton.style.color =
         "#fff";
