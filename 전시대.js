@@ -127,6 +127,177 @@ document.addEventListener(
 );
 
 /* =========================================================
+   설정
+========================================================= */
+
+function toggleSettings() {
+
+  const panel =
+    document.getElementById(
+      "settingsPanel"
+    );
+
+  if (!panel) {
+    return;
+  }
+
+  panel.classList.toggle("show");
+
+}
+
+
+function setTheme(theme) {
+
+  const root =
+    document.documentElement;
+
+  if (theme === "dark") {
+
+    root.classList.add("dark");
+
+  } else {
+
+    root.classList.remove("dark");
+
+  }
+
+  localStorage.setItem(
+    "theme",
+    theme
+  );
+
+  updateSettingButtons();
+
+}
+
+
+function changeFontSize(amount) {
+
+  const current =
+    Number(
+      localStorage.getItem(
+        "fontSize"
+      ) || "100"
+    );
+
+  const next =
+    Math.min(
+      150,
+      Math.max(
+        80,
+        current + amount
+      )
+    );
+
+  document.documentElement.style.setProperty(
+    "--font-scale",
+    next / 100
+  );
+
+  localStorage.setItem(
+    "fontSize",
+    String(next)
+  );
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+  if (display) {
+    display.textContent =
+      next + "%";
+  }
+
+}
+
+
+function updateSettingButtons() {
+
+  const theme =
+    localStorage.getItem(
+      "theme"
+    ) || "light";
+
+  const lightButton =
+    document.getElementById(
+      "lightButton"
+    );
+
+  const darkButton =
+    document.getElementById(
+      "darkButton"
+    );
+
+  if (lightButton) {
+
+    lightButton.classList.toggle(
+      "active",
+      theme === "light"
+    );
+
+  }
+
+  if (darkButton) {
+
+    darkButton.classList.toggle(
+      "active",
+      theme === "dark"
+    );
+
+  }
+
+}
+
+
+function loadSettings() {
+
+  const theme =
+    localStorage.getItem(
+      "theme"
+    ) || "light";
+
+  const fontSize =
+    Number(
+      localStorage.getItem(
+        "fontSize"
+      ) || "100"
+    );
+
+  if (theme === "dark") {
+
+    document.documentElement.classList.add(
+      "dark"
+    );
+
+  } else {
+
+    document.documentElement.classList.remove(
+      "dark"
+    );
+
+  }
+
+  document.documentElement.style.setProperty(
+    "--font-scale",
+    fontSize / 100
+  );
+
+  const display =
+    document.getElementById(
+      "fontSizeDisplay"
+    );
+
+  if (display) {
+    display.textContent =
+      fontSize + "%";
+  }
+
+  updateSettingButtons();
+
+}
+
+/* =========================================================
    관리자용 봉사 일정 선택
 ========================================================= */
 
