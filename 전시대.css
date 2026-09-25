@@ -1780,3 +1780,10 @@ body:not(.light) .new-group-date-row input {
   outline: none;
   cursor: pointer;
 }
+
+body.light .group-card .group-count-select,
+body.light .group-card .group-location-select {
+  background: #fff;
+  color: #222;
+  border-color: #aaa;
+}
