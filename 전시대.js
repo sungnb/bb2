@@ -191,9 +191,9 @@ function changeFontSize(amount) {
   );
 
   localStorage.setItem(
-    "fontSize",
-    String(next)
-  );
+  "jeonsidaeFontSize",
+  String(next)
+);
 
   const display =
     document.getElementById(
