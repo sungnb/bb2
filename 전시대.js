@@ -3972,26 +3972,46 @@ card.className =
 
 
       /* -----------------------------------------------------
-         제목
-      ----------------------------------------------------- */
+   제목
+----------------------------------------------------- */
 
-      const title =
-        document.createElement(
-          "div"
-        );
+const title =
+  document.createElement(
+    "div"
+  );
 
-      title.className =
-        "service-appointment-title";
+title.className =
+  "service-appointment-title";
 
-      title.textContent =
-        "📋 전시대 임명 (" +
-        count +
-        "명)";
+title.textContent =
+  "📋 전시대 임명 (" +
+  count +
+  "명)";
 
-      card.appendChild(
-        title
-      );
+card.appendChild(
+  title
+);
 
+
+/* -----------------------------------------------------
+   봉사장소
+----------------------------------------------------- */
+
+const location =
+  document.createElement(
+    "div"
+  );
+
+location.className =
+  "service-appointment-location";
+
+location.textContent =
+  "📍 " +
+  (group.location || "");
+
+card.appendChild(
+  location
+);
 
       /* -----------------------------------------------------
          시작 / 종료
