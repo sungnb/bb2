@@ -148,21 +148,17 @@ function toggleSettings() {
 
 function setTheme(theme) {
 
-  const root =
-    document.documentElement;
+  document.body.classList.remove(
+    "light",
+    "dark"
+  );
 
-  if (theme === "dark") {
-
-    root.classList.add("dark");
-
-  } else {
-
-    root.classList.remove("dark");
-
-  }
+  document.body.classList.add(
+    theme
+  );
 
   localStorage.setItem(
-    "theme",
+    "jeonsidaeTheme",
     theme
   );
 
@@ -174,11 +170,11 @@ function setTheme(theme) {
 function changeFontSize(amount) {
 
   const current =
-    Number(
-      localStorage.getItem(
-        "fontSize"
-      ) || "100"
-    );
+  Number(
+    localStorage.getItem(
+      "jeonsidaeFontSize"
+    ) || "100"
+  );
 
   const next =
     Math.min(
@@ -254,29 +250,19 @@ function loadSettings() {
 
   const theme =
     localStorage.getItem(
-      "theme"
-    ) || "light";
+      "jeonsidaeTheme"
+    ) || "dark";
 
   const fontSize =
     Number(
       localStorage.getItem(
-        "fontSize"
+        "jeonsidaeFontSize"
       ) || "100"
     );
 
-  if (theme === "dark") {
-
-    document.documentElement.classList.add(
-      "dark"
-    );
-
-  } else {
-
-    document.documentElement.classList.remove(
-      "dark"
-    );
-
-  }
+  setTheme(
+    theme
+  );
 
   document.documentElement.style.setProperty(
     "--font-scale",
@@ -292,8 +278,6 @@ function loadSettings() {
     display.textContent =
       fontSize + "%";
   }
-
-  updateSettingButtons();
 
 }
 
@@ -746,10 +730,10 @@ function saveMySelections(list) {
       selectedVolunteerSchedule || "default"
     ).trim();
 
-  localStorage.setItem(
-    storageKey,
-    JSON.stringify(list)
-  );
+ localStorage.setItem(
+  "jeonsidaeFontSize",
+  String(next)
+);
 
 }
 
