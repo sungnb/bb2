@@ -1703,13 +1703,12 @@ body:not(.light) .new-group-date-row input {
   }
 
 
-  .new-group-select-box select {
-    height: 44px;
-    padding: 0 7px;
+ .new-group-select-box select {
+  height: 40px;
+  padding: 0 7px;
 
-    font-size: calc(14px * var(--font-scale));
-  }
-
+  font-size: calc(18px * var(--font-scale));
+}
 
   /* 그룹 추가 / 취소도 50 : 50 */
 
