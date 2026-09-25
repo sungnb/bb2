@@ -107,8 +107,9 @@ function goToApplyHome() {
   }
 
   if (scheduleArea) {
-    scheduleArea.style.display = "block";
-  }
+  scheduleArea.style.display =
+    "flex";
+}
 
   if (mainTitle) {
     mainTitle.textContent =
