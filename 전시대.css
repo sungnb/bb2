@@ -1776,10 +1776,11 @@ body:not(.light) .new-group-date-row input {
 
   box-sizing: border-box;
 
-  border: 3px solid #777;
+  border: 5px solid #455A64;
   border-radius: 9px;
-  background: #222;
-  color: #fff;
+
+  background: #F1F4F5;
+  color: #222;
 
   font-family: inherit;
   font-size: calc(18px * var(--font-scale));
@@ -1789,13 +1790,25 @@ body:not(.light) .new-group-date-row input {
   cursor: pointer;
 }
 
-body.light .group-card .group-count-select,
-body.light .group-card .group-location-select {
-  background: #fff;
-  color: #222;
-  border-color: #aaa;
+.group-card .group-count-select:focus,
+.group-card .group-location-select:focus {
+  border-color: #455A64;
+  box-shadow: 0 0 0 2px rgba(69,90,100,.18);
 }
 
+body:not(.light) .group-card .group-count-select,
+body:not(.light) .group-card .group-location-select {
+  background: #222;
+  color: #fff;
+  border-color: #455A64;
+}
+
+body.light .group-card .group-count-select,
+body.light .group-card .group-location-select {
+  background: #F1F4F5;
+  color: #222;
+  border-color: #455A64;
+}
 
 /* =========================================================
    봉사용 - 전시대 임명 카드
