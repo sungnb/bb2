@@ -487,6 +487,7 @@ body.light .group-card {
 
   font-size: calc(18px * var(--font-scale));
   font-weight: 600;
+  color: inherit;
 
   cursor: pointer;
 }
@@ -1549,7 +1550,8 @@ body.light .notice-row {
 
 /* 모든 선택창 동일한 높이 */
 
-.new-group-select-box select {
+.new-group-select-box select,
+.new-group-select-box input {
   width: 100%;
   height: 40px;
 
@@ -1568,11 +1570,14 @@ body.light .notice-row {
   font-weight: 600;
 
   outline: none;
+}
+
+.new-group-select-box select {
   cursor: pointer;
 }
 
-
-.new-group-select-box select:focus {
+.new-group-select-box select:focus,
+.new-group-select-box input:focus {
   border-color: #6FA8D8;
   box-shadow: 0 0 0 2px rgba(111,168,216,.18);
 }
@@ -1645,7 +1650,8 @@ body.light .new-group-form {
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
 
-body.light .new-group-select-box select {
+body.light .new-group-select-box select,
+body.light .new-group-select-box input {
   background: #fff;
   color: #222;
   border-color: #aaa;
@@ -1656,7 +1662,6 @@ body.light .new-group-date-row input {
   color: #222;
   border-color: #aaa;
 }
-
 
 /* =========================================================
    어두운 화면
@@ -1703,7 +1708,8 @@ body:not(.light) .new-group-date-row input {
   }
 
 
- .new-group-select-box select {
+.new-group-select-box select,
+.new-group-select-box input {
   height: 40px;
   padding: 0 7px;
 
