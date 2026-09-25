@@ -3958,17 +3958,17 @@ function renderService() {
       }
 
 
-      /* -----------------------------------------------------
-         카드
-      ----------------------------------------------------- */
+/* -----------------------------------------------------
+   임명 1개 = 카드 1개
+----------------------------------------------------- */
 
-      const card =
-        document.createElement(
-          "div"
-        );
+const card =
+  document.createElement(
+    "div"
+  );
 
-      card.className =
-        "service-appointment-card";
+card.className =
+  "service-appointment-card";
 
 
       /* -----------------------------------------------------
