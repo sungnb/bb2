@@ -12,6 +12,66 @@ function selectVolunteerSchedule(schedule) {
     return;
   }
 
+  const scheduleArea =
+    document.getElementById(
+      "volunteerScheduleArea"
+    );
+
+  const applyArea =
+    document.getElementById(
+      "volunteerApplyArea"
+    );
+
+  const submittedArea =
+    document.getElementById(
+      "submittedVolunteerArea"
+    );
+
+  const mainTitle =
+    document.getElementById(
+      "volunteerMainTitle"
+    );
+
+  /* 봉사 요일 선택 화면 숨기기 */
+  if (scheduleArea) {
+    scheduleArea.style.display = "none";
+  }
+
+  /* 제목 변경 */
+  if (mainTitle) {
+    mainTitle.textContent =
+      "봉사자를 선택해주세요";
+  }
+
+  /* 봉사자 선택 화면 열기 */
+  if (applyArea) {
+    applyArea.style.display = "block";
+    applyArea.classList.add("show");
+  }
+
+  /* 이전 신청 결과 숨기기 */
+  if (submittedArea) {
+    submittedArea.style.display = "none";
+  }
+
+  /* 봉사자 명단 불러오기 */
+  selectedServiceSchedule =
+    selectedVolunteerSchedule;
+
+  loadMasterNames();
+
+  /* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
+  loadGroups().then(function() {
+    renderService();
+  });
+}
+
+
+/* =========================================================
+   봉사 신청 화면 뒤로가기
+========================================================= */
+
+function goToApplyHome() {
 
   const scheduleArea =
     document.getElementById(
@@ -33,43 +93,130 @@ function selectVolunteerSchedule(schedule) {
       "volunteerMainTitle"
     );
 
+  selectedVolunteerSchedule = "";
+  selectedServiceSchedule = "";
+  selectedAdminSchedule = "";
 
-  /* 봉사 요일 선택 화면 숨기기 */
-  if (scheduleArea) {
-    scheduleArea.style.display = "none";
-  }
-
-
-  /* 제목 변경 */
-  if (mainTitle) {
-    mainTitle.textContent =
-      "봉사자를 선택해주세요";
-  }
-
-
-  /* 봉사자 선택 화면 열기 */
   if (applyArea) {
-    applyArea.style.display = "block";
-    applyArea.classList.add("show");
+    applyArea.style.display = "none";
+    applyArea.classList.remove("show");
   }
 
-
-  /* 이전 신청 결과 숨기기 */
   if (submittedArea) {
     submittedArea.style.display = "none";
   }
 
+  if (scheduleArea) {
+    scheduleArea.style.display = "block";
+  }
 
-    /* 봉사자 명단 불러오기 */
-  selectedServiceSchedule =
-  selectedVolunteerSchedule;
+  if (mainTitle) {
+    mainTitle.textContent =
+      "요일을 선택해 주세요";
+  }
 
-loadMasterNames();
+}
 
-/* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
-loadGroups().then(function() {
-  renderService();
-});
+
+/* =========================================================
+   봉사 신청 제출
+========================================================= */
+
+async function submitVolunteerApplication() {
+
+  const selections =
+    getMySelections();
+
+  if (
+    !Array.isArray(selections) ||
+    selections.length === 0
+  ) {
+
+    alert(
+      "봉사자를 한 명 이상 선택해 주세요."
+    );
+
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify({
+
+            action:
+              "saveVolunteerApplication",
+
+            key:
+              selectedVolunteerSchedule,
+
+            names:
+              selections
+
+          })
+
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "봉사 신청 저장에 실패했습니다."
+      );
+
+    }
+
+    const submittedArea =
+      document.getElementById(
+        "submittedVolunteerArea"
+      );
+
+    const submittedNames =
+      document.getElementById(
+        "submittedVolunteerNames"
+      );
+
+    if (submittedArea) {
+      submittedArea.style.display =
+        "block";
+    }
+
+    if (submittedNames) {
+
+      submittedNames.textContent =
+        selections.join(", ");
+
+    }
+
+    alert(
+      "봉사 신청이 제출되었습니다."
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "봉사 신청에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
+  }
+
 }
 
 const SCRIPT_URL =
