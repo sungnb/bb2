@@ -101,12 +101,6 @@ let selectedApplicants = [];
 let currentView = "apply";
 
 /* =========================================================
-   관리자용 선택 일정
-========================================================= */
-
-let selectedAdminSchedule = "";
-
-/* =========================================================
    봉사용에서 선택한 전시대 일정
 ========================================================= */
 
@@ -3810,6 +3804,47 @@ async function selectServiceSchedule(
 
     }
 
+  }
+
+}
+
+
+/* =========================================================
+   봉사용 일정 선택 화면으로 돌아가기
+========================================================= */
+
+function backToServiceSchedule() {
+
+  selectedServiceSchedule = "";
+  selectedAdminSchedule = "";
+
+  const selector =
+    document.getElementById(
+      "serviceScheduleSelector"
+    );
+
+  const managementArea =
+    document.getElementById(
+      "serviceManagementArea"
+    );
+
+  if (managementArea) {
+    managementArea.style.display =
+      "none";
+  }
+
+  if (selector) {
+    selector.style.display =
+      "block";
+  }
+
+  const list =
+    document.getElementById(
+      "serviceList"
+    );
+
+  if (list) {
+    list.innerHTML = "";
   }
 
 }
