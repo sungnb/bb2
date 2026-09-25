@@ -1589,16 +1589,24 @@ body.light .notice-row {
   outline: none;
 }
 
+/* 드롭다운 박스 */
 .new-group-select-box select {
   cursor: pointer;
+
+  border: 5px solid #455A64;
+  background: #F1F4F5;
+  color: #222;
 }
 
-.new-group-select-box select:focus,
+.new-group-select-box select:focus {
+  border-color: #455A64;
+  box-shadow: 0 0 0 2px rgba(69,90,100,.18);
+}
+
 .new-group-select-box input:focus {
   border-color: #6FA8D8;
   box-shadow: 0 0 0 2px rgba(111,168,216,.18);
 }
-
 
 /* =========================================================
    그룹 추가 / 취소
