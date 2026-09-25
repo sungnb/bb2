@@ -400,7 +400,7 @@ body.light .admin-name.selected {
 
 .add-group-button {
   width: 100%;
-  height: 56px;
+  height: 100px;
 
   border: 0;
   border-radius: 10px;
@@ -580,7 +580,7 @@ body.light .group-slot.filled {
   background: #234563;
   color: #fff;
 
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale));
   font-weight: 700;
   text-align: left;
 
@@ -696,7 +696,7 @@ body.light .service-name {
   padding: 0;
   line-height: 18px;
   text-align: center;
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale));
   color: #aaa;
 }
 
@@ -1384,7 +1384,7 @@ body.light .notice-row {
   background: #234563;
   color: #fff;
 
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale));
   font-weight: 700;
   text-align: left;
 
