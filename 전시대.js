@@ -2536,6 +2536,11 @@ async function submitStopReason() {
       "stopReasonSelect"
     );
 
+  const submitButton =
+    document.getElementById(
+      "stopReasonSubmitButton"
+    );
+
   if (!select) {
     return;
   }
@@ -2553,6 +2558,12 @@ if (!cancelReason) {
 
   return;
 }
+
+  if (submitButton) {
+    submitButton.textContent =
+      "중단 중...";
+    submitButton.disabled = true;
+  }
 
 if (cancelReason === "삭제") {
 
