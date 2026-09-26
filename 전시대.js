@@ -2414,89 +2414,92 @@ function showStopReason() {
     <!-- 중단 이유 / 중단 제출 버튼 -->
 
     <div
-      id="stopReasonActionRow"
-      style="
-        display:flex !important;
-        flex-direction:row !important;
-        gap:10px;
-        width:100% !important;
-        box-sizing:border-box;
-      "
+  id="stopReasonActionRow"
+  style="
+    display:flex !important;
+    flex-direction:row !important;
+    gap:10px;
+    width:100% !important;
+    box-sizing:border-box;
+  "
+>
+
+  <!-- 중단 이유 선택 -->
+
+  <select
+    id="stopReasonSelect"
+    style="
+      flex:0 0 calc((100% - 20px) * 2 / 3 + 10px) !important;
+      width:calc((100% - 20px) * 2 / 3 + 10px) !important;
+      height:70px;
+      padding:0 16px;
+      box-sizing:border-box;
+      border:2px solid #455A64;
+      border-radius:12px;
+      background:#fff;
+      color:#222;
+      font-size:calc(18px * var(--font-scale));
+      font-weight:700;
+      cursor:pointer;
+    "
+  >
+
+    <option
+      value=""
+      selected
+      disabled
     >
+      중단 이유 선택
+    </option>
 
-      <!-- 중단 이유 선택 -->
+    <option value="인원 부족으로 취소합니다">
+      인원 부족으로 취소합니다
+    </option>
 
-      <select
-        id="stopReasonSelect"
-        style="
-          flex:2 1 0 !important;
-          width:auto !important;
-          height:70px;
-          padding:0 16px;
-          box-sizing:border-box;
-          border:2px solid #455A64;
-          border-radius:12px;
-          background:#fff;
-          color:#222;
-          font-size:calc(18px * var(--font-scale));
-          font-weight:700;
-          cursor:pointer;
-        "
-      >
+    <option value="우천 시로 취소합니다">
+      우천 시로 취소합니다
+    </option>
 
-        <option
-          value=""
-          selected
-          disabled
-        >
-          중단 이유 선택
-        </option>
+    <option value="대회 주간 입니다">
+      대회 주간 입니다
+    </option>
 
-        <option value="인원 부족으로 취소합니다">
-          인원 부족으로 취소합니다
-        </option>
+    <option value="순회방문 주간 입니다">
+     순회방문 주간 입니다
+    </option>
 
-        <option value="우천 시로 취소합니다">
-          우천 시로 취소합니다
-        </option>
+    <option value="삭제">
+      중단 이유 삭제
+    </option>
 
-        <option value="대회 주간 입니다">
-          대회 주간 입니다
-        </option>
-
-        <option value="순회방문 주간 입니다">
-          순회방문 주간 입니다
-        </option>
-
-      </select>
+  </select>
 
 
-      <!-- 중단 제출 -->
+  <!-- 중단 제출 -->
 
-      <button
-        type="button"
-        id="stopReasonSubmitButton"
-        onclick="submitStopReason()"
-        style="
-          flex:1 1 0 !important;
-          width:auto !important;
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border:0;
-          border-radius:12px !important;
-          background:#455A64 !important;
-          color:#fff !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
-          cursor:pointer;
-        "
-      >
-        중단 제출
-      </button>
+  <button
+    type="button"
+    id="stopReasonSubmitButton"
+    onclick="submitStopReason()"
+    style="
+      flex:1 1 0 !important;
+      width:auto !important;
+      height:70px;
+      padding:0;
+      box-sizing:border-box;
+      border:0;
+      border-radius:12px !important;
+      background:#455A64 !important;
+      color:#fff !important;
+      font-size:calc(18px * var(--font-scale)) !important;
+      font-weight:700;
+      cursor:pointer;
+    "
+  >
+    중단 제출
+  </button>
 
-    </div>
-
+</div>
   `;
 
 
