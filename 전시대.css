@@ -1930,13 +1930,6 @@ body:not(.light) .service-cancel-info-icon {
 
 .service-appointment-card {
 
-/* =========================================================
-   봉사용 - 전시대 임명 카드
-   임명 1개 = 카드 1개
-========================================================= */
-
-.service-appointment-card {
-
   width: 100%;
   box-sizing: border-box;
 
