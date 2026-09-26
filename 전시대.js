@@ -2055,24 +2055,30 @@ function addGroup() {
 
 
     <div class="new-group-action-row">
+  <button
+    type="button"
+    class="new-group-create-button"
+    onclick="createNewGroup()"
+  >
+    그룹 추가
+  </button>
 
-      <button
-        type="button"
-        class="new-group-create-button"
-        onclick="createNewGroup()"
-      >
-        그룹 추가
-      </button>
+  <button
+    type="button"
+    class="new-group-stop-button"
+    onclick="showStopReason()"
+  >
+    중단
+  </button>
 
-      <button
-        type="button"
-        class="new-group-cancel-button"
-        onclick="cancelNewGroup()"
-      >
-        취소
-      </button>
-
-    </div>
+  <button
+    type="button"
+    class="new-group-cancel-button"
+    onclick="cancelNewGroup()"
+  >
+    취소
+  </button>
+</div>
 
   `;
 
@@ -2223,6 +2229,128 @@ dateEl.value =
     `${year}. ${month}. ${date}(${dayText})`;
   groupsEl.prepend(form);
 
+}
+
+/* =========================================================
+   중단 사유 선택
+========================================================= */
+
+function showStopReason() {
+
+  const reason =
+    prompt(
+      "중단 사유를 선택하세요.\n\n" +
+      "1. 인원 부족으로 취소합니다\n" +
+      "2. 우천 시로 취소합니다\n" +
+      "3. 대회 주간 입니다\n" +
+      "4. 순회방문 주간 입니다"
+    );
+
+  if (!reason) {
+    return;
+  }
+
+  const reasons = {
+    "1": "인원 부족으로 취소합니다",
+    "2": "우천 시로 취소합니다",
+    "3": "대회 주간 입니다",
+    "4": "순회방문 주간 입니다"
+  };
+
+  const cancelReason =
+    reasons[
+      String(reason).trim()
+    ];
+
+  if (!cancelReason) {
+
+    alert(
+      "1~4 중에서 선택해주세요."
+    );
+
+    return;
+  }
+
+  saveStopReason(
+    cancelReason
+  );
+}
+
+/* =========================================================
+   중단 사유 저장
+========================================================= */
+
+async function saveStopReason(
+  cancelReason
+) {
+
+  const schedule =
+    selectedAdminSchedule ||
+    selectedServiceSchedule ||
+    selectedVolunteerSchedule ||
+    "";
+
+  if (!schedule) {
+
+    alert(
+      "일정을 먼저 선택해주세요."
+    );
+
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+              action:
+                "saveScheduleCancelReason",
+
+              key:
+                schedule,
+
+              cancelReason:
+                cancelReason
+            })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "중단 사유 저장에 실패했습니다."
+      );
+    }
+
+    alert(
+      "중단 사유가 저장되었습니다.\n\n" +
+      cancelReason
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "중단 사유 저장 중 오류가 발생했습니다.\n\n" +
+      error.message
+    );
+  }
 }
 
 /* =========================================================
