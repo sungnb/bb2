@@ -2016,7 +2016,7 @@ function addGroup() {
         <select id="newGroupLocation">
 
           <option value="">
-            봉사장소를 선택하세요
+            봉사장소 선택
           </option>
 
           <option value="유타몰">
