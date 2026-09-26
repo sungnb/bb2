@@ -52,7 +52,7 @@ body.light {
   font-weight: 700;
 
   text-align: left;
-  padding: 0 18px 0 20px;
+  padding: 0 20px;
 
   cursor: pointer;
 }
@@ -1392,13 +1392,13 @@ body.light .notice-row {
 .admin-schedule-buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 
 .admin-schedule-button {
   width: 100%;
-  min-height: 48px;
-  padding: 0 16px;
+  min-height: 55px;
+  padding: 0 20px;
 
   display: flex;
   align-items: center;
@@ -1410,7 +1410,7 @@ body.light .notice-row {
   background: #234563;
   color: #fff;
 
-  font-size: calc(16px * var(--font-scale));
+  font-size: calc(24px * var(--font-scale));
   font-weight: 700;
   text-align: left;
 
