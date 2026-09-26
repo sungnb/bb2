@@ -2054,7 +2054,7 @@ function addGroup() {
     </div>
 
 
-        <div
+           <div
       class="new-group-action-row"
       style="
         display:flex;
@@ -2072,7 +2072,11 @@ function addGroup() {
           width:33.333%;
           min-width:0;
           height:70px;
+          padding:0;
           box-sizing:border-box;
+          border-radius:12px !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
         "
       >
         그룹 추가
@@ -2087,9 +2091,13 @@ function addGroup() {
           width:33.333%;
           min-width:0;
           height:70px;
+          padding:0;
           box-sizing:border-box;
-          background:#455A64;
-          color:#fff;
+          border-radius:12px !important;
+          background:#455A64 !important;
+          color:#fff !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
         "
       >
         중단
@@ -2104,14 +2112,17 @@ function addGroup() {
           width:33.333%;
           min-width:0;
           height:70px;
+          padding:0;
           box-sizing:border-box;
+          border-radius:12px !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
         "
       >
         취소
       </button>
 
     </div>
-
   `;
 
    const startTimeEl =
@@ -2278,10 +2289,10 @@ function showStopReason() {
     return;
   }
 
-  /* 이미 드롭다운이 있으면 다시 만들지 않음 */
+  /* 이미 중단 사유 영역이 있으면 다시 만들지 않음 */
   if (
     document.getElementById(
-      "stopReasonSelect"
+      "stopReasonBox"
     )
   ) {
     return;
@@ -2306,13 +2317,13 @@ function showStopReason() {
         width:100%;
         height:58px;
         padding:0 16px;
+        box-sizing:border-box;
         border:2px solid #455A64;
         border-radius:12px;
         background:#fff;
         color:#222;
-        font-size:18px;
+        font-size:calc(18px * var(--font-scale));
         font-weight:700;
-        box-sizing:border-box;
       "
     >
 
@@ -2341,6 +2352,38 @@ function showStopReason() {
       </option>
 
     </select>
+
+    <div
+      style="
+        display:flex;
+        justify-content:flex-end;
+        width:100%;
+        margin-top:12px;
+      "
+    >
+
+      <button
+        type="button"
+        id="stopReasonSubmitButton"
+        onclick="submitStopReason()"
+        style="
+          width:calc((100% - 20px) / 3);
+          height:70px;
+          padding:0;
+          box-sizing:border-box;
+          border:0;
+          border-radius:12px !important;
+          background:#455A64 !important;
+          color:#fff !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        중단 제출
+      </button>
+
+    </div>
   `;
 
   const actionRow =
@@ -2362,6 +2405,13 @@ function showStopReason() {
     );
 
   }
+}
+
+/* =========================================================
+   중단 사유 제출
+========================================================= */
+
+async function submitStopReason() {
 
   const select =
     document.getElementById(
@@ -2372,27 +2422,36 @@ function showStopReason() {
     return;
   }
 
-  select.addEventListener(
-    "change",
-    function() {
+  const cancelReason =
+    String(
+      select.value || ""
+    ).trim();
 
-      const cancelReason =
-        String(
-          this.value || ""
-        ).trim();
+  if (!cancelReason) {
 
-      if (!cancelReason) {
-        return;
-      }
+    alert(
+      "중단 사유를 선택해주세요."
+    );
 
-      saveStopReason(
-        cancelReason
-      );
+    return;
+  }
 
-    }
+  const button =
+    document.getElementById(
+      "stopReasonSubmitButton"
+    );
+
+  if (button) {
+
+    button.disabled = true;
+
+    button.textContent =
+      "제출 중...";
+  }
+
+  await saveStopReason(
+    cancelReason
   );
-
-  select.focus();
 }
 
 /* =========================================================
@@ -2456,6 +2515,15 @@ async function saveStopReason(
       );
     }
 
+    const form =
+      document.getElementById(
+        "newGroupForm"
+      );
+
+    if (form) {
+      form.remove();
+    }
+
     alert(
       "중단 사유가 저장되었습니다.\n\n" +
       cancelReason
@@ -2464,6 +2532,19 @@ async function saveStopReason(
   } catch (error) {
 
     console.error(error);
+
+    const button =
+      document.getElementById(
+        "stopReasonSubmitButton"
+      );
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.textContent =
+        "중단 제출";
+    }
 
     alert(
       "중단 사유 저장 중 오류가 발생했습니다.\n\n" +
