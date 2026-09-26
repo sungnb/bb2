@@ -2054,31 +2054,63 @@ function addGroup() {
     </div>
 
 
-    <div class="new-group-action-row">
-  <button
-    type="button"
-    class="new-group-create-button"
-    onclick="createNewGroup()"
-  >
-    그룹 추가
-  </button>
+        <div
+      class="new-group-action-row"
+      style="
+        display:flex;
+        gap:10px;
+        width:100%;
+      "
+    >
 
-  <button
-    type="button"
-    class="new-group-stop-button"
-    onclick="showStopReason()"
-  >
-    중단
-  </button>
+      <button
+        type="button"
+        class="new-group-create-button"
+        onclick="createNewGroup()"
+        style="
+          flex:1;
+          width:33.333%;
+          min-width:0;
+          height:70px;
+          box-sizing:border-box;
+        "
+      >
+        그룹 추가
+      </button>
 
-  <button
-    type="button"
-    class="new-group-cancel-button"
-    onclick="cancelNewGroup()"
-  >
-    취소
-  </button>
-</div>
+      <button
+        type="button"
+        class="new-group-stop-button"
+        onclick="showStopReason()"
+        style="
+          flex:1;
+          width:33.333%;
+          min-width:0;
+          height:70px;
+          box-sizing:border-box;
+          background:#455A64;
+          color:#fff;
+        "
+      >
+        중단
+      </button>
+
+      <button
+        type="button"
+        class="new-group-cancel-button"
+        onclick="cancelNewGroup()"
+        style="
+          flex:1;
+          width:33.333%;
+          min-width:0;
+          height:70px;
+          box-sizing:border-box;
+        "
+      >
+        취소
+      </button>
+
+    </div>
 
   `;
 
@@ -2237,43 +2269,130 @@ dateEl.value =
 
 function showStopReason() {
 
-  const reason =
-    prompt(
-      "중단 사유를 선택하세요.\n\n" +
-      "1. 인원 부족으로 취소합니다\n" +
-      "2. 우천 시로 취소합니다\n" +
-      "3. 대회 주간 입니다\n" +
-      "4. 순회방문 주간 입니다"
+  const form =
+    document.getElementById(
+      "newGroupForm"
     );
 
-  if (!reason) {
+  if (!form) {
     return;
   }
 
-  const reasons = {
-    "1": "인원 부족으로 취소합니다",
-    "2": "우천 시로 취소합니다",
-    "3": "대회 주간 입니다",
-    "4": "순회방문 주간 입니다"
-  };
-
-  const cancelReason =
-    reasons[
-      String(reason).trim()
-    ];
-
-  if (!cancelReason) {
-
-    alert(
-      "1~4 중에서 선택해주세요."
-    );
-
+  /* 이미 드롭다운이 있으면 다시 만들지 않음 */
+  if (
+    document.getElementById(
+      "stopReasonSelect"
+    )
+  ) {
     return;
   }
 
-  saveStopReason(
-    cancelReason
+  const reasonBox =
+    document.createElement("div");
+
+  reasonBox.id =
+    "stopReasonBox";
+
+  reasonBox.style.cssText = `
+    width:100%;
+    margin-top:12px;
+    box-sizing:border-box;
+  `;
+
+  reasonBox.innerHTML = `
+    <select
+      id="stopReasonSelect"
+      style="
+        width:100%;
+        height:58px;
+        padding:0 16px;
+        border:2px solid #455A64;
+        border-radius:12px;
+        background:#fff;
+        color:#222;
+        font-size:18px;
+        font-weight:700;
+        box-sizing:border-box;
+      "
+    >
+
+      <option
+        value=""
+        selected
+        disabled
+      >
+        중단 사유를 선택하세요
+      </option>
+
+      <option value="인원 부족으로 취소합니다">
+        1. 인원 부족으로 취소합니다
+      </option>
+
+      <option value="우천 시로 취소합니다">
+        2. 우천 시로 취소합니다
+      </option>
+
+      <option value="대회 주간 입니다">
+        3. 대회 주간 입니다
+      </option>
+
+      <option value="순회방문 주간 입니다">
+        4. 순회방문 주간 입니다
+      </option>
+
+    </select>
+  `;
+
+  const actionRow =
+    form.querySelector(
+      ".new-group-action-row"
+    );
+
+  if (actionRow) {
+
+    actionRow.insertAdjacentElement(
+      "afterend",
+      reasonBox
+    );
+
+  } else {
+
+    form.appendChild(
+      reasonBox
+    );
+
+  }
+
+  const select =
+    document.getElementById(
+      "stopReasonSelect"
+    );
+
+  if (!select) {
+    return;
+  }
+
+  select.addEventListener(
+    "change",
+    function() {
+
+      const cancelReason =
+        String(
+          this.value || ""
+        ).trim();
+
+      if (!cancelReason) {
+        return;
+      }
+
+      saveStopReason(
+        cancelReason
+      );
+
+    }
   );
+
+  select.focus();
 }
 
 /* =========================================================
