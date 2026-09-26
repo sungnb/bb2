@@ -4245,11 +4245,90 @@ if (serviceCancelReason) {
     );
 
   notice.className =
-    "service-empty";
+    "service-cancel-card";
 
-  notice.innerHTML =
-    "오늘은<br><br>" +
+
+  /* -------------------------------------------------------
+     ⓘ 안내 아이콘
+  ------------------------------------------------------- */
+
+  const infoIcon =
+    document.createElement(
+      "div"
+    );
+
+  infoIcon.className =
+    "service-cancel-info-icon";
+
+  infoIcon.textContent =
+    "i";
+
+
+  /* -------------------------------------------------------
+     제목
+  ------------------------------------------------------- */
+
+  const title =
+    document.createElement(
+      "div"
+    );
+
+  title.className =
+    "service-cancel-title";
+
+  title.textContent =
+    "오늘은";
+
+
+  /* -------------------------------------------------------
+     실선 구분
+  ------------------------------------------------------- */
+
+  const divider =
+    document.createElement(
+      "div"
+    );
+
+  divider.className =
+    "service-cancel-divider";
+
+
+  /* -------------------------------------------------------
+     중단 사유
+  ------------------------------------------------------- */
+
+  const reason =
+    document.createElement(
+      "div"
+    );
+
+  reason.className =
+    "service-cancel-reason";
+
+  reason.textContent =
     serviceCancelReason;
+
+
+  /* -------------------------------------------------------
+     화면 구성
+  ------------------------------------------------------- */
+
+  notice.appendChild(
+    infoIcon
+  );
+
+  notice.appendChild(
+    title
+  );
+
+  notice.appendChild(
+    divider
+  );
+
+  notice.appendChild(
+    reason
+  );
+
 
   list.appendChild(
     notice
