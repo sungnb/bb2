@@ -2541,18 +2541,25 @@ async function submitStopReason() {
   }
 
   const cancelReason =
-    String(
-      select.value || ""
-    ).trim();
+  String(
+    select.value || ""
+  ).trim();
 
-  if (!cancelReason) {
+if (!cancelReason) {
 
-    alert(
-      "중단 사유를 선택해주세요."
-    );
+  alert(
+    "중단 사유 선택"
+  );
 
-    return;
-  }
+  return;
+}
+
+if (cancelReason === "삭제") {
+
+  await saveStopReason("");
+
+  return;
+}
 
   const button =
     document.getElementById(
