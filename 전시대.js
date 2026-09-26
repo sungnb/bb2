@@ -2311,11 +2311,70 @@ function showStopReason() {
   `;
 
   reasonBox.innerHTML = `
+
+    <!-- 중단 이유 / 중단 제출 버튼 -->
+    <div
+      style="
+        display:flex;
+        gap:10px;
+        width:100%;
+        box-sizing:border-box;
+      "
+    >
+
+      <!-- 중단 이유 : 2/3 -->
+      <button
+        type="button"
+        id="stopReasonSelectButton"
+        style="
+          flex:2;
+          height:70px;
+          padding:0;
+          box-sizing:border-box;
+          border:2px solid #455A64;
+          border-radius:12px;
+          background:#fff;
+          color:#222;
+          font-size:calc(18px * var(--font-scale));
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        중단 이유
+      </button>
+
+      <!-- 중단 제출 : 1/3 -->
+      <button
+        type="button"
+        id="stopReasonSubmitButton"
+        onclick="submitStopReason()"
+        style="
+          flex:1;
+          height:70px;
+          padding:0;
+          box-sizing:border-box;
+          border:0;
+          border-radius:12px !important;
+          background:#455A64 !important;
+          color:#fff !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        중단 제출
+      </button>
+
+    </div>
+
+    <!-- 중단 사유 선택창 -->
     <select
       id="stopReasonSelect"
       style="
+        display:none;
         width:100%;
         height:58px;
+        margin-top:12px;
         padding:0 16px;
         box-sizing:border-box;
         border:2px solid #455A64;
@@ -2352,38 +2411,6 @@ function showStopReason() {
       </option>
 
     </select>
-
-    <div
-      style="
-        display:flex;
-        justify-content:flex-end;
-        width:100%;
-        margin-top:12px;
-      "
-    >
-
-      <button
-        type="button"
-        id="stopReasonSubmitButton"
-        onclick="submitStopReason()"
-        style="
-          width:calc((100% - 20px) / 3);
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border:0;
-          border-radius:12px !important;
-          background:#455A64 !important;
-          color:#fff !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
-          cursor:pointer;
-        "
-      >
-        중단 제출
-      </button>
-
-    </div>
   `;
 
   const actionRow =
@@ -2403,6 +2430,34 @@ function showStopReason() {
     form.appendChild(
       reasonBox
     );
+
+  }
+
+  /* 중단 이유 버튼을 누르면 사유 선택창 표시 */
+  const reasonButton =
+    document.getElementById(
+      "stopReasonSelectButton"
+    );
+
+  const select =
+    document.getElementById(
+      "stopReasonSelect"
+    );
+
+  if (
+    reasonButton &&
+    select
+  ) {
+
+    reasonButton.onclick =
+      function() {
+
+        select.style.display =
+          "block";
+
+        select.focus();
+
+      };
 
   }
 }
