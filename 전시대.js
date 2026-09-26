@@ -2290,6 +2290,7 @@ function showStopReason() {
   }
 
   /* 이미 중단 사유 영역이 있으면 다시 만들지 않음 */
+
   if (
     document.getElementById(
       "stopReasonBox"
@@ -2304,7 +2305,6 @@ function showStopReason() {
   reasonBox.id =
     "stopReasonBox";
 
-  /* 반드시 한 줄 전체를 차지하도록 고정 */
   reasonBox.style.cssText = `
     display:block !important;
     width:100% !important;
@@ -2315,6 +2315,7 @@ function showStopReason() {
   reasonBox.innerHTML = `
 
     <!-- 중단 이유 / 중단 제출 버튼 -->
+
     <div
       id="stopReasonActionRow"
       style="
@@ -2326,15 +2327,15 @@ function showStopReason() {
       "
     >
 
-      <!-- 중단 이유 -->
-      <button
-        type="button"
-        id="stopReasonSelectButton"
+      <!-- 중단 이유 선택 -->
+
+      <select
+        id="stopReasonSelect"
         style="
           flex:2 1 0 !important;
           width:auto !important;
           height:70px;
-          padding:0;
+          padding:0 16px;
           box-sizing:border-box;
           border:2px solid #455A64;
           border-radius:12px;
@@ -2345,11 +2346,36 @@ function showStopReason() {
           cursor:pointer;
         "
       >
-              >
-        중단 이유 선택
-      </button>
+
+        <option
+          value=""
+          selected
+          disabled
+        >
+          중단 이유 선택
+        </option>
+
+        <option value="인원 부족으로 취소합니다">
+          인원 부족으로 취소합니다
+        </option>
+
+        <option value="우천 시로 취소합니다">
+          우천 시로 취소합니다
+        </option>
+
+        <option value="대회 주간 입니다">
+          대회 주간 입니다
+        </option>
+
+        <option value="순회방문 주간 입니다">
+          순회방문 주간 입니다
+        </option>
+
+      </select>
+
 
       <!-- 중단 제출 -->
+
       <button
         type="button"
         id="stopReasonSubmitButton"
@@ -2374,51 +2400,8 @@ function showStopReason() {
 
     </div>
 
-    <!-- 중단 사유 선택창 -->
-    <select
-      id="stopReasonSelect"
-      style="
-        display:none !important;
-        width:100% !important;
-        height:58px;
-        margin-top:12px;
-        padding:0 16px;
-        box-sizing:border-box;
-        border:2px solid #455A64;
-        border-radius:12px;
-        background:#fff;
-        color:#222;
-        font-size:calc(18px * var(--font-scale));
-        font-weight:700;
-      "
-    >
-
-      <option
-        value=""
-        selected
-        disabled
-      >
-        중단 사유를 선택하세요
-      </option>
-
-      <option value="인원 부족으로 취소합니다">
-        1. 인원 부족으로 취소합니다
-      </option>
-
-      <option value="우천 시로 취소합니다">
-        2. 우천 시로 취소합니다
-      </option>
-
-      <option value="대회 주간 입니다">
-        3. 대회 주간 입니다
-      </option>
-
-      <option value="순회방문 주간 입니다">
-        4. 순회방문 주간 입니다
-      </option>
-
-    </select>
   `;
+
 
   const actionRow =
     form.querySelector(
@@ -2440,46 +2423,8 @@ function showStopReason() {
 
   }
 
-  /* 중단 이유 버튼 */
-  const reasonButton =
-    document.getElementById(
-      "stopReasonSelectButton"
-    );
-
-  /* 중단 사유 드롭다운 */
-  const select =
-    document.getElementById(
-      "stopReasonSelect"
-    );
-
-  if (
-    reasonButton &&
-    select
-  ) {
-
-    reasonButton.onclick =
-      function() {
-
-        /*
-          중단 이유 버튼과 중단 제출 버튼은
-          그대로 고정하고,
-
-          드롭다운만 그 아래에
-          한 줄 전체로 펼칩니다.
-        */
-
-        select.style.setProperty(
-          "display",
-          "block",
-          "important"
-        );
-
-        select.focus();
-
-      };
-
-  }
 }
+
 /* =========================================================
    중단 사유 제출
 ========================================================= */
