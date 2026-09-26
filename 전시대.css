@@ -1818,7 +1818,7 @@ body.light .group-card .group-location-select {
   width: 100%;
   box-sizing: border-box;
 
-  padding: 32px 22px;
+  padding: 28px 22px 30px;
   margin: 20px auto;
 
   border-radius: 18px;
@@ -1832,6 +1832,38 @@ body.light .group-card .group-location-select {
   box-shadow: 0 5px 18px rgba(0,0,0,.10);
 }
 
+
+/* =========================================================
+   📢 안내 아이콘
+========================================================= */
+
+.service-cancel-info-icon {
+  width: 40px;
+  height: 40px;
+
+  margin: 0 auto 14px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  background: #3374A9;
+  color: #fff;
+
+  font-size: 22px;
+  line-height: 1;
+
+  text-align: center;
+}
+
+/* =========================================================
+   제목
+========================================================= */
+
 .service-cancel-title {
   margin: 0;
 
@@ -1842,6 +1874,11 @@ body.light .group-card .group-location-select {
   text-align: center;
 }
 
+
+/* =========================================================
+   실선 구분
+========================================================= */
+
 .service-cancel-divider {
   width: 100%;
   height: 1px;
@@ -1850,6 +1887,11 @@ body.light .group-card .group-location-select {
 
   background: #777;
 }
+
+
+/* =========================================================
+   중단 사유
+========================================================= */
 
 .service-cancel-reason {
   margin: 0;
@@ -1862,7 +1904,10 @@ body.light .group-card .group-location-select {
 }
 
 
-/* 어두운 화면 */
+/* =========================================================
+   어두운 화면
+========================================================= */
+
 body:not(.light) .service-cancel-card {
   background: #202b36;
   color: #fff;
@@ -1873,6 +1918,10 @@ body:not(.light) .service-cancel-divider {
   background: #fff;
 }
 
+body:not(.light) .service-cancel-info-icon {
+  background: #3374A9;
+  color: #fff;
+}
 
 /* =========================================================
    봉사용 - 전시대 임명 카드
