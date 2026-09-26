@@ -2345,7 +2345,8 @@ function showStopReason() {
           cursor:pointer;
         "
       >
-        중단 이유
+              >
+        중단 이유 선택
       </button>
 
       <!-- 중단 제출 -->
@@ -3659,11 +3660,12 @@ locationLabel.textContent =
         "pointer";
 
 
-      submitButton.onclick =
-        function() {
+            submitButton.onclick =
+        async function() {
 
-          submitGroup(
-            groupIndex
+          await submitGroup(
+            groupIndex,
+            submitButton
           );
 
         };
@@ -3790,7 +3792,8 @@ if (currentName) {
 ========================================================= */
 
 async function submitGroup(
-  groupIndex
+  groupIndex,
+  submitButton
 ) {
 
   const group =
@@ -3868,7 +3871,7 @@ async function submitGroup(
     ];
 
 
-  if (
+    if (
     uniqueMembers.length !==
     members.length
   ) {
@@ -3878,6 +3881,18 @@ async function submitGroup(
     );
 
     return;
+  }
+
+
+  /* 제출 버튼을 제출 중으로 변경 */
+
+  if (submitButton) {
+
+    submitButton.disabled = true;
+
+    submitButton.textContent =
+      "제출 중...";
+
   }
 
 
@@ -3899,9 +3914,18 @@ async function submitGroup(
       "이 저장되었습니다."
     );
 
-  } catch (error) {
+   } catch (error) {
 
     console.error(error);
+
+    if (submitButton) {
+
+      submitButton.disabled = false;
+
+      submitButton.textContent =
+        "제출";
+
+    }
 
     alert(
       "그룹 저장에 실패했습니다.\n" +
