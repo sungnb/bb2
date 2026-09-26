@@ -1351,7 +1351,7 @@ body.light .notice-card {
 }
 
 .notice-row + .notice-row {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.20);
 }
 
 body:not(.light) .notice-row + .notice-row {
