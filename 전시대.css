@@ -1811,6 +1811,77 @@ body.light .group-card .group-location-select {
 }
 
 /* =========================================================
+   봉사용 - 전시대 일정 취소 안내
+========================================================= */
+
+.service-cancel-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 32px 22px;
+  margin: 20px auto;
+
+  border-radius: 18px;
+  border: 2px solid #455A64;
+
+  background: #fff;
+  color: #222;
+
+  text-align: center;
+
+  box-shadow: 0 5px 18px rgba(0,0,0,.10);
+}
+
+.service-cancel-title {
+  margin: 0;
+
+  font-size: calc(26px * var(--font-scale));
+  font-weight: 900;
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+.service-cancel-divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 22px 0;
+
+  background: #777;
+}
+
+.service-cancel-reason {
+  margin: 0;
+
+  font-size: calc(25px * var(--font-scale));
+  font-weight: 900;
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+
+/* 어두운 화면 */
+body:not(.light) .service-cancel-card {
+  background: #202b36;
+  color: #fff;
+  border-color: #6f8495;
+}
+
+body:not(.light) .service-cancel-divider {
+  background: #fff;
+}
+
+
+/* =========================================================
+   봉사용 - 전시대 임명 카드
+   임명 1개 = 카드 1개
+========================================================= */
+
+.service-appointment-card {
+
+/* =========================================================
    봉사용 - 전시대 임명 카드
    임명 1개 = 카드 1개
 ========================================================= */
