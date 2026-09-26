@@ -27,8 +27,8 @@ body.light {
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  max-width: 600px;
-  margin: 20px auto 0;
+  max-width: none;
+  margin: 20px 0 0;
   padding: 0;
 }
 
@@ -1372,8 +1372,8 @@ body.light .notice-row {
 
 .admin-schedule-selector {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto 18px;
+  max-width: none;
+  margin: 0 0 18px;
 }
 
 .admin-schedule-title {
