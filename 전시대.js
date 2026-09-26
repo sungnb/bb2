@@ -213,9 +213,9 @@ async function submitVolunteerApplication() {
     }
 
 
-    alert(
+    showSubmitConfirm(
       newSelections.length +
-      "명이 신청되었습니다."
+      "명이 신청됨"
     );
 
 
@@ -330,6 +330,103 @@ let applicants = [];
 let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
+
+/* =========================================================
+   제출 완료 확인창
+========================================================= */
+
+function showSubmitConfirm(message) {
+
+  const oldOverlay =
+    document.getElementById("submitConfirmOverlay");
+
+  if (oldOverlay) {
+    oldOverlay.remove();
+  }
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.id =
+    "submitConfirmOverlay";
+
+  overlay.style.cssText = `
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.18);
+  `;
+
+  const box =
+    document.createElement("div");
+
+  box.style.cssText = `
+    width:272px;
+    height:140px;
+    box-sizing:border-box;
+    padding:20px 28px 18px;
+    border-radius:13px;
+    background:#333;
+    color:#fff;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  `;
+
+  const text =
+    document.createElement("div");
+
+  text.style.cssText = `
+    width:100%;
+    height:38px;
+    line-height:38px;
+    font-size:22px;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  `;
+
+  text.textContent =
+    message;
+
+  const button =
+    document.createElement("button");
+
+  button.type =
+    "button";
+
+  button.textContent =
+    "확인";
+
+  button.style.cssText = `
+    width:100%;
+    height:53px;
+    margin-top:8px;
+    border:0;
+    border-radius:11px;
+    background:#fff;
+    color:#333;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+  `;
+
+  button.onclick =
+    function() {
+      overlay.remove();
+    };
+
+  box.appendChild(text);
+  box.appendChild(button);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+}
 
 /* =========================================================
    제출한 봉사자 표시
@@ -2542,9 +2639,8 @@ async function saveStopReason(
       form.remove();
     }
 
-    alert(
-      "중단 사유가 저장되었습니다.\n\n" +
-      cancelReason
+        showSubmitConfirm(
+      "중단 사유가 저장됨"
     );
 
   } catch (error) {
@@ -3853,10 +3949,10 @@ async function submitGroup(
 
     renderService();
 
-    alert(
+        showSubmitConfirm(
       "그룹" +
       (groupIndex + 1) +
-      "이 저장되었습니다."
+      "이 저장됨"
     );
 
    } catch (error) {
