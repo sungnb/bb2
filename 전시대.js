@@ -396,6 +396,8 @@ function renderSubmittedVolunteers(
 
 let selectedServiceSchedule = "";
 
+let serviceCancelReason = "";
+
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
 let adminAuthenticated = false;
@@ -1541,9 +1543,10 @@ async function loadGroups() {
       "";
 
     if (!groupScheduleKey) {
-      groups = [];
-      return true;
-    }
+  groups = [];
+  serviceCancelReason = "";
+  return true;
+}
 
     const response =
       await fetch(
@@ -1571,7 +1574,11 @@ async function loadGroups() {
 
     }
 
-
+serviceCancelReason =
+  String(
+    data.cancelReason || ""
+  ).trim();
+    
     const loaded =
       Array.isArray(data.groups)
         ? data.groups
@@ -3857,7 +3864,31 @@ function renderService() {
       }
     );
 
+/* ---------------------------------------------------------
+   일정이 중단된 경우
+--------------------------------------------------------- */
 
+if (serviceCancelReason) {
+
+  const notice =
+    document.createElement(
+      "div"
+    );
+
+  notice.className =
+    "service-empty";
+
+  notice.innerHTML =
+    "오늘은<br><br>" +
+    serviceCancelReason;
+
+  list.appendChild(
+    notice
+  );
+
+  return;
+}
+  
   /* ---------------------------------------------------------
      그룹이 없는 경우
   --------------------------------------------------------- */
