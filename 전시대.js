@@ -4888,6 +4888,70 @@ async function selectServiceSchedule(
 
 }
 
+/* =========================================================
+   봉사용 - 최신 임명 정보 새로고침
+   - 현재 선택된 일정의 관리용 시트 정보를 다시 불러옵니다.
+   - 예: 토오전 → 관리용 시트의 토오전 최신 정보
+========================================================= */
+
+async function refreshServiceGroups() {
+
+  const button =
+    document.querySelector(
+      "#serviceView .service-refresh-button"
+    );
+
+  try {
+
+    /* 현재 선택된 일정이 없으면 아무 작업도 하지 않습니다. */
+    if (!selectedServiceSchedule) {
+      return;
+    }
+
+    /* 새로고침 중임을 표시 */
+    if (button) {
+      button.disabled = true;
+      button.textContent = "↻";
+      button.style.opacity = "0.5";
+    }
+
+    /* 관리용 시트에서 현재 일정의 최신 그룹 정보를 다시 읽습니다. */
+    await loadGroups();
+
+    /* 다시 읽은 최신 정보로 봉사용 화면을 다시 그립니다. */
+    renderService();
+
+  } catch (error) {
+
+    console.error(
+      "봉사용 임명 정보 새로고침 오류:",
+      error
+    );
+
+    const list =
+      document.getElementById(
+        "serviceList"
+      );
+
+    if (list) {
+      list.innerHTML =
+        '<div class="service-empty">' +
+        '최신 임명 정보를 불러오지 못했습니다.' +
+        '</div>';
+    }
+
+  } finally {
+
+    /* 새로고침 버튼 원상복구 */
+    if (button) {
+      button.disabled = false;
+      button.textContent = "↻";
+      button.style.opacity = "1";
+    }
+
+  }
+
+}
 
 /* =========================================================
    봉사용 일정 선택 화면으로 돌아가기
