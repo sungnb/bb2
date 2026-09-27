@@ -2081,3 +2081,14 @@ body:not(.light) .service-appointment-divider {
   font-weight: 700;
   text-align: right;
 }
+
+/* =========================================================
+   신청용 일정 마감 버튼
+========================================================= */
+
+.volunteer-schedule-btn.application-closed {
+  background: #b8b8b8 !important;
+  color: #ffffff !important;
+  opacity: 0.75;
+  cursor: pointer;
+}
