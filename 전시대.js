@@ -1,7 +1,102 @@
+/* =========================================================
+   전시대 신청 가능 시간 확인
+   토요일 신청 : 목요일 ~ 금요일
+   일요일 신청 : 금요일 ~ 토요일
+========================================================= */
+
+function isVolunteerScheduleAvailable(schedule) {
+
+  const koreaDate =
+    new Date(
+      new Date().toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Seoul"
+        }
+      )
+    );
+
+  const today =
+    koreaDate.getDay();
+
+
+  /* 토요일 오전 / 오후 */
+
+  if (
+    schedule === "토오전" ||
+    schedule === "토오후"
+  ) {
+
+    return (
+      today === 4 ||
+      today === 5
+    );
+
+  }
+
+
+  /* 일요일 오전 */
+
+  if (
+    schedule === "일오전"
+  ) {
+
+    return (
+      today === 5 ||
+      today === 6
+    );
+
+  }
+
+
+  return false;
+}
+
+
+/* =========================================================
+   봉사 일정 선택
+========================================================= */
+
 function selectVolunteerSchedule(schedule) {
 
   selectedVolunteerSchedule =
     String(schedule || "").trim();
+
+  selectedServiceSchedule =
+    selectedVolunteerSchedule;
+
+  selectedAdminSchedule = "";
+
+  if (!selectedServiceSchedule) {
+    return;
+  }
+
+  const scheduleArea =
+    document.getElementById(
+      "volunteerScheduleArea"
+    );
+
+function selectVolunteerSchedule(schedule) {
+
+  schedule =
+    String(schedule || "").trim();
+
+
+  /* 신청 가능 시간 확인 */
+
+  if (
+    !isVolunteerScheduleAvailable(schedule)
+  ) {
+
+    alert("지금은 신청 시간이 아닙니다.");
+
+    return;
+
+  }
+
+
+  selectedVolunteerSchedule =
+    schedule;
 
   selectedServiceSchedule =
     selectedVolunteerSchedule;
