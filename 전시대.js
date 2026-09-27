@@ -54,6 +54,70 @@ function isVolunteerScheduleAvailable(schedule) {
 
 
 /* =========================================================
+   신청용 일정 버튼 마감 표시
+========================================================= */
+
+function updateVolunteerScheduleButtonStyle() {
+
+  const buttons =
+    document.querySelectorAll(
+      "#volunteerScheduleArea .volunteer-schedule-btn"
+    );
+
+  buttons.forEach(function(button) {
+
+    const onclick =
+      button.getAttribute("onclick") || "";
+
+    let schedule = "";
+
+    if (onclick.includes("'토오전'")) {
+
+      schedule = "토오전";
+
+    }
+
+    else if (onclick.includes("'토오후'")) {
+
+      schedule = "토오후";
+
+    }
+
+    else if (onclick.includes("'일오전'")) {
+
+      schedule = "일오전";
+
+    }
+
+    if (!schedule) {
+      return;
+    }
+
+
+    if (
+      isVolunteerScheduleAvailable(schedule)
+    ) {
+
+      button.classList.remove(
+        "application-closed"
+      );
+
+    }
+
+    else {
+
+      button.classList.add(
+        "application-closed"
+      );
+
+    }
+
+  });
+
+}
+
+
+/* =========================================================
    봉사 일정 선택
 ========================================================= */
 
@@ -586,6 +650,8 @@ document.addEventListener(
     loadServiceData();
 
     renderService();
+
+    updateVolunteerScheduleButtonStyle();
 
   }
 );
