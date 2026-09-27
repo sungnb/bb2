@@ -1989,8 +1989,17 @@ serviceCancelReason =
   }
 
 }
+
 /* =========================================================
    그룹 정리
+   ---------------------------------------------------------
+   현재 신청자 명단을 기준으로
+   기존 관리용 그룹의 봉사자를 정리한다.
+
+   - 현재 신청한 사람 → 유지
+   - 현재 신청하지 않은 사람 → 제거
+   - 그룹 자체는 유지
+   - 인원수 / 봉사장소 / 일정 정보는 유지
 ========================================================= */
 
 async function cleanGroups() {
@@ -1999,12 +2008,44 @@ async function cleanGroups() {
     JSON.stringify(groups);
 
 
-  const applicantSet =
-    new Set(applicants);
+  /*
+     현재 신청자 명단을 기준으로 사용
+  */
 
+  const applicantSet =
+    new Set(
+      applicants.map(function(name) {
+        return String(
+          name || ""
+        ).trim();
+      }).filter(Boolean)
+    );
+
+
+  /*
+     이미 다른 그룹에 들어간 사람
+     중복 배정을 막기 위한 Set
+  */
 
   const used =
     new Set();
+
+
+  /*
+     현재 선택되어 있던 사람 중
+     이제 신청하지 않은 사람은 제거
+  */
+
+  selectedApplicants =
+    selectedApplicants.filter(function(name) {
+
+      return applicantSet.has(
+        String(
+          name || ""
+        ).trim()
+      );
+
+    });
 
 
   groups =
@@ -2013,13 +2054,9 @@ async function cleanGroups() {
       if (!group) {
 
         return {
-
           members: [],
-
           count: 4,
-
           location: ""
-
         };
 
       }
@@ -2047,11 +2084,15 @@ async function cleanGroups() {
           count: 4,
 
           location: ""
-
         };
 
       }
 
+
+      /*
+         members가 배열이 아니면
+         빈 배열로 초기화
+      */
 
       if (
         !Array.isArray(group.members)
@@ -2061,6 +2102,14 @@ async function cleanGroups() {
 
       }
 
+
+      /*
+         그룹 인원수는
+         기존 설정을 그대로 유지한다.
+
+         4 / 5 / 6 / 7 이외의 값만
+         기본값 4명으로 보정한다.
+      */
 
       if (
         ![4, 5, 6, 7].includes(
@@ -2073,7 +2122,18 @@ async function cleanGroups() {
       }
 
 
-            group.members =
+      /*
+         핵심
+         -----------------------------------------
+         기존 그룹에 있던 사람 중
+
+         ① 현재 신청자이고
+         ② 다른 그룹에 아직 사용되지 않은 사람
+
+         만 남긴다.
+      */
+
+      group.members =
         group.members
           .slice(0, 7)
           .map(function(name) {
@@ -2084,16 +2144,43 @@ async function cleanGroups() {
               ).trim();
 
 
+            /*
+               이름이 없으면 제거
+            */
+
             if (!name) {
+
               return "";
+
             }
 
+
+            /*
+               현재 신청자 명단에 없으면 제거
+
+               ★ 이번 수정의 핵심
+            */
+
+            if (
+              !applicantSet.has(name)
+            ) {
+
+              return "";
+
+            }
+
+
+            /*
+               다른 그룹에 이미 들어간
+               중복 이름이면 제거
+            */
 
             if (
               used.has(name)
             ) {
 
               return "";
+
             }
 
 
@@ -2103,6 +2190,7 @@ async function cleanGroups() {
 
           });
 
+
       return group;
 
     });
@@ -2111,6 +2199,11 @@ async function cleanGroups() {
   const after =
     JSON.stringify(groups);
 
+
+  /*
+     실제로 변경된 경우에만
+     관리용 시트에 저장
+  */
 
   if (before !== after) {
 
