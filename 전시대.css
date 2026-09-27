@@ -2087,8 +2087,8 @@ body:not(.light) .service-appointment-divider {
 ========================================================= */
 
 .volunteer-schedule-btn.application-closed {
-  background: #b8b8b8 !important;
+  background: #777777 !important;
   color: #ffffff !important;
-  opacity: 0.75;
+  opacity: 1;
   cursor: pointer;
 }
