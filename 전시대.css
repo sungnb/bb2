@@ -1139,6 +1139,43 @@ body.light .service-refresh-button {
 }
 
 /* =========================================================
+   봉사용 새로고침 진행 표시
+========================================================= */
+
+.service-refresh-button.refreshing {
+  animation: serviceRefreshSpin 0.8s linear infinite;
+  pointer-events: none;
+}
+
+
+@keyframes serviceRefreshSpin {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+.service-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+.service-loading-spinner {
+  display: inline-block;
+  font-size: 24px;
+  animation: serviceRefreshSpin 0.8s linear infinite;
+}
+
+/* =========================================================
    봉사 신청 버튼
    기존 명단 선택 화면의 CSS는 변경하지 않습니다.
 ========================================================= */
