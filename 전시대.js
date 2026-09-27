@@ -52,6 +52,22 @@ function isVolunteerScheduleAvailable(schedule) {
   return false;
 }
 
+/* =======================================================
+     특정 날짜 추가 일정
+     기존 토요일/일요일 신청 제한을 적용하지 않음
+  ======================================================= */
+
+  if (
+    getCustomVolunteerSchedule(schedule)
+  ) {
+
+    return true;
+
+  }
+
+
+  return false;
+}
 
 /* =========================================================
    신청용 일정 버튼 마감 표시
@@ -778,9 +794,11 @@ let adminAuthenticated = false;
 
 document.addEventListener(
   "DOMContentLoaded",
-  function() {
+  async function() {
 
     loadSettings();
+
+    await loadCustomVolunteerSchedules();
 
     loadGroups();
 
@@ -1249,6 +1267,782 @@ function selectAdminSchedule(scheduleKey) {
 
 }
 
+/* =========================================================
+   관리자용 특정 날짜 일정 추가 버튼
+========================================================= */
+
+function addCustomScheduleButton(
+  container
+) {
+
+  if (
+    container.querySelector(
+      "#addCustomScheduleButton"
+    )
+  ) {
+    return;
+  }
+
+
+  const button =
+    document.createElement("button");
+
+  button.type =
+    "button";
+
+  button.id =
+    "addCustomScheduleButton";
+
+  button.className =
+    "admin-schedule-add-button";
+
+  button.textContent =
+    "+ 추가";
+
+
+  button.onclick =
+    function() {
+
+      showAddCustomSchedulePopup();
+
+    };
+
+
+  container.appendChild(
+    button
+  );
+
+}
+
+/* =========================================================
+   특정 날짜 봉사 일정 추가 팝업
+========================================================= */
+
+function showAddCustomSchedulePopup() {
+
+  const old =
+    document.getElementById(
+      "customScheduleOverlay"
+    );
+
+  if (old) {
+    old.remove();
+  }
+
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.id =
+    "customScheduleOverlay";
+
+  overlay.style.cssText = `
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.45);
+    padding:20px;
+    box-sizing:border-box;
+  `;
+
+
+  const box =
+    document.createElement("div");
+
+  box.style.cssText = `
+    width:100%;
+    max-width:430px;
+    box-sizing:border-box;
+    padding:24px;
+    border-radius:16px;
+    background:#fff;
+    color:#222;
+    box-shadow:0 8px 30px rgba(0,0,0,.3);
+  `;
+
+
+  box.innerHTML = `
+
+    <div
+      style="
+        font-size:22px;
+        font-weight:800;
+        text-align:center;
+        margin-bottom:20px;
+      "
+    >
+      봉사 일정 추가
+    </div>
+
+
+    <div style="margin-bottom:14px;">
+
+      <label
+        style="
+          display:block;
+          font-weight:700;
+          margin-bottom:6px;
+        "
+      >
+        날짜
+      </label>
+
+      <input
+        type="date"
+        id="customScheduleDate"
+        style="
+          width:100%;
+          height:52px;
+          box-sizing:border-box;
+          padding:0 12px;
+          border:2px solid #455A64;
+          border-radius:10px;
+          font-size:18px;
+          font-weight:700;
+        "
+      >
+
+    </div>
+
+
+    <div style="margin-bottom:14px;">
+
+      <label
+        style="
+          display:block;
+          font-weight:700;
+          margin-bottom:6px;
+        "
+      >
+        봉사시작
+      </label>
+
+      <select
+        id="customScheduleStart"
+        style="
+          width:100%;
+          height:52px;
+          box-sizing:border-box;
+          padding:0 12px;
+          border:2px solid #455A64;
+          border-radius:10px;
+          font-size:18px;
+          font-weight:700;
+        "
+      ></select>
+
+    </div>
+
+
+    <div style="margin-bottom:20px;">
+
+      <label
+        style="
+          display:block;
+          font-weight:700;
+          margin-bottom:6px;
+        "
+      >
+        봉사마감
+      </label>
+
+      <input
+        type="text"
+        id="customScheduleEnd"
+        readonly
+        style="
+          width:100%;
+          height:52px;
+          box-sizing:border-box;
+          padding:0 12px;
+          border:2px solid #455A64;
+          border-radius:10px;
+          background:#f1f1f1;
+          font-size:18px;
+          font-weight:700;
+        "
+      >
+
+    </div>
+
+
+    <div
+      style="
+        display:flex;
+        gap:10px;
+      "
+    >
+
+      <button
+        type="button"
+        id="customScheduleCancel"
+        style="
+          flex:1;
+          height:58px;
+          border:0;
+          border-radius:10px;
+          font-size:18px;
+          font-weight:700;
+        "
+      >
+        취소
+      </button>
+
+
+      <button
+        type="button"
+        id="customScheduleConfirm"
+        style="
+          flex:1;
+          height:58px;
+          border:0;
+          border-radius:10px;
+          background:#455A64;
+          color:#fff;
+          font-size:18px;
+          font-weight:700;
+        "
+      >
+        확인
+      </button>
+
+    </div>
+
+  `;
+
+
+  overlay.appendChild(box);
+
+  document.body.appendChild(
+    overlay
+  );
+
+
+  const dateInput =
+    document.getElementById(
+      "customScheduleDate"
+    );
+
+
+  const startSelect =
+    document.getElementById(
+      "customScheduleStart"
+    );
+
+
+  const endInput =
+    document.getElementById(
+      "customScheduleEnd"
+    );
+
+
+  /* =======================================================
+     날짜 기본값 = 오늘
+  ======================================================= */
+
+  const today =
+    new Date();
+
+
+  const yyyy =
+    today.getFullYear();
+
+
+  const mm =
+    String(
+      today.getMonth() + 1
+    ).padStart(2, "0");
+
+
+  const dd =
+    String(
+      today.getDate()
+    ).padStart(2, "0");
+
+
+  dateInput.value =
+    `${yyyy}-${mm}-${dd}`;
+
+
+  /* =======================================================
+     오전 10:00 ~ 오후 5:00 10분 단위
+  ======================================================= */
+
+  for (
+    let minutes = 10 * 60;
+    minutes <= 17 * 60;
+    minutes += 10
+  ) {
+
+    const hour =
+      Math.floor(
+        minutes / 60
+      );
+
+    const minute =
+      minutes % 60;
+
+    const ampm =
+      hour < 12
+        ? "오전"
+        : "오후";
+
+
+    const displayHour =
+      hour > 12
+        ? hour - 12
+        : hour;
+
+
+    const timeText =
+      `${ampm} ${displayHour}:${String(
+        minute
+      ).padStart(2, "0")}`;
+
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+
+    option.value =
+      minutes;
+
+
+    option.textContent =
+      timeText;
+
+
+    startSelect.appendChild(
+      option
+    );
+
+  }
+
+
+  startSelect.value =
+    String(
+      10 * 60
+    );
+
+
+  function updateEndTime() {
+
+    const startMinutes =
+      Number(
+        startSelect.value
+      );
+
+
+    const endMinutes =
+      startMinutes + 120;
+
+
+    const endHour =
+      Math.floor(
+        endMinutes / 60
+      );
+
+
+    const endMinute =
+      endMinutes % 60;
+
+
+    const endAmpm =
+      endHour < 12
+        ? "오전"
+        : "오후";
+
+
+    const endDisplayHour =
+      endHour > 12
+        ? endHour - 12
+        : endHour;
+
+
+    endInput.value =
+      `${endAmpm} ${endDisplayHour}:${String(
+        endMinute
+      ).padStart(2, "0")}`;
+
+  }
+
+
+  startSelect.addEventListener(
+    "change",
+    updateEndTime
+  );
+
+
+  updateEndTime();
+
+
+  document
+    .getElementById(
+      "customScheduleCancel"
+    )
+    .onclick =
+    function() {
+
+      overlay.remove();
+
+    };
+
+
+  document
+    .getElementById(
+      "customScheduleConfirm"
+    )
+    .onclick =
+    function() {
+
+      createCustomVolunteerSchedule();
+
+    };
+
+}
+
+/* =========================================================
+   특정 날짜 봉사 일정 생성
+========================================================= */
+
+async function createCustomVolunteerSchedule() {
+
+  const dateInput =
+    document.getElementById(
+      "customScheduleDate"
+    );
+
+  const startSelect =
+    document.getElementById(
+      "customScheduleStart"
+    );
+
+  const endInput =
+    document.getElementById(
+      "customScheduleEnd"
+    );
+
+
+  if (
+    !dateInput ||
+    !startSelect ||
+    !endInput
+  ) {
+    return;
+  }
+
+
+  const date =
+    String(
+      dateInput.value || ""
+    ).trim();
+
+
+  if (!date) {
+
+    alert(
+      "날짜를 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  const startTime =
+    startSelect
+      .selectedOptions[0]
+      ?.textContent || "";
+
+
+  const endTime =
+    endInput.value || "";
+
+
+  const dateObject =
+    new Date(
+      date + "T00:00:00"
+    );
+
+
+  const year =
+    dateObject.getFullYear();
+
+
+  const month =
+    dateObject.getMonth() + 1;
+
+
+  const day =
+    dateObject.getDate();
+
+
+  const weekdayNames = [
+    "일",
+    "월",
+    "화",
+    "수",
+    "목",
+    "금",
+    "토"
+  ];
+
+
+  const weekday =
+    weekdayNames[
+      dateObject.getDay()
+    ];
+
+
+  const dateText =
+    `${year}년 ${month}월 ${day}일(${weekday})`;
+
+
+  const displayName =
+    dateText;
+
+
+  const scheduleKey =
+    date;
+
+
+  const existing =
+    getCustomVolunteerSchedule(
+      scheduleKey
+    );
+
+
+  if (existing) {
+
+    alert(
+      "이미 등록된 날짜입니다."
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "createCustomVolunteerSchedule",
+
+              key:
+                scheduleKey,
+
+              date:
+                date,
+
+              dateText:
+                dateText,
+
+              displayName:
+                displayName,
+
+              startTime:
+                startTime,
+
+              endTime:
+                endTime
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "봉사 일정 추가에 실패했습니다."
+      );
+
+    }
+
+
+    const overlay =
+      document.getElementById(
+        "customScheduleOverlay"
+      );
+
+
+    if (overlay) {
+      overlay.remove();
+    }
+
+
+    await loadCustomVolunteerSchedules();
+
+
+    showSubmitConfirm(
+      "봉사 일정이 추가되었습니다."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "특정 날짜 봉사 일정 추가 오류:",
+      error
+    );
+
+
+    alert(
+      "봉사 일정 추가에 실패했습니다.\n" +
+      (
+        error.message ||
+        "잠시 후 다시 시도해 주세요."
+      )
+    );
+
+  }
+
+}
+
+/* =========================================================
+   특정 날짜 봉사 일정 삭제
+========================================================= */
+
+async function deleteCustomVolunteerSchedule(
+  scheduleKey
+) {
+
+  const schedule =
+    getCustomVolunteerSchedule(
+      scheduleKey
+    );
+
+
+  if (!schedule) {
+    return;
+  }
+
+
+  if (
+    !confirm(
+      (
+        schedule.displayName ||
+        schedule.dateText ||
+        scheduleKey
+      ) +
+      "\n\n이 봉사 일정을 삭제하시겠습니까?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "deleteCustomVolunteerSchedule",
+
+              key:
+                scheduleKey
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "봉사 일정 삭제에 실패했습니다."
+      );
+
+    }
+
+
+    customVolunteerSchedules =
+      customVolunteerSchedules.filter(
+        function(item) {
+
+          return (
+            String(item.key || "")
+              .trim() !==
+            String(scheduleKey || "")
+              .trim()
+          );
+
+        }
+      );
+
+
+    renderCustomVolunteerSchedules();
+
+
+    showSubmitConfirm(
+      "봉사 일정이 삭제되었습니다."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "특정 날짜 봉사 일정 삭제 오류:",
+      error
+    );
+
+
+    alert(
+      "봉사 일정 삭제에 실패했습니다.\n" +
+      (
+        error.message ||
+        "잠시 후 다시 시도해 주세요."
+      )
+    );
+
+  }
+
+}
 
 /* =========================================================
    관리자용 일정 선택으로 돌아가기
@@ -1367,6 +2161,8 @@ function showView(view) {
     .textContent = "전시대";
 
   setActiveNav("navAdmin");
+
+  loadCustomVolunteerSchedules();
 
 
   /* 관리자 화면에 처음 들어오면
@@ -3031,28 +3827,62 @@ function addGroup() {
 const targetDate =
     new Date(today);
 
-const day =
+const todayDay =
     targetDate.getDay();
 
 let daysUntilTarget;
 
 if (
-    selectedAdminSchedule === "일오전"
+  getCustomVolunteerSchedule(
+    selectedAdminSchedule
+  )
+) {
+
+  const customSchedule =
+    getCustomVolunteerSchedule(
+      selectedAdminSchedule
+    );
+
+  const customDate =
+    new Date(
+      String(
+        customSchedule.date || ""
+      ) +
+      "T00:00:00"
+    );
+
+  targetDate.setTime(
+    customDate.getTime()
+  );
+
+  daysUntilTarget = null;
+
+} else if (
+  selectedAdminSchedule ===
+  "일오전"
 ) {
 
   daysUntilTarget =
-    (0 - day + 7) % 7;
+    (0 - todayDay + 7) % 7;
 
 } else {
 
   daysUntilTarget =
-    (6 - day + 7) % 7;
+    (6 - todayDay + 7) % 7;
 
 }
 
-targetDate.setDate(
-    targetDate.getDate() + daysUntilTarget
-);
+
+if (
+  daysUntilTarget !== null
+) {
+
+  targetDate.setDate(
+    targetDate.getDate() +
+    daysUntilTarget
+  );
+
+}
 
 const year =
     targetDate.getFullYear();
@@ -3063,10 +3893,48 @@ const month =
 const date =
     targetDate.getDate();
 
-const dayText =
-    selectedAdminSchedule === "일오전"
+let dayText;
+
+const customSchedule =
+  getCustomVolunteerSchedule(
+    selectedAdminSchedule
+  );
+
+
+if (customSchedule) {
+
+  const customDate =
+    new Date(
+      String(
+        customSchedule.date || ""
+      ) +
+      "T00:00:00"
+    );
+
+  const weekdayNames = [
+    "일",
+    "월",
+    "화",
+    "수",
+    "목",
+    "금",
+    "토"
+  ];
+
+  dayText =
+    weekdayNames[
+      customDate.getDay()
+    ];
+
+} else {
+
+  dayText =
+    selectedAdminSchedule ===
+    "일오전"
       ? "일"
       : "토";
+
+}
 
 dateEl.value =
     `${year}. ${month}. ${date}(${dayText})`;
@@ -3983,13 +4851,30 @@ function renderGroups() {
         ).trim();
 
 
-      const scheduleTime =
-        scheduleTimes[groupSchedule] || {
+      let scheduleTime =
+  scheduleTimes[groupSchedule];
 
-          startTime: "",
-          endTime: ""
 
-        };
+if (!scheduleTime) {
+
+  scheduleTime =
+    getVolunteerScheduleTime(
+      groupSchedule
+    );
+
+}
+
+
+if (!scheduleTime) {
+
+  scheduleTime = {
+
+    startTime: "",
+    endTime: ""
+
+  };
+
+}
 
 
       const startTime =
@@ -5014,16 +5899,34 @@ function renderService() {
 
   const scheduleNames = {
 
-    "토오전":
-      "토요일 오전",
+  "토오전":
+    "토요일 오전",
 
-    "토오후":
-      "토요일 오후",
+  "토오후":
+    "토요일 오후",
 
-    "일오전":
-      "일요일 오전"
+  "일오전":
+    "일요일 오전"
 
-  };
+};
+
+
+const customSchedule =
+  getCustomVolunteerSchedule(
+    selectedServiceSchedule
+  );
+
+
+if (customSchedule) {
+
+  scheduleNames[
+    selectedServiceSchedule
+  ] =
+    customSchedule.displayName ||
+    customSchedule.dateText ||
+    selectedServiceSchedule;
+
+}
 
 
   /* ---------------------------------------------------------
@@ -5338,13 +6241,42 @@ card.appendChild(
       };
 
 
-      const defaultTime =
-        defaultTimes[
-          selectedServiceSchedule
-        ] || {
-          start: "",
-          end: ""
-        };
+      let defaultTime =
+  defaultTimes[
+    selectedServiceSchedule
+  ];
+
+
+if (!defaultTime) {
+
+  const customTime =
+    getVolunteerScheduleTime(
+      selectedServiceSchedule
+    );
+
+  defaultTime = {
+
+    start:
+      customTime.startTime || "",
+
+    end:
+      customTime.endTime || ""
+
+  };
+
+}
+
+
+if (!defaultTime) {
+
+  defaultTime = {
+
+    start: "",
+    end: ""
+
+  };
+
+}
 
 
       const startTime =
