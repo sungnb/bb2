@@ -4891,7 +4891,7 @@ async function selectServiceSchedule(
 /* =========================================================
    봉사용 - 최신 임명 정보 새로고침
    - 현재 선택된 일정의 관리용 시트 정보를 다시 불러옵니다.
-   - 예: 토오전 → 관리용 시트의 토오전 최신 정보
+   - 불러오는 동안 "잠시만 기다려 주세요"를 표시합니다.
 ========================================================= */
 
 async function refreshServiceGroups() {
@@ -4901,31 +4901,58 @@ async function refreshServiceGroups() {
       "#serviceView .service-refresh-button"
     );
 
+  const list =
+    document.getElementById(
+      "serviceList"
+    );
+
   try {
 
-    /* 현재 선택된 봉사 일정이 없으면 종료 */
+    /* 현재 선택된 일정이 없으면 종료 */
     if (!selectedServiceSchedule) {
       return;
     }
 
-    /* 새로고침 버튼 잠시 비활성화 */
+
+    /* =====================================================
+       새로고침 중 표시
+    ===================================================== */
+
     if (button) {
+
       button.disabled = true;
-      button.style.opacity = "0.5";
+
+      button.classList.add(
+        "refreshing"
+      );
+
     }
+
+
+    if (list) {
+
+      list.innerHTML =
+        '<div class="service-empty service-loading">' +
+        '<span class="service-loading-spinner">↻</span>' +
+        '<span>잠시만 기다려 주세요</span>' +
+        '</div>';
+
+    }
+
 
     /* =====================================================
        관리용 시트에서 현재 일정의 최신 정보를 다시 읽습니다.
-       예:
-       토오전 → 토요일 오전 최신 임명 정보
-       토오후 → 토요일 오후 최신 임명 정보
-       일오전 → 일요일 오전 최신 임명 정보
     ===================================================== */
 
     await loadGroups();
 
-    /* 최신 groups 정보로 봉사용 화면을 다시 그립니다. */
+
+    /* =====================================================
+       최신 정보를 다시 화면에 표시합니다.
+    ===================================================== */
+
     renderService();
+
 
   } catch (error) {
 
@@ -4934,10 +4961,6 @@ async function refreshServiceGroups() {
       error
     );
 
-    const list =
-      document.getElementById(
-        "serviceList"
-      );
 
     if (list) {
 
@@ -4948,12 +4971,21 @@ async function refreshServiceGroups() {
 
     }
 
+
   } finally {
 
-    /* 새로고침 버튼 다시 활성화 */
+    /* =====================================================
+       새로고침 완료 → 버튼 원상복구
+    ===================================================== */
+
     if (button) {
+
       button.disabled = false;
-      button.style.opacity = "1";
+
+      button.classList.remove(
+        "refreshing"
+      );
+
     }
 
   }
