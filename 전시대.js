@@ -1620,7 +1620,6 @@ async function addManualApplicant() {
     alert("이름을 입력해 주세요.");
 
     return;
-
   }
 
 
@@ -1629,7 +1628,14 @@ async function addManualApplicant() {
     alert("이미 신청자 목록에 있습니다.");
 
     return;
+  }
 
+
+  if (!selectedAdminSchedule) {
+
+    alert("먼저 관리할 봉사 일정을 선택해 주세요.");
+
+    return;
   }
 
 
@@ -1640,24 +1646,27 @@ async function addManualApplicant() {
         SCRIPT_URL,
         {
           method: "POST",
+
           headers: {
             "Content-Type":
               "text/plain;charset=utf-8"
           },
+
           body: JSON.stringify({
 
-  name:
-    trimmedName,
+            action:
+              "addManualApplicant",
 
-  checked:
-    true,
+            name:
+              trimmedName,
 
-  key:
-    selectedAdminSchedule
+            key:
+              selectedAdminSchedule
 
-})
+          })
         }
       );
+
 
     const data =
       await response.json();
@@ -1669,28 +1678,42 @@ async function addManualApplicant() {
         data.message ||
         "신청자 추가에 실패했습니다."
       );
-
     }
 
 
-    applicants.push(trimmedName);
+    /*
+       저장 성공 후
+       현재 화면에도 즉시 반영
+    */
 
-    selectedApplicants = [trimmedName];
+    applicants.push(
+      trimmedName
+    );
+
+    selectedApplicants = [
+      trimmedName
+    ];
 
     renderAdmin();
 
+
   } catch (error) {
 
-    console.error(error);
-
-    alert(
-      "신청자 추가에 실패했습니다.\n잠시 후 다시 시도해 주세요."
+    console.error(
+      "관리자 직접 신청자 추가 오류:",
+      error
     );
 
+    alert(
+      "신청자 추가에 실패했습니다.\n" +
+      (
+        error.message ||
+        "잠시 후 다시 시도해 주세요."
+      )
+    );
   }
 
 }
-
 
 /* =========================================================
    전시대 시트 참조/표시 정보 불러오기
