@@ -59,25 +59,6 @@ function isVolunteerScheduleAvailable(schedule) {
 
 function selectVolunteerSchedule(schedule) {
 
-  selectedVolunteerSchedule =
-    String(schedule || "").trim();
-
-  selectedServiceSchedule =
-    selectedVolunteerSchedule;
-
-  selectedAdminSchedule = "";
-
-  if (!selectedServiceSchedule) {
-    return;
-  }
-
-  const scheduleArea =
-    document.getElementById(
-      "volunteerScheduleArea"
-    );
-
-function selectVolunteerSchedule(schedule) {
-
   schedule =
     String(schedule || "").trim();
 
@@ -160,7 +141,6 @@ function selectVolunteerSchedule(schedule) {
     renderService();
   });
 }
-
 
 /* =========================================================
    봉사 신청 화면 뒤로가기
@@ -607,113 +587,8 @@ document.addEventListener(
 
     renderService();
 
-    updateVolunteerScheduleButtons();
-
   }
 );
-
-/* =========================================================
-   전시대 신청 가능 요일 제어
-
-   토요일 신청 : 목요일 ~ 금요일
-   일요일 신청 : 금요일 ~ 토요일
-========================================================= */
-
-function updateVolunteerScheduleButtons() {
-
-  const buttons =
-    document.querySelectorAll(
-      "#volunteerScheduleArea .volunteer-schedule-btn"
-    );
-
-  if (!buttons.length) {
-    return;
-  }
-
-  /*
-     한국 시간 기준
-     일요일 = 0
-     월요일 = 1
-     화요일 = 2
-     수요일 = 3
-     목요일 = 4
-     금요일 = 5
-     토요일 = 6
-  */
-
-  const koreaDate =
-    new Date(
-      new Date().toLocaleString(
-        "en-US",
-        {
-          timeZone: "Asia/Seoul"
-        }
-      )
-    );
-
-  const today =
-    koreaDate.getDay();
-
-
-  /* 토요일 신청 : 목요일 ~ 금요일 */
-
-  const saturdayAvailable =
-    today === 4 ||
-    today === 5;
-
-
-  /* 일요일 신청 : 금요일 ~ 토요일 */
-
-  const sundayAvailable =
-    today === 5 ||
-    today === 6;
-
-
-  buttons.forEach(
-    function(button) {
-
-      const onclick =
-        button.getAttribute("onclick") || "";
-
-
-      /* 토요일 오전 */
-
-      if (
-        onclick.includes("'토오전'")
-      ) {
-
-        button.disabled =
-          !saturdayAvailable;
-
-      }
-
-
-      /* 토요일 오후 */
-
-      if (
-        onclick.includes("'토오후'")
-      ) {
-
-        button.disabled =
-          !saturdayAvailable;
-
-      }
-
-
-      /* 일요일 오전 */
-
-      if (
-        onclick.includes("'일오전'")
-      ) {
-
-        button.disabled =
-          !sundayAvailable;
-
-      }
-
-    }
-  );
-}
 
 /* =========================================================
    설정
