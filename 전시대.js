@@ -636,6 +636,141 @@ let selectedServiceSchedule = "";
 
 let serviceCancelReason = "";
 
+/* =========================================================
+   특정 날짜 추가 봉사 일정
+========================================================= */
+
+let customVolunteerSchedules = [];
+
+
+/*
+   일정 Key로 특정 날짜 일정 찾기
+*/
+function getCustomVolunteerSchedule(scheduleKey) {
+
+  return customVolunteerSchedules.find(
+    function(item) {
+
+      return String(
+        item.key || ""
+      ).trim() === String(
+        scheduleKey || ""
+      ).trim();
+
+    }
+  ) || null;
+
+}
+
+
+/*
+   특정 날짜 일정 이름
+*/
+function getVolunteerScheduleName(scheduleKey) {
+
+  const fixedNames = {
+
+    "토오전":
+      "토요일 오전",
+
+    "토오후":
+      "토요일 오후",
+
+    "일오전":
+      "일요일 오전"
+
+  };
+
+  if (fixedNames[scheduleKey]) {
+    return fixedNames[scheduleKey];
+  }
+
+
+  const custom =
+    getCustomVolunteerSchedule(
+      scheduleKey
+    );
+
+  if (custom) {
+
+    return String(
+      custom.displayName ||
+      custom.dateText ||
+      scheduleKey
+    ).trim();
+
+  }
+
+
+  return scheduleKey;
+
+}
+
+
+/*
+   특정 날짜 일정 시간
+*/
+function getVolunteerScheduleTime(scheduleKey) {
+
+  const fixedTimes = {
+
+    "토오전": {
+      startTime: "오전 10:00",
+      endTime: "오후 12:00"
+    },
+
+    "토오후": {
+      startTime: "오후 1:00",
+      endTime: "오후 3:00"
+    },
+
+    "일오전": {
+      startTime: "오전 10:00",
+      endTime: "오후 12:00"
+    }
+
+  };
+
+
+  if (fixedTimes[scheduleKey]) {
+
+    return fixedTimes[scheduleKey];
+
+  }
+
+
+  const custom =
+    getCustomVolunteerSchedule(
+      scheduleKey
+    );
+
+
+  if (custom) {
+
+    return {
+
+      startTime:
+        String(
+          custom.startTime || ""
+        ).trim(),
+
+      endTime:
+        String(
+          custom.endTime || ""
+        ).trim()
+
+    };
+
+  }
+
+
+  return {
+    startTime: "",
+    endTime: ""
+  };
+
+}
+
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
 let adminAuthenticated = false;
@@ -1217,6 +1352,54 @@ function loadMasterNames() {
 
 }
 
+/* =========================================================
+   특정 날짜 일정 불러오기
+========================================================= */
+
+async function loadCustomVolunteerSchedules() {
+
+  try {
+
+    const response = await fetch(
+      SCRIPT_URL +
+      "?action=getCustomVolunteerSchedules&t=" +
+      Date.now()
+    );
+
+    const data = await response.json();
+
+    if (data.success) {
+
+      customVolunteerSchedules =
+        Array.isArray(data.schedules)
+          ? data.schedules
+          : [];
+
+    } else {
+
+      customVolunteerSchedules = [];
+
+      console.error(
+        "특정 날짜 일정 불러오기 실패:",
+        data.message || ""
+      );
+
+    }
+
+  } catch (error) {
+
+    customVolunteerSchedules = [];
+
+    console.error(
+      "특정 날짜 일정 불러오기 오류:",
+      error
+    );
+
+  }
+
+}
+
+
 function getMySelections() {
 
   try {
@@ -1485,6 +1668,8 @@ async function loadApplicants() {
   }
 
 }
+
+
 
 /* =========================================================
    관리자 - 신청자 선택
