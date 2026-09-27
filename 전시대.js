@@ -127,14 +127,14 @@ function selectVolunteerSchedule(schedule) {
     String(schedule || "").trim();
 
 
-  /* 신청 가능 시간 확인 */
+ /* 신청 가능 시간 확인 */
 
 if (
   !isVolunteerScheduleAvailable(schedule)
 ) {
 
   showSubmitConfirm(
-    "지금은 신청 시간이 아닙니다."
+    "지금은 신청 시간이 아닙니다.<br>알림 탭을 확인하세요"
   );
 
   return;
