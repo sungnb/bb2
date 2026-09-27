@@ -519,8 +519,9 @@ document.addEventListener(
 
 /* =========================================================
    전시대 신청 가능 요일 제어
-   토요일 신청 : 수요일 ~ 금요일
-   일요일 신청 : 목요일 ~ 토요일
+
+   토요일 신청 : 목요일 ~ 금요일
+   일요일 신청 : 금요일 ~ 토요일
 ========================================================= */
 
 function updateVolunteerScheduleButtons() {
@@ -534,11 +535,8 @@ function updateVolunteerScheduleButtons() {
     return;
   }
 
-  const today =
-    new Date().getDay();
-
   /*
-     JavaScript 요일
+     한국 시간 기준
      일요일 = 0
      월요일 = 1
      화요일 = 2
@@ -548,49 +546,78 @@ function updateVolunteerScheduleButtons() {
      토요일 = 6
   */
 
+  const koreaDate =
+    new Date(
+      new Date().toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Seoul"
+        }
+      )
+    );
+
+  const today =
+    koreaDate.getDay();
+
+
+  /* 토요일 신청 : 목요일 ~ 금요일 */
+
   const saturdayAvailable =
-    today === 3 ||
     today === 4 ||
     today === 5;
 
+
+  /* 일요일 신청 : 금요일 ~ 토요일 */
+
   const sundayAvailable =
-    today === 4 ||
     today === 5 ||
     today === 6;
 
 
-  buttons.forEach(function(button) {
+  buttons.forEach(
+    function(button) {
 
-    const onclick =
-      button.getAttribute("onclick") || "";
+      const onclick =
+        button.getAttribute("onclick") || "";
 
 
-    /* 토요일 오전 / 오후 */
+      /* 토요일 오전 */
 
-    if (
-      onclick.includes("'토오전'") ||
-      onclick.includes("'토오후'")
-    ) {
+      if (
+        onclick.includes("'토오전'")
+      ) {
 
-      button.disabled =
-        !saturdayAvailable;
+        button.disabled =
+          !saturdayAvailable;
+
+      }
+
+
+      /* 토요일 오후 */
+
+      if (
+        onclick.includes("'토오후'")
+      ) {
+
+        button.disabled =
+          !saturdayAvailable;
+
+      }
+
+
+      /* 일요일 오전 */
+
+      if (
+        onclick.includes("'일오전'")
+      ) {
+
+        button.disabled =
+          !sundayAvailable;
+
+      }
 
     }
-
-
-    /* 일요일 오전 */
-
-    if (
-      onclick.includes("'일오전'")
-    ) {
-
-      button.disabled =
-        !sundayAvailable;
-
-    }
-
-  });
-
+  );
 }
 
 /* =========================================================
