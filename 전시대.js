@@ -129,15 +129,17 @@ function selectVolunteerSchedule(schedule) {
 
   /* 신청 가능 시간 확인 */
 
-  if (
-    !isVolunteerScheduleAvailable(schedule)
-  ) {
+if (
+  !isVolunteerScheduleAvailable(schedule)
+) {
 
-    alert("지금은 신청 시간이 아닙니다.");
+  showSubmitConfirm(
+    "지금은 신청 시간이 아닙니다."
+  );
 
-    return;
+  return;
 
-  }
+}
 
 
   selectedVolunteerSchedule =
