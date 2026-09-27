@@ -134,7 +134,7 @@ if (
 ) {
 
   showSubmitConfirm(
-    "지금은 신청 시간이 아닙니다.<br>알림 탭을 확인하세요"
+    "지금은 신청 시간이 아닙니다.<br><br>알림 탭을 확인하세요"
   );
 
   return;
@@ -944,6 +944,265 @@ function loadSettings() {
   if (display) {
     display.textContent =
       fontSize + "%";
+  }
+
+}
+
+/* =========================================================
+   신청용 / 봉사용 / 관리용에 추가 일정 표시
+========================================================= */
+
+function renderCustomVolunteerSchedules() {
+
+
+  /* =======================================================
+     신청용
+  ======================================================= */
+
+  const volunteerArea =
+    document.getElementById(
+      "volunteerScheduleArea"
+    );
+
+
+  if (volunteerArea) {
+
+    volunteerArea
+      .querySelectorAll(
+        ".custom-volunteer-schedule"
+      )
+      .forEach(function(button) {
+
+        button.remove();
+
+      });
+
+
+    customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "volunteer-schedule-btn custom-volunteer-schedule";
+
+
+        button.textContent =
+          schedule.displayName ||
+          schedule.dateText ||
+          schedule.key;
+
+
+        button.onclick =
+          function() {
+
+            selectVolunteerSchedule(
+              schedule.key
+            );
+
+          };
+
+
+        volunteerArea.appendChild(
+          button
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     봉사용
+  ======================================================= */
+
+  const serviceSelector =
+    document.getElementById(
+      "serviceScheduleSelector"
+    );
+
+
+  if (serviceSelector) {
+
+    serviceSelector
+      .querySelectorAll(
+        ".custom-service-schedule"
+      )
+      .forEach(function(button) {
+
+        button.remove();
+
+      });
+
+
+    customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "service-schedule-button custom-service-schedule";
+
+
+        button.textContent =
+          schedule.displayName ||
+          schedule.dateText ||
+          schedule.key;
+
+
+        button.onclick =
+          function() {
+
+            selectServiceSchedule(
+              schedule.key
+            );
+
+          };
+
+
+        serviceSelector.appendChild(
+          button
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     관리용
+  ======================================================= */
+
+  const adminSelector =
+    document.getElementById(
+      "adminScheduleSelector"
+    );
+
+
+  if (adminSelector) {
+
+    adminSelector
+      .querySelectorAll(
+        ".custom-admin-schedule"
+      )
+      .forEach(function(button) {
+
+        button.remove();
+
+      });
+
+
+    customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "custom-admin-schedule";
+
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "admin-schedule-button";
+
+
+        button.textContent =
+          schedule.displayName ||
+          schedule.dateText ||
+          schedule.key;
+
+
+        button.onclick =
+          function() {
+
+            selectAdminSchedule(
+              schedule.key
+            );
+
+          };
+
+
+        const time =
+          document.createElement("span");
+
+        time.textContent =
+          (
+            schedule.startTime ||
+            ""
+          ) +
+          " ~ " +
+          (
+            schedule.endTime ||
+            ""
+          );
+
+
+        const deleteButton =
+          document.createElement("button");
+
+        deleteButton.type =
+          "button";
+
+        deleteButton.className =
+          "custom-schedule-delete";
+
+        deleteButton.textContent =
+          "삭제";
+
+
+        deleteButton.onclick =
+          function(event) {
+
+            event.stopPropagation();
+
+            deleteCustomVolunteerSchedule(
+              schedule.key
+            );
+
+          };
+
+
+        row.appendChild(
+          button
+        );
+
+        row.appendChild(
+          time
+        );
+
+        row.appendChild(
+          deleteButton
+        );
+
+
+        adminSelector.appendChild(
+          row
+        );
+
+      }
+    );
+
+
+    addCustomScheduleButton(
+      adminSelector
+    );
+
   }
 
 }
