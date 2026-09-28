@@ -2314,7 +2314,7 @@ body:not(.light) .service-appointment-divider {
 
   box-sizing: border-box;
 
-  border: 1px solid #666;
+  border: 5px solid #455A64;
   border-radius: 9px;
 
   background: #222;
