@@ -795,9 +795,9 @@ document.addEventListener(
 
     await loadCustomVolunteerSchedules();
 
-    loadGroups();
+    await loadGroups();
 
-    loadServiceData();
+    await loadServiceData();
 
     renderService();
 
@@ -2410,31 +2410,97 @@ async function loadCustomVolunteerSchedules() {
 
   try {
 
-    const response = await fetch(
-      SCRIPT_URL +
-      "?action=getCustomVolunteerSchedules&t=" +
-      Date.now()
-    );
+    const response =
+      await fetch(
+        SCRIPT_URL +
+        "?action=getCustomVolunteerSchedules&t=" +
+        Date.now()
+      );
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
-    if (data.success) {
+    if (!data.success) {
 
-      customVolunteerSchedules =
-        Array.isArray(data.schedules)
-          ? data.schedules
-          : [];
-
-    } else {
-
-      customVolunteerSchedules = [];
-
-      console.error(
-        "특정 날짜 일정 불러오기 실패:",
-        data.message || ""
+      throw new Error(
+        data.message ||
+        "특정 날짜 일정을 불러오지 못했습니다."
       );
 
     }
+
+    customVolunteerSchedules =
+      Array.isArray(data.schedules)
+        ? data.schedules.map(function(schedule) {
+
+            return {
+
+              key:
+                String(
+                  schedule.key || ""
+                ).trim(),
+
+              date:
+                String(
+                  schedule.date ||
+                  schedule.serviceDate ||
+                  ""
+                ).trim(),
+
+              dateText:
+                String(
+                  schedule.dateText ||
+                  ""
+                ).trim(),
+
+              displayName:
+                String(
+                  schedule.displayName ||
+                  schedule.dateText ||
+                  ""
+                ).trim(),
+
+              startTime:
+                String(
+                  schedule.startTime ||
+                  ""
+                ).trim(),
+
+              endTime:
+                String(
+                  schedule.endTime ||
+                  ""
+                ).trim(),
+
+              time:
+                String(
+                  schedule.time ||
+                  ""
+                ).trim(),
+
+              applicationStart:
+                String(
+                  schedule.applicationStart ||
+                  ""
+                ).trim(),
+
+              applicationEnd:
+                String(
+                  schedule.applicationEnd ||
+                  ""
+                ).trim()
+
+            };
+
+          })
+        : [];
+
+    /*
+       특정 날짜 일정이 새로 불러와졌으므로
+       일정 선택 화면도 다시 그립니다.
+    */
+
+    renderCustomVolunteerSchedules();
 
   } catch (error) {
 
@@ -2449,6 +2515,1095 @@ async function loadCustomVolunteerSchedules() {
 
 }
 
+/* =========================================================
+   특정 날짜 일정 가져오기
+========================================================= */
+
+function getCustomVolunteerSchedule(key) {
+
+  const targetKey =
+    String(
+      key || ""
+    ).trim();
+
+  if (!targetKey) {
+    return null;
+  }
+
+  if (
+    !Array.isArray(
+      customVolunteerSchedules
+    )
+  ) {
+    return null;
+  }
+
+  return (
+    customVolunteerSchedules.find(
+      function(schedule) {
+
+        return (
+          String(
+            schedule.key || ""
+          ).trim() === targetKey
+        );
+
+      }
+    ) ||
+    null
+  );
+
+}
+
+
+/* =========================================================
+   특정 날짜 일정 날짜 표시
+========================================================= */
+
+function formatCustomScheduleDate(dateValue) {
+
+  const date =
+    new Date(
+      String(
+        dateValue || ""
+      ) +
+      "T00:00:00"
+    );
+
+  if (
+    isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "";
+
+  }
+
+  const weekdayNames = [
+    "일",
+    "월",
+    "화",
+    "수",
+    "목",
+    "금",
+    "토"
+  ];
+
+  return (
+    date.getFullYear() +
+    "년 " +
+    (date.getMonth() + 1) +
+    "월 " +
+    date.getDate() +
+    "일(" +
+    weekdayNames[
+      date.getDay()
+    ] +
+    ")"
+  );
+
+}
+
+
+/* =========================================================
+   특정 날짜 일정 시간 표시
+========================================================= */
+
+function getCustomScheduleTimeText(
+  schedule
+) {
+
+  if (!schedule) {
+    return "";
+  }
+
+  if (
+    schedule.time
+  ) {
+
+    return String(
+      schedule.time
+    ).trim();
+
+  }
+
+  const start =
+    String(
+      schedule.startTime || ""
+    ).trim();
+
+  const end =
+    String(
+      schedule.endTime || ""
+    ).trim();
+
+  if (
+    start &&
+    end
+  ) {
+
+    return (
+      start +
+      " ~ " +
+      end
+    );
+
+  }
+
+  return start || end || "";
+
+}
+
+
+/* =========================================================
+   특정 날짜 일정 추가
+========================================================= */
+
+function addCustomVolunteerSchedule() {
+
+  if (
+    document.getElementById(
+      "customSchedulePopup"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.id =
+    "customSchedulePopup";
+
+  overlay.className =
+    "custom-schedule-popup";
+
+
+  overlay.innerHTML = `
+
+    <div class="custom-schedule-popup-box">
+
+      <div class="custom-schedule-popup-title">
+        특정 날짜 일정 추가
+      </div>
+
+
+      <div class="custom-schedule-field">
+
+        <label>
+          날짜
+        </label>
+
+        <input
+          type="date"
+          id="customScheduleDate"
+        >
+
+      </div>
+
+
+      <div class="custom-schedule-field">
+
+        <label>
+          봉사시작
+        </label>
+
+        <select
+          id="customScheduleStartTime"
+        ></select>
+
+      </div>
+
+
+      <div class="custom-schedule-field">
+
+        <label>
+          봉사마감
+        </label>
+
+        <input
+          type="text"
+          id="customScheduleEndTime"
+          readonly
+        >
+
+      </div>
+
+
+      <div class="custom-schedule-popup-buttons">
+
+        <button
+          type="button"
+          id="customScheduleConfirm"
+        >
+          확인
+        </button>
+
+        <button
+          type="button"
+          id="customScheduleCancel"
+        >
+          취소
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  document.body.appendChild(
+    overlay
+  );
+
+
+  const dateEl =
+    document.getElementById(
+      "customScheduleDate"
+    );
+
+  const startEl =
+    document.getElementById(
+      "customScheduleStartTime"
+    );
+
+  const endEl =
+    document.getElementById(
+      "customScheduleEndTime"
+    );
+
+
+  /*
+     오늘 날짜를 기본값으로 표시
+  */
+
+  const today =
+    new Date();
+
+  const yyyy =
+    today.getFullYear();
+
+  const mm =
+    String(
+      today.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const dd =
+    String(
+      today.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+  dateEl.value =
+    yyyy +
+    "-" +
+    mm +
+    "-" +
+    dd;
+
+
+  /*
+     오전 10:00 ~ 오후 5:00
+     10분 간격
+  */
+
+  for (
+    let minutes = 10 * 60;
+    minutes <= 17 * 60;
+    minutes += 10
+  ) {
+
+    const hour =
+      Math.floor(
+        minutes / 60
+      );
+
+    const minute =
+      minutes % 60;
+
+    const ampm =
+      hour < 12
+        ? "오전"
+        : "오후";
+
+    const displayHour =
+      hour > 12
+        ? hour - 12
+        : hour;
+
+    const timeText =
+      ampm +
+      " " +
+      displayHour +
+      ":" +
+      String(
+        minute
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value =
+      String(minutes);
+
+    option.textContent =
+      timeText;
+
+    startEl.appendChild(
+      option
+    );
+
+  }
+
+
+  /*
+     기본 시작시간
+     오전 10:00
+  */
+
+  startEl.value =
+    String(
+      10 * 60
+    );
+
+
+  /*
+     시작시간 + 2시간
+  */
+
+  function updateCustomEndTime() {
+
+    const startMinutes =
+      Number(
+        startEl.value
+      );
+
+    const endMinutes =
+      startMinutes +
+      120;
+
+    const endHour =
+      Math.floor(
+        endMinutes / 60
+      );
+
+    const endMinute =
+      endMinutes % 60;
+
+    const endAmpm =
+      endHour < 12
+        ? "오전"
+        : "오후";
+
+    const endDisplayHour =
+      endHour > 12
+        ? endHour - 12
+        : endHour;
+
+    endEl.value =
+      endAmpm +
+      " " +
+      endDisplayHour +
+      ":" +
+      String(
+        endMinute
+      ).padStart(
+        2,
+        "0"
+      );
+
+  }
+
+
+  startEl.addEventListener(
+    "change",
+    updateCustomEndTime
+  );
+
+  updateCustomEndTime();
+
+
+  /*
+     취소
+  */
+
+  document
+    .getElementById(
+      "customScheduleCancel"
+    )
+    .onclick =
+      function() {
+
+        overlay.remove();
+
+      };
+
+
+  /*
+     확인
+  */
+
+  document
+    .getElementById(
+      "customScheduleConfirm"
+    )
+    .onclick =
+      function() {
+
+        createCustomVolunteerSchedule();
+
+      };
+
+}
+
+
+/* =========================================================
+   특정 날짜 일정 생성
+========================================================= */
+
+async function createCustomVolunteerSchedule() {
+
+  const dateEl =
+    document.getElementById(
+      "customScheduleDate"
+    );
+
+  const startEl =
+    document.getElementById(
+      "customScheduleStartTime"
+    );
+
+  const endEl =
+    document.getElementById(
+      "customScheduleEndTime"
+    );
+
+  if (
+    !dateEl ||
+    !startEl ||
+    !endEl
+  ) {
+
+    return;
+
+  }
+
+
+  const date =
+    String(
+      dateEl.value || ""
+    ).trim();
+
+  const startTime =
+    String(
+      startEl
+        .selectedOptions[0]
+        ?.textContent ||
+      ""
+    ).trim();
+
+  const endTime =
+    String(
+      endEl.value || ""
+    ).trim();
+
+
+  if (!date) {
+
+    alert(
+      "날짜를 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !startTime ||
+    !endTime
+  ) {
+
+    alert(
+      "봉사시간을 선택해 주세요."
+    );
+
+    return;
+
+  }
+
+
+  /*
+     일정 고유키
+  */
+
+  const scheduleKey =
+    "custom_" +
+    date +
+    "_" +
+    String(
+      startEl.value
+    );
+
+
+  /*
+     이미 같은 일정이 있는지 확인
+  */
+
+  if (
+    getCustomVolunteerSchedule(
+      scheduleKey
+    )
+  ) {
+
+    alert(
+      "이미 같은 날짜와 시간의 일정이 있습니다."
+    );
+
+    return;
+
+  }
+
+
+  const dateText =
+    formatCustomScheduleDate(
+      date
+    );
+
+
+  const displayName =
+    dateText;
+
+
+  const time =
+    startTime +
+    " ~ " +
+    endTime;
+
+
+  const confirmButton =
+    document.getElementById(
+      "customScheduleConfirm"
+    );
+
+
+  if (confirmButton) {
+
+    confirmButton.disabled =
+      true;
+
+    confirmButton.textContent =
+      "저장 중...";
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "saveJeonsidaeExtraSchedule",
+
+              key:
+                scheduleKey,
+
+              applySheet:
+                "신청용",
+
+              manageSheet:
+                "관리용",
+
+              serviceDate:
+                date,
+
+              time:
+                time,
+
+              applicationStart:
+                "",
+
+              applicationEnd:
+                ""
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "특정 날짜 일정 저장에 실패했습니다."
+      );
+
+    }
+
+
+    /*
+       저장 성공 후
+       서버에서 다시 전체 일정을 읽습니다.
+    */
+
+    await loadCustomVolunteerSchedules();
+
+
+    const popup =
+      document.getElementById(
+        "customSchedulePopup"
+      );
+
+    if (popup) {
+      popup.remove();
+    }
+
+
+    alert(
+      dateText +
+      "\n" +
+      time +
+      "\n\n일정이 추가되었습니다."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "특정 날짜 일정 추가 오류:",
+      error
+    );
+
+
+    if (confirmButton) {
+
+      confirmButton.disabled =
+        false;
+
+      confirmButton.textContent =
+        "확인";
+
+    }
+
+
+    alert(
+      "특정 날짜 일정 추가에 실패했습니다.\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   특정 날짜 일정 삭제
+========================================================= */
+
+async function deleteCustomVolunteerSchedule(
+  scheduleKey
+) {
+
+  const schedule =
+    getCustomVolunteerSchedule(
+      scheduleKey
+    );
+
+  if (!schedule) {
+    return;
+  }
+
+
+  const dateText =
+    formatCustomScheduleDate(
+      schedule.date
+    );
+
+
+  const timeText =
+    getCustomScheduleTimeText(
+      schedule
+    );
+
+
+  if (
+    !confirm(
+      dateText +
+      "\n" +
+      timeText +
+      "\n\n이 일정을 완전히 삭제하시겠습니까?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "deleteSchedule",
+
+              key:
+                scheduleKey,
+
+              scheduleKey:
+                scheduleKey
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "특정 날짜 일정 삭제에 실패했습니다."
+      );
+
+    }
+
+
+    await loadCustomVolunteerSchedules();
+
+
+    /*
+       현재 선택된 일정이 삭제된 경우
+       기본 일정 선택 화면으로 복귀
+    */
+
+    if (
+      selectedAdminSchedule ===
+      scheduleKey
+    ) {
+
+      selectedAdminSchedule = "";
+
+    }
+
+
+    if (
+      selectedServiceSchedule ===
+      scheduleKey
+    ) {
+
+      selectedServiceSchedule = "";
+
+    }
+
+
+    if (
+      selectedVolunteerSchedule ===
+      scheduleKey
+    ) {
+
+      selectedVolunteerSchedule = "";
+
+    }
+
+
+    renderCustomVolunteerSchedules();
+
+
+  } catch (error) {
+
+    console.error(
+      "특정 날짜 일정 삭제 오류:",
+      error
+    );
+
+
+    alert(
+      "특정 날짜 일정 삭제에 실패했습니다.\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   특정 날짜 일정 선택 버튼 표시
+========================================================= */
+
+function renderCustomVolunteerSchedules() {
+
+  const schedules =
+    Array.isArray(
+      customVolunteerSchedules
+    )
+      ? customVolunteerSchedules
+      : [];
+
+
+  /*
+     현재 HTML에 만들어질
+     일정 추가 영역을 찾습니다.
+  */
+
+  const containers = [
+
+    document.getElementById(
+      "adminCustomScheduleList"
+    ),
+
+    document.getElementById(
+      "serviceCustomScheduleList"
+    ),
+
+    document.getElementById(
+      "volunteerCustomScheduleList"
+    )
+
+  ];
+
+
+  containers.forEach(
+    function(container) {
+
+      if (!container) {
+        return;
+      }
+
+
+      container.innerHTML = "";
+
+
+      schedules.forEach(
+        function(schedule) {
+
+          const key =
+            String(
+              schedule.key || ""
+            ).trim();
+
+          if (!key) {
+            return;
+          }
+
+
+          const dateText =
+            formatCustomScheduleDate(
+              schedule.date
+            );
+
+
+          const timeText =
+            getCustomScheduleTimeText(
+              schedule
+            );
+
+
+          const row =
+            document.createElement(
+              "div"
+            );
+
+          row.className =
+            "custom-schedule-row";
+
+
+          const selectButton =
+            document.createElement(
+              "button"
+            );
+
+          selectButton.type =
+            "button";
+
+          selectButton.className =
+            "custom-schedule-button";
+
+
+          selectButton.textContent =
+            dateText;
+
+
+          selectButton.addEventListener(
+            "click",
+            function() {
+
+              /*
+                 이 버튼은
+                 현재 어떤 화면에서 눌렀는지에 따라
+                 해당 일정으로 들어갑니다.
+              */
+
+              if (
+                container.id ===
+                "adminCustomScheduleList"
+              ) {
+
+                selectedAdminSchedule =
+                  key;
+
+                selectedServiceSchedule =
+                  "";
+
+                selectedVolunteerSchedule =
+                  "";
+
+                loadApplicants();
+
+              } else {
+
+                selectedServiceSchedule =
+                  key;
+
+                selectedAdminSchedule =
+                  "";
+
+                selectedVolunteerSchedule =
+                  key;
+
+                selectServiceSchedule(
+                  key
+                );
+
+              }
+
+            }
+          );
+
+
+          row.appendChild(
+            selectButton
+          );
+
+
+          /*
+             관리용에서만 삭제 버튼 표시
+          */
+
+          if (
+            container.id ===
+            "adminCustomScheduleList"
+          ) {
+
+            const deleteButton =
+              document.createElement(
+                "button"
+              );
+
+            deleteButton.type =
+              "button";
+
+            deleteButton.className =
+              "custom-schedule-delete-button";
+
+            deleteButton.textContent =
+              "삭제";
+
+
+            deleteButton.addEventListener(
+              "click",
+              function() {
+
+                deleteCustomVolunteerSchedule(
+                  key
+                );
+
+              }
+            );
+
+
+            row.appendChild(
+              deleteButton
+            );
+
+          }
+
+
+          container.appendChild(
+            row
+          );
+
+
+          /*
+             날짜 아래
+             오전 10:00 ~ 오후 12:00
+          */
+
+          const timeRow =
+            document.createElement(
+              "div"
+            );
+
+          timeRow.className =
+            "custom-schedule-time";
+
+          timeRow.textContent =
+            dateText +
+            " " +
+            timeText;
+
+
+          container.appendChild(
+            timeRow
+          );
+
+        }
+      );
+
+    }
+  );
+
+}
 
 function getMySelections() {
 
