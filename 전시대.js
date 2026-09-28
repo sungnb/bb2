@@ -1024,6 +1024,191 @@ function closeCustomVolunteerSchedulePopup() {
 
 }
 
+
+/*
+   특정 날짜 일정 추가 확인
+*/
+async function confirmCustomVolunteerSchedule() {
+
+  const dateInput =
+    document.getElementById(
+      "customScheduleDate"
+    );
+
+  const startSelect =
+    document.getElementById(
+      "customScheduleStartTime"
+    );
+
+  const endSelect =
+    document.getElementById(
+      "customScheduleEndTime"
+    );
+
+
+  if (
+    !dateInput ||
+    !startSelect ||
+    !endSelect
+  ) {
+    return;
+  }
+
+
+  const serviceDate =
+    String(
+      dateInput.value || ""
+    ).trim();
+
+
+  const startTime =
+    String(
+      startSelect.value || ""
+    ).trim();
+
+
+  const endTime =
+    String(
+      endSelect.value || ""
+    ).trim();
+
+
+  if (!serviceDate) {
+
+    alert(
+      "날짜를 선택해 주세요."
+    );
+
+    return;
+  }
+
+
+  if (!startTime) {
+
+    alert(
+      "봉사시작 시간을 선택해 주세요."
+    );
+
+    return;
+  }
+
+
+  if (!endTime) {
+
+    alert(
+      "봉사마감 시간을 확인해 주세요."
+    );
+
+    return;
+  }
+
+
+  /*
+     일정 Key는 날짜 자체를 사용
+     예: 2026-10-03
+  */
+
+  const key =
+    serviceDate;
+
+
+  /*
+     봉사시간
+     예:
+     오전 10:00 ~ 오후 12:00
+  */
+
+  const time =
+    startTime +
+    " ~ " +
+    endTime;
+
+
+  try {
+
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "saveJeonsidaeExtraSchedule",
+
+              key:
+                key,
+
+              serviceDate:
+                serviceDate,
+
+              time:
+                time,
+
+              applicationStart:
+                "",
+
+              applicationEnd:
+                ""
+
+            })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "일정 저장에 실패했습니다."
+      );
+
+    }
+
+
+    /*
+       저장 성공
+       → 팝업 닫기
+    */
+
+    closeCustomVolunteerSchedulePopup();
+
+
+    /*
+       저장된 일정 다시 불러오기
+    */
+
+    await loadCustomVolunteerSchedules();
+
+
+  } catch (error) {
+
+    console.error(
+      "특정 날짜 일정 저장 오류:",
+      error
+    );
+
+
+    alert(
+      error.message ||
+      "일정 저장에 실패했습니다."
+    );
+
+  }
+
+}
+
 /*
    특정 날짜 일정 시간
 */
