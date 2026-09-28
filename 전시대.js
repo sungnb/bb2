@@ -3909,225 +3909,257 @@ async function deleteCustomVolunteerSchedule(
 
 function renderCustomVolunteerSchedules() {
 
-  const schedules =
-    Array.isArray(
-      customVolunteerSchedules
-    )
-      ? customVolunteerSchedules
-      : [];
 
+  /* =======================================================
+     신청용
+  ======================================================= */
 
-  /*
-     현재 HTML에 만들어질
-     일정 추가 영역을 찾습니다.
-  */
-
-  const containers = [
-
+  const volunteerArea =
     document.getElementById(
-      "adminCustomScheduleList"
-    ),
-
-    document.getElementById(
-      "serviceCustomScheduleList"
-    ),
-
-    document.getElementById(
-      "volunteerCustomScheduleList"
-    )
-
-  ];
+      "volunteerScheduleArea"
+    );
 
 
-  containers.forEach(
-    function(container) {
+  if (volunteerArea) {
 
-      if (!container) {
-        return;
+    volunteerArea
+      .querySelectorAll(
+        ".custom-volunteer-schedule"
+      )
+      .forEach(function(button) {
+
+        button.remove();
+
+      });
+
+
+    customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "volunteer-schedule-btn custom-volunteer-schedule";
+
+
+        button.textContent =
+          schedule.displayName ||
+          schedule.dateText ||
+          schedule.key;
+
+
+        button.onclick =
+          function() {
+
+            selectVolunteerSchedule(
+              schedule.key
+            );
+
+          };
+
+
+        volunteerArea.appendChild(
+          button
+        );
+
       }
+    );
+
+  }
 
 
-      container.innerHTML = "";
+  /* =======================================================
+     봉사용
+  ======================================================= */
+
+  const serviceSelector =
+    document.getElementById(
+      "serviceScheduleSelector"
+    );
 
 
-      schedules.forEach(
-        function(schedule) {
+  if (serviceSelector) {
 
-          const key =
-            String(
-              schedule.key || ""
-            ).trim();
+    serviceSelector
+      .querySelectorAll(
+        ".custom-service-schedule"
+      )
+      .forEach(function(button) {
 
-          if (!key) {
-            return;
-          }
+        button.remove();
+
+      });
 
 
-          const dateText =
-            formatCustomScheduleDate(
-              schedule.date
+    customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "service-schedule-button custom-service-schedule";
+
+
+        button.textContent =
+          schedule.displayName ||
+          schedule.dateText ||
+          schedule.key;
+
+
+        button.onclick =
+          function() {
+
+            selectServiceSchedule(
+              schedule.key
             );
 
+          };
 
-          const timeText =
-            getCustomScheduleTimeText(
-              schedule
+
+        serviceSelector.appendChild(
+          button
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     관리용
+  ======================================================= */
+
+  const adminSelector =
+    document.getElementById(
+      "adminScheduleSelector"
+    );
+
+
+  if (adminSelector) {
+
+    adminSelector
+      .querySelectorAll(
+        ".custom-admin-schedule"
+      )
+      .forEach(function(button) {
+
+        button.remove();
+
+      });
+
+
+    customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "custom-admin-schedule";
+
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "admin-schedule-button";
+
+
+        button.textContent =
+          schedule.displayName ||
+          schedule.dateText ||
+          schedule.key;
+
+
+        button.onclick =
+          function() {
+
+            selectAdminSchedule(
+              schedule.key
             );
 
-
-          const row =
-            document.createElement(
-              "div"
-            );
-
-          row.className =
-            "custom-schedule-row";
+          };
 
 
-          const selectButton =
-            document.createElement(
-              "button"
-            );
+        const time =
+          document.createElement("span");
 
-          selectButton.type =
-            "button";
-
-          selectButton.className =
-            "custom-schedule-button";
-
-
-          selectButton.textContent =
-            dateText;
-
-
-          selectButton.addEventListener(
-            "click",
-            function() {
-
-              /*
-                 이 버튼은
-                 현재 어떤 화면에서 눌렀는지에 따라
-                 해당 일정으로 들어갑니다.
-              */
-
-              if (
-                container.id ===
-                "adminCustomScheduleList"
-              ) {
-
-                selectedAdminSchedule =
-                  key;
-
-                selectedServiceSchedule =
-                  "";
-
-                selectedVolunteerSchedule =
-                  "";
-
-                loadApplicants();
-
-              } else {
-
-                selectedServiceSchedule =
-                  key;
-
-                selectedAdminSchedule =
-                  "";
-
-                selectedVolunteerSchedule =
-                  key;
-
-                selectServiceSchedule(
-                  key
-                );
-
-              }
-
-            }
+        time.textContent =
+          (
+            schedule.startTime ||
+            ""
+          ) +
+          " ~ " +
+          (
+            schedule.endTime ||
+            ""
           );
 
 
-          row.appendChild(
-            selectButton
-          );
+        const deleteButton =
+          document.createElement("button");
+
+        deleteButton.type =
+          "button";
+
+        deleteButton.className =
+          "custom-schedule-delete";
 
 
-          /*
-             관리용에서만 삭제 버튼 표시
-          */
-
-          if (
-            container.id ===
-            "adminCustomScheduleList"
-          ) {
-
-            const deleteButton =
-              document.createElement(
-                "button"
-              );
-
-            deleteButton.type =
-              "button";
-
-            deleteButton.className =
-              "custom-schedule-delete-button";
-
-            deleteButton.textContent =
-              "삭제";
+        deleteButton.textContent =
+          "삭제";
 
 
-            deleteButton.addEventListener(
-              "click",
-              function() {
+        deleteButton.onclick =
+          function(event) {
 
-                deleteCustomVolunteerSchedule(
-                  key
-                );
+            event.stopPropagation();
 
-              }
+            deleteCustomVolunteerSchedule(
+              schedule.key
             );
 
-
-            row.appendChild(
-              deleteButton
-            );
-
-          }
+          };
 
 
-          container.appendChild(
-            row
-          );
+        row.appendChild(
+          button
+        );
+
+        row.appendChild(
+          time
+        );
+
+        row.appendChild(
+          deleteButton
+        );
 
 
-          /*
-             날짜 아래
-             오전 10:00 ~ 오후 12:00
-          */
+        adminSelector.appendChild(
+          row
+        );
 
-          const timeRow =
-            document.createElement(
-              "div"
-            );
-
-          timeRow.className =
-            "custom-schedule-time";
-
-          timeRow.textContent =
-            dateText +
-            " " +
-            timeText;
+      }
+    );
 
 
-          container.appendChild(
-            timeRow
-          );
+    addCustomScheduleButton(
+      adminSelector
+    );
 
-        }
-      );
-
-    }
-  );
+  }
 
 }
 
