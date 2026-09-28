@@ -2092,3 +2092,309 @@ body:not(.light) .service-appointment-divider {
   opacity: 1;
   cursor: pointer;
 }
+
+
+/* =========================================================
+   특정 날짜 추가 봉사 일정
+========================================================= */
+
+/* 추가 일정 버튼 영역 */
+
+.custom-volunteer-schedule-buttons,
+.custom-admin-schedule-buttons,
+.custom-service-schedule-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+
+/* 특정 날짜 일정 버튼 */
+
+.custom-volunteer-schedule-button,
+.custom-admin-schedule-button,
+.custom-service-schedule-button {
+  position: relative;
+
+  width: 100%;
+  min-height: 55px;
+
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #234563;
+  color: #fff;
+
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 700;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+
+/* 신청용 / 봉사용 일정 버튼 */
+
+.custom-volunteer-schedule-button::after,
+.custom-service-schedule-button::after {
+  content: "›";
+
+  flex-shrink: 0;
+
+  margin-left: 12px;
+
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+
+/* 관리자 일정 버튼 */
+
+.custom-admin-schedule-button {
+  background: #234563;
+}
+
+
+/* 일정 버튼 눌렀을 때 */
+
+.custom-volunteer-schedule-button:active,
+.custom-admin-schedule-button:active,
+.custom-service-schedule-button:active {
+  transform: scale(0.99);
+}
+
+
+/* 관리자 일정 삭제 버튼 */
+
+.custom-admin-schedule-item {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+}
+
+.custom-admin-schedule-item .custom-admin-schedule-button {
+  flex: 1;
+  min-width: 0;
+}
+
+.custom-admin-schedule-delete-button {
+  flex: 0 0 62px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #B83232;
+  color: #fff;
+
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.custom-admin-schedule-delete-button:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================================
+   특정 날짜 일정 추가 팝업
+========================================================= */
+
+.custom-volunteer-schedule-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 3000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  background: rgba(0,0,0,.72);
+}
+
+
+.custom-volunteer-schedule-popup {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 24px 20px 20px;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  background: #1b1b1b;
+  color: #fff;
+
+  box-shadow: 0 12px 40px rgba(0,0,0,.40);
+}
+
+
+.custom-volunteer-schedule-title {
+  margin: 0 0 20px;
+
+  text-align: center;
+
+  font-size: calc(22px * var(--font-scale));
+  font-weight: 800;
+}
+
+
+/* 입력 한 줄 */
+
+.custom-schedule-form-row {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  margin-bottom: 14px;
+
+  gap: 12px;
+}
+
+
+.custom-schedule-form-row label {
+  flex: 0 0 80px;
+
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+}
+
+
+.custom-schedule-form-row input,
+.custom-schedule-form-row select {
+  flex: 1;
+  min-width: 0;
+
+  height: 44px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #666;
+  border-radius: 9px;
+
+  background: #222;
+  color: #fff;
+
+  font-family: inherit;
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 600;
+
+  outline: none;
+}
+
+
+.custom-schedule-form-row input:focus,
+.custom-schedule-form-row select:focus {
+  border-color: #6FA8D8;
+  box-shadow: 0 0 0 2px rgba(111,168,216,.18);
+}
+
+
+.custom-schedule-popup-buttons {
+  display: flex;
+
+  width: 100%;
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+
+.custom-schedule-popup-buttons button {
+  flex: 1;
+
+  height: 48px;
+
+  border: 0;
+  border-radius: 10px;
+
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+.custom-schedule-cancel-button {
+  background: #B83232;
+  color: #fff;
+}
+
+
+.custom-schedule-confirm-button {
+  background: #3374A9;
+  color: #fff;
+}
+
+
+/* =========================================================
+   특정 날짜 일정 추가 팝업 - 밝은 화면
+========================================================= */
+
+body.light .custom-volunteer-schedule-popup {
+  background: #fff;
+  color: #222;
+}
+
+
+body.light .custom-schedule-form-row input,
+body.light .custom-schedule-form-row select {
+  background: #fff;
+  color: #222;
+  border-color: #aaa;
+}
+
+
+/* =========================================================
+   특정 날짜 일정 추가 - 휴대폰
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .custom-volunteer-schedule-popup {
+    max-width: 100%;
+    padding: 22px 16px 18px;
+  }
+
+  .custom-schedule-form-row {
+    gap: 8px;
+  }
+
+  .custom-schedule-form-row label {
+    flex-basis: 70px;
+  }
+
+  .custom-schedule-form-row input,
+  .custom-schedule-form-row select {
+    height: 44px;
+    font-size: calc(16px * var(--font-scale));
+  }
+
+  .custom-admin-schedule-delete-button {
+    flex-basis: 58px;
+  }
+
+}
