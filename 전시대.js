@@ -1517,49 +1517,52 @@ function renderCustomVolunteerSchedules() {
       });
 
 
-    customVolunteerSchedules.forEach(
-      function(schedule) {
+   customVolunteerSchedules.forEach(
+  function(schedule) {
 
-        const button =
-          document.createElement("button");
+    const button =
+      document.createElement("button");
 
-        button.type =
-          "button";
+    button.type =
+      "button";
 
-        button.className =
-          "volunteer-schedule-btn custom-volunteer-schedule";
+    button.className =
+      "service-schedule-button custom-service-schedule";
 
+    button.textContent =
+      String(
+        schedule.key ||
+        schedule.displayName ||
+        schedule.dateText
+      ).replace(
+        /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
+        "$1_$2:$3"
+      );
 
-         button.textContent =
-  String(
-    schedule.key ||
-    schedule.displayName ||
-    schedule.dateText
-  ).replace(
-    /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
-    "$1_$2:$3"
-  );
+    button.onclick =
+      function() {
 
-
-        button.onclick =
-          function() {
-
-            selectVolunteerSchedule(
-              schedule.key
-            );
-
-          };
-
-
-        volunteerArea.appendChild(
-          button
+        selectServiceSchedule(
+          schedule.key
         );
 
-      }
-    );
+      };
+
+    const customServiceArea =
+      document.getElementById(
+        "customServiceScheduleButtons"
+      );
+
+    if (customServiceArea) {
+
+      customServiceArea.appendChild(
+        button
+      );
+
+    }
 
   }
-
+);
 
   /* =======================================================
      봉사용
