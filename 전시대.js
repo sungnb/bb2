@@ -1554,10 +1554,10 @@ function renderCustomVolunteerSchedules() {
      봉사용
   ======================================================= */
 
-  const serviceSelector =
-    document.getElementById(
-      "serviceScheduleSelector"
-    );
+ const serviceSelector =
+  document.querySelector(
+    "#serviceScheduleSelector .service-schedule-buttons"
+  );
 
 
   if (serviceSelector) {
