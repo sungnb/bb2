@@ -1482,72 +1482,63 @@ function renderCustomVolunteerSchedules() {
   ======================================================= */
 
   const volunteerArea =
-    document.getElementById(
-      "volunteerScheduleArea"
-    );
+  document.getElementById(
+    "volunteerScheduleArea"
+  );
 
 
-  if (volunteerArea) {
+if (volunteerArea) {
 
-    volunteerArea
-      .querySelectorAll(
-        ".custom-volunteer-schedule"
-      )
-      .forEach(function(button) {
+  volunteerArea
+    .querySelectorAll(
+      ".custom-volunteer-schedule"
+    )
+    .forEach(function(button) {
 
-        button.remove();
+      button.remove();
 
-      });
+    });
 
 
-      customVolunteerSchedules.forEach(
-      function(schedule) {
+  customVolunteerSchedules.forEach(
+    function(schedule) {
 
-        const button =
-          document.createElement("button");
+      const button =
+        document.createElement("button");
 
-        button.type =
-          "button";
+      button.type =
+        "button";
 
-        button.className =
-          "service-schedule-button custom-service-schedule";
+      button.className =
+        "service-schedule-button custom-volunteer-schedule";
 
-        button.textContent =
-          String(
-            schedule.key ||
-            schedule.displayName ||
-            schedule.dateText
-          ).replace(
-            /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
-            "$1_$2:$3"
+      button.textContent =
+        String(
+          schedule.key ||
+          schedule.displayName ||
+          schedule.dateText
+        ).replace(
+          /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
+          "$1_$2:$3"
+        );
+
+      button.onclick =
+        function() {
+
+          selectVolunteerSchedule(
+            schedule.key
           );
 
-        button.onclick =
-          function() {
+        };
 
-            selectServiceSchedule(
-              schedule.key
-            );
+      volunteerArea.appendChild(
+        button
+      );
 
-          };
+    }
+  );
 
-        const customServiceArea =
-          document.getElementById(
-            "customServiceScheduleButtons"
-          );
-
-        if (customServiceArea) {
-
-          customServiceArea.appendChild(
-            button
-          );
-
-        }
-
-      }
-    );
-
-  }
+}
 
  
   /* =======================================================
