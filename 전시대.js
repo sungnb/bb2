@@ -3028,17 +3028,22 @@ async function loadCustomVolunteerSchedules() {
 
     renderCustomVolunteerSchedules();
 
-  } catch (error) {
-
-    customVolunteerSchedules = [];
+    } catch (error) {
 
     console.error(
       "특정 날짜 일정 불러오기 오류:",
       error
     );
 
-  }
+    alert(
+      "추가 일정을 불러오지 못했습니다.\n\n" +
+      (
+        error.message ||
+        String(error)
+      )
+    );
 
+  }
 }
 
 /* =========================================================
