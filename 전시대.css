@@ -1425,7 +1425,8 @@ body.light .notice-row {
   gap: 20px;
 }
 
-.admin-schedule-button {
+.admin-schedule-button,
+.admin-add-schedule-button {
   width: 100%;
   min-height: 55px;
   padding: 0 20px;
