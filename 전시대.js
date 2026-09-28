@@ -521,7 +521,7 @@ function showSubmitConfirm(message) {
 
   box.style.cssText = `
     width:350px;
-    height:140px;
+    height:180px;
     box-sizing:border-box;
     padding:20px 28px 18px;
     border-radius:13px;
