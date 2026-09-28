@@ -1219,6 +1219,15 @@ async function confirmCustomVolunteerSchedule() {
     renderCustomVolunteerSchedules();
 
 
+    /*
+       추가 완료 안내
+    */
+
+    alert(
+      "추가 되었습니다."
+    );
+
+
   } catch (error) {
 
     console.error(
@@ -1235,7 +1244,6 @@ async function confirmCustomVolunteerSchedule() {
   }
 
 }
-
 /*
    특정 날짜 일정 시간
 */
