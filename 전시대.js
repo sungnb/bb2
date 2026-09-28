@@ -785,153 +785,174 @@ function openCustomVolunteerSchedulePopup() {
 
 
   /*
-   봉사마감
-   봉사시작 시간 + 2시간
-*/
+     봉사마감
+     봉사시작 시간 + 2시간
+  */
 
-function updateCustomScheduleEndTime() {
+  function updateCustomScheduleEndTime() {
 
-  const startSelect =
+    const startSelect =
+      document.getElementById(
+        "customScheduleStartTime"
+      );
+
+    const endSelect =
+      document.getElementById(
+        "customScheduleEndTime"
+      );
+
+
+    if (
+      !startSelect ||
+      !endSelect ||
+      !startSelect.value
+    ) {
+      return;
+    }
+
+
+    const startText =
+      startSelect.value;
+
+
+    const match =
+      startText.match(
+        /(오전|오후)\s*(\d+):(\d+)/
+      );
+
+
+    if (!match) {
+      return;
+    }
+
+
+    let period = match[1];
+
+    let hour =
+      Number(match[2]);
+
+    const minute =
+      Number(match[3]);
+
+
+    /*
+       24시간으로 변환
+    */
+
+    if (
+      period === "오전" &&
+      hour === 12
+    ) {
+      hour = 0;
+    }
+
+
+    if (
+      period === "오후" &&
+      hour !== 12
+    ) {
+      hour += 12;
+    }
+
+
+    /*
+       2시간 추가
+    */
+
+    hour += 2;
+
+
+    /*
+       24시간을 넘으면 종료
+    */
+
+    if (hour >= 24) {
+      hour -= 24;
+    }
+
+
+    /*
+       다시 오전 / 오후 표시
+    */
+
+    const endPeriod =
+      hour < 12
+        ? "오전"
+        : "오후";
+
+
+    let displayHour =
+      hour % 12;
+
+
+    if (displayHour === 0) {
+      displayHour = 12;
+    }
+
+
+    const endTime =
+      endPeriod +
+      " " +
+      displayHour +
+      ":" +
+      String(minute).padStart(2, "0");
+
+
+    endSelect.innerHTML = "";
+
+
+    const option =
+      document.createElement("option");
+
+    option.value = endTime;
+    option.textContent = endTime;
+
+
+    endSelect.appendChild(option);
+
+    endSelect.disabled = true;
+
+  }
+
+
+  /*
+     시작 시간 변경
+  */
+
+  if (startSelect) {
+
+    startSelect.onchange =
+      updateCustomScheduleEndTime;
+
+  }
+
+
+  /*
+     기본 종료 시간 계산
+  */
+
+  updateCustomScheduleEndTime();
+
+
+  /*
+     확인 버튼 연결
+  */
+
+  const confirmButton =
     document.getElementById(
-      "customScheduleStartTime"
+      "customVolunteerScheduleConfirmButton"
     );
 
-  const endSelect =
-    document.getElementById(
-      "customScheduleEndTime"
-    );
+  if (confirmButton) {
 
+    confirmButton.onclick =
+      async function() {
 
-  if (
-    !startSelect ||
-    !endSelect ||
-    !startSelect.value
-  ) {
-    return;
+        await confirmCustomVolunteerSchedule();
+
+      };
+
   }
-
-
-  const startText =
-    startSelect.value;
-
-
-  const match =
-    startText.match(
-      /(오전|오후)\s*(\d+):(\d+)/
-    );
-
-
-  if (!match) {
-    return;
-  }
-
-
-  let period = match[1];
-
-  let hour =
-    Number(match[2]);
-
-  const minute =
-    Number(match[3]);
-
-
-  /*
-     24시간으로 변환
-  */
-
-  if (
-    period === "오전" &&
-    hour === 12
-  ) {
-    hour = 0;
-  }
-
-
-  if (
-    period === "오후" &&
-    hour !== 12
-  ) {
-    hour += 12;
-  }
-
-
-  /*
-     2시간 추가
-  */
-
-  hour += 2;
-
-
-  /*
-     24시간을 넘으면 종료
-  */
-
-  if (hour >= 24) {
-    hour -= 24;
-  }
-
-
-  /*
-     다시 오전 / 오후 표시
-  */
-
-  const endPeriod =
-    hour < 12
-      ? "오전"
-      : "오후";
-
-
-  let displayHour =
-    hour % 12;
-
-
-  if (displayHour === 0) {
-    displayHour = 12;
-  }
-
-
-  const endTime =
-    endPeriod +
-    " " +
-    displayHour +
-    ":" +
-    String(minute).padStart(2, "0");
-
-
-  endSelect.innerHTML = "";
-
-
-  const option =
-    document.createElement("option");
-
-  option.value = endTime;
-  option.textContent = endTime;
-
-
-  endSelect.appendChild(option);
-
-  endSelect.disabled = true;
-
-}
-
-
-/*
-   시작 시간 변경
-*/
-
-if (startSelect) {
-
-  startSelect.onchange =
-    updateCustomScheduleEndTime;
-
-}
-
-
-/*
-   기본 종료 시간 계산
-*/
-
-updateCustomScheduleEndTime();
 
 
   /*
