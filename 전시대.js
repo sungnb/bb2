@@ -1007,6 +1007,24 @@ function getVolunteerScheduleName(scheduleKey) {
 
 
 /*
+   특정 날짜 일정 추가 팝업 닫기
+*/
+function closeCustomVolunteerSchedulePopup() {
+
+  const overlay =
+    document.getElementById(
+      "customVolunteerScheduleOverlay"
+    );
+
+  if (!overlay) {
+    return;
+  }
+
+  overlay.style.display = "none";
+
+}
+
+/*
    특정 날짜 일정 시간
 */
 function getVolunteerScheduleTime(scheduleKey) {
