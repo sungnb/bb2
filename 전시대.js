@@ -1126,7 +1126,7 @@ async function confirmCustomVolunteerSchedule() {
 
   /*
      일정 Key는 날짜 자체를 사용
-     예: 2026-10-03
+     예: 2026-10-06
   */
 
   const key =
@@ -1207,10 +1207,16 @@ async function confirmCustomVolunteerSchedule() {
 
 
     /*
-       저장된 일정 다시 불러오기
+       서버에 저장된 추가 일정 다시 불러오기
+       → 신청용
+       → 봉사용
+       → 관리용
+       모두 다시 표시
     */
 
     await loadCustomVolunteerSchedules();
+
+    renderCustomVolunteerSchedules();
 
 
   } catch (error) {
