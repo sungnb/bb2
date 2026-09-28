@@ -686,6 +686,23 @@ function openCustomVolunteerSchedulePopup() {
 
 
   /*
+     관리용에서 팝업이 정상적으로 보이도록
+     숨겨진 serviceView 밖으로 이동
+  */
+
+  if (
+    overlay.parentElement !==
+    document.body
+  ) {
+
+    document.body.appendChild(
+      overlay
+    );
+
+  }
+
+
+  /*
      날짜 초기화
   */
 
@@ -795,7 +812,6 @@ function openCustomVolunteerSchedulePopup() {
   overlay.style.display = "flex";
 
 }
-
 
 /*
    일정 Key로 특정 날짜 일정 찾기
