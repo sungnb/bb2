@@ -20,6 +20,20 @@ function isVolunteerScheduleAvailable(schedule) {
     koreaDate.getDay();
 
 
+  /* =======================================================
+     특정 날짜 추가 일정
+     기존 토요일 / 일요일 신청 제한을 적용하지 않음
+  ======================================================= */
+
+  if (
+    getCustomVolunteerSchedule(schedule)
+  ) {
+
+    return true;
+
+  }
+
+
   /* 토요일 오전 / 오후 */
 
   if (
@@ -45,23 +59,6 @@ function isVolunteerScheduleAvailable(schedule) {
       today === 5 ||
       today === 6
     );
-
-  }
-
-
-  return false;
-}
-
-/* =======================================================
-     특정 날짜 추가 일정
-     기존 토요일/일요일 신청 제한을 적용하지 않음
-  ======================================================= */
-
-  if (
-    getCustomVolunteerSchedule(schedule)
-  ) {
-
-    return true;
 
   }
 
