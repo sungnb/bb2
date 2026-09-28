@@ -2123,23 +2123,14 @@ body:not(.light) .service-appointment-divider {
 
 /* 추가 일정 버튼 영역 */
 
+.custom-volunteer-schedule-buttons,
+.custom-admin-schedule-buttons,
 .custom-service-schedule-buttons {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 20px;
   width: 100%;
 }
-
-.custom-service-schedule-buttons
-.custom-service-schedule-button {
-  margin-bottom: 20px;
-}
-
-.custom-service-schedule-buttons
-.custom-service-schedule-button:last-child {
-  margin-bottom: 0;
-}
-
 
 /* 특정 날짜 일정 버튼 */
 
