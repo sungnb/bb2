@@ -147,13 +147,12 @@ if (
 ) {
 
   showSubmitConfirm(
-    "지금은 신청 시간이 아닙니다.<br><br>알림 탭을 확인하세요"
+    "지금은 신청 시간이 아닙니다.<div>알림 탭을 확인하세요</div>"
   );
 
   return;
 
 }
-
 
   selectedVolunteerSchedule =
     schedule;
