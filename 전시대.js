@@ -3951,10 +3951,10 @@ function renderCustomVolunteerSchedules() {
           "volunteer-schedule-btn custom-volunteer-schedule";
 
 
-        button.textContent =
+                button.textContent =
+          schedule.key ||
           schedule.displayName ||
-          schedule.dateText ||
-          schedule.key;
+          schedule.dateText;
 
 
         button.onclick =
