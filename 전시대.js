@@ -1756,9 +1756,101 @@ function renderCustomVolunteerSchedules() {
     );
 
 
-    addCustomScheduleButton(
-      adminSelector
+        customVolunteerSchedules.forEach(
+      function(schedule) {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "custom-admin-schedule";
+
+        const button =
+          document.createElement("button");
+
+        button.type =
+          "button";
+
+        button.className =
+          "admin-schedule-button";
+
+        button.textContent =
+          String(
+            schedule.key ||
+            schedule.displayName ||
+            schedule.dateText
+          ).replace(
+            /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
+            "$1_$2:$3"
+          );
+
+        button.onclick =
+          function() {
+
+            selectAdminSchedule(
+              schedule.key
+            );
+
+          };
+
+        const time =
+          document.createElement("span");
+
+        time.textContent =
+          (
+            schedule.startTime ||
+            ""
+          ) +
+          " ~ " +
+          (
+            schedule.endTime ||
+            ""
+          );
+
+        const deleteButton =
+          document.createElement("button");
+
+        deleteButton.type =
+          "button";
+
+        deleteButton.className =
+          "custom-schedule-delete";
+
+        deleteButton.textContent =
+          "삭제";
+
+        deleteButton.onclick =
+          function(event) {
+
+            event.stopPropagation();
+
+            deleteCustomVolunteerSchedule(
+              schedule.key
+            );
+
+          };
+
+        row.appendChild(
+          button
+        );
+
+        row.appendChild(
+          time
+        );
+
+        row.appendChild(
+          deleteButton
+        );
+
+        adminSelector.appendChild(
+          row
+        );
+
+      }
     );
+
+  }
+}
 
   }
 
