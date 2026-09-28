@@ -1425,8 +1425,7 @@ body.light .notice-row {
   gap: 20px;
 }
 
-.admin-schedule-button,
-.admin-add-schedule-button {
+.admin-schedule-button {
   width: 100%;
   min-height: 55px;
   padding: 0 20px;
@@ -1439,6 +1438,29 @@ body.light .notice-row {
   border-radius: 12px;
 
   background: #234563;
+  color: #fff;
+
+  font-size: calc(24px * var(--font-scale));
+  font-weight: 700;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+
+.admin-add-schedule-button {
+  width: 100%;
+  min-height: 55px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #172F43;
   color: #fff;
 
   font-size: calc(24px * var(--font-scale));
