@@ -151,23 +151,41 @@
       <span>토요일 오전</span>
     </button>
 
-    <button
-      type="button"
-      class="volunteer-schedule-btn"
-      onclick="selectVolunteerSchedule('토오후')"
-    >
-      <span>토요일 오후</span>
-    </button>
+    <div
+  id="volunteerScheduleArea"
+  class="volunteer-schedule-area"
+>
 
-    <button
-      type="button"
-      class="volunteer-schedule-btn"
-      onclick="selectVolunteerSchedule('일오전')"
-    >
-      <span>일요일 오전</span>
-    </button>
+  <button
+    type="button"
+    class="volunteer-schedule-btn"
+    onclick="selectVolunteerSchedule('토오전')"
+  >
+    <span>토요일 오전</span>
+  </button>
 
-  </div>
+  <button
+    type="button"
+    class="volunteer-schedule-btn"
+    onclick="selectVolunteerSchedule('토오후')"
+  >
+    <span>토요일 오후</span>
+  </button>
+
+  <button
+    type="button"
+    class="volunteer-schedule-btn"
+    onclick="selectVolunteerSchedule('일오전')"
+  >
+    <span>일요일 오전</span>
+  </button>
+
+  <div
+    id="customVolunteerScheduleButtons"
+    class="custom-volunteer-schedule-buttons"
+  ></div>
+
+</div>
 
 
   <!-- =================================================
@@ -265,47 +283,65 @@
       <div class="admin-schedule-buttons">
 
 
-        <!-- 토요일 오전 -->
+  <!-- 토요일 오전 -->
 
-        <button
-          type="button"
-          class="admin-schedule-button"
-          data-schedule="토오전"
-          onclick="selectAdminSchedule('토오전')"
-        >
-          <span>토요일 오전</span>
-          <span class="admin-schedule-arrow">›</span>
-        </button>
-
-
-        <!-- 토요일 오후 -->
-
-        <button
-          type="button"
-          class="admin-schedule-button"
-          data-schedule="토오후"
-          onclick="selectAdminSchedule('토오후')"
-        >
-          <span>토요일 오후</span>
-          <span class="admin-schedule-arrow">›</span>
-        </button>
+  <button
+    type="button"
+    class="admin-schedule-button"
+    data-schedule="토오전"
+    onclick="selectAdminSchedule('토오전')"
+  >
+    <span>토요일 오전</span>
+    <span class="admin-schedule-arrow">›</span>
+  </button>
 
 
-        <!-- 일요일 오전 -->
+  <!-- 토요일 오후 -->
 
-        <button
-          type="button"
-          class="admin-schedule-button"
-          data-schedule="일오전"
-          onclick="selectAdminSchedule('일오전')"
-        >
-          <span>일요일 오전</span>
-          <span class="admin-schedule-arrow">›</span>
-        </button>
+  <button
+    type="button"
+    class="admin-schedule-button"
+    data-schedule="토오후"
+    onclick="selectAdminSchedule('토오후')"
+  >
+    <span>토요일 오후</span>
+    <span class="admin-schedule-arrow">›</span>
+  </button>
 
 
-      </div>
+  <!-- 일요일 오전 -->
 
+  <button
+    type="button"
+    class="admin-schedule-button"
+    data-schedule="일오전"
+    onclick="selectAdminSchedule('일오전')"
+  >
+    <span>일요일 오전</span>
+    <span class="admin-schedule-arrow">›</span>
+  </button>
+
+
+  <!-- 특정 날짜 추가 -->
+
+  <button
+    type="button"
+    class="admin-add-schedule-button"
+    onclick="openCustomVolunteerSchedulePopup()"
+  >
+    ＋ 추가
+  </button>
+
+
+  <!-- 추가된 일정 -->
+
+  <div
+    id="customAdminScheduleButtons"
+    class="custom-admin-schedule-buttons"
+  ></div>
+
+
+</div>
     </div>
 
 
@@ -530,41 +566,140 @@
 
       <div class="service-schedule-buttons">
 
-        <button
-          type="button"
-          class="service-schedule-button"
-          data-schedule="토오전"
-          onclick="selectServiceSchedule('토오전')"
-        >
-          <span>토요일 오전</span>
-          <span class="service-schedule-arrow">›</span>
-        </button>
+  <button
+    type="button"
+    class="service-schedule-button"
+    data-schedule="토오전"
+    onclick="selectServiceSchedule('토오전')"
+  >
+    <span>토요일 오전</span>
+    <span class="service-schedule-arrow">›</span>
+  </button>
 
-        <button
-          type="button"
-          class="service-schedule-button"
-          data-schedule="토오후"
-          onclick="selectServiceSchedule('토오후')"
-        >
-          <span>토요일 오후</span>
-          <span class="service-schedule-arrow">›</span>
-        </button>
+  <button
+    type="button"
+    class="service-schedule-button"
+    data-schedule="토오후"
+    onclick="selectServiceSchedule('토오후')"
+  >
+    <span>토요일 오후</span>
+    <span class="service-schedule-arrow">›</span>
+  </button>
 
-        <button
-          type="button"
-          class="service-schedule-button"
-          data-schedule="일오전"
-          onclick="selectServiceSchedule('일오전')"
-        >
-          <span>일요일 오전</span>
-          <span class="service-schedule-arrow">›</span>
-        </button>
+  <button
+    type="button"
+    class="service-schedule-button"
+    data-schedule="일오전"
+    onclick="selectServiceSchedule('일오전')"
+  >
+    <span>일요일 오전</span>
+    <span class="service-schedule-arrow">›</span>
+  </button>
 
-      </div>
+
+  <!-- 추가된 일정 -->
+
+  <div
+    id="customServiceScheduleButtons"
+    class="custom-service-schedule-buttons"
+  ></div>
+
+</div>
+
+    </div>
+
+<!-- =======================================================
+     특정 날짜 봉사 일정 추가 팝업
+======================================================= -->
+
+<div
+  id="customVolunteerScheduleOverlay"
+  class="custom-volunteer-schedule-overlay"
+  style="display:none;"
+>
+
+  <div class="custom-volunteer-schedule-popup">
+
+    <h2 class="custom-volunteer-schedule-title">
+      봉사 일정 추가
+    </h2>
+
+
+    <!-- 날짜 -->
+
+    <div class="custom-schedule-form-row">
+
+      <label for="customScheduleDate">
+        날짜
+      </label>
+
+      <input
+        type="date"
+        id="customScheduleDate"
+      >
 
     </div>
 
 
+    <!-- 봉사 시작 -->
+
+    <div class="custom-schedule-form-row">
+
+      <label for="customScheduleStartTime">
+        봉사시작
+      </label>
+
+      <select
+        id="customScheduleStartTime"
+      >
+      </select>
+
+    </div>
+
+
+    <!-- 봉사 마감 -->
+
+    <div class="custom-schedule-form-row">
+
+      <label for="customScheduleEndTime">
+        봉사마감
+      </label>
+
+      <select
+        id="customScheduleEndTime"
+        disabled
+      >
+      </select>
+
+    </div>
+
+
+    <!-- 버튼 -->
+
+    <div class="custom-schedule-popup-buttons">
+
+      <button
+        type="button"
+        class="custom-schedule-cancel-button"
+        onclick="closeCustomVolunteerSchedulePopup()"
+      >
+        취소
+      </button>
+
+      <button
+        type="button"
+        class="custom-schedule-confirm-button"
+        onclick="confirmCustomVolunteerSchedule()"
+      >
+        확인
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+      
     <!-- =====================================================
          봉사용 실제 내용
     ===================================================== -->
