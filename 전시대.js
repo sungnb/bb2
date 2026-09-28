@@ -655,6 +655,149 @@ let customVolunteerSchedules = [];
 
 
 /*
+   특정 날짜 봉사 일정 추가 팝업 열기
+*/
+function openCustomVolunteerSchedulePopup() {
+
+  const overlay =
+    document.getElementById(
+      "customVolunteerScheduleOverlay"
+    );
+
+  const dateInput =
+    document.getElementById(
+      "customScheduleDate"
+    );
+
+  const startSelect =
+    document.getElementById(
+      "customScheduleStartTime"
+    );
+
+  const endSelect =
+    document.getElementById(
+      "customScheduleEndTime"
+    );
+
+
+  if (!overlay) {
+    return;
+  }
+
+
+  /*
+     날짜 초기화
+  */
+
+  if (dateInput) {
+    dateInput.value = "";
+  }
+
+
+  /*
+     봉사 시작 시간 목록 생성
+     오전 10:00 ~ 오후 5:00
+     10분 간격
+  */
+
+  if (startSelect) {
+
+    startSelect.innerHTML = "";
+
+    for (
+      let hour = 10;
+      hour <= 17;
+      hour++
+    ) {
+
+      const startMinute =
+        hour === 17 ? 0 : 0;
+
+      const endMinute =
+        hour === 17 ? 0 : 50;
+
+      for (
+        let minute = startMinute;
+        minute <= endMinute;
+        minute += 10
+      ) {
+
+        if (
+          hour === 17 &&
+          minute > 0
+        ) {
+          break;
+        }
+
+
+        let displayHour =
+          hour < 12
+            ? "오전 " + hour
+            : hour === 12
+              ? "오후 12"
+              : "오후 " + (hour - 12);
+
+
+        const timeText =
+          displayHour +
+          ":" +
+          String(minute).padStart(2, "0");
+
+
+        const option =
+          document.createElement("option");
+
+        option.value = timeText;
+        option.textContent = timeText;
+
+        startSelect.appendChild(option);
+
+      }
+
+    }
+
+
+    /*
+       기본 시작 시간
+    */
+
+    startSelect.value =
+      "오전 10:00";
+
+  }
+
+
+  /*
+     종료 시간은 시작 시간 선택 후 계산
+  */
+
+  if (endSelect) {
+
+    endSelect.innerHTML = "";
+
+    const option =
+      document.createElement("option");
+
+    option.value = "오후 12:00";
+    option.textContent = "오후 12:00";
+
+    endSelect.appendChild(option);
+
+    endSelect.disabled = true;
+
+  }
+
+
+  /*
+     팝업 표시
+  */
+
+  overlay.style.display = "flex";
+
+}
+
+
+/*
    일정 Key로 특정 날짜 일정 찾기
 */
 function getCustomVolunteerSchedule(scheduleKey) {
