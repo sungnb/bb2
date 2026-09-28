@@ -532,21 +532,20 @@ function showSubmitConfirm(message) {
   `;
 
   const text =
-    document.createElement("div");
+  document.createElement("div");
 
-  text.style.cssText = `
-    width:100%;
-    height:38px;
-    line-height:38px;
-    font-size:22px;
-    font-weight:700;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  `;
+text.style.cssText = `
+  width:100%;
+  min-height:76px;
+  line-height:38px;
+  font-size:22px;
+  font-weight:700;
+  white-space:normal;
+  overflow:visible;
+`;
 
-  text.textContent =
-    message;
+text.innerHTML =
+  message;
 
   const button =
     document.createElement("button");
