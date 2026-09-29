@@ -1572,10 +1572,15 @@ let groups = [];
 
 let selectedApplicants = [];
 
+/* 그룹에서 사람을 지운 후
+   미배정 신청자를 선택하여
+   빈자리에 다시 배정할 때 사용 */
+let replacementApplicant = "";
+
 let currentView = "apply";
 
 const ADMIN_PASSWORD = "3061";
-const ADMIN_PASSWORD_KEY = "saturdayAdminPassword";
+const ADMIN_PASSWORD_KEY = "thursdayAdminPassword";
 let adminAuthenticated = false;
 
 
@@ -2108,61 +2113,156 @@ function renderAdmin() {
   const namesBox = document.getElementById("adminNames");
   namesBox.innerHTML = "";
 
-  if (selectedApplicants.length > 0) {
+  if (replacementApplicant) {
+
     const info = document.createElement("div");
+
     info.style.width = "100%";
     info.style.color = "#6FA8D8";
     info.style.fontWeight = "700";
     info.style.marginBottom = "2px";
-    info.textContent = "선택 " + selectedApplicants.length + "/4명";
+
+    info.textContent =
+      "교체할 봉사자를 선택하세요";
+
+    namesBox.appendChild(info);
+
+  } else if (selectedApplicants.length > 0) {
+
+    const info = document.createElement("div");
+
+    info.style.width = "100%";
+    info.style.color = "#6FA8D8";
+    info.style.fontWeight = "700";
+    info.style.marginBottom = "2px";
+
+    info.textContent =
+      "선택 " + selectedApplicants.length + "/4명";
+
     namesBox.appendChild(info);
   }
 
   const addButton = document.createElement("button");
+
   addButton.type = "button";
   addButton.className = "admin-add-button";
   addButton.textContent = "+ 추가";
   addButton.onclick = addManualApplicant;
 
   if (unassignedApplicants.length === 0) {
+
     const empty = document.createElement("div");
+
     empty.className = "service-empty";
     empty.style.width = "100%";
-    empty.textContent = "미배정 신청자가 없습니다.";
+    empty.textContent =
+      "미배정 신청자가 없습니다.";
+
     namesBox.appendChild(empty);
+
   } else {
+
     unassignedApplicants.forEach(function(name) {
-      const button = document.createElement("button");
+
+      const button =
+        document.createElement("button");
+
       button.type = "button";
       button.className = "admin-name";
 
-      const selectedIndex = selectedApplicants.indexOf(name);
-      if (selectedIndex !== -1) {
+      /*
+        그룹에서 사람을 지운 후에는
+        이 사람을 교체 대상자로 선택합니다.
+      */
+      if (
+        replacementApplicant &&
+        replacementApplicant === name
+      ) {
+
         button.classList.add("selected");
-        const badge = document.createElement("span");
-        badge.className = "admin-selection-badge";
-        badge.textContent = String(selectedIndex + 1);
+
+        const badge =
+          document.createElement("span");
+
+        badge.className =
+          "admin-selection-badge";
+
+        badge.textContent = "✓";
+
         button.appendChild(badge);
+
+      } else {
+
+        const selectedIndex =
+          selectedApplicants.indexOf(name);
+
+        if (selectedIndex !== -1) {
+
+          button.classList.add("selected");
+
+          const badge =
+            document.createElement("span");
+
+          badge.className =
+            "admin-selection-badge";
+
+          badge.textContent =
+            String(selectedIndex + 1);
+
+          button.appendChild(badge);
+        }
       }
 
-      button.appendChild(document.createTextNode(name));
+      button.appendChild(
+        document.createTextNode(name)
+      );
+
       button.onclick = function() {
+
+        /*
+          교체 모드이면
+          일반 그룹 선택이 아니라
+          교체할 1명을 선택합니다.
+        */
+        if (replacementApplicant !== null) {
+
+          if (replacementApplicant === name) {
+
+            replacementApplicant = "";
+
+          } else {
+
+            replacementApplicant = name;
+          }
+
+          renderAdmin();
+
+          return;
+        }
+
         toggleApplicantForGroup(name);
       };
+
       namesBox.appendChild(button);
+
     });
   }
 
   namesBox.appendChild(addButton);
 
-  const confirmButton = document.getElementById("confirmGroupButton");
+  const confirmButton =
+    document.getElementById(
+      "confirmGroupButton"
+    );
+
   if (confirmButton) {
-    confirmButton.disabled = selectedApplicants.length < 2;
+
+    confirmButton.disabled =
+      selectedApplicants.length < 2;
   }
 
   renderGroups();
 }
-
 function toggleApplicantForGroup(name) {
 
   const index = selectedApplicants.indexOf(name);
@@ -2912,15 +3012,74 @@ async function handleSlotClick(
   slotIndex
 ) {
 
-  if (groups[groupIndex] && groups[groupIndex][slotIndex]) {
-    groups[groupIndex][slotIndex] = "";
-    renderAdmin();
-    renderService();
-    saveGroups().catch(function(error) { console.error(error); });
+  if (
+    !groups[groupIndex]
+  ) {
     return;
   }
 
-  alert("위에서 봉사자 4명을 선택한 후 배정 확정 버튼을 눌러 주세요.");
+
+  /*
+    ① 미배정 신청자를 먼저 선택한 상태에서
+       빈자리를 누르면 그 자리에 배정
+  */
+  if (
+    !groups[groupIndex][slotIndex] &&
+    replacementApplicant
+  ) {
+
+    groups[groupIndex][slotIndex] =
+      replacementApplicant;
+
+    replacementApplicant = "";
+
+    selectedApplicants = [];
+
+    renderAdmin();
+
+    renderService();
+
+    saveGroups().catch(function(error) {
+      console.error(error);
+    });
+
+    return;
+  }
+
+
+  /*
+    ② 기존에 배정된 봉사자를 누르면 삭제
+       → 교체 모드로 전환
+  */
+  if (
+    groups[groupIndex][slotIndex]
+  ) {
+
+    groups[groupIndex][slotIndex] = "";
+
+    replacementApplicant = "";
+
+    selectedApplicants = [];
+
+    renderAdmin();
+
+    renderService();
+
+    saveGroups().catch(function(error) {
+      console.error(error);
+    });
+
+    return;
+  }
+
+
+  /*
+    ③ 빈자리를 눌렀지만
+       아직 위에서 미배정 신청자를 선택하지 않은 경우
+  */
+  alert(
+    "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
+  );
 }
 
 
@@ -3611,39 +3770,110 @@ document.addEventListener(
 );
 
 
-async function refreshServiceGroups() {
+/* =========================================================
+   관리용 - 모바일 아래로 당겨 새로고침
+========================================================= */
 
-  const button =
-    document.querySelector(".service-refresh-button");
+let adminPullStartY = 0;
+let adminPullStartX = 0;
+let adminPullRefreshing = false;
 
-  if (button) {
-    button.disabled = true;
-  }
+document.addEventListener(
+  "touchstart",
+  function(event) {
 
-  try {
-   await loadApplicants();
-
-const results = await Promise.all([
-  loadGroups(),
-  loadServiceData(),
-  loadSaturdayReference()
-]);
-
-    if (!results[0] || !results[1]) {
-      throw new Error("봉사용 정보를 불러오지 못했습니다.");
+    if (currentView !== "admin") {
+      return;
     }
 
-    renderService();
-  } catch (error) {
-    console.error(error);
-    alert("새로고침에 실패했습니다.");
-  } finally {
-    if (button) {
-      button.disabled = false;
+    if (event.touches.length !== 1) {
+      return;
     }
-  }
 
-}
+    /*
+      화면 맨 위에서 시작한 터치만 인식
+    */
+    if (window.scrollY > 5) {
+      adminPullStartY = 0;
+      return;
+    }
+
+    adminPullStartY =
+      event.touches[0].clientY;
+
+    adminPullStartX =
+      event.touches[0].clientX;
+
+  },
+  { passive: true }
+);
+
+
+document.addEventListener(
+  "touchend",
+  async function(event) {
+
+    if (currentView !== "admin") {
+      return;
+    }
+
+    if (
+      adminPullRefreshing ||
+      adminPullStartY === 0 ||
+      !event.changedTouches.length
+    ) {
+      adminPullStartY = 0;
+      return;
+    }
+
+    const endY =
+      event.changedTouches[0].clientY;
+
+    const endX =
+      event.changedTouches[0].clientX;
+
+    const pullDistance =
+      endY - adminPullStartY;
+
+    const horizontalDistance =
+      Math.abs(endX - adminPullStartX);
+
+    adminPullStartY = 0;
+
+    /*
+      아래 방향으로 80px 이상 당겼고
+      가로 스와이프가 아닌 경우에만 실행
+    */
+    if (
+      pullDistance < 80 ||
+      horizontalDistance > 60 ||
+      window.scrollY > 5
+    ) {
+      return;
+    }
+
+    adminPullRefreshing = true;
+
+    try {
+
+      await refreshServiceGroups();
+
+      /*
+        최신 신청자와 그룹을 다시 표시
+      */
+      if (currentView === "admin") {
+        renderAdmin();
+      }
+
+    } finally {
+
+      adminPullRefreshing = false;
+
+    }
+
+  },
+  { passive: true }
+);
 
 /* =========================================================
    봉사 신청 열기
