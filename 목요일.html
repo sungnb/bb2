@@ -1572,12 +1572,13 @@ let groups = [];
 
 let selectedApplicants = [];
 
+let replacementApplicant = "";
+
 let currentView = "apply";
 
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "thursdayAdminPassword";
 let adminAuthenticated = false;
-
 
 /* =========================================================
    시작
@@ -2146,10 +2147,30 @@ function renderAdmin() {
       }
 
       button.appendChild(document.createTextNode(name));
-      button.onclick = function() {
-        toggleApplicantForGroup(name);
-      };
-      namesBox.appendChild(button);
+
+button.onclick = function() {
+
+  /*
+    그룹에서 사람을 지운 직후라면
+    이 사람을 교체할 봉사자로 선택합니다.
+  */
+  if (replacementApplicant === null) {
+
+    replacementApplicant = name;
+
+    renderAdmin();
+
+    return;
+  }
+
+  /*
+    기존의 일반적인
+    그룹 봉사자 선택 기능은 그대로 사용합니다.
+  */
+  toggleApplicantForGroup(name);
+};
+
+namesBox.appendChild(button);
     });
   }
 
@@ -2164,6 +2185,23 @@ function renderAdmin() {
 }
 
 function toggleApplicantForGroup(name) {
+
+  /*
+    그룹에서 봉사자를 지운 후
+    교체할 봉사자를 선택하는 경우
+  */
+  if (replacementApplicant !== "") {
+
+    if (replacementApplicant === name) {
+      replacementApplicant = "";
+    } else {
+      replacementApplicant = name;
+    }
+
+    renderAdmin();
+    return;
+  }
+
 
   const index = selectedApplicants.indexOf(name);
 
@@ -2912,15 +2950,73 @@ async function handleSlotClick(
   slotIndex
 ) {
 
-  if (groups[groupIndex] && groups[groupIndex][slotIndex]) {
-    groups[groupIndex][slotIndex] = "";
-    renderAdmin();
-    renderService();
-    saveGroups().catch(function(error) { console.error(error); });
+  if (
+    !groups[groupIndex]
+  ) {
     return;
   }
 
-  alert("위에서 봉사자 4명을 선택한 후 배정 확정 버튼을 눌러 주세요.");
+
+  /*
+    위 미배정 신청자에서
+    교체할 봉사자를 선택한 상태에서
+    아래 빈자리를 누른 경우
+  */
+  if (
+    !groups[groupIndex][slotIndex] &&
+    replacementApplicant
+  ) {
+
+    groups[groupIndex][slotIndex] =
+      replacementApplicant;
+
+    replacementApplicant = "";
+
+    selectedApplicants = [];
+
+    renderAdmin();
+    renderService();
+
+    saveGroups().catch(function(error) {
+      console.error(error);
+    });
+
+    return;
+  }
+
+
+  /*
+    기존에 배정된 봉사자를 누르면
+    그 자리를 비웁니다.
+  */
+  if (
+    groups[groupIndex][slotIndex]
+  ) {
+
+    groups[groupIndex][slotIndex] = "";
+
+    replacementApplicant = "";
+
+    selectedApplicants = [];
+
+    renderAdmin();
+    renderService();
+
+    saveGroups().catch(function(error) {
+      console.error(error);
+    });
+
+    return;
+  }
+
+
+  /*
+    빈자리를 눌렀지만
+    위에서 교체할 봉사자를 선택하지 않은 경우
+  */
+  alert(
+    "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
+  );
 }
 
 
