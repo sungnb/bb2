@@ -5573,25 +5573,23 @@ async function saveStopReason(
 
 async function createNewGroup() {
 
-  const countEl =
-    document.getElementById(
-      "newGroupCount"
-    );
-
   const locationEl =
-    document.getElementById(
-      "newGroupLocation"
-    );
+  document.getElementById(
+    "newGroupLocation"
+  );
 
-  if (
-    !countEl ||
-    !locationEl
-  ) {
-    return;
-  }
+if (!locationEl) {
+  return;
+}
 
-  const count =
-    Number(countEl.value);
+
+/*
+   이미 선택된 봉사자 수를
+   그룹 인원으로 자동 사용
+*/
+
+const count =
+  selectedApplicants.length;
 
   const location =
     String(
@@ -6260,14 +6258,13 @@ if (!scheduleTime) {
         "100%";
 
 
-      /* 인원 */
+      /* 인원 - 선택된 봉사자 수 자동 표시 */
 
-      const countArea =
+const countArea =
   document.createElement("div");
 
 countArea.style.flex =
   "1";
-
 
 const countLabel =
   document.createElement("div");
@@ -6281,94 +6278,40 @@ countLabel.style.fontWeight =
 countLabel.style.marginBottom =
   "5px";
 
+const countText =
+  document.createElement("div");
 
-const countSelect =
-  document.createElement("select");
+countText.className =
+  "group-count-auto";
 
-countSelect.className =
-  "group-count-select";
+countText.textContent =
+  Number(group.count) + "명";
 
-countSelect.style.width =
+countText.style.width =
   "100%";
 
-      [4, 5, 6, 7].forEach(
-        function(count) {
+countText.style.boxSizing =
+  "border-box";
 
-          const option =
-            document.createElement("option");
+countText.style.padding =
+  "10px 12px";
 
-          option.value =
-            String(count);
+countText.style.borderRadius =
+  "8px";
 
-          option.textContent =
-            count + "명";
+countText.style.background =
+  "rgba(255,255,255,0.08)";
 
+countText.style.fontWeight =
+  "700";
 
-          if (
-            Number(group.count) ===
-            count
-          ) {
+countArea.appendChild(
+  countLabel
+);
 
-            option.selected =
-              true;
-
-          }
-
-
-          countSelect.appendChild(
-            option
-          );
-
-        }
-      );
-
-
-      countSelect.onchange =
-        function() {
-
-          const newCount =
-            Number(this.value);
-
-          group.count =
-            newCount;
-
-
-          if (
-            group.members.length >
-            newCount
-          ) {
-
-            group.members =
-              group.members.slice(
-                0,
-                newCount
-              );
-
-          }
-
-
-          /*
-             제출하기 전에는
-             서버에 저장하지 않습니다.
-          */
-
-          renderAdmin();
-
-          renderGroups();
-
-          renderService();
-
-        };
-
-
-      countArea.appendChild(
-        countLabel
-      );
-
-      countArea.appendChild(
-        countSelect
-      );
-
+countArea.appendChild(
+  countText
+);
 
       /* ===================================================
          봉사장소
