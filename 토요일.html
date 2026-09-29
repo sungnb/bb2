@@ -2217,14 +2217,14 @@ function renderAdmin() {
         document.createTextNode(name)
       );
 
-      button.onclick = function() {
+          button.onclick = function() {
 
         /*
           교체 모드이면
           일반 그룹 선택이 아니라
           교체할 1명을 선택합니다.
         */
-        if (replacementApplicant !== null) {
+        if (replacementApplicant) {
 
           if (replacementApplicant === name) {
 
