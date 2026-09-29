@@ -2273,8 +2273,8 @@ function toggleApplicantForGroup(name) {
     return;
   }
 
-  if (selectedApplicants.length >= 4) {
-    alert("한 그룹에는 4명까지만 선택할 수 있습니다.");
+  if (selectedApplicants.length >= 5) {
+    alert("한 그룹에는 5명까지만 선택할 수 있습니다.");
     return;
   }
 
@@ -2285,42 +2285,85 @@ function toggleApplicantForGroup(name) {
 async function confirmSelectedGroup() {
 
   if (selectedApplicants.length < 2) {
-  alert("봉사자를 2명 이상 선택해 주세요.");
-  return;
- }
+    alert("봉사자를 2명 이상 선택해 주세요.");
+    return;
+  }
 
-  const newGroup = selectedApplicants.slice(0, 4);
+  /*
+    선택한 2~5명을 그대로 하나의 그룹으로 저장합니다.
+  */
+  const newGroup =
+    selectedApplicants.slice(0, 5);
+
   let targetIndex = -1;
 
+  /*
+    기존에 비어 있는 그룹이 있으면
+    그 그룹에 배정합니다.
+  */
   for (let i = 0; i < groups.length; i++) {
-    const group = groups[i] || [];
-    if (group.every(function(name) { return !name; })) {
+
+    const group =
+      groups[i] || [];
+
+    if (
+      group.every(function(name) {
+        return !name;
+      })
+    ) {
       targetIndex = i;
       break;
     }
   }
 
+  /*
+    빈 그룹이 없으면 새 그룹을 추가합니다.
+  */
   if (targetIndex === -1) {
+
     groups.push(newGroup);
+
   } else {
-    groups[targetIndex] = newGroup;
+
+    groups[targetIndex] =
+      newGroup;
+
   }
 
   try {
+
     await saveGroups();
+
     selectedApplicants = [];
+
     renderAdmin();
+
     renderService();
+
   } catch (error) {
+
     console.error(error);
+
     if (targetIndex === -1) {
+
       groups.pop();
+
     } else {
-      groups[targetIndex] = ["", "", "", ""];
+
+      groups[targetIndex] =
+        ["", "", "", ""];
+
     }
-    alert("그룹 배정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
+
+    alert(
+      "그룹 배정 저장에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
     renderAdmin();
+
   }
+
 }
 
 /* =========================================================
