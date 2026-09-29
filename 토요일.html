@@ -3022,35 +3022,57 @@ async function handleSlotClick(
   /*
     ① 미배정 신청자를 먼저 선택한 상태에서
        빈자리를 누르면 그 자리에 배정
+
+       replacementApplicant 방식과
+       selectedApplicants 방식 모두 처리합니다.
   */
+
   if (
-    !groups[groupIndex][slotIndex] &&
-    replacementApplicant
+    !groups[groupIndex][slotIndex]
   ) {
 
-    groups[groupIndex][slotIndex] =
-      replacementApplicant;
+    let applicantToAssign = "";
 
-    replacementApplicant = "";
+    if (replacementApplicant) {
 
-    selectedApplicants = [];
+      applicantToAssign =
+        replacementApplicant;
 
-    renderAdmin();
+    } else if (
+      selectedApplicants.length === 1
+    ) {
 
-    renderService();
+      applicantToAssign =
+        selectedApplicants[0];
 
-    saveGroups().catch(function(error) {
-      console.error(error);
-    });
+    }
 
-    return;
+    if (applicantToAssign) {
+
+      groups[groupIndex][slotIndex] =
+        applicantToAssign;
+
+      replacementApplicant = "";
+
+      selectedApplicants = [];
+
+      renderAdmin();
+
+      renderService();
+
+      saveGroups().catch(function(error) {
+        console.error(error);
+      });
+
+      return;
+    }
   }
 
 
   /*
     ② 기존에 배정된 봉사자를 누르면 삭제
-       → 교체 모드로 전환
   */
+
   if (
     groups[groupIndex][slotIndex]
   ) {
@@ -3075,13 +3097,14 @@ async function handleSlotClick(
 
   /*
     ③ 빈자리를 눌렀지만
-       아직 위에서 미배정 신청자를 선택하지 않은 경우
+       아직 위 미배정 신청자에서
+       봉사자를 선택하지 않은 경우
   */
+
   alert(
     "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
   );
 }
-
 
 /* =========================================================
    봉사 구역 / 인도자 가져오기
