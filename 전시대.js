@@ -1542,14 +1542,14 @@ button.appendChild(
   arrow
 );
 
-      button.onclick =
-        function() {
+     button.onclick =
+  function() {
 
-          selectVolunteerSchedule(
-            schedule.key
-          );
+    selectVolunteerSchedule(
+      schedule.key
+    );
 
-        };
+  };
 
       volunteerArea.appendChild(
         button
