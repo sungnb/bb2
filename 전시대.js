@@ -1621,14 +1621,14 @@ if (volunteerArea) {
   if (adminSelector) {
 
     adminSelector
-      .querySelectorAll(
-        ".custom-admin-schedule"
-      )
-      .forEach(function(button) {
+  .querySelectorAll(
+    ".custom-admin-schedule-item"
+  )
+  .forEach(function(row) {
 
-        button.remove();
+    row.remove();
 
-      });
+  });
  
 
         customVolunteerSchedules.forEach(
@@ -1698,7 +1698,7 @@ row.appendChild(
 row.appendChild(
   deleteButton
 );
-
+       
 adminSelector.appendChild(
   row
 );
