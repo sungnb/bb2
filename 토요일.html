@@ -2556,12 +2556,21 @@ async function loadGroups() {
     groups =
       loaded.map(function(group) {
 
+        /*
+          그룹은 최대 5명까지 사용합니다.
+          기존 4명 그룹도 그대로 유지합니다.
+        */
         const result =
           Array.isArray(group)
-            ? group.slice(0, 4)
+            ? group.slice(0, 5)
             : [];
 
-        while (result.length < 4) {
+        /*
+          모든 그룹을 최소 5칸으로 맞춥니다.
+          2명 / 3명 / 4명 그룹도
+          나머지는 빈자리로 표시됩니다.
+        */
+        while (result.length < 5) {
           result.push("");
         }
 
@@ -2580,7 +2589,6 @@ async function loadGroups() {
   }
 
 }
-
 
 async function saveGroups() {
 
@@ -2869,9 +2877,6 @@ function renderGroups() {
     관리자 화면에서는
     최신 그룹부터 위에 보이도록
     4 → 3 → 2 → 1 순서로 표시합니다.
-
-    실제 groupIndex는 원래 배열의 인덱스를 그대로 사용하므로
-    그룹 번호와 배정된 봉사자는 이동하지 않습니다.
   */
 
   groups.slice().reverse().forEach(
@@ -2879,6 +2884,22 @@ function renderGroups() {
 
       const groupIndex =
         groups.length - 1 - reverseIndex;
+
+
+      /*
+        기존 데이터가 4명인 경우에도
+        화면에서 5번째 빈자리가 나타나도록
+        임시로 5칸을 만들어 표시합니다.
+      */
+      const displayGroup =
+        Array.isArray(group)
+          ? group.slice(0, 5)
+          : [];
+
+      while (displayGroup.length < 5) {
+        displayGroup.push("");
+      }
+
 
       const card =
         document.createElement("div");
@@ -2900,15 +2921,22 @@ function renderGroups() {
       title.className =
         "group-title";
 
+
       const sheetLabel =
         Array.isArray(window.SATURDAY_GROUP_LABELS)
-          ? (window.SATURDAY_GROUP_LABELS[groupIndex] || "")
+          ? (
+              window.SATURDAY_GROUP_LABELS[groupIndex] ||
+              ""
+            )
           : "";
 
-  title.textContent =
-  "그룹" +
-  (groupIndex + 1) +
-  (sheetLabel ? "  " + sheetLabel : "");
+
+      title.textContent =
+        "그룹" +
+        (groupIndex + 1) +
+        (sheetLabel
+          ? "  " + sheetLabel
+          : "");
 
 
       const resetButton =
@@ -2958,8 +2986,12 @@ function renderGroups() {
       const headerButtons =
         document.createElement("div");
 
-      headerButtons.style.display = "flex";
-      headerButtons.style.gap = "6px";
+      headerButtons.style.display =
+        "flex";
+
+      headerButtons.style.gap =
+        "6px";
+
 
       header.appendChild(title);
 
@@ -2983,7 +3015,7 @@ function renderGroups() {
         "group-slots";
 
 
-      group.forEach(
+      displayGroup.forEach(
         function(name, slotIndex) {
 
           const slot =
@@ -3011,8 +3043,14 @@ function renderGroups() {
               "empty"
             );
 
+            /*
+              0, 1 = A팀
+              2, 3, 4 = B팀
+            */
             slot.textContent =
-              slotIndex < 2 ? "A팀" : "B팀";
+              slotIndex < 2
+                ? "A팀"
+                : "B팀";
 
           }
 
@@ -3028,17 +3066,25 @@ function renderGroups() {
             };
 
 
-          slots.appendChild(slot);
+          slots.appendChild(
+            slot
+          );
 
         }
       );
 
 
-      card.appendChild(header);
+      card.appendChild(
+        header
+      );
 
-      card.appendChild(slots);
+      card.appendChild(
+        slots
+      );
 
-      box.appendChild(card);
+      box.appendChild(
+        card
+      );
 
     }
   );
