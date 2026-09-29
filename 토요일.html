@@ -3503,7 +3503,6 @@ function getServiceAreasForDisplay() {
 }
 
 
-
 /* =========================================================
    봉사하기 화면
 ========================================================= */
@@ -3537,12 +3536,12 @@ function renderService() {
       '</div>';
 
     return;
-
   }
 
 
   const displayAreas =
     getServiceAreasForDisplay();
+
 
   groups.forEach(
     function(group, index) {
@@ -3556,6 +3555,7 @@ function renderService() {
       if (!hasVolunteer) {
         return;
       }
+
 
       const area =
         displayAreas[index];
@@ -3647,14 +3647,20 @@ function renderService() {
       name.className =
         "service-name";
 
+
       if (area) {
+
         name.textContent =
           area.name;
+
       } else {
+
         name.textContent =
           "봉사 구역 " +
           (index + 1);
+
       }
+
 
       const info =
         document.createElement("div");
@@ -3664,21 +3670,28 @@ function renderService() {
 
       info.appendChild(name);
 
+
       const detail =
         document.createElement("div");
 
       detail.className =
         "service-detail";
 
+
       if (area) {
+
         detail.textContent =
           area.ho +
           " 호 " +
           area.m;
+
       } else {
+
         detail.textContent =
           "등록된 봉사 구역 정보가 없습니다.";
+
       }
+
 
       info.appendChild(detail);
 
@@ -3693,12 +3706,26 @@ function renderService() {
         "service-volunteers";
 
 
-      for (let pairIndex = 0; pairIndex < 2; pairIndex++) {
+      /* =====================================================
+         A팀 2명 / B팀 3명
+         총 5명 표시
+      ===================================================== */
+
+      const teamSizes = [2, 3];
+
+
+      for (
+        let pairIndex = 0;
+        pairIndex < teamSizes.length;
+        pairIndex++
+      ) {
 
         const pair =
           document.createElement("div");
 
-        pair.className = "service-pair";
+        pair.className =
+          "service-pair";
+
 
         const teamLabel =
           document.createElement("div");
@@ -3707,9 +3734,14 @@ function renderService() {
           "service-team-label";
 
         teamLabel.textContent =
-          pairIndex === 0 ? "A팀" : "B팀";
+          pairIndex === 0
+            ? "A팀"
+            : "B팀";
 
-        pair.appendChild(teamLabel);
+        pair.appendChild(
+          teamLabel
+        );
+
 
         const pairPeople =
           document.createElement("div");
@@ -3717,13 +3749,22 @@ function renderService() {
         pairPeople.className =
           "service-pair-people";
 
-        for (let i = 0; i < 2; i++) {
+
+        for (
+          let i = 0;
+          i < teamSizes[pairIndex];
+          i++
+        ) {
 
           const slotIndex =
-            pairIndex * 2 + i;
+            pairIndex === 0
+              ? i
+              : 2 + i;
+
 
           const person =
             group[slotIndex];
+
 
           const personBox =
             document.createElement("div");
@@ -3735,13 +3776,22 @@ function renderService() {
           personBox.textContent =
             person || "배정 전";
 
+
           pairPeople.appendChild(
             personBox
           );
+
         }
 
-        pair.appendChild(pairPeople);
-        volunteers.appendChild(pair);
+
+        pair.appendChild(
+          pairPeople
+        );
+
+        volunteers.appendChild(
+          pair
+        );
+
       }
 
 
