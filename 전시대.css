@@ -2204,15 +2204,24 @@ body:not(.light) .service-appointment-divider {
   align-items: stretch;
   gap: 8px;
   width: 100%;
+  margin-bottom: 20px;
+}
+
+.custom-admin-schedule-item:last-child {
+  margin-bottom: 0;
 }
 
 .custom-admin-schedule-item .custom-admin-schedule-button {
   flex: 1;
   min-width: 0;
+
+  min-height: 55px;
 }
 
 .custom-admin-schedule-delete-button {
   flex: 0 0 62px;
+
+  min-height: 55px;
 
   border: 0;
   border-radius: 12px;
@@ -2224,6 +2233,10 @@ body:not(.light) .service-appointment-divider {
   font-weight: 700;
 
   cursor: pointer;
+}
+
+.custom-admin-schedule-delete-button:active {
+  transform: scale(0.98);
 }
 
 .custom-admin-schedule-delete-button:active {
