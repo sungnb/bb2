@@ -3094,8 +3094,10 @@ function renderGroups() {
 
 /* =========================================================
    슬롯에 봉사자 배치
+   - 미배정 신청자 1명을 선택
+   - 원하는 빈자리를 클릭하면 그 자리에 배정
+   - 기존 배정자를 클릭하면 해당 자리만 삭제
 ========================================================= */
-
 async function handleSlotClick(
   groupIndex,
   slotIndex
@@ -3109,11 +3111,10 @@ async function handleSlotClick(
 
 
   /*
-    ① 미배정 신청자를 먼저 선택한 상태에서
-       빈자리를 누르면 그 자리에 배정
+    ① 빈자리인 경우
 
-       replacementApplicant 방식과
-       selectedApplicants 방식 모두 처리합니다.
+       위 미배정 신청자에서 선택한
+       1명을 현재 클릭한 빈자리에 배정합니다.
   */
 
   if (
@@ -3122,77 +3123,130 @@ async function handleSlotClick(
 
     let applicantToAssign = "";
 
-    if (replacementApplicant) {
-
-      applicantToAssign =
-        replacementApplicant;
-
-    } else if (
+    /*
+      미배정 신청자에서 선택한 사람이 있으면
+      그 사람을 우선 사용합니다.
+    */
+    if (
       selectedApplicants.length === 1
     ) {
 
       applicantToAssign =
         selectedApplicants[0];
 
+    /*
+      기존 replacementApplicant 방식도
+      혹시 남아 있는 경우를 대비하여 처리합니다.
+    */
+    } else if (
+      replacementApplicant
+    ) {
+
+      applicantToAssign =
+        replacementApplicant;
     }
 
-    if (applicantToAssign) {
+
+    /*
+      실제 빈자리에 배정
+    */
+    if (
+      applicantToAssign
+    ) {
 
       groups[groupIndex][slotIndex] =
         applicantToAssign;
 
-      replacementApplicant = "";
-
+      /*
+        배정이 끝났으므로
+        선택 상태를 초기화합니다.
+      */
       selectedApplicants = [];
 
+      replacementApplicant = "";
+
+
+      /*
+        화면 즉시 갱신
+      */
       renderAdmin();
 
       renderService();
 
-      saveGroups().catch(function(error) {
-        console.error(error);
-      });
+
+      /*
+        실제 저장
+      */
+      try {
+
+        await saveGroups();
+
+      } catch (error) {
+
+        console.error(
+          "봉사자 배정 저장 오류:",
+          error
+        );
+
+      }
 
       return;
     }
-  }
 
 
-  /*
-    ② 기존에 배정된 봉사자를 누르면 삭제
-  */
-
-  if (
-    groups[groupIndex][slotIndex]
-  ) {
-
-    groups[groupIndex][slotIndex] = "";
-
-    replacementApplicant = "";
-
-    selectedApplicants = [];
-
-    renderAdmin();
-
-    renderService();
-
-    saveGroups().catch(function(error) {
-      console.error(error);
-    });
+    /*
+      빈자리를 눌렀는데
+      미배정 신청자를 선택하지 않은 경우
+    */
+    alert(
+      "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
+    );
 
     return;
   }
 
 
   /*
-    ③ 빈자리를 눌렀지만
-       아직 위 미배정 신청자에서
-       봉사자를 선택하지 않은 경우
+    ② 이미 배정된 사람을 클릭하면
+       그 사람만 해당 자리에서 삭제합니다.
   */
 
-  alert(
-    "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
-  );
+  groups[groupIndex][slotIndex] =
+    "";
+
+
+  /*
+    기존 선택 상태도 초기화
+  */
+  selectedApplicants = [];
+
+  replacementApplicant = "";
+
+
+  /*
+    화면 갱신
+  */
+  renderAdmin();
+
+  renderService();
+
+
+  /*
+    삭제 내용 저장
+  */
+  try {
+
+    await saveGroups();
+
+  } catch (error) {
+
+    console.error(
+      "봉사자 삭제 저장 오류:",
+      error
+    );
+
+  }
+
 }
 
 /* =========================================================
