@@ -5591,6 +5591,16 @@ if (!locationEl) {
 const count =
   selectedApplicants.length;
 
+const countEl =
+  document.getElementById(
+    "newGroupCount"
+  );
+
+if (countEl) {
+  countEl.value =
+    String(count);
+}
+   
   const location =
     String(
       locationEl.value || ""
@@ -5683,6 +5693,7 @@ const count =
   renderService();
 
 }
+
 /* =========================================================
    새 봉사 그룹 추가 취소
 ========================================================= */
