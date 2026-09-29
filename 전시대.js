@@ -1512,15 +1512,35 @@ if (volunteerArea) {
       button.className =
         "service-schedule-button custom-volunteer-schedule";
 
-      button.textContent =
-        String(
-          schedule.key ||
-          schedule.displayName ||
-          schedule.dateText
-        ).replace(
-          /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
-          "$1_$2:$3"
-        );
+      const label =
+  document.createElement("span");
+
+label.textContent =
+  String(
+    schedule.key ||
+    schedule.displayName ||
+    schedule.dateText
+  ).replace(
+    /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
+    "$1_$2:$3"
+  );
+
+const arrow =
+  document.createElement("span");
+
+arrow.className =
+  "service-schedule-arrow";
+
+arrow.textContent =
+  "›";
+
+button.appendChild(
+  label
+);
+
+button.appendChild(
+  arrow
+);
 
       button.onclick =
         function() {
@@ -1577,7 +1597,10 @@ if (volunteerArea) {
           "service-schedule-button custom-service-schedule";
 
 
-         button.textContent =
+         const label =
+  document.createElement("span");
+
+label.textContent =
   String(
     schedule.key ||
     schedule.displayName ||
@@ -1586,6 +1609,23 @@ if (volunteerArea) {
     /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
     "$1_$2:$3"
   );
+
+const arrow =
+  document.createElement("span");
+
+arrow.className =
+  "service-schedule-arrow";
+
+arrow.textContent =
+  "›";
+
+button.appendChild(
+  label
+);
+
+button.appendChild(
+  arrow
+);
 
 
         button.onclick =
@@ -1649,7 +1689,10 @@ button.type =
 button.className =
   "custom-admin-schedule-button";
 
-button.textContent =
+const label =
+  document.createElement("span");
+
+label.textContent =
   String(
     schedule.key ||
     schedule.displayName ||
@@ -1658,6 +1701,23 @@ button.textContent =
     /^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})$/,
     "$1_$2:$3"
   );
+
+const arrow =
+  document.createElement("span");
+
+arrow.className =
+  "service-schedule-arrow";
+
+arrow.textContent =
+  "›";
+
+button.appendChild(
+  label
+);
+
+button.appendChild(
+  arrow
+);
 
 button.onclick =
   function() {
