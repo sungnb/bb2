@@ -2261,6 +2261,8 @@ function backToAdminSchedule() {
   selectedAdminSchedule = "";
   selectedApplicants = [];
 
+  document.body.style.overscrollBehaviorY = "";
+
   const scheduleSelector =
     document.getElementById(
       "adminScheduleSelector"
@@ -2282,6 +2284,172 @@ function backToAdminSchedule() {
   }
 
 }
+
+
+/* =========================================================
+   관리자용 현재 일정 빠른 새로고침
+   ---------------------------------------------------------
+   휴대폰에서 관리용 화면을 아래로 당기면
+   현재 선택된 일정의 신청자와 그룹을 다시 불러온다.
+========================================================= */
+
+let adminPullStartY = 0;
+let adminPullRefreshing = false;
+
+function refreshCurrentAdminSchedule() {
+
+  if (
+    !selectedAdminSchedule ||
+    adminPullRefreshing
+  ) {
+    return;
+  }
+
+  adminPullRefreshing = true;
+
+  /*
+    이전 일정의 화면 내용이 잠시 보이지 않도록
+    현재 표시 내용을 먼저 비운다.
+  */
+
+  selectedApplicants = [];
+  groups = [];
+
+  const count =
+    document.getElementById(
+      "adminCount"
+    );
+
+  const names =
+    document.getElementById(
+      "adminNames"
+    );
+
+  const groupsBox =
+    document.getElementById(
+      "groups"
+    );
+
+  if (count) {
+    count.textContent =
+      "미배정 신청자 불러오는 중...";
+  }
+
+  if (names) {
+    names.innerHTML =
+      '<div class="service-empty">' +
+      '현재 일정의 신청자를 불러오는 중입니다.' +
+      '</div>';
+  }
+
+  if (groupsBox) {
+    groupsBox.innerHTML = "";
+  }
+
+  /*
+    현재 선택되어 있는 일정만 다시 불러온다.
+  */
+
+  loadApplicants()
+    .finally(function() {
+
+      adminPullRefreshing =
+        false;
+
+    });
+
+}
+
+
+/* =========================================================
+   휴대폰 아래로 당기기 감지
+========================================================= */
+
+document.addEventListener(
+  "touchstart",
+  function(event) {
+
+    if (
+      currentView !== "admin" ||
+      !selectedAdminSchedule
+    ) {
+      return;
+    }
+
+    if (
+      window.scrollY > 0
+    ) {
+      return;
+    }
+
+    if (
+      event.touches &&
+      event.touches.length === 1
+    ) {
+
+      adminPullStartY =
+        event.touches[0].clientY;
+
+    }
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+document.addEventListener(
+  "touchend",
+  function(event) {
+
+    if (
+      currentView !== "admin" ||
+      !selectedAdminSchedule ||
+      adminPullRefreshing
+    ) {
+      return;
+    }
+
+    if (
+      window.scrollY > 0
+    ) {
+      return;
+    }
+
+    if (
+      !event.changedTouches ||
+      !event.changedTouches.length
+    ) {
+      return;
+    }
+
+    const endY =
+      event.changedTouches[0].clientY;
+
+    const pullDistance =
+      endY - adminPullStartY;
+
+    /*
+      아래 방향으로 80px 이상 당겼을 때만
+      새로고침
+    */
+
+    if (
+      pullDistance >= 80
+    ) {
+
+      refreshCurrentAdminSchedule();
+
+    }
+
+    adminPullStartY = 0;
+
+  },
+  {
+    passive: true
+  }
+);
 
 function showView(view) {
 
