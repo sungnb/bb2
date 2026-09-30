@@ -980,6 +980,24 @@ body.light .service-refresh-button {
   cursor: default;
 }
 
+/* =========================================================
+   새로고침 버튼 회전
+========================================================= */
+
+.service-refresh-button.refreshing {
+  animation: serviceRefreshSpin 0.8s linear infinite;
+}
+
+@keyframes serviceRefreshSpin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+   
 .volunteer-apply-area {
   display: none;
 }
