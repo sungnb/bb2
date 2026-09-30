@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>목요일</title>
+<title>토요일</title>
 
 <style>
 /* =========================================================
@@ -451,11 +451,13 @@ body.light .group-card {
 .group-slot.filled {
   border: 3px solid #6FA8D8;
   background: rgba(111,168,216,.16);
+  color: #fff;
 }
 
 body.light .group-slot.filled {
   border: 3px solid #3F6F9F;
   background: #eef5fb;
+  color: #222;
 }
 
 .group-slot.empty {
@@ -979,7 +981,25 @@ body.light .service-refresh-button {
   opacity: .55;
   cursor: default;
 }
+   
+/* =========================================================
+   새로고침 버튼 회전
+========================================================= */
 
+.service-refresh-button.refreshing {
+  animation: serviceRefreshSpin 0.8s linear infinite;
+}
+
+@keyframes serviceRefreshSpin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+   
 .volunteer-apply-area {
   display: none;
 }
@@ -1101,12 +1121,12 @@ body.light .service-refresh-button {
     ‹
   </button>
 
-  <!-- 상단 제목은 반드시 목요일 -->
+  <!-- 상단 제목은 반드시 토요일 -->
   <div
     class="top-title"
     id="topTitle"
   >
-    목요일
+    토요일
   </div>
 
   <button
@@ -1452,17 +1472,17 @@ body.light .service-refresh-button {
 ========================================================= */
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbws3Uvn2tFpkRzd3TDXhMqXH8lnqiSCtvHMUUnfi_k5vSgaYXAtZy8e4-rzBpWkrQ3i/exec";
+  "https://script.google.com/macros/s/AKfycbzpxq0Q0ZQfvA5GtQiEoNZjctVN_9TQUYetr4xGFGZTeWvj1zQGMgms7wwqD-uRBG0w/exec";
 
 const MY_SELECTION_KEY =
-  "thursdayMySelections";
+  "saturdayMySelections";
 
 const GROUP_KEY =
   "saturdayVolunteerGroups";
 
 const SATURDAY_SHEET_ID =
-  "1tYhxniRcyuhK1qpBPCej40Zxmey6E-UjKfu3-XoEa5o";
-const SATURDAY_SHEET_NAME = "목요일";
+  "16m9qWaHjy38MSuiLFt6q9JIsjC4zE490zZ12q-aByWc";
+const SATURDAY_SHEET_NAME = "토요일";
 
 
 /* =========================================================
@@ -1572,6 +1592,9 @@ let groups = [];
 
 let selectedApplicants = [];
 
+/* 그룹에서 사람을 지운 후
+   미배정 신청자를 선택하여
+   빈자리에 다시 배정할 때 사용 */
 let replacementApplicant = "";
 
 let currentView = "apply";
@@ -1579,6 +1602,7 @@ let currentView = "apply";
 const ADMIN_PASSWORD = "3061";
 const ADMIN_PASSWORD_KEY = "thursdayAdminPassword";
 let adminAuthenticated = false;
+
 
 /* =========================================================
    시작
@@ -1641,7 +1665,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "목요일";
+      .textContent = "토요일";
 
     setActiveNav("navApply");
 
@@ -1658,7 +1682,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "목요일";
+      .textContent = "토요일";
 
     setActiveNav("navAdmin");
 
@@ -1675,7 +1699,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "목요일";
+      .textContent = "토요일";
 
     setActiveNav("navService");
 
@@ -1828,7 +1852,7 @@ function goBack() {
 
 /* =========================================================
    봉사자 명단
-   목요일.html에 기록된 명단 사용
+   토요일.html에 기록된 명단 사용
 ========================================================= */
 
 function loadMasterNames() {
@@ -2109,99 +2133,157 @@ function renderAdmin() {
   const namesBox = document.getElementById("adminNames");
   namesBox.innerHTML = "";
 
-  if (selectedApplicants.length > 0) {
+  if (replacementApplicant) {
+
     const info = document.createElement("div");
+
     info.style.width = "100%";
     info.style.color = "#6FA8D8";
     info.style.fontWeight = "700";
     info.style.marginBottom = "2px";
-    info.textContent = "선택 " + selectedApplicants.length + "/4명";
+
+    info.textContent =
+      "교체할 봉사자를 선택하세요";
+
+    namesBox.appendChild(info);
+
+  } else if (selectedApplicants.length > 0) {
+
+    const info = document.createElement("div");
+
+    info.style.width = "100%";
+    info.style.color = "#6FA8D8";
+    info.style.fontWeight = "700";
+    info.style.marginBottom = "2px";
+
+    info.textContent =
+      "선택 " + selectedApplicants.length + "/4명";
+
     namesBox.appendChild(info);
   }
 
   const addButton = document.createElement("button");
+
   addButton.type = "button";
   addButton.className = "admin-add-button";
   addButton.textContent = "+ 추가";
   addButton.onclick = addManualApplicant;
 
   if (unassignedApplicants.length === 0) {
+
     const empty = document.createElement("div");
+
     empty.className = "service-empty";
     empty.style.width = "100%";
-    empty.textContent = "미배정 신청자가 없습니다.";
+    empty.textContent =
+      "미배정 신청자가 없습니다.";
+
     namesBox.appendChild(empty);
+
   } else {
+
     unassignedApplicants.forEach(function(name) {
-      const button = document.createElement("button");
+
+      const button =
+        document.createElement("button");
+
       button.type = "button";
       button.className = "admin-name";
 
-      const selectedIndex = selectedApplicants.indexOf(name);
-      if (selectedIndex !== -1) {
+      /*
+        그룹에서 사람을 지운 후에는
+        이 사람을 교체 대상자로 선택합니다.
+      */
+      if (
+        replacementApplicant &&
+        replacementApplicant === name
+      ) {
+
         button.classList.add("selected");
-        const badge = document.createElement("span");
-        badge.className = "admin-selection-badge";
-        badge.textContent = String(selectedIndex + 1);
+
+        const badge =
+          document.createElement("span");
+
+        badge.className =
+          "admin-selection-badge";
+
+        badge.textContent = "✓";
+
         button.appendChild(badge);
+
+      } else {
+
+        const selectedIndex =
+          selectedApplicants.indexOf(name);
+
+        if (selectedIndex !== -1) {
+
+          button.classList.add("selected");
+
+          const badge =
+            document.createElement("span");
+
+          badge.className =
+            "admin-selection-badge";
+
+          badge.textContent =
+            String(selectedIndex + 1);
+
+          button.appendChild(badge);
+        }
       }
 
-      button.appendChild(document.createTextNode(name));
+      button.appendChild(
+        document.createTextNode(name)
+      );
 
-button.onclick = function() {
+          button.onclick = function() {
 
-  /*
-    그룹에서 사람을 지운 직후라면
-    이 사람을 교체할 봉사자로 선택합니다.
-  */
-  if (replacementApplicant === null) {
+        /*
+          교체 모드이면
+          일반 그룹 선택이 아니라
+          교체할 1명을 선택합니다.
+        */
+        if (replacementApplicant) {
 
-    replacementApplicant = name;
+          if (replacementApplicant === name) {
 
-    renderAdmin();
+            replacementApplicant = "";
 
-    return;
-  }
+          } else {
 
-  /*
-    기존의 일반적인
-    그룹 봉사자 선택 기능은 그대로 사용합니다.
-  */
-  toggleApplicantForGroup(name);
-};
+            replacementApplicant = name;
+          }
 
-namesBox.appendChild(button);
+          renderAdmin();
+
+          return;
+        }
+
+        toggleApplicantForGroup(name);
+      };
+
+      namesBox.appendChild(button);
+
     });
   }
 
   namesBox.appendChild(addButton);
 
-  const confirmButton = document.getElementById("confirmGroupButton");
+  const confirmButton =
+    document.getElementById(
+      "confirmGroupButton"
+    );
+
   if (confirmButton) {
-    confirmButton.disabled = selectedApplicants.length < 2;
+
+    confirmButton.disabled =
+      selectedApplicants.length < 2;
   }
 
   renderGroups();
 }
-
 function toggleApplicantForGroup(name) {
-
-  /*
-    그룹에서 봉사자를 지운 후
-    교체할 봉사자를 선택하는 경우
-  */
-  if (replacementApplicant !== "") {
-
-    if (replacementApplicant === name) {
-      replacementApplicant = "";
-    } else {
-      replacementApplicant = name;
-    }
-
-    renderAdmin();
-    return;
-  }
-
 
   const index = selectedApplicants.indexOf(name);
 
@@ -2211,8 +2293,8 @@ function toggleApplicantForGroup(name) {
     return;
   }
 
-  if (selectedApplicants.length >= 4) {
-    alert("한 그룹에는 4명까지만 선택할 수 있습니다.");
+  if (selectedApplicants.length >= 5) {
+    alert("한 그룹에는 5명까지만 선택할 수 있습니다.");
     return;
   }
 
@@ -2223,42 +2305,85 @@ function toggleApplicantForGroup(name) {
 async function confirmSelectedGroup() {
 
   if (selectedApplicants.length < 2) {
-  alert("봉사자를 2명 이상 선택해 주세요.");
-  return;
- }
+    alert("봉사자를 2명 이상 선택해 주세요.");
+    return;
+  }
 
-  const newGroup = selectedApplicants.slice(0, 4);
+  /*
+    선택한 2~5명을 그대로 하나의 그룹으로 저장합니다.
+  */
+  const newGroup =
+    selectedApplicants.slice(0, 5);
+
   let targetIndex = -1;
 
+  /*
+    기존에 비어 있는 그룹이 있으면
+    그 그룹에 배정합니다.
+  */
   for (let i = 0; i < groups.length; i++) {
-    const group = groups[i] || [];
-    if (group.every(function(name) { return !name; })) {
+
+    const group =
+      groups[i] || [];
+
+    if (
+      group.every(function(name) {
+        return !name;
+      })
+    ) {
       targetIndex = i;
       break;
     }
   }
 
+  /*
+    빈 그룹이 없으면 새 그룹을 추가합니다.
+  */
   if (targetIndex === -1) {
+
     groups.push(newGroup);
+
   } else {
-    groups[targetIndex] = newGroup;
+
+    groups[targetIndex] =
+      newGroup;
+
   }
 
   try {
+
     await saveGroups();
+
     selectedApplicants = [];
+
     renderAdmin();
+
     renderService();
+
   } catch (error) {
+
     console.error(error);
+
     if (targetIndex === -1) {
+
       groups.pop();
+
     } else {
-      groups[targetIndex] = ["", "", "", ""];
+
+      groups[targetIndex] =
+        ["", "", "", ""];
+
     }
-    alert("그룹 배정 저장에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
+
+    alert(
+      "그룹 배정 저장에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
+    );
+
     renderAdmin();
+
   }
+
 }
 
 /* =========================================================
@@ -2363,7 +2488,7 @@ async function loadGroupSheetLabels() {
 
     if (!response.ok) {
       throw new Error(
-        "목요일 시트 그룹 정보를 불러오지 못했습니다."
+        "토요일 시트 그룹 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2373,7 +2498,7 @@ async function loadGroupSheetLabels() {
     if (!data.success) {
       throw new Error(
         data.message ||
-        "목요일 시트 그룹 정보를 불러오지 못했습니다."
+        "토요일 시트 그룹 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2413,7 +2538,7 @@ async function loadGroupSheetLabels() {
   } catch (error) {
 
     console.error(
-      "목요일 시트 그룹 표시 정보:",
+      "토요일 시트 그룹 표시 정보:",
       error
     );
 
@@ -2451,12 +2576,21 @@ async function loadGroups() {
     groups =
       loaded.map(function(group) {
 
+        /*
+          그룹은 최대 5명까지 사용합니다.
+          기존 4명 그룹도 그대로 유지합니다.
+        */
         const result =
           Array.isArray(group)
-            ? group.slice(0, 4)
+            ? group.slice(0, 5)
             : [];
 
-        while (result.length < 4) {
+        /*
+          모든 그룹을 최소 5칸으로 맞춥니다.
+          2명 / 3명 / 4명 그룹도
+          나머지는 빈자리로 표시됩니다.
+        */
+        while (result.length < 5) {
           result.push("");
         }
 
@@ -2475,7 +2609,6 @@ async function loadGroups() {
   }
 
 }
-
 
 async function saveGroups() {
 
@@ -2645,11 +2778,12 @@ async function addGroup() {
   /* 새 그룹은 생성 순서의 맨 뒤에 추가합니다. */
 
   groups.push([
-    "",
-    "",
-    "",
-    ""
-  ]);
+  "",
+  "",
+  "",
+  "",
+  ""
+]);
 
   await saveGroups();
 
@@ -2713,11 +2847,12 @@ async function resetGroup(index) {
   }
 
   groups[index] = [
-    "",
-    "",
-    "",
-    ""
-  ];
+  "",
+  "",
+  "",
+  "",
+  ""
+];
 
   selectedApplicants = [];
 
@@ -2764,9 +2899,6 @@ function renderGroups() {
     관리자 화면에서는
     최신 그룹부터 위에 보이도록
     4 → 3 → 2 → 1 순서로 표시합니다.
-
-    실제 groupIndex는 원래 배열의 인덱스를 그대로 사용하므로
-    그룹 번호와 배정된 봉사자는 이동하지 않습니다.
   */
 
   groups.slice().reverse().forEach(
@@ -2774,6 +2906,22 @@ function renderGroups() {
 
       const groupIndex =
         groups.length - 1 - reverseIndex;
+
+
+      /*
+        기존 데이터가 4명인 경우에도
+        화면에서 5번째 빈자리가 나타나도록
+        임시로 5칸을 만들어 표시합니다.
+      */
+      const displayGroup =
+        Array.isArray(group)
+          ? group.slice(0, 5)
+          : [];
+
+      while (displayGroup.length < 5) {
+        displayGroup.push("");
+      }
+
 
       const card =
         document.createElement("div");
@@ -2795,15 +2943,22 @@ function renderGroups() {
       title.className =
         "group-title";
 
+
       const sheetLabel =
         Array.isArray(window.SATURDAY_GROUP_LABELS)
-          ? (window.SATURDAY_GROUP_LABELS[groupIndex] || "")
+          ? (
+              window.SATURDAY_GROUP_LABELS[groupIndex] ||
+              ""
+            )
           : "";
 
-  title.textContent =
-  "그룹" +
-  (groupIndex + 1) +
-  (sheetLabel ? "  " + sheetLabel : "");
+
+      title.textContent =
+        "그룹" +
+        (groupIndex + 1) +
+        (sheetLabel
+          ? "  " + sheetLabel
+          : "");
 
 
       const resetButton =
@@ -2853,8 +3008,12 @@ function renderGroups() {
       const headerButtons =
         document.createElement("div");
 
-      headerButtons.style.display = "flex";
-      headerButtons.style.gap = "6px";
+      headerButtons.style.display =
+        "flex";
+
+      headerButtons.style.gap =
+        "6px";
+
 
       header.appendChild(title);
 
@@ -2878,7 +3037,7 @@ function renderGroups() {
         "group-slots";
 
 
-      group.forEach(
+      displayGroup.forEach(
         function(name, slotIndex) {
 
           const slot =
@@ -2906,8 +3065,14 @@ function renderGroups() {
               "empty"
             );
 
+            /*
+              0, 1 = A팀
+              2, 3, 4 = B팀
+            */
             slot.textContent =
-              slotIndex < 2 ? "A팀" : "B팀";
+              slotIndex < 2
+                ? "A팀"
+                : "B팀";
 
           }
 
@@ -2923,17 +3088,25 @@ function renderGroups() {
             };
 
 
-          slots.appendChild(slot);
+          slots.appendChild(
+            slot
+          );
 
         }
       );
 
 
-      card.appendChild(header);
+      card.appendChild(
+        header
+      );
 
-      card.appendChild(slots);
+      card.appendChild(
+        slots
+      );
 
-      box.appendChild(card);
+      box.appendChild(
+        card
+      );
 
     }
   );
@@ -2943,8 +3116,10 @@ function renderGroups() {
 
 /* =========================================================
    슬롯에 봉사자 배치
+   - 미배정 신청자 1명을 선택
+   - 원하는 빈자리를 클릭하면 그 자리에 배정
+   - 기존 배정자를 클릭하면 해당 자리만 삭제
 ========================================================= */
-
 async function handleSlotClick(
   groupIndex,
   slotIndex
@@ -2958,67 +3133,143 @@ async function handleSlotClick(
 
 
   /*
-    위 미배정 신청자에서
-    교체할 봉사자를 선택한 상태에서
-    아래 빈자리를 누른 경우
+    ① 빈자리인 경우
+
+       위 미배정 신청자에서 선택한
+       1명을 현재 클릭한 빈자리에 배정합니다.
   */
+
   if (
-    !groups[groupIndex][slotIndex] &&
-    replacementApplicant
+    !groups[groupIndex][slotIndex]
   ) {
 
-    groups[groupIndex][slotIndex] =
-      replacementApplicant;
+    let applicantToAssign = "";
 
-    replacementApplicant = "";
+    /*
+      미배정 신청자에서 선택한 사람이 있으면
+      그 사람을 우선 사용합니다.
+    */
+    if (
+      selectedApplicants.length === 1
+    ) {
 
-    selectedApplicants = [];
+      applicantToAssign =
+        selectedApplicants[0];
 
-    renderAdmin();
-    renderService();
+    /*
+      기존 replacementApplicant 방식도
+      혹시 남아 있는 경우를 대비하여 처리합니다.
+    */
+    } else if (
+      replacementApplicant
+    ) {
 
-    saveGroups().catch(function(error) {
-      console.error(error);
-    });
+      applicantToAssign =
+        replacementApplicant;
+    }
+
+
+    /*
+      실제 빈자리에 배정
+    */
+    if (
+      applicantToAssign
+    ) {
+
+      groups[groupIndex][slotIndex] =
+        applicantToAssign;
+
+      /*
+        배정이 끝났으므로
+        선택 상태를 초기화합니다.
+      */
+      selectedApplicants = [];
+
+      replacementApplicant = "";
+
+
+      /*
+        화면 즉시 갱신
+      */
+      renderAdmin();
+
+      renderService();
+
+
+      /*
+        실제 저장
+      */
+      try {
+
+        await saveGroups();
+
+      } catch (error) {
+
+        console.error(
+          "봉사자 배정 저장 오류:",
+          error
+        );
+
+      }
+
+      return;
+    }
+
+
+    /*
+      빈자리를 눌렀는데
+      미배정 신청자를 선택하지 않은 경우
+    */
+    alert(
+      "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
+    );
 
     return;
   }
 
 
   /*
-    기존에 배정된 봉사자를 누르면
-    그 자리를 비웁니다.
+    ② 이미 배정된 사람을 클릭하면
+       그 사람만 해당 자리에서 삭제합니다.
   */
-  if (
-    groups[groupIndex][slotIndex]
-  ) {
 
-    groups[groupIndex][slotIndex] = "";
-
-    replacementApplicant = "";
-
-    selectedApplicants = [];
-
-    renderAdmin();
-    renderService();
-
-    saveGroups().catch(function(error) {
-      console.error(error);
-    });
-
-    return;
-  }
+  groups[groupIndex][slotIndex] =
+    "";
 
 
   /*
-    빈자리를 눌렀지만
-    위에서 교체할 봉사자를 선택하지 않은 경우
+    기존 선택 상태도 초기화
   */
-  alert(
-    "위 미배정 신청자에서 봉사자 1명을 먼저 선택해 주세요."
-  );
+  selectedApplicants = [];
+
+  replacementApplicant = "";
+
+
+  /*
+    화면 갱신
+  */
+  renderAdmin();
+
+  renderService();
+
+
+  /*
+    삭제 내용 저장
+  */
+  try {
+
+    await saveGroups();
+
+  } catch (error) {
+
+    console.error(
+      "봉사자 삭제 저장 오류:",
+      error
+    );
+
+  }
+
 }
-
 
 /* =========================================================
    봉사 구역 / 인도자 가져오기
@@ -3070,7 +3321,7 @@ async function loadServiceData() {
           })
         : [];
 
-    // 인도자는 Apps Script의 bon 값이 아니라 목요일!F4에서만 가져옵니다.
+    // 인도자는 Apps Script의 bon 값이 아니라 토요일!F4에서만 가져옵니다.
 
     return true;
 
@@ -3084,9 +3335,9 @@ async function loadServiceData() {
 
 
 /* =========================================================
-   Google Sheet "목요일" 시트 기준 적용
+   Google Sheet "토요일" 시트 기준 적용
    - Apps Script의 bon 봉사 데이터는 변경하지 않습니다.
-   - 목요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
+   - 토요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
 ========================================================= */
 async function loadSaturdayReference() {
 
@@ -3103,7 +3354,7 @@ async function loadSaturdayReference() {
 
     if (!response.ok) {
       throw new Error(
-        "목요일 데이터를 불러오지 못했습니다."
+        "토요일 데이터를 불러오지 못했습니다."
       );
     }
 
@@ -3113,7 +3364,7 @@ async function loadSaturdayReference() {
     if (!data.success) {
       throw new Error(
         data.message ||
-        "목요일 데이터를 불러오지 못했습니다."
+        "토요일 데이터를 불러오지 못했습니다."
       );
     }
 
@@ -3173,7 +3424,7 @@ async function loadSaturdayReference() {
   } catch (error) {
 
     console.error(
-      "목요일 시트 기준 데이터:",
+      "토요일 시트 기준 데이터:",
       error
     );
 
@@ -3238,7 +3489,7 @@ function getServiceAreasForDisplay() {
       used.add(key);
     });
   } else if (Array.isArray(SATURDAY_REFERENCE) && SATURDAY_REFERENCE.length > 0) {
-    // 저장된 순서가 아직 없을 때만 기존 목요일 시트 순서를 사용합니다.
+    // 저장된 순서가 아직 없을 때만 기존 토요일 시트 순서를 사용합니다.
     SATURDAY_REFERENCE.forEach(function(ref) {
       const key = String(ref.number || "").trim();
       if (!key || !byNumber.has(key) || used.has(key)) {
@@ -3274,7 +3525,6 @@ function getServiceAreasForDisplay() {
 }
 
 
-
 /* =========================================================
    봉사하기 화면
 ========================================================= */
@@ -3308,12 +3558,12 @@ function renderService() {
       '</div>';
 
     return;
-
   }
 
 
   const displayAreas =
     getServiceAreasForDisplay();
+
 
   groups.forEach(
     function(group, index) {
@@ -3327,6 +3577,7 @@ function renderService() {
       if (!hasVolunteer) {
         return;
       }
+
 
       const area =
         displayAreas[index];
@@ -3418,14 +3669,20 @@ function renderService() {
       name.className =
         "service-name";
 
+
       if (area) {
+
         name.textContent =
           area.name;
+
       } else {
+
         name.textContent =
           "봉사 구역 " +
           (index + 1);
+
       }
+
 
       const info =
         document.createElement("div");
@@ -3435,21 +3692,28 @@ function renderService() {
 
       info.appendChild(name);
 
+
       const detail =
         document.createElement("div");
 
       detail.className =
         "service-detail";
 
+
       if (area) {
+
         detail.textContent =
           area.ho +
           " 호 " +
           area.m;
+
       } else {
+
         detail.textContent =
           "등록된 봉사 구역 정보가 없습니다.";
+
       }
+
 
       info.appendChild(detail);
 
@@ -3464,12 +3728,37 @@ function renderService() {
         "service-volunteers";
 
 
-      for (let pairIndex = 0; pairIndex < 2; pairIndex++) {
+/* =====================================================
+   임명 인원에 따라 표시
+   2명 → A팀 2명 / B팀 2명
+   3명 → A팀 2명 / B팀 2명
+   4명 → A팀 2명 / B팀 2명
+   5명 → A팀 2명 / B팀 3명
+===================================================== */
+
+const assignedCount =
+  group.filter(function(person) {
+    return Boolean(person);
+  }).length;
+
+const teamSizes =
+  assignedCount >= 5
+    ? [2, 3]
+    : [2, 2];
+
+
+      for (
+        let pairIndex = 0;
+        pairIndex < teamSizes.length;
+        pairIndex++
+      ) {
 
         const pair =
           document.createElement("div");
 
-        pair.className = "service-pair";
+        pair.className =
+          "service-pair";
+
 
         const teamLabel =
           document.createElement("div");
@@ -3478,9 +3767,14 @@ function renderService() {
           "service-team-label";
 
         teamLabel.textContent =
-          pairIndex === 0 ? "A팀" : "B팀";
+          pairIndex === 0
+            ? "A팀"
+            : "B팀";
 
-        pair.appendChild(teamLabel);
+        pair.appendChild(
+          teamLabel
+        );
+
 
         const pairPeople =
           document.createElement("div");
@@ -3488,13 +3782,22 @@ function renderService() {
         pairPeople.className =
           "service-pair-people";
 
-        for (let i = 0; i < 2; i++) {
+
+        for (
+          let i = 0;
+          i < teamSizes[pairIndex];
+          i++
+        ) {
 
           const slotIndex =
-            pairIndex * 2 + i;
+            pairIndex === 0
+              ? i
+              : 2 + i;
+
 
           const person =
             group[slotIndex];
+
 
           const personBox =
             document.createElement("div");
@@ -3506,13 +3809,22 @@ function renderService() {
           personBox.textContent =
             person || "배정 전";
 
+
           pairPeople.appendChild(
             personBox
           );
+
         }
 
-        pair.appendChild(pairPeople);
-        volunteers.appendChild(pair);
+
+        pair.appendChild(
+          pairPeople
+        );
+
+        volunteers.appendChild(
+          pair
+        );
+
       }
 
 
@@ -3550,7 +3862,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "thursdayTheme",
+      "saturdayTheme",
       "light"
     );
 
@@ -3561,7 +3873,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "thursdayTheme",
+      "saturdayTheme",
       "dark"
     );
 
@@ -3582,7 +3894,7 @@ function setFontSize(size) {
   );
 
   localStorage.setItem(
-    "thursdayFontSize",
+    "saturdayFontSize",
     String(size)
   );
 
@@ -3596,7 +3908,7 @@ function changeFontSize(amount) {
   const current =
     Number(
       localStorage.getItem(
-        "thursdayFontSize"
+        "saturdayFontSize"
       ) || "100"
     );
 
@@ -3609,13 +3921,13 @@ function loadSettings() {
 
   const theme =
     localStorage.getItem(
-      "thursdayTheme"
+      "saturdayTheme"
     ) || "dark";
 
 
   const fontSize =
     localStorage.getItem(
-      "thursdayFontSize"
+      "saturdayFontSize"
     ) || "100";
 
 
@@ -3663,7 +3975,7 @@ function updateSettingButtons() {
       (
         Number(
           localStorage.getItem(
-            "thursdayFontSize"
+            "saturdayFontSize"
           ) || "100"
         )
       ) + "%";
@@ -3706,40 +4018,166 @@ document.addEventListener(
   }
 );
 
+   /* =========================================================
+   관리용 / 봉사용 새로고침
+   - 새로고침 중 버튼 회전
+   - 새로고침 완료 후 원래 모양으로 복귀
+========================================================= */
 
 async function refreshServiceGroups() {
 
-  const button =
-    document.querySelector(".service-refresh-button");
+  const refreshButtons =
+    document.querySelectorAll(
+      ".service-refresh-button"
+    );
 
-  if (button) {
+  refreshButtons.forEach(function(button) {
+    button.classList.add("refreshing");
     button.disabled = true;
-  }
+  });
 
   try {
-   await loadApplicants();
 
-const results = await Promise.all([
-  loadGroups(),
-  loadServiceData(),
-  loadSaturdayReference()
-]);
+    if (currentView === "admin") {
 
-    if (!results[0] || !results[1]) {
-      throw new Error("봉사용 정보를 불러오지 못했습니다.");
+      await loadApplicants();
+
+      return;
     }
 
-    renderService();
+    await Promise.all([
+      loadGroups(),
+      loadServiceData(),
+      loadSaturdayReference()
+    ]);
+
+    if (currentView === "service") {
+      renderService();
+    }
+
   } catch (error) {
-    console.error(error);
-    alert("새로고침에 실패했습니다.");
+
+    console.error(
+      "새로고침 오류:",
+      error
+    );
+
   } finally {
-    if (button) {
+
+    refreshButtons.forEach(function(button) {
+      button.classList.remove("refreshing");
       button.disabled = false;
-    }
+    });
+
   }
 
 }
+
+
+/* =========================================================
+   관리용 - 모바일 아래로 당겨 새로고침
+========================================================= */
+
+let adminPullStartY = 0;
+let adminPullStartX = 0;
+let adminPullRefreshing = false;
+
+document.addEventListener(
+  "touchstart",
+  function(event) {
+
+    if (currentView !== "admin") {
+      return;
+    }
+
+    if (event.touches.length !== 1) {
+      return;
+    }
+
+    /*
+      화면 맨 위에서 시작한 터치만 인식
+    */
+    if (window.scrollY > 5) {
+      adminPullStartY = 0;
+      return;
+    }
+
+    adminPullStartY =
+      event.touches[0].clientY;
+
+    adminPullStartX =
+      event.touches[0].clientX;
+
+  },
+  { passive: true }
+);
+
+
+document.addEventListener(
+  "touchend",
+  async function(event) {
+
+    if (currentView !== "admin") {
+      return;
+    }
+
+    if (
+      adminPullRefreshing ||
+      adminPullStartY === 0 ||
+      !event.changedTouches.length
+    ) {
+      adminPullStartY = 0;
+      return;
+    }
+
+    const endY =
+      event.changedTouches[0].clientY;
+
+    const endX =
+      event.changedTouches[0].clientX;
+
+    const pullDistance =
+      endY - adminPullStartY;
+
+    const horizontalDistance =
+      Math.abs(endX - adminPullStartX);
+
+    adminPullStartY = 0;
+
+    /*
+      아래 방향으로 80px 이상 당겼고
+      가로 스와이프가 아닌 경우에만 실행
+    */
+    if (
+      pullDistance < 80 ||
+      horizontalDistance > 60 ||
+      window.scrollY > 5
+    ) {
+      return;
+    }
+
+    adminPullRefreshing = true;
+
+    try {
+
+      await refreshServiceGroups();
+
+      /*
+        최신 신청자와 그룹을 다시 표시
+      */
+      if (currentView === "admin") {
+        renderAdmin();
+      }
+
+    } finally {
+
+      adminPullRefreshing = false;
+
+    }
+
+  },
+  { passive: true }
+);
 
 /* =========================================================
    봉사 신청 열기
