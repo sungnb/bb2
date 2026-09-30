@@ -3579,9 +3579,44 @@ function renderService() {
       }
 
 
-      const area =
+     const referenceArea =
   Array.isArray(SATURDAY_REFERENCE)
     ? SATURDAY_REFERENCE[index]
+    : null;
+
+
+const serviceArea =
+  referenceArea &&
+  Array.isArray(SERVICE_AREAS)
+    ? SERVICE_AREAS.find(function(item) {
+
+        return String(item.number || "").trim() ===
+               String(referenceArea.number || "").trim();
+
+      })
+    : null;
+
+
+const area =
+  referenceArea
+    ? {
+        number:
+          referenceArea.number,
+
+        name:
+          referenceArea.name,
+
+        ho:
+          referenceArea.ho,
+
+        m:
+          referenceArea.m,
+
+        linkUrl:
+          serviceArea
+            ? serviceArea.linkUrl
+            : ""
+      }
     : null;
 
 
