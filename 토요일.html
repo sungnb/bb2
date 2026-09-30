@@ -3706,12 +3706,23 @@ function renderService() {
         "service-volunteers";
 
 
-      /* =====================================================
-         A팀 2명 / B팀 3명
-         총 5명 표시
-      ===================================================== */
+/* =====================================================
+   임명 인원에 따라 표시
+   2명 → A팀 2명 / B팀 2명
+   3명 → A팀 2명 / B팀 2명
+   4명 → A팀 2명 / B팀 2명
+   5명 → A팀 2명 / B팀 3명
+===================================================== */
 
-      const teamSizes = [2, 3];
+const assignedCount =
+  group.filter(function(person) {
+    return Boolean(person);
+  }).length;
+
+const teamSizes =
+  assignedCount >= 5
+    ? [2, 3]
+    : [2, 2];
 
 
       for (
