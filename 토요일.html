@@ -979,7 +979,7 @@ body.light .service-refresh-button {
   opacity: .55;
   cursor: default;
 }
-
+   
 /* =========================================================
    새로고침 버튼 회전
 ========================================================= */
@@ -4015,6 +4015,61 @@ document.addEventListener(
 
   }
 );
+
+   /* =========================================================
+   관리용 / 봉사용 새로고침
+   - 새로고침 중 버튼 회전
+   - 새로고침 완료 후 원래 모양으로 복귀
+========================================================= */
+
+async function refreshServiceGroups() {
+
+  const refreshButtons =
+    document.querySelectorAll(
+      ".service-refresh-button"
+    );
+
+  refreshButtons.forEach(function(button) {
+    button.classList.add("refreshing");
+    button.disabled = true;
+  });
+
+  try {
+
+    if (currentView === "admin") {
+
+      await loadApplicants();
+
+      return;
+    }
+
+    await Promise.all([
+      loadGroups(),
+      loadServiceData(),
+      loadSaturdayReference()
+    ]);
+
+    if (currentView === "service") {
+      renderService();
+    }
+
+  } catch (error) {
+
+    console.error(
+      "새로고침 오류:",
+      error
+    );
+
+  } finally {
+
+    refreshButtons.forEach(function(button) {
+      button.classList.remove("refreshing");
+      button.disabled = false;
+    });
+
+  }
+
+}
 
 
 /* =========================================================
