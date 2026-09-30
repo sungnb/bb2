@@ -1121,7 +1121,7 @@ body.light .service-refresh-button {
     ‹
   </button>
 
-  <!-- 상단 제목은 반드시 목요일 -->
+  <!-- 상단 제목은 반드시 토요일 -->
   <div
     class="top-title"
     id="topTitle"
@@ -1852,7 +1852,7 @@ function goBack() {
 
 /* =========================================================
    봉사자 명단
-   목요일.html에 기록된 명단 사용
+   토요일.html에 기록된 명단 사용
 ========================================================= */
 
 function loadMasterNames() {
@@ -3321,7 +3321,7 @@ async function loadServiceData() {
           })
         : [];
 
-    // 인도자는 Apps Script의 bon 값이 아니라 목요일!F4에서만 가져옵니다.
+    // 인도자는 Apps Script의 bon 값이 아니라 토요일!F4에서만 가져옵니다.
 
     return true;
 
@@ -3335,9 +3335,9 @@ async function loadServiceData() {
 
 
 /* =========================================================
-   Google Sheet "목요일" 시트 기준 적용
+   Google Sheet "토요일" 시트 기준 적용
    - Apps Script의 bon 봉사 데이터는 변경하지 않습니다.
-   - 목요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
+   - 토요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
 ========================================================= */
 async function loadSaturdayReference() {
 
@@ -3489,7 +3489,7 @@ function getServiceAreasForDisplay() {
       used.add(key);
     });
   } else if (Array.isArray(SATURDAY_REFERENCE) && SATURDAY_REFERENCE.length > 0) {
-    // 저장된 순서가 아직 없을 때만 기존 목요일 시트 순서를 사용합니다.
+    // 저장된 순서가 아직 없을 때만 기존 토요일 시트 순서를 사용합니다.
     SATURDAY_REFERENCE.forEach(function(ref) {
       const key = String(ref.number || "").trim();
       if (!key || !byNumber.has(key) || used.has(key)) {
