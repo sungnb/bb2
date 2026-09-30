@@ -1475,10 +1475,10 @@ const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbz0V_1Jm6clcZ7Iew40QMcHv7qjVn01encwzMGPaAkhM3z04FsFs9vXYlzWFID25Dbq/exec";
 
 const MY_SELECTION_KEY =
-  "saturdayMySelections";
+  "thursdayMySelections";
 
 const GROUP_KEY =
-  "saturdayVolunteerGroups";
+  "thursdayVolunteerGroups";
 
 const SATURDAY_SHEET_ID =
   "1tYhxniRcyuhK1qpBPCej40Zxmey6E-UjKfu3-XoEa5o";
@@ -3862,7 +3862,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "saturdayTheme",
+      "thursdayTheme"
       "light"
     );
 
@@ -3873,7 +3873,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "saturdayTheme",
+      "thursdayTheme"
       "dark"
     );
 
@@ -3894,7 +3894,7 @@ function setFontSize(size) {
   );
 
   localStorage.setItem(
-    "saturdayFontSize",
+    "thursdayFontSize"
     String(size)
   );
 
@@ -3908,7 +3908,7 @@ function changeFontSize(amount) {
   const current =
     Number(
       localStorage.getItem(
-        "saturdayFontSize"
+        "thursdayFontSize"
       ) || "100"
     );
 
@@ -3921,13 +3921,13 @@ function loadSettings() {
 
   const theme =
     localStorage.getItem(
-      "saturdayTheme"
+      "thursdayTheme"
     ) || "dark";
 
 
   const fontSize =
     localStorage.getItem(
-      "saturdayFontSize"
+      "thursdayFontSize"
     ) || "100";
 
 
@@ -3975,7 +3975,7 @@ function updateSettingButtons() {
       (
         Number(
           localStorage.getItem(
-            "saturdayFontSize"
+            "thursdayFontSize"
           ) || "100"
         )
       ) + "%";
