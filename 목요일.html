@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>목요일</title>
+<title>화요일</title>
 
 <style>
 /* =========================================================
@@ -1121,12 +1121,12 @@ body.light .service-refresh-button {
     ‹
   </button>
 
-  <!-- 상단 제목은 반드시 목요일 -->
+  <!-- 상단 제목은 반드시 요일 -->
   <div
     class="top-title"
     id="topTitle"
   >
-    목요일
+    화요일
   </div>
 
   <button
@@ -1472,17 +1472,17 @@ body.light .service-refresh-button {
 ========================================================= */
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz0V_1Jm6clcZ7Iew40QMcHv7qjVn01encwzMGPaAkhM3z04FsFs9vXYlzWFID25Dbq/exec";
+  "https://script.google.com/macros/s/AKfycbxQwheSfYdRI0f9VhvQvmY6xfZ-pDuIBI71NYTr7wowM7Q9O_prhnsTTcIUfoRru1A/exec";
 
 const MY_SELECTION_KEY =
-  "thursdayMySelections";
+  "saturdayMySelections";
 
 const GROUP_KEY =
-  "thursdayVolunteerGroups";
+  "saturdayVolunteerGroups";
 
 const SATURDAY_SHEET_ID =
-  "1tYhxniRcyuhK1qpBPCej40Zxmey6E-UjKfu3-XoEa5o";
-const SATURDAY_SHEET_NAME = "목요일";
+  "1gwKQalzp7gSG3XAJK0ys7jAvpHAL_L3izkoo8-SEkhI";
+const SATURDAY_SHEET_NAME = "화요일";
 
 
 /* =========================================================
@@ -1665,7 +1665,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "목요일";
+      .textContent = "화요일";
 
     setActiveNav("navApply");
 
@@ -1682,7 +1682,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "목요일";
+      .textContent = "화요일";
 
     setActiveNav("navAdmin");
 
@@ -1699,7 +1699,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "목요일";
+      .textContent = "화요일";
 
     setActiveNav("navService");
 
@@ -1852,7 +1852,7 @@ function goBack() {
 
 /* =========================================================
    봉사자 명단
-   목요일.html에 기록된 명단 사용
+   요일.html에 기록된 명단 사용
 ========================================================= */
 
 function loadMasterNames() {
@@ -2488,7 +2488,7 @@ async function loadGroupSheetLabels() {
 
     if (!response.ok) {
       throw new Error(
-        "목요일 시트 그룹 정보를 불러오지 못했습니다."
+        "화요일 시트 그룹 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2498,7 +2498,7 @@ async function loadGroupSheetLabels() {
     if (!data.success) {
       throw new Error(
         data.message ||
-        "목요일 시트 그룹 정보를 불러오지 못했습니다."
+        "화요일 시트 그룹 정보를 불러오지 못했습니다."
       );
     }
 
@@ -2538,7 +2538,7 @@ async function loadGroupSheetLabels() {
   } catch (error) {
 
     console.error(
-      "목요일 시트 그룹 표시 정보:",
+      "화요일 시트 그룹 표시 정보:",
       error
     );
 
@@ -3321,7 +3321,7 @@ async function loadServiceData() {
           })
         : [];
 
-    // 인도자는 Apps Script의 bon 값이 아니라 토요일!F4에서만 가져옵니다.
+    // 인도자는 Apps Script의 bon 값이 아니라 요일!F4에서만 가져옵니다.
 
     return true;
 
@@ -3335,9 +3335,9 @@ async function loadServiceData() {
 
 
 /* =========================================================
-   Google Sheet "토요일" 시트 기준 적용
+   Google Sheet "요일" 시트 기준 적용
    - Apps Script의 bon 봉사 데이터는 변경하지 않습니다.
-   - 토요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
+   - 요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
 ========================================================= */
 async function loadSaturdayReference() {
 
@@ -3354,7 +3354,7 @@ async function loadSaturdayReference() {
 
     if (!response.ok) {
       throw new Error(
-        "목요일 데이터를 불러오지 못했습니다."
+        "화요일 데이터를 불러오지 못했습니다."
       );
     }
 
@@ -3364,7 +3364,7 @@ async function loadSaturdayReference() {
     if (!data.success) {
       throw new Error(
         data.message ||
-        "목요일 데이터를 불러오지 못했습니다."
+        "화요일 데이터를 불러오지 못했습니다."
       );
     }
 
@@ -3424,7 +3424,7 @@ async function loadSaturdayReference() {
   } catch (error) {
 
     console.error(
-      "목요일 시트 기준 데이터:",
+      "화요일 시트 기준 데이터:",
       error
     );
 
@@ -3489,7 +3489,7 @@ function getServiceAreasForDisplay() {
       used.add(key);
     });
   } else if (Array.isArray(SATURDAY_REFERENCE) && SATURDAY_REFERENCE.length > 0) {
-    // 저장된 순서가 아직 없을 때만 기존 토요일 시트 순서를 사용합니다.
+    // 저장된 순서가 아직 없을 때만 기존 요일 시트 순서를 사용합니다.
     SATURDAY_REFERENCE.forEach(function(ref) {
       const key = String(ref.number || "").trim();
       if (!key || !byNumber.has(key) || used.has(key)) {
@@ -3579,8 +3579,45 @@ function renderService() {
       }
 
 
-      const area =
-        displayAreas[index];
+     const referenceArea =
+  Array.isArray(SATURDAY_REFERENCE)
+    ? SATURDAY_REFERENCE[index]
+    : null;
+
+
+const serviceArea =
+  referenceArea &&
+  Array.isArray(SERVICE_AREAS)
+    ? SERVICE_AREAS.find(function(item) {
+
+        return String(item.number || "").trim() ===
+               String(referenceArea.number || "").trim();
+
+      })
+    : null;
+
+
+const area =
+  referenceArea
+    ? {
+        number:
+          referenceArea.number,
+
+        name:
+          referenceArea.name,
+
+        ho:
+          referenceArea.ho,
+
+        m:
+          referenceArea.m,
+
+        linkUrl:
+          serviceArea
+            ? serviceArea.linkUrl
+            : ""
+      }
+    : null;
 
 
       const card =
@@ -3862,7 +3899,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "thursdayTheme"
+      "saturdayTheme",
       "light"
     );
 
@@ -3873,7 +3910,7 @@ function setTheme(theme) {
     );
 
     localStorage.setItem(
-      "thursdayTheme"
+      "saturdayTheme",
       "dark"
     );
 
@@ -3894,7 +3931,7 @@ function setFontSize(size) {
   );
 
   localStorage.setItem(
-    "thursdayFontSize"
+    "saturdayFontSize",
     String(size)
   );
 
@@ -3908,7 +3945,7 @@ function changeFontSize(amount) {
   const current =
     Number(
       localStorage.getItem(
-        "thursdayFontSize"
+        "saturdayFontSize"
       ) || "100"
     );
 
@@ -3921,13 +3958,13 @@ function loadSettings() {
 
   const theme =
     localStorage.getItem(
-      "thursdayTheme"
+      "saturdayTheme"
     ) || "dark";
 
 
   const fontSize =
     localStorage.getItem(
-      "thursdayFontSize"
+      "saturdayFontSize"
     ) || "100";
 
 
@@ -3975,7 +4012,7 @@ function updateSettingButtons() {
       (
         Number(
           localStorage.getItem(
-            "thursdayFontSize"
+            "saturdayFontSize"
           ) || "100"
         )
       ) + "%";
