@@ -3580,7 +3580,9 @@ function renderService() {
 
 
       const area =
-        displayAreas[index];
+  Array.isArray(SATURDAY_REFERENCE)
+    ? SATURDAY_REFERENCE[index]
+    : null;
 
 
       const card =
