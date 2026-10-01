@@ -5217,28 +5217,22 @@ function addGroup() {
       "
     >
 
-      <button
-        type="button"
-        onclick="createNewGroup()"
-        style="
-          flex:1;
-          height:48px;
-        "
-      >
-        그룹 추가
-      </button>
+     <button
+  type="button"
+  class="new-group-create-button"
+  onclick="createNewGroup()"
+>
+  그룹 추가
+</button>
 
 
-      <button
-        type="button"
-        onclick="cancelNewGroup()"
-        style="
-          flex:1;
-          height:48px;
-        "
-      >
-        취소
-      </button>
+<button
+  type="button"
+  class="new-group-cancel-button"
+  onclick="cancelNewGroup()"
+>
+  취소
+</button>
 
     </div>
 
