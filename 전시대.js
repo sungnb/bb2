@@ -6181,33 +6181,139 @@ const dayText =
       );
 
 
-      /* ===================================================
-         봉사시간
-      =================================================== */
+     /* ===================================================
+   봉사시간
+=================================================== */
 
-      const scheduleTimes = {
+const scheduleTimes = {
 
-        "토오전": {
-          startTime: "오전 10:00",
-          endTime: "오후 12:00"
-        },
+  "토오전": {
+    startTime: "오전 10:00",
+    endTime: "오후 12:00"
+  },
 
-        "토오후": {
-          startTime: "오후 1:00",
-          endTime: "오후 3:00"
-        },
+  "토오후": {
+    startTime: "오후 1:00",
+    endTime: "오후 3:00"
+  },
 
-        "일오전": {
-          startTime: "오전 10:00",
-          endTime: "오후 12:00"
-        }
+  "일오전": {
+    startTime: "오전 10:00",
+    endTime: "오후 12:00"
+  }
 
-      };
+};
 
-  
-       let scheduleTime =
+
+const groupSchedule =
+  String(
+    group.schedule ||
+    selectedAdminSchedule ||
+    ""
+  ).trim();
+
+
+let scheduleTime =
   scheduleTimes[groupSchedule];
 
+
+/*
+   사용자 지정 일정의 시간
+   예:
+   2026-10-10_10:10
+   2026-10-10_1010
+*/
+
+const customTimeMatch =
+  groupSchedule.match(
+    /^\d{4}-\d{2}-\d{2}_(\d{2}):?(\d{2})$/
+  );
+
+
+if (customTimeMatch) {
+
+  const startHour =
+    Number(
+      customTimeMatch[1]
+    );
+
+  const startMinute =
+    Number(
+      customTimeMatch[2]
+    );
+
+
+  const endTotalMinutes =
+    startHour * 60 +
+    startMinute +
+    120;
+
+
+  const endHour =
+    Math.floor(
+      endTotalMinutes / 60
+    );
+
+  const endMinute =
+    endTotalMinutes % 60;
+
+
+  const formatTime =
+    function(
+      hour,
+      minute
+    ) {
+
+      const ampm =
+        hour < 12
+          ? "오전"
+          : "오후";
+
+
+      const displayHour =
+        hour > 12
+          ? hour - 12
+          : hour;
+
+
+      return (
+        ampm +
+        " " +
+        displayHour +
+        ":" +
+        String(
+          minute
+        ).padStart(
+          2,
+          "0"
+        )
+      );
+
+    };
+
+
+  scheduleTime = {
+
+    startTime:
+      formatTime(
+        startHour,
+        startMinute
+      ),
+
+    endTime:
+      formatTime(
+        endHour,
+        endMinute
+      )
+
+  };
+
+}
+
+
+/*
+   기존 일정 시간 처리
+*/
 
 if (!scheduleTime) {
 
@@ -6231,60 +6337,59 @@ if (!scheduleTime) {
 }
 
 
-      const startTime =
-        group.startTime ||
-        scheduleTime.startTime;
+const startTime =
+  group.startTime ||
+  scheduleTime.startTime;
 
 
-      const endTime =
-        group.endTime ||
-        scheduleTime.endTime;
+const endTime =
+  group.endTime ||
+  scheduleTime.endTime;
 
 
-      const timeArea =
-        document.createElement("div");
+const timeArea =
+  document.createElement("div");
 
-      timeArea.style.width =
-        "100%";
+timeArea.style.width =
+  "100%";
 
-      timeArea.style.marginBottom =
-        "10px";
-
-
-      const startTimeText =
-        document.createElement("div");
-
-      startTimeText.style.fontWeight =
-        "700";
-
-      startTimeText.textContent =
-        "봉사시작 : " +
-        startTime;
+timeArea.style.marginBottom =
+  "10px";
 
 
-      const endTimeText =
-        document.createElement("div");
+const startTimeText =
+  document.createElement("div");
 
-      endTimeText.style.fontWeight =
-        "700";
+startTimeText.style.fontWeight =
+  "700";
 
-      endTimeText.textContent =
-        "봉사마감 : " +
-        endTime;
+startTimeText.textContent =
+  "봉사시작 : " +
+  startTime;
 
 
-      timeArea.appendChild(
-        startTimeText
-      );
+const endTimeText =
+  document.createElement("div");
 
-      timeArea.appendChild(
-        endTimeText
-      );
+endTimeText.style.fontWeight =
+  "700";
 
-      card.appendChild(
-        timeArea
-      );
+endTimeText.textContent =
+  "봉사마감 : " +
+  endTime;
 
+
+timeArea.appendChild(
+  startTimeText
+);
+
+timeArea.appendChild(
+  endTimeText
+);
+
+card.appendChild(
+  timeArea
+);
 
       /* ===================================================
          인원 + 봉사장소
