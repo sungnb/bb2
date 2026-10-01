@@ -4959,74 +4959,53 @@ function addGroup() {
 
 
            <div
-      class="new-group-action-row"
-      style="
-        display:flex;
-        gap:10px;
-        width:100%;
-      "
-    >
+  class="new-group-action-row"
+  style="
+    display:flex;
+    gap:10px;
+    width:100%;
+  "
+>
 
-      <button
-        type="button"
-        class="new-group-create-button"
-        onclick="createNewGroup()"
-        style="
-          flex:1;
-          width:33.333%;
-          min-width:0;
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border-radius:12px !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
-        "
-      >
-        그룹 추가
-      </button>
+  <button
+    type="button"
+    class="new-group-create-button"
+    onclick="createNewGroup()"
+    style="
+      flex:1;
+      width:50%;
+      min-width:0;
+      height:70px;
+      padding:0;
+      box-sizing:border-box;
+      border-radius:12px !important;
+      font-size:calc(18px * var(--font-scale)) !important;
+      font-weight:700;
+    "
+  >
+    그룹 추가
+  </button>
 
-      <button
-        type="button"
-        class="new-group-stop-button"
-        onclick="showStopReason()"
-        style="
-          flex:1;
-          width:33.333%;
-          min-width:0;
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border-radius:12px !important;
-          background:#455A64 !important;
-          color:#fff !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
-        "
-      >
-        중단
-      </button>
+  <button
+    type="button"
+    class="new-group-cancel-button"
+    onclick="cancelNewGroup()"
+    style="
+      flex:1;
+      width:50%;
+      min-width:0;
+      height:70px;
+      padding:0;
+      box-sizing:border-box;
+      border-radius:12px !important;
+      font-size:calc(18px * var(--font-scale)) !important;
+      font-weight:700;
+    "
+  >
+    취소
+  </button>
 
-      <button
-        type="button"
-        class="new-group-cancel-button"
-        onclick="cancelNewGroup()"
-        style="
-          flex:1;
-          width:33.333%;
-          min-width:0;
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border-radius:12px !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
-        "
-      >
-        취소
-      </button>
-
-    </div>
+</div>
   `;
 
    const startTimeEl =
@@ -5261,10 +5240,16 @@ function showStopReason() {
       "newGroupForm"
     );
 
-  if (!form) {
+  const container =
+    form ||
+    document.getElementById(
+      "adminManagementArea"
+    );
+
+  if (!container) {
     return;
   }
-
+   
   /* 이미 중단 사유 영역이 있으면 다시 만들지 않음 */
 
   if (
@@ -5382,9 +5367,11 @@ function showStopReason() {
   `;
 
 
-  const actionRow =
-    form.querySelector(
-      ".new-group-action-row"
+   const actionRow =
+    container.querySelector(
+      form
+        ? ".new-group-action-row"
+        : ".admin-action-button-row"
     );
 
   if (actionRow) {
@@ -5396,12 +5383,11 @@ function showStopReason() {
 
   } else {
 
-    form.appendChild(
+    container.appendChild(
       reasonBox
     );
 
   }
-
 }
 
 /* =========================================================
