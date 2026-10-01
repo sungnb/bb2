@@ -7758,8 +7758,103 @@ scheduleRows.forEach(
     const secondIndex =
       row[1];
 
-    const time =
-      row[2];
+    const offsetMinutes =
+  Number(row[2]) || 0;
+
+
+let time =
+  startTime;
+
+
+const startMatch =
+  String(startTime || "")
+    .trim()
+    .match(
+      /^(오전|오후)\s*(\d{1,2}):(\d{2})$/
+    );
+
+
+if (startMatch) {
+
+  const period =
+    startMatch[1];
+
+  let hour =
+    Number(
+      startMatch[2]
+    );
+
+  const minute =
+    Number(
+      startMatch[3]
+    );
+
+
+  if (
+    period === "오후" &&
+    hour !== 12
+  ) {
+    hour += 12;
+  }
+
+
+  if (
+    period === "오전" &&
+    hour === 12
+  ) {
+    hour = 0;
+  }
+
+
+  let totalMinutes =
+    hour * 60 +
+    minute +
+    offsetMinutes;
+
+
+  totalMinutes =
+    totalMinutes % 1440;
+
+
+  const resultPeriod =
+    totalMinutes < 720
+      ? "오전"
+      : "오후";
+
+
+  let resultHour =
+    Math.floor(
+      totalMinutes / 60
+    );
+
+
+  const resultMinute =
+    totalMinutes % 60;
+
+
+  if (resultHour >= 12) {
+    resultHour -= 12;
+  }
+
+
+  if (resultHour === 0) {
+    resultHour = 12;
+  }
+
+
+  time =
+    resultPeriod +
+    " " +
+    resultHour +
+    ":" +
+    String(
+      resultMinute
+    ).padStart(
+      2,
+      "0"
+    );
+
+}
 
 
     const scheduleRow =
