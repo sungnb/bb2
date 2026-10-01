@@ -6072,52 +6072,96 @@ function renderGroups() {
         "8px";
 
 
-      const today =
-        new Date();
-
-      const targetDate =
-        new Date(today);
-
-      const todayDay =
-        targetDate.getDay();
-
-      let daysUntilTarget;
-
-      if (
-        selectedAdminSchedule ===
-        "일오전"
-      ) {
-
-        daysUntilTarget =
-          (0 - todayDay + 7) % 7;
-
-      } else {
-
-        daysUntilTarget =
-          (6 - todayDay + 7) % 7;
-
-      }
-
-      targetDate.setDate(
-        targetDate.getDate() +
-        daysUntilTarget
-      );
+      const groupSchedule =
+  String(
+    group.schedule ||
+    selectedAdminSchedule ||
+    ""
+  ).trim();
 
 
-      const year =
-        targetDate.getFullYear();
+let targetDate;
 
-      const month =
-        targetDate.getMonth() + 1;
 
-      const date =
-        targetDate.getDate();
+/*
+   사용자 지정 일정
+   예:
+   2026-10-10_10:10
+   2026-10-10_1010
+*/
 
-      const dayText =
-        selectedAdminSchedule ===
-        "일오전"
-          ? "일"
-          : "토";
+const customDateMatch =
+  groupSchedule.match(
+    /^(\d{4}-\d{2}-\d{2})(?:_(\d{2}):?(\d{2}))?$/
+  );
+
+
+if (customDateMatch) {
+
+  targetDate =
+    new Date(
+      customDateMatch[1] +
+      "T00:00:00"
+    );
+
+} else {
+
+  /*
+     고정 일정
+  */
+
+  targetDate =
+    new Date();
+
+  const todayDay =
+    targetDate.getDay();
+
+  let daysUntilTarget;
+
+  if (
+    groupSchedule ===
+    "일오전"
+  ) {
+
+    daysUntilTarget =
+      (0 - todayDay + 7) % 7;
+
+  } else {
+
+    daysUntilTarget =
+      (6 - todayDay + 7) % 7;
+
+  }
+
+  targetDate.setDate(
+    targetDate.getDate() +
+    daysUntilTarget
+  );
+
+}
+
+
+const year =
+  targetDate.getFullYear();
+
+const month =
+  targetDate.getMonth() + 1;
+
+const date =
+  targetDate.getDate();
+
+const dayText =
+  [
+    "일",
+    "월",
+    "화",
+    "수",
+    "목",
+    "금",
+    "토"
+  ][
+    targetDate.getDay()
+  ];
 
 
       dateArea.textContent =
@@ -6160,16 +6204,8 @@ function renderGroups() {
 
       };
 
-
-      const groupSchedule =
-        String(
-          group.schedule ||
-          selectedAdminSchedule ||
-          ""
-        ).trim();
-
-
-      let scheduleTime =
+  
+       let scheduleTime =
   scheduleTimes[groupSchedule];
 
 
