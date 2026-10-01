@@ -542,13 +542,40 @@ body.light .group-slot.filled {
   color: #777;
 }
 
-.admin-action-buttons > button {
-  flex: 1;
+.admin-action-button-row {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+}
+
+.admin-action-button-row .add-group-button {
+  flex: 2 1 0;
+  width: auto;
   min-width: 0;
 }
 
-.admin-action-buttons .confirm-group-button,
-.admin-action-buttons .add-group-button {
+.admin-action-button-row .admin-stop-button {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+
+  height: 66px;
+  min-height: 66px;
+  margin: 0;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #455A64;
+  color: #fff;
+
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.admin-action-button-row .add-group-button {
   height: 66px;
   min-height: 66px;
   margin: 0;
@@ -558,16 +585,15 @@ body.light .group-slot.filled {
 }
 
 @media (max-width: 600px) {
-  .admin-action-buttons {
+
+  .admin-action-button-row {
     gap: 8px;
   }
 
-  .admin-action-buttons > button {
-    font-size: calc(17px * var(--font-scale));
-  }
-
-  .admin-action-buttons .add-group-button {
+  .admin-action-button-row .add-group-button,
+  .admin-action-button-row .admin-stop-button {
     height: 66px;
+    font-size: calc(17px * var(--font-scale));
   }
 }
 
