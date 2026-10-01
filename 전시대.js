@@ -5250,13 +5250,17 @@ function showStopReason() {
     return;
   }
    
-  /* 이미 중단 사유 영역이 있으면 다시 만들지 않음 */
+  /* 중단 사유 영역이 이미 있으면 원래 상태로 돌아감 */
 
-  if (
+  const existingReasonBox =
     document.getElementById(
       "stopReasonBox"
-    )
-  ) {
+    );
+
+  if (existingReasonBox) {
+
+    existingReasonBox.remove();
+
     return;
   }
 
