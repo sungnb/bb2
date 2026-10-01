@@ -6181,7 +6181,7 @@ const dayText =
       );
 
 
-     /* ===================================================
+/* ===================================================
    봉사시간
 =================================================== */
 
@@ -6203,14 +6203,6 @@ const scheduleTimes = {
   }
 
 };
-
-
-const groupSchedule =
-  String(
-    group.schedule ||
-    selectedAdminSchedule ||
-    ""
-  ).trim();
 
 
 let scheduleTime =
