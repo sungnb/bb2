@@ -8,7 +8,7 @@ function isVolunteerScheduleAvailable(schedule) {
 
   const koreaDate =
     new Date(
-      new Date().toLocaleString(
+      new Date().toLocaleString(function addGroup() {
         "en-US",
         {
           timeZone: "Asia/Seoul"
@@ -4829,6 +4829,245 @@ function addGroup() {
     return;
   }
 
+  /* 현재 선택된 봉사자 수 */
+  const selectedCount =
+    selectedApplicants.length;
+
+  if (
+    ![4, 5, 6, 7].includes(selectedCount)
+  ) {
+    alert(
+      "미배정에서 4~7명의 봉사자를 먼저 선택해 주세요."
+    );
+    return;
+  }
+
+  /* =====================================================
+     일정에 따른 날짜 / 시작시간 결정
+  ===================================================== */
+
+  let serviceDate = "";
+  let startMinutes = 10 * 60;
+
+  /* 토요일 오전 */
+  if (
+    selectedAdminSchedule === "토오전"
+  ) {
+
+    startMinutes =
+      10 * 60;
+
+  }
+
+  /* 토요일 오후 */
+  else if (
+    selectedAdminSchedule === "토오후"
+  ) {
+
+    startMinutes =
+      13 * 60;
+
+  }
+
+  /* 일요일 오전 */
+  else if (
+    selectedAdminSchedule === "일오전"
+  ) {
+
+    startMinutes =
+      10 * 60;
+
+  }
+
+  /* =====================================================
+     날짜형 추가 일정
+
+     예:
+     2026-10-10_1010
+     → 2026-10-10 / 오전 10:10
+  ===================================================== */
+
+  else if (
+    /^\d{4}-\d{2}-\d{2}(?:_(\d{2}):?(\d{2}))?$/
+      .test(selectedAdminSchedule)
+  ) {
+
+    const match =
+      selectedAdminSchedule.match(
+        /^(\d{4}-\d{2}-\d{2})(?:_(\d{2}):?(\d{2}))?$/
+      );
+
+    if (match) {
+
+      serviceDate =
+        match[1];
+
+      if (
+        match[2] &&
+        match[3]
+      ) {
+
+        startMinutes =
+          Number(match[2]) * 60 +
+          Number(match[3]);
+
+      }
+
+    }
+
+  }
+
+  /* =====================================================
+     고정 일정 날짜 계산
+  ===================================================== */
+
+  if (!serviceDate) {
+
+    const today =
+      new Date();
+
+    const targetDate =
+      new Date(today);
+
+    const day =
+      targetDate.getDay();
+
+    let daysUntilTarget;
+
+    if (
+      selectedAdminSchedule === "일오전"
+    ) {
+
+      daysUntilTarget =
+        (0 - day + 7) % 7;
+
+    } else {
+
+      daysUntilTarget =
+        (6 - day + 7) % 7;
+
+    }
+
+    targetDate.setDate(
+      targetDate.getDate() +
+      daysUntilTarget
+    );
+
+    const year =
+      targetDate.getFullYear();
+
+    const month =
+      String(
+        targetDate.getMonth() + 1
+      ).padStart(2, "0");
+
+    const date =
+      String(
+        targetDate.getDate()
+      ).padStart(2, "0");
+
+    serviceDate =
+      `${year}-${month}-${date}`;
+
+  }
+
+  /* =====================================================
+     시작시간 표시
+  ===================================================== */
+
+  const startHour =
+    Math.floor(
+      startMinutes / 60
+    );
+
+  const startMinute =
+    startMinutes % 60;
+
+  const startAmpm =
+    startHour < 12
+      ? "오전"
+      : "오후";
+
+  const startDisplayHour =
+    startHour > 12
+      ? startHour - 12
+      : startHour;
+
+  const startTime =
+    `${startAmpm} ${startDisplayHour}:${String(startMinute).padStart(2, "0")}`;
+
+  /* =====================================================
+     봉사마감 = 시작 + 2시간
+  ===================================================== */
+
+  const endMinutes =
+    startMinutes + 120;
+
+  const endHour =
+    Math.floor(
+      endMinutes / 60
+    );
+
+  const endMinute =
+    endMinutes % 60;
+
+  const endAmpm =
+    endHour < 12
+      ? "오전"
+      : "오후";
+
+  const endDisplayHour =
+    endHour > 12
+      ? endHour - 12
+      : endHour;
+
+  const endTime =
+    `${endAmpm} ${endDisplayHour}:${String(endMinute).padStart(2, "0")}`;
+
+  /* =====================================================
+     날짜 표시
+  ===================================================== */
+
+  const dateObject =
+    new Date(
+      serviceDate +
+      "T00:00:00"
+    );
+
+  const year =
+    dateObject.getFullYear();
+
+  const month =
+    dateObject.getMonth() + 1;
+
+  const date =
+    dateObject.getDate();
+
+  const weekdayNames = [
+    "일",
+    "월",
+    "화",
+    "수",
+    "목",
+    "금",
+    "토"
+  ];
+
+  const weekday =
+    weekdayNames[
+      dateObject.getDay()
+    ];
+
+  const dateText =
+    `${year}. ${month}. ${date}(${weekday})`;
+
+  /* =====================================================
+     그룹 추가 화면
+
+     날짜 / 시간 / 인원은 자동 결정
+     봉사장소만 선택
+  ===================================================== */
+
   const form =
     document.createElement("div");
 
@@ -4838,51 +5077,19 @@ function addGroup() {
   form.className =
     "new-group-form";
 
-    form.innerHTML = `
+  form.innerHTML = `
 
     <div class="new-group-date-row">
 
       <div class="new-group-select-box">
 
-        <label for="newGroupDate">
+        <label>
           날짜
         </label>
 
         <input
           type="text"
-          id="newGroupDate"
-          readonly
-        >
-
-      </div>
-
-    </div>
-
-
-       <div class="new-group-select-row">
-
-      <div class="new-group-select-box">
-
-        <label for="newGroupStartTime">
-          봉사시작
-        </label>
-
-        <select id="newGroupStartTime">
-        </select>
-
-      </div>
-
-
-      <div class="new-group-select-box">
-
-        <label for="newGroupEndTime">
-          봉사마감
-        </label>
-
-        <input
-          type="text"
-          id="newGroupEndTime"
-          value="오후 12:00"
+          value="${dateText}"
           readonly
         >
 
@@ -4895,18 +5102,49 @@ function addGroup() {
 
       <div class="new-group-select-box">
 
-        <label for="newGroupCount">
+        <label>
+          봉사시작
+        </label>
+
+        <input
+          type="text"
+          value="${startTime}"
+          readonly
+        >
+
+      </div>
+
+
+      <div class="new-group-select-box">
+
+        <label>
+          봉사마감
+        </label>
+
+        <input
+          type="text"
+          value="${endTime}"
+          readonly
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="new-group-select-row">
+
+      <div class="new-group-select-box">
+
+        <label>
           인원
         </label>
 
-        <select id="newGroupCount">
-
-          <option value="4">4명</option>
-          <option value="5">5명</option>
-          <option value="6">6명</option>
-          <option value="7">7명</option>
-
-        </select>
+        <input
+          type="text"
+          value="${selectedCount}명"
+          readonly
+        >
 
       </div>
 
@@ -4947,7 +5185,7 @@ function addGroup() {
             성신여대(주변)
           </option>
 
-           <option value="가두 증거">
+          <option value="가두 증거">
             가두 증거
           </option>
 
@@ -4958,273 +5196,58 @@ function addGroup() {
     </div>
 
 
-           <div
-  class="new-group-action-row"
-  style="
-    display:flex;
-    gap:10px;
-    width:100%;
-  "
->
+    <div
+      class="new-group-action-row"
+      style="
+        display:flex;
+        gap:10px;
+        width:100%;
+      "
+    >
 
-  <button
-    type="button"
-    class="new-group-create-button"
-    onclick="createNewGroup()"
-    style="
-      flex:1;
-      width:50%;
-      min-width:0;
-      height:70px;
-      padding:0;
-      box-sizing:border-box;
-      border-radius:12px !important;
-      font-size:calc(18px * var(--font-scale)) !important;
-      font-weight:700;
-    "
-  >
-    그룹 추가
-  </button>
+      <button
+        type="button"
+        class="new-group-create-button"
+        onclick="createNewGroup()"
+        style="
+          flex:1;
+          width:50%;
+          min-width:0;
+          height:70px;
+          padding:0;
+          box-sizing:border-box;
+          border-radius:12px !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
+        "
+      >
+        그룹 추가
+      </button>
 
-  <button
-    type="button"
-    class="new-group-cancel-button"
-    onclick="cancelNewGroup()"
-    style="
-      flex:1;
-      width:50%;
-      min-width:0;
-      height:70px;
-      padding:0;
-      box-sizing:border-box;
-      border-radius:12px !important;
-      font-size:calc(18px * var(--font-scale)) !important;
-      font-weight:700;
-    "
-  >
-    취소
-  </button>
 
-</div>
+      <button
+        type="button"
+        class="new-group-cancel-button"
+        onclick="cancelNewGroup()"
+        style="
+          flex:1;
+          width:50%;
+          min-width:0;
+          height:70px;
+          padding:0;
+          box-sizing:border-box;
+          border-radius:12px !important;
+          font-size:calc(18px * var(--font-scale)) !important;
+          font-weight:700;
+        "
+      >
+        취소
+      </button>
+
+    </div>
+
   `;
 
-   const startTimeEl =
-    form.querySelector(
-      "#newGroupStartTime"
-    );
-
-  const endTimeEl =
-    form.querySelector(
-      "#newGroupEndTime"
-    );
-
-
-  for (
-    let minutes = 10 * 60;
-    minutes <= 17 * 60;
-    minutes += 10
-  ) {
-
-      const hour =
-      Math.floor(minutes / 60);
-
-    const minute =
-      minutes % 60;
-
-    const ampm =
-      hour < 12
-        ? "오전"
-        : "오후";
-
-    const displayHour =
-      hour > 12
-        ? hour - 12
-        : hour;
-
-   const timeText =
-  `${ampm} ${displayHour}:${String(minute).padStart(2, "0")}`;
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      minutes;
-
-    option.textContent =
-      timeText;
-
-        startTimeEl.appendChild(option);
-  }
-
-
-  if (selectedAdminSchedule === "토오후") {
-
-    startTimeEl.value = 13 * 60;
-
-  } else {
-
-    startTimeEl.value = 10 * 60;
-
-  }
-
-
-  startTimeEl.addEventListener(
-    "change",
-    function() {
-
-      const startMinutes =
-        Number(this.value);
-
-      const endMinutes =
-        startMinutes + 120;
-
-      const endHour =
-        Math.floor(endMinutes / 60);
-
-      const endMinute =
-        endMinutes % 60;
-
-      const endAmpm =
-        endHour < 12
-          ? "오전"
-          : "오후";
-
-      const endDisplayHour =
-        endHour > 12
-          ? endHour - 12
-          : endHour;
-
-      endTimeEl.value =
-  `${endAmpm} ${endDisplayHour}:${String(endMinute).padStart(2, "0")}`;
-    }
-  );
-
-  startTimeEl.dispatchEvent(
-    new Event("change")
-  );
-
-  const dateEl =
-    form.querySelector(
-      "#newGroupDate"
-    );
-
- const today =
-    new Date();
-
-const targetDate =
-    new Date(today);
-
-const todayDay =
-    targetDate.getDay();
-
-let daysUntilTarget;
-
-if (
-  getCustomVolunteerSchedule(
-    selectedAdminSchedule
-  )
-) {
-
-  const customSchedule =
-    getCustomVolunteerSchedule(
-      selectedAdminSchedule
-    );
-
-  const customDate =
-    new Date(
-      String(
-        customSchedule.date || ""
-      ) +
-      "T00:00:00"
-    );
-
-  targetDate.setTime(
-    customDate.getTime()
-  );
-
-  daysUntilTarget = null;
-
-} else if (
-  selectedAdminSchedule ===
-  "일오전"
-) {
-
-  daysUntilTarget =
-    (0 - todayDay + 7) % 7;
-
-} else {
-
-  daysUntilTarget =
-    (6 - todayDay + 7) % 7;
-
-}
-
-
-if (
-  daysUntilTarget !== null
-) {
-
-  targetDate.setDate(
-    targetDate.getDate() +
-    daysUntilTarget
-  );
-
-}
-
-const year =
-    targetDate.getFullYear();
-
-const month =
-    targetDate.getMonth() + 1;
-
-const date =
-    targetDate.getDate();
-
-let dayText;
-
-const customSchedule =
-  getCustomVolunteerSchedule(
-    selectedAdminSchedule
-  );
-
-
-if (customSchedule) {
-
-  const customDate =
-    new Date(
-      String(
-        customSchedule.date || ""
-      ) +
-      "T00:00:00"
-    );
-
-  const weekdayNames = [
-    "일",
-    "월",
-    "화",
-    "수",
-    "목",
-    "금",
-    "토"
-  ];
-
-  dayText =
-    weekdayNames[
-      customDate.getDay()
-    ];
-
-} else {
-
-  dayText =
-    selectedAdminSchedule ===
-    "일오전"
-      ? "일"
-      : "토";
-
-}
-
-dateEl.value =
-    `${year}. ${month}. ${date}(${dayText})`;
   groupsEl.prepend(form);
 
 }
