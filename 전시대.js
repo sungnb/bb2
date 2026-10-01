@@ -4822,14 +4822,17 @@ function addGroup() {
     return;
   }
 
-  /* 이미 추가 선택창이 있으면 다시 만들지 않음 */
   if (
     document.getElementById("newGroupForm")
   ) {
     return;
   }
 
-  /* 현재 선택된 봉사자 수 */
+  /*
+     현재 관리용에서 선택한
+     미배정 봉사자 수를 그대로 사용
+  */
+
   const selectedCount =
     selectedApplicants.length;
 
@@ -4842,14 +4845,14 @@ function addGroup() {
     return;
   }
 
-  /* =====================================================
-     일정에 따른 날짜 / 시작시간 결정
-  ===================================================== */
+  /*
+     선택된 일정에 따라
+     날짜와 봉사 시작시간을 결정
+  */
 
   let serviceDate = "";
   let startMinutes = 10 * 60;
 
-  /* 토요일 오전 */
   if (
     selectedAdminSchedule === "토오전"
   ) {
@@ -4858,8 +4861,6 @@ function addGroup() {
       10 * 60;
 
   }
-
-  /* 토요일 오후 */
   else if (
     selectedAdminSchedule === "토오후"
   ) {
@@ -4868,8 +4869,6 @@ function addGroup() {
       13 * 60;
 
   }
-
-  /* 일요일 오전 */
   else if (
     selectedAdminSchedule === "일오전"
   ) {
@@ -4878,19 +4877,15 @@ function addGroup() {
       10 * 60;
 
   }
+  else {
 
-  /* =====================================================
-     날짜형 추가 일정
+    /*
+       사용자 지정 일정
 
-     예:
-     2026-10-10_1010
-     → 2026-10-10 / 오전 10:10
-  ===================================================== */
-
-  else if (
-    /^\d{4}-\d{2}-\d{2}(?:_(\d{2}):?(\d{2}))?$/
-      .test(selectedAdminSchedule)
-  ) {
+       예:
+       2026-10-10_1010
+       2026-10-10_10:10
+    */
 
     const match =
       selectedAdminSchedule.match(
@@ -4910,16 +4905,13 @@ function addGroup() {
         startMinutes =
           Number(match[2]) * 60 +
           Number(match[3]);
-
       }
-
     }
-
   }
 
-  /* =====================================================
-     고정 일정 날짜 계산
-  ===================================================== */
+  /*
+     고정 일정의 날짜 계산
+  */
 
   if (!serviceDate) {
 
@@ -4935,7 +4927,8 @@ function addGroup() {
     let daysUntilTarget;
 
     if (
-      selectedAdminSchedule === "일오전"
+      selectedAdminSchedule ===
+      "일오전"
     ) {
 
       daysUntilTarget =
@@ -4945,7 +4938,6 @@ function addGroup() {
 
       daysUntilTarget =
         (6 - day + 7) % 7;
-
     }
 
     targetDate.setDate(
@@ -4968,12 +4960,11 @@ function addGroup() {
 
     serviceDate =
       `${year}-${month}-${date}`;
-
   }
 
-  /* =====================================================
-     시작시간 표시
-  ===================================================== */
+  /*
+     봉사 시작시간 표시
+  */
 
   const startHour =
     Math.floor(
@@ -4996,9 +4987,9 @@ function addGroup() {
   const startTime =
     `${startAmpm} ${startDisplayHour}:${String(startMinute).padStart(2, "0")}`;
 
-  /* =====================================================
-     봉사마감 = 시작 + 2시간
-  ===================================================== */
+  /*
+     봉사마감은 시작시간에서 2시간 후
+  */
 
   const endMinutes =
     startMinutes + 120;
@@ -5024,9 +5015,9 @@ function addGroup() {
   const endTime =
     `${endAmpm} ${endDisplayHour}:${String(endMinute).padStart(2, "0")}`;
 
-  /* =====================================================
+  /*
      날짜 표시
-  ===================================================== */
+  */
 
   const dateObject =
     new Date(
@@ -5043,15 +5034,16 @@ function addGroup() {
   const date =
     dateObject.getDate();
 
-  const weekdayNames = [
-    "일",
-    "월",
-    "화",
-    "수",
-    "목",
-    "금",
-    "토"
-  ];
+  const weekdayNames =
+    [
+      "일",
+      "월",
+      "화",
+      "수",
+      "목",
+      "금",
+      "토"
+    ];
 
   const weekday =
     weekdayNames[
@@ -5061,12 +5053,9 @@ function addGroup() {
   const dateText =
     `${year}. ${month}. ${date}(${weekday})`;
 
-  /* =====================================================
+  /*
      그룹 추가 화면
-
-     날짜 / 시간 / 인원은 자동 결정
-     봉사장소만 선택
-  ===================================================== */
+  */
 
   const form =
     document.createElement("div");
@@ -5083,12 +5072,13 @@ function addGroup() {
 
       <div class="new-group-select-box">
 
-        <label>
+        <label for="newGroupDate">
           날짜
         </label>
 
         <input
           type="text"
+          id="newGroupDate"
           value="${dateText}"
           readonly
         >
@@ -5102,12 +5092,13 @@ function addGroup() {
 
       <div class="new-group-select-box">
 
-        <label>
+        <label for="newGroupStartTime">
           봉사시작
         </label>
 
         <input
           type="text"
+          id="newGroupStartTime"
           value="${startTime}"
           readonly
         >
@@ -5117,12 +5108,13 @@ function addGroup() {
 
       <div class="new-group-select-box">
 
-        <label>
+        <label for="newGroupEndTime">
           봉사마감
         </label>
 
         <input
           type="text"
+          id="newGroupEndTime"
           value="${endTime}"
           readonly
         >
@@ -5136,12 +5128,13 @@ function addGroup() {
 
       <div class="new-group-select-box">
 
-        <label>
+        <label for="newGroupCount">
           인원
         </label>
 
         <input
           type="text"
+          id="newGroupCount"
           value="${selectedCount}명"
           readonly
         >
@@ -5155,10 +5148,12 @@ function addGroup() {
           봉사장소
         </label>
 
-        <select id="newGroupLocation">
+        <select
+          id="newGroupLocation"
+        >
 
           <option value="">
-            봉사장소 선택
+            봉사장소를 선택하세요
           </option>
 
           <option value="유타몰">
@@ -5185,6 +5180,22 @@ function addGroup() {
             성신여대(주변)
           </option>
 
+          <option value="성북천(하늘다리)">
+            성북천(하늘다리)
+          </option>
+
+          <option value="성북천(바람마당교)">
+            성북천(바람마당교)
+          </option>
+
+          <option value="성북천(분수대)">
+            성북천(분수대)
+          </option>
+
+          <option value="성북천(용문교)">
+            성북천(용문교)
+          </option>
+
           <option value="가두 증거">
             가두 증거
           </option>
@@ -5200,25 +5211,18 @@ function addGroup() {
       class="new-group-action-row"
       style="
         display:flex;
-        gap:10px;
+        gap:8px;
         width:100%;
+        margin-top:14px;
       "
     >
 
       <button
         type="button"
-        class="new-group-create-button"
         onclick="createNewGroup()"
         style="
           flex:1;
-          width:50%;
-          min-width:0;
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border-radius:12px !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
+          height:48px;
         "
       >
         그룹 추가
@@ -5227,18 +5231,10 @@ function addGroup() {
 
       <button
         type="button"
-        class="new-group-cancel-button"
         onclick="cancelNewGroup()"
         style="
           flex:1;
-          width:50%;
-          min-width:0;
-          height:70px;
-          padding:0;
-          box-sizing:border-box;
-          border-radius:12px !important;
-          font-size:calc(18px * var(--font-scale)) !important;
-          font-weight:700;
+          height:48px;
         "
       >
         취소
@@ -5249,7 +5245,6 @@ function addGroup() {
   `;
 
   groupsEl.prepend(form);
-
 }
 
 /* =========================================================
