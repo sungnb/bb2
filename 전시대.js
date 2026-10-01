@@ -5648,11 +5648,10 @@ if (countEl) {
     schedule:
       selectedAdminSchedule,
 
-    startTime:
-      document.getElementById(
-        "newGroupStartTime"
-      )?.selectedOptions[0]?.textContent || "",
-
+   startTime:
+  document.getElementById(
+    "newGroupStartTime"
+  )?.value || "",
     endTime:
       document.getElementById(
         "newGroupEndTime"
