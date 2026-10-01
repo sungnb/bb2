@@ -7480,48 +7480,48 @@ if (serviceCancelReason) {
   return;
 }
 
-  /* =========================================================
+    /* =========================================================
      4명 / 5명 / 6명 / 7명 시간표
+     - 각 시간은 봉사시작 시간으로부터 지난 분
   ========================================================= */
 
   const schedules = {
 
     4: [
-      [0, 1, "오전 10:00"],
-      [2, 3, "오전 10:30"],
-      [0, 1, "오전 11:00"],
-      [2, 3, "오전 11:30"]
+      [0, 1, 0],
+      [2, 3, 30],
+      [0, 1, 60],
+      [2, 3, 90]
     ],
 
     5: [
-      [0, 1, "오전 10:00"],
-      [2, 3, "오전 10:25"],
-      [4, 0, "오전 10:50"],
-      [1, 2, "오전 11:15"],
-      [3, 4, "오전 11:35"]
+      [0, 1, 0],
+      [2, 3, 25],
+      [4, 0, 50],
+      [1, 2, 75],
+      [3, 4, 95]
     ],
 
     6: [
-      [0, 1, "오전 10:00"],
-      [2, 3, "오전 10:20"],
-      [4, 5, "오전 10:40"],
-      [0, 1, "오전 11:00"],
-      [2, 3, "오전 11:20"],
-      [4, 5, "오전 11:40"]
+      [0, 1, 0],
+      [2, 3, 20],
+      [4, 5, 40],
+      [0, 1, 60],
+      [2, 3, 80],
+      [4, 5, 100]
     ],
 
     7: [
-      [0, 1, "오전 10:00"],
-      [2, 3, "오전 10:20"],
-      [4, 5, "오전 10:40"],
-      [6, 0, "오전 11:00"],
-      [1, 2, "오전 11:15"],
-      [3, 4, "오전 11:30"],
-      [5, 6, "오전 11:45"]
+      [0, 1, 0],
+      [2, 3, 20],
+      [4, 5, 40],
+      [6, 0, 60],
+      [1, 2, 75],
+      [3, 4, 90],
+      [5, 6, 105]
     ]
 
   };
-
 
   /* =========================================================
      그룹 표시
@@ -7732,111 +7732,212 @@ card.appendChild(
   divider
 );
 
-      /* -----------------------------------------------------
-         시간표
-      ----------------------------------------------------- */
+/* -----------------------------------------------------
+   시간표
+----------------------------------------------------- */
 
-      const rows =
-        document.createElement(
-          "div"
-        );
-
-      rows.className =
-        "service-appointment-rows";
-
-
-      const scheduleRows =
-        schedules[count] || [];
-
-
-      scheduleRows.forEach(
-        function(row) {
-
-          const firstIndex =
-            row[0];
-
-          const secondIndex =
-            row[1];
-
-          const time =
-            row[2];
-
-
-          const scheduleRow =
-            document.createElement(
-              "div"
-            );
-
-          scheduleRow.className =
-            "service-appointment-row";
-
-
-          const names =
-            document.createElement(
-              "span"
-            );
-
-          names.className =
-            "service-appointment-names";
-
-
-          const firstPerson =
-            members[firstIndex] ||
-            "배정 전";
-
-          const secondPerson =
-            members[secondIndex] ||
-            "배정 전";
-
-
-          names.textContent =
-            firstPerson +
-            ", " +
-            secondPerson;
-
-
-          const timeText =
-            document.createElement(
-              "span"
-            );
-
-          timeText.className =
-            "service-appointment-slot";
-
-          timeText.textContent =
-            time;
-
-
-          scheduleRow.appendChild(
-            names
-          );
-
-          scheduleRow.appendChild(
-            timeText
-          );
-
-          rows.appendChild(
-            scheduleRow
-          );
-
-        }
-      );
-
-
-      card.appendChild(
-        rows
-      );
-
-
-      list.appendChild(
-        card
-      );
-
-    }
+const rows =
+  document.createElement(
+    "div"
   );
 
-}
+rows.className =
+  "service-appointment-rows";
 
+
+const scheduleRows =
+  schedules[count] || [];
+
+
+scheduleRows.forEach(
+  function(row) {
+
+    const firstIndex =
+      row[0];
+
+    const secondIndex =
+      row[1];
+
+
+    /* ---------------------------------------------------
+       봉사시작 시간을 기준으로 세부 시간 계산
+    --------------------------------------------------- */
+
+    const offsetMinutes =
+      Number(row[2]) || 0;
+
+
+    let time =
+      startTime;
+
+
+    const startMatch =
+      String(startTime || "")
+        .trim()
+        .match(
+          /^(오전|오후)\s*(\d{1,2}):(\d{2})$/
+        );
+
+
+    if (startMatch) {
+
+      const period =
+        startMatch[1];
+
+      let hour =
+        Number(
+          startMatch[2]
+        );
+
+      const minute =
+        Number(
+          startMatch[3]
+        );
+
+
+      /* 오전/오후 → 24시간제로 변환 */
+
+      if (
+        period === "오후" &&
+        hour !== 12
+      ) {
+        hour += 12;
+      }
+
+
+      if (
+        period === "오전" &&
+        hour === 12
+      ) {
+        hour = 0;
+      }
+
+
+      let totalMinutes =
+        hour * 60 +
+        minute +
+        offsetMinutes;
+
+
+      totalMinutes =
+        totalMinutes % 1440;
+
+
+      /* 24시간제 → 오전/오후 */
+
+      const resultPeriod =
+        totalMinutes < 720
+          ? "오전"
+          : "오후";
+
+
+      let resultHour =
+        Math.floor(
+          totalMinutes / 60
+        );
+
+
+      const resultMinute =
+        totalMinutes % 60;
+
+
+      if (resultHour >= 12) {
+        resultHour -= 12;
+      }
+
+
+      if (resultHour === 0) {
+        resultHour = 12;
+      }
+
+
+      time =
+        resultPeriod +
+        " " +
+        resultHour +
+        ":" +
+        String(
+          resultMinute
+        ).padStart(
+          2,
+          "0"
+        );
+
+    }
+
+
+    const scheduleRow =
+      document.createElement(
+        "div"
+      );
+
+    scheduleRow.className =
+      "service-appointment-row";
+
+
+    const names =
+      document.createElement(
+        "span"
+      );
+
+    names.className =
+      "service-appointment-names";
+
+
+    const firstPerson =
+      members[firstIndex] ||
+      "배정 전";
+
+    const secondPerson =
+      members[secondIndex] ||
+      "배정 전";
+
+
+    names.textContent =
+      firstPerson +
+      ", " +
+      secondPerson;
+
+
+    const timeText =
+      document.createElement(
+        "span"
+      );
+
+    timeText.className =
+      "service-appointment-slot";
+
+    timeText.textContent =
+      time;
+
+
+    scheduleRow.appendChild(
+      names
+    );
+
+    scheduleRow.appendChild(
+      timeText
+    );
+
+    rows.appendChild(
+      scheduleRow
+    );
+
+  }
+);
+
+
+card.appendChild(
+  rows
+);
+
+
+list.appendChild(
+  card
+);
+
+}
+);
 
 /* =========================================================
    봉사용 - 토요일 오전 / 토요일 오후 / 일요일 오전 선택
