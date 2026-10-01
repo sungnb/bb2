@@ -6,15 +6,15 @@
 
 function isVolunteerScheduleAvailable(schedule) {
 
-  const koreaDate =
-    new Date(
-      new Date().toLocaleString(function addGroup() {
-        "en-US",
-        {
-          timeZone: "Asia/Seoul"
-        }
-      )
-    );
+ const koreaDate =
+  new Date(
+    new Date().toLocaleString(
+      "en-US",
+      {
+        timeZone: "Asia/Seoul"
+      }
+    )
+  );
 
   const today =
     koreaDate.getDay();
