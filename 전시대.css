@@ -566,7 +566,7 @@ body.light .group-slot.filled {
   border: 0;
   border-radius: 12px;
 
-  background: #455A64;
+  background: #B83232;
   color: #fff;
 
   font-size: calc(17px * var(--font-scale));
