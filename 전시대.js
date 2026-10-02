@@ -670,20 +670,7 @@ function openCustomVolunteerSchedulePopup() {
     document.getElementById(
       "customScheduleDate"
     );
-   
-/* =======================================================
-   모바일 날짜 입력 안내
-   ======================================================= */
 
-if (dateInput) {
-
-  dateInput.setAttribute(
-    "aria-label",
-    "날짜 선택"
-  );
-
-}
-   
   const startSelect =
     document.getElementById(
       "customScheduleStartTime"
@@ -1948,54 +1935,20 @@ function showAddCustomSchedulePopup() {
         날짜
       </label>
 
-
-      <div
+      <input
+        type="date"
+        id="customScheduleDate"
         style="
-          position:relative;
           width:100%;
           height:52px;
+          box-sizing:border-box;
+          padding:0 12px;
+          border:2px solid #455A64;
+          border-radius:10px;
+          font-size:18px;
+          font-weight:700;
         "
       >
-
-        <input
-          type="date"
-          id="customScheduleDate"
-          style="
-            position:absolute;
-            inset:0;
-            width:100%;
-            height:52px;
-            box-sizing:border-box;
-            padding:0 12px;
-            border:2px solid #455A64;
-            border-radius:10px;
-            font-size:18px;
-            font-weight:700;
-            background:#fff;
-            color:transparent;
-            z-index:2;
-          "
-        >
-
-
-        <span
-          id="customScheduleDatePlaceholder"
-          style="
-            position:absolute;
-            left:14px;
-            top:50%;
-            transform:translateY(-50%);
-            font-size:18px;
-            font-weight:700;
-            color:#666;
-            pointer-events:none;
-            z-index:1;
-          "
-        >
-          날짜 선택
-        </span>
-
-      </div>
 
     </div>
 
@@ -2132,317 +2085,32 @@ function showAddCustomSchedulePopup() {
 
 
   /* =======================================================
-     날짜 기본값
-     처음에는 날짜를 비워둠
-     → "날짜 선택" 표시
+     날짜 기본값 = 오늘
   ======================================================= */
 
-  if (dateInput) {
-
-    dateInput.value = "";
-
-  }
+  const today =
+    new Date();
 
 
-  const datePlaceholder =
-    document.getElementById(
-      "customScheduleDatePlaceholder"
-    );
+  const yyyy =
+    today.getFullYear();
 
 
-  if (datePlaceholder) {
-
-    datePlaceholder.style.display =
-      "block";
-
-  }
-
-
-  /* =======================================================
-     날짜 선택 후 표시 변경
-  ======================================================= */
-
-  if (dateInput) {
-
-    dateInput.addEventListener(
-      "change",
-      function() {
-
-        if (datePlaceholder) {
-
-          datePlaceholder.style.display =
-            dateInput.value
-              ? "none"
-              : "block";
-
-        }
-
-
-        dateInput.style.color =
-          dateInput.value
-            ? "#222"
-            : "transparent";
-
-      }
-    );
-
-  }
-
-
-  /* =======================================================
-     날짜 입력 클릭
-  ======================================================= */
-
-  if (dateInput) {
-
-    dateInput.addEventListener(
-      "click",
-      function() {
-
-        if (
-          typeof dateInput.showPicker ===
-          "function"
-        ) {
-
-          dateInput.showPicker();
-
-        }
-
-      }
-    );
-
-  }
-
-
-  /* =======================================================
-     오전 10:00 ~ 오후 5:00
-     10분 단위
-  ======================================================= */
-
-  for (
-    let minutes = 10 * 60;
-    minutes <= 17 * 60;
-    minutes += 10
-  ) {
-
-    const hour =
-      Math.floor(
-        minutes / 60
-      );
-
-
-    const minute =
-      minutes % 60;
-
-
-    const ampm =
-      hour < 12
-        ? "오전"
-        : "오후";
-
-
-    const displayHour =
-      hour > 12
-        ? hour - 12
-        : hour;
-
-
-    const timeText =
-      `${ampm} ${displayHour}:${String(
-        minute
-      ).padStart(2, "0")}`;
-
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-
-    option.value =
-      minutes;
-
-
-    option.textContent =
-      timeText;
-
-
-    startSelect.appendChild(
-      option
-    );
-
-  }
-
-
-  /* =======================================================
-     기본 시작시간
-     오전 10:00
-  ======================================================= */
-
-  startSelect.value =
+  const mm =
     String(
-      10 * 60
-    );
+      today.getMonth() + 1
+    ).padStart(2, "0");
 
 
-  /* =======================================================
-     시작시간 + 2시간
-  ======================================================= */
-
-  function updateEndTime() {
-
-    const startMinutes =
-      Number(
-        startSelect.value
-      );
+  const dd =
+    String(
+      today.getDate()
+    ).padStart(2, "0");
 
 
-    const endMinutes =
-      startMinutes + 120;
+  dateInput.value =
+    `${yyyy}-${mm}-${dd}`;
 
-
-    const endHour =
-      Math.floor(
-        endMinutes / 60
-      );
-
-
-    const endMinute =
-      endMinutes % 60;
-
-
-    const endAmpm =
-      endHour < 12
-        ? "오전"
-        : "오후";
-
-
-    const endDisplayHour =
-      endHour > 12
-        ? endHour - 12
-        : endHour;
-
-
-    endInput.value =
-      `${endAmpm} ${endDisplayHour}:${String(
-        endMinute
-      ).padStart(2, "0")}`;
-
-  }
-
-
-  startSelect.addEventListener(
-    "change",
-    updateEndTime
-  );
-
-
-  updateEndTime();
-
-
-  /* =======================================================
-     취소
-  ======================================================= */
-
-  document
-    .getElementById(
-      "customScheduleCancel"
-    )
-    .onclick =
-    function() {
-
-      overlay.remove();
-
-    };
-
-
-  /* =======================================================
-     확인
-  ======================================================= */
-
-  document
-    .getElementById(
-      "customScheduleConfirm"
-    )
-    .onclick =
-    function() {
-
-      createCustomVolunteerSchedule();
-
-    };
-
-}
-
-    /* =======================================================
-     날짜 기본값
-     처음에는 "날짜 선택"으로 표시
-  ======================================================= */
-
-  dateInput.value = "";
-
-  const datePlaceholder =
-    document.getElementById(
-      "customScheduleDatePlaceholder"
-    );
-
-  if (datePlaceholder) {
-
-    datePlaceholder.textContent =
-      "날짜 선택";
-
-  }
-
-
-  dateInput.addEventListener(
-    "change",
-    function() {
-
-      if (!datePlaceholder) {
-        return;
-      }
-
-      if (!dateInput.value) {
-
-        datePlaceholder.textContent =
-          "날짜 선택";
-
-        return;
-
-      }
-
-      const selectedDate =
-        new Date(
-          dateInput.value +
-          "T00:00:00"
-        );
-
-      const weekdayNames = [
-        "일",
-        "월",
-        "화",
-        "수",
-        "목",
-        "금",
-        "토"
-      ];
-
-      datePlaceholder.textContent =
-        selectedDate.getFullYear() +
-        "년 " +
-        (selectedDate.getMonth() + 1) +
-        "월 " +
-        selectedDate.getDate() +
-        "일(" +
-        weekdayNames[
-          selectedDate.getDay()
-        ] +
-        ")";
-
-      datePlaceholder.style.color =
-        "#222";
-
-    }
-  );
 
   /* =======================================================
      오전 10:00 ~ 오후 5:00 10분 단위
@@ -7814,46 +7482,46 @@ if (serviceCancelReason) {
 
   /* =========================================================
      4명 / 5명 / 6명 / 7명 시간표
-     - 각 시간은 봉사시작 시간으로부터 지난 분
   ========================================================= */
 
   const schedules = {
 
     4: [
-      [0, 1, 0],
-      [2, 3, 30],
-      [0, 1, 60],
-      [2, 3, 90]
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:30"],
+      [0, 1, "오전 11:00"],
+      [2, 3, "오전 11:30"]
     ],
 
     5: [
-      [0, 1, 0],
-      [2, 3, 25],
-      [4, 0, 50],
-      [1, 2, 75],
-      [3, 4, 95]
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:25"],
+      [4, 0, "오전 10:50"],
+      [1, 2, "오전 11:15"],
+      [3, 4, "오전 11:35"]
     ],
 
     6: [
-      [0, 1, 0],
-      [2, 3, 20],
-      [4, 5, 40],
-      [0, 1, 60],
-      [2, 3, 80],
-      [4, 5, 100]
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:20"],
+      [4, 5, "오전 10:40"],
+      [0, 1, "오전 11:00"],
+      [2, 3, "오전 11:20"],
+      [4, 5, "오전 11:40"]
     ],
 
     7: [
-      [0, 1, 0],
-      [2, 3, 20],
-      [4, 5, 40],
-      [6, 0, 60],
-      [1, 2, 75],
-      [3, 4, 90],
-      [5, 6, 105]
+      [0, 1, "오전 10:00"],
+      [2, 3, "오전 10:20"],
+      [4, 5, "오전 10:40"],
+      [6, 0, "오전 11:00"],
+      [1, 2, "오전 11:15"],
+      [3, 4, "오전 11:30"],
+      [5, 6, "오전 11:45"]
     ]
 
   };
+
 
   /* =========================================================
      그룹 표시
@@ -8064,205 +7732,111 @@ card.appendChild(
   divider
 );
 
-/* -----------------------------------------------------
-   시간표
------------------------------------------------------ */
+      /* -----------------------------------------------------
+         시간표
+      ----------------------------------------------------- */
 
-const rows =
-  document.createElement(
-    "div"
+      const rows =
+        document.createElement(
+          "div"
+        );
+
+      rows.className =
+        "service-appointment-rows";
+
+
+      const scheduleRows =
+        schedules[count] || [];
+
+
+      scheduleRows.forEach(
+        function(row) {
+
+          const firstIndex =
+            row[0];
+
+          const secondIndex =
+            row[1];
+
+          const time =
+            row[2];
+
+
+          const scheduleRow =
+            document.createElement(
+              "div"
+            );
+
+          scheduleRow.className =
+            "service-appointment-row";
+
+
+          const names =
+            document.createElement(
+              "span"
+            );
+
+          names.className =
+            "service-appointment-names";
+
+
+          const firstPerson =
+            members[firstIndex] ||
+            "배정 전";
+
+          const secondPerson =
+            members[secondIndex] ||
+            "배정 전";
+
+
+          names.textContent =
+            firstPerson +
+            ", " +
+            secondPerson;
+
+
+          const timeText =
+            document.createElement(
+              "span"
+            );
+
+          timeText.className =
+            "service-appointment-slot";
+
+          timeText.textContent =
+            time;
+
+
+          scheduleRow.appendChild(
+            names
+          );
+
+          scheduleRow.appendChild(
+            timeText
+          );
+
+          rows.appendChild(
+            scheduleRow
+          );
+
+        }
+      );
+
+
+      card.appendChild(
+        rows
+      );
+
+
+      list.appendChild(
+        card
+      );
+
+    }
   );
 
-rows.className =
-  "service-appointment-rows";
-
-
-const scheduleRows =
-  schedules[count] || [];
-
-
-scheduleRows.forEach(
-  function(row) {
-
-    const firstIndex =
-      row[0];
-
-    const secondIndex =
-      row[1];
-
-    const offsetMinutes =
-  Number(row[2]) || 0;
-
-
-let time =
-  startTime;
-
-
-const startMatch =
-  String(startTime || "")
-    .trim()
-    .match(
-      /^(오전|오후)\s*(\d{1,2}):(\d{2})$/
-    );
-
-
-if (startMatch) {
-
-  const period =
-    startMatch[1];
-
-  let hour =
-    Number(
-      startMatch[2]
-    );
-
-  const minute =
-    Number(
-      startMatch[3]
-    );
-
-
-  if (
-    period === "오후" &&
-    hour !== 12
-  ) {
-    hour += 12;
-  }
-
-
-  if (
-    period === "오전" &&
-    hour === 12
-  ) {
-    hour = 0;
-  }
-
-
-  let totalMinutes =
-    hour * 60 +
-    minute +
-    offsetMinutes;
-
-
-  totalMinutes =
-    totalMinutes % 1440;
-
-
-  const resultPeriod =
-    totalMinutes < 720
-      ? "오전"
-      : "오후";
-
-
-  let resultHour =
-    Math.floor(
-      totalMinutes / 60
-    );
-
-
-  const resultMinute =
-    totalMinutes % 60;
-
-
-  if (resultHour >= 12) {
-    resultHour -= 12;
-  }
-
-
-  if (resultHour === 0) {
-    resultHour = 12;
-  }
-
-
-  time =
-    resultPeriod +
-    " " +
-    resultHour +
-    ":" +
-    String(
-      resultMinute
-    ).padStart(
-      2,
-      "0"
-    );
-
 }
 
-
-    const scheduleRow =
-      document.createElement(
-        "div"
-      );
-
-    scheduleRow.className =
-      "service-appointment-row";
-
-
-    const names =
-      document.createElement(
-        "span"
-      );
-
-    names.className =
-      "service-appointment-names";
-
-
-    const firstPerson =
-      members[firstIndex] ||
-      "배정 전";
-
-    const secondPerson =
-      members[secondIndex] ||
-      "배정 전";
-
-
-    names.textContent =
-      firstPerson +
-      ", " +
-      secondPerson;
-
-
-    const timeText =
-      document.createElement(
-        "span"
-      );
-
-    timeText.className =
-      "service-appointment-slot";
-
-    timeText.textContent =
-      time;
-
-
-    scheduleRow.appendChild(
-      names
-    );
-
-    scheduleRow.appendChild(
-      timeText
-    );
-
-    rows.appendChild(
-      scheduleRow
-    );
-
-  }
-);
-
-
-card.appendChild(
-  rows
-);
-
-
-list.appendChild(
-  card
-);
-
-}
-);
-
-}
 
 /* =========================================================
    봉사용 - 토요일 오전 / 토요일 오후 / 일요일 오전 선택
