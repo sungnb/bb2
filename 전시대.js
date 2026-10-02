@@ -1948,20 +1948,48 @@ function showAddCustomSchedulePopup() {
         날짜
       </label>
 
-      <input
-        type="date"
-        id="customScheduleDate"
+            <div
         style="
+          position:relative;
           width:100%;
           height:52px;
-          box-sizing:border-box;
-          padding:0 12px;
-          border:2px solid #455A64;
-          border-radius:10px;
-          font-size:18px;
-          font-weight:700;
         "
       >
+
+        <input
+          type="date"
+          id="customScheduleDate"
+          style="
+            width:100%;
+            height:52px;
+            box-sizing:border-box;
+            padding:0 12px;
+            border:2px solid #455A64;
+            border-radius:10px;
+            font-size:18px;
+            font-weight:700;
+            background:#fff;
+            color:#222;
+          "
+        >
+
+        <span
+          id="customScheduleDatePlaceholder"
+          style="
+            position:absolute;
+            left:14px;
+            top:50%;
+            transform:translateY(-50%);
+            font-size:18px;
+            font-weight:700;
+            color:#666;
+            pointer-events:none;
+          "
+        >
+          날짜 선택
+        </span>
+
+      </div>
 
     </div>
 
