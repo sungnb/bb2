@@ -2,22 +2,32 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
   <title>명단 관리</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
       margin: 0;
       padding: 20px;
-      font-family: Arial, "Noto Sans KR", sans-serif;
+
+      font-family:
+        Arial,
+        "Noto Sans KR",
+        sans-serif;
+
       background: #f5f6f8;
       color: #222;
     }
+
 
     .container {
       width: 100%;
@@ -25,132 +35,291 @@
       margin: 0 auto;
     }
 
+
+    /* =========================================================
+       제목
+    ========================================================= */
+
     h1 {
       margin: 0 0 20px;
+
       text-align: center;
+
       font-size: 26px;
     }
 
-    /* 상단 탭 */
-    .tabs {
-      display: flex;
+
+    /* =========================================================
+       추가 버튼
+    ========================================================= */
+
+    .add-button {
+      width: 100%;
+      height: 48px;
+
+      margin-bottom: 16px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background: #286b5b;
+      color: white;
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+
+    .add-button:active {
+      transform: translateY(1px);
+    }
+
+
+    /* =========================================================
+       이름 추가 입력 영역
+    ========================================================= */
+
+    .add-area {
+      display: none;
+
       gap: 8px;
+
       margin-bottom: 16px;
     }
 
-    .tab-button {
-      flex: 1;
-      height: 48px;
-      border: 0;
-      border-radius: 12px;
-      background: #ddd;
-      color: #333;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
 
-    .tab-button.active {
-      background: #286b5b;
-      color: white;
-    }
-
-    /* 명단 */
-    .member-list {
+    .add-area.show {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
     }
 
-    .member-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-height: 58px;
-      padding: 8px 10px 8px 14px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    }
-
-    .member-name {
-      flex: 1;
-      min-width: 0;
-      font-size: 17px;
-      font-weight: 600;
-    }
-
-    .role {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-      font-size: 13px;
-    }
-
-    .role input {
-      width: 18px;
-      height: 18px;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    .delete-button {
-      height: 36px;
-      padding: 0 10px;
-      border: 0;
-      border-radius: 8px;
-      background: #e5e5e5;
-      color: #555;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .delete-button:hover {
-      background: #d5d5d5;
-    }
-
-    /* 추가 영역 */
-    .add-area {
-      display: flex;
-      gap: 8px;
-      margin-top: 16px;
-    }
 
     .add-area input {
       flex: 1;
       min-width: 0;
+
       height: 48px;
+
       padding: 0 14px;
+
       border: 1px solid #ccc;
       border-radius: 10px;
+
       background: white;
+
       font-size: 16px;
+
       outline: none;
     }
+
 
     .add-area input:focus {
       border-color: #286b5b;
     }
 
-    .add-button {
-      width: 110px;
+
+    .save-add-button {
+      width: 80px;
       height: 48px;
+
       border: 0;
       border-radius: 10px;
+
       background: #286b5b;
       color: white;
+
       font-size: 15px;
       font-weight: 700;
+
       cursor: pointer;
     }
 
+
+    .cancel-add-button {
+      width: 70px;
+      height: 48px;
+
+      border: 0;
+      border-radius: 10px;
+
+      background: #ddd;
+      color: #444;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+
+    /* =========================================================
+       명단
+    ========================================================= */
+
+    .member-list {
+      display: flex;
+      flex-direction: column;
+
+      gap: 8px;
+    }
+
+
+    .member-row {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      min-height: 58px;
+
+      padding:
+        8px
+        10px
+        8px
+        14px;
+
+      background: white;
+
+      border-radius: 12px;
+
+      box-shadow:
+        0 1px 4px
+        rgba(0, 0, 0, 0.08);
+    }
+
+
+    .member-name {
+      flex: 1;
+      min-width: 0;
+
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+
+    /* =========================================================
+       역할
+    ========================================================= */
+
+    .role {
+      display: flex;
+      align-items: center;
+
+      gap: 4px;
+
+      white-space: nowrap;
+
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+
+    /*
+     * 실제 checkbox는 숨기고
+     * 원형 버튼으로 표시합니다.
+     */
+
+    .role input {
+      display: none;
+    }
+
+
+    .role-circle {
+      width: 19px;
+      height: 19px;
+
+      border:
+        2px solid #aaa;
+
+      border-radius: 50%;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+    }
+
+
+    /*
+     * 선택된 상태
+     */
+
+    .role input:checked
+      + .role-circle {
+
+      border-color: #286b5b;
+
+      background: #286b5b;
+    }
+
+
+    /*
+     * 선택된 원 안쪽
+     */
+
+    .role input:checked
+      + .role-circle::after {
+
+      content: "";
+
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: white;
+    }
+
+
+    /* =========================================================
+       삭제
+    ========================================================= */
+
+    .delete-button {
+      height: 36px;
+
+      padding:
+        0
+        10px;
+
+      border: 0;
+      border-radius: 8px;
+
+      background: #e5e5e5;
+      color: #555;
+
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+
+    .delete-button:hover {
+      background: #d5d5d5;
+    }
+
+
+    /* =========================================================
+       빈 명단
+    ========================================================= */
+
     .empty-message {
       padding: 40px 10px;
+
       text-align: center;
+
       color: #888;
+
       font-size: 15px;
     }
+
+
+    /* =========================================================
+       모바일
+    ========================================================= */
 
     @media (max-width: 480px) {
 
@@ -158,65 +327,81 @@
         padding: 14px;
       }
 
+
       .member-row {
         gap: 7px;
+
         padding-left: 10px;
       }
+
 
       .member-name {
         font-size: 15px;
       }
 
+
       .role {
         font-size: 11px;
       }
 
-      .role input {
-        width: 16px;
-        height: 16px;
+
+      .role-circle {
+        width: 17px;
+        height: 17px;
       }
 
+
+      .role input:checked
+        + .role-circle::after {
+
+        width: 8px;
+        height: 8px;
+      }
+
+
       .delete-button {
-        padding: 0 8px;
+        padding:
+          0
+          8px;
+
         font-size: 12px;
       }
+
     }
+
   </style>
 </head>
+
 
 <body>
 
   <div class="container">
 
+
     <h1>명단 관리</h1>
 
-    <!-- 상단 탭 -->
-    <div class="tabs">
 
-      <button
-        type="button"
-        class="tab-button active"
-        onclick="selectTab('volunteer')">
-        봉사자
-      </button>
+    <!-- =====================================================
+         + 추가
+    ====================================================== -->
 
-      <button
-        type="button"
-        class="tab-button"
-        onclick="selectTab('exhibition')">
-        전시대
-      </button>
+    <button
+      type="button"
+      class="add-button"
+      onclick="showAddArea()">
 
-    </div>
+      + 추가
 
-    <!-- 명단 -->
+    </button>
+
+
+    <!-- =====================================================
+         이름 추가 입력
+    ====================================================== -->
+
     <div
-      id="memberList"
-      class="member-list">
-    </div>
-
-    <!-- 명단 추가 -->
-    <div class="add-area">
+      id="addArea"
+      class="add-area">
 
       <input
         type="text"
@@ -224,19 +409,44 @@
         placeholder="이름을 입력하세요"
         onkeydown="handleEnter(event)">
 
+
       <button
         type="button"
-        class="add-button"
+        class="save-add-button"
         onclick="addMember()">
-        + 추가
+
+        추가
+
+      </button>
+
+
+      <button
+        type="button"
+        class="cancel-add-button"
+        onclick="hideAddArea()">
+
+        취소
+
       </button>
 
     </div>
+
+
+    <!-- =====================================================
+         전체 명단
+    ====================================================== -->
+
+    <div
+      id="memberList"
+      class="member-list">
+    </div>
+
 
   </div>
 
 
   <script>
+
 
     /* =========================================================
        명단 관리 Apps Script 주소
@@ -251,13 +461,6 @@
     ========================================================= */
 
     let members = [];
-
-
-    /* =========================================================
-       현재 선택된 탭
-    ========================================================= */
-
-    let currentTab = "volunteer";
 
 
     /* =========================================================
@@ -294,6 +497,13 @@
             : [];
 
 
+        /*
+         * 가나다순 정렬
+         */
+
+        sortMembers();
+
+
         renderMembers();
 
 
@@ -308,9 +518,11 @@
         document.getElementById(
           "memberList"
         ).innerHTML = `
+
           <div class="empty-message">
             명단을 불러오지 못했습니다.
           </div>
+
         `;
 
       }
@@ -319,7 +531,28 @@
 
 
     /* =========================================================
-       Google Sheets에 명단 저장
+       가나다순 정렬
+    ========================================================= */
+
+    function sortMembers() {
+
+      members.sort(
+        function(a, b) {
+
+          return String(a.name)
+            .localeCompare(
+              String(b.name),
+              "ko"
+            );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       Google Sheets에 저장
     ========================================================= */
 
     async function saveMembersToSheet() {
@@ -330,11 +563,14 @@
           await fetch(
             SCRIPT_URL,
             {
+
               method: "POST",
 
               headers: {
+
                 "Content-Type":
                   "text/plain;charset=utf-8"
+
               },
 
               body:
@@ -415,48 +651,19 @@
 
 
       /*
-       * 현재 탭에 해당하는 사람만 표시
+       * 전체 명단 표시
        */
 
-      const filteredMembers =
-        members.filter(
-          function(member) {
-
-            if (
-              currentTab ===
-              "volunteer"
-            ) {
-
-              return member.volunteer;
-
-            }
-
-
-            if (
-              currentTab ===
-              "exhibition"
-            ) {
-
-              return member.exhibition;
-
-            }
-
-
-            return true;
-
-          }
-        );
-
-
       if (
-        filteredMembers.length ===
-        0
+        members.length === 0
       ) {
 
         list.innerHTML = `
+
           <div class="empty-message">
             등록된 명단이 없습니다.
           </div>
+
         `;
 
         return;
@@ -464,12 +671,8 @@
       }
 
 
-      filteredMembers.forEach(
-        function(member) {
-
-          const index =
-            members.indexOf(member);
-
+      members.forEach(
+        function(member, index) {
 
           const row =
             document.createElement(
@@ -488,6 +691,8 @@
             </div>
 
 
+            <!-- 봉사자 -->
+
             <label class="role">
 
               <input
@@ -501,10 +706,16 @@
                   )
                 ">
 
+              <span
+                class="role-circle">
+              </span>
+
               봉사자
 
             </label>
 
+
+            <!-- 전시대 -->
 
             <label class="role">
 
@@ -519,10 +730,16 @@
                   )
                 ">
 
+              <span
+                class="role-circle">
+              </span>
+
               전시대
 
             </label>
 
+
+            <!-- 삭제 -->
 
             <button
               type="button"
@@ -547,49 +764,6 @@
 
 
     /* =========================================================
-       탭 변경
-    ========================================================= */
-
-    function selectTab(tab) {
-
-      currentTab =
-        tab;
-
-
-      document
-        .querySelectorAll(
-          ".tab-button"
-        )
-        .forEach(
-          function(button, index) {
-
-            button.classList.toggle(
-              "active",
-
-              (
-                tab ===
-                "volunteer" &&
-                index === 0
-              ) ||
-
-              (
-                tab ===
-                "exhibition" &&
-                index === 1
-              )
-
-            );
-
-          }
-        );
-
-
-      renderMembers();
-
-    }
-
-
-    /* =========================================================
        봉사자 / 전시대 변경
     ========================================================= */
 
@@ -604,35 +778,123 @@
       }
 
 
-      /*
-       * 기존 값을 기억합니다.
-       * 저장 실패 시 원래 상태로 복구합니다.
-       */
-
       const previousValue =
         members[index][role];
 
+
+      /*
+       * 화면 상태 변경
+       */
 
       members[index][role] =
         checked;
 
 
+      /*
+       * 바로 가나다순으로 다시 표시
+       */
+
+      sortMembers();
+
       renderMembers();
 
+
+      /*
+       * Google Sheets 저장
+       */
 
       const saved =
         await saveMembersToSheet();
 
 
+      /*
+       * 저장 실패 시 원래 상태로 복구
+       */
+
       if (!saved) {
 
-        members[index][role] =
-          previousValue;
+        /*
+         * 이름을 기준으로 다시 찾습니다.
+         */
+
+        const member =
+          members.find(
+            function(item) {
+
+              return (
+                item.name ===
+                members[index]?.name
+              );
+
+            }
+          );
+
+
+        if (member) {
+
+          member[role] =
+            previousValue;
+
+        }
 
 
         renderMembers();
 
       }
+
+    }
+
+
+    /* =========================================================
+       + 추가 영역 표시
+    ========================================================= */
+
+    function showAddArea() {
+
+      const area =
+        document.getElementById(
+          "addArea"
+        );
+
+
+      area.classList.add(
+        "show"
+      );
+
+
+      const input =
+        document.getElementById(
+          "memberNameInput"
+        );
+
+
+      input.value = "";
+
+      input.focus();
+
+    }
+
+
+    /* =========================================================
+       추가 취소
+    ========================================================= */
+
+    function hideAddArea() {
+
+      const area =
+        document.getElementById(
+          "addArea"
+        );
+
+
+      area.classList.remove(
+        "show"
+      );
+
+
+      document.getElementById(
+        "memberNameInput"
+      ).value = "";
 
     }
 
@@ -699,8 +961,8 @@
       /*
        * 새 사람 추가
        *
-       * 현재 선택된 탭의 역할을
-       * 자동으로 선택합니다.
+       * 처음에는 두 역할 모두
+       * 선택하지 않습니다.
        */
 
       const newMember = {
@@ -709,12 +971,10 @@
           name,
 
         volunteer:
-          currentTab ===
-          "volunteer",
+          false,
 
         exhibition:
-          currentTab ===
-          "exhibition"
+          false
 
       };
 
@@ -724,12 +984,21 @@
       );
 
 
-      input.value = "";
+      /*
+       * 가나다순 정렬
+       */
 
-      input.focus();
+      sortMembers();
 
 
       renderMembers();
+
+
+      /*
+       * 입력창 닫기
+       */
+
+      hideAddArea();
 
 
       /*
@@ -739,6 +1008,10 @@
       const saved =
         await saveMembersToSheet();
 
+
+      /*
+       * 저장 실패 시 복구
+       */
 
       if (!saved) {
 
@@ -778,8 +1051,12 @@
       }
 
 
+      const deletedMember =
+        members[index];
+
+
       const name =
-        members[index].name;
+        deletedMember.name;
 
 
       if (
@@ -794,12 +1071,8 @@
 
 
       /*
-       * 삭제할 사람을 기억합니다.
+       * 화면에서 삭제
        */
-
-      const deletedMember =
-        members[index];
-
 
       members.splice(
         index,
@@ -818,11 +1091,11 @@
         await saveMembersToSheet();
 
 
-      if (!saved) {
+      /*
+       * 저장 실패 시 복구
+       */
 
-        /*
-         * 저장 실패 시 복구
-         */
+      if (!saved) {
 
         members.splice(
           index,
@@ -830,6 +1103,8 @@
           deletedMember
         );
 
+
+        sortMembers();
 
         renderMembers();
 
@@ -904,6 +1179,7 @@
 
       }
     );
+
 
   </script>
 
