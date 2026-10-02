@@ -2775,11 +2775,43 @@ function goBack() {
 }
 
 
-function loadMasterNames() {
+async function loadMasterNames() {
 
-  masterNames = [...DEFAULT_MASTER_NAMES];
+  try {
 
-  renderNames();
+    const response =
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec?action=jeonsidae"
+      );
+
+    const names =
+      await response.json();
+
+    if (
+      !Array.isArray(names)
+    ) {
+      throw new Error(
+        "명단 데이터 형식이 올바르지 않습니다."
+      );
+    }
+
+    masterNames = names;
+
+    renderNames();
+
+  }
+  catch (error) {
+
+    console.error(
+      "전시대 명단 불러오기 실패:",
+      error
+    );
+
+    masterNames = [];
+
+    renderNames();
+
+  }
 
 }
 
