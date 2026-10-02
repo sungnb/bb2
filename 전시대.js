@@ -670,7 +670,20 @@ function openCustomVolunteerSchedulePopup() {
     document.getElementById(
       "customScheduleDate"
     );
+   
+/* =======================================================
+   모바일 날짜 입력 안내
+   ======================================================= */
 
+if (dateInput) {
+
+  dateInput.setAttribute(
+    "aria-label",
+    "날짜 선택"
+  );
+
+}
+   
   const startSelect =
     document.getElementById(
       "customScheduleStartTime"
