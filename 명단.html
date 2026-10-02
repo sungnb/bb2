@@ -555,85 +555,84 @@
        Google Sheets에 저장
     ========================================================= */
 
-    async function saveMembersToSheet() {
+   async function saveMembersToSheet() {
 
-      try {
+  try {
 
-        const response =
-          await fetch(
-            SCRIPT_URL,
-            {
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
 
-              method: "POST",
-
-              headers: {
-
-                "Content-Type":
-                  "text/plain;charset=utf-8"
-
-              },
-
-              body:
-                JSON.stringify({
-
-                  action:
-                    "saveMembers",
-
-                  members:
-                    members
-
-                })
-
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "서버와 연결할 수 없습니다."
-          );
-
+          body: JSON.stringify({
+            action: "saveMembers",
+            members: members
+          })
         }
+      );
 
 
-        const result =
-          await response.json();
+    const text =
+      await response.text();
 
 
-        if (!result.success) {
-
-          throw new Error(
-            result.error ||
-            "저장에 실패했습니다."
-          );
-
-        }
+    let result;
 
 
-        return true;
+    try {
 
+      result =
+        JSON.parse(text);
 
-      } catch (error) {
+    } catch (error) {
 
-        console.error(
-          "명단 저장 오류:",
-          error
-        );
+      console.error(
+        "서버 응답:",
+        text
+      );
 
-
-        alert(
-          "명단 저장에 실패했습니다.\n\n" +
-          error.message
-        );
-
-
-        return false;
-
-      }
+      throw new Error(
+        "Apps Script에서 올바른 응답을 받지 못했습니다."
+      );
 
     }
 
+
+    if (
+      !result.success
+    ) {
+
+      throw new Error(
+        result.error ||
+        "저장에 실패했습니다."
+      );
+
+    }
+
+
+    return true;
+
+
+  } catch (error) {
+
+    console.error(
+      "명단 저장 오류:",
+      error
+    );
+
+
+    alert(
+      "명단 저장에 실패했습니다.\n\n" +
+      error.message
+    );
+
+
+    return false;
+
+  }
+
+}
 
     /* =========================================================
        화면 표시
