@@ -1936,63 +1936,66 @@ function showAddCustomSchedulePopup() {
     </div>
 
 
-    <div style="margin-bottom:14px;">
+         <div style="margin-bottom:14px;">
 
-      <label
-        style="
-          display:block;
-          font-weight:700;
-          margin-bottom:6px;
-        "
-      >
-        날짜
-      </label>
-
-            <div
-        style="
-          position:relative;
-          width:100%;
-          height:52px;
-        "
-      >
-
-        <input
-          type="date"
-          id="customScheduleDate"
+        <label
           style="
+            display:block;
+            font-weight:700;
+            margin-bottom:6px;
+          "
+        >
+          날짜
+        </label>
+
+        <div
+          style="
+            position:relative;
             width:100%;
             height:52px;
-            box-sizing:border-box;
-            padding:0 12px;
-            border:2px solid #455A64;
-            border-radius:10px;
-            font-size:18px;
-            font-weight:700;
-            background:#fff;
-            color:#222;
           "
         >
 
-        <span
-          id="customScheduleDatePlaceholder"
-          style="
-            position:absolute;
-            left:14px;
-            top:50%;
-            transform:translateY(-50%);
-            font-size:18px;
-            font-weight:700;
-            color:#666;
-            pointer-events:none;
-          "
-        >
-          날짜 선택
-        </span>
+          <input
+            type="date"
+            id="customScheduleDate"
+            style="
+              position:absolute;
+              inset:0;
+              width:100%;
+              height:52px;
+              box-sizing:border-box;
+              padding:0 12px;
+              border:2px solid #455A64;
+              border-radius:10px;
+              font-size:18px;
+              font-weight:700;
+              background:#fff;
+              color:transparent;
+              z-index:2;
+            "
+          >
+
+          <span
+            id="customScheduleDatePlaceholder"
+            style="
+              position:absolute;
+              left:14px;
+              top:50%;
+              transform:translateY(-50%);
+              font-size:18px;
+              font-weight:700;
+              color:#666;
+              pointer-events:none;
+              z-index:1;
+            "
+          >
+            날짜 선택
+          </span>
+
+        </div>
 
       </div>
-
-    </div>
-
 
     <div style="margin-bottom:14px;">
 
@@ -2125,33 +2128,76 @@ function showAddCustomSchedulePopup() {
     );
 
 
-  /* =======================================================
-     날짜 기본값 = 오늘
+    /* =======================================================
+     날짜 기본값
+     처음에는 "날짜 선택"으로 표시
   ======================================================= */
 
-  const today =
-    new Date();
+  dateInput.value = "";
+
+  const datePlaceholder =
+    document.getElementById(
+      "customScheduleDatePlaceholder"
+    );
+
+  if (datePlaceholder) {
+
+    datePlaceholder.textContent =
+      "날짜 선택";
+
+  }
 
 
-  const yyyy =
-    today.getFullYear();
+  dateInput.addEventListener(
+    "change",
+    function() {
 
+      if (!datePlaceholder) {
+        return;
+      }
 
-  const mm =
-    String(
-      today.getMonth() + 1
-    ).padStart(2, "0");
+      if (!dateInput.value) {
 
+        datePlaceholder.textContent =
+          "날짜 선택";
 
-  const dd =
-    String(
-      today.getDate()
-    ).padStart(2, "0");
+        return;
 
+      }
 
-  dateInput.value =
-    `${yyyy}-${mm}-${dd}`;
+      const selectedDate =
+        new Date(
+          dateInput.value +
+          "T00:00:00"
+        );
 
+      const weekdayNames = [
+        "일",
+        "월",
+        "화",
+        "수",
+        "목",
+        "금",
+        "토"
+      ];
+
+      datePlaceholder.textContent =
+        selectedDate.getFullYear() +
+        "년 " +
+        (selectedDate.getMonth() + 1) +
+        "월 " +
+        selectedDate.getDate() +
+        "일(" +
+        weekdayNames[
+          selectedDate.getDay()
+        ] +
+        ")";
+
+      datePlaceholder.style.color =
+        "#222";
+
+    }
+  );
 
   /* =======================================================
      오전 10:00 ~ 오후 5:00 10분 단위
