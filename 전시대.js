@@ -2777,11 +2777,92 @@ function goBack() {
 
 function loadMasterNames() {
 
-  masterNames = [...DEFAULT_MASTER_NAMES];
+  /*
+     기존 명단을 먼저 표시
+     → 화면이 비어 있지 않도록 함
+  */
+
+  masterNames =
+    [...DEFAULT_MASTER_NAMES];
 
   renderNames();
 
+
+  /*
+     명단 시트 F2:F99에서
+     최신 전시대 명단을 가져옴
+  */
+
+  fetch(
+    "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec?action=jeonsidae&t=" +
+    Date.now()
+  )
+  .then(function(response) {
+
+    if (!response.ok) {
+
+      throw new Error(
+        "명단 서버에 연결할 수 없습니다."
+      );
+
+    }
+
+    return response.json();
+
+  })
+  .then(function(names) {
+
+    if (
+      !Array.isArray(names)
+    ) {
+
+      throw new Error(
+        "명단 데이터 형식이 올바르지 않습니다."
+      );
+
+    }
+
+
+    /*
+       JSON 명단이 정상적으로 들어오면
+       최신 명단으로 교체
+    */
+
+    masterNames =
+      names
+        .map(function(name) {
+
+          return String(
+            name || ""
+          ).trim();
+
+        })
+        .filter(function(name) {
+
+          return name !== "";
+
+        });
+
+
+    renderNames();
+
+  })
+  .catch(function(error) {
+
+    /*
+       JSON을 불러오지 못하면
+       기존 DEFAULT_MASTER_NAMES 유지
+    */
+
+    console.error(
+      "공유 명단 불러오기 실패:",
+      error
+    );
+
+  });
+
 }
+
 /* =========================================================
    특정 날짜 일정 불러오기
 ========================================================= */
