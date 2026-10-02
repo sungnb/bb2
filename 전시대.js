@@ -1936,28 +1936,69 @@ function showAddCustomSchedulePopup() {
     </div>
 
 
-  /* =======================================================
-     날짜 기본값 = 오늘
-  ======================================================= */
+    <div style="margin-bottom:14px;">
 
-  const today =
-    new Date();
+      <label
+        style="
+          display:block;
+          font-weight:700;
+          margin-bottom:6px;
+        "
+      >
+        날짜
+      </label>
 
-  const yyyy =
-    today.getFullYear();
 
-  const mm =
-    String(
-      today.getMonth() + 1
-    ).padStart(2, "0");
+      <div
+        style="
+          position:relative;
+          width:100%;
+          height:52px;
+        "
+      >
 
-  const dd =
-    String(
-      today.getDate()
-    ).padStart(2, "0");
+        <input
+          type="date"
+          id="customScheduleDate"
+          style="
+            position:absolute;
+            inset:0;
+            width:100%;
+            height:52px;
+            box-sizing:border-box;
+            padding:0 12px;
+            border:2px solid #455A64;
+            border-radius:10px;
+            font-size:18px;
+            font-weight:700;
+            background:#fff;
+            color:transparent;
+            z-index:2;
+          "
+        >
 
-  dateInput.value =
-    `${yyyy}-${mm}-${dd}`;
+
+        <span
+          id="customScheduleDatePlaceholder"
+          style="
+            position:absolute;
+            left:14px;
+            top:50%;
+            transform:translateY(-50%);
+            font-size:18px;
+            font-weight:700;
+            color:#666;
+            pointer-events:none;
+            z-index:1;
+          "
+        >
+          날짜 선택
+        </span>
+
+      </div>
+
+    </div>
+
 
     <div style="margin-bottom:14px;">
 
@@ -2089,6 +2130,248 @@ function showAddCustomSchedulePopup() {
       "customScheduleEnd"
     );
 
+
+  /* =======================================================
+     날짜 기본값
+     처음에는 날짜를 비워둠
+     → "날짜 선택" 표시
+  ======================================================= */
+
+  if (dateInput) {
+
+    dateInput.value = "";
+
+  }
+
+
+  const datePlaceholder =
+    document.getElementById(
+      "customScheduleDatePlaceholder"
+    );
+
+
+  if (datePlaceholder) {
+
+    datePlaceholder.style.display =
+      "block";
+
+  }
+
+
+  /* =======================================================
+     날짜 선택 후 표시 변경
+  ======================================================= */
+
+  if (dateInput) {
+
+    dateInput.addEventListener(
+      "change",
+      function() {
+
+        if (datePlaceholder) {
+
+          datePlaceholder.style.display =
+            dateInput.value
+              ? "none"
+              : "block";
+
+        }
+
+
+        dateInput.style.color =
+          dateInput.value
+            ? "#222"
+            : "transparent";
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     날짜 입력 클릭
+  ======================================================= */
+
+  if (dateInput) {
+
+    dateInput.addEventListener(
+      "click",
+      function() {
+
+        if (
+          typeof dateInput.showPicker ===
+          "function"
+        ) {
+
+          dateInput.showPicker();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     오전 10:00 ~ 오후 5:00
+     10분 단위
+  ======================================================= */
+
+  for (
+    let minutes = 10 * 60;
+    minutes <= 17 * 60;
+    minutes += 10
+  ) {
+
+    const hour =
+      Math.floor(
+        minutes / 60
+      );
+
+
+    const minute =
+      minutes % 60;
+
+
+    const ampm =
+      hour < 12
+        ? "오전"
+        : "오후";
+
+
+    const displayHour =
+      hour > 12
+        ? hour - 12
+        : hour;
+
+
+    const timeText =
+      `${ampm} ${displayHour}:${String(
+        minute
+      ).padStart(2, "0")}`;
+
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+
+    option.value =
+      minutes;
+
+
+    option.textContent =
+      timeText;
+
+
+    startSelect.appendChild(
+      option
+    );
+
+  }
+
+
+  /* =======================================================
+     기본 시작시간
+     오전 10:00
+  ======================================================= */
+
+  startSelect.value =
+    String(
+      10 * 60
+    );
+
+
+  /* =======================================================
+     시작시간 + 2시간
+  ======================================================= */
+
+  function updateEndTime() {
+
+    const startMinutes =
+      Number(
+        startSelect.value
+      );
+
+
+    const endMinutes =
+      startMinutes + 120;
+
+
+    const endHour =
+      Math.floor(
+        endMinutes / 60
+      );
+
+
+    const endMinute =
+      endMinutes % 60;
+
+
+    const endAmpm =
+      endHour < 12
+        ? "오전"
+        : "오후";
+
+
+    const endDisplayHour =
+      endHour > 12
+        ? endHour - 12
+        : endHour;
+
+
+    endInput.value =
+      `${endAmpm} ${endDisplayHour}:${String(
+        endMinute
+      ).padStart(2, "0")}`;
+
+  }
+
+
+  startSelect.addEventListener(
+    "change",
+    updateEndTime
+  );
+
+
+  updateEndTime();
+
+
+  /* =======================================================
+     취소
+  ======================================================= */
+
+  document
+    .getElementById(
+      "customScheduleCancel"
+    )
+    .onclick =
+    function() {
+
+      overlay.remove();
+
+    };
+
+
+  /* =======================================================
+     확인
+  ======================================================= */
+
+  document
+    .getElementById(
+      "customScheduleConfirm"
+    )
+    .onclick =
+    function() {
+
+      createCustomVolunteerSchedule();
+
+    };
+
+}
 
     /* =======================================================
      날짜 기본값
