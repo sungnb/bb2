@@ -165,28 +165,93 @@
     }
 
 
-    .member-row {
-      display: flex;
-      align-items: center;
+   .member-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 
-      gap: 10px;
+  gap: 10px;
 
-      min-height: 58px;
+  min-height: 58px;
 
-      padding:
-        8px
-        10px
-        8px
-        14px;
+  padding:
+    10px
+    10px
+    10px
+    14px;
 
-      background: white;
+  background: white;
 
-      border-radius: 12px;
+  border-radius: 12px;
 
-      box-shadow:
-        0 1px 4px
-        rgba(0, 0, 0, 0.08);
-    }
+  box-shadow:
+    0 1px 4px
+    rgba(0, 0, 0, 0.08);
+}
+
+.member-main {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  gap: 10px;
+}
+
+.member-extra {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  width: 100%;
+
+  gap: 8px;
+
+  padding-top: 4px;
+}
+
+.member-field {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.member-field-label {
+  color: #555;
+}
+
+.member-select {
+  height: 34px;
+
+  padding:
+    0
+    28px
+    0
+    9px;
+
+  border:
+    1px solid #ccc;
+
+  border-radius: 8px;
+
+  background: white;
+
+  color: #222;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  outline: none;
+}
+
+.member-select:focus {
+  border-color: #286b5b;
+}
 
 
     .member-name {
@@ -685,74 +750,219 @@
 
           row.innerHTML = `
 
-            <div class="member-name">
-              ${escapeHtml(member.name)}
-            </div>
+  <div class="member-main">
+
+    <div class="member-name">
+      ${escapeHtml(member.name)}
+    </div>
 
 
-            <!-- 봉사자 -->
+    <!-- 봉사자 -->
 
-            <label class="role">
+    <label class="role">
 
-              <input
-                type="checkbox"
-                ${member.volunteer ? "checked" : ""}
-                onchange="
-                  changeRole(
-                    ${index},
-                    'volunteer',
-                    this.checked
-                  )
-                ">
+      <input
+        type="checkbox"
+        ${member.volunteer ? "checked" : ""}
+        onchange="
+          changeRole(
+            ${index},
+            'volunteer',
+            this.checked
+          )
+        ">
 
-              <span
-                class="role-circle">
-              </span>
+      <span
+        class="role-circle">
+      </span>
 
-              봉사자
+      봉사자
 
-            </label>
-
-
-            <!-- 전시대 -->
-
-            <label class="role">
-
-              <input
-                type="checkbox"
-                ${member.exhibition ? "checked" : ""}
-                onchange="
-                  changeRole(
-                    ${index},
-                    'exhibition',
-                    this.checked
-                  )
-                ">
-
-              <span
-                class="role-circle">
-              </span>
-
-              전시대
-
-            </label>
+    </label>
 
 
-            <!-- 삭제 -->
+    <!-- 전시대 -->
 
-            <button
-              type="button"
-              class="delete-button"
-              onclick="
-                deleteMember(${index})
-              ">
+    <label class="role">
 
-              삭제
+      <input
+        type="checkbox"
+        ${member.exhibition ? "checked" : ""}
+        onchange="
+          changeRole(
+            ${index},
+            'exhibition',
+            this.checked
+          )
+        ">
 
-            </button>
+      <span
+        class="role-circle">
+      </span>
 
-          `;
+      전시대
 
+    </label>
+
+
+    <!-- 삭제 -->
+
+    <button
+      type="button"
+      class="delete-button"
+      onclick="
+        deleteMember(${index})
+      ">
+
+      삭제
+
+    </button>
+
+  </div>
+
+
+  <!-- 추가 명단 정보 -->
+
+  <div class="member-extra">
+
+
+    <!-- 집단 -->
+
+    <label class="member-field">
+
+      <span class="member-field-label">
+        집단
+      </span>
+
+      <select
+        class="member-select"
+        onchange="
+          changeMemberField(
+            ${index},
+            'group',
+            this.value
+          )
+        ">
+
+        <option
+          value=""
+          ${!member.group ? "selected" : ""}>
+          선택
+        </option>
+
+        <option
+          value="A"
+          ${member.group === "A" ? "selected" : ""}>
+          A
+        </option>
+
+        <option
+          value="B"
+          ${member.group === "B" ? "selected" : ""}>
+          B
+        </option>
+
+        <option
+          value="C"
+          ${member.group === "C" ? "selected" : ""}>
+          C
+        </option>
+
+        <option
+          value="D"
+          ${member.group === "D" ? "selected" : ""}>
+          D
+        </option>
+
+      </select>
+
+    </label>
+
+
+    <!-- 직책 -->
+
+    <label class="member-field">
+
+      <span class="member-field-label">
+        직책
+      </span>
+
+      <select
+        class="member-select"
+        onchange="
+          changeMemberField(
+            ${index},
+            'position',
+            this.value
+          )
+        ">
+
+        <option
+          value=""
+          ${!member.position ? "selected" : ""}>
+          선택
+        </option>
+
+        <option
+          value="장로"
+          ${member.position === "장로" ? "selected" : ""}>
+          장로
+        </option>
+
+        <option
+          value="봉사의 종"
+          ${member.position === "봉사의 종" ? "selected" : ""}>
+          봉사의 종
+        </option>
+
+      </select>
+
+    </label>
+
+
+    <!-- 파이오니아 -->
+
+    <label class="member-field">
+
+      <span class="member-field-label">
+        파이오니아
+      </span>
+
+      <select
+        class="member-select"
+        onchange="
+          changeMemberField(
+            ${index},
+            'pioneer',
+            this.value
+          )
+        ">
+
+        <option
+          value=""
+          ${!member.pioneer ? "selected" : ""}>
+          선택
+        </option>
+
+        <option
+          value="P"
+          ${member.pioneer === "P" ? "selected" : ""}>
+          P
+        </option>
+
+        <option
+          value="전도인"
+          ${member.pioneer === "전도인" ? "selected" : ""}>
+          전도인
+        </option>
+
+      </select>
+
+    </label>
+
+  </div>
+
+`;
 
           list.appendChild(row);
 
@@ -762,87 +972,135 @@
     }
 
 
-    /* =========================================================
-       봉사자 / 전시대 변경
-    ========================================================= */
+   /* =========================================================
+   봉사자 / 전시대 변경
+========================================================= */
 
-    async function changeRole(
-      index,
-      role,
-      checked
-    ) {
+async function changeRole(
+  index,
+  role,
+  checked
+) {
 
-      if (!members[index]) {
-        return;
-      }
-
-
-      const previousValue =
-        members[index][role];
+  if (!members[index]) {
+    return;
+  }
 
 
-      /*
-       * 화면 상태 변경
-       */
-
-      members[index][role] =
-        checked;
+  const previousValue =
+    members[index][role];
 
 
-      /*
-       * 바로 가나다순으로 다시 표시
-       */
+  /*
+   * 화면 상태 변경
+   */
 
-      sortMembers();
-
-      renderMembers();
-
-
-      /*
-       * Google Sheets 저장
-       */
-
-      const saved =
-        await saveMembersToSheet();
+  members[index][role] =
+    checked;
 
 
-      /*
-       * 저장 실패 시 원래 상태로 복구
-       */
+  /*
+   * 바로 가나다순으로 다시 표시
+   */
 
-      if (!saved) {
+  sortMembers();
 
-        /*
-         * 이름을 기준으로 다시 찾습니다.
-         */
+  renderMembers();
 
-        const member =
-          members.find(
-            function(item) {
 
-              return (
-                item.name ===
-                members[index]?.name
-              );
+  /*
+   * Google Sheets 저장
+   */
 
-            }
+  const saved =
+    await saveMembersToSheet();
+
+
+  /*
+   * 저장 실패 시 원래 상태로 복구
+   */
+
+  if (!saved) {
+
+    /*
+     * 이름을 기준으로 다시 찾습니다.
+     */
+
+    const member =
+      members.find(
+        function(item) {
+
+          return (
+            item.name ===
+            members[index]?.name
           );
 
-
-        if (member) {
-
-          member[role] =
-            previousValue;
-
         }
+      );
 
 
-        renderMembers();
+    if (member) {
 
-      }
+      member[role] =
+        previousValue;
 
     }
 
+
+    renderMembers();
+
+  }
+
+}
+
+
+/* =========================================================
+   집단 / 직책 / 파이오니아 변경
+========================================================= */
+
+async function changeMemberField(
+  index,
+  field,
+  value
+) {
+
+  if (!members[index]) {
+    return;
+  }
+
+
+  const previousValue =
+    members[index][field];
+
+
+  members[index][field] =
+    value;
+
+
+  renderMembers();
+
+
+  const saved =
+    await saveMembersToSheet();
+
+
+  if (!saved) {
+
+    const member =
+      members[index];
+
+    if (member) {
+
+      member[field] =
+        previousValue;
+
+    }
+
+    renderMembers();
+
+  }
+
+}
 
     /* =========================================================
        + 추가 영역 표시
