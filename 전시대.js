@@ -2789,12 +2789,12 @@ function loadMasterNames() {
 
 
   /*
-     명단 시트 L2:L99에서
+     명단 시트 L열에서
      최신 전시대 명단을 가져옴
   */
 
   fetch(
-    "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec?action=jeonsidae&t=" +
+    "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec?action=jeonsidaeNames&t=" +
     Date.now()
   )
   .then(function(response) {
@@ -2810,10 +2810,21 @@ function loadMasterNames() {
     return response.json();
 
   })
-  .then(function(names) {
+  .then(function(data) {
+
+    /*
+       Apps Script 반환 형식
+
+       {
+         success: true,
+         names: [...]
+       }
+    */
 
     if (
-      !Array.isArray(names)
+      !data ||
+      data.success !== true ||
+      !Array.isArray(data.names)
     ) {
 
       throw new Error(
@@ -2824,12 +2835,11 @@ function loadMasterNames() {
 
 
     /*
-       JSON 명단이 정상적으로 들어오면
        최신 명단으로 교체
     */
 
     masterNames =
-      names
+      data.names
         .map(function(name) {
 
           return String(
@@ -2850,7 +2860,7 @@ function loadMasterNames() {
   .catch(function(error) {
 
     /*
-       JSON을 불러오지 못하면
+       명단을 불러오지 못하면
        기존 DEFAULT_MASTER_NAMES 유지
     */
 
