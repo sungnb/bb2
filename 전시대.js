@@ -1220,9 +1220,12 @@ async function confirmCustomVolunteerSchedule() {
 
 
     alert(
-      error.message ||
-      "일정 저장에 실패했습니다."
-    );
+  "일정 저장에 실패했습니다.\n\n" +
+  (
+    error.message ||
+    "실제 오류 메시지가 없습니다."
+  )
+);
 
   }
 
