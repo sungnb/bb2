@@ -2794,10 +2794,10 @@ function loadMasterNames() {
   */
 
   fetch(
-    SCRIPT_URL +
-    "?action=jeonsidae&t=" +
-    Date.now()
-  )
+  SCRIPT_URL +
+  "?action=jeonsidaeNames&t=" +
+  Date.now()
+)
   .then(function(response) {
 
     if (!response.ok) {
@@ -2811,52 +2811,58 @@ function loadMasterNames() {
     return response.json();
 
   })
-  .then(function(names) {
+ .then(function(data) {
 
-    /*
-       Apps Script 반환 형식
+  /*
+     Apps Script 반환 형식
 
-       [
+     {
+       success: true,
+       names: [
          "강효선",
          "계영혜",
          ...
        ]
-    */
+     }
+  */
 
-    if (
-      !Array.isArray(names)
-    ) {
+  if (
+    !data ||
+    data.success !== true ||
+    !Array.isArray(data.names)
+  ) {
 
-      throw new Error(
-        "명단 데이터 형식이 올바르지 않습니다."
-      );
+    throw new Error(
+      "명단 데이터 형식이 올바르지 않습니다."
+    );
 
-    }
-
-
-    /*
-       최신 명단으로 교체
-    */
-
-    masterNames =
-      names
-        .map(function(name) {
-
-          return String(
-            name || ""
-          ).trim();
-
-        })
-        .filter(function(name) {
-
-          return name !== "";
-
-        });
+  }
 
 
-    renderNames();
+  /*
+     최신 명단으로 교체
+  */
 
-  })
+  masterNames =
+    data.names
+      .map(function(name) {
+
+        return String(
+          name || ""
+        ).trim();
+
+      })
+      .filter(function(name) {
+
+        return name !== "";
+
+      });
+
+
+  renderNames();
+
+})
+     
   .catch(function(error) {
 
     /*
