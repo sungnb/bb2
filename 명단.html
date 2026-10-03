@@ -832,7 +832,7 @@
   </div>
 
 
-  <!-- 추가 명단 정보 -->
+   <!-- 추가 명단 정보 -->
 
   <div class="member-extra">
 
@@ -846,7 +846,7 @@
       </span>
 
       <select
-        class="member-select"
+        class="member-select ${member.gender ? "has-value" : ""}"
         onchange="
           changeMemberField(
             ${index},
@@ -887,7 +887,7 @@
       </span>
 
       <select
-        class="member-select"
+        class="member-select ${member.group ? "has-value" : ""}"
         onchange="
           changeMemberField(
             ${index},
@@ -940,7 +940,7 @@
       </span>
 
       <select
-        class="member-select"
+        class="member-select ${member.position ? "has-value" : ""}"
         onchange="
           changeMemberField(
             ${index},
@@ -987,7 +987,7 @@
       </span>
 
       <select
-        class="member-select"
+        class="member-select ${member.status ? "has-value" : ""}"
         onchange="
           changeMemberField(
             ${index},
@@ -1026,7 +1026,6 @@
 
 
   </div>
-
 `;
 
           list.appendChild(row);
