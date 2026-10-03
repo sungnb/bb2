@@ -457,7 +457,7 @@ async function saveScheduleApplicants(
 }
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec";
+  "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
    
 const MY_SELECTION_KEY =
   "saturdayMySelections";
