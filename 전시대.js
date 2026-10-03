@@ -457,8 +457,8 @@ async function saveScheduleApplicants(
 }
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec";
-   
+  "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
+
 const MY_SELECTION_KEY =
   "saturdayMySelections";
 
@@ -2777,99 +2777,9 @@ function goBack() {
 
 function loadMasterNames() {
 
-  /*
-     기존 명단을 먼저 표시
-     → 화면이 비어 있지 않도록 함
-  */
-
-  masterNames =
-    [...DEFAULT_MASTER_NAMES];
+  masterNames = [...DEFAULT_MASTER_NAMES];
 
   renderNames();
-
-
-  /*
-     명단 시트 L2:L99에서
-     최신 전시대 명단을 가져옴
-  */
-
-  fetch(
-    SCRIPT_URL +
-    "?action=jeonsidae&t=" +
-    Date.now()
-  )
-  .then(function(response) {
-
-    if (!response.ok) {
-
-      throw new Error(
-        "명단 서버에 연결할 수 없습니다."
-      );
-
-    }
-
-    return response.json();
-
-  })
-  .then(function(names) {
-
-    /*
-       Apps Script 반환 형식
-
-       [
-         "강효선",
-         "계영혜",
-         ...
-       ]
-    */
-
-    if (
-      !Array.isArray(names)
-    ) {
-
-      throw new Error(
-        "명단 데이터 형식이 올바르지 않습니다."
-      );
-
-    }
-
-
-    /*
-       최신 명단으로 교체
-    */
-
-    masterNames =
-      names
-        .map(function(name) {
-
-          return String(
-            name || ""
-          ).trim();
-
-        })
-        .filter(function(name) {
-
-          return name !== "";
-
-        });
-
-
-    renderNames();
-
-  })
-  .catch(function(error) {
-
-    /*
-       명단을 불러오지 못하면
-       기존 DEFAULT_MASTER_NAMES 유지
-    */
-
-    console.error(
-      "공유 명단 불러오기 실패:",
-      error
-    );
-
-  });
 
 }
 
