@@ -2789,7 +2789,7 @@ function loadMasterNames() {
 
 
   /*
-     명단 시트 F2:F99에서
+     명단 시트 L2:L99에서
      최신 전시대 명단을 가져옴
   */
 
