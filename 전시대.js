@@ -2794,9 +2794,10 @@ function loadMasterNames() {
   */
 
   fetch(
-    "https://script.google.com/macros/s/AKfycbwYtNDFnBi2ow5tU1IpbCtp0nQS1Vl3v8uwKUQtX9cX4BpysIlwmEquAO46tfndyChfqw/exec?action=jeonsidaeNames&t=" +
-    Date.now()
-  )
+  SCRIPT_URL +
+  "?action=jeonsidaeNames&t=" +
+  Date.now()
+)
   .then(function(response) {
 
     if (!response.ok) {
