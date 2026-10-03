@@ -826,6 +826,47 @@
   <div class="member-extra">
 
 
+    <!-- 남여 -->
+
+    <label class="member-field">
+
+      <span class="member-field-label">
+        남여
+      </span>
+
+      <select
+        class="member-select"
+        onchange="
+          changeMemberField(
+            ${index},
+            'gender',
+            this.value
+          )
+        ">
+
+        <option
+          value=""
+          ${!member.gender ? "selected" : ""}>
+          선택
+        </option>
+
+        <option
+          value="형제"
+          ${member.gender === "형제" ? "selected" : ""}>
+          형제
+        </option>
+
+        <option
+          value="자매"
+          ${member.gender === "자매" ? "selected" : ""}>
+          자매
+        </option>
+
+      </select>
+
+    </label>
+
+
     <!-- 집단 -->
 
     <label class="member-field">
@@ -910,9 +951,15 @@
         </option>
 
         <option
-          value="봉사의 종"
-          ${member.position === "봉사의 종" ? "selected" : ""}>
-          봉사의 종
+          value="봉사의종"
+          ${member.position === "봉사의종" ? "selected" : ""}>
+          봉사의종
+        </option>
+
+        <option
+          value="전도인"
+          ${member.position === "전도인" ? "selected" : ""}>
+          전도인
         </option>
 
       </select>
@@ -920,12 +967,12 @@
     </label>
 
 
-    <!-- 파이오니아 -->
+    <!-- 신분 -->
 
     <label class="member-field">
 
       <span class="member-field-label">
-        파이오니아
+        신분
       </span>
 
       <select
@@ -933,32 +980,39 @@
         onchange="
           changeMemberField(
             ${index},
-            'pioneer',
+            'status',
             this.value
           )
         ">
 
         <option
           value=""
-          ${!member.pioneer ? "selected" : ""}>
+          ${!member.status ? "selected" : ""}>
           선택
         </option>
 
         <option
+          value="SP"
+          ${member.status === "SP" ? "selected" : ""}>
+          SP
+        </option>
+
+        <option
           value="P"
-          ${member.pioneer === "P" ? "selected" : ""}>
+          ${member.status === "P" ? "selected" : ""}>
           P
         </option>
 
         <option
           value="전도인"
-          ${member.pioneer === "전도인" ? "selected" : ""}>
+          ${member.status === "전도인" ? "selected" : ""}>
           전도인
         </option>
 
       </select>
 
     </label>
+
 
   </div>
 
