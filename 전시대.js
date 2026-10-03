@@ -2789,15 +2789,15 @@ function loadMasterNames() {
 
 
   /*
-     명단 시트 L열에서
+     명단 시트 L2:L99에서
      최신 전시대 명단을 가져옴
   */
 
   fetch(
-  SCRIPT_URL +
-  "?action=jeonsidaeNames&t=" +
-  Date.now()
-)
+    SCRIPT_URL +
+    "?action=jeonsidae&t=" +
+    Date.now()
+  )
   .then(function(response) {
 
     if (!response.ok) {
@@ -2811,21 +2811,20 @@ function loadMasterNames() {
     return response.json();
 
   })
-  .then(function(data) {
+  .then(function(names) {
 
     /*
        Apps Script 반환 형식
 
-       {
-         success: true,
-         names: [...]
-       }
+       [
+         "강효선",
+         "계영혜",
+         ...
+       ]
     */
 
     if (
-      !data ||
-      data.success !== true ||
-      !Array.isArray(data.names)
+      !Array.isArray(names)
     ) {
 
       throw new Error(
@@ -2840,7 +2839,7 @@ function loadMasterNames() {
     */
 
     masterNames =
-      data.names
+      names
         .map(function(name) {
 
           return String(
