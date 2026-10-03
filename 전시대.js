@@ -3535,13 +3535,35 @@ async function createCustomVolunteerSchedule() {
      일정 고유키
   */
 
-  const scheduleKey =
-    "custom_" +
-    date +
-    "_" +
-    String(
-      startEl.value
-    );
+  const startMinutes =
+  Number(
+    startEl.value
+  );
+
+const startHour =
+  Math.floor(
+    startMinutes / 60
+  );
+
+const startMinute =
+  startMinutes % 60;
+
+
+const scheduleKey =
+  date +
+  "_" +
+  String(
+    startHour
+  ).padStart(
+    2,
+    "0"
+  ) +
+  String(
+    startMinute
+  ).padStart(
+    2,
+    "0"
+  );
 
 
   /*
