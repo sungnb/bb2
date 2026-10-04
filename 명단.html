@@ -563,18 +563,28 @@
         }
 
 
-        const data =
+       const data =
   await response.json();
-               
+
+alert(
+  "응답 주소:\n" +
+  response.url +
+  "\n\n서버 응답 개수: " +
+  (Array.isArray(data) ? data.length : "배열 아님") +
+  "\n\n첫 번째:\n" +
+  (Array.isArray(data) && data[0]
+    ? JSON.stringify(data[0])
+    : "")
+  +
+  "\n\n마지막:\n" +
+  (Array.isArray(data) && data[data.length - 1]
+    ? JSON.stringify(data[data.length - 1])
+    : "")
+);
+
 members = Array.isArray(data)
   ? data
   : [];
-
-alert(
-  "서버에서 받은 명단: " +
-  members.length +
-  "명"
-);
               
         /*
          * 가나다순 정렬
