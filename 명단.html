@@ -565,12 +565,16 @@
 
         const data =
   await response.json();
-        
-console.log("명단 서버 응답:", data);
-        
+               
 members = Array.isArray(data)
   ? data
   : [];
+
+alert(
+  "서버에서 받은 명단: " +
+  members.length +
+  "명"
+);
               
         /*
          * 가나다순 정렬
