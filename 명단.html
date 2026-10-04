@@ -564,13 +564,34 @@
 
 
         const data =
-          await response.json();
+  await response.json();
 
 
-        members =
-          Array.isArray(data)
-            ? data
-            : [];
+/*
+ * Apps Script의 전시대 참여자 데이터를
+ * 명단 화면에서 사용할 배열로 변환합니다.
+ */
+
+const participants =
+  Array.isArray(data.participants)
+    ? data.participants
+    : [];
+
+const otherParticipants =
+  Array.isArray(data.otherParticipants)
+    ? data.otherParticipants
+    : [];
+
+
+/*
+ * 참여자 + 타 회중 참여자를
+ * 하나의 명단으로 표시합니다.
+ */
+
+members = [
+  ...participants,
+  ...otherParticipants
+];
 
 
         /*
