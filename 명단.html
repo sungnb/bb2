@@ -566,11 +566,6 @@
         const data =
   await response.json();
 
-/*
- * Apps Script의 전시대 참여자 데이터를
- * 명단 화면에서 사용할 배열로 변환합니다.
- */
-
 members = Array.isArray(data)
   ? data
   : [];
@@ -580,7 +575,6 @@ members = Array.isArray(data)
          */
 
         sortMembers();
-
 
         renderMembers();
 
