@@ -1497,94 +1497,12 @@ let SERVICE_ORDER = [];
 
 /* =========================================================
    명단
-   ※ 명단을 추가하거나 수정할 때 이 부분만 변경하세요.
+   명단 시트에서 Apps Script를 통해 불러옵니다.
 ========================================================= */
 
-const DEFAULT_MASTER_NAMES = [
-'강효선',
-'계영혜',
-'구양숙',
-'권서원',
-'권영란',
-'권호정',
-'김가희',
-'김경수',
-'김남희',
-'김수형',
-'김정순',
-'김주영',
-'김지인',
-'김지현',
-'김현심',
-'남동완',
-'맹희주',
-'민순자',
-'박대기',
-'박미화',
-'박수은',
-'박정은',
-'박한별',
-'박현주',
-'배성주',
-'서혜연',
-'성낙봉',
-'성지운',
-'손예진',
-'송화자',
-'안순옥',
-'안옥자',
-'오미경',
-'오민아',
-'오솔비',
-'오솔잎',
-'왕건식',
-'이규자',
-'이영자',
-'이우분',
-'이정임',
-'이혜자',
-'이희원',
-'임창숙',
-'임채원',
-'장사랑',
-'장승남',
-'장애영',
-'장지현',
-'정성일',
-'정수인',
-'정숙자',
-'정옥례',
-'정윤희',
-'정종안',
-'정지원',
-'정지후',
-'조숙희',
-'조순득',
-'조애선',
-'지광미',
-'차지원',
-'최광임',
-'최귀님',
-'최민이',
-'최병숙',
-'최순임',
-'최옥희',
-'최유민',
-'최재춘',
-'최홍국',
-'추요식',
-'한명순',
-'한상욱',
-'홍소영',
-'홍진민',
-'황희원',
-'박재규',
-'문미자'
-   
-  // ↓ 아래에 명단 계속추가 마지막 '표시
-];
+const DEFAULT_MASTER_NAMES = [];
 
-let masterNames = [...DEFAULT_MASTER_NAMES];
+let masterNames = [];
    
 let applicants = [];
 
@@ -1852,14 +1770,77 @@ function goBack() {
 
 /* =========================================================
    봉사자 명단
-   요일.html에 기록된 명단 사용
+   명단 시트 K2:K99에서 자동으로 불러옵니다.
 ========================================================= */
 
 function loadMasterNames() {
 
-  masterNames = [...DEFAULT_MASTER_NAMES];
+  masterNames =
+    [...DEFAULT_MASTER_NAMES];
 
   renderNames();
+
+
+  fetch(
+    SCRIPT_URL +
+    "?action=jeonsidaeNames&t=" +
+    Date.now()
+  )
+  .then(function(response) {
+
+    if (!response.ok) {
+
+      throw new Error(
+        "명단 서버에 연결할 수 없습니다."
+      );
+
+    }
+
+    return response.json();
+
+  })
+  .then(function(data) {
+
+    if (
+      !data ||
+      data.success !== true ||
+      !Array.isArray(data.names)
+    ) {
+
+      throw new Error(
+        "명단 데이터 형식이 올바르지 않습니다."
+      );
+
+    }
+
+
+    masterNames =
+      data.names
+        .map(function(name) {
+
+          return String(
+            name || ""
+          ).trim();
+
+        })
+        .filter(function(name) {
+
+          return name !== "";
+
+        });
+
+
+    renderNames();
+
+  })
+  .catch(function(error) {
+
+    console.error(
+      "공유 명단 불러오기 실패:",
+      error
+    );
+
+  });
 
 }
 
