@@ -2925,21 +2925,34 @@ function renderGroups() {
         "group-title";
 
 
-      const sheetLabel =
-        Array.isArray(window.SATURDAY_GROUP_LABELS)
-          ? (
-              window.SATURDAY_GROUP_LABELS[groupIndex] ||
-              ""
-            )
-          : "";
+     const referenceArea =
+  Array.isArray(SATURDAY_REFERENCE)
+    ? SATURDAY_REFERENCE[groupIndex]
+    : null;
 
+const sheetLabel =
+  referenceArea
+    ? [
+        referenceArea.number
+          ? String(referenceArea.number).trim() + "번"
+          : "",
+        referenceArea.ho
+          ? String(referenceArea.ho).trim() + "호"
+          : "",
+        referenceArea.m
+          ? String(referenceArea.m).trim()
+          : ""
+      ]
+      .filter(Boolean)
+      .join(" ")
+    : "";
 
-      title.textContent =
-        "그룹" +
-        (groupIndex + 1) +
-        (sheetLabel
-          ? "  " + sheetLabel
-          : "");
+title.textContent =
+  "그룹" +
+  (groupIndex + 1) +
+  (sheetLabel
+    ? "  " + sheetLabel
+    : "");
 
 
       const resetButton =
