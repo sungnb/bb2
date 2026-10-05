@@ -2925,26 +2925,12 @@ function renderGroups() {
         "group-title";
 
 
-     const referenceArea =
-  Array.isArray(SATURDAY_REFERENCE)
-    ? SATURDAY_REFERENCE[groupIndex]
-    : null;
-
-const sheetLabel =
-  referenceArea
-    ? [
-        referenceArea.number
-          ? String(referenceArea.number).trim() + "번"
-          : "",
-        referenceArea.ho
-          ? String(referenceArea.ho).trim() + "호"
-          : "",
-        referenceArea.m
-          ? String(referenceArea.m).trim()
-          : ""
-      ]
-      .filter(Boolean)
-      .join(" ")
+     const sheetLabel =
+  Array.isArray(window.SATURDAY_GROUP_LABELS)
+    ? (
+        window.SATURDAY_GROUP_LABELS[groupIndex] ||
+        ""
+      )
     : "";
 
 title.textContent =
