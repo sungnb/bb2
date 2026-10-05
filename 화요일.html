@@ -4431,10 +4431,36 @@ async function updateVolunteerApplication(
       }
     );
 
+  const responseText =
+    await response.text();
 
-  const data =
-    await response.json();
+  console.log(
+    "POST 서버 응답 원문:",
+    responseText
+  );
 
+  let data;
+
+  try {
+
+    data =
+      JSON.parse(
+        responseText
+      );
+
+  } catch (error) {
+
+    throw new Error(
+      "서버 응답이 JSON이 아닙니다.\n" +
+      responseText
+    );
+
+  }
+
+  console.log(
+    "POST 서버 응답 데이터:",
+    data
+  );
 
   if (!data.success) {
 
@@ -4446,7 +4472,6 @@ async function updateVolunteerApplication(
   }
 
 }
-
 
 /* =========================================================
    제출된 봉사자 명단 표시
