@@ -1121,7 +1121,7 @@ body.light .service-refresh-button {
     ‹
   </button>
 
-  <!-- 상단 제목은 반드시 토요일 -->
+  <!-- 상단 제목은 반드시 요일 -->
   <div
     class="top-title"
     id="topTitle"
@@ -1472,7 +1472,7 @@ body.light .service-refresh-button {
 ========================================================= */
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzpxq0Q0ZQfvA5GtQiEoNZjctVN_9TQUYetr4xGFGZTeWvj1zQGMgms7wwqD-uRBG0w/exec";
+  "https://script.google.com/macros/s/AKfycbxQwheSfYdRI0f9VhvQvmY6xfZ-pDuIBI71NYTr7wowM7Q9O_prhnsTTcIUfoRru1A/exec";
 
 const MY_SELECTION_KEY =
   "saturdayMySelections";
@@ -1481,7 +1481,7 @@ const GROUP_KEY =
   "saturdayVolunteerGroups";
 
 const SATURDAY_SHEET_ID =
-  "16m9qWaHjy38MSuiLFt6q9JIsjC4zE490zZ12q-aByWc";
+  "1gwKQalzp7gSG3XAJK0ys7jAvpHAL_L3izkoo8-SEkhI";
 const SATURDAY_SHEET_NAME = "토요일";
 
 
@@ -1497,94 +1497,12 @@ let SERVICE_ORDER = [];
 
 /* =========================================================
    명단
-   ※ 명단을 추가하거나 수정할 때 이 부분만 변경하세요.
+   명단 시트에서 Apps Script를 통해 불러옵니다.
 ========================================================= */
 
-const DEFAULT_MASTER_NAMES = [
-'강효선',
-'계영혜',
-'구양숙',
-'권서원',
-'권영란',
-'권호정',
-'김가희',
-'김경수',
-'김남희',
-'김수형',
-'김정순',
-'김주영',
-'김지인',
-'김지현',
-'김현심',
-'남동완',
-'맹희주',
-'민순자',
-'박대기',
-'박미화',
-'박수은',
-'박정은',
-'박한별',
-'박현주',
-'배성주',
-'서혜연',
-'성낙봉',
-'성지운',
-'손예진',
-'송화자',
-'안순옥',
-'안옥자',
-'오미경',
-'오민아',
-'오솔비',
-'오솔잎',
-'왕건식',
-'이규자',
-'이영자',
-'이우분',
-'이정임',
-'이혜자',
-'이희원',
-'임창숙',
-'임채원',
-'장사랑',
-'장승남',
-'장애영',
-'장지현',
-'정성일',
-'정수인',
-'정숙자',
-'정옥례',
-'정윤희',
-'정종안',
-'정지원',
-'정지후',
-'조숙희',
-'조순득',
-'조애선',
-'지광미',
-'차지원',
-'최광임',
-'최귀님',
-'최민이',
-'최병숙',
-'최순임',
-'최옥희',
-'최유민',
-'최재춘',
-'최홍국',
-'추요식',
-'한명순',
-'한상욱',
-'홍소영',
-'홍진민',
-'황희원',
-'박재규',
-'문미자'
-   
-  // ↓ 아래에 명단 계속추가 마지막 '표시
-];
+const DEFAULT_MASTER_NAMES = [];
 
-let masterNames = [...DEFAULT_MASTER_NAMES];
+let masterNames = [];
    
 let applicants = [];
 
@@ -1852,14 +1770,77 @@ function goBack() {
 
 /* =========================================================
    봉사자 명단
-   토요일.html에 기록된 명단 사용
+   명단 시트 K2:K99에서 자동으로 불러옵니다.
 ========================================================= */
 
 function loadMasterNames() {
 
-  masterNames = [...DEFAULT_MASTER_NAMES];
+  masterNames =
+    [...DEFAULT_MASTER_NAMES];
 
   renderNames();
+
+
+  fetch(
+  SCRIPT_URL +
+  "?action=names&t=" +
+  Date.now()
+)
+  .then(function(response) {
+
+    if (!response.ok) {
+
+      throw new Error(
+        "명단 서버에 연결할 수 없습니다."
+      );
+
+    }
+
+    return response.json();
+
+  })
+  .then(function(data) {
+
+    if (
+      !data ||
+      data.success !== true ||
+      !Array.isArray(data.names)
+    ) {
+
+      throw new Error(
+        "명단 데이터 형식이 올바르지 않습니다."
+      );
+
+    }
+
+
+    masterNames =
+      data.names
+        .map(function(name) {
+
+          return String(
+            name || ""
+          ).trim();
+
+        })
+        .filter(function(name) {
+
+          return name !== "";
+
+        });
+
+
+    renderNames();
+
+  })
+  .catch(function(error) {
+
+    console.error(
+      "공유 명단 불러오기 실패:",
+      error
+    );
+
+  });
 
 }
 
@@ -2944,21 +2925,20 @@ function renderGroups() {
         "group-title";
 
 
-      const sheetLabel =
-        Array.isArray(window.SATURDAY_GROUP_LABELS)
-          ? (
-              window.SATURDAY_GROUP_LABELS[groupIndex] ||
-              ""
-            )
-          : "";
+     const sheetLabel =
+  Array.isArray(window.SATURDAY_GROUP_LABELS)
+    ? (
+        window.SATURDAY_GROUP_LABELS[groupIndex] ||
+        ""
+      )
+    : "";
 
-
-      title.textContent =
-        "그룹" +
-        (groupIndex + 1) +
-        (sheetLabel
-          ? "  " + sheetLabel
-          : "");
+title.textContent =
+  "그룹" +
+  (groupIndex + 1) +
+  (sheetLabel
+    ? "  " + sheetLabel
+    : "");
 
 
       const resetButton =
@@ -3321,7 +3301,7 @@ async function loadServiceData() {
           })
         : [];
 
-    // 인도자는 Apps Script의 bon 값이 아니라 토요일!F4에서만 가져옵니다.
+    // 인도자는 Apps Script의 bon 값이 아니라 요일!F4에서만 가져옵니다.
 
     return true;
 
@@ -3335,9 +3315,9 @@ async function loadServiceData() {
 
 
 /* =========================================================
-   Google Sheet "토요일" 시트 기준 적용
+   Google Sheet "요일" 시트 기준 적용
    - Apps Script의 bon 봉사 데이터는 변경하지 않습니다.
-   - 토요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
+   - 요일 시트의 B~F를 화면 표시 기준으로 사용합니다.
 ========================================================= */
 async function loadSaturdayReference() {
 
@@ -3489,7 +3469,7 @@ function getServiceAreasForDisplay() {
       used.add(key);
     });
   } else if (Array.isArray(SATURDAY_REFERENCE) && SATURDAY_REFERENCE.length > 0) {
-    // 저장된 순서가 아직 없을 때만 기존 토요일 시트 순서를 사용합니다.
+    // 저장된 순서가 아직 없을 때만 기존 요일 시트 순서를 사용합니다.
     SATURDAY_REFERENCE.forEach(function(ref) {
       const key = String(ref.number || "").trim();
       if (!key || !byNumber.has(key) || used.has(key)) {
@@ -4278,26 +4258,18 @@ function closeVolunteerApply() {
 ========================================================= */
 
 async function submitVolunteerApplication() {
-
-  /*
-    토요일(6)과 일요일(0)에만
-    봉사 신청 제출을 허용합니다.
-  */
+  /* 토요일(6)과 일요일(0)에만 봉사 신청 제출을 허용합니다. */
   const today =
     new Date().getDay();
-
   if (
     today !== 0 &&
     today !== 6
   ) {
-
     alert(
-      "봉사 신청 제출은 토요일과 일요일에만 가능합니다."
+      "제출 : 토요일, 일요만 가능"
     );
-
     return;
   }
-
 
   const button =
     document.getElementById(
@@ -4309,18 +4281,10 @@ async function submitVolunteerApplication() {
     button.textContent = "제출 중...";
   }
 
-
   try {
 
     const newSelections =
       getMySelections();
-
-
-    /*
-      현재 서버에 저장된 신청자 명단을 가져옵니다.
-      새로 체크한 사람은 추가하고,
-      체크를 해제한 사람은 삭제합니다.
-    */
 
     const response =
       await fetch(
@@ -4332,37 +4296,23 @@ async function submitVolunteerApplication() {
     const data =
       await response.json();
 
-
     if (!data.success) {
-
       throw new Error(
         data.message ||
         "현재 신청자 명단을 가져오지 못했습니다."
       );
-
     }
-
 
     const serverApplicants =
       Array.isArray(data.applicants)
         ? data.applicants
         : [];
 
-
-     const newSet =
+    const newSet =
       new Set(newSelections);
 
     const serverSet =
       new Set(serverApplicants);
-
-
-    /*
-      이번 제출에서 체크한 이름 중
-      서버에 없는 이름만 추가합니다.
-
-      다른 PC나 휴대폰에서 이미 신청한 사람은
-      절대로 삭제하지 않습니다.
-    */
 
     for (
       const name of newSelections
@@ -4379,43 +4329,49 @@ async function submitVolunteerApplication() {
 
     }
 
+    const message =
+      document.getElementById(
+        "applicationCompleteMessage"
+      );
 
-const message =
-  document.getElementById(
-    "applicationCompleteMessage"
-  );
+    if (message) {
 
-if (message) {
+      message.innerHTML =
+        newSelections.length +
+        "명이 신청되었습니다" +
+        "<button" +
+        " type=\"button\"" +
+        " class=\"application-confirm-button\"" +
+        " onclick=\"closeApplicationCompleteMessage()\"" +
+        ">" +
+        "확인" +
+        "</button>";
 
-  message.innerHTML =
-    newSelections.length +
-    "명이 신청되었습니다" +
-    "<button" +
-    " type=\"button\"" +
-    " class=\"application-confirm-button\"" +
-    " onclick=\"closeApplicationCompleteMessage()\"" +
-    ">" +
-    "확인" +
-    "</button>";
+      message.classList.add("show");
 
-  message.classList.add("show");
+    }
 
-}
-
-if (button) {
-  button.disabled = false;
-  button.textContent = "제출";
-}
+    if (button) {
+      button.disabled = false;
+      button.textContent = "제출";
+    }
 
   } catch (error) {
 
-    console.error(error);
-
-    alert(
-      "봉사 신청 제출에 실패했습니다.\n" +
-      "잠시 후 다시 시도해 주세요."
+    console.error(
+      "봉사 신청 제출 오류:",
+      error
     );
 
+    alert(
+      "실제 오류:\n\n" +
+      (
+        error &&
+        error.message
+          ? error.message
+          : String(error)
+      )
+    );
 
     if (button) {
       button.disabled = false;
@@ -4423,7 +4379,6 @@ if (button) {
     }
 
   }
-
 }
    
 function closeApplicationCompleteMessage() {
@@ -4470,10 +4425,36 @@ async function updateVolunteerApplication(
       }
     );
 
+  const responseText =
+    await response.text();
 
-  const data =
-    await response.json();
+  console.log(
+    "POST 서버 응답 원문:",
+    responseText
+  );
 
+  let data;
+
+  try {
+
+    data =
+      JSON.parse(
+        responseText
+      );
+
+  } catch (error) {
+
+    throw new Error(
+      "서버 응답이 JSON이 아닙니다.\n" +
+      responseText
+    );
+
+  }
+
+  console.log(
+    "POST 서버 응답 데이터:",
+    data
+  );
 
   if (!data.success) {
 
@@ -4485,7 +4466,6 @@ async function updateVolunteerApplication(
   }
 
 }
-
 
 /* =========================================================
    제출된 봉사자 명단 표시
