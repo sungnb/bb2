@@ -307,8 +307,30 @@ async function submitVolunteerApplication() {
 
   try {
 
+    
+  try {
+
     const newSelections =
       getMySelections();
+
+
+    /* =====================================================
+       명단을 선택하지 않고 제출하면
+       저장이나 로딩 없이 즉시 안내
+    ===================================================== */
+
+    if (
+      !Array.isArray(newSelections) ||
+      newSelections.length === 0
+    ) {
+
+      showSubmitConfirm(
+        "먼저 신청을 하세요"
+      );
+
+      return;
+
+    }
 
 
     const scheduleKey =
@@ -324,9 +346,6 @@ async function submitVolunteerApplication() {
     }
 
 
-    /*
-       선택한 사람이 0명이어도 정상 제출
-    */
     await saveScheduleApplicants(
       scheduleKey,
       newSelections
