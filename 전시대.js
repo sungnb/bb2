@@ -513,11 +513,13 @@ let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
 
+const submittedGroups = new WeakSet();
+
 /* =========================================================
    제출 완료 확인창
 ========================================================= */
 
-function showSubmitConfirm(message) {
+function showSubmitConfirm(message, onConfirm) {
 
   const oldOverlay =
     document.getElementById("submitConfirmOverlay");
@@ -599,9 +601,17 @@ text.innerHTML =
   `;
 
   button.onclick =
-    function() {
-      overlay.remove();
-    };
+  function() {
+
+    overlay.remove();
+
+    if (
+      typeof onConfirm === "function"
+    ) {
+      onConfirm();
+    }
+
+  };
 
   box.appendChild(text);
   box.appendChild(button);
@@ -6752,7 +6762,9 @@ locationLabel.textContent =
         "10px";
 
       submitButton.style.background =
-        "#455A64";
+  submittedGroups.has(group)
+    ? "#003366"
+    : "#455A64";
 
       submitButton.style.color =
         "#fff";
@@ -7016,10 +7028,27 @@ async function submitGroup(
     renderService();
 
         showSubmitConfirm(
-      "그룹" +
-      (groupIndex + 1) +
-      "이 저장됨"
+  "그룹" +
+  (groupIndex + 1) +
+  "이 저장됨",
+
+  function() {
+
+    const savedGroup =
+      groups[groupIndex];
+
+    if (!savedGroup) {
+      return;
+    }
+
+    submittedGroups.add(
+      savedGroup
     );
+
+    renderGroups();
+
+  }
+);
 
    } catch (error) {
 
