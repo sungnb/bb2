@@ -349,9 +349,16 @@ body.light .admin-name.selected {
 
 .group-controls {
   display: flex;
-  justify-content: center;
   gap: 8px;
   margin-bottom: 18px;
+}
+
+.group-controls .confirm-group-button,
+.group-controls .add-group-button {
+  flex: 1;
+  width: 50%;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .service-order-button {
@@ -371,7 +378,7 @@ body.light .admin-name.selected {
 
   padding: 12px 20px;
 
-  background: #3374A9;
+  background: #A83232;
   color: #fff;
 
   font-size: calc(15px * var(--font-scale));
@@ -1296,44 +1303,36 @@ body.light .service-refresh-button {
       </div>
 
       <div
-        class="admin-names"
-        id="adminNames"
-      >
-        <div class="service-empty">
-          신청자를 불러오는 중입니다.
-        </div>
-      </div>
+  class="admin-names"
+  id="adminNames"
+>
+  <div class="service-empty">
+    신청자를 불러오는 중입니다.
+  </div>
+</div>
 
-      <button
-        type="button"
-        id="confirmGroupButton"
-        class="confirm-group-button"
-        onclick="confirmSelectedGroup()"
-        disabled
-      >
-        배정 확정
-      </button>
+<div class="group-controls">
 
+  <button
+    type="button"
+    id="confirmGroupButton"
+    class="confirm-group-button"
+    onclick="confirmSelectedGroup()"
+    disabled
+  >
+    배정 확정
+  </button>
 
-      <div class="group-controls">
+  <button
+    type="button"
+    class="add-group-button"
+    onclick="addGroup()"
+  >
+    + 봉사 그룹 추가
+  </button>
 
-        <button
-          class="add-group-button"
-          onclick="addGroup()"
-        >
-          + 봉사 그룹 추가
-        </button>
-
-        <button
-          class="service-order-button"
-          onclick="resetServiceDateOrder()"
-        >
-         ↻ 봉사 날짜 초기화
-        </button>
-
-      </div>
-
-
+</div>
+       
       <div
         class="groups"
         id="groups"
@@ -1497,12 +1496,90 @@ let SERVICE_ORDER = [];
 
 /* =========================================================
    명단
-   명단 시트에서 Apps Script를 통해 불러옵니다.
+   ※ 명단을 추가하거나 수정할 때 이 부분만 변경하세요.
 ========================================================= */
 
-const DEFAULT_MASTER_NAMES = [];
+const DEFAULT_MASTER_NAMES = [
+'강효선',
+'계영혜',
+'권서원',
+'권영란',
+'권호정',
+'김가희',
+'김경수',
+'김남희',
+'김대원',
+'김수형',
+'김정순',
+'김주영',
+'김지인',
+'김현심',
+'남동완',
+'맹희주',
+'문미자',
+'민순자',
+'박대기',
+'박미화',
+'박수은',
+'박재규',
+'박정은',
+'박정하',
+'박한별',
+'박현주',
+'배성주',
+'서혜연',
+'성낙봉',
+'성지운',
+'손예진',
+'송화자',
+'안순옥',
+'안옥자',
+'오미경',
+'오민아',
+'오솔비',
+'오솔잎',
+'왕건식',
+'이규자',
+'이영자',
+'이우분',
+'이정임',
+'이혜자',
+'임창숙',
+'임채원',
+'장사랑',
+'장승남',
+'장애영',
+'장지현',
+'정성일',
+'정수인',
+'정숙자',
+'정윤희',
+'정종안',
+'정지원',
+'정지후',
+'조숙희',
+'조순득',
+'지광미',
+'최광임',
+'최귀님',
+'최민이',
+'최병숙',
+'최순임',
+'최옥희',
+'최유민',
+'최재춘',
+'최홍국',
+'추요식',
+'한명순',
+'한상욱',
+'홍소영',
+'홍진민',
+'황희원'
+   
+  // ↓ 아래에 명단 계속추가 마지막 '표시
+];
 
-let masterNames = [];
+let masterNames = [...DEFAULT_MASTER_NAMES];
    
 let applicants = [];
 
@@ -1770,77 +1847,14 @@ function goBack() {
 
 /* =========================================================
    봉사자 명단
-   명단 시트 K2:K99에서 자동으로 불러옵니다.
+   요일.html에 기록된 명단 사용
 ========================================================= */
 
 function loadMasterNames() {
 
-  masterNames =
-    [...DEFAULT_MASTER_NAMES];
+  masterNames = [...DEFAULT_MASTER_NAMES];
 
   renderNames();
-
-
-  fetch(
-  SCRIPT_URL +
-  "?action=names&t=" +
-  Date.now()
-)
-  .then(function(response) {
-
-    if (!response.ok) {
-
-      throw new Error(
-        "명단 서버에 연결할 수 없습니다."
-      );
-
-    }
-
-    return response.json();
-
-  })
-  .then(function(data) {
-
-    if (
-      !data ||
-      data.success !== true ||
-      !Array.isArray(data.names)
-    ) {
-
-      throw new Error(
-        "명단 데이터 형식이 올바르지 않습니다."
-      );
-
-    }
-
-
-    masterNames =
-      data.names
-        .map(function(name) {
-
-          return String(
-            name || ""
-          ).trim();
-
-        })
-        .filter(function(name) {
-
-          return name !== "";
-
-        });
-
-
-    renderNames();
-
-  })
-  .catch(function(error) {
-
-    console.error(
-      "공유 명단 불러오기 실패:",
-      error
-    );
-
-  });
 
 }
 
@@ -2925,20 +2939,21 @@ function renderGroups() {
         "group-title";
 
 
-     const sheetLabel =
-  Array.isArray(window.SATURDAY_GROUP_LABELS)
-    ? (
-        window.SATURDAY_GROUP_LABELS[groupIndex] ||
-        ""
-      )
-    : "";
+      const sheetLabel =
+        Array.isArray(window.SATURDAY_GROUP_LABELS)
+          ? (
+              window.SATURDAY_GROUP_LABELS[groupIndex] ||
+              ""
+            )
+          : "";
 
-title.textContent =
-  "그룹" +
-  (groupIndex + 1) +
-  (sheetLabel
-    ? "  " + sheetLabel
-    : "");
+
+      title.textContent =
+        "그룹" +
+        (groupIndex + 1) +
+        (sheetLabel
+          ? "  " + sheetLabel
+          : "");
 
 
       const resetButton =
@@ -4269,11 +4284,92 @@ async function submitVolunteerApplication() {
     button.textContent = "제출 중...";
   }
 
+
   try {
 
-    const newSelections =
+    /*
+     * 현재 브라우저에 저장되어 있는 선택값을 가져옵니다.
+     */
+    const savedSelections =
       getMySelections();
 
+
+    /*
+     * ★ 현재 화면의 실제 명단에 존재하는 이름만 인정합니다.
+     *
+     * PC에 예전에 저장되어 있던 구양숙처럼
+     * 현재 명단에 없는 이름은 여기서 제거합니다.
+     */
+    const newSelections =
+      savedSelections.filter(
+        function(name) {
+
+          return masterNames.includes(
+            name
+          );
+
+        }
+      );
+
+
+    /*
+     * ★ 정리된 선택값을 다시 저장합니다.
+     *
+     * 따라서 PC에 남아 있던 구양숙도
+     * 이 순간 localStorage에서 제거됩니다.
+     */
+    saveMySelections(
+      newSelections
+    );
+
+
+    /*
+     * ★ 현재 선택한 사람이 한 명도 없으면
+     * 서버에 신청 요청을 보내지 않습니다.
+     */
+    if (
+      newSelections.length === 0
+    ) {
+
+      const message =
+        document.getElementById(
+          "applicationCompleteMessage"
+        );
+
+
+      if (message) {
+
+        message.innerHTML =
+          "선택한 신청자가 없습니다." +
+          "<button" +
+          " type=\"button\"" +
+          " class=\"application-confirm-button\"" +
+          " onclick=\"closeApplicationCompleteMessage()\"" +
+          ">" +
+          "확인" +
+          "</button>";
+
+        message.classList.add(
+          "show"
+        );
+
+      }
+
+
+      if (button) {
+        button.disabled = false;
+        button.textContent = "제출";
+      }
+
+
+      return;
+
+    }
+
+
+    /*
+     * 현재 서버에 저장된 신청자 명단을 가져옵니다.
+     */
     const response =
       await fetch(
         SCRIPT_URL +
@@ -4281,32 +4377,49 @@ async function submitVolunteerApplication() {
         Date.now()
       );
 
+
     const data =
       await response.json();
 
+
     if (!data.success) {
+
       throw new Error(
         data.message ||
         "현재 신청자 명단을 가져오지 못했습니다."
       );
+
     }
 
+
     const serverApplicants =
-      Array.isArray(data.applicants)
+      Array.isArray(
+        data.applicants
+      )
         ? data.applicants
         : [];
 
-    const newSet =
-      new Set(newSelections);
 
     const serverSet =
-      new Set(serverApplicants);
+      new Set(
+        serverApplicants
+      );
 
+
+    /*
+     * ★ 현재 실제로 선택되어 있는 이름만
+     * 서버에 신청합니다.
+     *
+     * 이미 신청되어 있는 사람은
+     * 다시 저장하지 않습니다.
+     */
     for (
       const name of newSelections
     ) {
 
-      if (!serverSet.has(name)) {
+      if (
+        !serverSet.has(name)
+      ) {
 
         await updateVolunteerApplication(
           name,
@@ -4317,10 +4430,12 @@ async function submitVolunteerApplication() {
 
     }
 
+
     const message =
       document.getElementById(
         "applicationCompleteMessage"
       );
+
 
     if (message) {
 
@@ -4335,31 +4450,28 @@ async function submitVolunteerApplication() {
         "확인" +
         "</button>";
 
-      message.classList.add("show");
+      message.classList.add(
+        "show"
+      );
 
     }
+
 
     if (button) {
       button.disabled = false;
       button.textContent = "제출";
     }
 
+
   } catch (error) {
 
-    console.error(
-      "봉사 신청 제출 오류:",
-      error
-    );
+    console.error(error);
 
     alert(
-      "실제 오류:\n\n" +
-      (
-        error &&
-        error.message
-          ? error.message
-          : String(error)
-      )
+      "봉사 신청 제출에 실패했습니다.\n" +
+      "잠시 후 다시 시도해 주세요."
     );
+
 
     if (button) {
       button.disabled = false;
@@ -4367,6 +4479,7 @@ async function submitVolunteerApplication() {
     }
 
   }
+
 }
    
 function closeApplicationCompleteMessage() {
@@ -4413,36 +4526,10 @@ async function updateVolunteerApplication(
       }
     );
 
-  const responseText =
-    await response.text();
 
-  console.log(
-    "POST 서버 응답 원문:",
-    responseText
-  );
+  const data =
+    await response.json();
 
-  let data;
-
-  try {
-
-    data =
-      JSON.parse(
-        responseText
-      );
-
-  } catch (error) {
-
-    throw new Error(
-      "서버 응답이 JSON이 아닙니다.\n" +
-      responseText
-    );
-
-  }
-
-  console.log(
-    "POST 서버 응답 데이터:",
-    data
-  );
 
   if (!data.success) {
 
@@ -4454,6 +4541,7 @@ async function updateVolunteerApplication(
   }
 
 }
+
 
 /* =========================================================
    제출된 봉사자 명단 표시
