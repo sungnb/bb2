@@ -513,7 +513,7 @@ let groups = [];
 let selectedApplicants = [];
 let currentView = "apply";
 
-const submittedGroups = new WeakSet();
+const submittedGroups = new Set();
 
 /* =========================================================
    제출 완료 확인창
@@ -6762,7 +6762,11 @@ locationLabel.textContent =
         "10px";
 
       submitButton.style.background =
-  submittedGroups.has(group)
+  submittedGroups.has(
+    String(selectedAdminSchedule || "") +
+    "::" +
+    groupIndex
+  )
     ? "#003366"
     : "#455A64";
 
@@ -7027,28 +7031,27 @@ async function submitGroup(
 
     renderService();
 
-        showSubmitConfirm(
+showSubmitConfirm(
   "그룹" +
   (groupIndex + 1) +
   "이 저장됨",
 
   function() {
 
-    const savedGroup =
-      groups[groupIndex];
-
-    if (!savedGroup) {
-      return;
-    }
+    const submittedKey =
+      String(selectedAdminSchedule || "") +
+      "::" +
+      groupIndex;
 
     submittedGroups.add(
-      savedGroup
+      submittedKey
     );
 
     renderGroups();
 
   }
 );
+
 
    } catch (error) {
 
