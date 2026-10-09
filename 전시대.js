@@ -307,9 +307,6 @@ async function submitVolunteerApplication() {
 
   try {
 
-    
-  try {
-
     const newSelections =
       getMySelections();
 
