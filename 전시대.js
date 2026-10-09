@@ -314,22 +314,22 @@ async function submitVolunteerApplication() {
       getMySelections();
 
 
-    /* =====================================================
-       명단을 선택하지 않고 제출하면
-       저장이나 로딩 없이 즉시 안내
-    ===================================================== */
-
+    /* 신청자가 없으면 즉시 안내 */
     if (
       !Array.isArray(newSelections) ||
       newSelections.length === 0
     ) {
+
+      if (button) {
+        button.disabled = false;
+        button.textContent = "제출";
+      }
 
       showSubmitConfirm(
         "먼저 신청을 하세요"
       );
 
       return;
-
     }
 
 
