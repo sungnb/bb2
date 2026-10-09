@@ -6761,12 +6761,15 @@ locationLabel.textContent =
       submitButton.style.borderRadius =
         "10px";
 
-      submitButton.style.background =
-  submittedGroups.has(
-    String(selectedAdminSchedule || "") +
-    "::" +
-    groupIndex
-  )
+     const submittedKey =
+  String(selectedAdminSchedule || "") +
+  "::" +
+  groupIndex;
+
+submitButton.style.background =
+  localStorage.getItem(
+    "submittedGroups_" + submittedKey
+  ) === "true"
     ? "#003366"
     : "#455A64";
 
@@ -7038,18 +7041,20 @@ showSubmitConfirm(
 
   function() {
 
-    const submittedKey =
-      String(selectedAdminSchedule || "") +
-      "::" +
-      groupIndex;
+  const submittedKey =
+    String(selectedAdminSchedule || "") +
+    "::" +
+    groupIndex;
 
-    submittedGroups.add(
-      submittedKey
-    );
+  localStorage.setItem(
+    "submittedGroups_" + submittedKey,
+    "true"
+  );
 
-    renderGroups();
+  renderGroups();
 
-  }
+}
+   
 );
 
 
