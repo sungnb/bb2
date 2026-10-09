@@ -6761,10 +6761,30 @@ locationLabel.textContent =
       submitButton.style.borderRadius =
         "10px";
 
-     const submittedKey =
+     
+const today = new Date();
+const weekStart = new Date(today);
+
+weekStart.setHours(0, 0, 0, 0);
+weekStart.setDate(
+  weekStart.getDate() -
+  ((weekStart.getDay() + 1) % 7)
+);
+
+const weekKey =
+  weekStart.getFullYear() +
+  "-" +
+  String(weekStart.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(weekStart.getDate()).padStart(2, "0");
+
+const submittedKey =
+  weekKey +
+  "::" +
   String(selectedAdminSchedule || "") +
   "::" +
   groupIndex;
+
 
 submitButton.style.background =
   localStorage.getItem(
@@ -7041,10 +7061,30 @@ showSubmitConfirm(
 
   function() {
 
-  const submittedKey =
-    String(selectedAdminSchedule || "") +
-    "::" +
-    groupIndex;
+  
+const today = new Date();
+const weekStart = new Date(today);
+
+weekStart.setHours(0, 0, 0, 0);
+weekStart.setDate(
+  weekStart.getDate() -
+  ((weekStart.getDay() + 1) % 7)
+);
+
+const weekKey =
+  weekStart.getFullYear() +
+  "-" +
+  String(weekStart.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(weekStart.getDate()).padStart(2, "0");
+
+const submittedKey =
+  weekKey +
+  "::" +
+  String(selectedAdminSchedule || "") +
+  "::" +
+  groupIndex;
+
 
   localStorage.setItem(
     "submittedGroups_" + submittedKey,
