@@ -35,14 +35,20 @@ function isVolunteerScheduleAvailable(schedule) {
   }
 
 
-  /* 토요일 오전 */
+  /* 토요일 오전 : 토요일 오전 3시 ~ 오전 10시 전 */
 
   if (
     schedule === "토오전"
   ) {
 
+    const currentMinutes =
+      koreaDate.getHours() * 60 +
+      koreaDate.getMinutes();
+
     return (
-      today === 6
+      today === 6 &&
+      currentMinutes >= 180 &&
+      currentMinutes < 600
     );
 
   }
@@ -290,6 +296,8 @@ function goToApplyHome() {
 ========================================================= */
 
 async function submitVolunteerApplication() {
+
+   
 
   const button =
     document.getElementById(
