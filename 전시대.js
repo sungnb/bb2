@@ -5387,25 +5387,24 @@ function showStopReason() {
       중단 이유 선택
     </option>
 
-    <option value="인원 부족 취소">
-      인원 부족으로 취소합니다
+    <option value="인원 부족으로 취소합니다">
+      인원 부족 취소
     </option>
 
-    <option value="날씨 관계 취소">
-      날씨 관계로 취소합니다
+    <option value="날씨 관계로 취소합니다">
+      날씨 관계 취소
     </option>
     
-    <option value="날씨 관계 취소(줌 봉사)">
-      날씨 관계로 취소합니다<br>
-      (줌 으로 봉사하겠습니다)
+    <option value="날씨 관계로 취소합니다 <br>(줌 으로 봉사하겠습니다)">
+      날씨 관계 취소 (줌 봉사)
     </option>
 
-    <option value="대회 주간">
-      대회 주간입니다
+    <option value="대회 주간입니다">
+      대회 주간
     </option>
 
-    <option value="순회 방문 주간">
-     순회 방문 주간입니다
+    <option value="순회 방문 주간입니다">
+     순회 방문 주간
     </option>
 
     <option value="삭제">
