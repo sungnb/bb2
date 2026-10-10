@@ -5395,7 +5395,7 @@ function showStopReason() {
       날씨 관계 취소
     </option>
     
-    <option value="날씨 관계로 취소합니다 <br>(줌 으로 봉사하겠습니다)">
+    <option value="날씨 관계로 취소합니다 (줌 으로 봉사하겠습니다)">
       날씨 관계 취소 (줌 봉사)
     </option>
 
@@ -7550,8 +7550,13 @@ if (serviceCancelReason) {
   reason.className =
     "service-cancel-reason";
 
-  reason.textContent =
-    serviceCancelReason;
+ reason.innerHTML =
+  String(
+    serviceCancelReason
+  ).replace(
+    " (줌 으로 봉사하겠습니다)",
+    "<br>(줌 으로 봉사하겠습니다)"
+  );
 
 
   /* -------------------------------------------------------
