@@ -5231,12 +5231,12 @@ function addGroup() {
             유타몰
           </option>
 
-          <option value="성북천(보문2교-아래)">
-            성북천(보문2교-아래)
-          </option>
-
           <option value="성북천(보문2교-위)">
             성북천(보문2교-위)
+          </option>
+
+          <option value="성북천(보문2교-아래)">
+            성북천(보문2교-아래)
           </option>
 
           <option value="성북구청(광장)">
@@ -5249,22 +5249,6 @@ function addGroup() {
 
           <option value="성신여대(주변)">
             성신여대(주변)
-          </option>
-
-          <option value="성북천(하늘다리)">
-            성북천(하늘다리)
-          </option>
-
-          <option value="성북천(바람마당교)">
-            성북천(바람마당교)
-          </option>
-
-          <option value="성북천(분수대)">
-            성북천(분수대)
-          </option>
-
-          <option value="성북천(용문교)">
-            성북천(용문교)
           </option>
 
           <option value="가두 증거">
@@ -5407,16 +5391,21 @@ function showStopReason() {
       인원 부족으로 취소합니다
     </option>
 
-    <option value="우천 시로 취소합니다">
-      우천 시로 취소합니다
+    <option value="날씨 관계로 취소합니다">
+      날씨 관계로 취소합니다
+    </option>
+    
+    <option value="날씨 관계로 취소합니다">
+      날씨 관계로 취소합니다
+      (줌 봉사하겠습니다)
     </option>
 
-    <option value="대회 주간 입니다">
-      대회 주간 입니다
+    <option value="대회 주간입니다">
+      대회 주간입니다
     </option>
 
-    <option value="순회방문 주간 입니다">
-     순회방문 주간 입니다
+    <option value="순회 방문 주간입니다">
+     순회 방문 주간입니다
     </option>
 
     <option value="삭제">
@@ -6569,9 +6558,9 @@ locationLabel.textContent =
 
         "유타몰",
 
-        "성북천(보문2교-아래)",
-
         "성북천(보문2교-위)",
+
+        "성북천(보문2교-아래)",
 
         "성북구청(광장)",
 
