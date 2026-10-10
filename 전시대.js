@@ -5395,9 +5395,9 @@ function showStopReason() {
       날씨 관계로 취소합니다
     </option>
     
-    <option value="날씨 관계로 취소합니다">
+    <option value="날씨 관계로 취소합니다 (줌 으로 봉사하겠습니다)">
       날씨 관계로 취소합니다
-      (줌 봉사하겠습니다)
+      (줌 으로 봉사하겠습니다)
     </option>
 
     <option value="대회 주간입니다">
