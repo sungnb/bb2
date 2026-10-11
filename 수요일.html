@@ -4274,6 +4274,19 @@ function closeVolunteerApply() {
 
 async function submitVolunteerApplication() {
 
+   /* 수요일(3)과 일요일(0)에만 봉사 신청 제출을 허용합니다. */
+  const today =
+    new Date().getDay();
+  if (
+    today !== 3 &&
+    today !== 0
+  ) {
+    alert(
+      "제출 : 수요일, 일요만 가능"
+    );
+    return;
+  }
+   
   const button =
     document.getElementById(
       "volunteerSubmitButton"
