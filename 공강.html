@@ -96,36 +96,131 @@
   right: 14px;
 }
 
- ```css
-/* 하단 메뉴 버튼: 글자 크기 고정 */
+/* =========================
+   하단 메뉴 고정
+   화요일 구역과 동일한 방식
+========================= */
+
+.fixed-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 60px;
+  z-index: 1000;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  background: #18324a;
+  border-top: 1px solid rgba(255, 255, 255, .10);
+}
+
+/* 하단 메뉴 버튼 */
 .fixed-bottom button {
-  flex: 1 1 0;
   min-width: 0;
-  height: 49px;
+  height: 59px;
   box-sizing: border-box;
 
   padding: 0 4px;
   margin: 0;
-  border: none;
+
+  border: 0;
   border-radius: 0;
 
-  background: #18324a;
-  color: white;
+  background: transparent;
+  color: #fff;
 
   font-family: Arial, "Malgun Gothic", sans-serif;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 1;
   white-space: nowrap;
 
   cursor: pointer;
 }
 
-/* 메뉴 사이 흰색 구분선 */
+/* 메뉴 사이 구분선 */
 .fixed-bottom button + button {
-  border-left: 1px solid white;
+  border-left: 1px solid rgba(255, 255, 255, .25);
 }
-```
+
+/* 본문이 하단 메뉴에 가려지지 않도록 여백 확보 */
+#content {
+  padding-bottom: 80px;
+}
+3. 모바일 CSS도 수정하세요
+기존 코드의 다음 부분을 찾으세요.
+
+수정 전
+
+css
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
+  .main-title {
+    font-size: 19px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  #content {
+    padding: 8px 5px 75px;
+  }
+
+  table {
+    min-width: 680px;
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 7px 4px;
+  }
+
+  .month-title {
+    font-size: 15px;
+  }
+}
+수정 후
+
+css
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
+  .main-title {
+    font-size: 19px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  #content {
+    padding: 8px 5px 80px;
+  }
+
+  table {
+    min-width: 680px;
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 7px 4px;
+  }
+
+  .month-title {
+    font-size: 15px;
+  }
+}
 
     .month-section {
       margin-bottom: 28px;
