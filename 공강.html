@@ -18,14 +18,14 @@
       background: #f3f4f6;
     }
 
-    .page {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: white;
-      min-height: 100vh;
-      box-shadow: 0 0 8px #ccc;
-      padding-top: 65px;
-    }
+ .page {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  min-height: 100vh;
+  box-shadow: 0 0 8px #ccc;
+  padding-top: 62px;
+}
 
 /* =========================
    상단 고정 영역
@@ -133,7 +133,7 @@
   color: #fff;
 
   font-family: Arial, "Malgun Gothic", sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
@@ -147,9 +147,16 @@
 }
 
 /* 본문이 하단 메뉴에 가려지지 않도록 여백 확보 */
+
 #content {
+  padding-top: 25px;
   padding-bottom: 80px;
 }
+
+#content > h2:first-child {
+  margin-top: 0;
+}
+
 @media (max-width: 600px) {
   body {
     padding: 0;
@@ -163,9 +170,9 @@
     font-size: 13px;
   }
 
-  #content {
-    padding: 8px 5px 80px;
-  }
+ #content {
+  padding: 25px 5px 80px;
+}
 
   table {
     min-width: 680px;
@@ -598,9 +605,10 @@
         display.textContent = fontPercent + "%";
       }
 
-      document.querySelectorAll(
-        ".main-title, .subtitle, #content, table, .month-title"
-      ).forEach(element => {
+     document.querySelectorAll(
+  ".subtitle, #content, table, .month-title"
+).forEach(element => {
+       
         if (!element.dataset.originalFontSize) {
           element.dataset.originalFontSize =
             parseFloat(getComputedStyle(element).fontSize);
@@ -742,7 +750,7 @@
 
       const subtitle = document.createElement("div");
       subtitle.textContent = "토요일 오후 7:30";
-      subtitle.style.textAlign = "right";
+     subtitle.style.textAlign = "center";
       subtitle.style.fontWeight = "bold";
       subtitle.style.marginBottom = "12px";
       content.appendChild(subtitle);
@@ -861,9 +869,17 @@
           ? error.message
           : "알 수 없는 오류");
 
-      content.appendChild(message);
+           content.appendChild(message);
     }
+
+    /* 페이지를 열면 공개강연 일정 자동 표시 */
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
+        showSection("publicTalk");
+      }
+    );
+    
   </script>
 </body>
 </html>
-```
