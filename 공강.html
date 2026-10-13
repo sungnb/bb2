@@ -449,46 +449,61 @@
       panel.classList.toggle("show");
     }
 
+  
     /* 화면 테마 변경 */
     function setTheme(theme) {
-      if (theme === "dark") {
-        document.body.style.background = "#202124";
-        document.body.style.color = "#f1f3f4";
+      const isLight = theme === "light";
+      const panel = document.getElementById("settingsPanel");
+      const lightBtn = document.getElementById("lightBtn");
+      const darkBtn = document.getElementById("darkBtn");
 
-        document.querySelector(".page").style.background = "#303134";
+      document.body.classList.toggle("light-mode", isLight);
+      document.body.classList.toggle("dark-mode", !isLight);
 
-        document.querySelector(".fixed-header").style.background = "#18324a";
-        document.querySelector(".fixed-bottom").style.background = "#18324a";
-
-        document.querySelectorAll(".fixed-bottom button").forEach(button => {
-          button.style.background = "#18324a";
-          button.style.color = "#ffffff";
-        });
-
-        document.querySelectorAll("table td").forEach(cell => {
-          cell.style.background = "#303134";
-          cell.style.color = "#f1f3f4";
-        });
-
-      } else {
-        document.body.style.background = "#f3f4f6";
-        document.body.style.color = "#222";
-
-        document.querySelector(".page").style.background = "#ffffff";
-
-        document.querySelectorAll("table td").forEach(cell => {
-          cell.style.background = "";
-          cell.style.color = "";
-        });
+      if (panel) {
+        panel.classList.toggle("light-mode", isLight);
+        panel.classList.toggle("dark-mode", !isLight);
       }
+
+      if (lightBtn) {
+        lightBtn.classList.toggle("active", isLight);
+      }
+
+      if (darkBtn) {
+        darkBtn.classList.toggle("active", !isLight);
+      }
+
+      document.body.style.background = isLight ? "#f3f4f6" : "#202124";
+      document.body.style.color = isLight ? "#222222" : "#f1f3f4";
+
+      const page = document.querySelector(".page");
+      if (page) {
+        page.style.background = isLight ? "#ffffff" : "#303134";
+      }
+
+      document.querySelectorAll("table td").forEach(cell => {
+        cell.style.background = isLight ? "" : "#303134";
+        cell.style.color = isLight ? "" : "#f1f3f4";
+      });
+
+      localStorage.setItem("northBoardTheme", theme);
     }
 
-    /* 글자 크기 변경 */
-    function setFontScale(scale) {
+    /* 글자 크기 변경: 기본 120%, 최소 80%, 최대 150% */
+    let fontPercent = 120;
+
+    function setFontPercent(percent) {
+      fontPercent = Math.max(80, Math.min(150, percent));
+
       document.documentElement.style.setProperty(
         "--font-scale",
-        scale
+        String(fontPercent / 100)
       );
+
+      const display = document.getElementById("fontSize");
+      if (display) {
+        display.textContent = fontPercent + "%";
+      }
 
       document.querySelectorAll(
         ".main-title, .subtitle, #content, table, .month-title"
@@ -499,9 +514,31 @@
         }
 
         element.style.fontSize =
-          (Number(element.dataset.originalFontSize) * scale) + "px";
+          (Number(element.dataset.originalFontSize) * fontPercent / 100) + "px";
       });
+
+      localStorage.setItem("northBoardFontPercent", String(fontPercent));
     }
+
+    function changeFont(amount) {
+      setFontPercent(fontPercent + amount);
+    }
+
+    /* 저장된 설정 복원 */
+    (function restoreSettings() {
+      const savedTheme = localStorage.getItem("northBoardTheme");
+      const savedFont = Number(
+        localStorage.getItem("northBoardFontPercent")
+      );
+
+      setTheme(savedTheme === "light" ? "light" : "dark");
+
+      if (Number.isFinite(savedFont) && savedFont >= 80 && savedFont <= 150) {
+        setFontPercent(savedFont);
+      } else {
+        setFontPercent(120);
+      }
+    })();
 
 
     /* =====================================================
