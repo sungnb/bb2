@@ -231,6 +231,33 @@
 
   </div>
 
+  <!-- 설정창 -->
+  <div id="settingsPanel" class="settings-panel">
+    <div class="settings-title">설정</div>
+
+    <div class="settings-row">
+      <div class="settings-label">화면 테마</div>
+      <div class="settings-buttons">
+        <button type="button" class="settings-button"
+          onclick="setTheme('light')">밝게</button>
+        <button type="button" class="settings-button"
+          onclick="setTheme('dark')">어둡게</button>
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <div class="settings-label">글자 크기</div>
+      <div class="settings-buttons">
+        <button type="button" class="settings-button"
+          onclick="setFontScale(0.9)">작게</button>
+        <button type="button" class="settings-button"
+          onclick="setFontScale(1)">보통</button>
+        <button type="button" class="settings-button"
+          onclick="setFontScale(1.1)">크게</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const SCRIPT_URL =
       "https://script.google.com/macros/s/AKfycbzWePF0JCyDZWrO9SekczdWRzQ1yw-w-Fnu4EKf3c1itOfpzINoUbbgDbm-MkTqqhTCpQ/exec";
