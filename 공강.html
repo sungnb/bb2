@@ -49,9 +49,41 @@
       padding-right: 8px;
     }
 
-    #content {
-      padding: 12px;
-    }
+   
+#content {
+  padding: 12px;
+  padding-bottom: 75px;
+}
+
+/* 아래쪽 고정 메뉴 */
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 49px;
+  display: flex;
+  background: #18324a;
+  z-index: 100;
+}
+
+/* 하단 메뉴 버튼 */
+.fixed-bottom button {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-radius: 0;
+  background: #18324a;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 메뉴 사이 흰색 구분선 */
+.fixed-bottom button + button {
+  border-left: 1px solid white;
+}
 
     .month-section {
       margin-bottom: 28px;
@@ -155,17 +187,33 @@
   <div class="page">
 
     <header class="fixed-header">
-      <div class="main-title">공개 집회 강연 계획표</div>
-      <div class="subtitle">토요일 오후 7:30</div>
-    </header>
+  <div class="main-title">북부회중 게시판</div>
+</header>
 
+    
     <main id="content">
       <div class="loading">공강 일정을 불러오는 중입니다...</div>
     </main>
 
+    <!-- 아래쪽 고정 메뉴: 여기에 추가 -->
+    <nav class="fixed-bottom">
+      <button type="button" onclick="showSection('publicTalk')">
+        공개강연
+      </button>
+
+      <button type="button" onclick="showSection('ministry')">
+        생활과봉사
+      </button>
+
+      <button type="button" onclick="showSection('groups')">
+        집단및부서
+      </button>
+    </nav>
+
   </div>
 
   <script>
+
     
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzWePF0JCyDZWrO9SekczdWRzQ1yw-w-Fnu4EKf3c1itOfpzINoUbbgDbm-MkTqqhTCpQ/exec";
