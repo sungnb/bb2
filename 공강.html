@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 12px;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      color: #222;
+      background: #f3f4f6;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      min-height: 100vh;
+      box-shadow: 0 0 8px #ccc;
+    }
+
+    .fixed-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: white;
+      text-align: center;
+      padding: 18px 8px 12px;
+      border-bottom: 2px solid #999;
+    }
+
+    .main-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      font-weight: bold;
+      text-align: right;
+      padding-right: 8px;
+    }
+
+    #content {
+      padding: 12px;
+    }
+
+    .month-section {
+      margin-bottom: 28px;
+    }
+
+    .month-title {
+      background: #9e9e9e;
+      color: white;
+      padding: 9px;
+      margin: 0;
+      font-size: 17px;
+      text-align: left;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid #555;
+      padding: 7px 4px;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    th {
+      background: #9e9e9e;
+      color: white;
+      font-weight: bold;
+    }
+
+    th:nth-child(1) { width: 12%; }
+    th:nth-child(2) { width: 12%; }
+    th:nth-child(3) { width: 14%; }
+    th:nth-child(4) { width: 28%; }
+    th:nth-child(5) { width: 12%; }
+    th:nth-child(6) { width: 11%; }
+    th:nth-child(7) { width: 11%; }
+
+    td:nth-child(1) {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    td:nth-child(4) {
+      text-align: left;
+    }
+
+    .loading, .empty, .error {
+      padding: 30px 10px;
+      text-align: center;
+      color: #666;
+    }
+
+    .error {
+      color: #c62828;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 0;
+      }
+
+      .main-title {
+        font-size: 19px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      #content {
+        padding: 8px 5px;
+      }
+
+      table {
+        min-width: 680px;
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 7px 4px;
+      }
+
+      .month-title {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="fixed-header">
+      <div class="main-title">공개 집회 강연 계획표</div>
+      <div class="subtitle">토요일 오후 7:30</div>
+    </header>
+
+    <main id="content">
+      <div class="loading">공강 일정을 불러오는 중입니다...</div>
+    </main>
+
+  </div>
+
+  <script>
+    function loadSchedule() {
+      google.script.run
+        .withSuccessHandler(renderSchedule)
+        .withFailureHandler(showError)
+        .getPublicTalkSchedule();
+    }
+
+    function renderSchedule(data) {
+      const content = document.getElementById("content");
+      content.innerHTML = "";
+
+      const now = new Date();
+      const currentMonth = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        1
+      );
+
+      // 전월 2개월 + 이번 달 + 다음 2개월
+      for (let offset = -2; offset <= 2; offset++) {
+        const monthDate = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth() + offset,
+          1
+        );
+
+        const year = monthDate.getFullYear();
+        const month = monthDate.getMonth() + 1;
+
+        const section = document.createElement("section");
+        section.className = "month-section";
+
+        const heading = document.createElement("h2");
+        heading.className = "month-title";
+        heading.textContent = year + "년 " + month + "월";
+        section.appendChild(heading);
+
+        const wrap = document.createElement("div");
+        wrap.className = "table-wrap";
+
+        const table = document.createElement("table");
+
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+
+        [
+          "시작", "연사", "회중", "주제",
+          "사회", "낭독", "기도"
+        ].forEach(label => {
+          const th = document.createElement("th");
+          th.textContent = label;
+          headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        const rows = (Array.isArray(data) ? data : [])
+          .filter(item =>
+            item.year === year && item.month === month
+          )
+          .sort((a, b) => a.day - b.day);
+
+        rows.forEach(item => {
+          const tr = document.createElement("tr");
+
+          const values = [
+            item.date,
+            item.speaker,
+            item.congregation,
+            item.topic,
+            item.chairman,
+            item.reader,
+            item.prayer
+          ];
+
+          values.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = value || "";
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        if (rows.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+
+          td.colSpan = 7;
+          td.className = "empty";
+          td.textContent = "등록된 일정이 없습니다.";
+
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
+
+        table.appendChild(tbody);
+        wrap.appendChild(table);
+        section.appendChild(wrap);
+        content.appendChild(section);
+      }
+    }
+
+    function showError(error) {
+      const content = document.getElementById("content");
+      content.innerHTML = "";
+
+      const message = document.createElement("div");
+      message.className = "error";
+      message.textContent =
+        "일정을 불러오지 못했습니다: " +
+        (error && error.message
+          ? error.message
+          : "알 수 없는 오류");
+
+      content.appendChild(message);
+    }
+
+    loadSchedule();
+  </script>
+</body>
+</html>
