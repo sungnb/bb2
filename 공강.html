@@ -27,14 +27,20 @@
     }
 
     .fixed-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: white;
-      text-align: center;
-      padding: 18px 8px 12px;
-      border-bottom: 2px solid #999;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: white;
+  text-align: center;
+  padding: 18px 8px 12px;
+  border-bottom: 2px solid #999;
+}
+
+.page {
+  padding-top: 65px;
+}
 
     .main-title {
       font-size: 22px;
@@ -220,8 +226,27 @@ const SCRIPT_URL =
 
 let scheduleTimeout;
 
-function loadSchedule() {
+function showSection(section) {
   const content = document.getElementById("content");
+
+  if (section === "publicTalk") {
+    loadSchedule();
+    return;
+  }
+
+  content.innerHTML = "";
+
+  const message = document.createElement("div");
+  message.className = "loading";
+
+  if (section === "ministry") {
+    message.textContent = "생활과봉사 내용을 준비 중입니다.";
+  } else if (section === "groups") {
+    message.textContent = "집단및부서 내용을 준비 중입니다.";
+  }
+
+  content.appendChild(message);
+}
 
   content.innerHTML =
     '<div class="loading">공강 일정을 불러오는 중입니다...</div>';
@@ -273,8 +298,17 @@ function receiveSchedule(data) {
 
 
     function renderSchedule(data) {
-      const content = document.getElementById("content");
-      content.innerHTML = "";
+      const title = document.createElement("h2");
+title.textContent = "공개 집회 강연 계획표";
+title.style.textAlign = "center";
+content.appendChild(title);
+
+const subtitle = document.createElement("div");
+subtitle.textContent = "토요일 오후 7:30";
+subtitle.style.textAlign = "right";
+subtitle.style.fontWeight = "bold";
+subtitle.style.marginBottom = "12px";
+content.appendChild(subtitle);
 
       const now = new Date();
       const currentMonth = new Date(
