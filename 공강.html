@@ -1203,8 +1203,11 @@ const isThisWeek =
   date < nextMonday;
 
 if (isThisWeek) {
-  dateTitle.style.background =
-    "linear-gradient(120deg, #626970, #C6A15B)";
+  dateTitle.style.setProperty(
+    "background",
+    "linear-gradient(120deg, #626970, #C6A15B)",
+    "important"
+  );
 }
     
     box.appendChild(dateTitle);
