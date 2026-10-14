@@ -550,6 +550,109 @@
     }
     }
 
+
+/* 연사 영역 */
+.talk-speaker-section {
+  padding: 4px 2px 16px;
+}
+
+.talk-small-label {
+  color: #858B94;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 5px;
+}
+
+.talk-speaker-name {
+  color: #18324A;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+/* 강연 주제 영역 */
+.talk-divider {
+  height: 1px;
+  background: #AEB6BF;
+  width: 100%;
+}
+
+.talk-topic-section {
+  padding: 15px 2px 17px;
+}
+
+.talk-topic-name {
+  color: #18324A;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* 하단 3열 */
+.talk-roles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-top: 15px;
+}
+
+.talk-role-item {
+  min-width: 0;
+  text-align: center;
+  padding: 0 5px;
+}
+
+.talk-role-item + .talk-role-item {
+  border-left: 1px solid #AEB6BF;
+}
+
+.talk-role-label {
+  color: #858B94;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-wrap: anywhere;
+}
+
+.talk-role-name {
+  color: #243B53;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+
+/* 휴대폰 화면 */
+@media (max-width: 600px) {
+  .talk-speaker-name {
+    font-size: 20px;
+  }
+
+  .talk-topic-name {
+    font-size: 17px;
+  }
+
+  .talk-role-item {
+    padding: 0 3px;
+  }
+
+  .talk-role-label {
+    font-size: 11px;
+    min-height: 34px;
+  }
+
+  .talk-role-name {
+    font-size: 12px;
+  }
+}
+
+    
     /* 공개강연 항목: 한 칸으로 표시 */
     .public-talk-details {
       width: 100%;
@@ -968,61 +1071,92 @@ monthlyItems.forEach(item => {
 
     box.appendChild(dateTitle);
 
-    const congregation = String(item.congregation || "")
-      .replace(/\s*회중\s*$/, "");
-
-    const details = [
-      {
-        label: "연사",
-        value: [
-          item.speaker || "",
-          congregation ? congregation + " 회중" : ""
-        ].filter(Boolean).join(" ")
-      },
-      {
-        label: "주제",
-        value: item.topic || ""
-      },
-      {
-        label: "공개강연 사회",
-        value: item.chairman || ""
-      },
-      {
-        label: "파수대 낭독",
-        value: item.reader || ""
-      },
-      {
-        label: "마치는 기도",
-        value: item.prayer || ""
-      }
-    ];
-
    
-const detailsBox = document.createElement("div");
-detailsBox.className = "public-talk-details";
+const congregation = String(item.congregation || "")
+  .replace(/\s*회중\s*$/, "");
 
-details.forEach(detail => {
-  const row = document.createElement("div");
-  row.className = "public-talk-detail";
+/* 연사 영역 */
+const speakerSection = document.createElement("div");
+speakerSection.className = "talk-speaker-section";
 
-  const label = document.createElement("div");
-  label.className = "public-talk-label";
-  label.textContent = detail.label;
+const speakerLabel = document.createElement("div");
+speakerLabel.className = "talk-small-label";
+speakerLabel.textContent =
+  "연사" + (congregation ? " · " + congregation + " 회중" : "");
 
-  const value = document.createElement("div");
-  value.className = "public-talk-value";
-  value.textContent = detail.value;
+const speakerName = document.createElement("div");
+speakerName.className = "talk-speaker-name";
+speakerName.textContent = item.speaker || "";
 
-  row.appendChild(label);
-  row.appendChild(value);
-  detailsBox.appendChild(row);
+speakerSection.appendChild(speakerLabel);
+speakerSection.appendChild(speakerName);
+box.appendChild(speakerSection);
+
+/* 첫 번째 구분선 */
+const divider1 = document.createElement("div");
+divider1.className = "talk-divider";
+box.appendChild(divider1);
+
+/* 강연 주제 영역 */
+const topicSection = document.createElement("div");
+topicSection.className = "talk-topic-section";
+
+const topicLabel = document.createElement("div");
+topicLabel.className = "talk-small-label";
+topicLabel.textContent = "강연 주제";
+
+const topicName = document.createElement("div");
+topicName.className = "talk-topic-name";
+topicName.textContent = item.topic || "";
+
+topicSection.appendChild(topicLabel);
+topicSection.appendChild(topicName);
+box.appendChild(topicSection);
+
+/* 두 번째 구분선 */
+const divider2 = document.createElement("div");
+divider2.className = "talk-divider";
+box.appendChild(divider2);
+
+/* 하단 3열 영역 */
+const roles = [
+  {
+    label: "공개강연 사회",
+    value: item.chairman || ""
+  },
+  {
+    label: "파수대 낭독",
+    value: item.reader || ""
+  },
+  {
+    label: "마치는 기도",
+    value: item.prayer || ""
+  }
+];
+
+const rolesSection = document.createElement("div");
+rolesSection.className = "talk-roles";
+
+roles.forEach(role => {
+  const roleItem = document.createElement("div");
+  roleItem.className = "talk-role-item";
+
+  const roleLabel = document.createElement("div");
+  roleLabel.className = "talk-role-label";
+  roleLabel.textContent = role.label;
+
+  const roleName = document.createElement("div");
+  roleName.className = "talk-role-name";
+  roleName.textContent = role.value;
+
+  roleItem.appendChild(roleLabel);
+  roleItem.appendChild(roleName);
+  rolesSection.appendChild(roleItem);
 });
 
-box.appendChild(detailsBox);
+box.appendChild(rolesSection);
 content.appendChild(box);
 
-  });
-}
 
     /* =====================================================
        오류 표시
