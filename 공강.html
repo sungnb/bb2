@@ -1088,13 +1088,63 @@ function renderSchedule(data) {
   subtitle.style.marginBottom = "20px";
   content.appendChild(subtitle);
 
-  // 해당 월의 일정만 가져와 날짜순으로 정렬
+
+  // ==========================================
+  // 표시할 예정 일정 개수
+  // 이 숫자만 바꾸면 표시 개수가 변경됩니다.
+  // ==========================================
+  const DISPLAY_COUNT = 8;
+
+
+  // ==========================================
+  // 이번 주 토요일부터 예정 일정을 표시
+  // 월이 바뀌어도 날짜순으로 계속 표시
+  // ==========================================
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  // 이번 주 토요일까지 남은 날짜
+  const daysUntilSaturday =
+    (6 - today.getDay() + 7) % 7;
+
+  const firstDate = new Date(today);
+
+  firstDate.setDate(
+    today.getDate() + daysUntilSaturday
+  );
+
+
+  // 예정 날짜만 가져와 날짜순으로 정렬하고
+  // 설정한 개수만큼 표시
   const monthlyItems = data
-    .filter(row =>
-      Number(row.year) === year &&
-      Number(row.month) === month
-    )
-    .sort((a, b) => Number(a.day) - Number(b.day));
+    .filter(row => {
+      const rowDate = new Date(
+        Number(row.year),
+        Number(row.month) - 1,
+        Number(row.day)
+      );
+
+      rowDate.setHours(0, 0, 0, 0);
+
+      return rowDate >= firstDate;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(
+        Number(a.year),
+        Number(a.month) - 1,
+        Number(a.day)
+      );
+
+      const dateB = new Date(
+        Number(b.year),
+        Number(b.month) - 1,
+        Number(b.day)
+      );
+
+      return dateA - dateB;
+    })
+    .slice(0, DISPLAY_COUNT);
 
   if (monthlyItems.length === 0) {
     const message = document.createElement("div");
