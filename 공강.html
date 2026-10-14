@@ -1185,26 +1185,32 @@ function renderSchedule(data) {
       .replace(/\s*회중\s*$/, "")
       .trim();
 
-    // 연사 정보: 18px, 한 줄
+   
+    // 연사 정보: 연사 이름이 있을 때만 표시
+    const speakerName = String(item.speaker || "").trim();
+
     const speakerSection = document.createElement("div");
 
-    speakerSection.style.padding = "4px 2px 12px";
-    speakerSection.style.fontSize = "18px";
-speakerSection.style.fontWeight = "500";
-speakerSection.style.color = "#243B53";
-speakerSection.style.lineHeight = "1.5";
-speakerSection.style.whiteSpace = "nowrap";
-speakerSection.style.overflowX = "auto";
+    if (congregation || speakerName) {
+      speakerSection.style.padding = "4px 2px 12px";
+      speakerSection.style.fontSize = "18px";
+      speakerSection.style.fontWeight = "500";
+      speakerSection.style.color = "#243B53";
+      speakerSection.style.lineHeight = "1.5";
+      speakerSection.style.whiteSpace = "nowrap";
+      speakerSection.style.overflowX = "auto";
 
-    const speakerLine = document.createElement("div");
+      const speakerLine = document.createElement("div");
 
-    speakerLine.textContent =
-      "연사 : " +
-      (congregation ? congregation + " 회중 " : "") +
-      (item.speaker || "");
+      speakerLine.textContent =
+        "연사 : " +
+        (congregation ? congregation + " 회중 " : "") +
+        speakerName;
 
-    speakerSection.appendChild(speakerLine);
-    box.appendChild(speakerSection);
+      speakerSection.appendChild(speakerLine);
+      box.appendChild(speakerSection);
+    }
+
 
     // 강연 제목: 20px, 한 줄
     // '강연 주제' 문구와 연사 아래 가로선은 삭제
@@ -1228,6 +1234,7 @@ speakerSection.style.overflowX = "auto";
     divider2.className = "talk-divider";
     box.appendChild(divider2);
 
+ 
     // 하단 3열 영역
     const roles = [
       {
@@ -1244,31 +1251,42 @@ speakerSection.style.overflowX = "auto";
       }
     ];
 
-    const rolesSection = document.createElement("div");
-    rolesSection.className = "talk-roles";
-
-    roles.forEach(role => {
-      const roleItem = document.createElement("div");
-      roleItem.className = "talk-role-item";
-
-      const roleLabel = document.createElement("div");
-      roleLabel.className = "talk-role-label";
-      roleLabel.textContent = role.label;
-
-      const roleName = document.createElement("div");
-      roleName.className = "talk-role-name";
-
-      // 이름 끝의 '형제'만 삭제
-      roleName.textContent = String(role.value)
+    // 이름 끝의 '형제'를 제거한 실제 이름 확인
+    const hasAnyRole = roles.some(role =>
+      String(role.value || "")
         .replace(/\s*형제\s*$/, "")
-        .trim();
+        .trim() !== ""
+    );
 
-      roleItem.appendChild(roleLabel);
-      roleItem.appendChild(roleName);
-      rolesSection.appendChild(roleItem);
-    });
+    // 세 항목 중 하나라도 이름이 있을 때만 3열 전체 표시
+    if (hasAnyRole) {
+      const rolesSection = document.createElement("div");
+      rolesSection.className = "talk-roles";
 
-    box.appendChild(rolesSection);
+      roles.forEach(role => {
+        const roleItem = document.createElement("div");
+        roleItem.className = "talk-role-item";
+
+        const roleLabel = document.createElement("div");
+        roleLabel.className = "talk-role-label";
+        roleLabel.textContent = role.label;
+
+        const roleName = document.createElement("div");
+        roleName.className = "talk-role-name";
+
+        // 이름 끝의 '형제'만 삭제
+        roleName.textContent = String(role.value || "")
+          .replace(/\s*형제\s*$/, "")
+          .trim();
+
+        roleItem.appendChild(roleLabel);
+        roleItem.appendChild(roleName);
+        rolesSection.appendChild(roleItem);
+      });
+
+      box.appendChild(rolesSection);
+    }
+
     content.appendChild(box);
   });
 }
