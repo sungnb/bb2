@@ -1172,11 +1172,30 @@ function renderSchedule(data) {
 
     const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
-    dateTitle.textContent =
+   dateTitle.textContent =
       item.year + "년 " +
       item.month + "월 " +
       item.day + "일 (" +
       weekdays[date.getDay()] + ")";
+
+    // 이번 주 토요일 날짜만 골드 색상 적용
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const thisSaturday = new Date(today);
+    thisSaturday.setDate(
+      today.getDate() + (6 - today.getDay() + 7) % 7
+    );
+
+    const isThisWeek =
+      date.getFullYear() === thisSaturday.getFullYear() &&
+      date.getMonth() === thisSaturday.getMonth() &&
+      date.getDate() === thisSaturday.getDate();
+
+    if (isThisWeek) {
+      dateTitle.style.background =
+        "linear-gradient(120deg, #8C6A32, #C6A15B)";
+    }
 
     box.appendChild(dateTitle);
 
