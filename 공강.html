@@ -738,13 +738,122 @@
     /* =====================================================
        공개 집회 강연 계획표 표시
     ===================================================== */
-    function renderSchedule(data) {
-      const content = document.getElementById("content");
+    
+function renderSchedule(data) {
+  const content = document.getElementById("content");
+  content.innerHTML = "";
 
-      content.innerHTML = "";
+  // 이번 주 토요일 날짜 계산
+  const now = new Date();
+  const daysUntilSaturday = (6 - now.getDay() + 7) % 7;
 
-      const title = document.createElement("h2");
-      title.textContent = "공개 집회 강연 계획표";
+  const targetDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + daysUntilSaturday
+  );
+
+  const year = targetDate.getFullYear();
+  const month = targetDate.getMonth() + 1;
+  const day = targetDate.getDate();
+
+  // 시트에서 이번 주 토요일 일정 한 건 찾기
+  const item = data.find(row =>
+    Number(row.year) === year &&
+    Number(row.month) === month &&
+    Number(row.day) === day
+  );
+
+  const title = document.createElement("h2");
+  title.textContent = "공개 집회 강연 계획표";
+  title.style.textAlign = "center";
+  title.style.marginTop = "0";
+  content.appendChild(title);
+
+  const subtitle = document.createElement("div");
+  subtitle.textContent = "토요일 오후 7:30";
+  subtitle.style.textAlign = "center";
+  subtitle.style.fontWeight = "bold";
+  subtitle.style.marginBottom = "20px";
+  content.appendChild(subtitle);
+
+  if (!item) {
+    const message = document.createElement("div");
+    message.className = "empty";
+    message.textContent =
+      year + "년 " + month + "월 " + day +
+      "일 일정이 시트에 없습니다.";
+    content.appendChild(message);
+    return;
+  }
+
+  // 날짜 표시
+  const dateTitle = document.createElement("h3");
+  dateTitle.textContent =
+    year + "년 " + month + "월 " + day + "일 (토)";
+  dateTitle.style.textAlign = "center";
+  dateTitle.style.margin = "12px 0 20px";
+  content.appendChild(dateTitle);
+
+  // 연사와 회중은 한 줄에 함께 표시
+  const congregation = String(item.congregation || "")
+    .replace(/\s*회중\s*$/, "");
+
+  const details = [
+    {
+      label: "연사",
+      value: [
+        item.speaker || "",
+        congregation ? congregation + " 회중" : ""
+      ].filter(Boolean).join(" ")
+    },
+    {
+      label: "주제",
+      value: item.topic || ""
+    },
+    {
+      label: "공개강연 사회",
+      value: item.chairman || ""
+    },
+    {
+      label: "파수대 낭독",
+      value: item.reader || ""
+    },
+    {
+      label: "마치는 기도",
+      value: item.prayer || ""
+    }
+  ];
+
+  const table = document.createElement("table");
+  table.style.width = "100%";
+  table.style.borderCollapse = "collapse";
+  table.style.tableLayout = "auto";
+
+  details.forEach(detail => {
+    const tr = document.createElement("tr");
+
+    const label = document.createElement("th");
+    label.textContent = detail.label;
+    label.style.width = "34%";
+    label.style.textAlign = "left";
+    label.style.verticalAlign = "top";
+    label.style.padding = "12px 8px";
+
+    const value = document.createElement("td");
+    value.textContent = detail.value;
+    value.style.textAlign = "left";
+    value.style.verticalAlign = "top";
+    value.style.padding = "12px 8px";
+
+    tr.appendChild(label);
+    tr.appendChild(value);
+    table.appendChild(tr);
+  });
+
+  content.appendChild(table);
+}
+
       title.style.textAlign = "center";
       content.appendChild(title);
 
