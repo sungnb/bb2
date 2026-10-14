@@ -1259,7 +1259,6 @@ content.appendChild(title);
     divider2.className = "talk-divider";
     box.appendChild(divider2);
 
- 
     // 하단 3열 영역
     const roles = [
       {
@@ -1283,8 +1282,16 @@ content.appendChild(title);
         .trim() !== ""
     );
 
-    // 세 항목 중 하나라도 이름이 있을 때만 3열 전체 표시
+    // 세 항목 중 하나라도 이름이 있을 때만
+    // 가로 실선과 3열 전체 표시
     if (hasAnyRole) {
+
+      // 강연 제목 아래 가로 실선
+      const divider2 = document.createElement("div");
+      divider2.className = "talk-divider";
+      box.appendChild(divider2);
+
+      // 하단 3열 영역
       const rolesSection = document.createElement("div");
       rolesSection.className = "talk-roles";
 
@@ -1315,7 +1322,6 @@ content.appendChild(title);
     content.appendChild(box);
   });
 }
-
 
     /* =====================================================
        오류 표시
