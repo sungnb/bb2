@@ -149,12 +149,76 @@
 /* 본문이 하단 메뉴에 가려지지 않도록 여백 확보 */
 
 #content {
-  padding-top: 25px;
-  padding-bottom: 80px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 20px 12px 80px;
+  overflow-x: hidden;
 }
 
 #content > h2:first-child {
   margin-top: 0;
+}
+
+/* 공개강연 전체 박스 */
+.public-talk-box {
+  width: 100%;
+  max-width: 680px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 18px;
+  box-sizing: border-box;
+}
+
+/* 박스 안 날짜 제목 */
+.public-talk-box h3 {
+  margin: 12px 0 20px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* 박스 안 표 */
+.public-talk-box table {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  overflow-wrap: anywhere;
+}
+
+/* 표 셀 */
+.public-talk-box th,
+.public-talk-box td {
+  padding: 12px 8px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.public-talk-box th {
+  width: 36%;
+}
+
+/* 휴대폰 화면 */
+@media (max-width: 600px) {
+  #content {
+    padding: 12px 8px 75px;
+  }
+
+  .public-talk-box {
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .public-talk-box th,
+  .public-talk-box td {
+    padding: 10px 6px;
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 600px) {
