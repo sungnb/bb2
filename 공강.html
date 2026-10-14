@@ -873,18 +873,30 @@
         display.textContent = fontPercent + "%";
       }
 
-     document.querySelectorAll(
-  ".subtitle, #content, table, .month-title"
-).forEach(element => {
-       
-        if (!element.dataset.originalFontSize) {
-          element.dataset.originalFontSize =
-            parseFloat(getComputedStyle(element).fontSize);
-        }
+     
+/* 설정 글자 크기를 본문 전체에 적용 */
+const content = document.getElementById("content");
 
-        element.style.fontSize =
-          (Number(element.dataset.originalFontSize) * fontPercent / 100) + "px";
-      });
+if (content) {
+  content.style.setProperty(
+    "--board-font-scale",
+    String(fontPercent / 100)
+  );
+
+  content.querySelectorAll("*").forEach(element => {
+    if (!element.dataset.originalFontSize) {
+      element.dataset.originalFontSize =
+        parseFloat(getComputedStyle(element).fontSize);
+    }
+
+    element.style.fontSize =
+      (
+        Number(element.dataset.originalFontSize) *
+        fontPercent / 100
+      ) + "px";
+  });
+}
+
 
       localStorage.setItem("northBoardFontPercent", String(fontPercent));
     }
