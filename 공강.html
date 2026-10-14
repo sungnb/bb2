@@ -499,6 +499,17 @@ body.dark-mode #content .public-talk-box {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
+/* 박스 테두리: 테마별 색상 */
+/* 밝게: 조금 더 어두운 회색 */
+body:not(.dark-mode) #content .public-talk-box {
+  border-color: #AEB6BF;
+}
+
+/* 어둡게: 조금 더 밝은 회색 */
+body.dark-mode #content .public-talk-box {
+  border-color: #858B94;
+}
+      
 body.dark-mode #content .talk-speaker-name,
 body.dark-mode #content .talk-topic-name,
 body.dark-mode #content .talk-role-name,
