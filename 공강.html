@@ -891,7 +891,14 @@ body.dark-mode #content .talk-divider {
 
       document.body.style.background = isLight ? "#f3f4f6" : "#202124";
       document.body.style.color = isLight ? "#222222" : "#f1f3f4";
-
+document.querySelectorAll("#content div").forEach(element => {
+  if (
+    element.textContent.trim().startsWith("연사 :")
+  ) {
+    element.style.color =
+      isLight ? "#243B53" : "#F1F3F4";
+  }
+});
       const page = document.querySelector(".page");
       if (page) {
         page.style.background = isLight ? "#ffffff" : "#303134";
