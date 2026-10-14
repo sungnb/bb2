@@ -165,59 +165,116 @@
   width: 100%;
   max-width: 680px;
   min-width: 0;
-  margin: 0 auto;
+  margin: 0 auto 22px;
   padding: 16px;
-  border: 1px solid #cccccc;
-  border-radius: 18px;
+  border: 1px solid #d5e1ef;
+  border-radius: 22px;
   box-sizing: border-box;
+  background: linear-gradient(145deg, #ffffff, #f7faff);
+  box-shadow: 0 6px 18px rgba(24, 50, 74, 0.08);
 }
 
 /* 박스 안 날짜 제목 */
 .public-talk-box h3 {
-  margin: 12px 0 20px;
+  margin: 4px 0 20px;
+  padding: 14px 10px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #183b5c, #176b89);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
   text-align: center;
   overflow-wrap: anywhere;
+  box-shadow: 0 3px 8px rgba(24, 50, 74, 0.12);
 }
-
+    
 /* 박스 안 표 */
 .public-talk-box table {
   width: 100%;
   max-width: 100%;
   min-width: 0;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
   overflow-wrap: anywhere;
+  border: 1px solid #cbdcf0;
+  border-radius: 13px;
+  background: #ffffff;
 }
 
 /* 표 셀 */
 .public-talk-box th,
 .public-talk-box td {
-  padding: 12px 8px;
+  padding: 14px 12px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
   overflow-wrap: anywhere;
   word-break: normal;
+  border-bottom: 1px solid #e2eaf3;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
 }
 
+/* 왼쪽 항목 */
 .public-talk-box th {
-  width: 36%;
+  width: 28%;
+  background: #edf4fc;
+  color: #183b5c;
+  font-weight: 800;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+  border-right: 1px solid #dce7f5;
+}
+
+/* 오른쪽 내용 */
+.public-talk-box td {
+  background: #ffffff;
+  color: #243b53;
+  line-height: 1.7;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 12px;
+  overflow-wrap: anywhere;
+}
+
+/* 마지막 행의 아래 테두리 제거 */
+.public-talk-box tr:last-child th,
+.public-talk-box tr:last-child td {
+  border-bottom: 0;
 }
 
 /* 휴대폰 화면 */
 @media (max-width: 600px) {
   #content {
-    padding: 12px 8px 75px;
+    padding: 12px 8px 80px;
   }
 
   .public-talk-box {
-    padding: 10px;
-    border-radius: 16px;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .public-talk-box h3 {
+    margin: 4px 0 16px;
+    padding: 12px 8px;
+    font-size: 17px;
+    line-height: 1.4;
   }
 
   .public-talk-box th,
   .public-talk-box td {
-    padding: 10px 6px;
+    padding: 11px 8px;
     font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .public-talk-box th {
+    width: 36%;
   }
 }
 
@@ -834,18 +891,29 @@ function renderSchedule(data) {
     return;
   }
 
-  // 월간 일정 제목
-  const monthTitle = document.createElement("h3");
-  monthTitle.textContent = year + "년 " + month + "월 공개강연 일정";
-  monthTitle.style.textAlign = "center";
-  monthTitle.style.margin = "12px 0 20px";
-  content.appendChild(monthTitle);
+ // 월간 일정 제목
+const monthTitle = document.createElement("h3");
+monthTitle.textContent =
+  year + "년 " + month + "월 공개강연 일정";
 
-  // 각 날짜별 일정을 하나의 둥근 박스로 표시
-  monthlyItems.forEach(item => {
-    const box = document.createElement("section");
-    box.className = "public-talk-box";
-    box.style.marginBottom = "18px";
+monthTitle.style.textAlign = "center";
+monthTitle.style.margin = "12px 0 20px";
+monthTitle.style.padding = "16px 10px";
+monthTitle.style.borderRadius = "16px";
+monthTitle.style.background =
+  "linear-gradient(120deg, #e5effb, #e7f5f7)";
+monthTitle.style.color = "#183b5c";
+monthTitle.style.fontSize = "22px";
+monthTitle.style.fontWeight = "800";
+monthTitle.style.border = "1px solid #d5e1ef";
+
+content.appendChild(monthTitle);
+
+ // 각 날짜별 일정을 하나의 둥근 박스로 표시
+monthlyItems.forEach(item => {
+  const box = document.createElement("section");
+  box.className = "public-talk-box";
+  box.style.marginBottom = "24px";
 
     const dateTitle = document.createElement("h3");
 
