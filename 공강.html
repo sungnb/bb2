@@ -548,6 +548,58 @@
         font-size: 15px;
       }
     }
+    }
+
+    /* 공개강연 항목: 한 칸으로 표시 */
+    .public-talk-details {
+      width: 100%;
+      border: 1px solid #cbdcf0;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .public-talk-detail {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2eaf3;
+    }
+
+    .public-talk-detail:last-child {
+      border-bottom: 0;
+    }
+
+    /* 항목명: 작고 간단한 회색 글씨 */
+    .public-talk-label {
+      margin-bottom: 3px;
+      color: #858b94;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* 항목 내용 */
+    .public-talk-value {
+      color: #243b53;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      .public-talk-detail {
+        padding: 9px 10px;
+      }
+
+      .public-talk-label {
+        font-size: 11px;
+      }
+
+      .public-talk-value {
+        font-size: 14px;
+      }
+    }
+   
   </style>
 </head>
 
@@ -891,23 +943,6 @@ function renderSchedule(data) {
     return;
   }
 
- // 월간 일정 제목
-const monthTitle = document.createElement("h3");
-monthTitle.textContent =
-  year + "년 " + month + "월 공개강연 일정";
-
-monthTitle.style.textAlign = "center";
-monthTitle.style.margin = "12px 0 20px";
-monthTitle.style.padding = "16px 10px";
-monthTitle.style.borderRadius = "16px";
-monthTitle.style.background =
-  "linear-gradient(120deg, #e5effb, #e7f5f7)";
-monthTitle.style.color = "#183b5c";
-monthTitle.style.fontSize = "22px";
-monthTitle.style.fontWeight = "800";
-monthTitle.style.border = "1px solid #d5e1ef";
-
-content.appendChild(monthTitle);
 
  // 각 날짜별 일정을 하나의 둥근 박스로 표시
 monthlyItems.forEach(item => {
@@ -962,24 +997,30 @@ monthlyItems.forEach(item => {
       }
     ];
 
-    const table = document.createElement("table");
+   
+const detailsBox = document.createElement("div");
+detailsBox.className = "public-talk-details";
 
-    details.forEach(detail => {
-      const tr = document.createElement("tr");
+details.forEach(detail => {
+  const row = document.createElement("div");
+  row.className = "public-talk-detail";
 
-      const label = document.createElement("th");
-      label.textContent = detail.label;
+  const label = document.createElement("div");
+  label.className = "public-talk-label";
+  label.textContent = detail.label;
 
-      const value = document.createElement("td");
-      value.textContent = detail.value;
+  const value = document.createElement("div");
+  value.className = "public-talk-value";
+  value.textContent = detail.value;
 
-      tr.appendChild(label);
-      tr.appendChild(value);
-      table.appendChild(tr);
-    });
+  row.appendChild(label);
+  row.appendChild(value);
+  detailsBox.appendChild(row);
+});
 
-    box.appendChild(table);
-    content.appendChild(box);
+box.appendChild(detailsBox);
+content.appendChild(box);
+
   });
 }
 
