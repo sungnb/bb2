@@ -1227,7 +1227,10 @@ if (isThisWeek) {
       speakerSection.style.padding = "4px 2px 12px";
       speakerSection.style.fontSize = "18px";
       speakerSection.style.fontWeight = "500";
-      speakerSection.style.color = "#243B53";
+      speakerSection.style.color =
+      document.body.classList.contains("dark-mode")
+    ? "#F1F3F4"
+    : "#243B53";
       speakerSection.style.lineHeight = "1.5";
       speakerSection.style.whiteSpace = "nowrap";
       speakerSection.style.overflowX = "auto";
