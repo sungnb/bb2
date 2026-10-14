@@ -393,57 +393,43 @@
     }
 
 
-    /* =========================================================
-       모바일
-    ========================================================= */
+   
+/* =========================================================
+   휴대폰 전용 기본 설정
+========================================================= */
 
-    @media (max-width: 480px) {
+body {
+  padding: 14px;
+}
 
-      body {
-        padding: 14px;
-      }
+.member-row {
+  gap: 7px;
+  padding-left: 10px;
+}
 
+.member-name {
+  font-size: 15px;
+}
 
-      .member-row {
-        gap: 7px;
+.role {
+  font-size: 11px;
+}
 
-        padding-left: 10px;
-      }
+.role-circle {
+  width: 17px;
+  height: 17px;
+}
 
+.role input:checked
+  + .role-circle::after {
+  width: 8px;
+  height: 8px;
+}
 
-      .member-name {
-        font-size: 15px;
-      }
-
-
-      .role {
-        font-size: 11px;
-      }
-
-
-      .role-circle {
-        width: 17px;
-        height: 17px;
-      }
-
-
-      .role input:checked
-        + .role-circle::after {
-
-        width: 8px;
-        height: 8px;
-      }
-
-
-      .delete-button {
-        padding:
-          0
-          8px;
-
-        font-size: 12px;
-      }
-
-    }
+.delete-button {
+  padding: 0 8px;
+  font-size: 12px;
+}
 
   </style>
 </head>
