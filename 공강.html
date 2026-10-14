@@ -1184,25 +1184,29 @@ content.appendChild(title);
       item.day + "일 (" +
       weekdays[date.getDay()] + ")";
 
-    // 이번 주 토요일 날짜만 골드 색상 적용
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // 이번 주 월요일부터 일요일까지 골드 색상 적용
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 
-    const thisSaturday = new Date(today);
-    thisSaturday.setDate(
-      today.getDate() + (6 - today.getDay() + 7) % 7
-    );
+const thisMonday = new Date(today);
+const day = today.getDay();
 
-    const isThisWeek =
-      date.getFullYear() === thisSaturday.getFullYear() &&
-      date.getMonth() === thisSaturday.getMonth() &&
-      date.getDate() === thisSaturday.getDate();
+thisMonday.setDate(
+  today.getDate() - (day === 0 ? 6 : day - 1)
+);
 
-    if (isThisWeek) {
-      dateTitle.style.background =
-        "linear-gradient(120deg, #8C6A32, #C6A15B)";
-    }
+const nextMonday = new Date(thisMonday);
+nextMonday.setDate(thisMonday.getDate() + 7);
 
+const isThisWeek =
+  date >= thisMonday &&
+  date < nextMonday;
+
+if (isThisWeek) {
+  dateTitle.style.background =
+    "linear-gradient(120deg, #8C6A32, #C6A15B)";
+}
+    
     box.appendChild(dateTitle);
 
     // 회중 이름 정리
