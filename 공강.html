@@ -740,9 +740,11 @@ body.dark-mode #content .talk-divider {
       }
     }
     
-/* PC와 휴대폰 글자 크기 고정 */
+/* PC와 휴대폰 날짜 글자 크기 및 짙은 회색 배경 고정 */
 .public-talk-box h3 {
-  font-size: 20px !important;
+  font-size: 25px !important;
+  background: #424242 !important;
+  color: #ffffff !important;
 }
 
 .talk-role-label {
@@ -1075,11 +1077,15 @@ function renderSchedule(data) {
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
 
-  const title = document.createElement("h2");
-  title.textContent = "공개 집회 강연 계획표";
-  title.style.textAlign = "center";
-  title.style.marginTop = "0";
-  content.appendChild(title);
+  
+const title = document.createElement("h2");
+title.textContent = "공개 집회 강연 계획표";
+title.style.textAlign = "center";
+title.style.marginTop = "0";
+title.style.fontSize = "30px";
+title.style.fontWeight = "800";
+content.appendChild(title);
+
 
   const subtitle = document.createElement("div");
   subtitle.textContent = "토요일 오후 7:30";
