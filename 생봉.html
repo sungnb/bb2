@@ -208,8 +208,12 @@ function toggleSettings(){
 }
 
 function setTheme(dark){
-  document.body.classList.toggle("dark-mode",dark);
-  localStorage.setItem("lifeBoardTheme",dark?"dark":"light");
+  document.body.classList.toggle("dark-mode", dark);
+
+  localStorage.setItem(
+    "northBoardTheme",
+    dark ? "dark" : "light"
+  );
 }
 
 function changeFont(amount){
@@ -220,10 +224,17 @@ function changeFont(amount){
 }
 
 (function restoreSettings(){
-  setTheme(localStorage.getItem("lifeBoardTheme")==="dark");
+  setTheme(localStorage.getItem("northBoardTheme")==="dark");
+
   fontPercent=Math.max(80,Math.min(150,fontPercent));
-  document.documentElement.style.setProperty("--scale",fontPercent/100);
-  document.getElementById("fontSize").textContent=fontPercent+"%";
+
+  document.documentElement.style.setProperty(
+    "--scale",
+    fontPercent/100
+  );
+
+  document.getElementById("fontSize").textContent =
+    fontPercent+"%";
 })();
 
 function loadSchedule(){
