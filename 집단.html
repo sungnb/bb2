@@ -7,9 +7,7 @@
   <title>북부회중 게시판</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -28,7 +26,6 @@
       padding-bottom: 60px;
     }
 
-    /* 상단 헤더 */
     .fixed-header {
       position: fixed;
       top: 0;
@@ -55,7 +52,6 @@
       white-space: nowrap;
     }
 
-    /* 공강.html과 동일한 상단 버튼 */
     .top-button {
       position: absolute;
       top: 50%;
@@ -73,21 +69,191 @@
       cursor: pointer;
     }
 
-    .back-button {
-      left: 10px;
-    }
+    .back-button { left: 10px; }
+    .settings-button { right: 10px; }
 
-    .settings-button {
-      right: 10px;
-    }
-
-    /* 본문 */
     #content {
       width: 100%;
-      padding: 25px 10px 20px;
+      padding: 18px 10px 24px;
     }
 
-    /* 하단 고정 메뉴 */
+    /* 본문 공통 */
+    .section-card {
+      margin: 0 0 18px;
+      padding: 16px 12px;
+      border: 1px solid #d8e0e8;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 3px 10px rgba(20,45,70,.06);
+      overflow: hidden;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      padding: 0 0 10px;
+      border-bottom: 2px solid #193650;
+      color: #193650;
+      font-size: 1.15em;
+      font-weight: 800;
+    }
+
+    .group-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .group-card {
+      min-width: 0;
+      padding: 12px 9px;
+      border: 1px solid #d5e0eb;
+      border-radius: 12px;
+      background: #f7f9fc;
+    }
+
+    .group-title {
+      margin-bottom: 10px;
+      color: #193650;
+      font-size: 1.15em;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .group-leader {
+      margin-bottom: 10px;
+      padding: 9px 7px;
+      border-radius: 8px;
+      background: #e6eef6;
+      line-height: 1.65;
+    }
+
+    .group-leader strong {
+      display: block;
+      color: #193650;
+    }
+
+    .member-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .member-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      max-width: 100%;
+      padding: 5px 7px;
+      border: 1px solid #dce3ea;
+      border-radius: 7px;
+      background: #fff;
+      overflow-wrap: anywhere;
+      font-size: .92em;
+    }
+
+    .member-mark {
+      color: #275c8a;
+      font-size: .82em;
+      font-weight: 800;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .stat-item {
+      padding: 12px 8px;
+      border-radius: 10px;
+      background: #edf3f8;
+      text-align: center;
+    }
+
+    .stat-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #53677a;
+      font-size: .9em;
+    }
+
+    .stat-value {
+      color: #193650;
+      font-size: 1.35em;
+      font-weight: 900;
+    }
+
+    .schedule-table,
+    .assignment-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: .92em;
+    }
+
+    .schedule-table th,
+    .schedule-table td,
+    .assignment-table th,
+    .assignment-table td {
+      padding: 9px 5px;
+      border: 1px solid #dce2e8;
+      text-align: center;
+      vertical-align: middle;
+      overflow-wrap: anywhere;
+      line-height: 1.5;
+    }
+
+    .schedule-table th,
+    .assignment-table th {
+      background: #e8eef4;
+      color: #193650;
+      font-weight: 800;
+    }
+
+    .assignment-table td:first-child {
+      font-weight: 700;
+      background: #f7f9fb;
+    }
+
+    .subsection-title {
+      margin: 18px 0 8px;
+      padding: 8px 10px;
+      border-left: 4px solid #193650;
+      background: #edf2f7;
+      color: #193650;
+      font-weight: 800;
+    }
+
+    .note-list {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.9;
+    }
+
+    .loading-message,
+    .error-message,
+    .empty-message {
+      padding: 22px 12px;
+      color: #526273;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .error-message { color: #a52b2b; }
+
+    .refresh-button {
+      display: block;
+      margin: 0 auto 16px;
+      padding: 9px 18px;
+      border: 0;
+      border-radius: 9px;
+      background: #193650;
+      color: white;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .fixed-bottom {
       position: fixed;
       left: 0;
@@ -122,7 +288,6 @@
       border-left: 1px solid rgba(255,255,255,.25);
     }
 
-    /* 설정창 */
     .settings-panel {
       display: none;
       position: fixed;
@@ -139,9 +304,7 @@
       box-shadow: 0 14px 32px rgba(0,0,0,.18);
     }
 
-    .settings-panel.show {
-      display: block;
-    }
+    .settings-panel.show { display: block; }
 
     .settings-theme-row {
       display: grid;
@@ -190,53 +353,112 @@
       font-weight: 900;
     }
 
-    .font-btn {
-      font-size: 30px;
-      cursor: pointer;
+    .font-btn { font-size: 30px; cursor: pointer; }
+    .font-size { font-size: 21px; }
+
+    body.dark-mode {
+      background: #202124;
+      color: #f1f3f4;
     }
 
-    .font-size {
-      font-size: 21px;
+    body.dark-mode .page { background: #303134 !important; }
+
+    body.dark-mode .section-card {
+      background: #303134;
+      border-color: #50545a;
+      box-shadow: none;
     }
 
-    .settings-panel.dark-mode {
+    body.dark-mode .section-title,
+    body.dark-mode .group-title,
+    body.dark-mode .stat-value {
+      color: #b9d9f5;
+    }
+
+    body.dark-mode .section-title { border-color: #7898b8; }
+
+    body.dark-mode .group-card {
+      background: #292d31;
+      border-color: #50545a;
+    }
+
+    body.dark-mode .group-leader,
+    body.dark-mode .stat-item,
+    body.dark-mode .subsection-title {
+      background: #39434d;
+      color: #f1f3f4;
+    }
+
+    body.dark-mode .group-leader strong,
+    body.dark-mode .subsection-title {
+      color: #d3e7fb;
+    }
+
+    body.dark-mode .member-chip {
+      background: #303134;
+      border-color: #555b62;
+      color: #f1f3f4;
+    }
+
+    body.dark-mode .member-mark { color: #a9d2fa; }
+
+    body.dark-mode .schedule-table th,
+    body.dark-mode .assignment-table th {
+      background: #39434d;
+      color: #e7f2ff;
+    }
+
+    body.dark-mode .schedule-table td,
+    body.dark-mode .assignment-table td {
+      border-color: #50545a;
+    }
+
+    body.dark-mode .assignment-table td:first-child {
+      background: #292d31;
+    }
+
+    body.dark-mode .settings-panel {
       background: #202020;
       color: #f5f5f5;
       border-color: #404040;
     }
 
-    .settings-panel.dark-mode .theme-btn,
-    .settings-panel.dark-mode .font-btn,
-    .settings-panel.dark-mode .font-size {
+    body.dark-mode .settings-panel .theme-btn,
+    body.dark-mode .settings-panel .font-btn,
+    body.dark-mode .settings-panel .font-size {
       background: #202020;
       color: #eee;
       border-color: #505050;
     }
 
-    .settings-panel.dark-mode .theme-btn.active {
+    body.dark-mode .settings-panel .theme-btn.active {
       background: #302b50;
       border-color: #7566ff;
       color: #fff;
     }
 
+    @media (max-width: 520px) {
+      .main-title { font-size: 23px; }
+      .group-grid { grid-template-columns: 1fr; }
+      .section-card { padding: 13px 9px; }
+      .schedule-table,
+      .assignment-table { font-size: .82em; }
+      .schedule-table th,
+      .schedule-table td,
+      .assignment-table th,
+      .assignment-table td { padding: 7px 3px; }
+    }
+
     @media (max-width: 360px) {
-      .settings-panel {
-        right: 10px;
-        padding: 12px;
-      }
+      .settings-panel { right: 10px; padding: 12px; }
 
       .settings-font-row {
         grid-template-columns: 58px 1fr 58px;
         gap: 7px;
       }
 
-      .theme-btn {
-        font-size: 16px;
-      }
-
-      .fixed-bottom button {
-        font-size: 16px;
-      }
+      .theme-btn { font-size: 16px; }
+      .fixed-bottom button { font-size: 16px; }
     }
   </style>
 </head>
@@ -244,12 +466,11 @@
 <body>
   <div class="page">
 
-    <!-- 상단 헤더 -->
     <header class="fixed-header">
-     <button type="button"
-  class="top-button back-button"
-  onclick="location.href='index.html'"
-  aria-label="홈으로">‹</button>
+      <button type="button"
+        class="top-button back-button"
+        onclick="location.href='index.html'"
+        aria-label="홈으로">‹</button>
 
       <div class="main-title">북부회중 게시판</div>
 
@@ -259,38 +480,31 @@
         aria-label="설정">⚙</button>
     </header>
 
-    <!-- 본문: 나중에 추가 -->
     <main id="content">
+      <div class="loading-message">
+        집단 및 부서 자료를 불러오는 중입니다...
+      </div>
     </main>
 
-    <!-- 하단 고정 메뉴 -->
     <nav class="fixed-bottom">
-      <button type="button"
-        onclick="location.href='공강.html'">
+      <button type="button" onclick="location.href='공강.html'">
         공개강연
       </button>
-
-      <button type="button"
-        onclick="location.href='생봉.html'">
+      <button type="button" onclick="location.href='생봉.html'">
         생활과봉사
       </button>
-
-      <button type="button"
-        onclick="location.href='집단.html'">
+      <button type="button" onclick="location.href='집단.html'">
         집단및부서
       </button>
     </nav>
-
   </div>
 
-  <!-- 설정창 -->
   <div id="settingsPanel" class="settings-panel">
     <div class="settings-theme-row">
       <button type="button" id="lightBtn"
         class="theme-btn" onclick="setTheme('light')">
         ☀ 밝게
       </button>
-
       <button type="button" id="darkBtn"
         class="theme-btn" onclick="setTheme('dark')">
         🌙 어둡게
@@ -300,15 +514,20 @@
     <div class="settings-font-row">
       <button type="button" class="font-btn"
         onclick="changeFont(-10)" aria-label="글자 작게">−</button>
-
       <div id="fontSize" class="font-size">120%</div>
-
       <button type="button" class="font-btn"
         onclick="changeFont(10)" aria-label="글자 크게">＋</button>
     </div>
   </div>
 
   <script>
+    /*
+     * 집단 데이터 Apps Script 웹앱 주소
+     * Apps Script의 doGet()이 JSON 배열을 반환해야 합니다.
+     */
+    const GROUP_DATA_URL =
+      "https://script.google.com/macros/s/AKfycbxbD0uW23kBcuvsBH7ZtVsHCNURPn6mrz2SHhmaQrocxmw-2JtCKVF6H9Mjw4SVAMgf/exec";
+
     function toggleSettings() {
       document.getElementById("settingsPanel")
         .classList.toggle("show");
@@ -317,19 +536,22 @@
     function setTheme(theme) {
       const isLight = theme === "light";
       const panel = document.getElementById("settingsPanel");
-      const lightBtn = document.getElementById("lightBtn");
-      const darkBtn = document.getElementById("darkBtn");
 
       document.body.classList.toggle("dark-mode", !isLight);
-      document.body.style.background = isLight ? "#f3f4f6" : "#202124";
-      document.body.style.color = isLight ? "#222" : "#f1f3f4";
+      document.body.style.background =
+        isLight ? "#f3f4f6" : "#202124";
+      document.body.style.color =
+        isLight ? "#222" : "#f1f3f4";
 
       document.querySelector(".page").style.background =
         isLight ? "#fff" : "#303134";
 
       panel.classList.toggle("dark-mode", !isLight);
-      lightBtn.classList.toggle("active", isLight);
-      darkBtn.classList.toggle("active", !isLight);
+
+      document.getElementById("lightBtn")
+        .classList.toggle("active", isLight);
+      document.getElementById("darkBtn")
+        .classList.toggle("active", !isLight);
 
       localStorage.setItem("northBoardTheme", theme);
     }
@@ -338,6 +560,7 @@
 
     function setFontPercent(percent) {
       fontPercent = Math.max(80, Math.min(150, percent));
+
       document.getElementById("fontSize").textContent =
         fontPercent + "%";
 
@@ -370,6 +593,495 @@
           : 120
       );
     })();
+
+    function clean(value) {
+      return String(value == null ? "" : value)
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function escapeHTML(value) {
+      return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function cell(row, index) {
+      return clean(row && row[index]);
+    }
+
+    function findRow(data, phrase) {
+      return data.findIndex(row =>
+        row.some(value => clean(value).includes(phrase))
+      );
+    }
+
+    function firstNonEmpty(row) {
+      return row.find(value => clean(value) !== "") || "";
+    }
+
+    function section(title, body) {
+      return `
+        <section class="section-card">
+          <h2 class="section-title">${escapeHTML(title)}</h2>
+          ${body}
+        </section>`;
+    }
+
+    function renderGroups(data) {
+      const headerIndex = findRow(data, "집 단 명");
+
+      if (headerIndex < 0) return "";
+
+      const header = data[headerIndex];
+      const groupColumns = [];
+
+      header.forEach((value, index) => {
+        const name = clean(value);
+        if (/^[A-D]집단$/.test(name)) {
+          groupColumns.push({
+            name,
+            index
+          });
+        }
+      });
+
+      if (!groupColumns.length) return "";
+
+      const endIndex = data.findIndex((row, index) =>
+        index > headerIndex &&
+        row.some(value => clean(value).includes("전도인"))
+      );
+
+      const stop = endIndex > headerIndex ? endIndex : data.length;
+      const groups = groupColumns.map(group => ({
+        name: group.name,
+        index: group.index,
+        supervisor: "",
+        assistant: "",
+        members: []
+      }));
+
+      for (let r = headerIndex + 1; r < stop; r++) {
+        const row = data[r];
+        const label = row.map(clean).join(" ");
+
+        groups.forEach(group => {
+          const name = cell(row, group.index);
+          const marks = [
+            cell(row, group.index + 2),
+            cell(row, group.index + 3)
+          ].filter(Boolean);
+
+          if (!name) return;
+
+          if (label.includes("집단 감독자")) {
+            group.supervisor = name + (marks.length
+              ? " (" + marks.join(", ") + ")"
+              : "");
+          } else if (label.includes("집단 보조자")) {
+            group.assistant = name + (marks.length
+              ? " (" + marks.join(", ") + ")"
+              : "");
+          } else {
+            group.members.push({
+              name,
+              marks
+            });
+          }
+        });
+      }
+
+      const html = groups.map(group => `
+        <div class="group-card">
+          <div class="group-title">${escapeHTML(group.name)}</div>
+
+          <div class="group-leader">
+            <strong>감독자</strong>
+            ${escapeHTML(group.supervisor || "자료 없음")}
+            <strong style="margin-top:6px">보조자</strong>
+            ${escapeHTML(group.assistant || "자료 없음")}
+          </div>
+
+          <div class="member-list">
+            ${group.members.length
+              ? group.members.map(member => `
+                <span class="member-chip">
+                  ${escapeHTML(member.name)}
+                  ${member.marks.length
+                    ? `<span class="member-mark">${escapeHTML(member.marks.join(" · "))}</span>`
+                    : ""}
+                </span>
+              `).join("")
+              : `<span class="empty-message">명단이 없습니다.</span>`
+            }
+          </div>
+        </div>
+      `).join("");
+
+      return section(
+        "야외 봉사 집단",
+        `<div class="group-grid">${html}</div>`
+      );
+    }
+
+    function renderStats(data) {
+      const stats = [];
+      const labels = [
+        { key: "형제", label: "형제" },
+        { key: "자매", label: "자매" },
+        { key: "전도인", label: "전도인" }
+      ];
+
+      labels.forEach(item => {
+        for (const row of data) {
+          const index = row.findIndex(value =>
+            clean(value).includes(item.key)
+          );
+
+          if (index < 0) continue;
+
+          const values = row.slice(index + 1)
+            .map(clean)
+            .filter(Boolean);
+
+          const number = values.find(value =>
+            /^\d+\s*명?$/.test(value)
+          );
+
+          if (number) {
+            stats.push({
+              label: item.label,
+              value: number.replace(/\s/g, "")
+            });
+          }
+          break;
+        }
+      });
+
+      const pioneerRow = data.find(row =>
+        row.some(value => clean(value) === "P :") &&
+        row.some(value => clean(value).includes("%"))
+      );
+
+      if (pioneerRow) {
+        const values = pioneerRow.map(clean).filter(Boolean);
+        const percent = values.find(value => value.includes("%"));
+        const pioneerIndex = pioneerRow.findIndex(value =>
+          clean(value) === "P :"
+        );
+        const pioneerNumber = pioneerRow
+          .slice(pioneerIndex + 1)
+          .map(clean)
+          .find(value => /^\d+$/.test(value));
+
+        if (pioneerNumber) {
+          stats.push({
+            label: "파이오니아",
+            value: pioneerNumber + "명"
+          });
+        }
+
+        if (percent) {
+          stats.push({
+            label: "파이오니아 비율",
+            value: percent.replace(/[()]/g, "")
+          });
+        }
+      }
+
+      if (!stats.length) return "";
+
+      return section(
+        "회중 인원 통계",
+        `<div class="stats-grid">
+          ${stats.map(stat => `
+            <div class="stat-item">
+              <span class="stat-label">${escapeHTML(stat.label)}</span>
+              <span class="stat-value">${escapeHTML(stat.value)}</span>
+            </div>
+          `).join("")}
+        </div>`
+      );
+    }
+
+    function renderService(data) {
+      const dayIndex = findRow(data, "요일");
+      if (dayIndex < 0) return "";
+
+      const dayRow = data[dayIndex];
+      const days = [];
+
+      dayRow.forEach((value, index) => {
+        const day = clean(value);
+        if (/^(월|화|수|목|금|토|일)$/.test(day)) {
+          days.push({ day, index });
+        }
+      });
+
+      if (!days.length) return "";
+
+      const rows = [];
+      let currentType = "";
+
+      for (let r = dayIndex + 1; r < data.length; r++) {
+        const row = data[r];
+        const first = row.map(clean).join(" ");
+
+        if (first.includes("직책")) break;
+
+        const label = cell(row, 1) || cell(row, 2);
+        if (label.includes("호별") || label.includes("전시대") ||
+            label.includes("ZOOM")) {
+          currentType = label.replace(/\s+/g, " ");
+        }
+
+        if (!currentType) continue;
+
+        const subLabel = cell(row, 3) || cell(row, 2);
+
+        if (!["인도자", "시간", "장소"].some(key =>
+          subLabel.includes(key)
+        )) continue;
+
+        days.forEach(day => {
+          const value = cell(row, day.index);
+          if (!value) return;
+
+          let record = rows.find(item =>
+            item.type === currentType && item.day === day.day
+          );
+
+          if (!record) {
+            record = {
+              type: currentType,
+              day: day.day,
+              leader: "",
+              time: "",
+              place: ""
+            };
+            rows.push(record);
+          }
+
+          if (subLabel.includes("인도자")) record.leader = value;
+          if (subLabel.includes("시간")) record.time = value;
+          if (subLabel.includes("장소")) record.place = value;
+        });
+      }
+
+      if (!rows.length) return "";
+
+      const types = [...new Set(rows.map(row => row.type))];
+
+      return section(
+        "야외 봉사 일정",
+        types.map(type => {
+          const items = rows.filter(row => row.type === type);
+          return `
+            <div class="subsection-title">${escapeHTML(type)}</div>
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>요일</th>
+                  <th>인도자</th>
+                  <th>시간</th>
+                  <th>장소</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${items.map(item => `
+                  <tr>
+                    <td>${escapeHTML(item.day)}</td>
+                    <td>${escapeHTML(item.leader || "-")}</td>
+                    <td>${escapeHTML(item.time || "-")}</td>
+                    <td>${escapeHTML(item.place || "-")}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          `;
+        }).join("")
+      );
+    }
+
+    function renderAssignments(data) {
+      const headerIndex = findRow(data, "직책");
+      if (headerIndex < 0) return "";
+
+      const records = [];
+      const notes = [];
+      let currentResponsibility = "";
+
+      for (let r = headerIndex + 1; r < data.length; r++) {
+        const row = data[r];
+        const values = row.map(clean);
+        const joined = values.filter(Boolean).join(" ");
+
+        if (!joined) {
+          if (records.length) currentResponsibility = "";
+          continue;
+        }
+
+        if (joined.includes("비고")) {
+          for (let n = r + 1; n < data.length; n++) {
+            const noteRow = data[n];
+            const noteValues = noteRow.map(clean).filter(Boolean);
+            if (!noteValues.length) continue;
+
+            const label = noteValues[0];
+            const people = noteValues.slice(1).join(" ");
+            notes.push(people ? label + "： " + people : label);
+          }
+          break;
+        }
+
+        const responsibility = values.find(value =>
+          /책임$/.test(value)
+        );
+
+        if (responsibility) {
+          currentResponsibility = responsibility;
+          records.push({
+            responsibility,
+            role: "",
+            person: "",
+            assistant: "",
+            heading: true
+          });
+          continue;
+        }
+
+        const role = cell(row, 1) || cell(row, 2);
+        const person = cell(row, 4) || cell(row, 5);
+        const assistant = cell(row, 6) || cell(row, 7);
+
+        if (!role && !person && !assistant) continue;
+
+        records.push({
+          responsibility: currentResponsibility,
+          role,
+          person,
+          assistant,
+          heading: false
+        });
+      }
+
+      if (!records.length && !notes.length) return "";
+
+      let lastResponsibility = "";
+
+      const tableRows = records.map(record => {
+        if (record.heading) {
+          lastResponsibility = record.responsibility;
+          return `
+            <tr>
+              <th colspan="3">${escapeHTML(record.responsibility)}</th>
+            </tr>`;
+        }
+
+        return `
+          <tr>
+            <td>${escapeHTML(record.role || "-")}</td>
+            <td>${escapeHTML(record.person || "-")}</td>
+            <td>${escapeHTML(record.assistant || "-")}</td>
+          </tr>`;
+      }).join("");
+
+      return section(
+        "조직 부서 임명",
+        `<table class="assignment-table">
+          <thead>
+            <tr>
+              <th>직책</th>
+              <th>담당</th>
+              <th>보조</th>
+            </tr>
+          </thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+        ${notes.length ? `
+          <div class="subsection-title">비고</div>
+          <ul class="note-list">
+            ${notes.map(note => `<li>${escapeHTML(note)}</li>`).join("")}
+          </ul>
+        ` : ""}`
+      );
+    }
+
+    function renderPage(data) {
+      if (!Array.isArray(data) || !data.length) {
+        throw new Error("스프레드시트에서 데이터가 반환되지 않았습니다.");
+      }
+
+      const html = [
+        renderGroups(data),
+        renderStats(data),
+        renderService(data),
+        renderAssignments(data)
+      ].filter(Boolean).join("");
+
+      if (!html) {
+        throw new Error(
+          "자료를 받았지만 집단·일정·부서 항목을 찾지 못했습니다. 시트 구조를 확인해야 합니다."
+        );
+      }
+
+      document.getElementById("content").innerHTML =
+        `<button class="refresh-button" type="button"
+          onclick="loadGroupData()">↻ 새로고침</button>${html}`;
+    }
+
+    async function loadGroupData() {
+      const content = document.getElementById("content");
+
+      content.innerHTML =
+        '<div class="loading-message">집단 및 부서 자료를 불러오는 중입니다...</div>';
+
+      try {
+        const response = await fetch(GROUP_DATA_URL, {
+          method: "GET",
+          redirect: "follow",
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("웹앱 응답 오류: " + response.status);
+        }
+
+        const text = await response.text();
+        let data;
+
+        try {
+          data = JSON.parse(text);
+        } catch (error) {
+          throw new Error(
+            "웹앱이 JSON 자료를 반환하지 않았습니다. Apps Script 배포 상태를 확인해 주세요."
+          );
+        }
+
+        renderPage(data);
+      } catch (error) {
+        console.error("집단 자료 불러오기 오류:", error);
+
+        content.innerHTML = `
+          <section class="section-card">
+            <h2 class="section-title">자료를 불러오지 못했습니다</h2>
+            <div class="error-message">
+              ${escapeHTML(error.message || "연결 오류가 발생했습니다.")}
+              <br><br>
+              Apps Script 웹앱의 배포 상태와 접근 권한,
+              JSON 반환 여부를 확인해 주세요.
+            </div>
+            <button class="refresh-button" type="button"
+              onclick="loadGroupData()">다시 시도</button>
+          </section>`;
+      }
+    }
+
+    loadGroupData();
   </script>
 </body>
 </html>
