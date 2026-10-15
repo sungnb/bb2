@@ -1001,16 +1001,18 @@ if (content) {
       const message = document.createElement("div");
       message.className = "loading";
 
-      if (section === "ministry") {
-        message.textContent =
-          "생활과봉사 내용을 준비 중입니다.";
-      } else if (section === "groups") {
-        message.textContent =
-          "집단및부서 내용을 준비 중입니다.";
-      }
+    
+  if (section === "ministry") {
+    window.location.href = "생봉.html";
+    return;
+  } else if (section === "groups") {
+    window.location.href = "집단.html";
+    return;
+  }
 
-      content.appendChild(message);
-    }
+  content.appendChild(message);
+}
+
 
     /* =====================================================
        공개강연 일정 불러오기
