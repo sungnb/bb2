@@ -155,10 +155,13 @@ body.dark-mode .settings-panel button{background:#202124;color:#f1f3f4;border-co
 </style>
 </head>
 <body>
+  
 <header class="fixed-header">
-  <button class="top-button back-button" onclick="history.back()" aria-label="뒤로가기">‹</button>
-  <div class="main-title">생봉</div>
-  <button class="top-button settings-button" onclick="toggleSettings()" aria-label="설정">⚙</button>
+  <button type="button" class="top-button back-button"
+    onclick="history.back()" aria-label="뒤로가기">‹</button>
+  <div class="main-title">북부회중 게시판</div>
+  <button type="button" class="top-button settings-button"
+    onclick="toggleSettings()" aria-label="설정">⚙</button>
 </header>
 
 <main class="page"><div id="content"><div class="loading">생봉 일정을 불러오는 중입니다...</div></div></main>
