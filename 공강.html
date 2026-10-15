@@ -1254,17 +1254,16 @@ if (isThisWeek) {
       box.appendChild(speakerSection);
     }
 
-
-    // 강연 제목: 20px, 한 줄
-    // '강연 주제' 문구와 연사 아래 가로선은 삭제
+    // 강연 제목: 원본에 있는 줄바꿈 유지
+    // 한 줄이면 한 줄, 여러 줄이면 여러 줄로 표시
     const topicSection = document.createElement("div");
 
     topicSection.style.padding = "8px 2px 16px";
     topicSection.style.fontSize = "20px";
     topicSection.style.fontWeight = "800";
     topicSection.style.lineHeight = "1.5";
-    topicSection.style.whiteSpace = "nowrap";
-    topicSection.style.overflowX = "auto";
+    topicSection.style.whiteSpace = "pre-line";
+    topicSection.style.overflowWrap = "anywhere";
 
     const topicName = document.createElement("div");
     topicName.textContent = item.topic || "";
