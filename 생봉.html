@@ -146,7 +146,9 @@ body.dark-mode .opening-row .role,body.dark-mode .black-text{color:#f1f3f4}
 body.dark-mode .settings-panel{background:#303134;color:#f1f3f4;border-color:#555}
 body.dark-mode .settings-panel button{background:#202124;color:#f1f3f4;border-color:#555}
 @media(max-width:520px){
- .page{padding:72px 5px 80px}
+.page {
+  padding: 10px 5px 15px;
+}
  .program-card{padding:7px;border-radius:10px}
  .date-title{font-size:calc(19px * var(--scale));padding:9px 4px}
  .section-title{font-size:calc(17px * var(--scale))}
@@ -165,6 +167,26 @@ body.dark-mode .settings-panel button{background:#202124;color:#f1f3f4;border-co
 
 <main class="page"><div id="content"><div class="loading">생봉 일정을 불러오는 중입니다...</div></div></main>
 
+<nav class="fixed-bottom">
+  <button
+    type="button"
+    onclick="location.href='공강.html'">
+    공개강연
+  </button>
+
+  <button
+    type="button"
+    onclick="location.href='생봉.html'">
+    생활과봉사
+  </button>
+
+  <button
+    type="button"
+    onclick="location.href='집단.html'">
+    집단및부서
+  </button>
+</nav>  
+  
 <div id="settingsPanel" class="settings-panel">
   <div class="setting-row">
     <button onclick="setTheme(false)">☀ 밝게</button>
