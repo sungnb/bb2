@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base target="_top">
+<title>생봉</title>
+<style>
+*{box-sizing:border-box}
+:root{--scale:1}
+body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;color:#222}
+.fixed-header{position:fixed;z-index:1000;top:0;left:0;width:100%;height:62px;display:flex;align-items:center;justify-content:center;background:#193650;color:#fff;padding:8px 60px}
+.main-title{font-size:25px;font-weight:800;white-space:nowrap;line-height:1.2}
+.top-button{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border:1px solid #ffffff55;border-radius:12px;background:#234563;color:white;font-size:25px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.back-button{left:12px}.settings-button{right:12px}
+.page{padding:77px 10px 82px;max-width:900px;margin:0 auto}
+#content{font-size:calc(16px * var(--scale))}
+.program-card{background:#fff;border:1px solid #cbd2da;border-radius:14px;padding:12px;margin:0 auto 18px;box-shadow:0 4px 14px #18324a12}
+.date-title{margin:0 0 8px;padding:10px 8px;text-align:center;border-radius:8px;background:#352078;color:#fff;font-size:calc(22px * var(--scale));font-weight:800}
+.opening-row{display:grid;grid-template-columns:80px 1fr auto;gap:8px;align-items:center;padding:5px 4px;border-bottom:1px solid #e4e7eb;font-size:calc(14px * var(--scale))}
+.opening-row .role{color:#555;text-align:center}.opening-row .value{font-weight:600}.opening-row .name{font-weight:800;white-space:nowrap}
+.section-title{margin:8px 0 0;padding:7px 8px;text-align:center;color:white;font-size:calc(20px * var(--scale));font-weight:800}
+.blue{background:#3987c9}.orange{background:#ff9800}.green{background:#66a64b}
+.program-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;padding:7px 4px;border-bottom:1px solid #e8ebef;line-height:1.5}
+.program-line:last-child{border-bottom:0}
+.program-text{overflow-wrap:anywhere}.program-name{font-weight:800;white-space:nowrap;text-align:right}
+.blue-text{color:#0645ff}.red-text{color:#f01818}.black-text{color:#222}
+.subline{display:flex;justify-content:space-between;gap:8px;padding:5px 4px;line-height:1.45;border-bottom:1px solid #eef0f3}
+.subline span{overflow-wrap:anywhere}.subline .person{font-weight:700}
+.note{font-size:calc(13px * var(--scale));font-weight:700;color:#0645ff;padding:5px 4px}
+.settings-panel{display:none;position:fixed;z-index:1100;top:75px;right:12px;width:300px;max-width:calc(100vw - 24px);padding:14px;border:1px solid #ddd;border-radius:16px;background:#fff;box-shadow:0 10px 30px #0002}
+.settings-panel.show{display:block}.setting-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.settings-panel button{padding:12px;border:1px solid #ddd;border-radius:10px;background:#f5f5f5;font-size:16px;font-weight:700}
+.font-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center;text-align:center}
+.loading,.error,.empty{text-align:center;padding:28px 10px;color:#555}
+.error{color:#b00020;white-space:pre-wrap}
+body.dark-mode{background:#202124;color:#f1f3f4}
+body.dark-mode .program-card{background:#303134;border-color:#555}
+body.dark-mode .opening-row,body.dark-mode .program-line,body.dark-mode .subline{border-color:#50545a}
+body.dark-mode .opening-row .role,body.dark-mode .black-text{color:#f1f3f4}
+body.dark-mode .settings-panel{background:#303134;color:#f1f3f4;border-color:#555}
+body.dark-mode .settings-panel button{background:#202124;color:#f1f3f4;border-color:#555}
+@media(max-width:520px){
+ .page{padding:72px 5px 80px}
+ .program-card{padding:7px;border-radius:10px}
+ .date-title{font-size:calc(19px * var(--scale));padding:9px 4px}
+ .section-title{font-size:calc(17px * var(--scale))}
+ .opening-row{grid-template-columns:65px minmax(0,1fr) auto;gap:5px;font-size:calc(12px * var(--scale))}
+ .program-line{gap:5px;padding:7px 2px}
+ .program-name{white-space:normal}
+}
+</style>
+</head>
+<body>
+<header class="fixed-header">
+  <button class="top-button back-button" onclick="history.back()" aria-label="뒤로가기">‹</button>
+  <div class="main-title">생봉</div>
+  <button class="top-button settings-button" onclick="toggleSettings()" aria-label="설정">⚙</button>
+</header>
+
+<main class="page"><div id="content"><div class="loading">생봉 일정을 불러오는 중입니다...</div></div></main>
+
+<div id="settingsPanel" class="settings-panel">
+  <div class="setting-row">
+    <button onclick="setTheme(false)">☀ 밝게</button>
+    <button onclick="setTheme(true)">🌙 어둡게</button>
+  </div>
+  <div class="font-row">
+    <button onclick="changeFont(-10)">−</button>
+    <strong id="fontSize">100%</strong>
+    <button onclick="changeFont(10)">＋</button>
+  </div>
+</div>
+
+<script>
+/* 생봉 Apps Script 웹 앱 URL */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx44HBK4VnofM1gVLJ8g9TeSAvELSE5P5bF6vxGmkbSl_lqx3Zk1RF_ArzP-ZfSQuTX/exec";
+
+let fontPercent = Number(localStorage.getItem("lifeBoardFont") || 100);
+
+function toggleSettings(){
+  document.getElementById("settingsPanel").classList.toggle("show");
+}
+
+function setTheme(dark){
+  document.body.classList.toggle("dark-mode",dark);
+  localStorage.setItem("lifeBoardTheme",dark?"dark":"light");
+}
+
+function changeFont(amount){
+  fontPercent=Math.max(80,Math.min(150,fontPercent+amount));
+  document.documentElement.style.setProperty("--scale",fontPercent/100);
+  document.getElementById("fontSize").textContent=fontPercent+"%";
+  localStorage.setItem("lifeBoardFont",String(fontPercent));
+}
+
+(function restoreSettings(){
+  setTheme(localStorage.getItem("lifeBoardTheme")==="dark");
+  fontPercent=Math.max(80,Math.min(150,fontPercent));
+  document.documentElement.style.setProperty("--scale",fontPercent/100);
+  document.getElementById("fontSize").textContent=fontPercent+"%";
+})();
+
+function loadSchedule(){
+  if(!SCRIPT_URL.startsWith("https://script.google.com/")){
+    document.getElementById("content").innerHTML='<div class="error">앱스스크립트를 배포한 뒤 SCRIPT_URL에 웹 앱 URL을 입력해 주세요.</div>';
+    return;
+  }
+
+  const old=document.getElementById("scheduleJsonp");
+  if(old)old.remove();
+
+  const script=document.createElement("script");
+  script.id="scheduleJsonp";
+  script.onerror=()=>showError("앱스스크립트에 연결하지 못했습니다. 배포 권한과 URL을 확인해 주세요.");
+  script.src=SCRIPT_URL+"?prefix=receiveSchedule&t="+Date.now();
+  document.body.appendChild(script);
+
+  window.scheduleTimer=setTimeout(
+    ()=>showError("응답 시간이 초과되었습니다. 앱스스크립트 배포를 확인해 주세요."),
+    20000
+  );
+}
+
+function receiveSchedule(data){
+  clearTimeout(window.scheduleTimer);
+
+  if(!Array.isArray(data)){
+    showError("서버에서 받은 데이터 형식이 올바르지 않습니다.");
+    return;
+  }
+
+  renderSchedule(data);
+}
+
+function showError(message){
+  document.getElementById("content").innerHTML="";
+  const d=document.createElement("div");
+  d.className="error";
+  d.textContent=message;
+  document.getElementById("content").appendChild(d);
+}
+
+function cell(row,index){
+  return String((row.cells||[])[index]||"").trim();
+}
+
+function line(text,name="",cls=""){
+  const el=document.createElement("div");
+  el.className="program-line";
+
+  const t=document.createElement("div");
+  t.className="program-text "+cls;
+  t.textContent=text||"";
+  el.appendChild(t);
+
+  if(name){
+    const n=document.createElement("div");
+    n.className="program-name "+cls;
+    n.textContent=name;
+    el.appendChild(n);
+  }
+
+  return el;
+}
+
+function subline(left,right){
+  const el=document.createElement("div");
+  el.className="subline";
+
+  const a=document.createElement("span");
+  a.textContent=left||"";
+
+  const b=document.createElement("span");
+  b.className="person";
+  b.textContent=right||"";
+
+  el.append(a,b);
+  return el;
+}
+
+function section(card,title,cls,buttonNote){
+  const h=document.createElement("div");
+  h.className="section-title "+cls;
+  h.textContent=title;
+  card.appendChild(h);
+
+  if(buttonNote){
+    const n=document.createElement("div");
+    n.className="program-line";
+    n.textContent="버튼추가";
+    card.appendChild(n);
+  }
+}
+
+function renderSchedule(data){
+  const content=document.getElementById("content");
+  content.innerHTML="";
+
+  const today=new Date();
+  today.setHours(0,0,0,0);
+
+  const upcoming=data.filter(
+    x=>new Date(Number(x.year),Number(x.month)-1,Number(x.day))>=today
+  );
+
+  const items=(upcoming.length?upcoming:data).slice(0,12);
+
+  if(!items.length){
+    content.innerHTML='<div class="empty">표시할 생봉 일정이 없습니다.</div>';
+    return;
+  }
+
+  items.forEach(item=>{
+    const c=item.cells||[];
+
+    const card=document.createElement("section");
+    card.className="program-card";
+
+    const date=document.createElement("h2");
+    date.className="date-title";
+    date.textContent=item.year+"년 "+item.month+"월 "+item.day+"일 ("+item.weekday+")";
+    card.appendChild(date);
+
+    card.appendChild(subline("사회자",cell(c,1)));
+    card.appendChild(subline("시작 기도",cell(c,2)));
+
+    section(card,"생명 봉사에 힘쓰십시오","blue",true);
+
+    const speaker=cell(c,4);
+    const topic=cell(c,5);
+
+    card.appendChild(
+      line("연설 : "+(cell(c,3)||"10분")+", 생명 봉사에 관한 내용",speaker,"blue-text")
+    );
+
+    if(topic){
+      card.appendChild(line(topic,"","blue-text"));
+    }
+
+    if(cell(c,8)||cell(c,9)){
+      card.appendChild(
+        line("영적 보물찾기 : "+(cell(c,9)||cell(c,8))+" (상단 좌측정렬)",cell(c,8),"red-text")
+      );
+    }
+
+    if(cell(c,10)||cell(c,11)){
+      card.appendChild(
+        line("성경 낭독 : "+(cell(c,10)||"")+" "+(cell(c,11)||""),cell(c,10),"black-text")
+      );
+    }
+
+    section(card,"야외 봉사에 참석하십시오","orange",true);
+
+    const assignments=[
+      {n:4,title:cell(c,13),duration:cell(c,12),person:cell(c,14),helper:cell(c,16),label:"대화 시작하기"},
+      {n:5,title:cell(c,18),duration:cell(c,17),person:cell(c,19),helper:cell(c,21),label:"대화 시작하기"},
+      {n:6,title:cell(c,23),duration:cell(c,22),person:cell(c,24),helper:cell(c,26),label:"대화 시작하기"},
+      {n:7,title:cell(c,28),duration:cell(c,27),person:cell(c,29),helper:cell(c,31),label:"우리의 신앙 설명하기"}
+    ];
+
+    assignments.forEach((a,i)=>{
+      const t=a.title||["대화 시작하기","대화 시작하기","대화 시작하기","우리의 신앙 설명하기"][i];
+
+      if(t||a.person||a.helper){
+        card.appendChild(
+          line(a.n+". "+t+(a.duration?" : "+a.duration:"")+" (상단 좌측정렬)","","blue-text")
+        );
+
+        card.appendChild(
+          subline("전도인  "+a.person,"집주인  "+a.helper)
+        );
+      }
+    });
+
+    section(card,"그리스도인 생활","green",true);
+
+    const bibleTitle=cell(c,34);
+    const bibleTime=cell(c,32);
+    const bibleRef=cell(c,35);
+
+    if(bibleTitle||bibleTime||bibleRef){
+      card.appendChild(
+        line("8. "+(bibleTitle||"")+(bibleTime?" : "+bibleTime:"")+(bibleRef?"  "+bibleRef:""),cell(c,33),"blue-text")
+      );
+    }
+
+    const watchTitle=cell(c,38);
+    const watchTime=cell(c,36);
+    const watchRef=cell(c,39);
+    const watchHost=cell(c,37);
+
+    if(watchTitle||watchTime||watchRef||watchHost){
+      card.appendChild(
+        line("9. "+(watchTitle||"중앙장로회 보고")+(watchTime?" : "+watchTime:"")+(watchRef?"  "+watchRef:""),watchHost,"black-text")
+      );
+    }
+
+    const studyTitle=cell(c,40);
+    const studyReader=cell(c,41);
+    const studySocial=cell(c,42);
+
+    if(studyTitle||studyReader||studySocial){
+      card.appendChild(
+        line("10. "+(studyTitle||"회중 성서 연구")+(cell(c,40)?" : 30분":""),"","blue-text")
+      );
+
+      card.appendChild(
+        subline("사회자  "+studySocial,"낭독자  "+studyReader)
+      );
+    }
+
+    card.appendChild(subline("마치는 기도",cell(c,43)));
+    content.appendChild(card);
+  });
+}
+
+document.addEventListener("DOMContentLoaded",loadSchedule);
+</script>
+</body>
+</html>
