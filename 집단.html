@@ -1,1 +1,107 @@
 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>북부회중 게시판</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      background: #fff;
+    }
+
+    /* 상단 헤더 */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 62px;
+      box-sizing: border-box;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      background: #193650;
+      color: #fff;
+      text-align: center;
+      border-bottom: 0;
+    }
+
+    /* 제목 */
+    .main-title {
+      margin: 0;
+      padding: 0;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 40px;
+      white-space: nowrap;
+    }
+
+    /* 뒤로가기 및 설정 버튼 */
+    .top-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 10px;
+      background: transparent;
+      color: white;
+      font-size: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .back-button {
+      left: 10px;
+    }
+
+    .settings-button {
+      right: 10px;
+    }
+
+    /* 본문 영역 */
+    main {
+      padding-top: 82px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 상단 헤더 -->
+  <header class="fixed-header">
+    <button type="button"
+      class="top-button back-button"
+      onclick="history.back()"
+      aria-label="뒤로가기">‹</button>
+
+    <div class="main-title">북부회중 게시판</div>
+
+    <button type="button"
+      class="top-button settings-button"
+      aria-label="설정">⚙</button>
+  </header>
+
+  <!-- 본문: 나중에 추가 -->
+  <main>
+  </main>
+
+</body>
+</html>
+```
