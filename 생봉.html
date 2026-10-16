@@ -353,15 +353,7 @@ function section(card,title,cls,buttonNote){
   h.appendChild(label);
   card.appendChild(h);
 
-  if(buttonNote){
-    const n=document.createElement("div");
-    n.className="program-line";
-    n.textContent="버튼추가";
-    card.appendChild(n);
-  }
-}
-
-function renderSchedule(data){
+  function renderSchedule(data){
   const content=document.getElementById("content");
   content.innerHTML="";
 
