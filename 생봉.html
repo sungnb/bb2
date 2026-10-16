@@ -262,7 +262,8 @@ function showError(message){
 }
 
 function cell(row,index){
-  return String((row.cells||[])[index]||"").trim();
+  const cells = Array.isArray(row) ? row : (row.cells || []);
+  return String(cells[index] || "").trim();
 }
 
 function line(text,name="",cls=""){
