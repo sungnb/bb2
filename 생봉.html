@@ -349,11 +349,13 @@ function section(card,title,cls,buttonNote){
   h.appendChild(icon);
 
   const label=document.createElement("span");
-  label.textContent=title;
+    label.textContent=title;
   h.appendChild(label);
   card.appendChild(h);
 
-  function renderSchedule(data){
+}
+
+function renderSchedule(data){
   const content=document.getElementById("content");
   content.innerHTML="";
 
