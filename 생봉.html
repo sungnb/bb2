@@ -660,28 +660,32 @@ card.appendChild(openingRow("시작 기도", cell(c, 2)));
 
     section(card,"성경에 담긴 보물","blue",true);
 
-    const speaker=cell(c,4);
-    const topic=cell(c,5);
+    // 연설: H열에 동영상 시간이 있으면 함께 표시
+card.appendChild(
+  line(
+    "연설 : 10분" + (cell(c,6) ? " " + cell(c,6) : ""),
+    "",
+    "blue-text"
+  )
+);
+card.appendChild(line("", cell(c,4), "black-text"));
 
-    card.appendChild(
-      line("연설 : "+(cell(c,3)||"10분")+", 생명 봉사에 관한 내용",speaker,"blue-text")
-    );
+// 연설 주제: G열
+if(cell(c,5)){
+  card.appendChild(line("1. " + cell(c,5), "", "black-text"));
+}
 
-    if(topic){
-      card.appendChild(line(topic,"","blue-text"));
-    }
+// 영적 보물찾기: 담당자 J열
+card.appendChild(
+  line("영적 보물찾기 : 10분", "", "blue-text")
+);
+card.appendChild(line("", cell(c,8), "black-text"));
 
-    if(cell(c,8)||cell(c,9)){
-      card.appendChild(
-        line("영적 보물찾기 : "+(cell(c,9)||cell(c,8))+" (상단 좌측정렬)",cell(c,8),"red-text")
-      );
-    }
-
-    if(cell(c,10)||cell(c,11)){
-      card.appendChild(
-        line("성경 낭독 : "+(cell(c,10)||"")+" "+(cell(c,11)||""),cell(c,10),"black-text")
-      );
-    }
+// 성경 낭독: M열 내용, L열 담당자
+card.appendChild(
+  line("3. 성경 낭독 : 4분 " + cell(c,11), "", "black-text")
+);
+card.appendChild(line("", cell(c,10), "black-text"));
 
     section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
