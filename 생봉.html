@@ -442,6 +442,16 @@ card.appendChild(openingRow("사회자",cell(c,1)));
 card.appendChild(openingRow("시작 기도",cell(c,2)));
 
 console.log(
+  "사회자 이름:",
+  card.querySelector(".opening-row .name")?.textContent
+);
+
+console.log(
+  "시작 기도 이름:",
+  card.querySelectorAll(".opening-row .name")[1]?.textContent
+);
+    
+console.log(
   "사회자 표시 내용:",
   card.querySelector(".opening-row .name")?.textContent
 );
@@ -463,7 +473,17 @@ card.appendChild(
     "blue-text"
   )
 );
+    
+console.log(
+  "연사 이름:",
+  cell(c,4)
+);
 
+console.log(
+  "연사 표시 요소:",
+  card.querySelector(".program-name")?.textContent
+);
+    
 if(cell(c,5)){
   card.appendChild(line("1. "+cell(c,5),"","black-text"));
 }
