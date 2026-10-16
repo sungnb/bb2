@@ -78,8 +78,48 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 }
 
 #content{font-size:calc(16px * var(--scale))}
-.program-card{background:#fff;border:1px solid #cbd2da;border-radius:14px;padding:12px;margin:0 auto 18px;box-shadow:0 4px 14px #18324a12}
-.date-title{margin:0 0 8px;padding:10px 8px;text-align:center;border-radius:8px;background:#352078;color:#fff;font-size:calc(22px * var(--scale));font-weight:800}
+  
+/* 생봉 제목과 시간 */
+.schedule-heading {
+  text-align: center;
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.schedule-subtitle {
+  text-align: center;
+  margin: 0 0 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+  
+/* 공개강연과 동일한 일정 상자 */
+.program-card {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 24px;
+  padding: 12px;
+  border: 5px solid #AEB6BF;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffffff, #f7faff);
+  box-shadow: 0 6px 18px rgba(24, 50, 74, 0.08);
+}
+
+/* 공개강연과 동일한 날짜 제목 */
+.date-title {
+  margin: 4px 0 16px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  background: #68717D;
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+  
 .opening-row{display:grid;grid-template-columns:80px 1fr auto;gap:8px;align-items:center;padding:5px 4px;border-bottom:1px solid #e4e7eb;font-size:calc(14px * var(--scale))}
 .opening-row .role{color:#555;text-align:center}.opening-row .value{font-weight:600}.opening-row .name{font-weight:800;white-space:nowrap}
 .section-title{margin:8px 0 0;padding:7px 8px;text-align:center;color:white;font-size:calc(20px * var(--scale));font-weight:800}
@@ -144,8 +184,19 @@ body.dark-mode .settings-panel button{background:#202124;color:#f1f3f4;border-co
 .page {
   padding: 10px 5px 15px;
 }
- .program-card{padding:7px;border-radius:10px}
- .date-title{font-size:calc(19px * var(--scale));padding:9px 4px}
+  
+.program-card {
+  padding: 12px;
+  border-width: 5px;
+  border-radius: 16px;
+}
+
+.date-title {
+  margin: 4px 0 16px;
+  padding: 12px 8px;
+  font-size: 25px;
+}
+  
  .section-title{font-size:calc(17px * var(--scale))}
  .opening-row{grid-template-columns:65px minmax(0,1fr) auto;gap:5px;font-size:calc(12px * var(--scale))}
  .program-line{gap:5px;padding:7px 2px}
@@ -260,10 +311,13 @@ function loadSchedule(){
   );
 }
 
-function receiveSchedule(data){
+function receiveSchedule(data) {
   clearTimeout(window.scheduleTimer);
 
-  if(!Array.isArray(data)){
+  if (
+    !data ||
+    !Array.isArray(data.schedules)
+  ) {
     showError("서버에서 받은 데이터 형식이 올바르지 않습니다.");
     return;
   }
@@ -334,6 +388,21 @@ function section(card,title,cls,buttonNote){
 function renderSchedule(data){
   const content=document.getElementById("content");
   content.innerHTML="";
+
+  // 시트 B2 제목 표시
+  const heading = document.createElement("h2");
+  heading.className = "schedule-heading";
+  heading.textContent = data.title || "";
+  content.appendChild(heading);
+
+  // 시트 B3 시간 표시
+  const subtitle = document.createElement("div");
+  subtitle.className = "schedule-subtitle";
+  subtitle.textContent = data.subtitle || "";
+  content.appendChild(subtitle);
+
+  // 일정 배열
+  data = data.schedules;
 
    const today=new Date();
   today.setHours(0,0,0,0);
