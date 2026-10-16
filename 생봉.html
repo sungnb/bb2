@@ -405,6 +405,12 @@ function renderSchedule(data){
 
   items.forEach(item=>{
     const c=item.cells||[];
+    
+console.log("일정 원본 데이터:", item.cells);
+console.log("사회자 C열:", item.cells[1]);
+console.log("시작 기도 D열:", item.cells[2]);
+console.log("연사 F열:", item.cells[4]);
+    
     const card=document.createElement("section");
     card.className="program-card";
 
