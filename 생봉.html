@@ -149,8 +149,8 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 
 .section-icon svg {
   display: block;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   overflow: visible;
 }
 
@@ -458,64 +458,71 @@ function section(card,title,cls,buttonNote){
       </svg>
     `,
 
-    orange: `
-      <svg viewBox="0 0 28 30" aria-hidden="true">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="
-            M14 27V3
-            M14 8 10 5
-            M14 12 8 9
-            M14 16 8 14
-            M14 20 9 19
-            M14 8 18 5
-            M14 12 20 9
-            M14 16 20 14
-            M14 20 19 19
-            M14 4V1
-          "/>
-          <path d="
-            M10 5Q6 2 6 7Q8 10 12 10
-            M8 9Q3 7 4 12Q7 15 12 14
-            M8 14Q3 12 4 17Q7 20 12 19
-            M18 5Q22 2 22 7Q20 10 16 10
-            M20 9Q25 7 24 12Q21 15 16 14
-            M20 14Q25 12 24 17Q21 20 16 19
-          "/>
-        </g>
-      </svg>
-    `,
+   orange: `
+  <svg viewBox="0 0 64 64" aria-hidden="true">
+    <g fill="currentColor">
+      <path d="M30 59V8H34V59Z"/>
+      <path d="M31 48C23 46 18 41 18 35C25 35 30 39 31 48Z"/>
+      <path d="M33 42C41 40 46 35 46 29C39 29 34 33 33 42Z"/>
+      <path d="M31 34C23 32 17 27 17 21C25 21 30 25 31 34Z"/>
+      <path d="M33 27C41 25 47 20 47 14C39 14 34 18 33 27Z"/>
+      <path d="M31 20C24 17 22 12 25 7C30 10 32 14 31 20Z"/>
+      <path d="M33 15C32 9 35 4 40 2C42 8 39 12 33 15Z"/>
+      <path d="M30 55L24 51L25 48L31 52Z"/>
+      <path d="M34 49L40 45L39 42L33 46Z"/>
+    </g>
+    <path d="M32 5V60"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.2"
+      stroke-linecap="round"/>
+  </svg>
+`,
 
     green: `
-      <svg viewBox="0 0 30 30" aria-hidden="true">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="
-            M4 15 7 9Q9 6 14 6H20
-            L24 3 27 5 26 10 23 13
-            22 21H19L18 16H11L10 22H7
-            L7 16 4 18Z
-          "/>
-          <path d="
-            M20 6 22 8
-            M8 11 5 12 3 17 6 19
-            M12 16 12 22
-            M17 16 17 22
-          "/>
-          <circle cx="23" cy="7" r=".8" fill="currentColor"/>
-        </g>
-      </svg>
-    `
+  <svg viewBox="0 0 64 64" aria-hidden="true">
+    <g
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="
+        M10 31
+        C7 27 10 21 15 20
+        C16 13 23 12 28 16
+        C34 11 41 14 43 19
+        C50 18 55 23 53 29
+        C58 34 55 41 49 42
+        L48 49
+        L42 49
+        L40 42
+        L27 42
+        L25 51
+        L19 51
+        L19 42
+        C13 42 9 38 10 31Z
+      "/>
+      <path d="M43 19L48 14L54 17L57 24L53 29"/>
+      <path d="M47 16L50 12L55 14L57 19"/>
+      <path d="M12 27L7 24L5 29L10 34"/>
+      <path d="M20 42L18 49"/>
+      <path d="M43 42L45 49"/>
+      <path d="M18 51H25"/>
+      <path d="M42 49H49"/>
+      <path d="M14 23L17 26"/>
+      <path d="M24 18L27 22"/>
+      <path d="M33 17L36 21"/>
+      <path d="M43 24L46 27"/>
+      <path d="M17 34L21 36"/>
+      <path d="M29 31L33 34"/>
+      <path d="M41 34L45 36"/>
+      <path d="M28 42L28 46"/>
+    </g>
+    <circle cx="50" cy="22" r="1.5" fill="currentColor"/>
+  </svg>
+`,
   };
 
   icon.innerHTML = icons[cls] || "";
