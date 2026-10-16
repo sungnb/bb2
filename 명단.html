@@ -1008,17 +1008,23 @@ body {
         </option>
 
         <option
-          value="SP"
-          ${member.status === "SP" ? "selected" : ""}>
-          SP
-        </option>
-
-        <option
           value="P"
           ${member.status === "P" ? "selected" : ""}>
           P
         </option>
-
+        
+         <option
+          value="SP"
+          ${member.status === "SP" ? "selected" : ""}>
+          SP
+        </option>
+        
+        <option
+          value="CO"
+          ${member.status === "CO" ? "selected" : ""}>
+          CO
+        </option>
+        
         <option
           value="전도인"
           ${member.status === "전도인" ? "selected" : ""}>
