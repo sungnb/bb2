@@ -432,25 +432,25 @@ function renderSchedule(data){
     }
 
     // 사회자와 시작 기도
-card.appendChild(openingRow("사회자",cell(c,2)));
-card.appendChild(openingRow("시작 기도",cell(c,3)));
+
+card.appendChild(openingRow("사회자",cell(c,1)));
+card.appendChild(openingRow("시작 기도",cell(c,2)));
 
     // 성경에 담긴 보물
 section(card,"성경에 담긴 보물","blue",true);
 
-// 연설: 담당자 F열, 주제 G열, 동영상 시간 H열
+
+ // 연설: 시간 c[3], 연사 이름 c[4], 연설 주제 c[5]
 card.appendChild(
   line(
-    "연설 : 10분" + (cell(c,7) ? " " + cell(c,7) : ""),
-    "",
+    "연설 : " + (cell(c,3) || "10분"),
+    cell(c,4),
     "blue-text"
   )
 );
 
-card.appendChild(line("",cell(c,5),"black-text"));
-
-if(cell(c,6)){
-  card.appendChild(line("1. "+cell(c,6),"","black-text"));
+if(cell(c,5)){
+  card.appendChild(line("1. "+cell(c,5),"","black-text"));
 }
 
 // 영적 보물찾기: 담당자 J열
