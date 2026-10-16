@@ -375,20 +375,33 @@ function renderSchedule(data){
   subtitle.textContent=data.subtitle||"";
   content.appendChild(subtitle);
 
-  const schedules=data.schedules;
+    const schedules=data.schedules;
   const today=new Date();
   today.setHours(0,0,0,0);
 
-  const weekStart=new Date(today);
-  weekStart.setDate(today.getDate()-(today.getDay()+6)%7);
+  // 월요일과 화요일은 해당 주 화요일,
+  // 수요일부터 일요일까지는 다음 주 화요일을 기준으로 표시
+  const day=today.getDay(); // 일요일 0, 월요일 1, 화요일 2 ...
 
-  const weekEnd=new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate()+6);
-  weekEnd.setHours(23,59,59,999);
+  const daysToAdd =
+    day===0 ? 2 :
+    day===1 ? 1 :
+    day===2 ? 0 :
+    9-day;
 
+  const targetTuesday=new Date(today);
+  targetTuesday.setDate(today.getDate()+daysToAdd);
+
+  // 기준 화요일 날짜와 일치하는 계획표만 표시
   const items=schedules.filter(x=>{
-    const date=new Date(Number(x.year),Number(x.month)-1,Number(x.day));
-    return date>=weekStart&&date<=weekEnd;
+    const date=new Date(
+      Number(x.year),
+      Number(x.month)-1,
+      Number(x.day)
+    );
+
+    date.setHours(0,0,0,0);
+    return date.getTime()===targetTuesday.getTime();
   });
 
   if(!items.length){
