@@ -689,12 +689,53 @@ card.appendChild(line("", cell(c,10), "black-text"));
 
     section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
-    const assignments=[
-      {n:4,title:cell(c,13),duration:cell(c,12),person:cell(c,14),helper:cell(c,16),label:"대화 시작하기"},
-      {n:5,title:cell(c,18),duration:cell(c,17),person:cell(c,19),helper:cell(c,21),label:"대화 시작하기"},
-      {n:6,title:cell(c,23),duration:cell(c,22),person:cell(c,24),helper:cell(c,26),label:"대화 시작하기"},
-      {n:7,title:cell(c,28),duration:cell(c,27),person:cell(c,29),helper:cell(c,31),label:"우리의 신앙 설명하기"}
-    ];
+    const assignments = [
+  {
+    n: 4,
+    title: cell(c,14), duration: cell(c,13),
+    person: cell(c,15), helper: cell(c,17),
+    note: cell(c,16), label: "대화 시작하기"
+  },
+  {
+    n: 5,
+    title: cell(c,19), duration: cell(c,18),
+    person: cell(c,20), helper: cell(c,22),
+    note: cell(c,21), label: "대화 시작하기"
+  },
+  {
+    n: 6,
+    title: cell(c,24), duration: cell(c,23),
+    person: cell(c,25), helper: cell(c,27),
+    note: cell(c,26), label: "대화 시작하기"
+  },
+  {
+    n: 7,
+    title: cell(c,29), duration: cell(c,28),
+    person: cell(c,30), helper: cell(c,32),
+    note: cell(c,31), label: "우리의 신앙 설명하기"
+  }
+];
+
+assignments.forEach(a => {
+  const title = a.title || a.label;
+
+  if (title || a.person || a.helper) {
+    const details =
+      a.n + ". " + title +
+      (a.duration ? " : " + a.duration : "") +
+      (a.note ? " " + a.note : "") +
+      " >";
+
+    card.appendChild(line(details, "", "blue-text"));
+
+    card.appendChild(
+      subline(
+        "전도인  " + a.person,
+        "집주인  " + a.helper
+      )
+    );
+  }
+});
 
     assignments.forEach((a,i)=>{
       const t=a.title||["대화 시작하기","대화 시작하기","대화 시작하기","우리의 신앙 설명하기"][i];
