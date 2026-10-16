@@ -122,8 +122,45 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
   
 .opening-row{display:grid;grid-template-columns:80px 1fr auto;gap:8px;align-items:center;padding:5px 4px;border-bottom:1px solid #e4e7eb;font-size:calc(14px * var(--scale))}
 .opening-row .role{color:#555;text-align:center}.opening-row .value{font-weight:600}.opening-row .name{font-weight:800;white-space:nowrap}
-.section-title{margin:8px 0 0;padding:7px 8px;text-align:center;color:white;font-size:calc(20px * var(--scale));font-weight:800}
-.blue{background:#3987c9}.orange{background:#ff9800}.green{background:#66a64b}
+
+  .section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  text-align: left;
+  background: transparent;
+  font-size: calc(20px * var(--scale));
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.section-icon {
+  width: 34px;
+  height: 35px;
+  flex: 0 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.section-icon svg {
+  display: block;
+  width: 26px;
+  height: 27px;
+  overflow: visible;
+}
+
+.section-title.blue { color: #287889; }
+.section-title.orange { color: #b77a0a; }
+.section-title.green { color: #b52b20; }
+
+.section-icon.blue { background: #347f8c; }
+.section-icon.orange { background: #d18a00; }
+.section-icon.green { background: #c6281c; }
+  
 .program-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;padding:7px 4px;border-bottom:1px solid #e8ebef;line-height:1.5}
 .program-line:last-child{border-bottom:0}
 .program-text{overflow-wrap:anywhere}.program-name{font-weight:800;white-space:nowrap;text-align:right}
@@ -372,15 +409,101 @@ function subline(left,right){
 }
 
 function section(card,title,cls,buttonNote){
-  const h=document.createElement("div");
-  h.className="section-title "+cls;
-  h.textContent=title;
+  const h = document.createElement("div");
+  h.className = "section-title " + cls;
+
+  const icon = document.createElement("span");
+  icon.className = "section-icon " + cls;
+
+  const icons = {
+    blue: `
+      <svg viewBox="0 0 28 30" aria-hidden="true">
+        <path
+          d="M5 3.5H23L27 10 14 27 1 10Z
+             M5 3.5 9 10 14 27 19 10 23 3.5
+             M1 10H27
+             M9 10 14 3.5 19 10"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linejoin="round"
+        />
+      </svg>
+    `,
+
+    orange: `
+      <svg viewBox="0 0 28 30" aria-hidden="true">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="
+            M14 27V3
+            M14 8 10 5
+            M14 12 8 9
+            M14 16 8 14
+            M14 20 9 19
+            M14 8 18 5
+            M14 12 20 9
+            M14 16 20 14
+            M14 20 19 19
+            M14 4V1
+          "/>
+          <path d="
+            M10 5Q6 2 6 7Q8 10 12 10
+            M8 9Q3 7 4 12Q7 15 12 14
+            M8 14Q3 12 4 17Q7 20 12 19
+            M18 5Q22 2 22 7Q20 10 16 10
+            M20 9Q25 7 24 12Q21 15 16 14
+            M20 14Q25 12 24 17Q21 20 16 19
+          "/>
+        </g>
+      </svg>
+    `,
+
+    green: `
+      <svg viewBox="0 0 30 30" aria-hidden="true">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="
+            M4 15 7 9Q9 6 14 6H20
+            L24 3 27 5 26 10 23 13
+            22 21H19L18 16H11L10 22H7
+            L7 16 4 18Z
+          "/>
+          <path d="
+            M20 6 22 8
+            M8 11 5 12 3 17 6 19
+            M12 16 12 22
+            M17 16 17 22
+          "/>
+          <circle cx="23" cy="7" r=".8" fill="currentColor"/>
+        </g>
+      </svg>
+    `
+  };
+
+  icon.innerHTML = icons[cls] || "";
+  h.appendChild(icon);
+
+  const label = document.createElement("span");
+  label.textContent = title;
+  h.appendChild(label);
+
   card.appendChild(h);
 
   if(buttonNote){
-    const n=document.createElement("div");
-    n.className="program-line";
-    n.textContent="버튼추가";
+    const n = document.createElement("div");
+    n.className = "program-line";
+    n.textContent = "버튼추가";
     card.appendChild(n);
   }
 }
@@ -446,7 +569,7 @@ function renderSchedule(data){
     card.appendChild(subline("사회자",cell(c,1)));
     card.appendChild(subline("시작 기도",cell(c,2)));
 
-    section(card,"생명 봉사에 힘쓰십시오","blue",true);
+    section(card,"성경에 담긴 보물","blue",true);
 
     const speaker=cell(c,4);
     const topic=cell(c,5);
@@ -471,7 +594,7 @@ function renderSchedule(data){
       );
     }
 
-    section(card,"야외 봉사에 참석하십시오","orange",true);
+    section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
     const assignments=[
       {n:4,title:cell(c,13),duration:cell(c,12),person:cell(c,14),helper:cell(c,16),label:"대화 시작하기"},
