@@ -459,71 +459,120 @@ function section(card,title,cls,buttonNote){
     `,
 
    orange: `
+orange: `
   <svg viewBox="0 0 64 64" aria-hidden="true">
-    <g fill="currentColor">
-      <path d="M30 59V8H34V59Z"/>
-      <path d="M31 48C23 46 18 41 18 35C25 35 30 39 31 48Z"/>
-      <path d="M33 42C41 40 46 35 46 29C39 29 34 33 33 42Z"/>
-      <path d="M31 34C23 32 17 27 17 21C25 21 30 25 31 34Z"/>
-      <path d="M33 27C41 25 47 20 47 14C39 14 34 18 33 27Z"/>
-      <path d="M31 20C24 17 22 12 25 7C30 10 32 14 31 20Z"/>
-      <path d="M33 15C32 9 35 4 40 2C42 8 39 12 33 15Z"/>
-      <path d="M30 55L24 51L25 48L31 52Z"/>
-      <path d="M34 49L40 45L39 42L33 46Z"/>
+    <g fill="none"
+       stroke="currentColor"
+       stroke-width="2.8"
+       stroke-linecap="round"
+       stroke-linejoin="round">
+
+      <!-- 밀의 중심 줄기 -->
+      <path d="M32 58V9"/>
+
+      <!-- 왼쪽 밀알 -->
+      <path d="M30 14
+               C25 13 20 8 22 4
+               C27 5 31 9 30 14Z"/>
+
+      <path d="M30 24
+               C23 24 17 19 17 14
+               C24 14 29 18 30 24Z"/>
+
+      <path d="M30 35
+               C22 35 15 30 15 25
+               C23 25 29 29 30 35Z"/>
+
+      <path d="M30 46
+               C22 46 17 41 17 36
+               C24 36 29 40 30 46Z"/>
+
+      <!-- 오른쪽 밀알 -->
+      <path d="M34 19
+               C41 18 46 13 44 8
+               C38 9 34 13 34 19Z"/>
+
+      <path d="M34 30
+               C42 29 48 24 48 19
+               C40 20 35 24 34 30Z"/>
+
+      <path d="M34 41
+               C42 40 49 35 49 30
+               C41 31 35 35 34 41Z"/>
+
+      <path d="M34 51
+               C41 50 46 45 46 40
+               C39 41 35 45 34 51Z"/>
+
+      <!-- 줄기 아래쪽 잎 -->
+      <path d="M32 54L24 48"/>
+      <path d="M32 48L40 42"/>
     </g>
-    <path d="M32 5V60"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.2"
-      stroke-linecap="round"/>
   </svg>
 `,
 
     green: `
   <svg viewBox="0 0 64 64" aria-hidden="true">
-    <g
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
+    <g fill="none"
+       stroke="currentColor"
+       stroke-width="2.8"
+       stroke-linecap="round"
+       stroke-linejoin="round">
+
+      <!-- 양의 몸통과 털 윤곽 -->
       <path d="
-        M10 31
-        C7 27 10 21 15 20
-        C16 13 23 12 28 16
-        C34 11 41 14 43 19
-        C50 18 55 23 53 29
-        C58 34 55 41 49 42
-        L48 49
-        L42 49
-        L40 42
-        L27 42
-        L25 51
-        L19 51
-        L19 42
-        C13 42 9 38 10 31Z
-      "/>
-      <path d="M43 19L48 14L54 17L57 24L53 29"/>
-      <path d="M47 16L50 12L55 14L57 19"/>
-      <path d="M12 27L7 24L5 29L10 34"/>
-      <path d="M20 42L18 49"/>
-      <path d="M43 42L45 49"/>
-      <path d="M18 51H25"/>
-      <path d="M42 49H49"/>
-      <path d="M14 23L17 26"/>
-      <path d="M24 18L27 22"/>
-      <path d="M33 17L36 21"/>
-      <path d="M43 24L46 27"/>
-      <path d="M17 34L21 36"/>
-      <path d="M29 31L33 34"/>
-      <path d="M41 34L45 36"/>
-      <path d="M28 42L28 46"/>
+        M13 26
+        C10 22 13 17 18 17
+        C20 11 27 10 32 14
+        C37 10 44 13 46 18
+        C52 17 56 22 54 27
+        C58 31 56 37 51 39
+        L49 43
+        L17 43
+        C12 41 10 37 12 33
+        C9 31 10 28 13 26Z"/>
+
+      <!-- 양의 얼굴 -->
+      <path d="
+        M45 19
+        L50 13
+        L56 15
+        L60 21
+        L56 27
+        L51 29"/>
+
+      <!-- 귀 -->
+      <path d="M49 16L45 12L42 16"/>
+      <path d="M56 17L60 14"/>
+
+      <!-- 얼굴과 눈 -->
+      <circle cx="54" cy="21" r="1" fill="currentColor"/>
+
+      <!-- 앞다리 -->
+      <path d="M22 42L21 53L15 53L15 48"/>
+      <path d="M35 42L36 53L42 53L42 49"/>
+
+      <!-- 뒷다리 -->
+      <path d="M17 42L12 49L12 54L18 54L21 49"/>
+      <path d="M46 42L49 49L55 49L55 45"/>
+
+      <!-- 발굽 -->
+      <path d="M12 54H18"/>
+      <path d="M36 53H42"/>
+      <path d="M49 49H55"/>
+
+      <!-- 털의 세부 윤곽 -->
+      <path d="M17 20L20 23"/>
+      <path d="M27 16L30 20"/>
+      <path d="M37 16L40 20"/>
+      <path d="M45 25L48 28"/>
+      <path d="M20 32L24 34"/>
+      <path d="M31 30L35 33"/>
+      <path d="M42 33L46 35"/>
+
     </g>
-    <circle cx="50" cy="22" r="1.5" fill="currentColor"/>
   </svg>
 `,
-  };
 
   icon.innerHTML = icons[cls] || "";
   h.appendChild(icon);
