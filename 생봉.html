@@ -123,18 +123,45 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 .opening-row{display:grid;grid-template-columns:80px 1fr auto;gap:8px;align-items:center;padding:5px 4px;border-bottom:1px solid #e4e7eb;font-size:calc(14px * var(--scale))}
 .opening-row .role{color:#555;text-align:center}.opening-row .value{font-weight:600}.opening-row .name{font-weight:800;white-space:nowrap}
 
-  .section-title {
+  
+.section-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 12px 0 0;
+  gap: 16px;
+  margin: 20px 0 0;
   padding: 0;
   text-align: left;
   background: transparent;
-  font-size: calc(20px * var(--scale));
+  font-size: calc(27px * var(--scale));
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.35;
 }
+
+.section-icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.section-icon svg {
+  display: block;
+  width: 48px;
+  height: 48px;
+  overflow: visible;
+}
+
+.section-title.blue { color: #287889; }
+.section-title.orange { color: #b77a0a; }
+.section-title.green { color: #c6281c; }
+
+.section-icon.blue { background: #0d6878; }
+.section-icon.orange { background: #d18a00; }
+.section-icon.green { background: #c6281c; }
+
 
 .section-icon {
   width: 34px;
@@ -505,6 +532,43 @@ function section(card,title,cls,buttonNote){
     n.className = "program-line";
     n.textContent = "버튼추가";
     card.appendChild(n);
+  }
+}
+  
+.section-title + .program-line {
+  margin-left: 80px;
+  padding: 2px 0 10px;
+  border-bottom: 1px solid #e4e7eb;
+  font-size: calc(20px * var(--scale));
+  font-weight: 400;
+  line-height: 1.5;
+  color: #444;
+}
+
+.section-title + .program-line + .program-line {
+  margin-left: 80px;
+}
+
+@media (max-width: 520px) {
+  .section-title {
+    gap: 10px;
+    font-size: calc(19px * var(--scale));
+  }
+
+  .section-icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+  .section-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .section-title + .program-line {
+    margin-left: 58px;
+    font-size: calc(15px * var(--scale));
   }
 }
 
