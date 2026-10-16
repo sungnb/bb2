@@ -335,14 +335,28 @@ function renderSchedule(data){
   const content=document.getElementById("content");
   content.innerHTML="";
 
-  const today=new Date();
+   const today=new Date();
   today.setHours(0,0,0,0);
 
-  const upcoming=data.filter(
-    x=>new Date(Number(x.year),Number(x.month)-1,Number(x.day))>=today
-  );
+  // 이번 주 월요일
+  const weekStart=new Date(today);
+  weekStart.setDate(today.getDate()-(today.getDay()+6)%7);
 
-  const items=(upcoming.length?upcoming:data).slice(0,12);
+  // 이번 주 일요일
+  const weekEnd=new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate()+6);
+  weekEnd.setHours(23,59,59,999);
+
+  // 이번 주 일정만 표시
+  const items=data.filter(x=>{
+    const date=new Date(
+      Number(x.year),
+      Number(x.month)-1,
+      Number(x.day)
+    );
+
+    return date>=weekStart && date<=weekEnd;
+  });
 
   if(!items.length){
     content.innerHTML='<div class="empty">표시할 생봉 일정이 없습니다.</div>';
