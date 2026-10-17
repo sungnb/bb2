@@ -585,15 +585,13 @@ body.light .group-slot.filled {
 }
 
 @media (max-width: 600px) {
-
-  .admin-action-button-row {
+  .applicant-manage-buttons {
     gap: 8px;
   }
 
-  .admin-action-button-row .add-group-button,
-  .admin-action-button-row .admin-stop-button {
-    height: 66px;
-    font-size: calc(17px * var(--font-scale));
+  .applicant-manage-buttons .applicant-cancel-button {
+    height: 46px;
+    font-size: 25px !important;
   }
 }
 
@@ -2638,14 +2636,20 @@ body.light .custom-schedule-form-row select {
   border-color: #a61f1f;
 }
 
-/* 선택한 신청자 표시 */
-.schedule-applicant-item:has(.schedule-applicant-checkbox:checked) {
-  border: 5px solid #666;
-  background: #303030;
-  color: #fff;
-}
+/* =========================================================
+   휴대폰 전용 - 선택한 신청자 표시
+========================================================= */
 
-/* 선택한 항목 안의 글자도 흰색으로 표시 */
-.schedule-applicant-item:has(.schedule-applicant-checkbox:checked) * {
-  color: #fff;
+@media (max-width: 600px) {
+
+  .schedule-applicants-list .schedule-applicant-item:has(input:checked) {
+    border: 5px solid #0000FF !important;
+    background: #303030 !important;
+    color: #fff !important;
+  }
+
+  .schedule-applicants-list .schedule-applicant-item:has(input:checked) * {
+    color: #fff !important;
+  }
+
 }
