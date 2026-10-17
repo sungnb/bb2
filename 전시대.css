@@ -2640,24 +2640,18 @@ body.light .custom-schedule-form-row select {
    휴대폰 전용 - 선택한 신청자 표시
 ========================================================= */
 
-@media (max-width: 600px) {
-
-  .schedule-applicants-list .schedule-applicant-item:has(input:checked) {
-    border: 5px solid #0000FF !important;
-    background: #303030 !important;
-    color: #fff !important;
-  }
-
-  .schedule-applicants-list .schedule-applicant-item:has(input:checked) * {
-    color: #fff !important;
-  }
-
+ .schedule-applicants-list .schedule-applicant-item:has(input:checked) {
+  border: 5px solid #0000FF !important;
+  background: #303030 !important;
+  color: #fff !important;
 }
 
-/* 휴대폰: 취소 명단 글자 크기 및 굵기 */
-@media (max-width: 600px) {
-  .schedule-applicants-list .schedule-applicant-item {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-  }
+.schedule-applicants-list .schedule-applicant-item:has(input:checked) * {
+  color: #fff !important;
+}
+
+/* 취소 명단 글자 크기 및 굵기 */
+.schedule-applicants-list .schedule-applicant-item {
+  font-size: 20px !important;
+  font-weight: 700 !important;
 }
