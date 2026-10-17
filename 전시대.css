@@ -2641,7 +2641,7 @@ body.light .custom-schedule-form-row select {
 ========================================================= */
 
  .schedule-applicants-list .schedule-applicant-item:has(input:checked) {
-  border: 5px solid #0000FF !important;
+  border: 1px solid #0000FF !important;
   background: #303030 !important;
   color: #fff !important;
 }
