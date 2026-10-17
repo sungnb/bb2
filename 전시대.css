@@ -2454,3 +2454,125 @@ body.light .custom-schedule-form-row select {
   }
 
 }
+
+/* =========================================================
+   신청자 확인 / 취소 버튼
+========================================================= */
+
+.applicant-manage-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.applicant-manage-buttons button {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 10px;
+
+  border: 0;
+  border-radius: 12px;
+
+  color: #fff;
+  font-family: inherit;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.applicant-manage-buttons .applicant-check-button {
+  background: #3374A9;
+}
+
+.applicant-manage-buttons .applicant-cancel-button {
+  background: #B83232;
+}
+
+.applicant-manage-buttons button:active {
+  transform: scale(0.98);
+}
+
+/* 신청자 목록 영역 */
+
+.schedule-applicants-area {
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  margin: 20px auto;
+  padding: 16px;
+
+  border: 1px solid #ddd;
+  border-radius: 14px;
+
+  background: #fff;
+  color: #222;
+}
+
+.schedule-applicants-title {
+  margin-bottom: 14px;
+  text-align: center;
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+}
+
+.schedule-applicants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-applicants-message {
+  margin-top: 12px;
+  text-align: center;
+  font-size: calc(15px * var(--font-scale));
+}
+
+.schedule-applicants-action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.schedule-applicants-action-buttons button {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.schedule-applicant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 12px;
+
+  border: 1px solid #ddd;
+  border-radius: 9px;
+
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 600;
+}
+
+.schedule-applicant-item input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .applicant-manage-buttons {
+    gap: 8px;
+  }
+
+  .applicant-manage-buttons button {
+    height: 46px;
+    font-size: calc(16px * var(--font-scale));
+  }
+}
