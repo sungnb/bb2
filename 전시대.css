@@ -2652,6 +2652,6 @@ body.light .custom-schedule-form-row select {
 
 /* 취소 명단 글자 크기 및 굵기 */
 .schedule-applicants-list .schedule-applicant-item {
-  font-size: 20px !important;
-  font-weight: 700 !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
 }
