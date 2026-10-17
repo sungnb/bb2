@@ -217,21 +217,6 @@
 ></div>
 
 
-
-<!-- 제출한 신청자 취소 버튼 -->
-<div class="applicant-manage-buttons">
-
-  <button
-    type="button"
-    class="applicant-cancel-button"
-    onclick="showScheduleApplicants('cancel')"
-  >
-    제출한 신청자 취소
-  </button>
-
-</div>
-
-
 <!-- 일정별 신청자 목록 -->
 <div
   id="scheduleApplicantsArea"
@@ -266,14 +251,16 @@
       닫기
     </button>
 
-    <button
-      type="button"
-      id="cancelSelectedApplicantsButton"
-      class="applicant-cancel-button"
-      onclick="cancelSelectedScheduleApplicants()"
-    >
-      선택한 신청 취소
-    </button>
+    
+<button
+  type="button"
+  id="cancelSelectedApplicantsButton"
+  class="applicant-delete-button"
+  onclick="cancelSelectedScheduleApplicants()"
+>
+  삭제
+</button>
+
 
   </div>
 
