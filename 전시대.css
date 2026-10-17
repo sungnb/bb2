@@ -2627,6 +2627,7 @@ body.light .custom-schedule-form-row select {
   color: #ffffff;
   border: 1px solid #c62828;
   border-radius: 8px;
+  font-size: calc(18px * var(--font-scale));
   font-weight: 700;
   cursor: pointer;
 }
