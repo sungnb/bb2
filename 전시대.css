@@ -2610,3 +2610,29 @@ body.light .custom-schedule-form-row select {
   height: 18px;
   flex-shrink: 0;
 }
+
+
+/* =========================================================
+   신청자 목록 제목 숨기기 및 빨간색 삭제 버튼
+========================================================= */
+
+/* 명단 위 제목 숨기기 */
+.schedule-applicants-title {
+  display: none;
+}
+
+/* 삭제 버튼 빨간색 */
+.applicant-delete-button {
+  background-color: #c62828;
+  color: #ffffff;
+  border: 1px solid #c62828;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 마우스를 올렸을 때 */
+.applicant-delete-button:hover {
+  background-color: #a61f1f;
+  border-color: #a61f1f;
+}
