@@ -817,8 +817,9 @@ async function showScheduleApplicants(mode) {
   }
 
   area.style.display = "block";
+  
   title.textContent = mode === "cancel"
-    ? "신청 취소할 봉사자 선택"
+    ? "제출한 신청자 취소"
     : "일정별 신청자 목록";
 
   list.innerHTML = "";
@@ -837,6 +838,7 @@ async function showScheduleApplicants(mode) {
       return;
     }
 
+   
     applicants.forEach(function(name) {
 
       const item = document.createElement("div");
@@ -865,6 +867,7 @@ async function showScheduleApplicants(mode) {
       list.appendChild(item);
 
     });
+
 
     message.textContent = "총 " + applicants.length + "명";
 
