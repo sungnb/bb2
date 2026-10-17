@@ -217,23 +217,16 @@
 ></div>
 
 
-<!-- 신청자 확인 / 취소 버튼 -->
-<div class="applicant-manage-buttons">
 
-  <button
-    type="button"
-    class="applicant-check-button"
-    onclick="showScheduleApplicants('view')"
-  >
-    👥 신청자 확인
-  </button>
+<!-- 제출한 신청자 취소 버튼 -->
+<div class="applicant-manage-buttons">
 
   <button
     type="button"
     class="applicant-cancel-button"
     onclick="showScheduleApplicants('cancel')"
   >
-    ✕ 신청자 취소
+    제출한 신청자 취소
   </button>
 
 </div>
@@ -250,7 +243,7 @@
     id="scheduleApplicantsTitle"
     class="schedule-applicants-title"
   >
-    신청자 목록
+    제출한 신청자 취소
   </div>
 
   <div
@@ -278,7 +271,6 @@
       id="cancelSelectedApplicantsButton"
       class="applicant-cancel-button"
       onclick="cancelSelectedScheduleApplicants()"
-      style="display:none;"
     >
       선택한 신청 취소
     </button>
@@ -287,30 +279,6 @@
 
 </div>
 
-  </div>
-
-
-  <!-- 제출 후 신청한 봉사자 -->
-  <div
-    id="submittedVolunteerArea"
-    class="submitted-volunteer-area"
-    style="display:none;"
-  >
-
-    <div
-      class="submitted-volunteer-title"
-    >
-      신청한 봉사자
-    </div>
-
-    <div
-      id="submittedVolunteerNames"
-      class="submitted-volunteer-names"
-    ></div>
-
-  </div>
-
-</section>
 
  <!-- =====================================================
      2. 관리자용
