@@ -493,6 +493,96 @@ async function saveScheduleApplicants(
 
 }
 
+/* =========================================================
+   일정별 신청자 목록 가져오기
+========================================================= */
+
+async function getVolunteerScheduleApplicants(
+  scheduleKey
+) {
+
+  const response =
+    await fetch(
+      SCRIPT_URL +
+      "?action=jeonsidaeScheduleApplicants" +
+      "&key=" +
+      encodeURIComponent(scheduleKey) +
+      "&t=" +
+      Date.now()
+    );
+
+  const data =
+    await response.json();
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "신청자 목록을 불러오지 못했습니다."
+    );
+
+  }
+
+  return Array.isArray(data.applicants)
+    ? data.applicants
+    : [];
+
+}
+
+
+/* =========================================================
+   일정별 신청 취소 요청
+========================================================= */
+
+async function cancelVolunteerScheduleApplicants(
+  scheduleKey,
+  names
+) {
+
+  const response =
+    await fetch(
+      SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+
+          action:
+            "cancelJeonsidaeScheduleApplicants",
+
+          key:
+            scheduleKey,
+
+          applicants:
+            Array.isArray(names)
+              ? names
+              : []
+
+        })
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "신청 취소에 실패했습니다."
+    );
+
+  }
+
+  return data;
+
+}
+
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec";
    
