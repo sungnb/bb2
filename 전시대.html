@@ -209,11 +209,83 @@
 </div>
 
 
+
 <!-- 봉사자 명단 -->
 <div
   id="nameGrid"
   class="name-grid"
 ></div>
+
+
+<!-- 신청자 확인 / 취소 버튼 -->
+<div class="applicant-manage-buttons">
+
+  <button
+    type="button"
+    class="applicant-check-button"
+    onclick="showScheduleApplicants('view')"
+  >
+    👥 신청자 확인
+  </button>
+
+  <button
+    type="button"
+    class="applicant-cancel-button"
+    onclick="showScheduleApplicants('cancel')"
+  >
+    ✕ 신청자 취소
+  </button>
+
+</div>
+
+
+<!-- 일정별 신청자 목록 -->
+<div
+  id="scheduleApplicantsArea"
+  class="schedule-applicants-area"
+  style="display:none;"
+>
+
+  <div
+    id="scheduleApplicantsTitle"
+    class="schedule-applicants-title"
+  >
+    신청자 목록
+  </div>
+
+  <div
+    id="scheduleApplicantsList"
+    class="schedule-applicants-list"
+  ></div>
+
+  <div
+    id="scheduleApplicantsMessage"
+    class="schedule-applicants-message"
+  ></div>
+
+  <div class="schedule-applicants-action-buttons">
+
+    <button
+      type="button"
+      class="volunteer-back-button"
+      onclick="closeScheduleApplicants()"
+    >
+      닫기
+    </button>
+
+    <button
+      type="button"
+      id="cancelSelectedApplicantsButton"
+      class="applicant-cancel-button"
+      onclick="cancelSelectedScheduleApplicants()"
+      style="display:none;"
+    >
+      선택한 신청 취소
+    </button>
+
+  </div>
+
+</div>
 
   </div>
 
