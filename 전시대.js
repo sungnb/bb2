@@ -786,6 +786,188 @@ let selectedAdminSchedule = "";
 
 let serviceCancelReason = "";
 
+
+/* =========================================================
+   일정별 신청자 확인 / 취소
+========================================================= */
+
+let scheduleApplicantsMode = "view";
+
+
+async function showScheduleApplicants(mode) {
+
+  scheduleApplicantsMode = mode;
+
+  const area = document.getElementById("scheduleApplicantsArea");
+  const title = document.getElementById("scheduleApplicantsTitle");
+  const list = document.getElementById("scheduleApplicantsList");
+  const message = document.getElementById("scheduleApplicantsMessage");
+  const cancelButton = document.getElementById("cancelSelectedApplicantsButton");
+
+  if (!area || !title || !list || !message || !cancelButton) {
+    alert("신청자 목록 화면을 찾을 수 없습니다.");
+    return;
+  }
+
+  const key = String(selectedVolunteerSchedule || "").trim();
+
+  if (!key) {
+    alert("먼저 봉사 일정을 선택하세요.");
+    return;
+  }
+
+  area.style.display = "block";
+  title.textContent = mode === "cancel"
+    ? "신청 취소할 봉사자 선택"
+    : "일정별 신청자 목록";
+
+  list.innerHTML = "";
+  message.textContent = "신청자 목록을 불러오는 중입니다.";
+  cancelButton.style.display = mode === "cancel" ? "block" : "none";
+
+  try {
+
+    const applicants =
+      await getVolunteerScheduleApplicants(key);
+
+    list.innerHTML = "";
+
+    if (applicants.length === 0) {
+      message.textContent = "신청한 봉사자가 없습니다.";
+      return;
+    }
+
+    applicants.forEach(function(name) {
+
+      const item = document.createElement("div");
+      item.className = "schedule-applicant-item";
+
+      if (mode === "cancel") {
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = name;
+        checkbox.className = "schedule-applicant-checkbox";
+
+        const label = document.createElement("label");
+        label.textContent = name;
+        label.style.flex = "1";
+
+        item.appendChild(checkbox);
+        item.appendChild(label);
+
+      } else {
+
+        item.textContent = name;
+
+      }
+
+      list.appendChild(item);
+
+    });
+
+    message.textContent = "총 " + applicants.length + "명";
+
+  } catch (error) {
+
+    message.textContent =
+      "신청자 목록을 불러오지 못했습니다: " +
+      (error.message || String(error));
+
+  }
+
+}
+
+
+/* 신청자 목록 닫기 */
+
+function closeScheduleApplicants() {
+
+  const area =
+    document.getElementById("scheduleApplicantsArea");
+
+  if (area) {
+    area.style.display = "none";
+  }
+
+}
+
+
+/* 선택한 신청자 취소 */
+
+async function cancelSelectedScheduleApplicants() {
+
+  if (scheduleApplicantsMode !== "cancel") {
+    return;
+  }
+
+  const key = String(selectedVolunteerSchedule || "").trim();
+
+  const checked = document.querySelectorAll(
+    "#scheduleApplicantsList .schedule-applicant-checkbox:checked"
+  );
+
+  const names = Array.from(checked).map(function(checkbox) {
+    return checkbox.value;
+  });
+
+  if (!key) {
+    alert("먼저 봉사 일정을 선택하세요.");
+    return;
+  }
+
+  if (names.length === 0) {
+    alert("취소할 신청자를 선택하세요.");
+    return;
+  }
+
+  if (!confirm(names.length + "명의 신청을 취소할까요?")) {
+    return;
+  }
+
+  const message =
+    document.getElementById("scheduleApplicantsMessage");
+
+  if (message) {
+    message.textContent = "신청을 취소하는 중입니다.";
+  }
+
+  try {
+
+    const result =
+      await cancelVolunteerScheduleApplicants(key, names);
+
+    if (result.count === 0) {
+      if (message) {
+        message.textContent =
+          "취소된 신청이 없습니다. 신청 상태를 확인해 주세요.";
+      }
+      return;
+    }
+
+    await showScheduleApplicants("cancel");
+
+    const updatedMessage =
+      document.getElementById("scheduleApplicantsMessage");
+
+    if (updatedMessage) {
+      updatedMessage.textContent =
+        result.count + "명의 신청을 취소했습니다.";
+    }
+
+  } catch (error) {
+
+    if (message) {
+      message.textContent =
+        "신청 취소에 실패했습니다: " +
+        (error.message || String(error));
+    }
+
+  }
+
+}
+
+
 /* =========================================================
    특정 날짜 추가 봉사 일정
 ========================================================= */
