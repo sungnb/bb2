@@ -1062,6 +1062,28 @@ function loadSchedule() {
 
   const oldScript = document.getElementById("scheduleJsonp");
 
+
+/* =====================================================
+   공개강연 일정 불러오기
+===================================================== */
+function loadSchedule() {
+  const content = document.getElementById("content");
+
+  content.innerHTML =
+    '<div class="loading" id="scheduleLoadingMessage">' +
+    '공개강연 일정을 불러오는 중입니다...</div>';
+
+  clearTimeout(scheduleTimeout);
+
+  scheduleTimeout = setTimeout(function() {
+    showError({
+      message:
+        "응답 시간이 초과되었습니다. Apps Script 배포를 확인해 주세요."
+    });
+  }, 20000);
+
+  const oldScript = document.getElementById("scheduleJsonp");
+
   if (oldScript) {
     oldScript.remove();
   }
