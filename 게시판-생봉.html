@@ -594,11 +594,15 @@ items.sort((a, b) => {
   return dateA - dateB;
 });
   
-  if(!items.length){
-    content.innerHTML='<div class="empty">표시할 생봉 일정이 없습니다.</div>';
+if(!items.length){
+
+    if (!data.specialEvent || !data.specialEvent.title) {
+      content.innerHTML =
+        '<div class="empty">표시할 생봉 일정이 없습니다.</div>';
+    }
+
     return;
   }
-
   items.forEach(item=>{
     const c=item.cells||[];
     
