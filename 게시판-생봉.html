@@ -757,10 +757,10 @@ assignments.forEach(a=>{
         "align-items:center;gap:8px;";
 
       const detail = document.createElement("div");
-      detail.textContent =
-        "8. " + (bibleTitle || "") +
-        (bibleTime ? " " + bibleTime : "") +
-        (bibleVideo ? " " + bibleVideo : "");
+     detail.textContent =
+  (bibleTitle || "").replace(/^\s*8\.\s*/, "8. ") +
+  (bibleTime ? " " + bibleTime : "") +
+  (bibleVideo ? " " + bibleVideo : "");
       detail.style.cssText =
         "font-size:15px;color:#777;text-align:left;";
       row.appendChild(detail);
@@ -815,7 +815,8 @@ assignments.forEach(a=>{
       titleRow.className = "program-line";
       titleRow.style.cssText =
         "display:block;font-size:15px;color:#777;";
-      titleRow.textContent = "9. " + (studyTitle || "회중 성서 연구");
+     titleRow.textContent =
+  (studyTitle || "회중 성서 연구").replace(/^\s*9\.\s*/, "9.");
       card.appendChild(titleRow);
 
       const studyRow = document.createElement("div");
