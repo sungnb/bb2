@@ -606,7 +606,8 @@ readingRow.appendChild(readingName);
 
 card.appendChild(readingRow);
     
-// 야외 봉사에 힘쓰십시오
+
+ // 야외 봉사에 힘쓰십시오
 section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
 const assignments=[
@@ -654,32 +655,53 @@ assignments.forEach(a=>{
   // 제목에 이미 번호가 있으면 중복 번호를 붙이지 않음
   const title = rawTitle.replace(/^\s*\d+\.\s*/, "");
   const details =
-    (rawTitle ? (rawTitle.match(/^\s*\d+\./) ? rawTitle.trim() : a.n+". "+title) : "") +
-    (a.duration ? " "+a.duration : "") +
-    (a.note ? " "+a.note : "");
+    (rawTitle
+      ? (rawTitle.match(/^\s*\d+\./)
+          ? rawTitle.trim()
+          : a.n + ". " + title)
+      : "") +
+    (a.duration ? " " + a.duration : "") +
+    (a.note ? " " + a.note : "");
 
   if(details || a.person || a.helper){
-    const detailRow = document.createElement("div");
-    detailRow.className = "program-line";
-    detailRow.style.cssText =
-      "display:block;font-size:15px;color:#777;";
-    detailRow.textContent = details;
-    card.appendChild(detailRow);
+    const hasHelper = !!String(a.helper || "").trim();
 
-    const peopleRow = document.createElement("div");
-    peopleRow.className = "program-line";
+    // 보조자가 없으면 제목과 담당자 이름을 한 줄에 표시
+    if(!hasHelper){
+      const singleRow = document.createElement("div");
+      singleRow.className = "program-line";
+      singleRow.style.cssText =
+        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+        "align-items:center;gap:8px;";
 
-    if(a.n === 7 && !a.helper){
-      peopleRow.style.cssText =
-        "display:flex;justify-content:flex-end;align-items:center;";
-      const speaker = document.createElement("div");
-      speaker.textContent = a.person || "";
-      speaker.style.cssText =
+      const detail = document.createElement("div");
+      detail.textContent = details;
+      detail.style.cssText =
+        "font-size:15px;color:#777;text-align:left;min-width:0;";
+      singleRow.appendChild(detail);
+
+      const person = document.createElement("div");
+      person.textContent = a.person || "";
+      person.style.cssText =
         "font-size:22px;color:#222;font-weight:800;text-align:right;";
-      peopleRow.appendChild(speaker);
+      singleRow.appendChild(person);
+
+      card.appendChild(singleRow);
+
     } else {
+      // 보조자가 있으면 제목과 담당자 정보를 두 줄로 표시
+      const detailRow = document.createElement("div");
+      detailRow.className = "program-line";
+      detailRow.style.cssText =
+        "display:block;font-size:15px;color:#777;";
+      detailRow.textContent = details;
+      card.appendChild(detailRow);
+
+      const peopleRow = document.createElement("div");
+      peopleRow.className = "program-line";
       peopleRow.style.cssText =
-        "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
+        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+        "align-items:center;gap:8px;";
 
       const person = document.createElement("div");
       person.style.cssText =
@@ -687,30 +709,35 @@ assignments.forEach(a=>{
 
       const personLabel = document.createElement("span");
       personLabel.textContent = "전도인 : ";
-      personLabel.style.cssText = "font-size:14px;color:#777;font-weight:400;";
+      personLabel.style.cssText =
+        "font-size:14px;color:#777;font-weight:400;";
 
       person.appendChild(personLabel);
-      person.appendChild(document.createTextNode(a.person || ""));
+      person.appendChild(
+        document.createTextNode(a.person || "")
+      );
       peopleRow.appendChild(person);
 
-      if(a.helper){
-        const helper = document.createElement("div");
-        helper.style.cssText =
-          "font-size:22px;color:#222;font-weight:800;text-align:right;";
+      const helper = document.createElement("div");
+      helper.style.cssText =
+        "font-size:22px;color:#222;font-weight:800;text-align:right;";
 
-        const helperLabel = document.createElement("span");
-        helperLabel.textContent = "보조자 : ";
-        helperLabel.style.cssText = "font-size:14px;color:#777;font-weight:400;";
+      const helperLabel = document.createElement("span");
+      helperLabel.textContent = "보조자 : ";
+      helperLabel.style.cssText =
+        "font-size:14px;color:#777;font-weight:400;";
 
-        helper.appendChild(helperLabel);
-        helper.appendChild(document.createTextNode(a.helper));
-        peopleRow.appendChild(helper);
-      }
+      helper.appendChild(helperLabel);
+      helper.appendChild(
+        document.createTextNode(String(a.helper).trim())
+      );
+      peopleRow.appendChild(helper);
+
+      card.appendChild(peopleRow);
     }
-
-    card.appendChild(peopleRow);
   }
 });
+
     
     // 그리스도인 생활
     section(card,"그리스도인 생활","green",true);
