@@ -269,8 +269,6 @@ async function goBoardPage(section) {
 }
 
 (function restoreSettings(){
-
-(function restoreSettings(){
   setTheme(localStorage.getItem("northBoardTheme")==="dark");
   fontPercent=Math.max(80,Math.min(150,fontPercent));
   document.documentElement.style.setProperty("--scale",fontPercent/100);
