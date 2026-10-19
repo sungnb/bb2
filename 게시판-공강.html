@@ -752,6 +752,15 @@ body.dark-mode #content .talk-divider {
 }   
  
   </style>
+   
+  <script type="application/json" id="board-url-config">
+  {
+    "publicTalk": "게시판-공강.html",
+    "ministry": "게시판-생봉.html",
+    "groups": "게시판-집단.html"
+  }
+  </script>
+
 </head>
 
 <body>
@@ -1004,13 +1013,17 @@ if (content) {
       message.className = "loading";
 
     
-  if (section === "ministry") {
-    window.location.href = "게시판-생봉.html";
-    return;
-  } else if (section === "groups") {
-    window.location.href = "게시판-집단.html";
-    return;
-  }
+ const boardUrls = JSON.parse(
+  document.getElementById("board-url-config").textContent
+);
+
+if (section === "ministry") {
+  window.location.href = boardUrls.ministry;
+  return;
+} else if (section === "groups") {
+  window.location.href = boardUrls.groups;
+  return;
+}
 
   content.appendChild(message);
 
