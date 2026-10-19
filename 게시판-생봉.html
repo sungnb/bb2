@@ -223,6 +223,53 @@ function changeFont(amount){
   localStorage.setItem("lifeBoardFont",String(fontPercent));
 }
 
+/* =====================================================
+   게시판 페이지 이동
+===================================================== */
+
+async function goBoardPage(section) {
+  try {
+    const response = await fetch(
+      "게시판-공강.html",
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("주소 설정을 읽지 못했습니다.");
+    }
+
+    const html = await response.text();
+
+    const doc = new DOMParser().parseFromString(
+      html,
+      "text/html"
+    );
+
+    const configElement =
+      doc.getElementById("board-url-config");
+
+    if (!configElement) {
+      throw new Error("주소 설정을 찾지 못했습니다.");
+    }
+
+    const boardUrls = JSON.parse(
+      configElement.textContent
+    );
+
+    if (!boardUrls[section]) {
+      throw new Error("해당 페이지 주소가 없습니다.");
+    }
+
+    window.location.href = boardUrls[section];
+
+  } catch (error) {
+    alert("페이지 이동에 실패했습니다. 다시 시도해 주세요.");
+    console.error(error);
+  }
+}
+
+(function restoreSettings(){
+
 (function restoreSettings(){
   setTheme(localStorage.getItem("northBoardTheme")==="dark");
   fontPercent=Math.max(80,Math.min(150,fontPercent));
