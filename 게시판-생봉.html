@@ -739,72 +739,145 @@ assignments.forEach(a=>{
 });
 
     
+
     // 그리스도인 생활
     section(card,"그리스도인 생활","green",true);
 
     // 8번
-    const bibleTitle=cell(c,35);
-    const bibleTime=cell(c,33);
-    const biblePerson=cell(c,34);
-    const bibleVideo=cell(c,36);
+    const bibleTitle = cell(c,34);
+    const bibleTime = cell(c,32);
+    const biblePerson = cell(c,33);
+    const bibleVideo = cell(c,35);
 
-    if(bibleTitle||bibleTime||biblePerson||bibleVideo){
-      card.appendChild(
-        line(
-          "8. "+(bibleTitle||"")+
-          (bibleTime?" : "+bibleTime:"")+
-          (bibleVideo?" "+bibleVideo:""),
-          "",
-          "black-text"
-        )
-      );
-      card.appendChild(line("",biblePerson,"black-text"));
+    if(bibleTitle || bibleTime || biblePerson || bibleVideo){
+      const row = document.createElement("div");
+      row.className = "program-line";
+      row.style.cssText =
+        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+        "align-items:center;gap:8px;";
+
+      const detail = document.createElement("div");
+      detail.textContent =
+        "8. " + (bibleTitle || "") +
+        (bibleTime ? " " + bibleTime : "") +
+        (bibleVideo ? " " + bibleVideo : "");
+      detail.style.cssText =
+        "font-size:15px;color:#777;text-align:left;";
+      row.appendChild(detail);
+
+      const person = document.createElement("div");
+      person.textContent = biblePerson;
+      person.style.cssText =
+        "font-size:22px;color:#222;font-weight:800;text-align:right;";
+      row.appendChild(person);
+
+      card.appendChild(row);
     }
 
-    // 9번
-    const watchTitle=cell(c,39);
-    const watchTime=cell(c,37);
-    const watchPerson=cell(c,38);
-    const watchVideo=cell(c,40);
+    // 9번: 내용이 있을 때만 표시
+    const watchTitle = cell(c,38);
+    const watchTime = cell(c,36);
+    const watchPerson = cell(c,37);
+    const watchVideo = cell(c,39);
 
-    if(watchTitle||watchTime||watchPerson||watchVideo){
-      card.appendChild(
-        line(
-          "9. "+(watchTitle||"중앙장로회 보고")+
-          (watchTime?" : "+watchTime:"")+
-          (watchVideo?" "+watchVideo:""),
-          "",
-          "black-text"
-        )
-      );
-      card.appendChild(line("",watchPerson,"black-text"));
+    if(watchTitle || watchTime || watchPerson || watchVideo){
+      const row = document.createElement("div");
+      row.className = "program-line";
+      row.style.cssText =
+        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+        "align-items:center;gap:8px;";
+
+      const detail = document.createElement("div");
+      detail.textContent =
+        "9. " + watchTitle +
+        (watchTime ? " " + watchTime : "") +
+        (watchVideo ? " " + watchVideo : "");
+      detail.style.cssText =
+        "font-size:15px;color:#777;text-align:left;";
+      row.appendChild(detail);
+
+      const person = document.createElement("div");
+      person.textContent = watchPerson;
+      person.style.cssText =
+        "font-size:22px;color:#222;font-weight:800;text-align:right;";
+      row.appendChild(person);
+
+      card.appendChild(row);
     }
 
-    // 10번: 회중 성서 연구
-    const studyTitle=cell(c,41);
-    const studyReader=cell(c,42);
-    const studySocial=cell(c,43);
+    // 회중 성서 연구
+    const studyTitle = cell(c,40);
+    const studyReader = cell(c,41);
+    const studySocial = cell(c,42);
 
-    if(studyTitle||studyReader||studySocial){
-      card.appendChild(
-        line(
-          "10. "+(studyTitle||"회중 성서 연구")+" : 30분",
-          "",
-          "blue-text"
-        )
-      );
+    if(studyTitle || studyReader || studySocial){
+      const titleRow = document.createElement("div");
+      titleRow.className = "program-line";
+      titleRow.style.cssText =
+        "display:block;font-size:15px;color:#777;";
+      titleRow.textContent = "9. " + (studyTitle || "회중 성서 연구");
+      card.appendChild(titleRow);
 
-      card.appendChild(
-        subline("사회자  "+studySocial,"낭독자  "+studyReader)
-      );
+      const studyRow = document.createElement("div");
+      studyRow.className = "program-line";
+      studyRow.style.cssText =
+        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+        "align-items:center;gap:8px;";
+
+      const social = document.createElement("div");
+      social.style.cssText =
+        "font-size:22px;color:#222;font-weight:800;text-align:left;";
+
+      const socialLabel = document.createElement("span");
+      socialLabel.textContent = "연구사회자 : ";
+      socialLabel.style.cssText =
+        "font-size:15px;color:#777;font-weight:400;";
+
+      social.appendChild(socialLabel);
+      social.appendChild(document.createTextNode(studySocial || ""));
+      studyRow.appendChild(social);
+
+      const reader = document.createElement("div");
+      reader.style.cssText =
+        "font-size:22px;color:#222;font-weight:800;text-align:right;";
+
+      const readerLabel = document.createElement("span");
+      readerLabel.textContent = "낭독 : ";
+      readerLabel.style.cssText =
+        "font-size:15px;color:#777;font-weight:400;";
+
+      reader.appendChild(readerLabel);
+      reader.appendChild(document.createTextNode(studyReader || ""));
+      studyRow.appendChild(reader);
+
+      card.appendChild(studyRow);
     }
 
     // 마치는 기도
-    card.appendChild(openingRow("마치는 기도",cell(c,43)));
+    const closingPrayer = cell(c,43);
 
-    content.appendChild(card);
-  });
-}
+    if(closingPrayer){
+      const prayerRow = document.createElement("div");
+      prayerRow.className = "program-line";
+      prayerRow.style.cssText =
+        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+        "align-items:center;gap:8px;";
+
+      const prayerLabel = document.createElement("div");
+      prayerLabel.textContent = "마치는 기도";
+      prayerLabel.style.cssText =
+        "font-size:15px;color:#777;text-align:left;";
+      prayerRow.appendChild(prayerLabel);
+
+      const prayerName = document.createElement("div");
+      prayerName.textContent = closingPrayer;
+      prayerName.style.cssText =
+        "font-size:22px;color:#222;font-weight:800;text-align:right;";
+      prayerRow.appendChild(prayerName);
+
+      card.appendChild(prayerRow);
+    }
+
 
 document.addEventListener("DOMContentLoaded",loadSchedule);
 </script>
