@@ -442,35 +442,54 @@ function renderSchedule(data){
   const today=new Date();
   today.setHours(0,0,0,0);
 
-  // 월요일과 화요일은 해당 주 화요일,
-  // 수요일부터 일요일까지는 다음 주 화요일을 기준으로 표시
-  const day=today.getDay(); // 일요일 0, 월요일 1, 화요일 2 ...
+   // 토요일부터 금요일까지를 한 주간으로 표시
+  // 토요일~화요일은 해당 주 화요일,
+  // 수요일~금요일은 다음 주 화요일을 기준으로 표시
+  const day = today.getDay(); // 일요일 0, 토요일 6
 
   const daysToAdd =
-    day===0 ? 2 :
-    day===1 ? 1 :
-    day===2 ? 0 :
-    9-day;
+    day === 6 ? 3 :
+    day === 0 ? 2 :
+    day === 1 ? 1 :
+    day === 2 ? 0 :
+    9 - day;
 
-  const targetTuesday=new Date(today);
-  targetTuesday.setDate(today.getDate()+daysToAdd);
+  const targetTuesday = new Date(today);
+  targetTuesday.setDate(today.getDate() + daysToAdd);
 
- // 기준 화요일부터 8주간의 계획표 표시 (이번 주 포함)
+// 기준 화요일부터 8주간의 계획표 표시 (이번 주 포함)
 const endDate = new Date(targetTuesday);
 endDate.setDate(endDate.getDate() + 7 * 7);
 
-const items = schedules.filter(x=>{
+// 일정 필터링 후 날짜가 빠른 순서대로 정렬
+const items = schedules.filter(x => {
   const date = new Date(
     Number(x.year),
-    Number(x.month)-1,
+    Number(x.month) - 1,
     Number(x.day)
   );
 
-  date.setHours(0,0,0,0);
+  date.setHours(0, 0, 0, 0);
 
   return date >= targetTuesday && date <= endDate;
 });
 
+items.sort((a, b) => {
+  const dateA = new Date(
+    Number(a.year),
+    Number(a.month) - 1,
+    Number(a.day)
+  );
+
+  const dateB = new Date(
+    Number(b.year),
+    Number(b.month) - 1,
+    Number(b.day)
+  );
+
+  return dateA - dateB;
+});
+  
   if(!items.length){
     content.innerHTML='<div class="empty">표시할 생봉 일정이 없습니다.</div>';
     return;
@@ -487,9 +506,35 @@ console.log("연사 F열:", item.cells[4]);
     const card=document.createElement("section");
     card.className="program-card";
 
-    const date=document.createElement("h2");
+       const date=document.createElement("h2");
     date.className="date-title";
     date.textContent=item.year+"년 "+item.month+"월 "+item.day+"일 ("+item.weekday+")";
+
+    // 이번 주 월요일부터 일요일까지 날짜 배경색 변경
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const day = today.getDay();
+    const thisMonday = new Date(today);
+
+    thisMonday.setDate(
+      today.getDate() - (day === 0 ? 6 : day - 1)
+    );
+
+    const nextMonday = new Date(thisMonday);
+    nextMonday.setDate(thisMonday.getDate() + 7);
+
+    const scheduleDate = new Date(
+      Number(item.year),
+      Number(item.month) - 1,
+      Number(item.day)
+    );
+    scheduleDate.setHours(0, 0, 0, 0);
+
+    if (scheduleDate >= thisMonday && scheduleDate < nextMonday) {
+      date.style.setProperty("background", "#294F70", "important");
+    }
+
     card.appendChild(date);
 
     function openingRow(label,name){
