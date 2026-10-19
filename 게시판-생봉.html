@@ -714,30 +714,30 @@ assignments.forEach(a=>{
 
   if(displayTitle || a.duration || a.note || a.person || a.helper){
 
-    // 제목만 18px, 야외 봉사 섹션 제목과 같은 색상
-    const titleRow = document.createElement("div");
-    titleRow.className = "program-line";
-    titleRow.style.cssText =
-      "display:block;font-size:18px;color:#b77a0a;";
+  // 제목과 시간·세부 정보를 한 줄에 표시
+const titleRow = document.createElement("div");
+titleRow.className = "program-line";
+titleRow.style.cssText =
+  "display:block;font-size:18px;color:#b77a0a;";
 
-    titleRow.textContent = displayTitle;
-    card.appendChild(titleRow);
+const titleText = document.createElement("span");
+titleText.textContent = displayTitle;
+titleRow.appendChild(titleText);
 
-    // 시간과 랑제·과요점·읽가 등의 정보는 별도 줄로 기존 스타일 유지
-    const info = [
-      a.duration,
-      a.note
-    ].filter(Boolean).join(" ");
+const info = [
+  a.duration,
+  a.note
+].filter(Boolean).join(" ");
 
-    if(info){
-      const infoRow = document.createElement("div");
-      infoRow.className = "program-line";
-      infoRow.style.cssText =
-        "display:block;font-size:15px;color:#777;";
+if(info){
+  const infoText = document.createElement("span");
+  infoText.textContent = " " + info;
+  infoText.style.cssText =
+    "font-size:15px;color:#777;font-weight:400;";
+  titleRow.appendChild(infoText);
+}
 
-      infoRow.textContent = info;
-      card.appendChild(infoRow);
-    }
+card.appendChild(titleRow);
 
     // 담당자와 보조자 표시 방식은 기존대로 유지
     const hasHelper = !!String(a.helper || "").trim();
@@ -867,54 +867,54 @@ if(bibleTitle || bibleTime || biblePerson || bibleVideo){
       card.appendChild(row);
     }
 
-    // 회중 성서 연구
-    const studyTitle = cell(c,40);
-    const studyReader = cell(c,41);
-    const studySocial = cell(c,42);
+   // 회중 성서 연구
+const studyTitle = cell(c,40);
+const studyReader = cell(c,41);
+const studySocial = cell(c,42);
 
-    if(studyTitle || studyReader || studySocial){
-      const titleRow = document.createElement("div");
-      titleRow.className = "program-line";
-      titleRow.style.cssText =
-        "display:block;font-size:15px;color:#777;";
-     titleRow.textContent =
-  (studyTitle || "회중 성서 연구").replace(/^\s*9\.\s*/, "9.");
-      card.appendChild(titleRow);
+if(studyTitle || studyReader || studySocial){
+  const titleRow = document.createElement("div");
+  titleRow.className = "program-line";
+  titleRow.style.cssText =
+    "display:block;font-size:18px;color:#b52b20;font-weight:800;";
+  titleRow.textContent =
+    (studyTitle || "9. 회중 성서 연구").replace(/^\s*9\.\s*/, "9. ");
+  card.appendChild(titleRow);
 
-      const studyRow = document.createElement("div");
-      studyRow.className = "program-line";
-      studyRow.style.cssText =
-        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
-        "align-items:center;gap:8px;";
+  const studyRow = document.createElement("div");
+  studyRow.className = "program-line";
+  studyRow.style.cssText =
+    "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+    "align-items:center;gap:8px;";
 
-      const social = document.createElement("div");
-      social.style.cssText =
-        "font-size:22px;color:#222;font-weight:800;text-align:left;";
+  const social = document.createElement("div");
+  social.style.cssText =
+    "font-size:22px;color:#222;font-weight:800;text-align:left;";
 
-      const socialLabel = document.createElement("span");
-      socialLabel.textContent = "연구사회자 : ";
-      socialLabel.style.cssText =
-        "font-size:15px;color:#777;font-weight:400;";
+  const socialLabel = document.createElement("span");
+  socialLabel.textContent = "연구사회자 : ";
+  socialLabel.style.cssText =
+    "font-size:15px;color:#777;font-weight:400;";
 
-      social.appendChild(socialLabel);
-      social.appendChild(document.createTextNode(studySocial || ""));
-      studyRow.appendChild(social);
+  social.appendChild(socialLabel);
+  social.appendChild(document.createTextNode(studySocial || ""));
+  studyRow.appendChild(social);
 
-      const reader = document.createElement("div");
-      reader.style.cssText =
-        "font-size:22px;color:#222;font-weight:800;text-align:right;";
+  const reader = document.createElement("div");
+  reader.style.cssText =
+    "font-size:22px;color:#222;font-weight:800;text-align:right;";
 
-      const readerLabel = document.createElement("span");
-      readerLabel.textContent = "낭독 : ";
-      readerLabel.style.cssText =
-        "font-size:15px;color:#777;font-weight:400;";
+  const readerLabel = document.createElement("span");
+  readerLabel.textContent = "낭독 : ";
+  readerLabel.style.cssText =
+    "font-size:15px;color:#777;font-weight:400;";
 
-      reader.appendChild(readerLabel);
-      reader.appendChild(document.createTextNode(studyReader || ""));
-      studyRow.appendChild(reader);
+  reader.appendChild(readerLabel);
+  reader.appendChild(document.createTextNode(studyReader || ""));
+  studyRow.appendChild(reader);
 
-      card.appendChild(studyRow);
-    }
+  card.appendChild(studyRow);
+}
 
     // 마치는 기도
     const closingPrayer = cell(c,43);
