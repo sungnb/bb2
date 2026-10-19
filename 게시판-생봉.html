@@ -606,65 +606,91 @@ readingRow.appendChild(readingName);
 
 card.appendChild(readingRow);
     
-    // 야외 봉사에 힘쓰십시오
-    section(card,"야외 봉사에 힘쓰십시오","orange",true);
+// 야외 봉사에 힘쓰십시오
+section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
-    const assignments=[
-      {
-        n:4,
-        title:cell(c,14),
-        duration:cell(c,13),
-        person:cell(c,15),
-        helper:cell(c,17),
-        note:cell(c,16),
-        label:"대화 시작하기"
-      },
-      {
-        n:5,
-        title:cell(c,19),
-        duration:cell(c,18),
-        person:cell(c,20),
-        helper:cell(c,22),
-        note:cell(c,21),
-        label:"대화 시작하기"
-      },
-      {
-        n:6,
-        title:cell(c,24),
-        duration:cell(c,23),
-        person:cell(c,25),
-        helper:cell(c,27),
-        note:cell(c,26),
-        label:"대화 시작하기"
-      },
-      {
-        n:7,
-        title:cell(c,29),
-        duration:cell(c,28),
-        person:cell(c,30),
-        helper:cell(c,32),
-        note:cell(c,31),
-        label:"우리의 신앙 설명하기"
-      }
-    ];
+const assignments=[
+  {
+    n:4,
+    title:cell(c,13),
+    duration:cell(c,12),
+    person:cell(c,14),
+    helper:cell(c,16),
+    note:cell(c,15),
+    label:"대화 시작하기"
+  },
+  {
+    n:5,
+    title:cell(c,18),
+    duration:cell(c,17),
+    person:cell(c,19),
+    helper:cell(c,21),
+    note:cell(c,20),
+    label:"대화 시작하기"
+  },
+  {
+    n:6,
+    title:cell(c,23),
+    duration:cell(c,22),
+    person:cell(c,24),
+    helper:cell(c,26),
+    note:cell(c,25),
+    label:"대화 시작하기"
+  },
+  {
+    n:7,
+    title:cell(c,28),
+    duration:cell(c,27),
+    person:cell(c,29),
+    helper:"",
+    note:cell(c,30),
+    label:"우리의 신앙 설명하기"
+  }
+];
 
-    // 4~7번은 한 번씩만 표시
-    assignments.forEach(a=>{
-      const title=a.title||a.label;
+assignments.forEach(a=>{
+  const title=a.title||a.label;
 
-      if(title||a.person||a.helper){
-        const details=
-          a.n+". "+title+
-          (a.duration?" : "+a.duration:"")+
-          (a.note?" "+a.note:"")+" >";
+  if(title||a.person||a.helper){
+    const details=
+      a.n+". "+title+
+      (a.duration?" "+a.duration:"")+
+      (a.note?" "+a.note:"");
 
-        card.appendChild(line(details,"","blue-text"));
-        card.appendChild(
-          subline("전도인  "+a.person,"집주인  "+a.helper)
-        );
-      }
-    });
+    const detailRow=document.createElement("div");
+    detailRow.className="program-line";
+    detailRow.style.cssText=
+      "display:block;font-size:15px;color:#777;";
 
+    detailRow.textContent=details;
+    card.appendChild(detailRow);
+
+    const peopleRow=document.createElement("div");
+    peopleRow.className="program-line";
+    peopleRow.style.cssText=
+      "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
+
+    const person=document.createElement("div");
+    person.textContent=a.n===7
+      ? "전도인 : "+a.person
+      : "전도인 : "+a.person;
+    person.style.cssText=
+      "font-size:22px;color:#222;font-weight:800;text-align:left;";
+
+    peopleRow.appendChild(person);
+
+    if(a.n!==7 && a.helper){
+      const helper=document.createElement("div");
+      helper.textContent="보조자 : "+a.helper;
+      helper.style.cssText=
+        "font-size:22px;color:#222;font-weight:800;text-align:right;";
+      peopleRow.appendChild(helper);
+    }
+
+    card.appendChild(peopleRow);
+  }
+});
+    
     // 그리스도인 생활
     section(card,"그리스도인 생활","green",true);
 
