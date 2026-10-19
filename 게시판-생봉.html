@@ -689,52 +689,55 @@ const assignments=[
 
 assignments.forEach(a=>{
   const rawTitle = a.title || a.label || "";
-
-  // 제목에 이미 번호가 있으면 중복 번호를 붙이지 않음
   const title = rawTitle.replace(/^\s*\d+\.\s*/, "");
-  const details =
-    (rawTitle
-      ? (rawTitle.match(/^\s*\d+\./)
-          ? rawTitle.trim()
-          : a.n + ". " + title)
-      : "") +
-    (a.duration ? " " + a.duration : "") +
-    (a.note ? " " + a.note : "");
 
-  if(details || a.person || a.helper){
+  const displayTitle = rawTitle
+    ? (rawTitle.match(/^\s*\d+\./)
+        ? rawTitle.trim().replace(/^\s*\d+\.\s*/, a.n + ". ")
+        : a.n + ". " + title)
+    : "";
+
+  if(displayTitle || a.duration || a.note || a.person || a.helper){
+
+    // 제목만 18px, 야외 봉사 섹션 제목과 같은 색상
+    const titleRow = document.createElement("div");
+    titleRow.className = "program-line";
+    titleRow.style.cssText =
+      "display:block;font-size:18px;color:#b77a0a;";
+
+    titleRow.textContent = displayTitle;
+    card.appendChild(titleRow);
+
+    // 시간과 랑제·과요점·읽가 등의 정보는 별도 줄로 기존 스타일 유지
+    const info = [
+      a.duration,
+      a.note
+    ].filter(Boolean).join(" ");
+
+    if(info){
+      const infoRow = document.createElement("div");
+      infoRow.className = "program-line";
+      infoRow.style.cssText =
+        "display:block;font-size:15px;color:#777;";
+
+      infoRow.textContent = info;
+      card.appendChild(infoRow);
+    }
+
+    // 담당자와 보조자 표시 방식은 기존대로 유지
     const hasHelper = !!String(a.helper || "").trim();
 
-    // 보조자가 없으면 제목과 담당자 이름을 한 줄에 표시
     if(!hasHelper){
-      const singleRow = document.createElement("div");
-      singleRow.className = "program-line";
-      singleRow.style.cssText =
-        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
-        "align-items:center;gap:8px;";
+      if(a.person){
+        const personRow = document.createElement("div");
+        personRow.className = "program-line";
+        personRow.style.cssText =
+          "display:block;font-size:22px;color:#222;font-weight:800;text-align:right;";
 
-      const detail = document.createElement("div");
-      detail.textContent = details;
-      detail.style.cssText =
-        "font-size:18px;color:#C58B32;text-align:left;min-width:0;";
-      singleRow.appendChild(detail);
-
-      const person = document.createElement("div");
-      person.textContent = a.person || "";
-      person.style.cssText =
-        "font-size:22px;color:#222;font-weight:800;text-align:right;";
-      singleRow.appendChild(person);
-
-      card.appendChild(singleRow);
-
+        personRow.textContent = a.person;
+        card.appendChild(personRow);
+      }
     } else {
-      // 보조자가 있으면 제목과 담당자 정보를 두 줄로 표시
-      const detailRow = document.createElement("div");
-      detailRow.className = "program-line";
-      detailRow.style.cssText =
-        "display:block;font-size:18px;color:#C58B32;";
-      detailRow.textContent = details;
-      card.appendChild(detailRow);
-
       const peopleRow = document.createElement("div");
       peopleRow.className = "program-line";
       peopleRow.style.cssText =
@@ -751,9 +754,7 @@ assignments.forEach(a=>{
         "font-size:14px;color:#777;font-weight:400;";
 
       person.appendChild(personLabel);
-      person.appendChild(
-        document.createTextNode(a.person || "")
-      );
+      person.appendChild(document.createTextNode(a.person || ""));
       peopleRow.appendChild(person);
 
       const helper = document.createElement("div");
@@ -766,9 +767,7 @@ assignments.forEach(a=>{
         "font-size:14px;color:#777;font-weight:400;";
 
       helper.appendChild(helperLabel);
-      helper.appendChild(
-        document.createTextNode(String(a.helper).trim())
-      );
+      helper.appendChild(document.createTextNode(String(a.helper).trim()));
       peopleRow.appendChild(helper);
 
       card.appendChild(peopleRow);
@@ -782,35 +781,45 @@ assignments.forEach(a=>{
     section(card,"그리스도인 생활","green",true);
 
     // 8번
-    const bibleTitle = cell(c,34);
-    const bibleTime = cell(c,32);
-    const biblePerson = cell(c,33);
-    const bibleVideo = cell(c,35);
+const bibleTitle = cell(c,34);
+const bibleTime = cell(c,32);
+const biblePerson = cell(c,33);
+const bibleVideo = cell(c,35);
 
-    if(bibleTitle || bibleTime || biblePerson || bibleVideo){
-      const row = document.createElement("div");
-      row.className = "program-line";
-      row.style.cssText =
-        "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
-        "align-items:center;gap:8px;";
+if(bibleTitle || bibleTime || biblePerson || bibleVideo){
+  const row = document.createElement("div");
+  row.className = "program-line";
+  row.style.cssText =
+    "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+    "align-items:center;gap:8px;";
 
-      const detail = document.createElement("div");
-     detail.textContent =
-  (bibleTitle || "").replace(/^\s*8\.\s*/, "8. ") +
-  (bibleTime ? " " + bibleTime : "") +
-  (bibleVideo ? " " + bibleVideo : "");
-      detail.style.cssText =
-        "font-size:15px;color:#777;text-align:left;";
-      row.appendChild(detail);
+  const detail = document.createElement("div");
+  detail.style.cssText =
+    "font-size:18px;color:#b52b20;text-align:left;min-width:0;";
 
-      const person = document.createElement("div");
-      person.textContent = biblePerson;
-      person.style.cssText =
-        "font-size:22px;color:#222;font-weight:800;text-align:right;";
-      row.appendChild(person);
+  const title = document.createElement("span");
+  title.textContent =
+    (bibleTitle || "").replace(/^\s*8\.\s*/, "8. ");
+  detail.appendChild(title);
 
-      card.appendChild(row);
-    }
+  const meta = document.createElement("span");
+  meta.textContent =
+    (bibleTime ? " " + bibleTime : "") +
+    (bibleVideo ? " " + bibleVideo : "");
+  meta.style.cssText =
+    "font-size:15px;color:#777;font-weight:400;";
+  detail.appendChild(meta);
+
+  row.appendChild(detail);
+
+  const person = document.createElement("div");
+  person.textContent = biblePerson;
+  person.style.cssText =
+    "font-size:22px;color:#222;font-weight:800;text-align:right;";
+  row.appendChild(person);
+
+  card.appendChild(row);
+}
 
     // 9번: 내용이 있을 때만 표시
     const watchTitle = cell(c,38);
@@ -831,7 +840,7 @@ assignments.forEach(a=>{
         (watchTime ? " " + watchTime : "") +
         (watchVideo ? " " + watchVideo : "");
       detail.style.cssText =
-        "font-size:15px;color:#777;text-align:left;";
+  "font-size:18px;color:#4CAF50;text-align:left;";
       row.appendChild(detail);
 
       const person = document.createElement("div");
