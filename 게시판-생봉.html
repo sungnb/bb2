@@ -530,7 +530,7 @@ speechLabel.style.cssText = "font-size:15px;color:#777;text-align:left;";
 speechRow.appendChild(speechLabel);
 
 const speechName = document.createElement("div");
-speechName.textContent = cell(c,4) || "성낙봉";
+speechName.textContent = cell(c,4);
 speechName.style.cssText =
   "font-size:20px;color:#222;font-weight:800;text-align:right;";
 speechRow.appendChild(speechName);
@@ -544,19 +544,21 @@ if(cell(c,5)){
   );
 }
 
-// 영적 보물찾기: 15px 회색, 담당자 J열은 20px 검정색
+// 영적 보물찾기: 왼쪽에 시간, 오른쪽에 J열 담당자
 const treasureRow = document.createElement("div");
 treasureRow.className = "program-line";
-treasureRow.style.display = "block";
+treasureRow.style.cssText =
+  "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
 
 const treasureLabel = document.createElement("div");
 treasureLabel.textContent = "영적 보물찾기 : 10분";
-treasureLabel.style.cssText = "font-size:15px;color:#777;";
+treasureLabel.style.cssText = "font-size:15px;color:#777;text-align:left;";
 treasureRow.appendChild(treasureLabel);
 
 const treasureName = document.createElement("div");
 treasureName.textContent = cell(c,9);
-treasureName.style.cssText = "font-size:20px;color:#222;font-weight:800;";
+treasureName.style.cssText =
+  "font-size:20px;color:#222;font-weight:800;text-align:right;";
 treasureRow.appendChild(treasureName);
 
 card.appendChild(treasureRow);
