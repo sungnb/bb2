@@ -507,7 +507,7 @@ function openingRow(label,name){
   value.className = "name";
   value.textContent = name || "";
   value.style.cssText =
-    "font-size:25px;color:#222;font-weight:800;text-align:right;";
+    "font-size:22px;color:#222;font-weight:800;text-align:right;";
 
   row.append(role,value);
   return row;
@@ -553,7 +553,7 @@ speechRow.appendChild(speechLabel);
 const speechName = document.createElement("div");
 speechName.textContent = cell(c,4);
 speechName.style.cssText =
-  "font-size:20px;color:#222;font-weight:800;text-align:right;";
+  "font-size:22px;color:#222;font-weight:800;text-align:right;";
 speechRow.appendChild(speechName);
 
 card.appendChild(speechRow);
@@ -579,27 +579,33 @@ treasureRow.appendChild(treasureLabel);
 const treasureName = document.createElement("div");
 treasureName.textContent = cell(c,8);
 treasureName.style.cssText =
-  "font-size:20px;color:#222;font-weight:800;text-align:right;";
+  "font-size:22px;color:#222;font-weight:800;text-align:right;";
 treasureRow.appendChild(treasureName);
 
 card.appendChild(treasureRow);
 
-// 성경 낭독: 읽가 10과(M열)를 위에, 담당자(L열)를 아래에 표시
+// 성경 낭독: 왼쪽 설명, 오른쪽 낭독자
 const readingRow = document.createElement("div");
 readingRow.className = "program-line";
-readingRow.style.display = "block";
+readingRow.style.cssText =
+  "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
 
 const readingTitle = document.createElement("div");
-readingTitle.textContent = cell(c,12);
-readingTitle.style.cssText = "font-size:15px;color:#777;";
+readingTitle.textContent =
+  "성경 낭독 : " + (cell(c,9) || "4분") +
+  (cell(c,11) ? " " + cell(c,11) : "");
+readingTitle.style.cssText =
+  "font-size:15px;color:#777;text-align:left;";
 readingRow.appendChild(readingTitle);
 
 const readingName = document.createElement("div");
-readingName.textContent = cell(c,11);
-readingName.style.cssText = "font-size:20px;color:#222;font-weight:800;";
+readingName.textContent = cell(c,10);
+readingName.style.cssText =
+  "font-size:22px;color:#222;font-weight:800;text-align:right;";
 readingRow.appendChild(readingName);
 
 card.appendChild(readingRow);
+    
     // 야외 봉사에 힘쓰십시오
     section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
