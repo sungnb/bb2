@@ -577,15 +577,28 @@ console.log(
     card.appendChild(speechRow);
 
 
-// 영적 보물찾기: 왼쪽에 시간, 오른쪽에 J열 담당자
+
+// 2. 영적 보물찾기
 const treasureRow = document.createElement("div");
 treasureRow.className = "program-line";
 treasureRow.style.cssText =
-  "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
+  "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+  "align-items:center;gap:8px;";
 
 const treasureLabel = document.createElement("div");
-treasureLabel.textContent = "영적 보물찾기 : 10분";
-treasureLabel.style.cssText = "font-size:15px;color:#777;text-align:left;";
+treasureLabel.style.cssText =
+  "font-size:18px;color:#3374A9;text-align:left;min-width:0;";
+
+treasureLabel.appendChild(
+  document.createTextNode("2. 영적 보물찾기 :")
+);
+
+const treasureTime = document.createElement("span");
+treasureTime.textContent = " " + (cell(c,7) || "10분");
+treasureTime.style.cssText =
+  "font-size:15px;color:#777;font-weight:400;";
+treasureLabel.appendChild(treasureTime);
+
 treasureRow.appendChild(treasureLabel);
 
 const treasureName = document.createElement("div");
@@ -596,18 +609,30 @@ treasureRow.appendChild(treasureName);
 
 card.appendChild(treasureRow);
 
-// 성경 낭독: 왼쪽 설명, 오른쪽 낭독자
+
+// 3. 성경 낭독
 const readingRow = document.createElement("div");
 readingRow.className = "program-line";
 readingRow.style.cssText =
-  "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
+  "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+  "align-items:center;gap:8px;";
 
 const readingTitle = document.createElement("div");
-readingTitle.textContent =
-  "성경 낭독 : " + (cell(c,9) || "4분") +
-  (cell(c,11) ? " " + cell(c,11) : "");
 readingTitle.style.cssText =
-  "font-size:15px;color:#777;text-align:left;";
+  "font-size:18px;color:#3374A9;text-align:left;min-width:0;";
+
+readingTitle.appendChild(
+  document.createTextNode("3. 성경 낭독 :")
+);
+
+const readingMeta = document.createElement("span");
+readingMeta.textContent =
+  " " + (cell(c,9) || "4분") +
+  (cell(c,11) ? " " + cell(c,11) : "");
+readingMeta.style.cssText =
+  "font-size:15px;color:#777;font-weight:400;";
+readingTitle.appendChild(readingMeta);
+
 readingRow.appendChild(readingTitle);
 
 const readingName = document.createElement("div");
