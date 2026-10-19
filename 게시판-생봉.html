@@ -455,17 +455,21 @@ function renderSchedule(data){
   const targetTuesday=new Date(today);
   targetTuesday.setDate(today.getDate()+daysToAdd);
 
-  // 기준 화요일 날짜와 일치하는 계획표만 표시
-  const items=schedules.filter(x=>{
-    const date=new Date(
-      Number(x.year),
-      Number(x.month)-1,
-      Number(x.day)
-    );
+ // 기준 화요일부터 8주간의 계획표 표시 (이번 주 포함)
+const endDate = new Date(targetTuesday);
+endDate.setDate(endDate.getDate() + 7 * 7);
 
-    date.setHours(0,0,0,0);
-    return date.getTime()===targetTuesday.getTime();
-  });
+const items = schedules.filter(x=>{
+  const date = new Date(
+    Number(x.year),
+    Number(x.month)-1,
+    Number(x.day)
+  );
+
+  date.setHours(0,0,0,0);
+
+  return date >= targetTuesday && date <= endDate;
+});
 
   if(!items.length){
     content.innerHTML='<div class="empty">표시할 생봉 일정이 없습니다.</div>';
