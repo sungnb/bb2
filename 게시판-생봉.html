@@ -492,6 +492,27 @@ console.log("연사 F열:", item.cells[4]);
     }
 
 // 사회자와 시작 기도
+function openingRow(label,name){
+  const row = document.createElement("div");
+  row.className = "opening-row";
+  row.style.cssText =
+    "display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;";
+
+  const role = document.createElement("div");
+  role.className = "role";
+  role.textContent = label;
+  role.style.cssText = "font-size:15px;color:#777;text-align:left;";
+
+  const value = document.createElement("div");
+  value.className = "name";
+  value.textContent = name || "";
+  value.style.cssText =
+    "font-size:25px;color:#222;font-weight:800;text-align:right;";
+
+  row.append(role,value);
+  return row;
+}
+
 card.appendChild(openingRow("사회자",cell(c,1)));
 card.appendChild(openingRow("시작 기도",cell(c,2)));
 
