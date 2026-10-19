@@ -613,7 +613,7 @@ console.log(
 
     const speechLabel = document.createElement("div");
     speechLabel.style.cssText =
-      "font-size:18px;color:#3374A9;text-align:left;min-width:0;";
+      "font-size:18px;color:#3374A9;font-weight:800;text-align:left;min-width:0;";
 
     const speechTitle = (cell(c,5) || "")
       .replace(/^\s*(?:1\.\s*)+/, "");
@@ -651,7 +651,7 @@ treasureRow.style.cssText =
 
 const treasureLabel = document.createElement("div");
 treasureLabel.style.cssText =
-  "font-size:18px;color:#3374A9;text-align:left;min-width:0;";
+  "font-size:18px;color:#3374A9;font-weight:800;text-align:left;min-width:0;";
 
 treasureLabel.appendChild(
   document.createTextNode("2. 영적 보물찾기 :")
@@ -683,7 +683,7 @@ readingRow.style.cssText =
 
 const readingTitle = document.createElement("div");
 readingTitle.style.cssText =
-  "font-size:18px;color:#3374A9;text-align:left;min-width:0;";
+  "font-size:18px;color:#3374A9;font-weight:800;text-align:left;min-width:0;";
 
 readingTitle.appendChild(
   document.createTextNode("3. 성경 낭독 :")
@@ -769,10 +769,10 @@ assignments.forEach(a=>{
   titleRow.style.cssText =
     "display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;";
 
-  const titleText = document.createElement("span");
+   const titleText = document.createElement("span");
   titleText.textContent = displayTitle;
   titleText.style.cssText =
-    "font-size:18px;color:#b77a0a;font-weight:400;";
+    "font-size:18px;color:#b77a0a;font-weight:800;";
   titleRow.appendChild(titleText);
 
   const info = [
@@ -860,8 +860,7 @@ if(bibleTitle || bibleTime || biblePerson || bibleVideo){
 
   const detail = document.createElement("div");
   detail.style.cssText =
-    "font-size:18px;color:#b52b20;text-align:left;min-width:0;";
-
+    "font-size:18px;color:#b52b20;font-weight:800;text-align:left;min-width:0;";
   const title = document.createElement("span");
   title.textContent =
     (bibleTitle || "").replace(/^\s*8\.\s*/, "8. ");
@@ -905,7 +904,7 @@ if(bibleTitle || bibleTime || biblePerson || bibleVideo){
         (watchTime ? " " + watchTime : "") +
         (watchVideo ? " " + watchVideo : "");
       detail.style.cssText =
-  "font-size:18px;color:#4CAF50;text-align:left;";
+   "font-size:18px;color:#4CAF50;font-weight:800;text-align:left;";
       row.appendChild(detail);
 
       const person = document.createElement("div");
