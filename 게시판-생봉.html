@@ -176,6 +176,51 @@ body.dark-mode .settings-panel button{
   .program-line{gap:5px;padding:7px 2px}
   .program-name{white-space:normal}
 }
+  
+/* =========================================================
+   특별 행사 카드
+========================================================= */
+
+.special-event-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18px;
+  margin-bottom: 16px;
+  border: 1px solid #d5dce5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #243b53;
+  text-align: center;
+}
+
+.special-event-date {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.special-event-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.special-event-theme {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.special-event-place {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.special-event-place a {
+  color: #1769aa;
+  text-decoration: underline;
+}
+  
 </style>
 </head>
 
@@ -428,7 +473,55 @@ function section(card,title,cls,buttonNote){
 
 }
 
-function renderSchedule(data){
+/* =========================================================
+   특별 행사 표시
+========================================================= */
+
+function renderSpecialEvent(event) {
+
+  if (!event || !event.title) {
+    return "";
+  }
+
+  const escapeHtml = value =>
+    String(value || "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+
+  const mapUrl =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(event.place || "");
+
+  return `
+    <div class="special-event-card">
+      <div class="special-event-date">
+        ${escapeHtml(event.date)}
+      </div>
+
+      <div class="special-event-title">
+        ${escapeHtml(event.title)}
+      </div>
+
+      <div class="special-event-theme">
+        ${escapeHtml(event.theme)}
+      </div>
+
+      <div class="special-event-place">
+        📍 <a
+          href="${mapUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >${escapeHtml(event.place)}</a>
+      </div>
+    </div>
+  `;
+}
+
+function renderSchedule(data) {
   const content=document.getElementById("content");
   content.innerHTML="";
 
@@ -442,7 +535,14 @@ function renderSchedule(data){
   subtitle.textContent=data.subtitle||"";
   content.appendChild(subtitle);
 
-    const schedules=data.schedules;
+  // 특별 행사 표시
+  const specialEventHtml = renderSpecialEvent(data.specialEvent);
+
+  if (specialEventHtml) {
+    content.insertAdjacentHTML("beforeend", specialEventHtml);
+  }
+
+  const schedules=data.schedules;
   const today=new Date();
   today.setHours(0,0,0,0);
 
