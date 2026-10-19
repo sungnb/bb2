@@ -515,45 +515,66 @@ console.log(
   card.querySelector(".program-name")?.textContent
 );
     
-    // 성경에 담긴 보물
+// 성경에 담긴 보물
 section(card,"성경에 담긴 보물","blue",true);
 
+// 연설: 15px 회색, 이름 20px 검정색
+const speechRow = document.createElement("div");
+speechRow.className = "program-line";
+speechRow.style.display = "block";
 
- // 연설: 시간 c[3], 연사 이름 c[4], 연설 주제 c[5]
-card.appendChild(
-  line(
-    "연설 : " + (cell(c,3) || "10분"),
-    cell(c,4),
-    "blue-text"
-  )
-);
-    
-console.log(
-  "연사 이름:",
-  cell(c,4)
-);
+const speechLabel = document.createElement("div");
+speechLabel.textContent = "연설 : " + (cell(c,3) || "10분");
+speechLabel.style.cssText = "font-size:15px;color:#777;";
+speechRow.appendChild(speechLabel);
 
-console.log(
-  "연사 표시 요소:",
-  card.querySelector(".program-name")?.textContent
-);
-    
+const speechName = document.createElement("div");
+speechName.textContent = cell(c,4) || "성낙봉";
+speechName.style.cssText = "font-size:20px;color:#222;font-weight:800;";
+speechRow.appendChild(speechName);
+
+card.appendChild(speechRow);
+
+// 연설 주제: 번호는 1개만 표시
 if(cell(c,5)){
-  card.appendChild(line("1. "+cell(c,5),"","black-text"));
+  card.appendChild(
+    line("1. " + cell(c,5).replace(/^\s*(?:1\.\s*)+/, ""),"","black-text")
+  );
 }
 
-// 영적 보물찾기: 담당자 J열
-card.appendChild(
-  line("영적 보물찾기 : 10분","","blue-text")
-);
-card.appendChild(line("",cell(c,9),"black-text"));
+// 영적 보물찾기: 15px 회색, 담당자 J열은 20px 검정색
+const treasureRow = document.createElement("div");
+treasureRow.className = "program-line";
+treasureRow.style.display = "block";
 
-// 성경 낭독: 담당자 L열, 낭독 내용 M열
-card.appendChild(
-  line("3. 성경 낭독 : 4분 "+cell(c,12),"","black-text")
-);
-card.appendChild(line("",cell(c,11),"black-text"));
+const treasureLabel = document.createElement("div");
+treasureLabel.textContent = "영적 보물찾기 : 10분";
+treasureLabel.style.cssText = "font-size:15px;color:#777;";
+treasureRow.appendChild(treasureLabel);
 
+const treasureName = document.createElement("div");
+treasureName.textContent = cell(c,9);
+treasureName.style.cssText = "font-size:20px;color:#222;font-weight:800;";
+treasureRow.appendChild(treasureName);
+
+card.appendChild(treasureRow);
+
+// 성경 낭독: 읽가 10과(M열)를 위에, 담당자(L열)를 아래에 표시
+const readingRow = document.createElement("div");
+readingRow.className = "program-line";
+readingRow.style.display = "block";
+
+const readingTitle = document.createElement("div");
+readingTitle.textContent = cell(c,12);
+readingTitle.style.cssText = "font-size:15px;color:#777;";
+readingRow.appendChild(readingTitle);
+
+const readingName = document.createElement("div");
+readingName.textContent = cell(c,11);
+readingName.style.cssText = "font-size:20px;color:#222;font-weight:800;";
+readingRow.appendChild(readingName);
+
+card.appendChild(readingRow);
     // 야외 봉사에 힘쓰십시오
     section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
