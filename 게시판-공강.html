@@ -1175,9 +1175,12 @@ content.appendChild(title);
 
   today.setHours(0, 0, 0, 0);
 
-  // 이번 주 토요일까지 남은 날짜
-  const daysUntilSaturday =
-    (6 - today.getDay() + 7) % 7;
+ // 월요일부터 토요일까지는 이번 주 토요일,
+// 일요일에는 전날 토요일 일정을 표시
+const daysUntilSaturday =
+  today.getDay() === 0
+    ? -1
+    : (6 - today.getDay() + 7) % 7;
 
   const firstDate = new Date(today);
 
