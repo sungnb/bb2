@@ -536,34 +536,46 @@ console.log(
   card.querySelector(".program-name")?.textContent
 );
     
-// 성경에 담긴 보물
-section(card,"성경에 담긴 보물","blue",true);
 
-// 연설: 왼쪽에 시간, 오른쪽에 이름을 한 줄로 표시
-const speechRow = document.createElement("div");
-speechRow.className = "program-line";
-speechRow.style.cssText =
-  "display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;";
+    // 성경에 담긴 보물
+    section(card,"성경에 담긴 보물","blue",true);
 
-const speechLabel = document.createElement("div");
-speechLabel.textContent = "연설 : " + (cell(c,3) || "10분");
-speechLabel.style.cssText = "font-size:15px;color:#777;text-align:left;";
-speechRow.appendChild(speechLabel);
+    // 연설 주제 + 시간 + 동영상은 왼쪽, 이름은 오른쪽에 한 줄 표시
+    const speechRow = document.createElement("div");
+    speechRow.className = "program-line";
+    speechRow.style.cssText =
+      "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
+      "align-items:center;gap:8px;";
 
-const speechName = document.createElement("div");
-speechName.textContent = cell(c,4);
-speechName.style.cssText =
-  "font-size:22px;color:#222;font-weight:800;text-align:right;";
-speechRow.appendChild(speechName);
+    const speechLabel = document.createElement("div");
+    speechLabel.style.cssText =
+      "font-size:18px;color:#3374A9;text-align:left;min-width:0;";
 
-card.appendChild(speechRow);
+    const speechTitle = (cell(c,5) || "")
+      .replace(/^\s*(?:1\.\s*)+/, "");
 
-// 연설 주제: 번호는 1개만 표시
-if(cell(c,5)){
-  card.appendChild(
-    line("1. " + cell(c,5).replace(/^\s*(?:1\.\s*)+/, ""),"","black-text")
-  );
-}
+    speechLabel.appendChild(
+      document.createTextNode(speechTitle ? "1. " + speechTitle : "")
+    );
+
+    const speechMeta = document.createElement("span");
+    speechMeta.textContent =
+      (cell(c,3) ? " " + cell(c,3) : " 10분") +
+      (cell(c,6) ? " · " + cell(c,6) : "");
+    speechMeta.style.cssText =
+      "font-size:15px;color:#777;font-weight:400;";
+    speechLabel.appendChild(speechMeta);
+
+    speechRow.appendChild(speechLabel);
+
+    const speechName = document.createElement("div");
+    speechName.textContent = cell(c,4);
+    speechName.style.cssText =
+      "font-size:22px;color:#222;font-weight:800;text-align:right;";
+    speechRow.appendChild(speechName);
+
+    card.appendChild(speechRow);
+
 
 // 영적 보물찾기: 왼쪽에 시간, 오른쪽에 J열 담당자
 const treasureRow = document.createElement("div");
