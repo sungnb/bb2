@@ -176,9 +176,17 @@ body.dark-mode .settings-panel button{
 </main>
 
 <nav class="fixed-bottom">
-  <button type="button" onclick="location.href='공강.html'">공개강연</button>
-  <button type="button" onclick="location.href='생봉.html'">생활과봉사</button>
-  <button type="button" onclick="location.href='집단.html'">집단및부서</button>
+  <button type="button" onclick="goBoardPage('publicTalk')">
+    공개강연
+  </button>
+
+  <button type="button" onclick="goBoardPage('ministry')">
+    생활과봉사
+  </button>
+
+  <button type="button" onclick="goBoardPage('groups')">
+    집단및부서
+  </button>
 </nav>
 
 <div id="settingsPanel" class="settings-panel">
