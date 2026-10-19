@@ -987,6 +987,50 @@ if (content) {
       }
     })();
 
+    /* =====================================================
+       게시판 주소 설정 읽기 및 페이지 이동
+    ===================================================== */
+
+    async function goBoardPage(section) {
+      try {
+        const response = await fetch(
+          "게시판-공강.html",
+          { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+          throw new Error("주소 설정을 읽지 못했습니다.");
+        }
+
+        const html = await response.text();
+
+        const doc = new DOMParser().parseFromString(
+          html,
+          "text/html"
+        );
+
+        const configElement =
+          doc.getElementById("board-url-config");
+
+        if (!configElement) {
+          throw new Error("주소 설정을 찾지 못했습니다.");
+        }
+
+        const boardUrls = JSON.parse(
+          configElement.textContent
+        );
+
+        if (!boardUrls[section]) {
+          throw new Error("해당 페이지 주소가 없습니다.");
+        }
+
+        window.location.href = boardUrls[section];
+
+      } catch (error) {
+        alert("페이지 이동에 실패했습니다. 다시 시도해 주세요.");
+        console.error(error);
+      }
+    }
 
     /* =====================================================
        하단 메뉴 선택
@@ -1013,22 +1057,17 @@ if (content) {
       message.className = "loading";
 
     
- const boardUrls = JSON.parse(
-  document.getElementById("board-url-config").textContent
-);
+      if (section === "ministry") {
+        goBoardPage("ministry");
+        return;
+      } else if (section === "groups") {
+        goBoardPage("groups");
+        return;
+      }
 
-if (section === "ministry") {
-  window.location.href = boardUrls.ministry;
-  return;
-} else if (section === "groups") {
-  window.location.href = boardUrls.groups;
-  return;
-}
-
-  content.appendChild(message);
-
- }  
-
+      content.appendChild(message);
+    }
+    
 /* =====================================================
    공개강연 일정 불러오기
 ===================================================== */
