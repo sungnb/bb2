@@ -181,6 +181,7 @@ body.dark-mode .settings-panel button{
    특별 행사 카드
 ========================================================= */
 
+
 .special-event-card {
   width: 100%;
   box-sizing: border-box;
@@ -194,6 +195,7 @@ body.dark-mode .settings-panel button{
   box-shadow: 0 4px 14px #18324a12;
   font-size: calc(16px * var(--scale));
 }
+
 
 .special-event-card .date-title {
   margin: 0 0 8px;
@@ -509,13 +511,13 @@ function section(card,title,cls,buttonNote){
 
 }
 
+```js
 /* =========================================================
    특별 행사 표시
 ========================================================= */
 
 function renderSpecialEvent(event) {
-
-  if (!event || !event.title) {
+  if (!event || !(event.title || event.date)) {
     return "";
   }
 
@@ -536,8 +538,9 @@ function renderSpecialEvent(event) {
     <section class="program-card special-event-card">
 
       <h2 class="date-title">
-  ${escapeHtml(event.date)}
-</h2>
+        ${escapeHtml(event.date)}
+      </h2>
+
       <div class="special-event-title">
         ${escapeHtml(event.title)}
       </div>
@@ -565,6 +568,7 @@ function renderSpecialEvent(event) {
     </section>
   `;
 }
+```
 
 function renderSchedule(data) {
   const content=document.getElementById("content");
