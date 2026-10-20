@@ -184,41 +184,77 @@ body.dark-mode .settings-panel button{
 .special-event-card {
   width: 100%;
   box-sizing: border-box;
-  padding: 18px;
-  margin-bottom: 16px;
-  border: 1px solid #d5dce5;
-  border-radius: 12px;
-  background: #ffffff;
+  padding: 12px;
+  margin: 0 auto 18px;
+  border: 1px solid #cbd2da;
+  border-radius: 14px;
+  background: #fff;
   color: #243b53;
   text-align: center;
+  box-shadow: 0 4px 14px #18324a12;
+  font-size: calc(16px * var(--scale));
 }
 
-.special-event-date {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
+.special-event-card .date-title {
+  margin: 0 0 8px;
+  padding: 10px 8px;
+  text-align: center;
+  border-radius: 8px;
+  background: #68717d;
+  color: #fff;
+  font-size: calc(16px * var(--scale));
+  font-weight: 700;
 }
 
 .special-event-title {
-  font-size: 20px;
+  font-size: calc(18px * var(--scale));
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .special-event-theme {
-  font-size: 16px;
+  font-size: calc(14px * var(--scale));
   line-height: 1.6;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .special-event-place {
-  font-size: 16px;
+  font-size: calc(14px * var(--scale));
   font-weight: 600;
 }
 
 .special-event-place a {
   color: #1769aa;
   text-decoration: underline;
+}
+
+.special-event-pioneer {
+  font-size: calc(14px * var(--scale));
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* 어두운 테마 */
+body.dark-mode .special-event-card {
+  background: #222;
+  color: #fff;
+  border-color: #555;
+}
+
+body.dark-mode .special-event-card .date-title {
+  background: #626970;
+  color: #fff;
+}
+
+body.dark-mode .special-event-card .special-event-title,
+body.dark-mode .special-event-card .special-event-theme,
+body.dark-mode .special-event-card .special-event-place,
+body.dark-mode .special-event-card .special-event-pioneer {
+  color: #fff;
+}
+
+body.dark-mode .special-event-place a {
+  color: #fff;
 }
   
 </style>
@@ -493,15 +529,15 @@ function renderSpecialEvent(event) {
     })[char]);
 
   const mapUrl =
-  "https://map.naver.com/p/search/" +
-  encodeURIComponent(event.place || "");
+    "https://map.naver.com/p/search/" +
+    encodeURIComponent(event.place || "");
 
   return `
-    <div class="special-event-card">
-      <div class="special-event-date">
-        ${escapeHtml(event.date)}
-      </div>
+    <section class="program-card special-event-card">
 
+      <h2 class="date-title">
+  ${escapeHtml(event.date)}
+</h2>
       <div class="special-event-title">
         ${escapeHtml(event.title)}
       </div>
@@ -510,7 +546,7 @@ function renderSpecialEvent(event) {
         ${escapeHtml(event.theme)}
       </div>
 
-           <div class="special-event-place">
+      <div class="special-event-place">
         📍 <a
           href="${mapUrl}"
           target="_blank"
@@ -525,7 +561,8 @@ function renderSpecialEvent(event) {
             </div>`
           : ""
       }
-    </div>
+
+    </section>
   `;
 }
 
