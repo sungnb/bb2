@@ -493,8 +493,8 @@ function renderSpecialEvent(event) {
     })[char]);
 
   const mapUrl =
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(event.place || "");
+  "https://map.naver.com/p/search/" +
+  encodeURIComponent(event.place || "");
 
   return `
     <div class="special-event-card">
@@ -510,13 +510,21 @@ function renderSpecialEvent(event) {
         ${escapeHtml(event.theme)}
       </div>
 
-      <div class="special-event-place">
+           <div class="special-event-place">
         📍 <a
           href="${mapUrl}"
           target="_blank"
           rel="noopener noreferrer"
         >${escapeHtml(event.place)}</a>
       </div>
+
+      ${
+        event.pioneerMeeting
+          ? `<div class="special-event-pioneer">
+              ${escapeHtml(event.pioneerMeeting).replace(/\r?\n/g, "<br>")}
+            </div>`
+          : ""
+      }
     </div>
   `;
 }
