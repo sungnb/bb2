@@ -1024,7 +1024,7 @@ if(bibleTitle || bibleTime || biblePerson || bibleVideo){
       card.appendChild(row);
     }
 
-   // 회중 성서 연구
+// 회중 성서 연구
 const studyTitle = cell(c,40);
 const studyReader = cell(c,41);
 const studySocial = cell(c,42);
@@ -1033,7 +1033,8 @@ if(studyTitle || studyReader || studySocial){
   const titleRow = document.createElement("div");
   titleRow.className = "program-line";
   titleRow.style.cssText =
-    "display:block;font-size:18px;color:#b52b20;font-weight:800;";
+    "display:block;font-size:calc(18px * var(--scale));" +
+    "color:#b52b20;font-weight:800;";
   titleRow.textContent =
     (studyTitle || "9. 회중 성서 연구").replace(/^\s*9\.\s*/, "9. ");
   card.appendChild(titleRow);
@@ -1046,12 +1047,14 @@ if(studyTitle || studyReader || studySocial){
 
   const social = document.createElement("div");
   social.style.cssText =
-    "font-size:22px;color:#222;font-weight:800;text-align:left;";
+    "font-size:calc(22px * var(--scale));" +
+    "color:#222;font-weight:800;text-align:left;";
 
   const socialLabel = document.createElement("span");
   socialLabel.textContent = "연구사회자 : ";
   socialLabel.style.cssText =
-    "font-size:15px;color:#777;font-weight:400;";
+    "font-size:calc(15px * var(--scale));" +
+    "color:#777;font-weight:400;";
 
   social.appendChild(socialLabel);
   social.appendChild(document.createTextNode(studySocial || ""));
@@ -1059,12 +1062,14 @@ if(studyTitle || studyReader || studySocial){
 
   const reader = document.createElement("div");
   reader.style.cssText =
-    "font-size:22px;color:#222;font-weight:800;text-align:right;";
+    "font-size:calc(22px * var(--scale));" +
+    "color:#222;font-weight:800;text-align:right;";
 
   const readerLabel = document.createElement("span");
   readerLabel.textContent = "낭독 : ";
   readerLabel.style.cssText =
-    "font-size:15px;color:#777;font-weight:400;";
+    "font-size:calc(15px * var(--scale));" +
+    "color:#777;font-weight:400;";
 
   reader.appendChild(readerLabel);
   reader.appendChild(document.createTextNode(studyReader || ""));
