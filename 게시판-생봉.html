@@ -31,7 +31,12 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 
 .page{
   position:fixed;top:62px;bottom:62px;left:0;right:0;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  overscroll-behavior-y:contain;
   padding:15px 10px 20px;max-width:900px;width:100%;margin:0 auto;
 }
 #content{
@@ -420,6 +425,8 @@ function receiveSchedule(data){
 }
 
 function showError(message){
+  clearTimeout(window.scheduleTimer);
+
   document.getElementById("content").innerHTML="";
   const d=document.createElement("div");
   d.className="error";
@@ -679,11 +686,6 @@ items.forEach(item=>{
   // 일반 행은 기존 프로그램 표시 방식 유지
   const c=item.cells||[];
 
-  console.log("일정 원본 데이터:", item.cells);
-  console.log("사회자 C열:", item.cells[1]);
-  console.log("시작 기도 D열:", item.cells[2]);
-  console.log("연사 F열:", item.cells[4]);
-
   const card=document.createElement("section");
   card.className="program-card";
 
@@ -787,26 +789,6 @@ function openingRow(label,name){
 
 card.appendChild(openingRow("사회자",cell(c,2)));
 card.appendChild(openingRow("시작 기도",cell(c,3)));
-
-console.log(
-  "사회자 이름:",
-  card.querySelector(".opening-row .name")?.textContent
-);
-
-console.log(
-  "시작 기도 이름:",
-  card.querySelectorAll(".opening-row .name")[1]?.textContent
-);
-    
-console.log(
-  "사회자 표시 내용:",
-  card.querySelector(".opening-row .name")?.textContent
-);
-
-console.log(
-  "연사 표시 내용:",
-  card.querySelector(".program-name")?.textContent
-);
     
 
     // 성경에 담긴 보물
