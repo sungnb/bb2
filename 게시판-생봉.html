@@ -659,15 +659,17 @@ console.log(
   
 /* =========================================================
    순회방문 주간 상단 표시
-   A열에 순회방문이 포함된 행이 있으면 부제 표시
+   A열의 행사 종류를 직접 확인
 ========================================================= */
 
 const rotationWeekItem = schedules.find(item => {
-  const cells = Array.isArray(item.cells)
-    ? item.cells
-    : [];
+  const eventType = String(
+    item.cells && item.cells[0]
+      ? item.cells[0]
+      : ""
+  ).trim();
 
-  return String(cells[0] || "").trim().includes("순회방문");
+  return eventType.includes("순회방문");
 });
 
 subtitle.textContent = rotationWeekItem
