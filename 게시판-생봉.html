@@ -647,31 +647,6 @@ items.sort((a, b) => {
   return dateA - dateB;
 });
 
-console.log(
-  "순회방문 확인:",
-  items.map(item => ({
-    year: item.year,
-    month: item.month,
-    day: item.day,
-    A열: (item.cells || [])[0]
-  }))
-);
-  
-/* =========================================================
-   순회방문 주간 상단 표시
-========================================================= */
-
-const rotationWeekItem = schedules.find(item => {
-  const cells = item.cells || [];
-  const eventType = String(cells[0] || "").trim();
-
-  return eventType.includes("순회방문");
-});
-
-subtitle.textContent = rotationWeekItem
-  ? "[순회 방문 주간]"
-  : "순회방문을 찾지 못했습니다.";
-
 if (!items.length) {
 
     if (!data.specialEvent || !data.specialEvent.title) {
@@ -721,11 +696,18 @@ displayDate.setDate(displayDate.getDate() + 1);
 
 const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
-date.textContent =
+const dateText =
   displayDate.getFullYear() + "년 " +
   (displayDate.getMonth() + 1) + "월 " +
   displayDate.getDate() + "일 (" +
   weekdays[displayDate.getDay()] + ")";
+
+const isRotationVisit =
+  String(c[0] || "").trim().includes("순회방문");
+
+date.textContent = isRotationVisit
+  ? dateText + " [순회 방문 주간]"
+  : dateText;
 
 // 이번 주 토요일부터 다음 주 토요일 전날까지 확인
 const thisSaturday = new Date(targetMonday);
