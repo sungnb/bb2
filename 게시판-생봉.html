@@ -891,7 +891,7 @@ readingTitle.appendChild(
 const readingMeta = document.createElement("span");
 readingMeta.textContent =
   " " + (cell(c,10) || "4분") +
-  (cell(c,11) ? " " + cell(c,11) : "");
+  (cell(c,12) ? " " + cell(c,12) : "");
 readingMeta.style.cssText =
   "font-size:15px;color:#777;font-weight:400;";
 readingTitle.appendChild(readingMeta);
@@ -1129,14 +1129,15 @@ if(studyTitle || studyTime || studyReader || studySocial){
     "display:block;font-size:calc(18px * var(--scale));" +
     "color:#b52b20;font-weight:800;";
 
-  titleRow.textContent =
-    (studyTitle || "회중 성서 연구")
-      .replace(/^\s*10\.\s*/, "") +
-    (studyTime ? " " + studyTime : "");
+ titleRow.textContent =
+  "10. " + (studyTitle || "회중 성서 연구")
+    .replace(/^\s*\d+\.\s*/, "");
 
-  titleRow.textContent =
-    "10. " + titleRow.textContent;
-
+const studyTimeText = document.createElement("span");
+studyTimeText.textContent = " " + (studyTime || "30분");
+studyTimeText.style.cssText =
+  "font-size:15px;color:#777;font-weight:400;";
+titleRow.appendChild(studyTimeText);
   card.appendChild(titleRow);
 
   const studyRow = document.createElement("div");
