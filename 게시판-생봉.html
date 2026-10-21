@@ -655,7 +655,7 @@ items.sort((a, b) => {
 const rotationWeekItem = schedules.find(item => {
   const cells = item.cells || [];
   return /순회방문/.test(
-    String(cells[46] || "").trim()
+    String(cells[0] || "").trim()
   );
 });
 
