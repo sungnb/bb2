@@ -776,8 +776,8 @@ function openingRow(label,name){
   return row;
 }
 
-card.appendChild(openingRow("사회자",cell(c,1)));
-card.appendChild(openingRow("시작 기도",cell(c,2)));
+card.appendChild(openingRow("사회자",cell(c,2)));
+card.appendChild(openingRow("시작 기도",cell(c,3)));
 
 console.log(
   "사회자 이름:",
@@ -814,7 +814,7 @@ console.log(
     speechLabel.style.cssText =
       "font-size:18px;color:#3374A9;font-weight:800;text-align:left;min-width:0;";
 
-    const speechTitle = (cell(c,5) || "")
+    const speechTitle = (cell(c,6) || "")
       .replace(/^\s*(?:1\.\s*)+/, "");
 
     speechLabel.appendChild(
@@ -823,8 +823,8 @@ console.log(
 
     const speechMeta = document.createElement("span");
     speechMeta.textContent =
-      (cell(c,3) ? " " + cell(c,3) : " 10분") +
-      (cell(c,6) ? " · " + cell(c,6) : "");
+      (cell(c,4) ? " " + cell(c,4) : " 10분") +
+      (cell(c,7) ? " · " + cell(c,7) : "");
     speechMeta.style.cssText =
       "font-size:15px;color:#777;font-weight:400;";
     speechLabel.appendChild(speechMeta);
@@ -832,7 +832,7 @@ console.log(
     speechRow.appendChild(speechLabel);
 
     const speechName = document.createElement("div");
-    speechName.textContent = cell(c,4);
+    speechName.textContent = cell(c,5);
     speechName.style.cssText =
       "font-size:22px;color:#222;font-weight:800;text-align:right;";
     speechRow.appendChild(speechName);
@@ -857,7 +857,7 @@ treasureLabel.appendChild(
 );
 
 const treasureTime = document.createElement("span");
-treasureTime.textContent = " " + (cell(c,7) || "10분");
+treasureTime.textContent = " " + (cell(c,8) || "10분");
 treasureTime.style.cssText =
   "font-size:15px;color:#777;font-weight:400;";
 treasureLabel.appendChild(treasureTime);
@@ -865,7 +865,7 @@ treasureLabel.appendChild(treasureTime);
 treasureRow.appendChild(treasureLabel);
 
 const treasureName = document.createElement("div");
-treasureName.textContent = cell(c,8);
+treasureName.textContent = cell(c,9);
 treasureName.style.cssText =
   "font-size:22px;color:#222;font-weight:800;text-align:right;";
 treasureRow.appendChild(treasureName);
@@ -890,7 +890,7 @@ readingTitle.appendChild(
 
 const readingMeta = document.createElement("span");
 readingMeta.textContent =
-  " " + (cell(c,9) || "4분") +
+  " " + (cell(c,10) || "4분") +
   (cell(c,11) ? " " + cell(c,11) : "");
 readingMeta.style.cssText =
   "font-size:15px;color:#777;font-weight:400;";
@@ -899,7 +899,7 @@ readingTitle.appendChild(readingMeta);
 readingRow.appendChild(readingTitle);
 
 const readingName = document.createElement("div");
-readingName.textContent = cell(c,10);
+readingName.textContent = cell(c,11);
 readingName.style.cssText =
   "font-size:22px;color:#222;font-weight:800;text-align:right;";
 readingRow.appendChild(readingName);
@@ -911,42 +911,42 @@ card.appendChild(readingRow);
 // 야외 봉사에 힘쓰십시오
 section(card,"야외 봉사에 힘쓰십시오","orange",true);
 
-const assignments=[
+const assignments = [
   {
-    n:4,
-    title:cell(c,13),
-    duration:cell(c,12),
-    person:cell(c,14),
-    helper:cell(c,16),
-    note:cell(c,15),
-    label:""
+    n: 4,
+    title: cell(c,14),
+    duration: cell(c,13),
+    person: cell(c,15),
+    helper: cell(c,17),
+    note: cell(c,16),
+    label: ""
   },
   {
-    n:5,
-    title:cell(c,18),
-    duration:cell(c,17),
-    person:cell(c,19),
-    helper:cell(c,21),
-    note:cell(c,20),
-    label:""
+    n: 5,
+    title: cell(c,19),
+    duration: cell(c,18),
+    person: cell(c,20),
+    helper: cell(c,22),
+    note: cell(c,21),
+    label: ""
   },
   {
-    n:6,
-    title:cell(c,23),
-    duration:cell(c,22),
-    person:cell(c,24),
-    helper:cell(c,26),
-    note:cell(c,25),
-    label:""
+    n: 6,
+    title: cell(c,24),
+    duration: cell(c,23),
+    person: cell(c,25),
+    helper: cell(c,27),
+    note: cell(c,26),
+    label: ""
   },
   {
-    n:7,
-    title:cell(c,28),
-    duration:cell(c,27),
-    person:cell(c,29),
-    helper:cell(c,31),
-    note:cell(c,30),
-    label:""
+    n: 7,
+    title: cell(c,29),
+    duration: cell(c,28),
+    person: cell(c,30),
+    helper: "",
+    note: cell(c,31),
+    label: ""
   }
 ];
 
@@ -1045,11 +1045,11 @@ assignments.forEach(a=>{
     section(card,"그리스도인 생활","green",true);
 
     // 8번
-const bibleTitle = cell(c,34);
-const bibleTime = cell(c,32);
-const biblePerson = cell(c,33);
-const bibleVideo = cell(c,35);
-
+const bibleTitle = cell(c,35);
+const bibleTime = cell(c,33);
+const biblePerson = cell(c,34);
+const bibleVideo = cell(c,36);
+  
 if(bibleTitle || bibleTime || biblePerson || bibleVideo){
   const row = document.createElement("div");
   row.className = "program-line";
@@ -1085,10 +1085,10 @@ if(bibleTitle || bibleTime || biblePerson || bibleVideo){
 }
 
     // 9번: 내용이 있을 때만 표시
-    const watchTitle = cell(c,38);
-    const watchTime = cell(c,36);
-    const watchPerson = cell(c,37);
-    const watchVideo = cell(c,39);
+    const watchTitle = cell(c,39);
+const watchTime = cell(c,37);
+const watchPerson = cell(c,38);
+const watchVideo = cell(c,40);
 
     if(watchTitle || watchTime || watchPerson || watchVideo){
       const row = document.createElement("div");
@@ -1115,19 +1115,28 @@ if(bibleTitle || bibleTime || biblePerson || bibleVideo){
       card.appendChild(row);
     }
 
-// 회중 성서 연구
-const studyTitle = cell(c,40);
-const studyReader = cell(c,41);
-const studySocial = cell(c,42);
+// 10. 회중 성서 연구
+const studyTitle = cell(c,42);
+const studyTime = cell(c,41);
+const studyReader = cell(c,43);
+const studySocial = cell(c,44);
 
-if(studyTitle || studyReader || studySocial){
+if(studyTitle || studyTime || studyReader || studySocial){
+
   const titleRow = document.createElement("div");
   titleRow.className = "program-line";
   titleRow.style.cssText =
     "display:block;font-size:calc(18px * var(--scale));" +
     "color:#b52b20;font-weight:800;";
+
   titleRow.textContent =
-    (studyTitle || "9. 회중 성서 연구").replace(/^\s*9\.\s*/, "9. ");
+    (studyTitle || "회중 성서 연구")
+      .replace(/^\s*10\.\s*/, "") +
+    (studyTime ? " " + studyTime : "");
+
+  titleRow.textContent =
+    "10. " + titleRow.textContent;
+
   card.appendChild(titleRow);
 
   const studyRow = document.createElement("div");
@@ -1170,7 +1179,7 @@ if(studyTitle || studyReader || studySocial){
 }
 
     // 마치는 기도
-    const closingPrayer = cell(c,43);
+    const closingPrayer = cell(c,45);
 
     if(closingPrayer){
       const prayerRow = document.createElement("div");
