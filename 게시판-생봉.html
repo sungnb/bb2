@@ -667,7 +667,7 @@ const rotationWeekItem = schedules.find(item => {
     ? item.cells
     : [];
 
-  return String(cells[0] || "").includes("순회방문");
+  return String(cells[0] || "").trim().includes("순회방문");
 });
 
 subtitle.textContent = rotationWeekItem
