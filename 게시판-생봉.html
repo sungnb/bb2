@@ -647,6 +647,16 @@ items.sort((a, b) => {
   return dateA - dateB;
 });
 
+console.log(
+  "순회방문 확인:",
+  items.map(item => ({
+    year: item.year,
+    month: item.month,
+    day: item.day,
+    A열: (item.cells || [])[0]
+  }))
+);
+  
 /* =========================================================
    순회방문 주간 상단 표시
    AU열에 순회방문 있으면 부제 표시
