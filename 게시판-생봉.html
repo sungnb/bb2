@@ -659,10 +659,14 @@ console.log(
   
 /* =========================================================
    순회방문 주간 상단 표시
-   AU열에 순회방문 있으면 부제 표시
+   A열에 순회방문이 포함된 행이 있으면 부제 표시
 ========================================================= */
-const rotationWeekItem = items.find(item => {
-  const cells = item.cells || [];
+
+const rotationWeekItem = schedules.find(item => {
+  const cells = Array.isArray(item.cells)
+    ? item.cells
+    : [];
+
   return String(cells[0] || "").includes("순회방문");
 });
 
