@@ -646,6 +646,20 @@ items.sort((a, b) => {
 
   return dateA - dateB;
 });
+
+/* =========================================================
+   순회 방문 주간 부제 표시
+   AU열에 순회방문1~6이 있으면 부제 표시
+========================================================= */
+
+const rotationWeekItem = items.find(item => {
+  const cells = item.cells || [];
+  return /순회방문[1-6]/.test(String(cells[46] || "").trim());
+});
+
+if (rotationWeekItem) {
+  subtitle.textContent = "[순회 방문 주간]";
+}
   
 if(!items.length){
 
