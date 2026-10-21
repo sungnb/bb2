@@ -648,11 +648,11 @@ items.sort((a, b) => {
 });
 
 /* =========================================================
-   순회 방문 주간 부제 표시
-   AU열에 순회방문1~6이 있으면 부제 표시
+   순회 방문 주간 상단 표시
+   AU열에 순회방문1~6이 있으면 날짜와 부제 표시
 ========================================================= */
 
-const rotationWeekItem = items.find(item => {
+const rotationWeekItem = schedules.find(item => {
   const cells = item.cells || [];
   return /^순회방문[1-6]$/.test(
     String(cells[46] || "").trim()
@@ -660,6 +660,23 @@ const rotationWeekItem = items.find(item => {
 });
 
 if (rotationWeekItem) {
+  const rotationDate = new Date(
+    Number(rotationWeekItem.year),
+    Number(rotationWeekItem.month) - 1,
+    Number(rotationWeekItem.day)
+  );
+
+  // 기존 일정 날짜는 월요일이므로 화요일 날짜로 표시
+  rotationDate.setDate(rotationDate.getDate() + 1);
+
+  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+
+  heading.textContent =
+    rotationDate.getFullYear() + ". " +
+    (rotationDate.getMonth() + 1) + ". " +
+    rotationDate.getDate() + " (" +
+    weekdays[rotationDate.getDay()] + ")";
+
   subtitle.textContent = "[순회 방문 주간]";
 }
   
