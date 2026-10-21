@@ -705,9 +705,16 @@ const dateText =
 const isRotationVisit =
   String(c[0] || "").trim().includes("순회방문");
 
-date.textContent = isRotationVisit
-  ? dateText + " [순회 방문 주간]"
-  : dateText;
+date.textContent = dateText;
+
+if (isRotationVisit) {
+  const rotationLabel = document.createElement("div");
+  rotationLabel.textContent = "[순회 방문 주간]";
+  rotationLabel.style.fontSize = "18px";
+  rotationLabel.style.fontWeight = "700";
+
+  date.appendChild(rotationLabel);
+}
 
 // 이번 주 토요일부터 다음 주 토요일 전날까지 확인
 const thisSaturday = new Date(targetMonday);
