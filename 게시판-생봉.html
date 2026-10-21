@@ -1160,20 +1160,23 @@ titleRow.appendChild(studyTimeText);
   social.appendChild(document.createTextNode(studySocial || ""));
   studyRow.appendChild(social);
 
-  const reader = document.createElement("div");
-  reader.style.cssText =
-    "font-size:calc(22px * var(--scale));" +
-    "color:#222;font-weight:800;text-align:right;";
+    // 낭독자가 있을 때만 낭독 영역 표시
+  if (studyReader) {
+    const reader = document.createElement("div");
+    reader.style.cssText =
+      "font-size:calc(22px * var(--scale));" +
+      "color:#222;font-weight:800;text-align:right;";
 
-  const readerLabel = document.createElement("span");
-  readerLabel.textContent = "낭독 : ";
-  readerLabel.style.cssText =
-    "font-size:calc(15px * var(--scale));" +
-    "color:#777;font-weight:400;";
+    const readerLabel = document.createElement("span");
+    readerLabel.textContent = "낭독 : ";
+    readerLabel.style.cssText =
+      "font-size:calc(15px * var(--scale));" +
+      "color:#777;font-weight:400;";
 
-  reader.appendChild(readerLabel);
-  reader.appendChild(document.createTextNode(studyReader || ""));
-  studyRow.appendChild(reader);
+    reader.appendChild(readerLabel);
+    reader.appendChild(document.createTextNode(studyReader));
+    studyRow.appendChild(reader);
+  }
 
   card.appendChild(studyRow);
 }
