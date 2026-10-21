@@ -1130,8 +1130,7 @@ if(studyTitle || studyTime || studyReader || studySocial){
     "color:#b52b20;font-weight:800;";
 
  titleRow.textContent =
-  "10. " + (studyTitle || "회중 성서 연구")
-    .replace(/^\s*\d+\.\s*/, "");
+  studyTitle || "회중 성서 연구";
 
 const studyTimeText = document.createElement("span");
 studyTimeText.textContent = " " + (studyTime || "30분");
