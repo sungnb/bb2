@@ -659,32 +659,18 @@ console.log(
   
 /* =========================================================
    순회방문 주간 상단 표시
-   A열 데이터 확인 및 부제 표시
 ========================================================= */
 
 const rotationWeekItem = schedules.find(item => {
   const cells = item.cells || [];
   const eventType = String(cells[0] || "").trim();
 
-  console.log(
-    "A열 확인:",
-    item.year,
-    item.month,
-    item.day,
-    JSON.stringify(eventType)
-  );
-
   return eventType.includes("순회방문");
 });
 
-console.log(
-  "순회방문 검색 결과:",
-  rotationWeekItem || "찾지 못함"
-);
-
 subtitle.textContent = rotationWeekItem
   ? "[순회 방문 주간]"
-  : "";
+  : "순회방문을 찾지 못했습니다.";
 
 if (!items.length) {
 
