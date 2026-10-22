@@ -935,6 +935,14 @@ function renderStats(data) {
   const publisherCount = getCell(33, 3); // D34
   const pioneerCount = getCell(34, 2);  // C35
 
+  // 표시가 단독이거나 다른 직책과 함께 있어도 정확히 판별합니다.
+  function hasMark(marks, target) {
+    return marks.some(mark =>
+      new RegExp("(^|[^A-Z])" + target + "([^A-Z]|$)", "i")
+        .test(clean(mark))
+    );
+  }
+
   // 집단별 이름 열과 직책 표시 열을 확인합니다.
   const headerIndex = findRow(data, "집 단 명");
   const header = headerIndex >= 0 ? data[headerIndex] : [];
@@ -949,20 +957,24 @@ function renderStats(data) {
   let elderCount = 0;
   let servantCount = 0;
 
-  if (groupColumns.length) {
+  if (groupColumns.length && headerIndex >= 0) {
     const endIndex = data.findIndex((row, index) =>
       index > headerIndex &&
       row.some(value => clean(value).includes("전도인"))
     );
 
-    const stop = endIndex > headerIndex ? endIndex : data.length;
+    const stop = endIndex > headerIndex
+      ? endIndex
+      : data.length;
 
     for (let r = headerIndex + 1; r < stop; r++) {
       const row = data[r];
       const label = row.map(clean).join(" ");
 
       // 통계 행은 사람 수 계산에서 제외합니다.
-      if (/형제\s*:|자매\s*:|전도인\s*:/.test(label)) continue;
+      if (/형제\s*:|자매\s*:|전도인\s*:/.test(label)) {
+        continue;
+      }
 
       groupColumns.forEach(nameIndex => {
         const personName = cell(row, nameIndex);
@@ -973,8 +985,13 @@ function renderStats(data) {
           cell(row, nameIndex + 3)
         ];
 
-        if (marks.includes("E")) elderCount++;
-        if (marks.includes("M")) servantCount++;
+        if (hasMark(marks, "E")) {
+          elderCount++;
+        }
+
+        if (hasMark(marks, "M")) {
+          servantCount++;
+        }
       });
     }
   }
@@ -1013,9 +1030,7 @@ function renderStats(data) {
     </section>
   `;
 }
-
-    
-
+  
 function renderService(data) {
   const dayIndex = findRow(data, "요일");
   if (dayIndex < 0) return "";
