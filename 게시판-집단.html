@@ -97,19 +97,32 @@
       font-weight: 800;
     }
 
+    .group-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 0 4px;
+  font-size: 1.15em;
+  font-weight: 800;
+  color: #193650;
+}
+    
     .group-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 10px;
 }
 
-    .group-card {
-      min-width: 0;
-      padding: 12px 9px;
-      border: 1px solid #d5e0eb;
-      border-radius: 12px;
-      background: #f7f9fc;
-    }
+.group-card {
+  min-width: 0;
+  padding: 12px 9px;
+  border: 5px solid #AEB6BF;
+  border-radius: 12px;
+  background: #f7f9fc;
+}
 
     .group-title {
   margin-bottom: 10px;
@@ -391,9 +404,9 @@
     body.dark-mode .section-title { border-color: #7898b8; }
 
     body.dark-mode .group-card {
-      background: #292d31;
-      border-color: #50545a;
-    }
+  background: #292d31;
+  border-color: #AEB6BF;
+}
 
     body.dark-mode .group-leader,
     body.dark-mode .stat-item,
@@ -775,10 +788,13 @@
         0
       );
 
-      return section(
-        `야외 봉사 집단　${totalMembers}명`,
-        `<div class="group-grid">${html}</div>`
-      );
+      return `
+        <div class="group-heading">
+          <span>야외 봉사 집단</span>
+          <span>${totalMembers}명</span>
+        </div>
+        <div class="group-grid">${html}</div>
+      `;
     }
 
     function renderStats(data) {
