@@ -1343,10 +1343,245 @@ function assignmentSection(title, tableHtml) {
     `;
   }
 
-  // 1. 일반 조직 부서 임명 목록
-  const mainRecords = records.filter(record =>
-    !record.heading && !record.responsibility
-  );
+function renderAssignments(data) {
+  // 열 범위 안의 병합 셀 값을 읽습니다.
+  // B~D열은 직책, E~F열은 담당, G열은 보조입니다.
+  function mergedCell(row, startCol, endCol) {
+    const values = [];
+
+    for (let c = startCol; c <= endCol; c++) {
+      const value = cell(row, c);
+
+      if (value && !values.includes(value)) {
+        values.push(value);
+      }
+    }
+
+    return values.join(" ");
+  }
+
+  function readAssignmentRow(row) {
+    return {
+      role: mergedCell(row, 1, 3),      // B~D열
+      person: mergedCell(row, 4, 5),    // E~F열
+      assistant: cell(row, 6)           // G열
+    };
+  }
+
+  // 책임자별 전화 연결
+  const phoneLinks = {
+    "장로의 회 조정자 책임": {
+      name: "정성일",
+      phone: "01075210755"
+    },
+    "서기 책임": {
+      name: "성지운",
+      phone: "01057460855"
+    },
+    "봉사 감독자 책임": {
+      name: "추요식",
+      phone: "01056143766"
+    }
+  };
+
+  // 1. 조직 부서 임명: 스프레드시트 B56:G67
+  // data 배열은 0부터 시작하므로 56행은 인덱스 55입니다.
+  const mainRecords = [];
+
+  for (let r = 56; r <= 67; r++) {
+    const row = data[r - 1] || [];
+
+    // 56행은 표의 제목 행입니다.
+    if (r === 56) continue;
+
+    const record = readAssignmentRow(row);
+
+    if (
+      !record.role &&
+      !record.person &&
+      !record.assistant
+    ) {
+      continue;
+    }
+
+    mainRecords.push(record);
+  }
+
+  // 2. 68행 이후의 책임별 임명 및 비고
+  const responsibilityGroups = [];
+  const notes = [];
+
+  let currentGroup = null;
+  let inNotes = false;
+
+  for (let r = 68; r <= data.length; r++) {
+    const row = data[r - 1] || [];
+    const record = readAssignmentRow(row);
+
+    if (
+      !record.role &&
+      !record.person &&
+      !record.assistant
+    ) {
+      continue;
+    }
+
+    if (record.role.includes("비고")) {
+      inNotes = true;
+      currentGroup = null;
+      continue;
+    }
+
+    if (inNotes) {
+      notes.push({
+        label: record.role,
+        people: [record.person, record.assistant]
+          .filter(Boolean)
+          .join(" ")
+      });
+      continue;
+    }
+
+    // 책임 제목 행
+    if (/책임$/.test(record.role)) {
+      currentGroup = {
+        title: record.role,
+        records: [record]
+      };
+
+      responsibilityGroups.push(currentGroup);
+      continue;
+    }
+
+    if (currentGroup) {
+      currentGroup.records.push(record);
+    }
+  }
+
+  // 공통 표 행 생성
+  function assignmentRow(role, person, assistant) {
+    const linkInfo = phoneLinks[role];
+
+    let personHtml = escapeHTML(person || "-");
+
+    if (linkInfo) {
+      personHtml = `
+        <a
+          href="https://call.ctrlq.org/${linkInfo.phone}"
+          style="color:inherit;text-decoration:underline;font-weight:700;"
+        >${escapeHTML(person || linkInfo.name)}</a>
+      `;
+    }
+
+    return `
+      <tr>
+        <td>${escapeHTML(role || "-")}</td>
+        <td>${personHtml}</td>
+        <td>${escapeHTML(assistant || "")}</td>
+      </tr>
+    `;
+  }
+
+  function tableHeader() {
+    return `
+      <thead>
+        <tr>
+          <th>직책</th>
+          <th>담당</th>
+          <th>보조</th>
+        </tr>
+      </thead>
+    `;
+  }
+
+  function assignmentSection(title, tableHtml) {
+    return `
+      <div class="group-heading">
+        <span>${escapeHTML(title)}</span>
+      </div>
+
+      <section class="section-card schedule-card">
+        ${tableHtml}
+      </section>
+    `;
+  }
+
+  // 조직 부서 임명 표
+  const mainTable = `
+    <table class="assignment-table">
+      ${tableHeader()}
+      <tbody>
+        ${mainRecords.map(record =>
+          assignmentRow(
+            record.role,
+            record.person,
+            record.assistant
+          )
+        ).join("")}
+      </tbody>
+    </table>
+  `;
+
+  // 책임별 표
+  function responsibilityTable(group) {
+    const rows = group.records.map(record =>
+      assignmentRow(
+        record.role,
+        record.person,
+        record.assistant
+      )
+    ).join("");
+
+    return `
+      <table class="assignment-table">
+        ${tableHeader()}
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  }
+
+  // 비고 표
+  const notesTable = `
+    <table class="assignment-table">
+      <thead>
+        <tr>
+          <th>비고</th>
+          <th>담당</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${notes.map(note => `
+          <tr>
+            <td>${escapeHTML(note.label || "-")}</td>
+            <td>${escapeHTML(note.people || "")}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+
+  // 화면 출력
+  return `
+    <div class="group-heading">
+      <span>조직 부서 임명</span>
+    </div>
+
+    ${mainRecords.length
+      ? `<section class="section-card schedule-card">${mainTable}</section>`
+      : ""}
+
+    ${responsibilityGroups.map(group =>
+      assignmentSection(
+        group.title,
+        responsibilityTable(group)
+      )
+    ).join("")}
+
+    ${notes.length
+      ? assignmentSection("비고", notesTable)
+      : ""}
+  `;
+}
 
   const mainTable = `
     <table class="assignment-table">
