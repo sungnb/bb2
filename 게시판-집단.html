@@ -1189,26 +1189,259 @@ function renderService(data) {
     )}
   `;
 }
-      return section(
-        "조직 부서 임명",
-        `<table class="assignment-table">
-          <thead>
-            <tr>
-              <th>직책</th>
-              <th>담당</th>
-              <th>보조</th>
-            </tr>
-          </thead>
-          <tbody>${tableRows}</tbody>
-        </table>
-        ${notes.length ? `
-          <div class="subsection-title">비고</div>
-          <ul class="note-list">
-            ${notes.map(note => `<li>${escapeHTML(note)}</li>`).join("")}
-          </ul>
-        ` : ""}`
-      );
+    
+function renderAssignments(data) {
+  const headerIndex = findRow(data, "직책");
+  if (headerIndex < 0) return "";
+
+  const records = [];
+  const notes = [];
+  let currentResponsibility = "";
+
+  for (let r = headerIndex + 1; r < data.length; r++) {
+    const row = data[r];
+    const values = row.map(clean);
+    const joined = values.filter(Boolean).join(" ");
+
+    if (!joined) {
+      if (records.length) currentResponsibility = "";
+      continue;
     }
+
+    // 비고 자료를 별도로 읽습니다.
+    if (joined.includes("비고")) {
+      for (let n = r + 1; n < data.length; n++) {
+        const noteRow = data[n];
+        const noteValues = noteRow.map(clean).filter(Boolean);
+
+        if (!noteValues.length) continue;
+
+        notes.push({
+          label: noteValues[0],
+          people: noteValues.slice(1).join(" ")
+        });
+      }
+      break;
+    }
+
+    // 책임 제목 행
+    const responsibility = values.find(value =>
+      /책임$/.test(value)
+    );
+
+    if (responsibility) {
+      currentResponsibility = responsibility;
+
+      records.push({
+        responsibility,
+        role: responsibility,
+        person: cell(row, 4) || cell(row, 5),
+        assistant: cell(row, 6) || cell(row, 7),
+        heading: true
+      });
+
+      continue;
+    }
+
+    const role = cell(row, 1) || cell(row, 2);
+    const person = cell(row, 4) || cell(row, 5);
+    const assistant = cell(row, 6) || cell(row, 7);
+
+    if (!role && !person && !assistant) continue;
+
+    records.push({
+      responsibility: currentResponsibility,
+      role,
+      person,
+      assistant,
+      heading: false
+    });
+  }
+
+  if (!records.length && !notes.length) return "";
+
+  // 책임자별 전화 연결
+  const phoneLinks = {
+    "장로의 회 조정자 책임": {
+      name: "정성일",
+      phone: "01075210755"
+    },
+    "서기 책임": {
+      name: "성지운",
+      phone: "01057460855"
+    },
+    "봉사 감독자 책임": {
+      name: "추요식",
+      phone: "01056143766"
+    }
+  };
+
+  // HTML 표 한 행 생성
+  function assignmentRow(role, person, assistant) {
+    const linkInfo = phoneLinks[role];
+
+    let personHtml = escapeHTML(person || "-");
+
+    if (linkInfo) {
+      personHtml = `
+        <a
+          href="https://call.ctrlq.org/${linkInfo.phone}"
+          style="color:inherit;text-decoration:underline;font-weight:700;"
+        >${escapeHTML(person || linkInfo.name)}</a>
+      `;
+    }
+
+    return `
+      <tr>
+        <td>${escapeHTML(role || "-")}</td>
+        <td>${personHtml}</td>
+        <td>${escapeHTML(assistant || "")}</td>
+      </tr>
+    `;
+  }
+
+  // 제목은 박스 밖에 표시하고 표만 박스 안에 넣습니다.
+  function assignmentSection(title, tableHtml) {
+    return `
+      <div class="group-heading">
+        <span>${escapeHTML(title)}</span>
+      </div>
+
+      <section class="section-card">
+        ${tableHtml}
+      </section>
+    `;
+  }
+
+  // 표의 기본 열 제목
+  function tableHeader() {
+    return `
+      <thead>
+        <tr>
+          <th>직책</th>
+          <th>담당</th>
+          <th>보조</th>
+        </tr>
+      </thead>
+    `;
+  }
+
+  // 1. 일반 조직 부서 임명 목록
+  const mainRecords = records.filter(record =>
+    !record.heading && !record.responsibility
+  );
+
+  const mainTable = `
+    <table class="assignment-table">
+      ${tableHeader()}
+      <tbody>
+        ${mainRecords.map(record =>
+          assignmentRow(
+            record.role,
+            record.person,
+            record.assistant
+          )
+        ).join("")}
+      </tbody>
+    </table>
+  `;
+
+  // 책임별로 자료를 분리합니다.
+  const responsibilityGroups = [];
+  let currentGroup = null;
+
+  records.forEach(record => {
+    if (record.heading) {
+      currentGroup = {
+        title: record.responsibility,
+        records: [record]
+      };
+
+      responsibilityGroups.push(currentGroup);
+    } else if (record.responsibility && currentGroup) {
+      currentGroup.records.push(record);
+    }
+  });
+
+  // 책임 그룹의 표를 생성합니다.
+  function responsibilityTable(group) {
+    const rows = group.records.map(record => {
+      if (record.heading) {
+        const linkInfo = phoneLinks[group.title];
+
+        const personHtml = linkInfo
+          ? `<a
+               href="https://call.ctrlq.org/${linkInfo.phone}"
+               style="color:inherit;text-decoration:underline;font-weight:700;"
+             >${escapeHTML(record.person || linkInfo.name)}</a>`
+          : escapeHTML(record.person || "-");
+
+        return `
+          <tr>
+            <td>${escapeHTML(group.title)}</td>
+            <td>${personHtml}</td>
+            <td>${escapeHTML(record.assistant || "")}</td>
+          </tr>
+        `;
+      }
+
+      return assignmentRow(
+        record.role,
+        record.person,
+        record.assistant
+      );
+    }).join("");
+
+    return `
+      <table class="assignment-table">
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  }
+
+  // 5. 비고 표
+  const notesTable = `
+    <table class="assignment-table">
+      <thead>
+        <tr>
+          <th>비고</th>
+          <th>담당</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${notes.map(note => `
+          <tr>
+            <td>${escapeHTML(note.label || "-")}</td>
+            <td>${escapeHTML(note.people || "")}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+
+  // 전체 출력
+  return `
+    <div class="group-heading">
+      <span>조직 부서 임명</span>
+    </div>
+
+    ${mainRecords.length
+      ? `<section class="section-card">${mainTable}</section>`
+      : ""}
+
+    ${responsibilityGroups.map(group =>
+      assignmentSection(
+        group.title,
+        responsibilityTable(group)
+      )
+    ).join("")}
+
+    ${notes.length
+      ? assignmentSection("비고", notesTable)
+      : ""}
+  `;
+}
 
     function renderPage(data) {
       if (!Array.isArray(data) || !data.length) {
