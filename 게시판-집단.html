@@ -925,25 +925,23 @@
 
   
 function renderStats(data) {
-  // 지정한 셀에서 값을 읽어 옵니다.
   function getCell(rowIndex, colIndex) {
     return cell(data[rowIndex] || [], colIndex);
   }
 
-  const brotherCount = getCell(8, 3);   // D9
-  const sisterCount = getCell(19, 3);   // D20
-  const publisherCount = getCell(33, 3); // D34
-  const pioneerCount = getCell(34, 2);  // C35
-
-  // 표시가 단독이거나 다른 직책과 함께 있어도 정확히 판별합니다.
-  function hasMark(marks, target) {
-    return marks.some(mark =>
+  // E, E · P, E · CO처럼 다른 표시와 함께 있어도 인식합니다.
+  function hasMark(values, target) {
+    return values.some(value =>
       new RegExp("(^|[^A-Z])" + target + "([^A-Z]|$)", "i")
-        .test(clean(mark))
+        .test(clean(value))
     );
   }
 
-  // 집단별 이름 열과 직책 표시 열을 확인합니다.
+  const brotherCount = getCell(8, 3);    // D9
+  const sisterCount = getCell(19, 3);    // D20
+  const publisherCount = getCell(33, 3); // D34
+  const pioneerCount = getCell(34, 2);  // C35
+
   const headerIndex = findRow(data, "집 단 명");
   const header = headerIndex >= 0 ? data[headerIndex] : [];
   const groupColumns = [];
@@ -963,35 +961,31 @@ function renderStats(data) {
       row.some(value => clean(value).includes("전도인"))
     );
 
-    const stop = endIndex > headerIndex
-      ? endIndex
-      : data.length;
+    const stop = endIndex > headerIndex ? endIndex : data.length;
 
     for (let r = headerIndex + 1; r < stop; r++) {
       const row = data[r];
       const label = row.map(clean).join(" ");
 
-      // 통계 행은 사람 수 계산에서 제외합니다.
+      // 통계 행은 계산에서 제외합니다.
       if (/형제\s*:|자매\s*:|전도인\s*:/.test(label)) {
         continue;
       }
 
-      groupColumns.forEach(nameIndex => {
+      groupColumns.forEach((nameIndex, groupIndex) => {
         const personName = cell(row, nameIndex);
         if (!personName) return;
 
-        const marks = [
-          cell(row, nameIndex + 2),
-          cell(row, nameIndex + 3)
-        ];
+        // 해당 집단의 이름 열부터 다음 집단 이름 열 직전까지 확인합니다.
+        const nextGroupIndex = groupColumns[groupIndex + 1];
+        const segmentEnd = nextGroupIndex === undefined
+          ? row.length
+          : nextGroupIndex;
 
-        if (hasMark(marks, "E")) {
-          elderCount++;
-        }
+        const marks = row.slice(nameIndex + 1, segmentEnd);
 
-        if (hasMark(marks, "M")) {
-          servantCount++;
-        }
+        if (hasMark(marks, "E")) elderCount++;
+        if (hasMark(marks, "M")) servantCount++;
       });
     }
   }
