@@ -97,6 +97,19 @@
       font-weight: 800;
     }
 
+   /* 회중 인원 통계에만 적용 */
+#content > .section-card:has(.stats-grid) {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#content > .section-card:has(.stats-grid) .section-title {
+  border-bottom: none;
+} 
+    
     .group-heading {
   display: flex;
   align-items: center;
