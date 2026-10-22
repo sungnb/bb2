@@ -3,7 +3,7 @@
 <head>
   <base target="_top">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>게시판</title>
   <style>
     * {
@@ -19,12 +19,17 @@
 }
 
 .page {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   max-width: none;
   margin: 0;
   background: white;
-  min-height: 100vh;
   padding-top: 62px;
+  overflow: hidden;
 }
 
 /* =========================
@@ -148,10 +153,19 @@
 /* 본문이 하단 메뉴에 가려지지 않도록 여백 확보 */
 
 #content {
+  position: absolute;
+  top: 62px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
   width: 100%;
   max-width: 100%;
   min-width: 0;
+  overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior-y: contain;
 }
 
 #content > h2:first-child {
