@@ -595,11 +595,18 @@ body.dark-mode .rotation-group {
       box-shadow: none;
     }
 
-    body.dark-mode .section-title,
-    body.dark-mode .group-title,
-    body.dark-mode .stat-value {
-      color: #b9d9f5;
-    }
+   
+/* 어두운 모드: 본문 글자 전체 흰색 */
+body.dark-mode #content,
+body.dark-mode #content * {
+  color: #fff !important;
+}
+
+/* 링크 글자도 흰색 */
+body.dark-mode #content a {
+  color: #fff !important;
+}
+
 
     body.dark-mode .section-title { border-color: #7898b8; }
 
