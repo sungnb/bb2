@@ -1332,11 +1332,11 @@ function renderService(data) {
       ? makeScheduleSection("호별 방문", rows, true)
       : ""}
 
-    ${makeScheduleSection(
-      "전시대 봉사",
-      exhibitionRows,
-      true
-    )}
+     <div class="group-heading">
+      <span>
+        ${escapeHTML(cell(data[90] || [], 1) || "※ 집단별 봉사모임 : 매월 첫째 일요일 (오후 1:30 / 봉사 모임 장소)")}
+      </span>
+    </div>
 
     ${makeScheduleSection(
       "줌 [ZOOM] 봉사",
@@ -1345,13 +1345,7 @@ function renderService(data) {
     )}
   `;
 }
-    
-<div class="group-heading">
-  <span>
-    ${escapeHTML(cell(data[90] || [], 1) || "※ 집단별 봉사모임 : 매월 첫째 일요일 (오후 1:30 / 봉사 모임 장소)")}
-  </span>
-</div>
-    
+
 function renderAssignments(data) {
   // 병합 셀 범위에서 실제 값이 있는 셀을 읽습니다.
   function mergedCell(row, startCol, endCol) {
