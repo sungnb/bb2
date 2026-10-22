@@ -138,8 +138,8 @@
 }
 
 #content > .section-card:has(.stats-grid) .stats-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 0;
 }
 
@@ -147,28 +147,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 8px;
+  width: 100%;
   min-width: 0;
-  min-height: 65px;
+  min-height: 52px;
   padding: 12px 10px;
   border: none;
+  border-bottom: 1px solid #193650;
   border-radius: 0;
   background: transparent;
   text-align: left;
 }
 
-/* 가운데 세로 구분선 */
+/* 세로 구분선 제거 */
 #content > .section-card:has(.stats-grid) .stat-item:nth-child(odd) {
-  border-right: 1px solid #193650;
+  border-right: none;
 }
 
-/* 각 행의 가로 구분선 */
-#content > .section-card:has(.stats-grid) .stat-item {
-  border-bottom: 1px solid #193650;
-}
-
-/* 마지막 두 칸은 아래쪽 선 제거 */
-#content > .section-card:has(.stats-grid) .stat-item:nth-last-child(-n+2) {
+/* 마지막 항목의 아래쪽 선 제거 */
+#content > .section-card:has(.stats-grid) .stat-item:last-child {
   border-bottom: none;
 }
 
