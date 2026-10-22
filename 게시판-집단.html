@@ -98,14 +98,19 @@
     }
 
 
-/* 야외 봉사 일정: 테두리와 간격 */
-#content > .section-card:has(.schedule-table) {
-  margin-top: 15px;
+/* 야외 봉사 일정: 제목 행부터 바로 표시 */
+#content > .section-card:has(.schedule-table),
+#content > .section-card.schedule-card {
+  margin-top: 0;
   padding: 0;
   border: 5px solid #AEB6BF;
   border-radius: 12px;
   box-shadow: none;
   overflow: hidden;
+}
+
+.schedule-card .section-title {
+  display: none;
 }
 
 /* 회중 인원 통계: 집단 박스와 동일한 테두리 */
@@ -1075,12 +1080,16 @@ function renderService(data) {
   // W38 셀 = data[37][22]
   const meetingPlace = cell(data[37] || [], 22);
 
-  // 호별 방문: 화요일부터 일요일까지 정렬
+  // 호별 방문: 화요일부터 일요일까지 정렬 및 요일 전체 표기
   const dayOrder = ["화", "수", "목", "금", "토", "일"];
 
   rows.sort((a, b) =>
     dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)
   );
+
+  rows.forEach(item => {
+    item.day = item.day + "요일";
+  });
 
   // 전시대 봉사
   // V48 = 토요일 인도자
@@ -1163,10 +1172,9 @@ function renderService(data) {
         <span>${escapeHTML(title)}</span>
       </div>
 
-      ${section(
-        "",
-        makeScheduleTable(items, showMeetingPlace)
-      )}
+      <section class="section-card schedule-card">
+        ${makeScheduleTable(items, showMeetingPlace)}
+      </section>
     `;
   }
 
