@@ -1009,6 +1009,7 @@ function renderService(data) {
 
   dayRow.forEach((value, index) => {
     const day = clean(value);
+
     if (/^(월|화|수|목|금|토|일)$/.test(day)) {
       days.push({ day, index });
     }
@@ -1027,7 +1028,6 @@ function renderService(data) {
 
     const label = cell(row, 1) || cell(row, 2);
 
-    // 일정 제목을 만나면 해당 일정 유형을 변경합니다.
     if (
       label.includes("호별") ||
       label.includes("전시대") ||
@@ -1037,80 +1037,74 @@ function renderService(data) {
       currentType = label.replace(/\s+/g, " ");
     }
 
-    if (!currentType) continue;
+    if (!currentType || !/호별/.test(currentType)) continue;
 
     const subLabel = cell(row, 3) || cell(row, 2);
 
-    if (!["인도자", "시간", "장소"].some(key =>
+    if (!["인도자", "시간"].some(key =>
       subLabel.includes(key)
     )) continue;
 
     days.forEach(day => {
       const value = cell(row, day.index);
-      if (!value) return;
 
-      let record = rows.find(item =>
-        item.type === currentType && item.day === day.day
-      );
+      let record = rows.find(item => item.day === day.day);
 
       if (!record) {
         record = {
-          type: currentType,
           day: day.day,
-          leader: "",
-          time: "",
-          place: ""
+          leader: "-",
+          time: "-"
         };
+
         rows.push(record);
       }
 
-      if (subLabel.includes("인도자")) record.leader = value;
-      if (subLabel.includes("시간")) record.time = value;
-      if (subLabel.includes("장소")) record.place = value;
+      if (subLabel.includes("인도자")) {
+        record.leader = value || "-";
+      }
+
+      if (subLabel.includes("시간")) {
+        record.time = value || "-";
+      }
     });
   }
 
   if (!rows.length) return "";
 
-  // 시트의 일정 제목을 화면에 표시할 제목으로 정리합니다.
-  function displayType(type) {
-    if (/호별/.test(type)) return "호별 방문";
-    if (/전시대/.test(type) && !/ZOOM|줌/i.test(type)) {
-      return "전시대 봉사";
-    }
-    if (/ZOOM|줌/i.test(type)) return "줌(Zoom)";
-    return type;
-  }
+  // 화요일부터 일요일까지 표시합니다.
+  const dayOrder = ["화", "수", "목", "금", "토", "일"];
 
-  // 제목 표시 순서: 호별 방문 → 전시대 봉사 → 줌(Zoom)
-  const priority = ["호별 방문", "전시대 봉사", "줌(Zoom)"];
-  const types = [...new Set(rows.map(row => row.type))];
+  rows.sort((a, b) =>
+    dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)
+  );
 
-  types.sort((a, b) => {
-    const aTitle = displayType(a);
-    const bTitle = displayType(b);
-    const aIndex = priority.indexOf(aTitle);
-    const bIndex = priority.indexOf(bTitle);
+  // W38 셀: 배열은 0부터 시작하므로 행 38은 data[37],
+  // W열은 열 인덱스 22입니다.
+  const meetingPlace = cell(data[37] || [], 22);
 
-    return (aIndex < 0 ? 99 : aIndex) -
-           (bIndex < 0 ? 99 : bIndex);
-  });
+  const scheduleHtml = `
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>요일</th>
+          <th>인도자</th>
+          <th>시간</th>
+        </tr>
+      </thead>
 
-  // F43 셀의 봉사 모임 장소
-  const meetingPlace = cell(data[42] || [], 5);
+      <tbody>
+        ${rows.map(item => `
+          <tr>
+            <td>${escapeHTML(item.day)}</td>
+            <td>${escapeHTML(item.leader)}</td>
+            <td>${escapeHTML(item.time)}</td>
+          </tr>
+        `).join("")}
 
-  const scheduleHtml = types.map(type => {
-    const items = rows.filter(row => row.type === type);
-    const title = displayType(type);
-
-    const showPlaceRow =
-      /호별|회중 봉사 모임|봉사 모임|전시대/.test(title);
-
-    const placeRow = showPlaceRow
-      ? `
         <tr>
           <td style="font-weight:700;background:#f7f9fb;">
-            봉사모임장소
+            모임장소
           </td>
           <td colspan="2">
             ${meetingPlace
@@ -1119,47 +1113,23 @@ function renderService(data) {
                   target="_blank"
                   rel="noopener noreferrer"
                   style="color:#0563c1;text-decoration:underline;font-weight:700;"
-                >봉사 모임 장소(${escapeHTML(meetingPlace)})</a>`
+                >봉사모임장소</a>`
               : "-"}
           </td>
         </tr>
-      `
-      : "";
+      </tbody>
+    </table>
+  `;
 
-    return `
-      <div class="subsection-title">
-        ${escapeHTML(title)}
-      </div>
+  return `
+    <div class="group-heading">
+      <span>호별 방문</span>
+    </div>
 
-      <table class="schedule-table">
-        <thead>
-          <tr>
-            <th>요일</th>
-            <th>인도자</th>
-            <th>시간</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          ${items.map(item => `
-            <tr>
-              <td>${escapeHTML(item.day)}</td>
-              <td>${escapeHTML(item.leader || "-")}</td>
-              <td>${escapeHTML(item.time || "-")}</td>
-            </tr>
-          `).join("")}
-
-          ${placeRow}
-        </tbody>
-      </table>
-    `;
-  }).join("");
-
-  // 바깥쪽 야외 봉사 일정 박스는 한 번만 생성합니다.
-  return section("야외 봉사 일정", scheduleHtml);
+    ${section("", scheduleHtml)}
+  `;
 }
-
-
+    
     function renderAssignments(data) {
       const headerIndex = findRow(data, "직책");
       if (headerIndex < 0) return "";
