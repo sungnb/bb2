@@ -1131,17 +1131,19 @@ function renderRotationSchedules(data) {
 
       <section class="section-card rotation-card">
         <div class="rotation-grid">
+
+          <div class="rotation-group">집단</div>
+          <div class="rotation-value">날짜</div>
+
           ${groups.map(item => `
             <div class="rotation-group">
               ${escapeHTML(item.group)}
             </div>
-          `).join("")}
-
-          ${groups.map(item => `
             <div class="rotation-value">
               ${escapeHTML(readCell(rowNumber, item.column) || "-")}
             </div>
           `).join("")}
+
         </div>
       </section>
     `;
