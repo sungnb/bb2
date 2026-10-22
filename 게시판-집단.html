@@ -317,12 +317,28 @@ body {
     }
 
     .schedule-table,
-    .assignment-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      font-size: .92em;
-    }
+.assignment-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: .92em;
+}
+
+/* 조직 부서 임명 및 책임별 표의 열 너비 */
+.assignment-table th:nth-child(1),
+.assignment-table td:nth-child(1) {
+  width: 50%;
+}
+
+.assignment-table th:nth-child(2),
+.assignment-table td:nth-child(2) {
+  width: 25%;
+}
+
+.assignment-table th:nth-child(3),
+.assignment-table td:nth-child(3) {
+  width: 25%;
+}
 
     .schedule-table th,
     .schedule-table td,
