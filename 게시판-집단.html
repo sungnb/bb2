@@ -716,12 +716,14 @@
         members: []
       }));
 
+   
       for (let r = headerIndex + 1; r < stop; r++) {
         const row = data[r];
         const label = row.map(clean).join(" ");
 
         groups.forEach(group => {
           const name = cell(row, group.index);
+
           const marks = [
             cell(row, group.index + 2),
             cell(row, group.index + 3)
@@ -733,25 +735,49 @@
             group.supervisor = name + (marks.length
               ? " (" + marks.join(", ") + ")"
               : "");
-          } else if (label.includes("집단 보조자")) {
+            return;
+          }
+
+          if (label.includes("집단 보조자")) {
             group.assistant = name + (marks.length
               ? " (" + marks.join(", ") + ")"
               : "");
-          } else {
-            group.members.push({
-              name,
-              marks
-            });
+            return;
           }
+
+          // 통계 행은 일반 명단에서 제외
+          if (
+            /^(형제|자매|전도인)\s*:/.test(name) ||
+            /^(P|E|M|SP|CO)\s*:/.test(name) ||
+            /^\d+\s*명$/.test(name)
+          ) {
+            return;
+          }
+
+          // 실제 이름만 수집하고 표시를 유지
+          group.members.push({
+            name,
+            marks
+          });
         });
       }
+
+      // 일반 명단을 가나다순으로 정렬
+      groups.forEach(group => {
+        group.members.sort((a, b) =>
+          a.name.localeCompare(b.name, "ko")
+        );
+      });
+
 
       const html = groups.map(group => `
         <div class="group-card">
           <div class="group-title">
             ${escapeHTML(group.name)}
             <span style="float:right;font-size:.8em;font-weight:400;color:#53677a">
-              ${group.members.length}명
+              ${group.members.length +
+  (group.supervisor ? 1 : 0) +
+  (group.assistant ? 1 : 0)}명
             </span>
           </div>
 
