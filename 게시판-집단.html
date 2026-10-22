@@ -14,6 +14,14 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
 }
 
 body {
@@ -21,10 +29,12 @@ body {
   padding: 0;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
-      font-family: Arial, "Malgun Gothic", sans-serif;
-      color: #222;
-      background: #f3f4f6;
-    }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  color: #222;
+  background: #f3f4f6;
+}
 
     .page {
       width: 100%;
