@@ -906,9 +906,13 @@
       `).join("");
 
       const totalMembers = groups.reduce(
-        (total, group) => total + group.members.length,
-        0
-      );
+  (total, group) =>
+    total +
+    group.members.length +
+    (group.supervisor ? 1 : 0) +
+    (group.assistant ? 1 : 0),
+  0
+);
 
       return `
         <div class="group-heading">
