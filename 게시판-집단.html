@@ -189,12 +189,16 @@
       gap: 9px;
     }
 
-    .stat-item {
-      padding: 12px 8px;
-      border-radius: 10px;
-      background: #edf3f8;
-      text-align: center;
-    }
+    
+.stat-item {
+  min-width: 0;
+  padding: 12px 8px;
+  border: 5px solid #AEB6BF;
+  border-radius: 10px;
+  background: #edf3f8;
+  text-align: center;
+}
+
 
     .stat-label {
       display: block;
@@ -408,6 +412,9 @@
   border-color: #AEB6BF;
 }
 
+    body.dark-mode .stat-item {
+  border-color: #AEB6BF;
+}
     body.dark-mode .group-leader,
     body.dark-mode .stat-item,
     body.dark-mode .subsection-title {
@@ -823,85 +830,91 @@
       `;
     }
 
-    function renderStats(data) {
-      const stats = [];
-      const labels = [
-        { key: "형제", label: "형제" },
-        { key: "자매", label: "자매" },
-        { key: "전도인", label: "전도인" }
-      ];
+  
+function renderStats(data) {
+  // 지정한 셀에서 값을 읽어 옵니다.
+  function getCell(rowIndex, colIndex) {
+    return cell(data[rowIndex] || [], colIndex);
+  }
 
-      labels.forEach(item => {
-        for (const row of data) {
-          const index = row.findIndex(value =>
-            clean(value).includes(item.key)
-          );
+  const brotherCount = getCell(8, 3);   // D9
+  const sisterCount = getCell(19, 3);   // D20
+  const publisherCount = getCell(33, 3); // D34
+  const pioneerCount = getCell(34, 2);  // C35
 
-          if (index < 0) continue;
+  // 집단별 이름 열과 직책 표시 열을 확인합니다.
+  const headerIndex = findRow(data, "집 단 명");
+  const header = headerIndex >= 0 ? data[headerIndex] : [];
+  const groupColumns = [];
 
-          const values = row.slice(index + 1)
-            .map(clean)
-            .filter(Boolean);
-
-          const number = values.find(value =>
-            /^\d+\s*명?$/.test(value)
-          );
-
-          if (number) {
-            stats.push({
-              label: item.label,
-              value: number.replace(/\s/g, "")
-            });
-          }
-          break;
-        }
-      });
-
-      const pioneerRow = data.find(row =>
-        row.some(value => clean(value) === "P :") &&
-        row.some(value => clean(value).includes("%"))
-      );
-
-      if (pioneerRow) {
-        const values = pioneerRow.map(clean).filter(Boolean);
-        const percent = values.find(value => value.includes("%"));
-        const pioneerIndex = pioneerRow.findIndex(value =>
-          clean(value) === "P :"
-        );
-        const pioneerNumber = pioneerRow
-          .slice(pioneerIndex + 1)
-          .map(clean)
-          .find(value => /^\d+$/.test(value));
-
-        if (pioneerNumber) {
-          stats.push({
-            label: "파이오니아",
-            value: pioneerNumber + "명"
-          });
-        }
-
-        if (percent) {
-          stats.push({
-            label: "파이오니아 비율",
-            value: percent.replace(/[()]/g, "")
-          });
-        }
-      }
-
-      if (!stats.length) return "";
-
-      return section(
-        "회중 인원 통계",
-        `<div class="stats-grid">
-          ${stats.map(stat => `
-            <div class="stat-item">
-              <span class="stat-label">${escapeHTML(stat.label)}</span>
-              <span class="stat-value">${escapeHTML(stat.value)}</span>
-            </div>
-          `).join("")}
-        </div>`
-      );
+  header.forEach((value, index) => {
+    if (/^[A-D]집단$/.test(clean(value))) {
+      groupColumns.push(index);
     }
+  });
+
+  let elderCount = 0;
+  let servantCount = 0;
+
+  if (groupColumns.length) {
+    const endIndex = data.findIndex((row, index) =>
+      index > headerIndex &&
+      row.some(value => clean(value).includes("전도인"))
+    );
+
+    const stop = endIndex > headerIndex ? endIndex : data.length;
+
+    for (let r = headerIndex + 1; r < stop; r++) {
+      const row = data[r];
+      const label = row.map(clean).join(" ");
+
+      // 통계 행은 사람 수 계산에서 제외합니다.
+      if (/형제\s*:|자매\s*:|전도인\s*:/.test(label)) continue;
+
+      groupColumns.forEach(nameIndex => {
+        const personName = cell(row, nameIndex);
+        if (!personName) return;
+
+        const marks = [
+          cell(row, nameIndex + 2),
+          cell(row, nameIndex + 3)
+        ];
+
+        if (marks.includes("E")) elderCount++;
+        if (marks.includes("M")) servantCount++;
+      });
+    }
+  }
+
+  const pioneers = Number.parseInt(pioneerCount, 10) || 0;
+  const publishers = Number.parseInt(publisherCount, 10) || 0;
+
+  const pioneerRate = publishers > 0
+    ? Math.round(pioneers / publishers * 100)
+    : 0;
+
+  const stats = [
+    { label: "형제 인원", value: brotherCount + "명" },
+    { label: "자매 인원", value: sisterCount + "명" },
+    { label: "총 전도인", value: publisherCount + "명" },
+    { label: "장로", value: elderCount + "명" },
+    { label: "봉사의 종", value: servantCount + "명" },
+    { label: "파이오니아", value: pioneers + "명" },
+    { label: "파이오니아 비율", value: pioneerRate + "%" }
+  ];
+
+  return section(
+    "회중 인원 통계",
+    `<div class="stats-grid">
+      ${stats.map(stat => `
+        <div class="stat-item">
+          <span class="stat-label">${escapeHTML(stat.label)}</span>
+          <span class="stat-value">${escapeHTML(stat.value)}</span>
+        </div>
+      `).join("")}
+    </div>`
+  );
+}
 
     function renderService(data) {
       const dayIndex = findRow(data, "요일");
