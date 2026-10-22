@@ -99,13 +99,24 @@
 
 
 /* 회중 인원 통계: 손그림 형태의 하나의 표 */
-#content > .section-card:has(.stats-grid) {
+/* 야외 봉사 일정: 전체를 하나의 큰 상자로 표시 */
+#content > .section-card:has(.schedule-table) {
   margin-top: 18px;
   padding: 0;
   border: 5px solid #AEB6BF;
   border-radius: 12px;
   box-shadow: none;
   overflow: hidden;
+}
+
+#content > .section-card:has(.schedule-table) .section-title {
+  margin: 0;
+  padding: 18px 8px;
+  border-bottom: 2px solid #193650;
+  color: #193650;
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 900;
 }
 
 #content > .section-card:has(.stats-grid) .section-title {
@@ -1058,14 +1069,43 @@ function renderStats(data) {
 
       if (!rows.length) return "";
 
-      const types = [...new Set(rows.map(row => row.type))];
+         const types = [...new Set(rows.map(row => row.type))];
+
+      // F43 셀의 봉사 모임 장소
+      const meetingPlace = cell(data[42] || [], 5);
 
       return section(
         "야외 봉사 일정",
         types.map(type => {
           const items = rows.filter(row => row.type === type);
+
+          // 회중 봉사 모임 및 전시대 봉사에 장소 행 표시
+          const showPlaceRow =
+            /호별|회중 봉사 모임|봉사 모임|전시대/.test(type);
+
+          const placeRow = showPlaceRow
+            ? `
+              <tr>
+                <td style="font-weight:700;background:#f7f9fb;">
+                  봉사모임장소
+                </td>
+                <td colspan="3">
+                  ${meetingPlace
+                    ? `<a
+                        href="https://map.naver.com/p/search/${encodeURIComponent(meetingPlace)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style="color:#0563c1;text-decoration:underline;font-weight:700;"
+                      >봉사 모임 장소(${escapeHTML(meetingPlace)})</a>`
+                    : "-"}
+                </td>
+              </tr>
+            `
+            : "";
+
           return `
             <div class="subsection-title">${escapeHTML(type)}</div>
+
             <table class="schedule-table">
               <thead>
                 <tr>
@@ -1075,6 +1115,7 @@ function renderStats(data) {
                   <th>장소</th>
                 </tr>
               </thead>
+
               <tbody>
                 ${items.map(item => `
                   <tr>
@@ -1084,12 +1125,13 @@ function renderStats(data) {
                     <td>${escapeHTML(item.place || "-")}</td>
                   </tr>
                 `).join("")}
+
+                ${placeRow}
               </tbody>
             </table>
           `;
         }).join("")
       );
-    }
 
     function renderAssignments(data) {
       const headerIndex = findRow(data, "직책");
