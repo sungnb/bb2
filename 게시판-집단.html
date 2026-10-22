@@ -1012,6 +1012,7 @@ function renderStats(data) {
 }
 
     
+
 function renderService(data) {
   const dayIndex = findRow(data, "요일");
   if (dayIndex < 0) return "";
@@ -1039,10 +1040,12 @@ function renderService(data) {
 
     const label = cell(row, 1) || cell(row, 2);
 
+    // 일정 제목을 만나면 해당 일정 유형을 변경합니다.
     if (
       label.includes("호별") ||
       label.includes("전시대") ||
-      label.includes("ZOOM")
+      label.includes("ZOOM") ||
+      label.includes("줌")
     ) {
       currentType = label.replace(/\s+/g, " ");
     }
@@ -1082,17 +1085,39 @@ function renderService(data) {
 
   if (!rows.length) return "";
 
+  // 시트의 일정 제목을 화면에 표시할 제목으로 정리합니다.
+  function displayType(type) {
+    if (/호별/.test(type)) return "호별 방문";
+    if (/전시대/.test(type) && !/ZOOM|줌/i.test(type)) {
+      return "전시대 봉사";
+    }
+    if (/ZOOM|줌/i.test(type)) return "줌(Zoom)";
+    return type;
+  }
+
+  // 제목 표시 순서: 호별 방문 → 전시대 봉사 → 줌(Zoom)
+  const priority = ["호별 방문", "전시대 봉사", "줌(Zoom)"];
   const types = [...new Set(rows.map(row => row.type))];
+
+  types.sort((a, b) => {
+    const aTitle = displayType(a);
+    const bTitle = displayType(b);
+    const aIndex = priority.indexOf(aTitle);
+    const bIndex = priority.indexOf(bTitle);
+
+    return (aIndex < 0 ? 99 : aIndex) -
+           (bIndex < 0 ? 99 : bIndex);
+  });
 
   // F43 셀의 봉사 모임 장소
   const meetingPlace = cell(data[42] || [], 5);
 
-  // 각 일정 유형을 서로 다른 박스로 표시
-  return types.map(type => {
+  const scheduleHtml = types.map(type => {
     const items = rows.filter(row => row.type === type);
+    const title = displayType(type);
 
     const showPlaceRow =
-      /호별|회중 봉사 모임|봉사 모임|전시대/.test(type);
+      /호별|회중 봉사 모임|봉사 모임|전시대/.test(title);
 
     const placeRow = showPlaceRow
       ? `
@@ -1114,38 +1139,39 @@ function renderService(data) {
       `
       : "";
 
-    return section(
-      "야외 봉사 일정",
-      `
-        <div class="subsection-title">
-          ${escapeHTML(type)}
-        </div>
+    return `
+      <div class="subsection-title">
+        ${escapeHTML(title)}
+      </div>
 
-        <table class="schedule-table">
-          <thead>
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>요일</th>
+            <th>인도자</th>
+            <th>시간</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${items.map(item => `
             <tr>
-              <th>요일</th>
-              <th>인도자</th>
-              <th>시간</th>
+              <td>${escapeHTML(item.day)}</td>
+              <td>${escapeHTML(item.leader || "-")}</td>
+              <td>${escapeHTML(item.time || "-")}</td>
             </tr>
-          </thead>
+          `).join("")}
 
-          <tbody>
-            ${items.map(item => `
-              <tr>
-                <td>${escapeHTML(item.day)}</td>
-                <td>${escapeHTML(item.leader || "-")}</td>
-                <td>${escapeHTML(item.time || "-")}</td>
-              </tr>
-            `).join("")}
-
-            ${placeRow}
-          </tbody>
-        </table>
-      `
-    );
+          ${placeRow}
+        </tbody>
+      </table>
+    `;
   }).join("");
+
+  // 바깥쪽 야외 봉사 일정 박스는 한 번만 생성합니다.
+  return section("야외 봉사 일정", scheduleHtml);
 }
+
 
     function renderAssignments(data) {
       const headerIndex = findRow(data, "직책");
