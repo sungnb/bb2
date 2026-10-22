@@ -1101,7 +1101,53 @@ for (let r = 5; r <= 12; r++) {
     </section>
   `;
 }
-  
+    
+/* =========================================================
+   왕국 회관 청소 / 봉사감독자 방문
+========================================================= */
+
+function renderRotationSchedules(data) {
+  const groups = [
+    { group: "A집단", column: 5 },
+    { group: "B집단", column: 9 },
+    { group: "C집단", column: 13 },
+    { group: "D집단", column: 17 }
+  ];
+
+  function readCell(rowNumber, columnIndex) {
+    return cell(data[rowNumber - 1] || [], columnIndex);
+  }
+
+  function makeRotation(title, rowNumber) {
+    return `
+      <div class="group-heading">
+        <span>${escapeHTML(title)}</span>
+      </div>
+
+      <section class="section-card rotation-card">
+        <div class="rotation-grid">
+          ${groups.map(item => `
+            <div class="rotation-group">
+              ${escapeHTML(item.group)}
+            </div>
+          `).join("")}
+
+          ${groups.map(item => `
+            <div class="rotation-value">
+              ${escapeHTML(readCell(rowNumber, item.column) || "-")}
+            </div>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  return `
+    ${makeRotation("왕국 회관 청소", 37)}
+    ${makeRotation("봉사감독자 방문", 38)}
+  `;
+}
+    
 function renderService(data) {
   const dayIndex = findRow(data, "요일");
   if (dayIndex < 0) return "";
@@ -1524,12 +1570,13 @@ function renderAssignments(data) {
         throw new Error("스프레드시트에서 데이터가 반환되지 않았습니다.");
       }
 
-      const html = [
-        renderGroups(data),
-        renderStats(data),
-        renderService(data),
-        renderAssignments(data)
-      ].filter(Boolean).join("");
+ const html = [
+  renderGroups(data),
+  renderStats(data),
+  renderRotationSchedules(data),
+  renderService(data),
+  renderAssignments(data)
+].filter(Boolean).join("");
 
       if (!html) {
         throw new Error(
