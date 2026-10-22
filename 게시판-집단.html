@@ -996,20 +996,22 @@ function renderStats(data) {
     { label: "파이오니아 비율", value: pioneerRate + "%" }
   ];
 
+  return `
+    <div class="group-heading">
+      <span>회중 인원 통계</span>
+    </div>
 
-  return section(
-    "회중 인원 통계",
-    `<div class="stats-grid">
-      ${stats.map(stat => `
-        <div class="stat-item">
-          <span class="stat-label">${escapeHTML(stat.label)}</span>
-          <span class="stat-value">${escapeHTML(stat.value)}</span>
-        </div>
-      `).join("")}
-      ${stats.length % 2 !== 0 ? '<div class="stat-item stat-empty"></div>' : ''}
-    </div>`
-  );
-
+    <section class="section-card">
+      <div class="stats-grid">
+        ${stats.map(stat => `
+          <div class="stat-item">
+            <span class="stat-label">${escapeHTML(stat.label)}</span>
+            <span class="stat-value">${escapeHTML(stat.value)}</span>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+  `;
 }
 
     
