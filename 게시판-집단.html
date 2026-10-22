@@ -98,11 +98,19 @@
     }
 
 
-/* 회중 인원 통계: 손그림 형태의 하나의 표 */
-/* 야외 봉사 일정: 전체를 하나의 큰 상자로 표시 */
+/* 야외 봉사 일정: 테두리와 간격 */
 #content > .section-card:has(.schedule-table) {
-  margin-top: 18px;
+  margin-top: 15px;
   padding: 0;
+  border: 5px solid #AEB6BF;
+  border-radius: 12px;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* 회중 인원 통계: 집단 박스와 동일한 테두리 */
+#content > .section-card:has(.stats-grid) {
+  margin-top: 0;
   border: 5px solid #AEB6BF;
   border-radius: 12px;
   box-shadow: none;
@@ -329,14 +337,14 @@
       background: #f7f9fb;
     }
 
-    .subsection-title {
-      margin: 18px 0 8px;
-      padding: 8px 10px;
-      border-left: 4px solid #193650;
-      background: #edf2f7;
-      color: #193650;
-      font-weight: 800;
-    }
+   .subsection-title {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: none;
+  background: #edf2f7;
+  color: #193650;
+  font-weight: 800;
+}
 
     .note-list {
       margin: 0;
@@ -1003,136 +1011,141 @@ function renderStats(data) {
 
 }
 
-    function renderService(data) {
-      const dayIndex = findRow(data, "요일");
-      if (dayIndex < 0) return "";
+    
+function renderService(data) {
+  const dayIndex = findRow(data, "요일");
+  if (dayIndex < 0) return "";
 
-      const dayRow = data[dayIndex];
-      const days = [];
+  const dayRow = data[dayIndex];
+  const days = [];
 
-      dayRow.forEach((value, index) => {
-        const day = clean(value);
-        if (/^(월|화|수|목|금|토|일)$/.test(day)) {
-          days.push({ day, index });
-        }
-      });
+  dayRow.forEach((value, index) => {
+    const day = clean(value);
+    if (/^(월|화|수|목|금|토|일)$/.test(day)) {
+      days.push({ day, index });
+    }
+  });
 
-      if (!days.length) return "";
+  if (!days.length) return "";
 
-      const rows = [];
-      let currentType = "";
+  const rows = [];
+  let currentType = "";
 
-      for (let r = dayIndex + 1; r < data.length; r++) {
-        const row = data[r];
-        const first = row.map(clean).join(" ");
+  for (let r = dayIndex + 1; r < data.length; r++) {
+    const row = data[r];
+    const first = row.map(clean).join(" ");
 
-        if (first.includes("직책")) break;
+    if (first.includes("직책")) break;
 
-        const label = cell(row, 1) || cell(row, 2);
-        if (label.includes("호별") || label.includes("전시대") ||
-            label.includes("ZOOM")) {
-          currentType = label.replace(/\s+/g, " ");
-        }
+    const label = cell(row, 1) || cell(row, 2);
 
-        if (!currentType) continue;
+    if (
+      label.includes("호별") ||
+      label.includes("전시대") ||
+      label.includes("ZOOM")
+    ) {
+      currentType = label.replace(/\s+/g, " ");
+    }
 
-        const subLabel = cell(row, 3) || cell(row, 2);
+    if (!currentType) continue;
 
-        if (!["인도자", "시간", "장소"].some(key =>
-          subLabel.includes(key)
-        )) continue;
+    const subLabel = cell(row, 3) || cell(row, 2);
 
-        days.forEach(day => {
-          const value = cell(row, day.index);
-          if (!value) return;
+    if (!["인도자", "시간", "장소"].some(key =>
+      subLabel.includes(key)
+    )) continue;
 
-          let record = rows.find(item =>
-            item.type === currentType && item.day === day.day
-          );
+    days.forEach(day => {
+      const value = cell(row, day.index);
+      if (!value) return;
 
-          if (!record) {
-            record = {
-              type: currentType,
-              day: day.day,
-              leader: "",
-              time: "",
-              place: ""
-            };
-            rows.push(record);
-          }
+      let record = rows.find(item =>
+        item.type === currentType && item.day === day.day
+      );
 
-          if (subLabel.includes("인도자")) record.leader = value;
-          if (subLabel.includes("시간")) record.time = value;
-          if (subLabel.includes("장소")) record.place = value;
-        });
+      if (!record) {
+        record = {
+          type: currentType,
+          day: day.day,
+          leader: "",
+          time: "",
+          place: ""
+        };
+        rows.push(record);
       }
 
-      if (!rows.length) return "";
+      if (subLabel.includes("인도자")) record.leader = value;
+      if (subLabel.includes("시간")) record.time = value;
+      if (subLabel.includes("장소")) record.place = value;
+    });
+  }
 
-         const types = [...new Set(rows.map(row => row.type))];
+  if (!rows.length) return "";
 
-      // F43 셀의 봉사 모임 장소
-      const meetingPlace = cell(data[42] || [], 5);
+  const types = [...new Set(rows.map(row => row.type))];
 
-      return section(
-        "야외 봉사 일정",
-        types.map(type => {
-          const items = rows.filter(row => row.type === type);
+  // F43 셀의 봉사 모임 장소
+  const meetingPlace = cell(data[42] || [], 5);
 
-          // 회중 봉사 모임 및 전시대 봉사에 장소 행 표시
-          const showPlaceRow =
-            /호별|회중 봉사 모임|봉사 모임|전시대/.test(type);
+  // 각 일정 유형을 서로 다른 박스로 표시
+  return types.map(type => {
+    const items = rows.filter(row => row.type === type);
 
-          const placeRow = showPlaceRow
-            ? `
+    const showPlaceRow =
+      /호별|회중 봉사 모임|봉사 모임|전시대/.test(type);
+
+    const placeRow = showPlaceRow
+      ? `
+        <tr>
+          <td style="font-weight:700;background:#f7f9fb;">
+            봉사모임장소
+          </td>
+          <td colspan="2">
+            ${meetingPlace
+              ? `<a
+                  href="https://map.naver.com/p/search/${encodeURIComponent(meetingPlace)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="color:#0563c1;text-decoration:underline;font-weight:700;"
+                >봉사 모임 장소(${escapeHTML(meetingPlace)})</a>`
+              : "-"}
+          </td>
+        </tr>
+      `
+      : "";
+
+    return section(
+      "야외 봉사 일정",
+      `
+        <div class="subsection-title">
+          ${escapeHTML(type)}
+        </div>
+
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>요일</th>
+              <th>인도자</th>
+              <th>시간</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${items.map(item => `
               <tr>
-                <td style="font-weight:700;background:#f7f9fb;">
-                  봉사모임장소
-                </td>
-                <td colspan="3">
-                  ${meetingPlace
-                    ? `<a
-                        href="https://map.naver.com/p/search/${encodeURIComponent(meetingPlace)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="color:#0563c1;text-decoration:underline;font-weight:700;"
-                      >봉사 모임 장소(${escapeHTML(meetingPlace)})</a>`
-                    : "-"}
-                </td>
+                <td>${escapeHTML(item.day)}</td>
+                <td>${escapeHTML(item.leader || "-")}</td>
+                <td>${escapeHTML(item.time || "-")}</td>
               </tr>
-            `
-            : "";
+            `).join("")}
 
-          return `
-            <div class="subsection-title">${escapeHTML(type)}</div>
-
-            <table class="schedule-table">
-              <thead>
-                <tr>
-                  <th>요일</th>
-                  <th>인도자</th>
-                  <th>시간</th>
-                  <th>장소</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                ${items.map(item => `
-                  <tr>
-                    <td>${escapeHTML(item.day)}</td>
-                    <td>${escapeHTML(item.leader || "-")}</td>
-                    <td>${escapeHTML(item.time || "-")}</td>
-                    <td>${escapeHTML(item.place || "-")}</td>
-                  </tr>
-                `).join("")}
-
-                ${placeRow}
-              </tbody>
-            </table>
-          `;
-        }).join("")
-      );
-     }
+            ${placeRow}
+          </tbody>
+        </table>
+      `
+    );
+  }).join("");
+}
 
     function renderAssignments(data) {
       const headerIndex = findRow(data, "직책");
