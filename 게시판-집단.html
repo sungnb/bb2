@@ -953,42 +953,17 @@ function renderStats(data) {
   });
 
   let elderCount = 0;
-  let servantCount = 0;
+let servantCount = 0;
 
-  if (groupColumns.length && headerIndex >= 0) {
-    const endIndex = data.findIndex((row, index) =>
-      index > headerIndex &&
-      row.some(value => clean(value).includes("전도인"))
-    );
+// 시트 F6:U13 범위에서 E와 M을 직접 셉니다.
+for (let r = 5; r <= 12; r++) {
+  for (let c = 5; c <= 20; c++) {
+    const value = clean(cell(data[r] || [], c));
 
-    const stop = endIndex > headerIndex ? endIndex : data.length;
-
-    for (let r = headerIndex + 1; r < stop; r++) {
-      const row = data[r];
-      const label = row.map(clean).join(" ");
-
-      // 통계 행은 계산에서 제외합니다.
-      if (/형제\s*:|자매\s*:|전도인\s*:/.test(label)) {
-        continue;
-      }
-
-      groupColumns.forEach((nameIndex, groupIndex) => {
-        const personName = cell(row, nameIndex);
-        if (!personName) return;
-
-        // 해당 집단의 이름 열부터 다음 집단 이름 열 직전까지 확인합니다.
-        const nextGroupIndex = groupColumns[groupIndex + 1];
-        const segmentEnd = nextGroupIndex === undefined
-          ? row.length
-          : nextGroupIndex;
-
-        const marks = row.slice(nameIndex + 1, segmentEnd);
-
-        if (hasMark(marks, "E")) elderCount++;
-        if (hasMark(marks, "M")) servantCount++;
-      });
-    }
+    if (value === "E") elderCount++;
+    if (value === "M") servantCount++;
   }
+}
 
   const pioneers = Number.parseInt(pioneerCount, 10) || 0;
   const publishers = Number.parseInt(publisherCount, 10) || 0;
