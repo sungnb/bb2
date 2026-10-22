@@ -1332,17 +1332,19 @@ function renderService(data) {
       ? makeScheduleSection("호별 방문", rows, true)
       : ""}
 
-     <div class="group-heading">
-      <span>
-        ${escapeHTML(cell(data[90] || [], 1) || "※ 집단별 봉사모임 : 매월 첫째 일요일 (오후 1:30 / 봉사 모임 장소)")}
-      </span>
-    </div>
-
-    ${makeScheduleSection(
+         ${makeScheduleSection(
       "줌 [ZOOM] 봉사",
       zoomRows,
       false
     )}
+
+        <div class="group-heading">
+      <span>
+        ※ 집단별 봉사모임 :
+        <br>
+        매월 첫째 일요일 (오후 1:30 / 봉사 모임 장소)
+      </span>
+    </div>
   `;
 }
 
