@@ -112,25 +112,38 @@
     }
 
     .group-title {
-      margin-bottom: 10px;
-      color: #193650;
-      font-size: 1.15em;
-      font-weight: 900;
-      text-align: center;
-    }
+  margin-bottom: 10px;
+  color: #193650;
+  font-size: 1.15em;
+  font-weight: 900;
+  text-align: left;
+}
 
-    .group-leader {
-      margin-bottom: 10px;
-      padding: 9px 7px;
-      border-radius: 8px;
-      background: #e6eef6;
-      line-height: 1.65;
-    }
+.group-leader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 9px 7px;
+  border-radius: 8px;
+  background: #e6eef6;
+  line-height: 1.5;
+  font-size: 0.9em;
+}
 
-    .group-leader strong {
-      display: block;
-      color: #193650;
-    }
+.group-leader-side {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.group-leader-side.right {
+  text-align: right;
+}
+
+.group-leader strong {
+  color: #193650;
+}
 
     .member-list {
       display: flex;
@@ -722,13 +735,23 @@
 
       const html = groups.map(group => `
         <div class="group-card">
-          <div class="group-title">${escapeHTML(group.name)}</div>
+          <div class="group-title">
+            ${escapeHTML(group.name)}
+            <span style="float:right;font-size:.8em;font-weight:400;color:#53677a">
+              ${group.members.length}명
+            </span>
+          </div>
 
           <div class="group-leader">
-            <strong>감독자</strong>
-            ${escapeHTML(group.supervisor || "자료 없음")}
-            <strong style="margin-top:6px">보조자</strong>
-            ${escapeHTML(group.assistant || "자료 없음")}
+            <div class="group-leader-side">
+              <strong style="display:inline">감독자</strong>
+              ${escapeHTML(group.supervisor || "자료 없음")}
+            </div>
+
+            <div class="group-leader-side right">
+              <strong style="display:inline">보조자</strong>
+              ${escapeHTML(group.assistant || "자료 없음")}
+            </div>
           </div>
 
           <div class="member-list">
@@ -747,8 +770,13 @@
         </div>
       `).join("");
 
+      const totalMembers = groups.reduce(
+        (total, group) => total + group.members.length,
+        0
+      );
+
       return section(
-        "야외 봉사 집단",
+        `야외 봉사 집단　${totalMembers}명`,
         `<div class="group-grid">${html}</div>`
       );
     }
