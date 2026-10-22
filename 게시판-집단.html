@@ -145,7 +145,7 @@ body {
 
 .rotation-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 25% 75%;
   width: 100%;
 }
 
@@ -170,12 +170,17 @@ body {
   font-weight: 700;
 }
 
-.rotation-group:nth-child(4n),
-.rotation-value:nth-child(4n) {
+.rotation-group,
+.rotation-value {
   border-right: none;
 }
 
-.rotation-value:nth-last-child(-n+4) {
+.rotation-group:nth-child(4n + 1),
+.rotation-value:nth-child(4n + 1) {
+  border-right: 1px solid #AEB6BF;
+}
+
+.rotation-value:last-child {
   border-bottom: none;
 }
 
@@ -1341,7 +1346,12 @@ function renderService(data) {
   `;
 }
     
-
+<div class="group-heading">
+  <span>
+    ${escapeHTML(cell(data[90] || [], 1) || "※ 집단별 봉사모임 : 매월 첫째 일요일 (오후 1:30 / 봉사 모임 장소)")}
+  </span>
+</div>
+    
 function renderAssignments(data) {
   // 병합 셀 범위에서 실제 값이 있는 셀을 읽습니다.
   function mergedCell(row, startCol, endCol) {
