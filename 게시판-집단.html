@@ -531,7 +531,49 @@ body.dark-mode .rotation-group {
     }
 
     .settings-panel.show { display: block; }
+    
+/* 항목별 글자 크기 및 정렬 설정 */
+.settings-panel {
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
 
+.section-setting-row {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #dce0e7;
+}
+
+.section-setting-name {
+  margin-bottom: 7px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.section-setting-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.section-setting-controls select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 4px;
+  border: 1px solid #dce0e7;
+  border-radius: 8px;
+  background: #fff;
+  color: #222;
+  font-size: 14px;
+}
+
+body.dark-mode .section-setting-controls select {
+  background: #303134;
+  color: #fff;
+  border-color: #50545a;
+}
+    
     .settings-theme-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -734,6 +776,8 @@ body.dark-mode #content a {
       <button type="button" class="font-btn"
         onclick="changeFont(10)" aria-label="글자 크게">＋</button>
     </div>
+        <!-- 항목별 글자 크기 및 정렬 -->
+    <div id="sectionSettings"></div>
   </div>
 
   <script>
@@ -793,6 +837,184 @@ body.dark-mode #content a {
       setFontPercent(fontPercent + amount);
     }
 
+    /* =====================================================
+   항목별 글자 크기 및 정렬 설정
+===================================================== */
+
+const sectionSettingItems = [
+  { id: "outdoor", label: "야외 봉사 집단", type: "heading" },
+  { id: "groupA", label: "A집단", type: "group" },
+  { id: "groupB", label: "B집단", type: "group" },
+  { id: "groupC", label: "C집단", type: "group" },
+  { id: "groupD", label: "D집단", type: "group" },
+  { id: "stats", label: "회중 인원 통계", type: "heading" },
+  { id: "cleaning", label: "왕국 회관 청소", type: "heading" },
+  { id: "visit", label: "봉사감독자 방문", type: "heading" },
+  { id: "door", label: "호별 방문", type: "heading" },
+  { id: "zoom", label: "줌 [ZOOM] 봉사", type: "heading" },
+  { id: "assignment", label: "조직 부서 임명", type: "heading" }
+];
+
+const SECTION_SETTINGS_KEY = "northBoardSectionSettings";
+
+function getSectionSettings() {
+  try {
+    return JSON.parse(
+      localStorage.getItem(SECTION_SETTINGS_KEY) || "{}"
+    );
+  } catch (error) {
+    return {};
+  }
+}
+
+function renderSectionSettingsControls() {
+  const container = document.getElementById("sectionSettings");
+
+  if (!container) return;
+
+  const settings = getSectionSettings();
+
+  container.innerHTML = `
+    <div style="
+      margin-top:14px;
+      padding-top:12px;
+      border-top:2px solid #193650;
+      font-size:16px;
+      font-weight:900;
+    ">
+      항목별 글자 크기 · 정렬
+    </div>
+
+    ${sectionSettingItems.map(item => {
+      const saved = settings[item.id] || {};
+
+      return `
+        <div class="section-setting-row">
+          <div class="section-setting-name">
+            ${item.label}
+          </div>
+
+          <div class="section-setting-controls">
+            <select
+              aria-label="${item.label} 글자 크기"
+              onchange="updateSectionSetting(
+                '${item.id}', 'fontSize', this.value
+              )"
+            >
+              ${[12, 14, 16, 18, 20, 22, 24, 26, 28, 30].map(size => `
+                <option
+                  value="${size}"
+                  ${Number(saved.fontSize || 18) === size ? "selected" : ""}
+                >${size}px</option>
+              `).join("")}
+            </select>
+
+            <select
+              aria-label="${item.label} 정렬"
+              onchange="updateSectionSetting(
+                '${item.id}', 'align', this.value
+              )"
+            >
+              <option value="left"
+                ${(saved.align || "left") === "left" ? "selected" : ""}
+              >왼쪽 정렬</option>
+
+              <option value="center"
+                ${saved.align === "center" ? "selected" : ""}
+              >가운데 정렬</option>
+
+              <option value="right"
+                ${saved.align === "right" ? "selected" : ""}
+              >오른쪽 정렬</option>
+            </select>
+          </div>
+        </div>
+      `;
+    }).join("")}
+
+    <button type="button"
+      onclick="resetSectionSettings()"
+      style="
+        width:100%;
+        margin-top:14px;
+        padding:10px;
+        border:1px solid #c7cdd4;
+        border-radius:9px;
+        background:#f3f4f6;
+        color:#222;
+        font-size:14px;
+        font-weight:700;
+      "
+    >항목별 설정 초기화</button>
+  `;
+}
+
+function updateSectionSetting(id, property, value) {
+  const settings = getSectionSettings();
+
+  if (!settings[id]) {
+    settings[id] = {};
+  }
+
+  settings[id][property] =
+    property === "fontSize" ? Number(value) : value;
+
+  localStorage.setItem(
+    SECTION_SETTINGS_KEY,
+    JSON.stringify(settings)
+  );
+
+  applySectionSettings();
+}
+
+function resetSectionSettings() {
+  localStorage.removeItem(SECTION_SETTINGS_KEY);
+  renderSectionSettingsControls();
+  applySectionSettings();
+}
+
+function applySectionSettings() {
+  const settings = getSectionSettings();
+
+  sectionSettingItems.forEach(item => {
+    const setting = settings[item.id] || {};
+    const fontSize = Number(setting.fontSize || 18);
+    const align = setting.align || "left";
+
+    if (item.type === "group") {
+      document.querySelectorAll(".group-title").forEach(element => {
+        if (element.textContent.trim().startsWith(item.label)) {
+          element.style.fontSize = fontSize + "px";
+          element.style.textAlign = align;
+        }
+      });
+
+      return;
+    }
+
+    document.querySelectorAll(".group-heading").forEach(element => {
+      const text = element.innerText.replace(/\s+/g, " ").trim();
+
+      if (text.startsWith(item.label)) {
+        element.style.fontSize = fontSize + "px";
+        element.style.textAlign = align;
+
+        if (item.id === "outdoor") {
+          element.style.justifyContent =
+            align === "left" ? "space-between" :
+            align === "right" ? "flex-end" :
+            "center";
+        } else {
+          element.style.justifyContent =
+            align === "left" ? "flex-start" :
+            align === "right" ? "flex-end" :
+            "center";
+        }
+      }
+    });
+  });
+}
+    
     /* =====================================================
        게시판 페이지 이동
     ===================================================== */
@@ -854,7 +1076,10 @@ body.dark-mode #content a {
           : 120
       );
     })();
-
+    
+renderSectionSettingsControls();
+applySectionSettings();
+    
     function clean(value) {
       return String(value == null ? "" : value)
         .replace(/\s+/g, " ")
@@ -1598,7 +1823,7 @@ function renderAssignments(data) {
 
    
       document.getElementById("content").innerHTML = html;
-
+applySectionSettings();
     }
 
     async function loadGroupData() {
