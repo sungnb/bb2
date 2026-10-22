@@ -97,18 +97,77 @@
       font-weight: 800;
     }
 
-   /* 회중 인원 통계에만 적용 */
+
+/* 회중 인원 통계: 손그림 형태의 하나의 표 */
 #content > .section-card:has(.stats-grid) {
-  border: none;
+  padding: 0;
+  border: 2px solid #193650;
+  border-radius: 22px;
   box-shadow: none;
-  border-radius: 0;
-  padding-left: 0;
-  padding-right: 0;
+  overflow: hidden;
 }
 
 #content > .section-card:has(.stats-grid) .section-title {
+  margin: 0;
+  padding: 18px 8px;
+  border-bottom: 2px solid #193650;
+  color: #193650;
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 900;
+}
+
+#content > .section-card:has(.stats-grid) .stats-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+}
+
+#content > .section-card:has(.stats-grid) .stat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  min-height: 65px;
+  padding: 12px 10px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+/* 가운데 세로 구분선 */
+#content > .section-card:has(.stats-grid) .stat-item:nth-child(odd) {
+  border-right: 1px solid #193650;
+}
+
+/* 각 행의 가로 구분선 */
+#content > .section-card:has(.stats-grid) .stat-item {
+  border-bottom: 1px solid #193650;
+}
+
+/* 마지막 두 칸은 아래쪽 선 제거 */
+#content > .section-card:has(.stats-grid) .stat-item:nth-last-child(-n+2) {
   border-bottom: none;
-} 
+}
+
+#content > .section-card:has(.stats-grid) .stat-label {
+  margin: 0;
+  color: #193650;
+  font-size: 1em;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+#content > .section-card:has(.stats-grid) .stat-value {
+  flex-shrink: 0;
+  color: #193650;
+  font-size: 1.1em;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
     
     .group-heading {
   display: flex;
@@ -916,6 +975,7 @@ function renderStats(data) {
     { label: "파이오니아 비율", value: pioneerRate + "%" }
   ];
 
+
   return section(
     "회중 인원 통계",
     `<div class="stats-grid">
@@ -925,8 +985,10 @@ function renderStats(data) {
           <span class="stat-value">${escapeHTML(stat.value)}</span>
         </div>
       `).join("")}
+      ${stats.length % 2 !== 0 ? '<div class="stat-item stat-empty"></div>' : ''}
     </div>`
   );
+
 }
 
     function renderService(data) {
