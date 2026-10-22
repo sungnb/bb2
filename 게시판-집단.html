@@ -1317,18 +1317,18 @@ function renderAssignments(data) {
     `;
   }
 
-  // 제목은 박스 밖에 표시하고 표만 박스 안에 넣습니다.
-  function assignmentSection(title, tableHtml) {
-    return `
-      <div class="group-heading">
-        <span>${escapeHTML(title)}</span>
-      </div>
+  // 제목은 박스 밖에 표시하고 표는 호별 방문과 같은 박스에 넣습니다.
+function assignmentSection(title, tableHtml) {
+  return `
+    <div class="group-heading">
+      <span>${escapeHTML(title)}</span>
+    </div>
 
-      <section class="section-card">
-        ${tableHtml}
-      </section>
-    `;
-  }
+    <section class="section-card schedule-card">
+      ${tableHtml}
+    </section>
+  `;
+}
 
   // 표의 기본 열 제목
   function tableHeader() {
@@ -1438,27 +1438,26 @@ function renderAssignments(data) {
   `;
 
   // 전체 출력
-  return `
-    <div class="group-heading">
-      <span>조직 부서 임명</span>
-    </div>
+return `
+  <div class="group-heading">
+    <span>조직 부서 임명</span>
+  </div>
 
-    ${mainRecords.length
-      ? `<section class="section-card">${mainTable}</section>`
-      : ""}
+  ${mainRecords.length
+    ? `<section class="section-card schedule-card">${mainTable}</section>`
+    : ""}
 
-    ${responsibilityGroups.map(group =>
-      assignmentSection(
-        group.title,
-        responsibilityTable(group)
-      )
-    ).join("")}
+  ${responsibilityGroups.map(group =>
+    assignmentSection(
+      group.title,
+      responsibilityTable(group)
+    )
+  ).join("")}
 
-    ${notes.length
-      ? assignmentSection("비고", notesTable)
-      : ""}
-  `;
-}
+  ${notes.length
+    ? assignmentSection("비고", notesTable)
+    : ""}
+`;
 
     function renderPage(data) {
       if (!Array.isArray(data) || !data.length) {
