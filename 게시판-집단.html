@@ -1020,6 +1020,7 @@ function renderService(data) {
   const rows = [];
   let currentType = "";
 
+  // 호별 방문 일정은 기존 방식대로 읽습니다.
   for (let r = dayIndex + 1; r < data.length; r++) {
     const row = data[r];
     const first = row.map(clean).join(" ");
@@ -1070,149 +1071,124 @@ function renderService(data) {
     });
   }
 
-  if (!rows.length) return "";
+  // 호별 방문과 전시대 봉사에서 공통으로 사용할 모임장소
+  // W38 셀 = data[37][22]
+  const meetingPlace = cell(data[37] || [], 22);
 
-  // 화요일부터 일요일까지 표시합니다.
+  // 호별 방문: 화요일부터 일요일까지 정렬
   const dayOrder = ["화", "수", "목", "금", "토", "일"];
 
   rows.sort((a, b) =>
     dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)
   );
 
-  // W38 셀: 배열은 0부터 시작하므로 행 38은 data[37],
-  // W열은 열 인덱스 22입니다.
-  const meetingPlace = cell(data[37] || [], 22);
+  // 전시대 봉사
+  // V48 = 토요일 인도자
+  // V49 = 토요일 시간
+  // Z48 = 일요일 인도자
+  // Z49 = 일요일 시간
+  const exhibitionRows = [
+    {
+      day: "토요일",
+      leader: clean((data[47] || [])[21]) || "-",
+      time: clean((data[48] || [])[21]) || "-"
+    },
+    {
+      day: "일요일",
+      leader: clean((data[47] || [])[25]) || "-",
+      time: clean((data[48] || [])[25]) || "-"
+    }
+  ];
 
-  const scheduleHtml = `
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>요일</th>
-          <th>인도자</th>
-          <th>시간</th>
-        </tr>
-      </thead>
+  // 줌 [ZOOM] 봉사
+  // V52 = 토요일 인도자
+  // V53 = 토요일 시간
+  const zoomRows = [
+    {
+      day: "토요일",
+      leader: clean((data[51] || [])[21]) || "-",
+      time: clean((data[52] || [])[21]) || "-"
+    }
+  ];
 
-      <tbody>
-        ${rows.map(item => `
+  // 일정 표 생성
+  function makeScheduleTable(items, showMeetingPlace) {
+    return `
+      <table class="schedule-table">
+        <thead>
           <tr>
-            <td>${escapeHTML(item.day)}</td>
-            <td>${escapeHTML(item.leader)}</td>
-            <td>${escapeHTML(item.time)}</td>
+            <th>요일</th>
+            <th>인도자</th>
+            <th>시간</th>
           </tr>
-        `).join("")}
+        </thead>
 
-        <tr>
-          <td style="font-weight:700;background:#f7f9fb;">
-            모임장소
-          </td>
-          <td colspan="2">
-            ${meetingPlace
-              ? `<a
-                  href="https://map.naver.com/p/search/${encodeURIComponent(meetingPlace)}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style="color:#0563c1;text-decoration:underline;font-weight:700;"
-                >봉사모임장소</a>`
-              : "-"}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  `;
+        <tbody>
+          ${items.map(item => `
+            <tr>
+              <td>${escapeHTML(item.day)}</td>
+              <td>${escapeHTML(item.leader || "-")}</td>
+              <td>${escapeHTML(item.time || "-")}</td>
+            </tr>
+          `).join("")}
 
+          ${showMeetingPlace ? `
+            <tr>
+              <td style="font-weight:700;background:#f7f9fb;">
+                모임장소
+              </td>
+              <td colspan="2">
+                ${meetingPlace
+                  ? `<a
+                      href="https://map.naver.com/p/search/${encodeURIComponent(meetingPlace)}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style="color:#0563c1;text-decoration:underline;font-weight:700;"
+                    >봉사모임장소</a>`
+                  : "-"}
+              </td>
+            </tr>
+          ` : ""}
+        </tbody>
+      </table>
+    `;
+  }
+
+  // 제목은 박스 밖에, 표는 박스 안에 표시
+  function makeScheduleSection(title, items, showMeetingPlace) {
+    if (!items.length) return "";
+
+    return `
+      <div class="group-heading">
+        <span>${escapeHTML(title)}</span>
+      </div>
+
+      ${section(
+        "",
+        makeScheduleTable(items, showMeetingPlace)
+      )}
+    `;
+  }
+
+  // 화면 표시 순서
   return `
-    <div class="group-heading">
-      <span>호별 방문</span>
-    </div>
+    ${rows.length
+      ? makeScheduleSection("호별 방문", rows, true)
+      : ""}
 
-    ${section("", scheduleHtml)}
+    ${makeScheduleSection(
+      "전시대 봉사",
+      exhibitionRows,
+      true
+    )}
+
+    ${makeScheduleSection(
+      "줌 [ZOOM] 봉사",
+      zoomRows,
+      false
+    )}
   `;
 }
-    
-    function renderAssignments(data) {
-      const headerIndex = findRow(data, "직책");
-      if (headerIndex < 0) return "";
-
-      const records = [];
-      const notes = [];
-      let currentResponsibility = "";
-
-      for (let r = headerIndex + 1; r < data.length; r++) {
-        const row = data[r];
-        const values = row.map(clean);
-        const joined = values.filter(Boolean).join(" ");
-
-        if (!joined) {
-          if (records.length) currentResponsibility = "";
-          continue;
-        }
-
-        if (joined.includes("비고")) {
-          for (let n = r + 1; n < data.length; n++) {
-            const noteRow = data[n];
-            const noteValues = noteRow.map(clean).filter(Boolean);
-            if (!noteValues.length) continue;
-
-            const label = noteValues[0];
-            const people = noteValues.slice(1).join(" ");
-            notes.push(people ? label + "： " + people : label);
-          }
-          break;
-        }
-
-        const responsibility = values.find(value =>
-          /책임$/.test(value)
-        );
-
-        if (responsibility) {
-          currentResponsibility = responsibility;
-          records.push({
-            responsibility,
-            role: "",
-            person: "",
-            assistant: "",
-            heading: true
-          });
-          continue;
-        }
-
-        const role = cell(row, 1) || cell(row, 2);
-        const person = cell(row, 4) || cell(row, 5);
-        const assistant = cell(row, 6) || cell(row, 7);
-
-        if (!role && !person && !assistant) continue;
-
-        records.push({
-          responsibility: currentResponsibility,
-          role,
-          person,
-          assistant,
-          heading: false
-        });
-      }
-
-      if (!records.length && !notes.length) return "";
-
-      let lastResponsibility = "";
-
-      const tableRows = records.map(record => {
-        if (record.heading) {
-          lastResponsibility = record.responsibility;
-          return `
-            <tr>
-              <th colspan="3">${escapeHTML(record.responsibility)}</th>
-            </tr>`;
-        }
-
-        return `
-          <tr>
-            <td>${escapeHTML(record.role || "-")}</td>
-            <td>${escapeHTML(record.person || "-")}</td>
-            <td>${escapeHTML(record.assistant || "-")}</td>
-          </tr>`;
-      }).join("");
-
       return section(
         "조직 부서 임명",
         `<table class="assignment-table">
