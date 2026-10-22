@@ -132,6 +132,68 @@ body {
   display: none;
 }
 
+/* 왕국 회관 청소 / 봉사감독자 방문 */
+.rotation-card {
+  margin: 0 0 18px;
+  padding: 0;
+  border: 5px solid #AEB6BF;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.rotation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+}
+
+.rotation-group,
+.rotation-value {
+  min-width: 0;
+  padding: 10px 3px;
+  border-right: 1px solid #AEB6BF;
+  border-bottom: 1px solid #AEB6BF;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.rotation-group {
+  font-size: 0.88em;
+  font-weight: 800;
+  background: #f7f9fb;
+}
+
+.rotation-value {
+  font-size: 0.9em;
+  font-weight: 700;
+}
+
+.rotation-group:nth-child(4n),
+.rotation-value:nth-child(4n) {
+  border-right: none;
+}
+
+.rotation-value:nth-last-child(-n+4) {
+  border-bottom: none;
+}
+
+body.dark-mode .rotation-card {
+  background: #303134;
+  border-color: #AEB6BF;
+}
+
+body.dark-mode .rotation-group,
+body.dark-mode .rotation-value {
+  color: #f1f3f4;
+  border-color: #50545a;
+}
+
+body.dark-mode .rotation-group {
+  background: #39434d;
+}
+
 /* 회중 인원 통계: 집단 박스와 동일한 테두리 */
 #content > .section-card:has(.stats-grid) {
   margin-top: 15px;
