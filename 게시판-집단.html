@@ -151,33 +151,12 @@ body {
 
 .rotation-group,
 .rotation-value {
+  min-width: 0;
+  padding: 10px 3px;
   border-right: 1px solid #858585;
-}
-
-.rotation-group:nth-child(4n + 1),
-.rotation-value:nth-child(4n + 1) {
-  border-right: 1px solid #858585;
-}
-
-.rotation-value:last-child {
-  border-bottom: none;
-}
-
-/* 밝은 모드와 어두운 모드 내부선 통일 */
-.rotation-group,
-.rotation-value {
-  border-color: #858585 !important;
-}
-
-/* A집단부터 D집단까지 세로 구분선 표시 */
-.rotation-group:nth-child(4n + 1),
-.rotation-value:nth-child(4n + 1) {
-  border-right: 1px solid #858585 !important;
-}
-
-body.dark-mode .rotation-group,
-body.dark-mode .rotation-value {
-  border-color: #858585 !important;
+  border-bottom: 1px solid #858585;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .rotation-group {
