@@ -131,6 +131,22 @@ body {
 .schedule-card .section-title {
   display: none;
 }
+  
+/* 호별 방문·전시대·줌·조직 부서·책임별 임명·비고
+   바깥쪽 박스 모서리를 R12로 통일 */
+#content > .section-card.schedule-card {
+  border: 5px solid #AEB6BF;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+#content > .section-card.schedule-card > .schedule-table,
+#content > .section-card.schedule-card > .assignment-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none;
+}
 
 /* 왕국 회관 청소 / 봉사감독자 방문 */
 .rotation-card {
@@ -148,8 +164,6 @@ body {
   grid-template-columns: 25% 75%;
   width: 100%;
 }
-
-
 
 .rotation-group,
 .rotation-value {
