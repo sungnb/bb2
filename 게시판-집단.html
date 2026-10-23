@@ -1546,12 +1546,12 @@ function renderAssignments(data) {
 
   if (linkInfo) {
     return `
-      <div class="group-heading"
+           <div class="group-heading"
            style="display:flex;justify-content:space-between;align-items:center;">
-        <span>${escapeHTML(title)}</span>
+        <span style="display:flex;align-items:center;">${escapeHTML(title)}</span>
         <a
           href="https://call.ctrlq.org/${linkInfo.phone}"
-          style="color:inherit;text-decoration:underline;font-weight:700;font-size:18px;"
+          style="display:flex;align-items:center;color:inherit;text-decoration:underline;font-weight:700;font-size:18px;"
         >${escapeHTML(linkInfo.name)}</a>
       </div>
 
