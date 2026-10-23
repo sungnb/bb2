@@ -168,6 +168,7 @@ body {
 .rotation-value {
   font-size: 0.9em;
   font-weight: 700;
+  white-space: pre-wrap;
 }
 
 .rotation-group,
@@ -1189,8 +1190,11 @@ function renderRotationSchedules(data) {
     { group: "D집단", column: 17 }
   ];
 
-  function readCell(rowNumber, columnIndex) {
-    return cell(data[rowNumber - 1] || [], columnIndex);
+    function readCell(rowNumber, columnIndex) {
+    const row = data[rowNumber - 1] || [];
+    const value = row[columnIndex];
+
+    return String(value == null ? "" : value).trim();
   }
 
   function makeRotation(title, rowNumber) {
