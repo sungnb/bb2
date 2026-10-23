@@ -291,7 +291,12 @@ body.dark-mode .rotation-group {
   text-align: center;
   overflow-wrap: anywhere;
 }
-
+    
+/* 어두운 모드: 회중 인원 통계 왼쪽 칸 */
+body.dark-mode #content > .section-card:has(.stats-grid) .stat-label {
+  background: #39434d;
+}
+    
 /* 오른쪽 칸 중앙 정렬 */
 #content > .section-card:has(.stats-grid) .stat-value {
   display: flex;
