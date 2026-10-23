@@ -1602,7 +1602,23 @@ function renderAssignments(data) {
     `;
   }
 
- // 비고 표
+  // 비고 표
+  const notesTable = `
+    <table class="assignment-table">
+      <tbody>
+        ${notes.map(note => `
+          <tr>
+            <td>${escapeHTML(note.role || "-")}</td>
+            <td>${escapeHTML(
+              [note.person, note.assistant]
+                .filter(Boolean)
+                .join(" ")
+            )}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
 
   return `
     <div class="group-heading">
