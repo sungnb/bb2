@@ -1583,51 +1583,15 @@ function renderAssignments(data) {
     </table>
   `;
 
-  // 책임별 표
+   // 책임별 표
   function responsibilityTable(group) {
-  const rows = group.records.slice(1).map(record =>
-    assignmentRow(
-      record.role,
-      record.person,
-      record.assistant
-    )
-  ).join("");
-
-  return `
-    <table class="assignment-table">
-      <tbody>${rows}</tbody>
-    </table>
-  `;
-}
-    // 그 밖의 책임별 표는 기존 방식 유지
-    const rows = group.records.map((record, index) => {
-      if (index === 0) {
-        const linkInfo = phoneLinks[group.title];
-        const person = record.person ||
-          (linkInfo ? linkInfo.name : "");
-
-        const personHtml = linkInfo
-          ? `<a
-               href="https://call.ctrlq.org/${linkInfo.phone}"
-               style="color:inherit;text-decoration:underline;font-weight:700;"
-             >${escapeHTML(person)}</a>`
-          : escapeHTML(person || "-");
-
-        return `
-          <tr>
-            <td>${escapeHTML(group.title)}</td>
-            <td>${personHtml}</td>
-            <td>${escapeHTML(record.assistant || "")}</td>
-          </tr>
-        `;
-      }
-
-      return assignmentRow(
+    const rows = group.records.slice(1).map(record =>
+      assignmentRow(
         record.role,
         record.person,
         record.assistant
-      );
-    }).join("");
+      )
+    ).join("");
 
     return `
       <table class="assignment-table">
