@@ -1566,6 +1566,39 @@ function renderAssignments(data) {
 
   // 책임별 표
   function responsibilityTable(group) {
+
+    // 장로의 회 조정자 책임은 제목과 담당자를 같은 줄에 표시
+    if (group.title === "장로의 회 조정자 책임") {
+      const linkInfo = phoneLinks[group.title];
+      const person = linkInfo.name;
+
+      return `
+        <table class="assignment-table">
+          <tbody>
+            <tr>
+              <td style="text-align:left;font-weight:700;">
+                ${escapeHTML(group.title)}
+              </td>
+              <td colspan="2" style="text-align:right;">
+                <a
+                  href="https://call.ctrlq.org/${linkInfo.phone}"
+                  style="color:inherit;text-decoration:underline;font-weight:700;font-size:18px;"
+                >${escapeHTML(person)}</a>
+              </td>
+            </tr>
+            ${group.records.slice(1).map(record =>
+              assignmentRow(
+                record.role,
+                record.person,
+                record.assistant
+              )
+            ).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // 그 밖의 책임별 표는 기존 방식 유지
     const rows = group.records.map((record, index) => {
       if (index === 0) {
         const linkInfo = phoneLinks[group.title];
@@ -1601,7 +1634,7 @@ function renderAssignments(data) {
       </table>
     `;
   }
-
+  
   // 비고 표
   const notesTable = `
     <table class="assignment-table">
