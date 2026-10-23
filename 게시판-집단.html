@@ -190,10 +190,32 @@ body.dark-mode #content > .section-card:has(.stats-grid) {
   box-shadow: none !important;
 }
 
+/* 왕국 회관 청소 / 봉사감독자 방문
+   밝은 모드와 어두운 모드 내부 선 색상 통일 */
+.rotation-group,
+.rotation-value {
+  border-color: #858585;
+}
+
 body.dark-mode .rotation-group,
 body.dark-mode .rotation-value {
   color: #f1f3f4;
-  border-color: #50545a;
+  border-color: #858585;
+}
+
+/* 표 내부 가로선과 세로선: 모든 모드 동일 */
+.schedule-table th,
+.schedule-table td,
+.assignment-table th,
+.assignment-table td {
+  border-color: #858585;
+}
+
+body.dark-mode .schedule-table th,
+body.dark-mode .schedule-table td,
+body.dark-mode .assignment-table th,
+body.dark-mode .assignment-table td {
+  border-color: #858585;
 }
 
 body.dark-mode .rotation-group {
