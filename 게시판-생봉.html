@@ -724,19 +724,27 @@ const dateText =
   displayDate.getDate() + "일 (" +
   weekdays[displayDate.getDay()] + ")";
 
-const isRotationVisit =
-  String(c[0] || "").trim().includes("순회방문");
+
+const firstCell = String(c[0] || "").trim();
+
+const isRotationVisit = firstCell.includes("순회방문");
+const isZoom = firstCell.includes("줌[ZOOM]");
 
 date.textContent = dateText;
 
-if (isRotationVisit) {
-  const rotationLabel = document.createElement("div");
-  rotationLabel.textContent = "[순회 방문 주간]";
-  rotationLabel.style.fontSize = "20px";
-  rotationLabel.style.fontWeight = "700";
+if (isRotationVisit || isZoom) {
+  const specialLabel = document.createElement("div");
 
-  date.appendChild(rotationLabel);
+  specialLabel.textContent = isRotationVisit
+    ? "[순회 방문 주간]"
+    : "줌[ZOOM]";
+
+  specialLabel.style.fontSize = "20px";
+  specialLabel.style.fontWeight = "700";
+
+  date.appendChild(specialLabel);
 }
+
 
 // 이번 주 토요일부터 다음 주 토요일 전날까지 확인
 const thisSaturday = new Date(targetMonday);
