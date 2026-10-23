@@ -478,20 +478,24 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
   font-size: .92em;
 }
 
-/* 호별 방문: 글자 크기 20px, 굵기 600 */
+
+/* 호별 방문 · 전시대 봉사 · 줌 봉사 · 조직 부서 임명 · 책임별 임명 · 비고 */
 .schedule-table th,
-.schedule-table td {
+.schedule-table td,
+.assignment-table th,
+.assignment-table td {
   font-size: 20px;
   font-weight: 600;
   color: #000;
 }
 
-/* 어두운 모드: 호별 방문 글자 흰색 */
+/* 어두운 모드: 표 안의 글자 흰색 */
 body.dark-mode #content .schedule-table th,
-body.dark-mode #content .schedule-table td {
+body.dark-mode #content .schedule-table td,
+body.dark-mode #content .assignment-table th,
+body.dark-mode #content .assignment-table td {
   color: #fff !important;
 }
-
 
 /* 조직 부서 임명 및 책임별 표의 열 너비 */
 .assignment-table th:nth-child(1),
