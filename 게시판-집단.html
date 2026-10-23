@@ -153,8 +153,8 @@ body {
 .rotation-value {
   min-width: 0;
   padding: 10px 3px;
-  border-right: 1px solid #AEB6BF;
-  border-bottom: 1px solid #AEB6BF;
+  border-right: 1px solid #858585;
+  border-bottom: 1px solid #858585;
   text-align: center;
   overflow-wrap: anywhere;
 }
@@ -177,7 +177,7 @@ body {
 
 .rotation-group:nth-child(4n + 1),
 .rotation-value:nth-child(4n + 1) {
-  border-right: 1px solid #AEB6BF;
+  border-right: 1px solid #858585;
 }
 
 .rotation-value:last-child {
@@ -424,17 +424,18 @@ body.dark-mode .rotation-group {
   width: 25%;
 }
 
-    .schedule-table th,
-    .schedule-table td,
-    .assignment-table th,
-    .assignment-table td {
-      padding: 9px 5px;
-      border: 1px solid #dce2e8;
-      text-align: center;
-      vertical-align: middle;
-      overflow-wrap: anywhere;
-      line-height: 1.5;
-    }
+    
+.schedule-table th,
+.schedule-table td,
+.assignment-table th,
+.assignment-table td {
+  padding: 9px 5px;
+  border: 1px solid #858585;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
 
     .schedule-table th,
     .assignment-table th {
@@ -640,10 +641,14 @@ body.dark-mode #content a {
       color: #e7f2ff;
     }
 
-    body.dark-mode .schedule-table td,
-    body.dark-mode .assignment-table td {
-      border-color: #50545a;
-    }
+    
+body.dark-mode .schedule-table td,
+body.dark-mode .assignment-table td,
+body.dark-mode .schedule-table th,
+body.dark-mode .assignment-table th {
+  border-color: #858585;
+}
+
 
     body.dark-mode .assignment-table td:first-child {
       background: #292d31;
