@@ -37,8 +37,16 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
   -webkit-overflow-scrolling:touch;
   touch-action:pan-y;
   overscroll-behavior-y:contain;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
   padding:15px 10px 20px;max-width:900px;width:100%;margin:0 auto;
 }
+
+.page::-webkit-scrollbar{
+  display:none;
+  width:0;
+}
+  
 #content{
   font-size:calc(16px * var(--scale));
 }
