@@ -1333,19 +1333,26 @@ function renderService(data) {
     `;
   }
 
+
   // 화면 표시 순서
   return `
     ${rows.length
       ? makeScheduleSection("호별 방문", rows, true)
       : ""}
 
-         ${makeScheduleSection(
+    ${makeScheduleSection(
+      "전시대",
+      exhibitionRows,
+      false
+    )}
+
+    ${makeScheduleSection(
       "줌 [ZOOM] 봉사",
       zoomRows,
       false
     )}
 
-        <div class="group-heading">
+    <div class="group-heading">
       <span>
         ※ 집단별 봉사모임 :
         <br>
@@ -1353,7 +1360,7 @@ function renderService(data) {
       </span>
     </div>
   `;
-}
+
 
 function renderAssignments(data) {
   // 병합 셀 범위에서 실제 값이 있는 셀을 읽습니다.
