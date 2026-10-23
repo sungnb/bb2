@@ -380,10 +380,10 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
   background: #f7f9fc;
 }
 
-    .group-title {
+.group-title {
   margin-bottom: 10px;
   color: #193650;
-  font-size: 1.15em;
+  font-size: 20px;
   font-weight: 900;
   text-align: left;
 }
@@ -412,32 +412,41 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
 
 .group-leader strong {
   color: #193650;
+  font-size: 16px;
+  font-weight: 400;
 }
 
+.group-leader .leader-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+    
     .member-list {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
 
-    .member-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      max-width: 100%;
-      padding: 5px 7px;
-      border: 1px solid #dce3ea;
-      border-radius: 7px;
-      background: #fff;
-      overflow-wrap: anywhere;
-      font-size: .92em;
-    }
+   .member-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 5px 7px;
+  border: 2px solid #808080;
+  border-radius: 7px;
+  background: #fff;
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  font-weight: 400;
+  color: #666;
+}
 
-    .member-mark {
-      color: #275c8a;
-      font-size: .82em;
-      font-weight: 800;
-    }
+.member-mark {
+  color: #808080;
+  font-size: 14px;
+  font-weight: 400;
+}
 
     .stats-grid {
       display: grid;
@@ -720,12 +729,14 @@ body.dark-mode #content a {
     }
 
     body.dark-mode .member-chip {
-      background: #303134;
-      border-color: #555b62;
-      color: #f1f3f4;
-    }
+  background: #303134;
+  border: 2px solid #fff;
+  color: #fff;
+}
 
-    body.dark-mode .member-mark { color: #a9d2fa; }
+body.dark-mode .member-mark {
+  color: #fff;
+}
 
     body.dark-mode .schedule-table th,
     body.dark-mode .assignment-table th {
@@ -1086,24 +1097,24 @@ body.dark-mode .settings-panel {
         <div class="group-card">
           <div class="group-title">
             ${escapeHTML(group.name)}
-            <span style="float:right;font-size:.8em;font-weight:400;color:#53677a">
-              ${group.members.length +
+           <span style="float:right;font-size:20px;font-weight:600;color:#53677a">
+  ${group.members.length +
   (group.supervisor ? 1 : 0) +
   (group.assistant ? 1 : 0)}명
-            </span>
+</span>
           </div>
 
           <div class="group-leader">
-            <div class="group-leader-side">
-              <strong style="display:inline">감독자</strong>
-              ${escapeHTML(group.supervisor || "자료 없음")}
-            </div>
+  <div class="group-leader-side">
+    <strong style="display:inline">감독자</strong>
+    <span class="leader-name">${escapeHTML(group.supervisor || "자료 없음")}</span>
+  </div>
 
-            <div class="group-leader-side right">
-              <strong style="display:inline">보조자</strong>
-              ${escapeHTML(group.assistant || "자료 없음")}
-            </div>
-          </div>
+  <div class="group-leader-side right">
+    <strong style="display:inline">보조자</strong>
+    <span class="leader-name">${escapeHTML(group.assistant || "자료 없음")}</span>
+  </div>
+</div>
 
           <div class="member-list">
             ${group.members.length
