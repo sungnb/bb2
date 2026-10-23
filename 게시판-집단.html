@@ -1536,10 +1536,18 @@ function renderAssignments(data) {
     `;
   }
 
-  function assignmentSection(title, tableHtml) {
+ function assignmentSection(title, tableHtml) {
+  const linkInfo = phoneLinks[title];
+
+  if (linkInfo) {
     return `
-      <div class="group-heading">
+      <div class="group-heading"
+           style="display:flex;justify-content:space-between;align-items:center;">
         <span>${escapeHTML(title)}</span>
+        <a
+          href="https://call.ctrlq.org/${linkInfo.phone}"
+          style="color:inherit;text-decoration:underline;font-weight:700;font-size:18px;"
+        >${escapeHTML(linkInfo.name)}</a>
       </div>
 
       <section class="section-card schedule-card">
@@ -1547,6 +1555,17 @@ function renderAssignments(data) {
       </section>
     `;
   }
+
+  return `
+    <div class="group-heading">
+      <span>${escapeHTML(title)}</span>
+    </div>
+
+    <section class="section-card schedule-card">
+      ${tableHtml}
+    </section>
+  `;
+}
 
   // 조직 부서 임명 표
   const mainTable = `
@@ -1566,38 +1585,20 @@ function renderAssignments(data) {
 
   // 책임별 표
   function responsibilityTable(group) {
+  const rows = group.records.slice(1).map(record =>
+    assignmentRow(
+      record.role,
+      record.person,
+      record.assistant
+    )
+  ).join("");
 
-    // 장로의 회 조정자 책임은 제목과 담당자를 같은 줄에 표시
-    if (group.title === "장로의 회 조정자 책임") {
-      const linkInfo = phoneLinks[group.title];
-      const person = linkInfo.name;
-
-      return `
-        <table class="assignment-table">
-          <tbody>
-            <tr>
-              <td style="text-align:left;font-weight:700;">
-                ${escapeHTML(group.title)}
-              </td>
-              <td colspan="2" style="text-align:right;">
-                <a
-                  href="https://call.ctrlq.org/${linkInfo.phone}"
-                  style="color:inherit;text-decoration:underline;font-weight:700;font-size:18px;"
-                >${escapeHTML(person)}</a>
-              </td>
-            </tr>
-            ${group.records.slice(1).map(record =>
-              assignmentRow(
-                record.role,
-                record.person,
-                record.assistant
-              )
-            ).join("")}
-          </tbody>
-        </table>
-      `;
-    }
-
+  return `
+    <table class="assignment-table">
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
     // 그 밖의 책임별 표는 기존 방식 유지
     const rows = group.records.map((record, index) => {
       if (index === 0) {
