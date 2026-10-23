@@ -333,12 +333,11 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-label {
   white-space: nowrap;
 }
 
-    
-.group-heading {
+ .group-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px; /* 제목과 79명 사이 간격 */
+   gap: 8px; /* 제목과 79명 사이 간격 */
   width: 100%;
   margin-top: 10px; /* 상단 사이 간격 */
   margin-bottom: 5px; /* 하단 사이 간격 */
@@ -346,6 +345,11 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-label {
   font-size: 25px;
   font-weight: 900;
   color: #193650;
+}
+
+.group-heading > span {
+  display: flex;
+  align-items: center;
 }
     
     .group-grid {
