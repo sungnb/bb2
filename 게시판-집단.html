@@ -243,8 +243,8 @@ body.dark-mode .rotation-group {
 }
 
 #content > .section-card:has(.stats-grid) .section-title {
-   margin: 10px 0 5px; /* 상단 사이 간격 10px, 하단 사이 간격 5px  */
-  padding: 0 8px;
+  margin: 0; /* 상단 사이 간격 10px, 하단 사이 간격 5px  */
+  padding: 15px 8px 5px;
   border-bottom: 2px solid #193650;
   color: #193650;
   text-align: center;
@@ -259,20 +259,21 @@ body.dark-mode .rotation-group {
 }
 
 #content > .section-card:has(.stats-grid) .stat-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: stretch;
+  gap: 0;
   width: 100%;
   min-width: 0;
-  min-height: 52px;
-  padding: 12px 0;
+  min-height: 42px;
+  padding: 0;
   border: none;
   border-bottom: 1px solid #858585;
   border-radius: 0;
   background: transparent;
-  text-align: left;
+  text-align: center;
 }
+
 
 /* 세로 구분선 제거 */
 #content > .section-card:has(.stats-grid) .stat-item:nth-child(odd) {
