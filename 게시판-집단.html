@@ -390,21 +390,24 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 10px;
-  padding: 9px 7px;
+  padding: 0;
   border-radius: 8px;
-  background: #C2CEDB
+  background: transparent;
   line-height: 1.5;
   font-size: 18px;
   font-weight: 600;
   color: #000;
 }
 
-/* 좌우 각각 절반씩 사용 */
+/* 좌우 각각 절반씩 사용하고 배경은 감독자·보조자 영역에만 적용 */
 .group-leader-side {
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
   min-width: 0;
+  padding: 9px 7px;
+  border-radius: 8px;
+  background: #C2CEDB;
   overflow-wrap: anywhere;
   text-align: left;
 }
