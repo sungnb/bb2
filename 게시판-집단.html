@@ -383,9 +383,10 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
   text-align: left;
 }
 
+/* 감독자 · 보조자 영역 */
 .group-leader {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 10px;
@@ -393,27 +394,47 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
   border-radius: 8px;
   background: #e6eef6;
   line-height: 1.5;
-  font-size: 0.9em;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
 }
 
+/* 좌우 각각 절반씩 사용 */
 .group-leader-side {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
   min-width: 0;
   overflow-wrap: anywhere;
+  text-align: left;
 }
 
+/* 보조자는 오른쪽 정렬 */
 .group-leader-side.right {
   text-align: right;
+  align-items: flex-end;
 }
 
+/* 감독자 · 보조자 글자 */
 .group-leader strong {
-  color: #193650;
-  font-size: 16px;
-  font-weight: 400;
+  color: #000;
+  font-size: 18px;
+  font-weight: 600;
 }
 
+/* 박대기 (E, P) · 성낙봉 (E) */
 .group-leader .leader-name {
-  font-size: 16px;
-  font-weight: 600;
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  color: #000;
+}
+
+/* 어두운 모드: 글자 흰색 */
+body.dark-mode .group-leader,
+body.dark-mode .group-leader strong,
+body.dark-mode .group-leader .leader-name {
+  color: #fff;
 }
     
     .member-list {
