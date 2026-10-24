@@ -468,18 +468,6 @@ body.dark-mode .group-leader .leader-name {
 }
 
 /* 이름 옆 면당다음 (E, P) 등의 표시 */
-.member-mark {
-  color: #505050;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* 어두운 모드: 명단 이름과 표시 글자는 흰색 */
-body.dark-mode .member-chip {
-  background: #303134;
-  border-color: #fff;
-  color: #fff;
-}
 
 body.dark-mode .member-mark {
   color: #fff;
@@ -816,6 +804,12 @@ body.dark-mode #content a {
   background: #303134;
   border: 2px solid #fff;
   color: #fff;
+}
+
+/* 일반 명단은 지정한 색상을 유지 */
+body.dark-mode .member-list-chip {
+  background: rgba(111,168,216,.16);
+  border: 2px solid #6FA8D8;
 }
 
 body.dark-mode .member-mark {
@@ -1207,7 +1201,7 @@ body.dark-mode .settings-panel {
           <div class="member-list">
             ${group.members.length
               ? group.members.map(member => `
-                <span class="member-chip">
+               <span class="member-chip member-list-chip">
                   ${escapeHTML(member.name)}
                   ${member.marks.length
                     ? `<span class="member-mark">${escapeHTML(member.marks.join(" · "))}</span>`
