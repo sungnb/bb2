@@ -2138,8 +2138,112 @@ function selectAdminSchedule(scheduleKey) {
 }
 
 /* =========================================================
-   관리자용 특정 날짜 일정 추가 버튼
+   관리자용 인도자 선택
 ========================================================= */
+
+function getDefaultAdminLeader() {
+  if (selectedAdminSchedule === "토오전") {
+    return "성낙봉";
+  }
+
+  if (selectedAdminSchedule === "토오후") {
+    return "김경수";
+  }
+
+  if (selectedAdminSchedule === "일오전") {
+    return "정지원";
+  }
+
+  return "";
+}
+
+
+/* 인도자 드롭다운 열기 / 닫기 */
+function toggleAdminLeaderDropdown() {
+  const select =
+    document.getElementById("adminLeaderSelect");
+
+  if (!select) {
+    return;
+  }
+
+  if (select.style.display === "none") {
+    renderAdminLeaderOptions();
+    select.style.display = "inline-block";
+  } else {
+    select.style.display = "none";
+  }
+}
+
+
+/* 일정별 신청자 이름으로 드롭다운 구성 */
+function renderAdminLeaderOptions() {
+  const select =
+    document.getElementById("adminLeaderSelect");
+
+  if (!select) {
+    return;
+  }
+
+  const defaultLeader = getDefaultAdminLeader();
+
+  const storageKey =
+    "jeonsidaeLeader_" + selectedAdminSchedule;
+
+  const savedLeader =
+    localStorage.getItem(storageKey);
+
+  const selectedLeader =
+    savedLeader && applicants.includes(savedLeader)
+      ? savedLeader
+      : defaultLeader;
+
+  select.innerHTML = "";
+
+  const names = [...applicants];
+
+  // 기본 인도자가 신청자 명단에 없어도 기본값으로 표시
+  if (defaultLeader && !names.includes(defaultLeader)) {
+    names.unshift(defaultLeader);
+  }
+
+  if (names.length === 0) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "신청자가 없습니다";
+    select.appendChild(option);
+    return;
+  }
+
+  names.forEach(function(name) {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+
+  select.value =
+    names.includes(selectedLeader)
+      ? selectedLeader
+      : names[0];
+}
+
+
+/* 선택한 인도자 저장 */
+function saveAdminLeader() {
+  const select =
+    document.getElementById("adminLeaderSelect");
+
+  if (!select || !selectedAdminSchedule || !select.value) {
+    return;
+  }
+
+  localStorage.setItem(
+    "jeonsidaeLeader_" + selectedAdminSchedule,
+    select.value
+  );
+}
+
 
 function addCustomScheduleButton(
   container
@@ -4361,15 +4465,16 @@ async function loadApplicants() {
 
     }
 
-    applicants =
-      Array.isArray(data.applicants)
-        ? data.applicants
-        : [];
+   applicants =
+  Array.isArray(data.applicants)
+    ? data.applicants
+    : [];
 
+renderAdminLeaderOptions();
 
-    await cleanGroups();
+await cleanGroups();
 
-    renderAdmin();
+renderAdmin();
 
   } catch (error) {
 
