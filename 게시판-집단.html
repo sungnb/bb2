@@ -117,11 +117,11 @@ body {
     }
 
 
-/* 야외 봉사 일정: 제목 행부터 바로 표시 */
+/* 야외 봉사 일정: 큰 바깥 박스 안에 내부 선 표시 */
 #content > .section-card:has(.schedule-table),
 #content > .section-card.schedule-card {
   margin-top: 0;
-  padding: 12px 9px;
+  padding: 0;
   border: 5px solid #AEB6BF;
   border-radius: 12px;
   box-shadow: none;
@@ -552,12 +552,13 @@ body.dark-mode #content .assignment-table td {
   font-weight: 800;
 }
 
- /* 호별 방문 등 일정표: 큰 박스 안의 가로선·세로선 유지 */
+/* 호별 방문 등 일정표: 바깥 박스와 내부 선 분리 */
 #content > .section-card.schedule-card > .schedule-table {
   display: table;
   width: 100%;
   margin: 0;
   padding: 0;
+  border: none;
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
@@ -565,8 +566,25 @@ body.dark-mode #content .assignment-table td {
 
 #content > .section-card.schedule-card > .schedule-table th,
 #content > .section-card.schedule-card > .schedule-table td {
-  border: 1px solid #858585 !important;
-}   
+  border: 1px solid #858585;
+}
+
+/* 표의 바깥쪽 선은 제거하고 내부 가로·세로선만 유지 */
+#content > .section-card.schedule-card > .schedule-table tr:first-child > * {
+  border-top: none;
+}
+
+#content > .section-card.schedule-card > .schedule-table tr > *:first-child {
+  border-left: none;
+}
+
+#content > .section-card.schedule-card > .schedule-table tr > *:last-child {
+  border-right: none;
+}
+
+#content > .section-card.schedule-card > .schedule-table tbody tr:last-child > * {
+  border-bottom: none;
+}
     .note-list {
       margin: 0;
       padding-left: 20px;
