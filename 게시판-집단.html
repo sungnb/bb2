@@ -1177,9 +1177,9 @@ body.dark-mode .settings-panel {
 
       const html = groups.map(group => `
         <div class="group-card">
-          <div class="group-title" style="display:flex;justify-content:space-between;align-items:baseline;">
-  <span>${escapeHTML(group.name)}</span>
-  <span style="font-size:20px;font-weight:600;color:#53677a;">
+  <div class="group-title">
+  ${escapeHTML(group.name)}
+  <span style="float:right;font-size:20px;font-weight:600;color:#53677a">
     ${group.members.length +
     (group.supervisor ? 1 : 0) +
     (group.assistant ? 1 : 0)}명
