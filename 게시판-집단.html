@@ -971,20 +971,24 @@ body.dark-mode .settings-panel {
 
     let fontPercent = 120;
 
-    function setFontPercent(percent) {
-      fontPercent = Math.max(80, Math.min(150, percent));
+   function setFontPercent(percent) {
+  fontPercent = Math.max(80, Math.min(150, percent));
 
-      document.getElementById("fontSize").textContent =
-        fontPercent + "%";
+  document.getElementById("fontSize").textContent =
+    fontPercent + "%";
 
-      document.getElementById("content").style.fontSize =
-        fontPercent + "%";
+  const outdoorGroups =
+    document.getElementById("outdoorGroupsSection");
 
-      localStorage.setItem(
-        "northBoardFontPercent",
-        String(fontPercent)
-      );
-    }
+  if (outdoorGroups) {
+    outdoorGroups.style.zoom = fontPercent + "%";
+  }
+
+  localStorage.setItem(
+    "northBoardFontPercent",
+    String(fontPercent)
+  );
+}
 
        function changeFont(amount) {
       setFontPercent(fontPercent + amount);
@@ -1225,13 +1229,15 @@ body.dark-mode .settings-panel {
   0
 );
 
-      return `
-        <div class="group-heading">
-          <span>야외 봉사 집단</span>
-          <span>${totalMembers}명</span>
-        </div>
-        <div class="group-grid">${html}</div>
-      `;
+     return `
+  <div id="outdoorGroupsSection">
+    <div class="group-heading">
+      <span>야외 봉사 집단</span>
+      <span>${totalMembers}명</span>
+    </div>
+    <div class="group-grid">${html}</div>
+  </div>
+`;
     }
 
   
