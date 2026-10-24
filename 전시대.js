@@ -5450,12 +5450,8 @@ function addGroup() {
           봉사시작
         </label>
 
-        <input
-          type="text"
-          id="newGroupStartTime"
-          value="${startTime}"
-          readonly
-        >
+        <select id="newGroupStartTime">
+</select>
 
       </div>
 
@@ -5575,6 +5571,75 @@ function addGroup() {
     </div>
 
   `;
+
+   // 시작 시간 선택 목록 생성
+  const startSelect =
+    form.querySelector("#newGroupStartTime");
+
+  const endInput =
+    form.querySelector("#newGroupEndTime");
+
+  for (
+    let minutes = 10 * 60;
+    minutes <= 17 * 60;
+    minutes += 10
+  ) {
+    const hour = Math.floor(minutes / 60);
+    const minute = minutes % 60;
+
+    const ampm = hour < 12 ? "오전" : "오후";
+    const displayHour = hour > 12 ? hour - 12 : hour;
+
+    const timeText =
+      `${ampm} ${displayHour}:${String(minute).padStart(2, "0")}`;
+
+    const option = document.createElement("option");
+
+    // 저장할 때도 "오전 10:00" 같은 형식이 유지되도록 설정
+    option.value = timeText;
+    option.textContent = timeText;
+    option.dataset.minutes = String(minutes);
+
+    startSelect.appendChild(option);
+  }
+
+  // 해당 일정의 기본 시작 시간 선택
+  const defaultOption = Array.from(startSelect.options)
+    .find(option =>
+      Number(option.dataset.minutes) === startMinutes
+    );
+
+  if (defaultOption) {
+    startSelect.value = defaultOption.value;
+  }
+
+  // 시작 시간에 따라 종료 시간 자동 변경
+  function updateGroupEndTime() {
+    const selectedOption =
+      startSelect.options[startSelect.selectedIndex];
+
+    const selectedMinutes =
+      Number(selectedOption.dataset.minutes);
+
+    const endMinutes = selectedMinutes + 120;
+    const endHour = Math.floor(endMinutes / 60);
+    const endMinute = endMinutes % 60;
+
+    const endAmpm = endHour < 12 ? "오전" : "오후";
+    const endDisplayHour = endHour > 12
+      ? endHour - 12
+      : endHour;
+
+    endInput.value =
+      `${endAmpm} ${endDisplayHour}:${String(endMinute).padStart(2, "0")}`;
+  }
+
+  startSelect.addEventListener(
+    "change",
+    updateGroupEndTime
+  );
+
+  updateGroupEndTime();
 
   groupsEl.prepend(form);
 }
