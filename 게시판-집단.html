@@ -530,6 +530,7 @@ body.dark-mode #content .assignment-table td {
   line-height: 1.5;
 }
 
+    
     .schedule-table th,
     .assignment-table th {
       background: #e8eef4;
@@ -551,6 +552,21 @@ body.dark-mode #content .assignment-table td {
   font-weight: 800;
 }
 
+ /* 호별 방문 등 일정표: 큰 박스 안의 가로선·세로선 유지 */
+#content > .section-card.schedule-card > .schedule-table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+#content > .section-card.schedule-card > .schedule-table th,
+#content > .section-card.schedule-card > .schedule-table td {
+  border: 1px solid #858585 !important;
+}   
     .note-list {
       margin: 0;
       padding-left: 20px;
