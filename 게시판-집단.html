@@ -517,7 +517,22 @@ body.dark-mode #content .assignment-table td {
   width: 25%;
 }
 
-    
+/* 비고 표만 좌측 75%, 우측 25% */
+.section-card.schedule-card:has(.assignment-table tbody tr td:nth-child(2))
+  .assignment-table:has(tbody tr td:nth-child(2)) {
+  table-layout: fixed;
+}
+
+.section-card.schedule-card:has(.assignment-table tbody tr td:nth-child(2))
+  .assignment-table td:first-child {
+  width: 75%;
+}
+
+.section-card.schedule-card:has(.assignment-table tbody tr td:nth-child(2))
+  .assignment-table td:nth-child(2) {
+  width: 25%;
+}
+
 .schedule-table th,
 .schedule-table td,
 .assignment-table th,
