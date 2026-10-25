@@ -3171,10 +3171,12 @@ function checkAdminPassword() {
 
 }
 
+
 /* =========================================================
    시트에서 알림 불러오기
    명단 시트 F열: 항목
    명단 시트 G열: 내용
+   - 신청·마감 안내와 인도자를 그룹별 카드로 표시
 ========================================================= */
 
 async function loadJeonsiNotices() {
@@ -3188,62 +3190,46 @@ async function loadJeonsiNotices() {
 
   container.innerHTML = "";
 
-  const loadingCard =
-    document.createElement("div");
-
+  const loadingCard = document.createElement("div");
   loadingCard.className = "notice-card";
 
-  const loadingRow =
-    document.createElement("div");
-
+  const loadingRow = document.createElement("div");
   loadingRow.className = "notice-row";
-
-  loadingRow.textContent =
-    "알림을 불러오는 중입니다.";
+  loadingRow.textContent = "알림을 불러오는 중입니다.";
 
   loadingCard.appendChild(loadingRow);
   container.appendChild(loadingCard);
 
   try {
 
-    const response =
-      await fetch(
-        SCRIPT_URL +
-        "?action=jeonsidaeNotices&t=" +
-        Date.now()
-      );
+    const response = await fetch(
+      SCRIPT_URL +
+      "?action=jeonsidaeNotices&t=" +
+      Date.now()
+    );
 
-    const data =
-      await response.json();
+    const data = await response.json();
 
     if (!data.success) {
       throw new Error(
-        data.message ||
-        "알림을 불러오지 못했습니다."
+        data.message || "알림을 불러오지 못했습니다."
       );
     }
 
-    const notices =
-      Array.isArray(data.notices)
-        ? data.notices
-        : [];
+    const notices = Array.isArray(data.notices)
+      ? data.notices
+      : [];
 
     container.innerHTML = "";
 
     if (notices.length === 0) {
 
-      const card =
-        document.createElement("div");
-
+      const card = document.createElement("div");
       card.className = "notice-card";
 
-      const row =
-        document.createElement("div");
-
+      const row = document.createElement("div");
       row.className = "notice-row";
-
-      row.textContent =
-        "등록된 알림이 없습니다.";
+      row.textContent = "등록된 알림이 없습니다.";
 
       card.appendChild(row);
       container.appendChild(card);
@@ -3251,77 +3237,145 @@ async function loadJeonsiNotices() {
       return;
     }
 
-    const card =
-      document.createElement("div");
+    let currentCard = null;
 
-    card.className = "notice-card";
+    // 섹션 제목
+    function addSectionTitle(title) {
+
+      const heading = document.createElement("div");
+
+      heading.className = "notice-section-title";
+      heading.textContent = title;
+
+      heading.style.cssText = `
+        text-align: left;
+        font-size: 1em;
+        font-weight: 800;
+        color: #777;
+        margin: 28px 20px 8px;
+      `;
+
+      container.appendChild(heading);
+
+      currentCard = document.createElement("div");
+      currentCard.className = "notice-card";
+
+      container.appendChild(currentCard);
+    }
+
+    // 카드 안에 항목과 내용을 한 줄로 표시
+    function addNoticeRow(label, value) {
+
+      if (!currentCard) {
+        currentCard = document.createElement("div");
+        currentCard.className = "notice-card";
+        container.appendChild(currentCard);
+      }
+
+      const row = document.createElement("div");
+      row.className = "notice-row";
+
+      row.style.cssText = `
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+      `;
+
+      const labelElement = document.createElement("strong");
+      labelElement.textContent = label;
+
+      labelElement.style.cssText = `
+        flex: 1;
+        min-width: 0;
+        text-align: left;
+        overflow-wrap: anywhere;
+      `;
+
+      row.appendChild(labelElement);
+
+      if (value) {
+
+        const valueElement = document.createElement("span");
+        valueElement.textContent = value;
+
+        valueElement.style.cssText = `
+          flex-shrink: 0;
+          text-align: right;
+          font-weight: 800;
+        `;
+
+        row.appendChild(valueElement);
+      }
+
+      currentCard.appendChild(row);
+    }
 
     notices.forEach(function(notice) {
 
-      const label =
-        String(notice.label || "").trim();
+      const label = String(notice.label || "").trim();
+      const value = String(notice.value || "").trim();
 
-      const value =
-        String(notice.value || "").trim();
-
-      const row =
-        document.createElement("div");
-
-      row.className = "notice-row";
-
-      if (!value) {
-
-        /* 내용이 없는 항목은 제목으로 표시 */
-        const heading =
-          document.createElement("strong");
-
-        heading.textContent = label;
-
-        row.appendChild(heading);
-
-      } else {
-
-        /* 항목과 내용을 한 줄에 표시 */
-        const labelElement =
-          document.createElement("strong");
-
-        labelElement.textContent = label;
-
-        const valueElement =
-          document.createElement("span");
-
-        valueElement.textContent = value;
-
-        row.appendChild(labelElement);
-        row.appendChild(valueElement);
-
+      if (!label && !value) {
+        return;
       }
 
-      card.appendChild(row);
+      // F1의 제목은 표시하지 않음
+      if (label === "알림") {
+        return;
+      }
+
+      // 맨 아래 추가 안내 문구는 독립된 카드로 표시
+      if (label.startsWith("※")) {
+
+        currentCard = null;
+
+        const noteCard = document.createElement("div");
+        noteCard.className = "notice-card";
+
+        const noteRow = document.createElement("div");
+        noteRow.className = "notice-row";
+        noteRow.textContent = label;
+
+        noteRow.style.cssText = `
+          display: block;
+          text-align: left;
+          font-weight: 800;
+          line-height: 1.6;
+          overflow-wrap: anywhere;
+        `;
+
+        noteCard.appendChild(noteRow);
+        container.appendChild(noteCard);
+
+        return;
+      }
+
+      // 내용이 없는 항목은 새 섹션의 제목
+      if (!value) {
+
+        addSectionTitle(label);
+
+        return;
+      }
+
+      // 항목과 내용 표시
+      addNoticeRow(label, value);
 
     });
 
-    container.appendChild(card);
-
   } catch (error) {
 
-    console.error(
-      "알림 불러오기 오류:",
-      error
-    );
+    console.error("알림 불러오기 오류:", error);
 
     container.innerHTML = "";
 
-    const card =
-      document.createElement("div");
-
+    const card = document.createElement("div");
     card.className = "notice-card";
 
-    const row =
-      document.createElement("div");
-
+    const row = document.createElement("div");
     row.className = "notice-row";
-
     row.textContent =
       "알림을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.";
 
@@ -3331,7 +3385,6 @@ async function loadJeonsiNotices() {
   }
 
 }
-
 
 function setActiveNav(id) {
 
