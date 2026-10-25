@@ -2215,8 +2215,6 @@ async function toggleAdminLeaderDropdown() {
   select.style.display = "inline-block";
 }
 
-
-
 /* 일정별 신청자 이름으로 드롭다운 구성 */
 function renderAdminLeaderOptions() {
   const select =
@@ -2226,7 +2224,8 @@ function renderAdminLeaderOptions() {
     return;
   }
 
-  const defaultLeader = getDefaultAdminLeader();
+  const defaultLeader =
+    getDefaultAdminLeader();
 
   const storageKey =
     "jeonsidaeLeader_" + selectedAdminSchedule;
@@ -2234,34 +2233,46 @@ function renderAdminLeaderOptions() {
   const savedLeader =
     localStorage.getItem(storageKey);
 
-  const selectedLeader =
-    savedLeader && applicants.includes(savedLeader)
-      ? savedLeader
-      : defaultLeader;
-
   select.innerHTML = "";
 
   const names = [...applicants];
 
-  // 기본 인도자가 신청자 명단에 없어도 기본값으로 표시
-  if (defaultLeader && !names.includes(defaultLeader)) {
+  // 시트의 기본 인도자를 목록 맨 앞에 배치
+  if (
+    defaultLeader &&
+    !names.includes(defaultLeader)
+  ) {
     names.unshift(defaultLeader);
   }
 
   if (names.length === 0) {
-    const option = document.createElement("option");
+    const option =
+      document.createElement("option");
+
     option.value = "";
-    option.textContent = "신청자가 없습니다";
+    option.textContent =
+      defaultLeader || "신청자가 없습니다";
+
     select.appendChild(option);
     return;
   }
 
   names.forEach(function(name) {
-    const option = document.createElement("option");
+    const option =
+      document.createElement("option");
+
     option.value = name;
     option.textContent = name;
+
     select.appendChild(option);
   });
+
+  // 이전에 직접 선택한 이름이 유효하면 유지
+  // 그렇지 않으면 시트의 기본 인도자를 선택
+  const selectedLeader =
+    savedLeader && names.includes(savedLeader)
+      ? savedLeader
+      : defaultLeader;
 
   select.value =
     names.includes(selectedLeader)
@@ -2275,7 +2286,11 @@ function saveAdminLeader() {
   const select =
     document.getElementById("adminLeaderSelect");
 
-  if (!select || !selectedAdminSchedule || !select.value) {
+  if (
+    !select ||
+    !selectedAdminSchedule ||
+    !select.value
+  ) {
     return;
   }
 
