@@ -323,29 +323,45 @@ body.unlocked .page {
 
     min-height: 76px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #123f70 0%,
-            #082b50 100%
-        );
+    background: #ffffff;
 
-    color: #ffffff;
+    color: #172033;
 
-    border: none;
+    border: 1px solid #d9e2ec;
 
     box-shadow:
-        0 7px 20px rgba(8, 43, 80, 0.20);
+        0 3px 12px rgba(16, 42, 67, 0.07);
 }
 
 .admin-button .icon {
-    background: rgba(255,255,255,0.13);
+    background: #e7f0ff;
 }
 
 .admin-button .button-arrow {
-    color: #a9c0d8;
+    color: #9db2c8;
 }
 
+
+/* 어두운 화면에서 관리자 버튼 */
+
+body.dark-theme .admin-button {
+    background: #26313d;
+
+    color: #f0f3f6;
+
+    border-color: #3b4856;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-theme .admin-button .icon {
+    background: #334150;
+}
+
+body.dark-theme .admin-button .button-arrow {
+    color: #b9c8d6;
+}
 
 
 /* ==================================================
