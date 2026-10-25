@@ -8845,6 +8845,27 @@ async function selectServiceSchedule(
   }
 
 
+  /* 선택한 일정의 인도자 이름 표시 */
+
+  const leaderDisplay =
+    document.getElementById(
+      "serviceLeaderDisplay"
+    );
+
+  if (leaderDisplay) {
+
+    const leader =
+      localStorage.getItem(
+        "jeonsidaeLeader_" +
+        selectedServiceSchedule
+      ) || "";
+
+    leaderDisplay.textContent =
+      "인도자 : " + leader;
+
+  }
+
+
   /* 선택한 일정의 그룹을 서버에서 다시 불러오기 */
 
   try {
@@ -8877,7 +8898,6 @@ async function selectServiceSchedule(
   }
 
 }
-
 /* =========================================================
    봉사용 - 최신 임명 정보 새로고침
    - 현재 선택된 일정의 관리용 시트 정보를 다시 불러옵니다.
