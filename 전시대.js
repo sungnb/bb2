@@ -2141,6 +2141,13 @@ function selectAdminSchedule(scheduleKey) {
    관리자용 인도자 선택
 ========================================================= */
 
+/* 스프레드시트에서 가져온 기본 인도자 */
+let jeonsiAdminLeaders = {
+  saturdayMorning: "",
+  saturdayAfternoon: "",
+  sundayMorning: ""
+};
+
 function getDefaultAdminLeader() {
   if (selectedAdminSchedule === "토오전") {
     return jeonsiAdminLeaders.saturdayMorning || "";
@@ -2156,7 +2163,6 @@ function getDefaultAdminLeader() {
 
   return "";
 }
-
 
 /* 인도자 드롭다운 열기 / 닫기 */
 function toggleAdminLeaderDropdown() {
