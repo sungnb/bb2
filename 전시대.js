@@ -2165,7 +2165,7 @@ function getDefaultAdminLeader() {
 }
 
 
-/* 인도자 드롭다운 열기 / 닫기 */
+/* 스프레드시트에서 기본 인도자 가져오기 */
 async function toggleAdminLeaderDropdown() {
   const select =
     document.getElementById("adminLeaderSelect");
@@ -2174,10 +2174,8 @@ async function toggleAdminLeaderDropdown() {
     return;
   }
 
-  if (select.style.display !== "none") {
-    select.style.display = "none";
-    return;
-  }
+  select.innerHTML =
+    '<option value="">인도자를 불러오는 중...</option>';
 
   try {
     const response = await fetch(
@@ -2186,32 +2184,20 @@ async function toggleAdminLeaderDropdown() {
 
     const data = await response.json();
 
-    if (!data.success) {
+    if (!data.success || !data.leaders) {
       throw new Error(
         data.message || "인도자 정보를 불러오지 못했습니다."
       );
     }
 
-  jeonsiAdminLeaders = data.leaders || {
-  saturdayMorning: "",
-  saturdayAfternoon: "",
-  sundayMorning: ""
-};
+    jeonsiAdminLeaders = data.leaders;
 
-console.log(
-  "시트에서 가져온 기본 인도자:",
-  jeonsiAdminLeaders
-);
+    console.log(
+      "스프레드시트 기본 인도자:",
+      jeonsiAdminLeaders
+    );
 
-console.log(
-  "현재 일정:",
-  selectedAdminSchedule
-);
-
-console.log(
-  "현재 일정의 기본 인도자:",
-  getDefaultAdminLeader()
-);
+    renderAdminLeaderOptions();
 
   } catch (error) {
     console.error(
@@ -2219,15 +2205,13 @@ console.log(
       error
     );
 
+    select.innerHTML =
+      '<option value="">인도자를 불러오지 못했습니다</option>';
+
     alert(
       "인도자 정보를 불러오지 못했습니다. Apps Script 설정을 확인해 주세요."
     );
-
-    return;
   }
-
-  renderAdminLeaderOptions();
-  select.style.display = "inline-block";
 }
 
 /* 일정별 신청자 이름으로 드롭다운 구성 */
