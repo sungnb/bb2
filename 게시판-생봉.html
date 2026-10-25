@@ -817,24 +817,32 @@ function openingRow(label,name){
   return row;
 }
 
+// 매월 두 번째 화요일 계산
+const secondTuesday = new Date(
+  displayDate.getFullYear(),
+  displayDate.getMonth(),
+  1
+);
+
 const firstDayOfWeek = secondTuesday.getDay();
 const daysUntilTuesday = (2 - firstDayOfWeek + 7) % 7;
 
 secondTuesday.setDate(1 + daysUntilTuesday + 7);
 
+// 표시 날짜가 두 번째 화요일인지 확인
 const isSecondTuesday =
   displayDate.getFullYear() === secondTuesday.getFullYear() &&
   displayDate.getMonth() === secondTuesday.getMonth() &&
   displayDate.getDate() === secondTuesday.getDate();
 
+// 사회자 이름 앞에 문구 추가
 const chairmanName = cell(c,2);
 const chairmanText = isSecondTuesday
-  ? '<span style="font-size:18px; color:gray;">(회계 광고)</span> ' + chairmanName
+  ? "(회계 광고) " + chairmanName
   : chairmanName;
 
 card.appendChild(openingRow("사회자", chairmanText));
 card.appendChild(openingRow("시작 기도",cell(c,3)));
-    
 
     // 성경에 담긴 보물
     section(card,"성경에 담긴 보물","blue",true);
