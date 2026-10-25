@@ -703,12 +703,13 @@
 >
   <div class="service-section">
 
- <div class="admin-back-area" style="
+
+<div class="admin-back-area" style="
+  position:relative;
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
   gap:10px;
-  flex-wrap:wrap;
 ">
   <button
     type="button"
@@ -722,11 +723,15 @@
     id="serviceLeaderDisplay"
     class="admin-back-button"
     style="
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
       cursor:default;
       white-space:nowrap;
     "
   >인도자 : </div>
 </div>
+
 
     <div
       class="service-list"
