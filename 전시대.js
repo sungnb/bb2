@@ -2164,8 +2164,9 @@ function getDefaultAdminLeader() {
   return "";
 }
 
+
 /* 인도자 드롭다운 열기 / 닫기 */
-function toggleAdminLeaderDropdown() {
+async function toggleAdminLeaderDropdown() {
   const select =
     document.getElementById("adminLeaderSelect");
 
@@ -2173,13 +2174,47 @@ function toggleAdminLeaderDropdown() {
     return;
   }
 
-  if (select.style.display === "none") {
-    renderAdminLeaderOptions();
-    select.style.display = "inline-block";
-  } else {
+  if (select.style.display !== "none") {
     select.style.display = "none";
+    return;
   }
+
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec?action=jeonsidaeNotices&t=" + Date.now()
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message || "인도자 정보를 불러오지 못했습니다."
+      );
+    }
+
+    jeonsiAdminLeaders = data.leaders || {
+      saturdayMorning: "",
+      saturdayAfternoon: "",
+      sundayMorning: ""
+    };
+
+  } catch (error) {
+    console.error(
+      "인도자 정보 불러오기 오류:",
+      error
+    );
+
+    alert(
+      "인도자 정보를 불러오지 못했습니다. Apps Script 설정을 확인해 주세요."
+    );
+
+    return;
+  }
+
+  renderAdminLeaderOptions();
+  select.style.display = "inline-block";
 }
+
 
 
 /* 일정별 신청자 이름으로 드롭다운 구성 */
