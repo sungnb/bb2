@@ -1197,15 +1197,35 @@ body.dark-mode .settings-panel {
 </span>
           </div>
 
-          <div class="group-leader">
+                   <div class="group-leader">
   <div class="group-leader-side">
     <strong style="display:inline">감독자</strong>
-    <span class="leader-name">${escapeHTML(group.supervisor || "자료 없음")}</span>
+    <span class="leader-name">${
+      group.supervisor
+        ? (() => {
+            const name = group.supervisor.replace(/\s*\([^)]*\)\s*$/, "").trim();
+            const phone = phoneMap.get(name);
+            return phone
+              ? `<a href="tel:${escapeHTML(phone)}" style="color:inherit;text-decoration:none;">${escapeHTML(group.supervisor)}</a>`
+              : escapeHTML(group.supervisor);
+          })()
+        : "자료 없음"
+    }</span>
   </div>
 
   <div class="group-leader-side right">
     <strong style="display:inline">보조자</strong>
-    <span class="leader-name">${escapeHTML(group.assistant || "자료 없음")}</span>
+    <span class="leader-name">${
+      group.assistant
+        ? (() => {
+            const name = group.assistant.replace(/\s*\([^)]*\)\s*$/, "").trim();
+            const phone = phoneMap.get(name);
+            return phone
+              ? `<a href="tel:${escapeHTML(phone)}" style="color:inherit;text-decoration:none;">${escapeHTML(group.assistant)}</a>`
+              : escapeHTML(group.assistant);
+          })()
+        : "자료 없음"
+    }</span>
   </div>
 </div>
 
