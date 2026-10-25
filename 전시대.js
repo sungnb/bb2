@@ -2192,11 +2192,26 @@ async function toggleAdminLeaderDropdown() {
       );
     }
 
-    jeonsiAdminLeaders = data.leaders || {
-      saturdayMorning: "",
-      saturdayAfternoon: "",
-      sundayMorning: ""
-    };
+  jeonsiAdminLeaders = data.leaders || {
+  saturdayMorning: "",
+  saturdayAfternoon: "",
+  sundayMorning: ""
+};
+
+console.log(
+  "시트에서 가져온 기본 인도자:",
+  jeonsiAdminLeaders
+);
+
+console.log(
+  "현재 일정:",
+  selectedAdminSchedule
+);
+
+console.log(
+  "현재 일정의 기본 인도자:",
+  getDefaultAdminLeader()
+);
 
   } catch (error) {
     console.error(
