@@ -2095,6 +2095,7 @@ adminSelector.appendChild(
 }
 
   
+
 /* =========================================================
    관리자용 봉사 일정 선택
 ========================================================= */
@@ -2131,6 +2132,9 @@ function selectAdminSchedule(scheduleKey) {
     managementArea.style.display =
       "block";
   }
+
+  /* 요일별 기본 인도자 정보 불러오기 */
+  toggleAdminLeaderDropdown();
 
   /* 신청자 명단 불러오기 */
   loadApplicants();
