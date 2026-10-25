@@ -8988,6 +8988,12 @@ async function selectServiceSchedule(
   await ensureWeeklyLeaderReset();
 
 
+
+  /* 주간 초기화가 완료될 때까지 기다립니다. */
+
+  await ensureWeeklyLeaderReset();
+
+
   /* 선택한 일정의 인도자 이름 표시 */
 
   const leaderDisplay =
@@ -9002,12 +9008,22 @@ async function selectServiceSchedule(
         "jeonsidaeLeader_" +
         selectedServiceSchedule
       ) ||
-      getDefaultAdminLeader();
+      (
+        selectedServiceSchedule === "토오전"
+          ? jeonsiAdminLeaders.saturdayMorning
+          : selectedServiceSchedule === "토오후"
+            ? jeonsiAdminLeaders.saturdayAfternoon
+            : selectedServiceSchedule === "일오전"
+              ? jeonsiAdminLeaders.sundayMorning
+              : ""
+      ) ||
+      "";
 
     leaderDisplay.textContent =
       "인도자 : " + leader;
 
   }
+
 
 
   /* 선택한 일정의 그룹을 서버에서 다시 불러오기 */
