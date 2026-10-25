@@ -2242,12 +2242,6 @@ function renderAdminLeaderOptions() {
   const defaultLeader =
     getDefaultAdminLeader();
 
-  const storageKey =
-    "jeonsidaeLeader_" + selectedAdminSchedule;
-
-  const savedLeader =
-    localStorage.getItem(storageKey);
-
   select.innerHTML = "";
 
   const names = [...applicants];
@@ -2282,19 +2276,19 @@ function renderAdminLeaderOptions() {
     select.appendChild(option);
   });
 
-  // 이전에 직접 선택한 이름이 유효하면 유지
-  // 그렇지 않으면 시트의 기본 인도자를 선택
-  const selectedLeader =
-    savedLeader && names.includes(savedLeader)
-      ? savedLeader
-      : defaultLeader;
+  // 시트에 지정된 기본 인도자를 우선 선택
+  if (
+    defaultLeader &&
+    names.includes(defaultLeader)
+  ) {
+    select.value = defaultLeader;
+  } else {
+    select.value = names[0];
+  }
 
-  select.value =
-    names.includes(selectedLeader)
-      ? selectedLeader
-      : names[0];
+  // 현재 선택값을 저장
+  saveAdminLeader();
 }
-
 
 /* 선택한 인도자 저장 */
 function saveAdminLeader() {
