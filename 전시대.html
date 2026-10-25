@@ -703,15 +703,29 @@
 >
   <div class="service-section">
 
-    <div class="admin-back-area">
-      <button
-        type="button"
-        class="admin-back-button"
-        onclick="backToServiceSchedule()"
-      >
-        &lt; 뒤로가기
-      </button>
-    </div>
+  <div class="admin-back-area" style="
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+">
+  <button
+    type="button"
+    class="admin-back-button"
+    onclick="backToServiceSchedule()"
+  >
+    &lt; 뒤로가기
+  </button>
+
+  <div
+    id="serviceLeaderDisplay"
+    style="
+      font-size:15px;
+      font-weight:700;
+      text-align:right;
+    "
+  >인도자 : </div>
+</div>
 
     <div
       class="service-list"
