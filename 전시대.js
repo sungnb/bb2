@@ -2169,6 +2169,7 @@ function getDefaultAdminLeader() {
 }
 
 
+
 /* 스프레드시트에서 기본 인도자 가져오기 */
 async function toggleAdminLeaderDropdown() {
   const select =
@@ -2201,6 +2202,10 @@ async function toggleAdminLeaderDropdown() {
       jeonsiAdminLeaders
     );
 
+    /* 주간 초기화가 끝날 때까지 기다립니다. */
+    await ensureWeeklyLeaderReset();
+
+    /* 초기화 완료 후 인도자 목록 구성 */
     renderAdminLeaderOptions();
 
   } catch (error) {
@@ -2217,6 +2222,7 @@ async function toggleAdminLeaderDropdown() {
     );
   }
 }
+
 
 
 /* =========================================================
@@ -2316,8 +2322,6 @@ async function ensureWeeklyLeaderReset() {
 
 }
 
-
-
 /* 일정별 신청자 이름으로 드롭다운 구성 */
 function renderAdminLeaderOptions() {
 
@@ -2329,9 +2333,6 @@ function renderAdminLeaderOptions() {
   if (!select) {
     return;
   }
-
-  /* 주간 초기화 확인 */
-  ensureWeeklyLeaderReset();
 
   const defaultLeader =
     getDefaultAdminLeader();
@@ -8982,6 +8983,11 @@ async function selectServiceSchedule(
   }
 
 
+  /* 주간 초기화가 완료될 때까지 기다립니다. */
+
+  await ensureWeeklyLeaderReset();
+
+
   /* 선택한 일정의 인도자 이름 표시 */
 
   const leaderDisplay =
@@ -8995,7 +9001,8 @@ async function selectServiceSchedule(
       localStorage.getItem(
         "jeonsidaeLeader_" +
         selectedServiceSchedule
-      ) || "";
+      ) ||
+      getDefaultAdminLeader();
 
     leaderDisplay.textContent =
       "인도자 : " + leader;
