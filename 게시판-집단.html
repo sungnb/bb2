@@ -1167,13 +1167,24 @@ body.dark-mode .settings-panel {
         });
       }
 
+      // N57부터 이름, O57부터 전화번호를 읽어 전화번호 목록 생성
+      const phoneMap = new Map();
+
+      for (let r = 56; r < data.length; r++) {
+        const name = cell(data[r] || [], 13);  // N열
+        const phone = cell(data[r] || [], 14); // O열
+
+        if (name && phone) {
+          phoneMap.set(name, phone.replace(/[^\d+]/g, ""));
+        }
+      }
+
       // 일반 명단을 가나다순으로 정렬
       groups.forEach(group => {
         group.members.sort((a, b) =>
           a.name.localeCompare(b.name, "ko")
         );
       });
-
 
       const html = groups.map(group => `
         <div class="group-card">
@@ -1200,14 +1211,24 @@ body.dark-mode .settings-panel {
 
           <div class="member-list">
             ${group.members.length
-              ? group.members.map(member => `
-               <span class="member-chip member-list-chip">
-                  ${escapeHTML(member.name)}
-                  ${member.marks.length
-                    ? `<span class="member-mark">${escapeHTML(member.marks.join(" · "))}</span>`
-                    : ""}
-                </span>
-              `).join("")
+              ? group.members.map(member => {
+                  const phone = phoneMap.get(member.name);
+
+                  return `
+                    <span class="member-chip member-list-chip">
+                      ${phone
+                        ? `<a href="tel:${escapeHTML(phone)}"
+                             style="color:inherit;text-decoration:none;">
+                             ${escapeHTML(member.name)}
+                           </a>`
+                        : escapeHTML(member.name)
+                      }
+                      ${member.marks.length
+                        ? `<span class="member-mark">${escapeHTML(member.marks.join(" · "))}</span>`
+                        : ""}
+                    </span>
+                  `;
+                }).join("")
               : `<span class="empty-message">명단이 없습니다.</span>`
             }
           </div>
