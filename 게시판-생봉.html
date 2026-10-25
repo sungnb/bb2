@@ -806,7 +806,29 @@ function openingRow(label,name){
   return row;
 }
 
-card.appendChild(openingRow("사회자",cell(c,2)));
+// 사회자 표시: 매월 두 번째 화요일에만 (회계 광고) 추가
+const secondTuesday = new Date(
+  displayDate.getFullYear(),
+  displayDate.getMonth(),
+  1
+);
+
+const firstDayOfWeek = secondTuesday.getDay();
+const daysUntilTuesday = (2 - firstDayOfWeek + 7) % 7;
+
+secondTuesday.setDate(1 + daysUntilTuesday + 7);
+
+const isSecondTuesday =
+  displayDate.getFullYear() === secondTuesday.getFullYear() &&
+  displayDate.getMonth() === secondTuesday.getMonth() &&
+  displayDate.getDate() === secondTuesday.getDate();
+
+const chairmanName = cell(c,2);
+const chairmanText = isSecondTuesday
+  ? chairmanName + " (회계 광고)"
+  : chairmanName;
+
+card.appendChild(openingRow("사회자", chairmanText));
 card.appendChild(openingRow("시작 기도",cell(c,3)));
     
 
