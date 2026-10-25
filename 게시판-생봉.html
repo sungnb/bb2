@@ -798,20 +798,24 @@ function openingRow(label,name){
 
   const value = document.createElement("div");
   value.className = "name";
-  value.textContent = name || "";
   value.style.cssText =
     "font-size:22px;color:#222;font-weight:800;text-align:right;";
+
+  if (label === "사회자" && name && name.startsWith("(회계 광고) ")) {
+    const notice = document.createElement("span");
+    notice.textContent = "(회계 광고)";
+    notice.style.cssText =
+      "font-size:18px;color:gray;font-weight:400;";
+
+    value.appendChild(notice);
+    value.appendChild(document.createTextNode(" " + name.substring("(회계 광고) ".length)));
+  } else {
+    value.textContent = name || "";
+  }
 
   row.append(role,value);
   return row;
 }
-
-// 사회자 표시: 매월 두 번째 화요일에만 (회계 광고) 추가
-const secondTuesday = new Date(
-  displayDate.getFullYear(),
-  displayDate.getMonth(),
-  1
-);
 
 const firstDayOfWeek = secondTuesday.getDay();
 const daysUntilTuesday = (2 - firstDayOfWeek + 7) % 7;
