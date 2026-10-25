@@ -2218,6 +2218,105 @@ async function toggleAdminLeaderDropdown() {
   }
 }
 
+
+/* =========================================================
+   인도자 이름 - 매주 월요일 기본값으로 초기화
+========================================================= */
+
+async function ensureWeeklyLeaderReset() {
+
+  const now = new Date();
+
+  const monday = new Date(now);
+
+  monday.setHours(0, 0, 0, 0);
+
+  monday.setDate(
+    monday.getDate() -
+    ((monday.getDay() + 6) % 7)
+  );
+
+  const weekKey =
+    monday.getFullYear() + "-" +
+    String(monday.getMonth() + 1).padStart(2, "0") + "-" +
+    String(monday.getDate()).padStart(2, "0");
+
+  const savedWeek =
+    localStorage.getItem(
+      "jeonsidaeLeaderWeek"
+    );
+
+  /* 이번 주에 이미 확인했다면 초기화하지 않음 */
+  if (savedWeek === weekKey) {
+    return;
+  }
+
+  let leaders = jeonsiAdminLeaders;
+
+  /* 기본 인도자 정보가 없으면 스프레드시트에서 가져옴 */
+  if (
+    !leaders ||
+    !leaders.saturdayMorning ||
+    !leaders.saturdayAfternoon ||
+    !leaders.sundayMorning
+  ) {
+
+    try {
+
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec?action=jeonsidaeNotices&t=" + Date.now()
+      );
+
+      const data = await response.json();
+
+      if (!data.success || !data.leaders) {
+        throw new Error("기본 인도자 정보를 가져오지 못했습니다.");
+      }
+
+      leaders = data.leaders;
+      jeonsiAdminLeaders = data.leaders;
+
+    } catch (error) {
+
+      console.error(
+        "주간 인도자 초기화 오류:",
+        error
+      );
+
+      return;
+
+    }
+
+  }
+
+  /* 스프레드시트의 일정별 기본 인도자로 초기화 */
+  const defaults = {
+    "토오전": leaders.saturdayMorning,
+    "토오후": leaders.saturdayAfternoon,
+    "일오전": leaders.sundayMorning
+  };
+
+  for (const schedule in defaults) {
+
+    if (defaults[schedule]) {
+
+      localStorage.setItem(
+        "jeonsidaeLeader_" + schedule,
+        defaults[schedule]
+      );
+
+    }
+
+  }
+
+  localStorage.setItem(
+    "jeonsidaeLeaderWeek",
+    weekKey
+  );
+
+}
+
+
 /* 일정별 신청자 이름으로 드롭다운 구성 */
 function renderAdminLeaderOptions() {
   const select =
