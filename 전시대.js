@@ -2317,8 +2317,10 @@ async function ensureWeeklyLeaderReset() {
 }
 
 
+
 /* 일정별 신청자 이름으로 드롭다운 구성 */
 function renderAdminLeaderOptions() {
+
   const select =
     document.getElementById(
       "adminLeaderSelect"
@@ -2328,10 +2330,13 @@ function renderAdminLeaderOptions() {
     return;
   }
 
+  /* 주간 초기화 확인 */
+  ensureWeeklyLeaderReset();
+
   const defaultLeader =
     getDefaultAdminLeader();
 
-  /* 이전에 사용자가 저장한 인도자 */
+  /* 이전에 저장한 인도자 */
   const savedLeader =
     localStorage.getItem(
       "jeonsidaeLeader_" +
@@ -2342,7 +2347,7 @@ function renderAdminLeaderOptions() {
 
   const names = [...applicants];
 
-  /* 기본 인도자를 목록에 추가 */
+  /* 시트의 기본 인도자를 목록에 추가 */
   if (
     defaultLeader &&
     !names.includes(defaultLeader)
@@ -2350,7 +2355,7 @@ function renderAdminLeaderOptions() {
     names.unshift(defaultLeader);
   }
 
-  /* 저장한 인도자도 목록에 추가 */
+  /* 저장된 인도자도 목록에 추가 */
   if (
     savedLeader &&
     !names.includes(savedLeader)
@@ -2359,6 +2364,7 @@ function renderAdminLeaderOptions() {
   }
 
   if (names.length === 0) {
+
     const option =
       document.createElement("option");
 
@@ -2371,6 +2377,7 @@ function renderAdminLeaderOptions() {
   }
 
   names.forEach(function(name) {
+
     const option =
       document.createElement("option");
 
@@ -2378,26 +2385,35 @@ function renderAdminLeaderOptions() {
     option.textContent = name;
 
     select.appendChild(option);
+
   });
 
-  /* 저장한 인도자가 있으면 저장값을 우선 선택 */
+  /* 저장된 인도자가 있으면 저장값 우선 */
   if (
     savedLeader &&
     names.includes(savedLeader)
   ) {
+
     select.value = savedLeader;
+
   } else if (
     defaultLeader &&
     names.includes(defaultLeader)
   ) {
+
     select.value = defaultLeader;
+
   } else {
+
     select.value = names[0];
+
   }
 
   /* 현재 선택값 저장 */
   saveAdminLeader();
+
 }
+
 
 /* 선택한 인도자 저장 */
 function saveAdminLeader() {
