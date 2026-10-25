@@ -2143,15 +2143,15 @@ function selectAdminSchedule(scheduleKey) {
 
 function getDefaultAdminLeader() {
   if (selectedAdminSchedule === "토오전") {
-    return "성낙봉";
+    return jeonsiAdminLeaders.saturdayMorning || "";
   }
 
   if (selectedAdminSchedule === "토오후") {
-    return "김경수";
+    return jeonsiAdminLeaders.saturdayAfternoon || "";
   }
 
   if (selectedAdminSchedule === "일오전") {
-    return "정지원";
+    return jeonsiAdminLeaders.sundayMorning || "";
   }
 
   return "";
