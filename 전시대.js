@@ -1552,37 +1552,13 @@ async function confirmCustomVolunteerSchedule() {
   }
 
 }
+
 /*
    특정 날짜 일정 시간
+   - 추가 일정은 저장된 시간 사용
+   - 기본 일정은 그룹에 저장된 시간 사용
 */
 function getVolunteerScheduleTime(scheduleKey) {
-
-  const fixedTimes = {
-
-    "토오전": {
-      startTime: "오전 10:00",
-      endTime: "오후 12:00"
-    },
-
-    "토오후": {
-      startTime: "오후 1:00",
-      endTime: "오후 3:00"
-    },
-
-    "일오전": {
-      startTime: "오전 10:00",
-      endTime: "오후 12:00"
-    }
-
-  };
-
-
-  if (fixedTimes[scheduleKey]) {
-
-    return fixedTimes[scheduleKey];
-
-  }
-
 
   const custom =
     getCustomVolunteerSchedule(
@@ -8705,57 +8681,26 @@ card.appendChild(
    시작 / 종료
 ----------------------------------------------------- */
 
-      const defaultTimes = {
-
-        "토오전": {
-          start:
-            "오전 10:00",
-          end:
-            "오후 12:00"
-        },
-
-        "토오후": {
-          start:
-            "오후 1:00",
-          end:
-            "오후 3:00"
-        },
-
-        "일오전": {
-          start:
-            "오전 10:00",
-          end:
-            "오후 12:00"
-        }
-
-      };
+          const scheduleTime =
+        getVolunteerScheduleTime(
+          selectedServiceSchedule
+        );
 
 
-      let defaultTime =
-  defaultTimes[
-    selectedServiceSchedule
-  ];
+      const startTime =
+        String(
+          group.startTime ||
+          scheduleTime.startTime ||
+          ""
+        ).trim();
 
 
-if (!defaultTime) {
-
-  const customTime =
-    getVolunteerScheduleTime(
-      selectedServiceSchedule
-    );
-
-  defaultTime = {
-
-    start:
-      customTime.startTime || "",
-
-    end:
-      customTime.endTime || ""
-
-  };
-
-}
-
+      const endTime =
+        String(
+          group.endTime ||
+          scheduleTime.endTime ||
+          ""
+        ).trim();
 
 if (!defaultTime) {
 
