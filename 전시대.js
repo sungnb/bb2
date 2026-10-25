@@ -8686,14 +8686,12 @@ const scheduleTime =
     selectedServiceSchedule
   );
 
-
 const startTime =
   String(
     group.startTime ||
     scheduleTime.startTime ||
     ""
   ).trim();
-
 
 const endTime =
   String(
@@ -8702,23 +8700,7 @@ const endTime =
     ""
   ).trim();
 
-      const startTime =
-        String(
-          group.startTime ||
-          defaultTime.start ||
-          ""
-        ).trim();
-
-
-      const endTime =
-        String(
-          group.endTime ||
-          defaultTime.end ||
-          ""
-        ).trim();
-
-
-      const time =
+const time =
   document.createElement(
     "div"
   );
