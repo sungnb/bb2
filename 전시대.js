@@ -8681,38 +8681,26 @@ card.appendChild(
    시작 / 종료
 ----------------------------------------------------- */
 
-          const scheduleTime =
-        getVolunteerScheduleTime(
-          selectedServiceSchedule
-        );
+const scheduleTime =
+  getVolunteerScheduleTime(
+    selectedServiceSchedule
+  );
 
 
-      const startTime =
-        String(
-          group.startTime ||
-          scheduleTime.startTime ||
-          ""
-        ).trim();
+const startTime =
+  String(
+    group.startTime ||
+    scheduleTime.startTime ||
+    ""
+  ).trim();
 
 
-      const endTime =
-        String(
-          group.endTime ||
-          scheduleTime.endTime ||
-          ""
-        ).trim();
-
-if (!defaultTime) {
-
-  defaultTime = {
-
-    start: "",
-    end: ""
-
-  };
-
-}
-
+const endTime =
+  String(
+    group.endTime ||
+    scheduleTime.endTime ||
+    ""
+  ).trim();
 
       const startTime =
         String(
