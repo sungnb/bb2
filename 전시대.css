@@ -2674,7 +2674,7 @@ body.light .custom-schedule-form-row select {
 
 .service-main-button {
   width: 100px;
-  min-width: 100px;
+  min-width: 200px;
   min-height: 40px;
   padding: 8px 4px;
   border: none;
