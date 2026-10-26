@@ -245,16 +245,16 @@ leaderDisplay.textContent =
   "인도자 : " + (data.leader || "미지정");
 
 
-  } catch (error) {
+} catch (error) {
 
-    console.error("봉사용 인도자 조회 오류:", error);
+  console.error("봉사용 인도자 조회 오류:", error);
 
   if (schedule === selectedServiceSchedule) {
-  leaderDisplay.textContent = "인도자 : 확인 불가";
-}
-
+    leaderDisplay.textContent =
+      "인도자 : 확인 불가 (" + error.message + ")";
   }
 
+}
 }
 
 
