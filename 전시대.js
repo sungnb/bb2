@@ -150,6 +150,114 @@ function updateVolunteerScheduleButtonStyle() {
 
 
 /* =========================================================
+   봉사용 화면 - 선택한 일정의 인도자 조회
+   Apps Script 관리용 시트 M2에서 읽어옴
+========================================================= */
+
+async function loadVolunteerLeader(schedule) {
+
+  const toolbar = document.querySelector(
+    "#volunteerApplyArea .volunteer-action-buttons"
+  );
+
+  const backButton = toolbar
+    ? toolbar.querySelector(".volunteer-back-button")
+    : null;
+
+  if (!toolbar || !backButton) {
+    return;
+  }
+
+  /* 인도자 표시 영역 생성 */
+  let leaderDisplay = document.getElementById(
+    "volunteerLeaderDisplay"
+  );
+
+  if (!leaderDisplay) {
+
+    leaderDisplay = document.createElement("span");
+
+    leaderDisplay.id = "volunteerLeaderDisplay";
+
+    backButton.insertAdjacentElement(
+      "afterend",
+      leaderDisplay
+    );
+
+  }
+
+  /* 뒤로가기 · 인도자 · 제출 버튼을 한 줄로 배치 */
+  toolbar.style.display = "flex";
+  toolbar.style.alignItems = "center";
+  toolbar.style.gap = "8px";
+
+  backButton.style.flex = "0 0 auto";
+
+  leaderDisplay.style.flex = "1 1 auto";
+  leaderDisplay.style.minWidth = "0";
+  leaderDisplay.style.fontSize = "16px";
+  leaderDisplay.style.fontWeight = "700";
+  leaderDisplay.style.textAlign = "center";
+  leaderDisplay.style.whiteSpace = "nowrap";
+  leaderDisplay.style.overflow = "hidden";
+  leaderDisplay.style.textOverflow = "ellipsis";
+
+  const submitButton = document.getElementById(
+    "volunteerSubmitButton"
+  );
+
+  if (submitButton) {
+    submitButton.style.width = "auto";
+    submitButton.style.flex = "1 1 auto";
+    submitButton.style.minWidth = "0";
+  }
+
+  leaderDisplay.textContent = "인도자 : 불러오는 중...";
+
+  try {
+
+    const response = await fetch(
+      SCRIPT_URL +
+      "?action=getScheduleLeader&key=" +
+      encodeURIComponent(schedule) +
+      "&t=" +
+      Date.now()
+    );
+
+    if (!response.ok) {
+      throw new Error("인도자 조회 요청에 실패했습니다.");
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message || "인도자 조회에 실패했습니다."
+      );
+    }
+
+    /* 다른 일정을 선택했다면 이전 응답은 표시하지 않음 */
+    if (schedule !== selectedVolunteerSchedule) {
+      return;
+    }
+
+    leaderDisplay.textContent =
+      "인도자 : " + (data.leader || "미지정");
+
+  } catch (error) {
+
+    console.error("봉사용 인도자 조회 오류:", error);
+
+    if (schedule === selectedVolunteerSchedule) {
+      leaderDisplay.textContent = "인도자 : 확인 불가";
+    }
+
+  }
+
+}
+
+
+/* =========================================================
    봉사 일정 선택
 ========================================================= */
 
@@ -180,6 +288,9 @@ if (
     selectedVolunteerSchedule;
 
   selectedAdminSchedule = "";
+
+  /* 선택한 일정의 인도자를 공용 시트에서 조회 */
+  loadVolunteerLeader(selectedVolunteerSchedule);
 
   if (!selectedServiceSchedule) {
     return;
