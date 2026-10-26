@@ -9134,9 +9134,7 @@ async function selectServiceSchedule(
 
   if (leaderDisplay) {
 
-   loadScheduleLeader(
-  selectedServiceSchedule
-);
+   loadVolunteerLeader(selectedVolunteerSchedule);
 
   }
 
