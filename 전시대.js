@@ -2161,7 +2161,7 @@ async function toggleAdminLeaderDropdown() {
   try {
     const response = await fetch(
       "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec?action=jeonsidaeNotices&t=" + Date.now()
-    );
+       );
 
     const data = await response.json();
 
@@ -2247,7 +2247,7 @@ async function ensureWeeklyLeaderReset() {
 
       const response = await fetch(
         "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec?action=jeonsidaeNotices&t=" + Date.now()
-      );
+        );
 
       const data = await response.json();
 
@@ -2414,16 +2414,16 @@ async function saveAdminLeader() {
 
   try {
     const response = await fetch(
-      APPS_SCRIPT_URL,
-      {
-        method: "POST",
-        body: new URLSearchParams({
-          action: "saveScheduleLeader",
-          key: selectedAdminSchedule,
-          leader: leader
-        })
-      }
-    );
+  SCRIPT_URL,
+  {
+    method: "POST",
+    body: new URLSearchParams({
+      action: "saveScheduleLeader",
+      key: selectedAdminSchedule,
+      leader: leader
+    })
+  }
+);
 
     const result = await response.json();
 console.log("인도자 저장 응답:", result);
