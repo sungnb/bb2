@@ -2425,10 +2425,11 @@ async function saveAdminLeader() {
   }
 );
 
-    const result = await response.json();
+const result = await response.json();
+
 console.log("인도자 저장 응답:", result);
 console.log("요청 일정:", selectedAdminSchedule);
-console.log("Apps Script 주소:", APPS_SCRIPT_URL);
+console.log("Apps Script 주소:", SCRIPT_URL);
      
     if (!result.success) {
       alert(
