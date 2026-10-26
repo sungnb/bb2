@@ -2656,13 +2656,14 @@ body.light .custom-schedule-form-row select {
   font-weight: 800 !important;
 }
 
-/* 봉사용 뒤로가기 및 새 버튼 */
+/* 봉사용 뒤로가기 및 인도자 버튼 */
 .service-action-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   width: 100%;
+  margin-top: 20px;
 }
 
 .service-back-row {
@@ -2672,14 +2673,15 @@ body.light .custom-schedule-form-row select {
 }
 
 .service-main-button {
-  width: 100%;
-  min-height: 66px;
-  padding: 14px;
+  width: 100px;
+  min-width: 100px;
+  min-height: 40px;
+  padding: 8px 4px;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #18324a;
   color: #ffffff;
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 700;
   text-align: center;
   cursor: pointer;
