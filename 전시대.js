@@ -8145,6 +8145,68 @@ function getServiceAreasForDisplay() {
     return [];
   }
 
+/* =========================================================
+   봉사용 - 선택한 일정의 인도자 조회
+   모든 기기에서 관리용 시트 M2를 기준으로 표시
+========================================================= */
+
+async function loadScheduleLeader(scheduleKey) {
+
+  try {
+
+    const response = await fetch(
+      SCRIPT_URL +
+      "?action=getScheduleLeader" +
+      "&key=" +
+      encodeURIComponent(scheduleKey) +
+      "&t=" +
+      Date.now()
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message ||
+        "인도자를 불러오지 못했습니다."
+      );
+    }
+
+    SERVICE_CONDUCTOR =
+      String(data.leader || "").trim();
+
+    const leaderDisplay =
+      document.getElementById("serviceConductor");
+
+    if (leaderDisplay) {
+      leaderDisplay.textContent =
+        "인도자 : " + SERVICE_CONDUCTOR;
+    }
+
+    return SERVICE_CONDUCTOR;
+
+  } catch (error) {
+
+    console.error(
+      "인도자 조회 오류:",
+      error
+    );
+
+    SERVICE_CONDUCTOR = "";
+
+    const leaderDisplay =
+      document.getElementById("serviceConductor");
+
+    if (leaderDisplay) {
+      leaderDisplay.textContent = "인도자 : ";
+    }
+
+    return "";
+
+  }
+
+}
+   
   const byNumber = new Map();
 
   SERVICE_AREAS.forEach(function(area) {
@@ -8960,24 +9022,9 @@ async function selectServiceSchedule(
 
   if (leaderDisplay) {
 
-    const leader =
-      localStorage.getItem(
-        "jeonsidaeLeader_" +
-        selectedServiceSchedule
-      ) ||
-      (
-        selectedServiceSchedule === "토오전"
-          ? jeonsiAdminLeaders.saturdayMorning
-          : selectedServiceSchedule === "토오후"
-            ? jeonsiAdminLeaders.saturdayAfternoon
-            : selectedServiceSchedule === "일오전"
-              ? jeonsiAdminLeaders.sundayMorning
-              : ""
-      ) ||
-      "";
-
-    leaderDisplay.textContent =
-      "인도자 : " + leader;
+   loadScheduleLeader(
+  selectedServiceSchedule
+);
 
   }
 
