@@ -287,6 +287,9 @@ if (
 
   selectedServiceSchedule =
     selectedVolunteerSchedule;
+   
+/* 선택한 일정의 인도자 불러오기 */
+loadVolunteerLeader(selectedServiceSchedule);
 
   selectedAdminSchedule = "";
 
