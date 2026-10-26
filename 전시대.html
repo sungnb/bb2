@@ -705,31 +705,28 @@
 
 
 
-<div class="admin-back-area" style="
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-">
+<div class="service-action-area">
+
+  <!-- 기존 뒤로가기 버튼: 유지 -->
+  <div class="service-back-row">
+    <button
+      type="button"
+      class="admin-back-button"
+      onclick="backToServiceSchedule()"
+    >
+      &lt; 뒤로가기
+    </button>
+  </div>
+
+  <!-- 새 버튼 -->
   <button
     type="button"
-    class="admin-back-button"
-    onclick="backToServiceSchedule()"
+    class="service-main-button"
   >
-    &lt; 뒤로가기
+    <!-- 버튼 문구를 여기에 지정 -->
   </button>
 
-  <div
-    id="serviceLeaderDisplay"
-    class="admin-back-button"
-    style="
-      cursor:default;
-      white-space:nowrap;
-    "
-  >인도자 : </div>
 </div>
-
 
 
     <div
