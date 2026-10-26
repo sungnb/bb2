@@ -258,6 +258,7 @@ leaderDisplay.textContent =
 }
 
 
+
 /* =========================================================
    봉사 일정 선택
 ========================================================= */
@@ -267,36 +268,26 @@ function selectVolunteerSchedule(schedule) {
   schedule =
     String(schedule || "").trim();
 
+  /* 신청 가능 시간 확인 */
+  if (
+    !isVolunteerScheduleAvailable(schedule)
+  ) {
 
- /* 신청 가능 시간 확인 */
+    showSubmitConfirm(
+      "지금은 신청 시간이 아닙니다.<div>알림 탭을 확인하세요</div>"
+    );
 
-if (
-  !isVolunteerScheduleAvailable(schedule)
-) {
-
-  showSubmitConfirm(
-    "지금은 신청 시간이 아닙니다.<div>알림 탭을 확인하세요</div>"
-  );
-
-  return;
-
-}
+    return;
+  }
 
   selectedVolunteerSchedule =
     schedule;
 
   selectedServiceSchedule =
     selectedVolunteerSchedule;
-   
-/* 선택한 일정의 인도자 불러오기 */
-loadVolunteerLeader(selectedServiceSchedule);
 
   selectedAdminSchedule = "";
 
-  /* 선택한 일정의 인도자를 공용 시트에서 조회 */
-loadVolunteerLeader(selectedServiceSchedule);
-console.log("봉사용 인도자 조회 일정 key:", selectedServiceSchedule);
-   
   if (!selectedServiceSchedule) {
     return;
   }
@@ -344,13 +335,15 @@ console.log("봉사용 인도자 조회 일정 key:", selectedServiceSchedule);
   }
 
   /* 봉사자 명단 불러오기 */
-  selectedServiceSchedule =
-    selectedVolunteerSchedule;
-
   loadMasterNames();
 
-  /* 선택한 일정의 인도자 불러오기 */
+  /* 선택한 일정의 인도자 한 번만 불러오기 */
   loadVolunteerLeader(selectedServiceSchedule);
+
+  console.log(
+    "봉사용 인도자 조회 일정 key:",
+    selectedServiceSchedule
+  );
 
   /* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
   loadGroups().then(function() {
