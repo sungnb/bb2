@@ -349,6 +349,9 @@ console.log("봉사용 인도자 조회 일정 key:", selectedServiceSchedule);
 
   loadMasterNames();
 
+  /* 선택한 일정의 인도자 불러오기 */
+  loadVolunteerLeader(selectedServiceSchedule);
+
   /* 선택한 봉사 일정의 관리자 배정 그룹 불러오기 */
   loadGroups().then(function() {
     renderService();
