@@ -291,8 +291,8 @@ if (
   selectedAdminSchedule = "";
 
   /* 선택한 일정의 인도자를 공용 시트에서 조회 */
- loadVolunteerLeader(selectedServiceSchedule);
-console.log("봉사용 인도자 조회 일정 key:", selectedVolunteerSchedule);
+loadVolunteerLeader(selectedServiceSchedule);
+console.log("봉사용 인도자 조회 일정 key:", selectedServiceSchedule);
    
   if (!selectedServiceSchedule) {
     return;
