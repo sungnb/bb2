@@ -235,22 +235,23 @@ async function loadVolunteerLeader(schedule) {
         data.message || "인도자 조회에 실패했습니다."
       );
     }
+  
+/* 다른 일정을 선택했다면 이전 응답은 표시하지 않음 */
+if (schedule !== selectedServiceSchedule) {
+  return;
+}
 
-    /* 다른 일정을 선택했다면 이전 응답은 표시하지 않음 */
-    if (schedule !== selectedVolunteerSchedule) {
-      return;
-    }
+leaderDisplay.textContent =
+  "인도자 : " + (data.leader || "미지정");
 
-    leaderDisplay.textContent =
-      "인도자 : " + (data.leader || "미지정");
 
   } catch (error) {
 
     console.error("봉사용 인도자 조회 오류:", error);
 
-    if (schedule === selectedVolunteerSchedule) {
-      leaderDisplay.textContent = "인도자 : 확인 불가";
-    }
+  if (schedule === selectedServiceSchedule) {
+  leaderDisplay.textContent = "인도자 : 확인 불가";
+}
 
   }
 
@@ -9134,7 +9135,7 @@ async function selectServiceSchedule(
 
   if (leaderDisplay) {
 
-   loadVolunteerLeader(selectedVolunteerSchedule);
+    loadVolunteerLeader(selectedServiceSchedule);
 
   }
 
