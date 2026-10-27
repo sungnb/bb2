@@ -2661,7 +2661,7 @@ body.light .custom-schedule-form-row select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
   width: 100%;
   margin-top: 20px;
 }
@@ -2672,6 +2672,7 @@ body.light .custom-schedule-form-row select {
   width: 100%;
 }
 
+/* 뒤로가기 버튼 */
 .service-main-button {
   width: 100px;
   min-width: 200px;
@@ -2681,8 +2682,14 @@ body.light .custom-schedule-form-row select {
   border-radius: 8px;
   background: #18324a;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   cursor: pointer;
 }
+
+/* 인도자 글자 크기 — 별도 설정 */
+.service-conductor-button {
+  font-size: 22px;
+}
+
