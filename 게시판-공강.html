@@ -899,97 +899,56 @@ body.dark-mode #content .talk-divider {
 
   
   /* 화면 테마 변경 */
-function setTheme(theme) {
-  const isLight = theme === "light";
-  const panel = document.getElementById("settingsPanel");
-  const lightBtn = document.getElementById("lightBtn");
-  const darkBtn = document.getElementById("darkBtn");
+  function setTheme(theme) {
+    const isLight = theme === "light";
+    const panel = document.getElementById("settingsPanel");
+    const lightBtn = document.getElementById("lightBtn");
+    const darkBtn = document.getElementById("darkBtn");
 
-  document.body.classList.toggle("light-mode", isLight);
-  document.body.classList.toggle("dark-mode", !isLight);
+    document.body.classList.toggle("light-mode", isLight);
+    document.body.classList.toggle("dark-mode", !isLight);
 
-  if (panel) {
-    panel.classList.toggle("light-mode", isLight);
-    panel.classList.toggle("dark-mode", !isLight);
-  }
-
-  if (lightBtn) {
-    lightBtn.classList.toggle("active", isLight);
-  }
-
-  if (darkBtn) {
-    darkBtn.classList.toggle("active", !isLight);
-  }
-
-  document.body.style.background = isLight ? "#f3f4f6" : "#202124";
-  document.body.style.color = isLight ? "#222222" : "#f1f3f4";
-
-  document.querySelectorAll("#content div").forEach(element => {
-    if (element.textContent.trim().startsWith("연사 :")) {
-      element.style.color = isLight ? "#243B53" : "#F1F3F4";
-    }
-  });
-
-  const page = document.querySelector(".page");
-  if (page) {
-    page.style.background = isLight ? "#ffffff" : "#303134";
-  }
-
-  document.querySelectorAll("table td").forEach(cell => {
-    cell.style.background = isLight ? "" : "#303134";
-    cell.style.color = isLight ? "" : "#f1f3f4";
-  });
-
-  // 메인 페이지와 동일한 테마 설정 이름 사용
-  localStorage.setItem("bukbu_theme", theme);
-
-  // 기존 게시판 테마 설정과도 호환
-  localStorage.setItem("northBoardTheme", theme);
-}
-      const isLight = theme === "light";
-      const panel = document.getElementById("settingsPanel");
-      const lightBtn = document.getElementById("lightBtn");
-      const darkBtn = document.getElementById("darkBtn");
-
-      document.body.classList.toggle("light-mode", isLight);
-      document.body.classList.toggle("dark-mode", !isLight);
-
-      if (panel) {
-        panel.classList.toggle("light-mode", isLight);
-        panel.classList.toggle("dark-mode", !isLight);
-      }
-
-      if (lightBtn) {
-        lightBtn.classList.toggle("active", isLight);
-      }
-
-      if (darkBtn) {
-        darkBtn.classList.toggle("active", !isLight);
-      }
-
-      document.body.style.background = isLight ? "#f3f4f6" : "#202124";
-      document.body.style.color = isLight ? "#222222" : "#f1f3f4";
-document.querySelectorAll("#content div").forEach(element => {
-  if (
-    element.textContent.trim().startsWith("연사 :")
-  ) {
-    element.style.color =
-      isLight ? "#243B53" : "#F1F3F4";
-  }
-});
-      const page = document.querySelector(".page");
-      if (page) {
-        page.style.background = isLight ? "#ffffff" : "#303134";
-      }
-
-      document.querySelectorAll("table td").forEach(cell => {
-        cell.style.background = isLight ? "" : "#303134";
-        cell.style.color = isLight ? "" : "#f1f3f4";
-      });
-
-      localStorage.setItem("northBoardTheme", theme);
+    if (panel) {
+      panel.classList.toggle("light-mode", isLight);
+      panel.classList.toggle("dark-mode", !isLight);
     }
 
+    if (lightBtn) {
+      lightBtn.classList.toggle("active", isLight);
+    }
+
+    if (darkBtn) {
+      darkBtn.classList.toggle("active", !isLight);
+    }
+
+    document.body.style.background =
+      isLight ? "#f3f4f6" : "#202124";
+
+    document.body.style.color =
+      isLight ? "#222222" : "#f1f3f4";
+
+    document.querySelectorAll("#content div").forEach(element => {
+      if (element.textContent.trim().startsWith("연사 :")) {
+        element.style.color =
+          isLight ? "#243B53" : "#F1F3F4";
+      }
+    });
+
+    const page = document.querySelector(".page");
+
+    if (page) {
+      page.style.background =
+        isLight ? "#ffffff" : "#303134";
+    }
+
+    document.querySelectorAll("table td").forEach(cell => {
+      cell.style.background = isLight ? "" : "#303134";
+      cell.style.color = isLight ? "" : "#f1f3f4";
+    });
+
+    localStorage.setItem("bukbu_theme", theme);
+    localStorage.setItem("northBoardTheme", theme);
+  }
     /* 글자 크기 변경: 기본 120%, 최소 80%, 최대 150% */
     let fontPercent = 120;
 
