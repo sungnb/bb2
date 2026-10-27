@@ -2271,13 +2271,13 @@ async function toggleAdminLeaderDropdown() {
 
 
 /* =========================================================
-   인도자 이름 - 매주 월요일 기본값으로 초기화
+   인도자 주간 초기화 확인
+   공용 스프레드시트의 선택값을 덮어쓰지 않음
 ========================================================= */
 
 async function ensureWeeklyLeaderReset() {
 
   const now = new Date();
-
   const monday = new Date(now);
 
   monday.setHours(0, 0, 0, 0);
@@ -2292,74 +2292,10 @@ async function ensureWeeklyLeaderReset() {
     String(monday.getMonth() + 1).padStart(2, "0") + "-" +
     String(monday.getDate()).padStart(2, "0");
 
-  const savedWeek =
-    localStorage.getItem(
-      "jeonsidaeLeaderWeek"
-    );
-
-  /* 이번 주에 이미 확인했다면 초기화하지 않음 */
-  if (savedWeek === weekKey) {
-    return;
-  }
-
-  let leaders = jeonsiAdminLeaders;
-
-  /* 기본 인도자 정보가 없으면 스프레드시트에서 가져옴 */
-  if (
-    !leaders ||
-    !leaders.saturdayMorning ||
-    !leaders.saturdayAfternoon ||
-    !leaders.sundayMorning
-  ) {
-
-    try {
-
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec?action=jeonsidaeNotices&t=" + Date.now()
-        );
-
-      const data = await response.json();
-
-      if (!data.success || !data.leaders) {
-        throw new Error("기본 인도자 정보를 가져오지 못했습니다.");
-      }
-
-      leaders = data.leaders;
-      jeonsiAdminLeaders = data.leaders;
-
-    } catch (error) {
-
-      console.error(
-        "주간 인도자 초기화 오류:",
-        error
-      );
-
-      return;
-
-    }
-
-  }
-
-  /* 스프레드시트의 일정별 기본 인도자로 초기화 */
-  const defaults = {
-    "토오전": leaders.saturdayMorning,
-    "토오후": leaders.saturdayAfternoon,
-    "일오전": leaders.sundayMorning
-  };
-
-  for (const schedule in defaults) {
-
-    if (defaults[schedule]) {
-
-      localStorage.setItem(
-        "jeonsidaeLeader_" + schedule,
-        defaults[schedule]
-      );
-
-    }
-
-  }
-
+  /*
+    인도자 선택값은 Apps Script의 공용 스프레드시트에서
+    관리하므로 여기서 localStorage의 인도자를 초기화하지 않음.
+  */
   localStorage.setItem(
     "jeonsidaeLeaderWeek",
     weekKey
@@ -2367,56 +2303,94 @@ async function ensureWeeklyLeaderReset() {
 
 }
 
-/* 일정별 신청자 이름으로 드롭다운 구성 */
-function renderAdminLeaderOptions() {
+/* =========================================================
+   일정별 신청자 이름으로 드롭다운 구성
+   고정 일정은 공용 스프레드시트의 인도자를 우선 사용
+========================================================= */
+
+async function renderAdminLeaderOptions() {
 
   const select =
-    document.getElementById(
-      "adminLeaderSelect"
-    );
+    document.getElementById("adminLeaderSelect");
 
   if (!select) {
     return;
   }
 
-  const defaultLeader =
-    getDefaultAdminLeader();
+  const schedule = selectedAdminSchedule;
 
-  /* 이전에 저장한 인도자 */
-  const savedLeader =
-    localStorage.getItem(
-      "jeonsidaeLeader_" +
-      selectedAdminSchedule
-    ) || "";
+  const isFixedSchedule = [
+    "토오전",
+    "토오후",
+    "일오전"
+  ].includes(schedule);
+
+  const defaultLeader = getDefaultAdminLeader();
+
+  let savedLeader = "";
+
+  /*
+    고정 일정의 현재 인도자는 서버에서 읽음.
+    사용자 기기의 localStorage 값을 우선하지 않음.
+  */
+  if (isFixedSchedule) {
+
+    try {
+
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec?action=getScheduleLeader&key=" +
+        encodeURIComponent(schedule) +
+        "&t=" + Date.now()
+      );
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(
+          data.message || "공용 인도자를 불러오지 못했습니다."
+        );
+      }
+
+      savedLeader = String(data.leader || "").trim();
+
+    } catch (error) {
+
+      console.error("공용 인도자 불러오기 오류:", error);
+
+      select.innerHTML =
+        '<option value="">공용 인도자를 불러오지 못했습니다</option>';
+
+      return;
+    }
+
+  } else {
+
+    /* 추가 일정은 기존 localStorage 방식 유지 */
+    savedLeader =
+      localStorage.getItem(
+        "jeonsidaeLeader_" + schedule
+      ) || "";
+
+  }
 
   select.innerHTML = "";
 
   const names = [...applicants];
 
-  /* 시트의 기본 인도자를 목록에 추가 */
-  if (
-    defaultLeader &&
-    !names.includes(defaultLeader)
-  ) {
-    names.unshift(defaultLeader);
-  }
+  [savedLeader, defaultLeader].forEach(function(name) {
 
-  /* 저장된 인도자도 목록에 추가 */
-  if (
-    savedLeader &&
-    !names.includes(savedLeader)
-  ) {
-    names.unshift(savedLeader);
-  }
+    if (name && !names.includes(name)) {
+      names.unshift(name);
+    }
+
+  });
 
   if (names.length === 0) {
 
-    const option =
-      document.createElement("option");
+    const option = document.createElement("option");
 
     option.value = "";
-    option.textContent =
-      "신청자가 없습니다";
+    option.textContent = "신청자가 없습니다";
 
     select.appendChild(option);
     return;
@@ -2424,8 +2398,7 @@ function renderAdminLeaderOptions() {
 
   names.forEach(function(name) {
 
-    const option =
-      document.createElement("option");
+    const option = document.createElement("option");
 
     option.value = name;
     option.textContent = name;
@@ -2434,18 +2407,11 @@ function renderAdminLeaderOptions() {
 
   });
 
-  /* 저장된 인도자가 있으면 저장값 우선 */
-  if (
-    savedLeader &&
-    names.includes(savedLeader)
-  ) {
+  if (savedLeader && names.includes(savedLeader)) {
 
     select.value = savedLeader;
 
-  } else if (
-    defaultLeader &&
-    names.includes(defaultLeader)
-  ) {
+  } else if (defaultLeader && names.includes(defaultLeader)) {
 
     select.value = defaultLeader;
 
@@ -2455,14 +2421,22 @@ function renderAdminLeaderOptions() {
 
   }
 
-  /* 현재 선택값 저장 */
-  saveAdminLeader();
+  /*
+    중요:
+    목록을 표시할 때 자동 저장하지 않음.
+    사용자가 직접 선택을 변경했을 때만 저장.
+  */
 
 }
 
 
-/* 선택한 인도자 저장 */
+/* =========================================================
+   선택한 인도자 저장
+   고정 일정은 공용 Apps Script에 저장
+========================================================= */
+
 async function saveAdminLeader() {
+
   const select =
     document.getElementById("adminLeaderSelect");
 
@@ -2474,12 +2448,72 @@ async function saveAdminLeader() {
     return;
   }
 
+  const schedule = selectedAdminSchedule;
   const leader = select.value;
 
-  localStorage.setItem(
-    "jeonsidaeLeader_" + selectedAdminSchedule,
-    leader
-  );
+  const isFixedSchedule = [
+    "토오전",
+    "토오후",
+    "일오전"
+  ].includes(schedule);
+
+  /* 추가 일정은 기존 방식 유지 */
+  if (!isFixedSchedule) {
+
+    localStorage.setItem(
+      "jeonsidaeLeader_" + schedule,
+      leader
+    );
+
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbyGNTjZf3wagn7kWW0u1ZhBVnwBqQv-5MaYVM3U4lN1OjQ4JVMgckPnTIODGlL8e7yO/exec",
+      {
+        method: "POST",
+        body: new URLSearchParams({
+          action: "saveScheduleLeader",
+          key: schedule,
+          leader: leader
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(
+        data.message || "인도자 저장에 실패했습니다."
+      );
+    }
+
+    /* 현재 기기의 표시용 캐시만 갱신 */
+    localStorage.setItem(
+      "jeonsidaeLeader_" + schedule,
+      leader
+    );
+
+    console.log(
+      "공용 인도자 저장 완료:",
+      schedule,
+      leader
+    );
+
+  } catch (error) {
+
+    console.error("공용 인도자 저장 오류:", error);
+
+    alert(
+      "인도자를 공용 스프레드시트에 저장하지 못했습니다.\n" +
+      error.message
+    );
+
+  }
+
+}
 
   try {
     const response = await fetch(
