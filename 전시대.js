@@ -8840,22 +8840,64 @@ card.appendChild(
    시작 / 종료
 ----------------------------------------------------- */
 
-const scheduleTime =
-  getVolunteerScheduleTime(
+const defaultTimes = {
+
+  "토오전": {
+    start: "오전 10:00",
+    end: "오후 12:00"
+  },
+
+  "토오후": {
+    start: "오후 1:00",
+    end: "오후 3:00"
+  },
+
+  "일오전": {
+    start: "오전 10:00",
+    end: "오후 12:00"
+  }
+
+};
+
+let defaultTime =
+  defaultTimes[
     selectedServiceSchedule
-  );
+  ];
+
+if (!defaultTime) {
+
+  const customTime =
+    getVolunteerScheduleTime(
+      selectedServiceSchedule
+    );
+
+  defaultTime = {
+    start: customTime.startTime || "",
+    end: customTime.endTime || ""
+  };
+
+}
+
+if (!defaultTime) {
+
+  defaultTime = {
+    start: "",
+    end: ""
+  };
+
+}
 
 const startTime =
   String(
     group.startTime ||
-    scheduleTime.startTime ||
+    defaultTime.start ||
     ""
   ).trim();
 
 const endTime =
   String(
     group.endTime ||
-    scheduleTime.endTime ||
+    defaultTime.end ||
     ""
   ).trim();
 
