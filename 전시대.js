@@ -5347,7 +5347,7 @@ serviceCancelReason =
 
 /* Apps Script의 관리용 시트 데이터 [1번~7번 봉사자, 봉사장소] */
 
-        if (Array.isArray(group)) {
+               if (Array.isArray(group)) {
 
           const members =
             group
@@ -5366,6 +5366,18 @@ serviceCancelReason =
             ).trim();
 
 
+          /* 스프레드시트에 저장된 봉사시간 */
+          const savedTime =
+            String(
+              group[9] || ""
+            ).trim();
+
+
+          /* 시작 시간과 종료 시간 분리 */
+          const timeParts =
+            savedTime.split(/\s*~\s*/);
+
+
           return {
 
             members:
@@ -5380,9 +5392,15 @@ serviceCancelReason =
             schedule:
               groupScheduleKey,
 
-            startTime: "",
+            startTime:
+              String(
+                timeParts[0] || ""
+              ).trim(),
 
-            endTime: ""
+            endTime:
+              String(
+                timeParts[1] || ""
+              ).trim()
 
           };
 
