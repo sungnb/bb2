@@ -5345,16 +5345,22 @@ serviceCancelReason =
     groups =
       loaded.map(function(group) {
 
-        /*
-           Apps Script의 관리용 시트 데이터
-           [1번~7번 봉사자, 봉사장소]
+               /*
+           Apps Script에서 반환하는 관리용 데이터
+
+           group[0]  : 그룹 번호
+           group[1]~group[7] : 봉사자 1~7명
+           group[8]  : 봉사 장소
+           group[9]  : 봉사일자
+           group[10] : 봉사시간
         */
 
         if (Array.isArray(group)) {
 
+          /* 봉사자 이름 */
           const members =
             group
-              .slice(0, 7)
+              .slice(1, 8)
               .map(function(name) {
                 return String(
                   name || ""
@@ -5363,29 +5369,36 @@ serviceCancelReason =
               .filter(Boolean);
 
 
-               const location =
+          /* 봉사 장소 */
+          const location =
             String(
-              group[7] || ""
+              group[8] || ""
             ).trim();
 
-          // 봉사 시간 읽기
+
+          /* 관리용에서 저장한 봉사시간 */
           const serviceTime =
             String(
-              group[9] || ""
+              group[10] || ""
             ).trim();
 
-          const timeMatches =
-            serviceTime.match(/\d{1,2}:\d{2}/g) || [];
+
+          /* 시작시간과 종료시간 분리 */
+          const timeParts =
+            serviceTime.split("~");
+
 
           const startTime =
-            timeMatches.length >= 1
-              ? timeMatches[0]
-              : "";
+            String(
+              timeParts[0] || ""
+            ).trim();
+
 
           const endTime =
-            timeMatches.length >= 2
-              ? timeMatches[1]
-              : "";
+            String(
+              timeParts.slice(1).join("~") || ""
+            ).trim();
+
 
           return {
 
@@ -5410,7 +5423,6 @@ serviceCancelReason =
           };
 
         }
-
 
         /*
            새 구조
