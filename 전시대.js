@@ -5363,11 +5363,29 @@ serviceCancelReason =
               .filter(Boolean);
 
 
-          const location =
+               const location =
             String(
               group[7] || ""
             ).trim();
 
+          // 봉사 시간 읽기
+          const serviceTime =
+            String(
+              group[9] || ""
+            ).trim();
+
+          const timeMatches =
+            serviceTime.match(/\d{1,2}:\d{2}/g) || [];
+
+          const startTime =
+            timeMatches.length >= 1
+              ? timeMatches[0]
+              : "";
+
+          const endTime =
+            timeMatches.length >= 2
+              ? timeMatches[1]
+              : "";
 
           return {
 
@@ -5383,9 +5401,11 @@ serviceCancelReason =
             schedule:
               groupScheduleKey,
 
-            startTime: "",
+            startTime:
+              startTime,
 
-            endTime: ""
+            endTime:
+              endTime
 
           };
 
