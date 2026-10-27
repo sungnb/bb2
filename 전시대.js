@@ -1716,8 +1716,19 @@ function setTheme(theme) {
     theme
   );
 
+  // 전시대와 북부회중 게시판의 테마를 함께 저장
   localStorage.setItem(
     "jeonsidaeTheme",
+    theme
+  );
+
+  localStorage.setItem(
+    "bukbu_theme",
+    theme
+  );
+
+  localStorage.setItem(
+    "northBoardTheme",
     theme
   );
 
@@ -1729,11 +1740,11 @@ function setTheme(theme) {
 function changeFontSize(amount) {
 
   const current =
-  Number(
-    localStorage.getItem(
-      "jeonsidaeFontSize"
-    ) || "100"
-  );
+    Number(
+      localStorage.getItem(
+        "jeonsidaeFontSize"
+      ) || "100"
+    );
 
   const next =
     Math.min(
@@ -1750,9 +1761,9 @@ function changeFontSize(amount) {
   );
 
   localStorage.setItem(
-  "jeonsidaeFontSize",
-  String(next)
-);
+    "jeonsidaeFontSize",
+    String(next)
+  );
 
   const display =
     document.getElementById(
@@ -1770,9 +1781,9 @@ function changeFontSize(amount) {
 function updateSettingButtons() {
 
   const theme =
-    localStorage.getItem(
-      "jeonsidaeTheme"
-    ) || "light";
+    document.body.classList.contains("light")
+      ? "light"
+      : "dark";
 
   const lightButton =
     document.getElementById(
@@ -1807,10 +1818,17 @@ function updateSettingButtons() {
 
 function loadSettings() {
 
+  // 북부회중 게시판에서 선택한 테마를 우선 적용
+  const savedTheme =
+    localStorage.getItem("bukbu_theme") ||
+    localStorage.getItem("northBoardTheme") ||
+    localStorage.getItem("jeonsidaeTheme") ||
+    "dark";
+
   const theme =
-    localStorage.getItem(
-      "jeonsidaeTheme"
-    ) || "dark";
+    savedTheme === "light"
+      ? "light"
+      : "dark";
 
   const fontSize =
     Number(
@@ -1819,9 +1837,7 @@ function loadSettings() {
       ) || "100"
     );
 
-  setTheme(
-    theme
-  );
+  setTheme(theme);
 
   document.documentElement.style.setProperty(
     "--font-scale",
@@ -1839,7 +1855,6 @@ function loadSettings() {
   }
 
 }
-
 /* =========================================================
    신청용 / 봉사용 / 관리용에 추가 일정 표시
 ========================================================= */
