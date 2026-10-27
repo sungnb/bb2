@@ -2515,48 +2515,6 @@ async function saveAdminLeader() {
 
 }
 
-  try {
-    const response = await fetch(
-  SCRIPT_URL,
-  {
-    method: "POST",
-    body: new URLSearchParams({
-      action: "saveScheduleLeader",
-      key: selectedAdminSchedule,
-      leader: leader
-    })
-  }
-);
-
-const result = await response.json();
-
-console.log("인도자 저장 응답:", result);
-console.log("요청 일정:", selectedAdminSchedule);
-console.log("Apps Script 주소:", SCRIPT_URL);
-     
-    if (!result.success) {
-      alert(
-        "인도자 저장 실패: " +
-        (result.message || "알 수 없는 오류")
-      );
-      return;
-    }
-
-    alert("인도자 이름이 저장되었습니다.");
-
-  } catch (error) {
-    console.error(
-      "인도자 저장 오류:",
-      error
-    );
-
-    alert(
-      "인도자 저장에 실패했습니다. 연결 및 Apps Script 코드를 확인해 주세요."
-    );
-  }
-}
-
-
 function addCustomScheduleButton(
   container
 ) {
