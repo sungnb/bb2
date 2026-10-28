@@ -2447,7 +2447,7 @@ async function renderAdminLeaderOptions() {
 
 /* =========================================================
    선택한 인도자 저장
-   고정 일정은 공용 Apps Script에 저장
+   고정 일정과 추가 일정 모두 공용 Apps Script에 저장
 ========================================================= */
 
 async function saveAdminLeader() {
@@ -2465,23 +2465,6 @@ async function saveAdminLeader() {
 
   const schedule = selectedAdminSchedule;
   const leader = select.value;
-
-  const isFixedSchedule = [
-    "토오전",
-    "토오후",
-    "일오전"
-  ].includes(schedule);
-
-  /* 추가 일정은 기존 방식 유지 */
-  if (!isFixedSchedule) {
-
-    localStorage.setItem(
-      "jeonsidaeLeader_" + schedule,
-      leader
-    );
-
-    return;
-  }
 
   try {
 
@@ -2505,7 +2488,7 @@ async function saveAdminLeader() {
       );
     }
 
-    /* 현재 기기의 표시용 캐시만 갱신 */
+    /* 현재 기기의 표시용 캐시 갱신 */
     localStorage.setItem(
       "jeonsidaeLeader_" + schedule,
       leader
@@ -2542,7 +2525,6 @@ function addCustomScheduleButton(
     return;
   }
 
-
   const button =
     document.createElement("button");
 
@@ -2558,14 +2540,10 @@ function addCustomScheduleButton(
   button.textContent =
     "+ 추가";
 
-
   button.onclick =
     function() {
-
       showAddCustomSchedulePopup();
-
     };
-
 
   container.appendChild(
     button
