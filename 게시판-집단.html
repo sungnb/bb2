@@ -1516,7 +1516,7 @@ function renderService(data) {
   ];
 
   // 일정 표 생성
-  function makeScheduleTable(items, showMeetingPlace) {
+  function makeScheduleTable(items, showMeetingPlace, showZoomJoin = false) {
     return `
       <table class="schedule-table">
         <thead>
@@ -1524,6 +1524,7 @@ function renderService(data) {
             <th>요일</th>
             <th>인도자</th>
             <th>시간</th>
+            ${showZoomJoin ? "<th>참여</th>" : ""}
           </tr>
         </thead>
 
@@ -1533,14 +1534,33 @@ function renderService(data) {
               <td>${escapeHTML(item.day)}</td>
               <td>${escapeHTML(item.leader || "-")}</td>
               <td>${escapeHTML(item.time || "-")}</td>
+              ${showZoomJoin ? `
+                <td style="text-align:center;">
+                  <a
+                    href="https://zoom.us/j/3375861533"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="
+                      display:inline-block;
+                      padding:6px 12px;
+                      background:#3374A9;
+                      color:#fff;
+                      text-decoration:none;
+                      border-radius:6px;
+                      font-weight:700;
+                      white-space:nowrap;
+                    "
+                  >참여</a>
+                </td>
+              ` : ""}
             </tr>
           `).join("")}
 
           ${showMeetingPlace ? `
             <tr>
-             <td style="font-weight:700;">
-  모임장소
-</td>
+              <td style="font-weight:700;">
+                모임장소
+              </td>
               <td colspan="2">
                 ${meetingPlace
                   ? `<a
@@ -1559,7 +1579,12 @@ function renderService(data) {
   }
 
   // 제목은 박스 밖에, 표는 박스 안에 표시
-  function makeScheduleSection(title, items, showMeetingPlace) {
+  function makeScheduleSection(
+    title,
+    items,
+    showMeetingPlace,
+    showZoomJoin = false
+  ) {
     if (!items.length) return "";
 
     return `
@@ -1568,12 +1593,11 @@ function renderService(data) {
       </div>
 
       <section class="section-card schedule-card">
-        ${makeScheduleTable(items, showMeetingPlace)}
+        ${makeScheduleTable(items, showMeetingPlace, showZoomJoin)}
       </section>
     `;
   }
-
-
+  
   // 화면 표시 순서
   return `
     ${rows.length
@@ -1586,10 +1610,11 @@ function renderService(data) {
   true
 )}
 
-    ${makeScheduleSection(
+      ${makeScheduleSection(
       "줌 [ZOOM] 봉사",
       zoomRows,
-      false
+      false,
+      true
     )}
 
 
