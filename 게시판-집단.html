@@ -1264,12 +1264,33 @@ body.dark-mode .settings-panel {
   0
 );
 
-     return `
+          return `
   <div id="outdoorGroupsSection">
+
+    <div style="margin-bottom:10px;">
+      <button
+  type="button"
+  onclick="location.href='순방.html'"
+  style="
+    height:40px;
+    padding:0 18px;
+    font-size:22px;
+    font-weight:700;
+    line-height:40px;
+    border:none;
+    border-radius:6px;
+    background:#3374A9;
+    color:#fff;
+    cursor:pointer;
+  "
+>순회 방문</button>
+    </div>
+
     <div class="group-heading">
       <span>야외 봉사 집단</span>
       <span>${totalMembers}명</span>
     </div>
+
     <div class="group-grid">${html}</div>
   </div>
 `;
