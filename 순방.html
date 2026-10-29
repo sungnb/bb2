@@ -1,1 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>순회 방문 계획표</title>
 
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #18324a;
+  background: radial-gradient(circle at top, #252525, #111 60%, #080808);
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-size: 20px;
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 62px;
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  color: white;
+  background: #18324a;
+}
+
+.top-bar h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 24px;
+}
+
+.nav-btn {
+  height: 42px;
+  border: 1px solid #9db2c4;
+  border-radius: 8px;
+  background: #234563;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+main {
+  width: min(900px, 100%);
+  margin: 14px auto 32px;
+  padding: 0 10px;
+}
+
+.week-card,
+.schedule-card {
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: white;
+  border: 5px solid #AEB6BF;
+  border-radius: 12px;
+}
+
+.week-card {
+  padding: 14px;
+}
+
+.week-title {
+  margin-bottom: 10px;
+  color: #3374A9;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.week-date {
+  padding: 12px;
+  border-radius: 8px;
+  background: #e6f2fb;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.schedule-card h2 {
+  margin: 0;
+  padding: 10px 14px;
+  color: white;
+  background: #3374A9;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.line,
+.subhead {
+  padding: 9px 14px;
+  border-bottom: 1px solid #858585;
+  overflow-wrap: anywhere;
+}
+
+.subhead {
+  background: #e6f2fb;
+  font-weight: 700;
+}
+
+.line:last-child {
+  border-bottom: 0;
+}
+
+.people {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.people span {
+  min-width: 0;
+  padding: 9px 12px;
+  border-right: 1px solid #858585;
+  border-bottom: 1px solid #858585;
+  overflow-wrap: anywhere;
+}
+
+.people span:nth-child(even) {
+  border-right: 0;
+}
+
+.leader {
+  padding: 10px 14px;
+  color: #174f7e;
+  background: #d8edfb;
+  border-top: 1px solid #858585;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  body {
+    font-size: 18px;
+  }
+
+  .top-bar h1 {
+    font-size: 21px;
+  }
+
+  main {
+    padding: 0 8px;
+  }
+
+  .week-title {
+    font-size: 22px;
+  }
+
+  .week-date {
+    font-size: 19px;
+  }
+
+  .schedule-card h2 {
+    font-size: 20px;
+  }
+
+  .people span {
+    padding: 9px 8px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="top-bar">
+  <button class="nav-btn" onclick="history.back()" aria-label="뒤로가기">‹</button>
+  <h1>순회 방문 계획표</h1>
+  <button class="nav-btn" onclick="location.href='게시판-집단.html'" aria-label="게시판으로">⌂</button>
+</header>
+
+<main>
+
+  <section class="week-card">
+    <div class="week-title">▦ 순회 방문 주간</div>
+    <div class="week-date">2026년 12월 15일 ~ 12월 20일</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>화요일</h2>
+    <div class="line">서류 검사 [PM 3:00]</div>
+    <div class="line">평일 집회 [PM 7:30]</div>
+    <div class="leader">인도자 : 김대원 형제</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>수요일 오전</h2>
+    <div class="line">봉사 마련 없음</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>수요일 오후 [PM 1:30]</h2>
+    <div class="subhead">재방문/성서연구</div>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>양방문1</span><span>봉사자2</span>
+    </div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>수요일 오후 [PM 3:00]</h2>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>봉사자3</span><span>봉사자4</span>
+      <span>봉사자5</span><span>봉사자6</span>
+      <span>봉사자7</span><span>※※</span>
+    </div>
+    <div class="leader">인도자 : 김지인 형제</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>목요일 오전 [AM 9:45]</h2>
+    <div class="subhead">공개증거 (전시대)</div>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>봉사자1</span><span>봉사자2</span>
+      <span>봉사자3</span><span>봉사자4</span>
+      <span>봉사자5</span><span>봉사자6</span>
+    </div>
+    <div class="subhead">목요일 오후</div>
+    <div class="line">봉사 마련 없음</div>
+    <div class="leader">인도자 : 최홍국 형제</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>금요일 오전 [AM 9:45]</h2>
+    <div class="subhead">다양한 봉사(편지/전화/가두)</div>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>봉사자1</span><span>봉사자2</span>
+      <span>양방문2</span><span>봉사자3</span>
+    </div>
+    <div class="subhead">금요일 오후 [PM 1:30]</div>
+    <div class="subhead">재방문/성서연구</div>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>봉사자1</span><span>봉사자2</span>
+      <span>봉사자3</span><span>봉사자4</span>
+      <span>봉사자5</span><span>봉사자6</span>
+    </div>
+    <div class="leader">인도자 : 성낙봉 형제</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>토요일 오전 [AM 9:45]</h2>
+    <div class="subhead">호별 방문</div>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>봉사자1</span><span>봉사자2</span>
+      <span>봉사자3</span><span>봉사자4</span>
+      <span>봉사자5</span><span>봉사자6</span>
+    </div>
+    <div class="subhead">토요일 오후</div>
+    <div class="line">파이오니아 모임 [PM 1:30]</div>
+    <div class="line">장로 봉사의 종 모임 [PM 2:40]</div>
+    <div class="line">주말 집회 [PM 7:30]</div>
+    <div class="leader">인도자 : 성낙봉 형제</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>일요일 오전 [AM 9:45]</h2>
+    <div class="subhead">호별 방문</div>
+    <div class="people">
+      <span>윤재원 형제</span><span>박여송 자매</span>
+      <span>봉사자1</span><span>봉사자2</span>
+      <span>봉사자3</span><span>봉사자4</span>
+      <span>봉사자5</span><span>봉사자6</span>
+    </div>
+    <div class="subhead">일요일 오후</div>
+    <div class="line">봉사 마련 없음</div>
+    <div class="leader">인도자 : 남동완 형제</div>
+  </section>
+
+  <section class="schedule-card">
+    <h2>식사 및 교제</h2>
+    <div class="people">
+      <span>수요일</span><span>신청자1</span>
+      <span>목요일</span><span>신청자2</span>
+      <span>금요일</span><span>신청자3</span>
+      <span>토요일</span><span>신청자4</span>
+      <span>일요일</span><span>신청자5</span>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
