@@ -299,6 +299,23 @@ main {
     padding: 9px 8px;
   }
 }
+
+  .schedule-card h2 {
+    font-size: 20px;
+  }
+
+  .people span {
+    padding: 9px 8px;
+  }
+}
+
+/* ===== 금요일 디자인 CSS ===== */
+
+/* 여기에 금요일 CSS 전체 추가 */
+
+</style>
+</head>  
+  
 </style>
 </head>
 
@@ -367,24 +384,15 @@ main {
     <div class="leader">인도자 : 최홍국 형제</div>
   </section>
 
-  <section class="schedule-card">
-    <h2>금요일 오전 [AM 9:45]</h2>
-    <div class="subhead">다양한 봉사(편지/전화/가두)</div>
-    <div class="people">
-      <span>윤재원 형제</span><span>박여송 자매</span>
-      <span>봉사자1</span><span>봉사자2</span>
-      <span>양방문2</span><span>봉사자3</span>
-    </div>
-    <div class="subhead">금요일 오후 [PM 1:30]</div>
-    <div class="subhead">재방문/성서연구</div>
-    <div class="people">
-      <span>윤재원 형제</span><span>박여송 자매</span>
-      <span>봉사자1</span><span>봉사자2</span>
-      <span>봉사자3</span><span>봉사자4</span>
-      <span>봉사자5</span><span>봉사자6</span>
-    </div>
-    <div class="leader">인도자 : 성낙봉 형제</div>
-  </section>
+  <section class="schedule-card friday-card" id="fridaySchedule">
+  <div class="friday-header">
+    <div id="fridayDay">금요일</div>
+    <div id="fridayLeader">인도자 : 불러오는 중</div>
+  </div>
+
+  <div id="fridayMorning"></div>
+  <div id="fridayAfternoon"></div>
+</section>
 
   <section class="schedule-card">
     <h2>토요일 오전 [AM 9:45]</h2>
@@ -503,7 +511,7 @@ function changeFont(amount) {
 
   setTheme(savedTheme === "light" ? "light" : "dark");
 
-  setFontPercent(
+   setFontPercent(
     Number.isFinite(savedFont) &&
     savedFont >= 80 &&
     savedFont <= 150
@@ -511,7 +519,76 @@ function changeFont(amount) {
       : 100
   );
 })();
+
+/* ===== 금요일 Apps Script 데이터 연결 ===== */
+
+const FRIDAY_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzG_HeGUoqZHMzObeK6KD3ch22S7eMzG0jRx8KcM0Nf0k_Fy3KFjshZUzB6BNj7Eo7Wwg/exec";
+
+function loadFridaySchedule() {
+  window.receiveFridaySchedule = function(data) {
+    if (!data || data.error) {
+      document.getElementById("fridayLeader").textContent =
+        "일정을 불러오지 못했습니다.";
+      return;
+    }
+
+    document.getElementById("fridayDay").textContent =
+      data.day || "금요일";
+
+    document.getElementById("fridayLeader").textContent =
+      data.leader || "";
+
+    renderFridayPart("fridayMorning", data.morning);
+    renderFridayPart("fridayAfternoon", data.afternoon);
+  };
+
+  const script = document.createElement("script");
+
+  script.src = FRIDAY_SCRIPT_URL +
+    "?callback=receiveFridaySchedule&t=" + Date.now();
+
+  script.onerror = function() {
+    document.getElementById("fridayLeader").textContent =
+      "일정 연결에 실패했습니다.";
+  };
+
+  document.body.appendChild(script);
+}
+
+function renderFridayPart(containerId, part) {
+  const container = document.getElementById(containerId);
+  container.replaceChildren();
+
+  if (!part) return;
+
+  const time = document.createElement("div");
+  time.className = "friday-time";
+  time.textContent = part.time || "";
+  container.appendChild(time);
+
+  const activity = document.createElement("div");
+  activity.className = "friday-activity";
+  activity.textContent = part.activity || "";
+  container.appendChild(activity);
+
+  const people = document.createElement("div");
+  people.className = "friday-people";
+
+  (part.people || []).forEach(function(pair) {
+    pair.forEach(function(name) {
+      const span = document.createElement("span");
+      span.textContent = name || "";
+      people.appendChild(span);
+    });
+  });
+
+  container.appendChild(people);
+}
+
+loadFridaySchedule();
+
 </script>
-  
+
 </body>
 </html>
