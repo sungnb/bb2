@@ -301,12 +301,86 @@ main {
 }
 
 /* ===== 금요일 디자인 CSS ===== */
-
-/* 여기에 금요일 CSS 전체 추가 */
-
-</style>
-</head>
+/* 금요일 상단: 요일과 인도자 */
   
+.friday-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  padding: 8px 10px;
+  background: #fff200;
+  color: #111;
+  font-weight: 800;
+}
+
+#fridayDay {
+  flex-shrink: 0;
+  font-size: 30px;
+  text-align: left;
+}
+
+#fridayLeader {
+  flex: 1;
+  min-width: 0;
+  font-size: 20px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* 오전·오후 시간과 봉사 내용 */
+.friday-time,
+.friday-activity {
+  padding: 9px 5px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #111;
+  border-bottom: 1px solid #858585;
+}
+
+.friday-time {
+  background: #e6f2fb;
+}
+
+.friday-activity {
+  background: #fff;
+}
+
+/* 봉사자 이름: 2열 배치 */
+.friday-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.friday-people span {
+  min-width: 0;
+  padding: 9px 4px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #111;
+  border-bottom: 1px solid #858585;
+  overflow-wrap: anywhere;
+}
+
+.friday-people span:nth-child(odd) {
+  border-right: 1px solid #858585;
+}
+
+/* 어두운 모드 */
+body.dark-mode .friday-time {
+  background: #39434d;
+  color: #fff;
+}
+
+body.dark-mode .friday-activity,
+body.dark-mode .friday-people span {
+  background: #292d31;
+  color: #fff;
+}
+
 </style>
 </head>
 
