@@ -35,7 +35,7 @@ body {
 .top-bar h1 {
   margin: 0;
   text-align: center;
-  font-size: 24px;
+  font-size: 25px;
 }
 
 .nav-btn {
@@ -196,9 +196,9 @@ body.dark-mode .settings-panel .theme-btn.active {
 }
 
 main {
-  width: min(900px, 100%);
-  margin: 14px auto 32px;
-  padding: 0 10px;
+  width: 100%;
+  margin: 10px auto 20px;
+  padding: 0 5px;
 }
 
 .week-card,
@@ -256,9 +256,8 @@ main {
 
 .people {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-
 .people span {
   min-width: 0;
   padding: 9px 12px;
@@ -284,15 +283,7 @@ main {
     font-size: 18px;
   }
 
-  .top-bar h1 {
-    font-size: 21px;
-  }
-
-  main {
-    padding: 0 8px;
-  }
-
-  .week-title {
+   .week-title {
     font-size: 22px;
   }
 
