@@ -1170,7 +1170,7 @@ const studySocial = cell(c,44);
 
 if (isRotationVisit) {
 
-  // 순회 방문 주간: 봉사강연 30분 + 연구사회자 이름
+  // 순회 방문 주간: 봉사강연 제목 + 담당자 이름
   const row = document.createElement("div");
   row.className = "program-line";
   row.style.cssText =
@@ -1178,14 +1178,16 @@ if (isRotationVisit) {
     "align-items:center;gap:8px;";
 
   const title = document.createElement("div");
-  title.textContent = "봉사강연 30분";
+  title.textContent = cell(c,42);
   title.style.cssText =
-    "font-size:18px;color:#b52b20;font-weight:800;text-align:left;";
+    "font-size:calc(18px * var(--scale));" +
+    "color:#b52b20;font-weight:800;text-align:left;";
 
   const person = document.createElement("div");
   person.textContent = studySocial;
   person.style.cssText =
-    "font-size:22px;color:#222;font-weight:800;text-align:right;";
+    "font-size:calc(22px * var(--scale));" +
+    "color:#222;font-weight:800;text-align:right;";
 
   row.append(title, person);
   card.appendChild(row);
