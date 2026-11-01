@@ -629,10 +629,21 @@ function renderFridayPart(containerId, part) {
 
   if (!part) return;
 
-  const time = document.createElement("div");
-  time.className = "friday-time";
-  time.textContent = part.time || "";
-  container.appendChild(time);
+const time = document.createElement("div");
+time.className = "friday-time";
+
+const timeLabel = document.createElement("span");
+timeLabel.className = "time-label";
+timeLabel.textContent = part.time || "";
+
+const placeLabel = document.createElement("span");
+placeLabel.className = "place-label";
+placeLabel.textContent = "봉사 모임장소";
+
+time.appendChild(timeLabel);
+time.appendChild(placeLabel);
+
+container.appendChild(time);
 
   const activity = document.createElement("div");
   activity.className = "friday-activity";
