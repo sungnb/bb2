@@ -598,8 +598,11 @@ function loadFridaySchedule() {
       return;
     }
 
-    document.getElementById("fridayDay").textContent =
-      data.day || "금요일";
+  document.getElementById("weekTitle").textContent =
+  data.weekTitle || "";
+
+document.getElementById("weekDate").textContent =
+  data.weekDate || "";
 
     document.getElementById("fridayLeader").textContent =
       data.leader || "";
