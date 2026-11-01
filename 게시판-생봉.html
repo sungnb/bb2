@@ -1177,11 +1177,18 @@ if (isRotationVisit) {
     "display:grid;grid-template-columns:minmax(0,1fr) auto;" +
     "align-items:center;gap:8px;";
 
-  const title = document.createElement("div");
-  title.textContent = cell(c,42);
-  title.style.cssText =
-    "font-size:calc(18px * var(--scale));" +
-    "color:#b52b20;font-weight:800;text-align:left;";
+ const title = document.createElement("div");
+title.textContent = cell(c,42);
+title.style.cssText =
+  "font-size:calc(18px * var(--scale));" +
+  "color:#b52b20;font-weight:800;text-align:left;";
+
+const studyTimeText = document.createElement("span");
+studyTimeText.textContent = " " + (studyTime || "30분");
+studyTimeText.style.cssText =
+  "font-size:15px;color:#777;font-weight:400;";
+
+title.appendChild(studyTimeText);
 
   const person = document.createElement("div");
   person.textContent = studySocial;
