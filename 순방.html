@@ -1086,7 +1086,7 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
     getC(rows, "4-1")
   );
 
-  // 오전: 봉사 마련 없음
+  // 오전 봉사 마련 없음
   const morning = makeElement("div", "wednesday-morning", "");
 
   morning.appendChild(
@@ -1100,53 +1100,34 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   card.appendChild(morning);
 
   // 오후 1:30
-  const time130 = makeElement("div", "wednesday-time", "");
-
-  time130.appendChild(
-    makeElement("span", "time-label", getB(rows, "4-3"))
-  );
-
-  time130.appendChild(
-    makeElement("span", "place-label", getC(rows, "4-3"))
-  );
-
-  card.appendChild(time130);
+  addLine(card, getB(rows, "4-3"), "wednesday-time");
 
   // 재방문 / 성서 연구
   addLine(card, getB(rows, "4-4"), "wednesday-activity");
 
-  // 순회 감독자 부부
-  addPeople(card, rows, ["4-5"], "wednesday-supervisor");
+  // 순감 부부
+  addPeople(card, rows, ["4-5"], "schedule-people wednesday-supervisor");
 
-  // 일반 신청인
-  addPeople(card, rows, ["4-6"], "wednesday-people");
+  // 신청인
+  addPeople(card, rows, ["4-6"], "schedule-people wednesday-people");
 
   // 오후 3:00
-  const time300 = makeElement("div", "wednesday-time", "");
-
-  time300.appendChild(
-    makeElement("span", "time-label", getB(rows, "4-7"))
-  );
-
-  time300.appendChild(
-    makeElement("span", "place-label", getC(rows, "4-7"))
-  );
-
-  card.appendChild(time300);
+  addLine(card, getB(rows, "4-7"), "wednesday-time");
 
   // 재방문 / 성서 연구
   addLine(card, getB(rows, "4-8"), "wednesday-activity");
 
-  // 순회 감독자 부부
-  addPeople(card, rows, ["4-9"], "wednesday-supervisor");
+  // 순감 부부
+  addPeople(card, rows, ["4-9"], "schedule-people wednesday-supervisor");
 
-  // 일반 신청인
-  addPeople(
-    card,
-    rows,
-    ["4-10", "4-11", "4-12"],
-    "wednesday-people"
-  );
+  // 신청인
+  addPeople(card, rows, ["4-10"], "schedule-people wednesday-people");
+
+  // 신청인
+  addPeople(card, rows, ["4-11"], "schedule-people wednesday-people");
+
+  // 신청인
+  addPeople(card, rows, ["4-12"], "schedule-people wednesday-people");
 }
 
   // 목요일
