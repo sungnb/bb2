@@ -971,9 +971,7 @@ function addFridayPart(
  addLine(
   container,
   activityText,
-  activityText.includes("다양한 봉사")
-    ? "service-activity-button"
-    : "schedule-activity"
+  "service-activity-button"
 );
 
   const people = makeElement("div", "schedule-people", "");
@@ -1022,11 +1020,11 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   getC(rows, "4-1")
 );
 
-    addLine(card, getB(rows, "4-2"), "subhead");
+      addLine(card, getB(rows, "4-2"), "subhead");
     addLine(card, getB(rows, "4-3"));
 
     addLine(card, getB(rows, "4-4"), "subhead");
-    addLine(card, getB(rows, "4-5"), "subhead");
+    addLine(card, getB(rows, "4-5"), "service-activity-button");
 
     addPeople(card, rows, ["4-6", "4-7"]);
 
@@ -1045,9 +1043,9 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   getC(rows, "5-1")
 );
 
-    addLine(card, getB(rows, "5-2"), "subhead");
-    addLine(card, getB(rows, "5-3"), "subhead");
-
+     addLine(card, getB(rows, "5-2"), "subhead");
+    addLine(card, getB(rows, "5-3"), "service-activity-button");
+    
     addPeople(card, rows, ["5-4", "5-5", "5-6", "5-7"]);
 
     addLine(card, getB(rows, "5-8"), "subhead");
@@ -1111,7 +1109,7 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
     addPeople(card, rows, ["7-4", "7-5", "7-6", "7-7"]);
 
     addLine(card, getB(rows, "7-8"), "subhead");
-    addLine(card, getB(rows, "7-9"));
+    addLine(card, getB(rows, "7-9"), "service-activity-button");
     addLine(card, getB(rows, "7-10"));
     addLine(card, getB(rows, "7-11"));
   }
@@ -1130,7 +1128,7 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
     addPeople(card, rows, ["8-4", "8-5", "8-6", "8-7"]);
 
     addLine(card, getB(rows, "8-8"), "subhead");
-    addLine(card, getB(rows, "8-9"));
+    addLine(card, getB(rows, "8-9"), "service-activity-button");
   }
 
 
