@@ -935,7 +935,9 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
       makeElement(
         "div",
         "",
-        getC(rows, "6-1") ? "인도자 : " + getC(rows, "6-1") : ""
+        getC(rows, "6-1")
+  ? "인도자 : " + getC(rows, "6-1").replace(/^인도자\s*:\s*/, "")
+  : ""
       )
     );
 
