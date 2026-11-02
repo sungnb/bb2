@@ -755,6 +755,93 @@ body.dark-mode .schedule-people span {
   color: #fff;
 }
   
+/* ===== 목요일 버튼 디자인 ===== */
+
+/* 오전 [AM 9:45] */
+.thursday-morning {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #8BB6D5;
+  border-radius: 7px;
+}
+
+/* 공개증거 (전시대) */
+.thursday-activity {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #B5D2E7;
+  border-radius: 7px;
+}
+
+/* 목요일 봉사자 버튼 */
+.schedule-people.thursday-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.schedule-people.thursday-people span {
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  border: 0;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+/* 윤재원 형제 / 박여송 자매 - 금색 두 줄 버튼 */
+.schedule-people.thursday-people span.thursday-supervisor {
+  grid-column: 1 / -1;
+  min-height: 52px;
+  font-size: 22px;
+  font-weight: 900;
+  background: #F3D9A5;
+}
+
+/* 김남희 / 김대원 - 신청자 */
+.schedule-people.thursday-people span.thursday-applicant {
+  background: #e6f2fb;
+}
+
+/* 오후 봉사 마련 없음 */
+.thursday-afternoon {
+  min-height: 58px;
+  margin: 6px 6px;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: red;
+  background: transparent;
+}  
  
 </style>
 </head>
