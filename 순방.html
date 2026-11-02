@@ -592,83 +592,123 @@ body.dark-mode .lunch-people span {
   font-weight: 800;
 }
 
-/* 다양한 봉사 */
-/* 수요일 시간·장소 버튼 */
-.wednesday-time {
-  min-height: 58px;
-  margin: 6px 6px 0;
-  width: calc(100% - 12px);
-  padding: 9px 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  font-size: 25px;
-  font-weight: 800;
-  color: #18324a;
-  background: #D2DCE7;
-  border: 0;
-  border-radius: 7px;
-}
+/* ===== 수요일 버튼 디자인 ===== */
 
-.wednesday-time .time-label {
-  flex: 1;
-  text-align: center;
-  font-size: 25px;
-  font-weight: 800;
-}
-
-.wednesday-time .place-label {
-  font-size: 25px;
-  font-weight: 800;
-}
-
-/* 수요일 오전: 배경색 없음 */
+/* 오전 봉사 마련 없음 - 한 줄 버튼 */
 .wednesday-morning {
   min-height: 58px;
   margin: 6px 6px 0;
-  padding: 9px 8px;
+  padding: 10px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 800;
   color: #18324a;
-  background: transparent;
+  background: #F4C7C3;
+  border-radius: 7px;
 }
 
-/* 수요일 재방문·성서 연구 버튼 */
+.wednesday-morning span {
+  padding: 0;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* 오후 시간 버튼 */
+.wednesday-time {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  background: #8BB6D5;
+  border-radius: 7px;
+}
+
+/* 재방문 / 성서 연구 */
 .wednesday-activity {
   margin: 6px 6px 0;
   padding: 12px 5px;
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 800;
   color: #18324a;
-  background: #C2CEDB;
+  background: #B5D2E7;
   border-radius: 7px;
 }
 
-/* 윤재원 형제·박여송 자매 버튼만 짙게 */
-.wednesday-highlight-people span {
-  background: #9EAFBF;
+/* 순회 감독자 부부 - 금색 버튼 */
+.schedule-people.wednesday-supervisor {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
 }
 
-/* 어두운 모드 */
+.schedule-people.wednesday-supervisor span {
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  background: #F3D9A5;
+  border: 0;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+/* 일반 신청인 - 연한 파란색 버튼 */
+.schedule-people.wednesday-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.schedule-people.wednesday-people span {
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  background: #e6f2fb;
+  border: 0;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+/* 수요일 다크모드 */
+body.dark-mode .wednesday-morning,
 body.dark-mode .wednesday-time,
 body.dark-mode .wednesday-activity {
-  color: #fff;
+  color: #18324a;
 }
 
-body.dark-mode .wednesday-morning {
-  color: #fff;
-  background: transparent;
+body.dark-mode .wednesday-morning span {
+  color: #18324a;
 }
 
-body.dark-mode .wednesday-highlight-people span {
-  background: #526A80;
-  color: #fff;
+body.dark-mode .schedule-people.wednesday-supervisor span,
+body.dark-mode .schedule-people.wednesday-people span {
+  color: #18324a;
 }
 
 /* 이름: 각각 독립된 버튼 */
