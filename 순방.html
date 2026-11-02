@@ -1086,7 +1086,7 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
     getC(rows, "4-1")
   );
 
-  // 오전: 왼쪽 오전 / 오른쪽 봉사 마련 없음
+  // 오전: 봉사 마련 없음
   const morning = makeElement("div", "wednesday-morning", "");
 
   morning.appendChild(
@@ -1099,59 +1099,55 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
 
   card.appendChild(morning);
 
-  // 오전의 기존 추가 내용
-  addLine(card, getB(rows, "4-3"));
-
-  // 오후 1:30 — 시트 4-4
+  // 오후 1:30
   const time130 = makeElement("div", "wednesday-time", "");
 
   time130.appendChild(
-    makeElement("span", "time-label", getB(rows, "4-4"))
+    makeElement("span", "time-label", getB(rows, "4-3"))
   );
 
   time130.appendChild(
-    makeElement("span", "place-label", getC(rows, "4-4"))
+    makeElement("span", "place-label", getC(rows, "4-3"))
   );
 
   card.appendChild(time130);
 
-  addLine(
-    card,
-    getB(rows, "4-5"),
-    "wednesday-activity"
-  );
+  // 재방문 / 성서 연구
+  addLine(card, getB(rows, "4-4"), "wednesday-activity");
 
-  // 이름은 각각 별도 버튼
-  addPeople(
-    card,
-    rows,
-    ["4-6", "4-7"],
-    "schedule-people wednesday-highlight-people"
-  );
+  // 순회 감독자 부부
+  addPeople(card, rows, ["4-5"], "wednesday-supervisor");
 
-  // 오후 3:00 — 시트 4-8
+  // 일반 신청인
+  addPeople(card, rows, ["4-6"], "wednesday-people");
+
+  // 오후 3:00
   const time300 = makeElement("div", "wednesday-time", "");
 
   time300.appendChild(
-    makeElement("span", "time-label", getB(rows, "4-8"))
+    makeElement("span", "time-label", getB(rows, "4-7"))
   );
 
   time300.appendChild(
-    makeElement("span", "place-label", getC(rows, "4-8"))
+    makeElement("span", "place-label", getC(rows, "4-7"))
   );
 
   card.appendChild(time300);
 
-  addLine(
+  // 재방문 / 성서 연구
+  addLine(card, getB(rows, "4-8"), "wednesday-activity");
+
+  // 순회 감독자 부부
+  addPeople(card, rows, ["4-9"], "wednesday-supervisor");
+
+  // 일반 신청인
+  addPeople(
     card,
-    getB(rows, "4-9"),
-    "wednesday-activity"
+    rows,
+    ["4-10", "4-11", "4-12"],
+    "wednesday-people"
   );
-
-  // 나머지 이름 버튼은 기존 디자인
-  addPeople(card, rows, ["4-10", "4-11", "4-12"], "schedule-people");
 }
-
 
   // 목요일
   {
