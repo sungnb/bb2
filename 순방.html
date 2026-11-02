@@ -789,7 +789,7 @@ body.dark-mode .schedule-people span {
   border-radius: 7px;
 }
 
-/* 목요일 봉사자 버튼 */
+/* 일반 신청인 - 연한 파란색 버튼 */
 .schedule-people.thursday-people {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -813,7 +813,7 @@ body.dark-mode .schedule-people span {
   overflow-wrap: anywhere;
 }
 
-/* 윤재원 형제 / 박여송 자매 - 금색 두 줄 버튼 */
+/* 순회 감독자 부부 - 금색 버튼 */
 .schedule-people.thursday-people span.thursday-supervisor {
   grid-column: 1 / -1;
   min-height: 52px;
@@ -822,7 +822,7 @@ body.dark-mode .schedule-people span {
   background: #F3D9A5;
 }
 
-/* 김남희 / 김대원 - 신청자 */
+/* 일반 신청인 - 연한 파란색 버튼 */
 .schedule-people.thursday-people span.thursday-applicant {
   background: #e6f2fb;
 }
@@ -842,7 +842,81 @@ body.dark-mode .schedule-people span {
   color: red;
   background: transparent;
 }  
- 
+  
+/* ===== 금요일 전용 디자인 ===== */
+
+/* 오전·오후 시간 */
+.friday-card .friday-time {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #8BB6D5;
+  border-radius: 7px;
+}
+
+.friday-card .friday-time .time-label {
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+}
+
+/* 봉사 모임 장소 */
+.friday-card .friday-time .place-label {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* 다양한 봉사 / 재방문·성서연구 */
+.friday-card .friday-activity-button {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #B5D2E7;
+  border-radius: 7px;
+}
+
+/* 일반 신청인 - 연한 파란색 버튼 */
+.friday-card .friday-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.friday-card .friday-people span {
+  min-height: 48px;
+  padding: 10px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  background: #e6f2fb;
+  border-radius: 7px;
+}
+
+/* 순회 감독자 부부 - 금색 버튼 */
+.friday-card .friday-people span.friday-supervisor {
+  grid-column: 1 / -1;
+  min-height: 52px;
+  font-size: 22px;
+  font-weight: 900;
+  background: #F3D9A5;
+}
+  
 </style>
 </head>
 
