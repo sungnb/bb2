@@ -1339,22 +1339,53 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   addPeople(card, rows, ["4-12"], "schedule-people wednesday-people");
 }
 
+ 
   // 목요일
   {
     const card = addCard(
-  container,
-  getB(rows, "5-1"),
-  getC(rows, "5-1")
-);
+      container,
+      getB(rows, "5-1"),
+      getC(rows, "5-1")
+    );
 
-     addLine(card, getB(rows, "5-2"), "subhead");
-    addLine(card, getB(rows, "5-3"), "service-activity-button");
-    
-    addPeople(card, rows, ["5-4", "5-5", "5-6", "5-7"]);
+    // 오전
+    addLine(card, getB(rows, "5-2"), "thursday-morning");
 
-    addLine(card, getB(rows, "5-8"), "subhead");
+    // 공개 증거 (전시대)
+    addLine(card, getB(rows, "5-3"), "thursday-activity");
+
+    // 순회 감독자 부부와 일반 신청인
+    const people = makeElement(
+      "div",
+      "schedule-people thursday-people",
+      ""
+    );
+
+    ["5-4", "5-5", "5-6", "5-7"].forEach(function(symbol) {
+      [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+        if (!name) return;
+
+        const isSupervisor =
+          name.includes("순회 감독자") ||
+          name.includes("순회 감독자 부부");
+
+        people.appendChild(
+          makeElement(
+            "span",
+            isSupervisor ? "thursday-supervisor" : "thursday-applicant",
+            name
+          )
+        );
+      });
+    });
+
+    card.appendChild(people);
+
+    // 오후
+    addLine(card, getB(rows, "5-8"), "thursday-afternoon");
     addLine(card, getB(rows, "5-9"));
   }
+
 
 
   // 금요일
@@ -1372,33 +1403,63 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
         "div",
         "",
         getC(rows, "6-1")
-  ? "인도자 : " + getC(rows, "6-1").replace(/^인도자\s*:\s*/, "")
-  : ""
+          ? "인도자 : " + getC(rows, "6-1").replace(/^인도자\s*:\s*/, "")
+          : ""
       )
     );
 
     card.appendChild(header);
 
-    addFridayPart(
-      card,
-      rows,
-      "6-2",
-      "6-3",
-      ["6-4", "6-5", "6-6", "6-7"]
-    );
+    function addFridayStyledPart(timeSymbol, activitySymbol, peopleSymbols) {
+      const timeText = getB(rows, timeSymbol);
 
-    addFridayPart(
-      card,
-      rows,
-      "6-8",
-      "6-9",
-      ["6-10", "6-11", "6-12"]
-    );
+      if (timeText) {
+        const time = makeElement("div", "friday-time", "");
+        time.appendChild(
+          makeElement("span", "time-label", timeText.replace(/봉사\s*모임장소/g, "").trim())
+        );
+        card.appendChild(time);
+      }
+
+      const activityText = getB(rows, activitySymbol);
+      if (activityText) {
+        card.appendChild(
+          makeElement("div", "friday-activity-button", activityText)
+        );
+      }
+
+      const people = makeElement("div", "friday-people", "");
+
+      peopleSymbols.forEach(function(symbol) {
+        [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+          if (!name) return;
+
+          const isSupervisor =
+            name.includes("순회 감독자") ||
+            name.includes("순회 감독자 부부");
+
+          people.appendChild(
+            makeElement(
+              "span",
+              isSupervisor ? "friday-supervisor" : "",
+              name
+            )
+          );
+        });
+      });
+
+      if (people.children.length) {
+        card.appendChild(people);
+      }
+    }
+
+    addFridayStyledPart("6-2", "6-3", ["6-4", "6-5", "6-6", "6-7"]);
+    addFridayStyledPart("6-8", "6-9", ["6-10", "6-11", "6-12"]);
 
     container.appendChild(card);
   }
 
-
+  
   // 토요일
   {
     const card = addCard(
