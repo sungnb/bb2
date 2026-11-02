@@ -523,10 +523,10 @@ function loadFridaySchedule() {
     }
 
     document.getElementById("weekTitle").textContent =
-      data.rows["1"]?.b || "";
+  data.rows["1"]?.b || "";
 
-    document.getElementById("weekDate").textContent =
-      data.rows["2-2"]?.b || "";
+document.getElementById("weekDate").textContent =
+  data.rows["2"]?.b || "";
 
     renderAllSchedules(data.rows);
   };
