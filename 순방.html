@@ -765,15 +765,15 @@ function addCard(container, title, leader) {
     makeElement("div", "day-name", title)
   );
 
- header.appendChild(
-  makeElement(
-    "div",
-    "",
-    getC(rows, "6-1")
-      ? "인도자 : " + getC(rows, "6-1").replace(/^인도자\s*:\s*/, "")
-      : ""
-  )
-);
+  header.appendChild(
+    makeElement(
+      "div",
+      "day-leader",
+      leader
+        ? "인도자 : " + leader.replace(/^인도자\s*:\s*/, "")
+        : ""
+    )
+  );
 
   card.appendChild(header);
 
