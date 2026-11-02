@@ -560,7 +560,87 @@ body.dark-mode .lunch-people span {
   background: #292D31;
   color: #fff;
 }
+
+
+/* ===== 요청한 버튼 디자인: 화요일과 점심 항목 제외 ===== */
+
+/* 오전·오후 봉사 모임 장소 */
+.schedule-time,
+.friday-time {
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 8px;
+  text-align: left;
+  background: #D2DCE6;
+  color: #18324a;
+}
+
+.schedule-time .time-label,
+.friday-time .time-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.schedule-time .place-label,
+.friday-time .place-label {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* 다양한 봉사 */
+.service-activity-button {
+  padding: 9px 5px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  background: #C2CEDB;
+  border-bottom: 1px solid #858585;
+  overflow-wrap: anywhere;
+}
+
+/* 이름: 각각 독립된 버튼 */
+.people,
+.friday-people,
+.schedule-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.people span,
+.friday-people span,
+.schedule-people span {
+  min-width: 0;
+  padding: 10px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  background: #B3C1D0;
+  border: 0;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+/* 어두운 모드에서도 이름 버튼을 구분 */
+body.dark-mode .people span,
+body.dark-mode .friday-people span,
+body.dark-mode .schedule-people span {
+  background: #394F63;
+  color: #fff;
+}
   
+ 
 </style>
 </head>
 
@@ -732,10 +812,58 @@ function makeElement(tag, className, text) {
 }
 
 
-function addLine(parent, text, className = "line") {
-
+function addLine(
+  parent,
+  text,
+  className = "line",
+  applyButtonDesign = false
+) {
   if (!text) return;
 
+  const lineText = String(text).trim();
+
+  // 버튼 디자인 적용을 요청한 항목만 변경
+  if (applyButtonDesign) {
+
+    // 오전·오후 봉사 모임 장소
+    if (
+      /^(오전|오후)\b/.test(lineText) &&
+      /\b(AM|PM)\s*\d{1,2}:\d{2}\b/i.test(lineText)
+    ) {
+      const time = makeElement("div", "schedule-time", "");
+
+      const timeLabel = makeElement(
+        "span",
+        "time-label",
+        lineText.replace(/봉사\s*모임\s*장소/g, "").trim()
+      );
+
+      const placeLabel = makeElement(
+        "span",
+        "place-label",
+        "봉사 모임 장소"
+      );
+
+      time.appendChild(timeLabel);
+      time.appendChild(placeLabel);
+      parent.appendChild(time);
+      return;
+    }
+
+    // 다양한 봉사
+    if (lineText.includes("다양한 봉사")) {
+      parent.appendChild(
+        makeElement(
+          "div",
+          "service-activity-button",
+          lineText
+        )
+      );
+      return;
+    }
+  }
+
+  // 그 밖의 항목은 기존 방식 그대로 표시
   parent.appendChild(
     makeElement("div", className, text)
   );
@@ -840,7 +968,13 @@ function addFridayPart(
 
   container.appendChild(time);
 
-  addLine(container, activityText, "schedule-activity");
+ addLine(
+  container,
+  activityText,
+  activityText.includes("다양한 봉사")
+    ? "service-activity-button"
+    : "schedule-activity"
+);
 
   const people = makeElement("div", "schedule-people", "");
 
