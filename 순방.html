@@ -235,6 +235,34 @@ main {
   line-height: 1.4;
 }
 
+/* 요일과 인도자 */
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 8px 10px;
+  background: #245477;
+  color: white;
+  font-weight: 800;
+}
+
+.day-name {
+  flex-shrink: 0;
+  font-size: 30px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.day-leader {
+  flex: 1;
+  min-width: 0;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
 .line,
 .subhead {
   padding: 9px 14px;
@@ -727,13 +755,27 @@ function addLeader(parent, text) {
 }
 
 
-function addCard(container, title) {
+function addCard(container, title, leader) {
 
   const card = makeElement("section", "schedule-card", "");
 
-  card.appendChild(
-    makeElement("h2", "", title)
+  const header = makeElement("div", "day-header", "");
+
+  header.appendChild(
+    makeElement("div", "day-name", title)
   );
+
+ header.appendChild(
+  makeElement(
+    "div",
+    "",
+    getC(rows, "6-1")
+      ? "인도자 : " + getC(rows, "6-1").replace(/^인도자\s*:\s*/, "")
+      : ""
+  )
+);
+
+  card.appendChild(header);
 
   container.appendChild(card);
 
@@ -800,18 +842,24 @@ function renderAllSchedules(rows) {
 
   // 화요일
   {
-    const card = addCard(container, getB(rows, "3-1"));
+  const card = addCard(
+  container,
+  getB(rows, "3-1"),
+  getC(rows, "3-1")
+);
 
-    addLine(card, getB(rows, "3-2"));
-    addLine(card, getB(rows, "3-3"));
+addLine(card, getB(rows, "3-2"));
+addLine(card, getB(rows, "3-3"));
   }
 
 
   // 수요일
   {
-    const card = addCard(container, getB(rows, "4-1"));
-
-    addLeader(card, getC(rows, "4-1"));
+   const card = addCard(
+  container,
+  getB(rows, "4-1"),
+  getC(rows, "4-1")
+);
 
     addLine(card, getB(rows, "4-2"), "subhead");
     addLine(card, getB(rows, "4-3"));
@@ -830,9 +878,11 @@ function renderAllSchedules(rows) {
 
   // 목요일
   {
-    const card = addCard(container, getB(rows, "5-1"));
-
-    addLeader(card, getC(rows, "5-1"));
+    const card = addCard(
+  container,
+  getB(rows, "5-1"),
+  getC(rows, "5-1")
+);
 
     addLine(card, getB(rows, "5-2"), "subhead");
     addLine(card, getB(rows, "5-3"), "subhead");
@@ -886,9 +936,11 @@ function renderAllSchedules(rows) {
 
   // 토요일
   {
-    const card = addCard(container, getB(rows, "7-1"));
-
-    addLeader(card, getC(rows, "7-1"));
+    const card = addCard(
+  container,
+  getB(rows, "7-1"),
+  getC(rows, "7-1")
+);
 
     addLine(card, getB(rows, "7-2"), "subhead");
     addLine(card, getB(rows, "7-3"), "subhead");
@@ -904,10 +956,11 @@ function renderAllSchedules(rows) {
 
   // 일요일
   {
-    const card = addCard(container, getB(rows, "8-1"));
-
-    addLeader(card, getC(rows, "8-1"));
-
+    const card = addCard(
+  container,
+  getB(rows, "8-1"),
+  getC(rows, "8-1")
+);
     addLine(card, getB(rows, "8-2"), "subhead");
     addLine(card, getB(rows, "8-3"), "subhead");
 
