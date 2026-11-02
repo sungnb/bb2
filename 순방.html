@@ -534,6 +534,33 @@ body.dark-mode .friday-people span {
   color: #fff;
 }
 
+/* 점심 식사 및 교제 마련 */
+.lunch-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lunch-people span {
+  min-width: 0;
+  padding: 9px 8px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18324a;
+  border-right: 1px solid #858585;
+  border-bottom: 1px solid #858585;
+  overflow-wrap: anywhere;
+}
+
+.lunch-people span:nth-child(even) {
+  border-right: 0;
+}
+
+body.dark-mode .lunch-people span {
+  background: #292D31;
+  color: #fff;
+}
+  
 </style>
 </head>
 
@@ -848,8 +875,8 @@ function renderAllSchedules(rows) {
   getC(rows, "3-1")
 );
 
-addLine(card, getB(rows, "3-2"));
-addLine(card, getB(rows, "3-3"));
+addLine(card, getB(rows, "3-2"), "schedule-activity");
+addLine(card, getB(rows, "3-3"), "schedule-activity");
   }
 
 
@@ -975,7 +1002,7 @@ addLine(card, getB(rows, "3-3"));
   {
     const card = addCard(container, getB(rows, "9-1"));
 
-    const people = makeElement("div", "people", "");
+    const people = makeElement("div", "lunch-people", "");
 
     ["9-2", "9-3", "9-4", "9-5", "9-6"].forEach(function(symbol) {
 
