@@ -506,77 +506,16 @@ function changeFont(amount) {
   );
 })();
 
-/* ===== 금요일 Apps Script 데이터 연결 ===== */
-
-const FRIDAY_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzG_HeGUoqZHMzObeK6KD3ch22S7eMzG0jRx8KcM0Nf0k_Fy3KFjshZUzB6BNj7Eo7Wwg/exec";
-
-function loadFridaySchedule() {
-  window.receiveFridaySchedule = function(data) {
-    if (!data || data.error) {
-      document.getElementById("fridayLeader").textContent =
-        "일정을 불러오지 못했습니다.";
-      return;
-    }
-
-  document.getElementById("weekTitle").textContent =
-  data.weekTitle || "";
-
-document.getElementById("weekDate").textContent =
-  data.weekDate || "";
-
-    document.getElementById("fridayLeader").textContent =
-      data.leader || "";
-
-    renderFridayPart("fridayMorning", data.morning);
-    renderFridayPart("fridayAfternoon", data.afternoon);
-  };
-
-  const script = document.createElement("script");
-
-  script.src = FRIDAY_SCRIPT_URL +
-    "?callback=receiveFridaySchedule&t=" + Date.now();
-
-  script.onerror = function() {
-    document.getElementById("fridayLeader").textContent =
-      "일정 연결에 실패했습니다.";
-  };
-
-  document.body.appendChild(script);
-}
-
-function renderFridayPart(containerId, part) {
-  const container = document.getElementById(containerId);
-  container.replaceChildren();
-
-  if (!part) return;
-
-const time = document.createElement("div");
-time.className = "friday-time";
-
-const timeLabel = document.createElement("span");
-timeLabel.className = "time-label";
-
-// 시간에 포함된 중복 문구 제거
-timeLabel.textContent =
-  (part.time || "").replace(/봉사\s*모임장소/g, "").trim();
-
-const placeLabel = document.createElement("span");
-placeLabel.className = "place-label";
-placeLabel.textContent = "봉사 모임장소";
-
-time.appendChild(timeLabel);
-time.appendChild(placeLabel);
-
-container.appendChild(time);
-
 /* ===== 전체 일정 Apps Script 데이터 연결 ===== */
 
 const FRIDAY_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzG_HeGUoqZHMzObeK6KD3ch22S7eMzG0jRx8KcM0Nf0k_Fy3KFjshZUzB6BNj7Eo7Wwg/exec";
 
+
 function loadFridaySchedule() {
+
   window.receiveFridaySchedule = function(data) {
+
     if (!data || data.error || !data.rows) {
       document.getElementById("scheduleContainer").textContent =
         "일정을 불러오지 못했습니다.";
@@ -605,15 +544,19 @@ function loadFridaySchedule() {
   document.body.appendChild(script);
 }
 
+
 function getB(rows, symbol) {
   return rows[symbol]?.b || "";
 }
+
 
 function getC(rows, symbol) {
   return rows[symbol]?.c || "";
 }
 
+
 function makeElement(tag, className, text) {
+
   const element = document.createElement(tag);
 
   if (className) {
@@ -621,55 +564,94 @@ function makeElement(tag, className, text) {
   }
 
   element.textContent = text || "";
+
   return element;
 }
 
+
 function addLine(parent, text, className = "line") {
+
   if (!text) return;
-  parent.appendChild(makeElement("div", className, text));
+
+  parent.appendChild(
+    makeElement("div", className, text)
+  );
 }
 
+
 function addPeople(parent, rows, symbols, className = "people") {
+
   const people = makeElement("div", className, "");
 
   symbols.forEach(function(symbol) {
+
     const left = getB(rows, symbol);
     const right = getC(rows, symbol);
 
     if (left || right) {
-      people.appendChild(makeElement("span", "", left));
-      people.appendChild(makeElement("span", "", right));
+
+      if (left) {
+        people.appendChild(
+          makeElement("span", "", left)
+        );
+      }
+
+      if (right) {
+        people.appendChild(
+          makeElement("span", "", right)
+        );
+      }
     }
   });
 
   parent.appendChild(people);
 }
 
+
 function addLeader(parent, text) {
+
   if (text) {
+
     parent.appendChild(
       makeElement("div", "leader", "인도자 : " + text)
     );
   }
 }
 
+
 function addCard(container, title) {
+
   const card = makeElement("section", "schedule-card", "");
-  card.appendChild(makeElement("h2", "", title));
+
+  card.appendChild(
+    makeElement("h2", "", title)
+  );
+
   container.appendChild(card);
+
   return card;
 }
 
-function addFridayPart(container, rows, timeSymbol, activitySymbol, peopleSymbols) {
+
+function addFridayPart(
+  container,
+  rows,
+  timeSymbol,
+  activitySymbol,
+  peopleSymbols
+) {
+
   const timeText = getB(rows, timeSymbol);
   const activityText = getB(rows, activitySymbol);
 
   const time = makeElement("div", "friday-time", "");
+
   const timeLabel = makeElement(
     "span",
     "time-label",
     timeText.replace(/봉사\s*모임장소/g, "").trim()
   );
+
   const placeLabel = makeElement(
     "span",
     "place-label",
@@ -678,6 +660,7 @@ function addFridayPart(container, rows, timeSymbol, activitySymbol, peopleSymbol
 
   time.appendChild(timeLabel);
   time.appendChild(placeLabel);
+
   container.appendChild(time);
 
   addLine(container, activityText, "friday-activity");
@@ -685,9 +668,13 @@ function addFridayPart(container, rows, timeSymbol, activitySymbol, peopleSymbol
   const people = makeElement("div", "friday-people", "");
 
   peopleSymbols.forEach(function(symbol) {
+
     [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+
       if (name) {
-        people.appendChild(makeElement("span", "", name));
+        people.appendChild(
+          makeElement("span", "", name)
+        );
       }
     });
   });
@@ -695,20 +682,27 @@ function addFridayPart(container, rows, timeSymbol, activitySymbol, peopleSymbol
   container.appendChild(people);
 }
 
+
 function renderAllSchedules(rows) {
+
   const container = document.getElementById("scheduleContainer");
+
   container.replaceChildren();
+
 
   // 화요일
   {
     const card = addCard(container, getB(rows, "3-1"));
+
     addLine(card, getB(rows, "3-2"));
     addLine(card, getB(rows, "3-3"));
   }
 
+
   // 수요일
   {
     const card = addCard(container, getB(rows, "4-1"));
+
     addLeader(card, getC(rows, "4-1"));
 
     addLine(card, getB(rows, "4-2"), "subhead");
@@ -716,29 +710,36 @@ function renderAllSchedules(rows) {
 
     addLine(card, getB(rows, "4-4"), "subhead");
     addLine(card, getB(rows, "4-5"), "subhead");
+
     addPeople(card, rows, ["4-6", "4-7"]);
 
     addLine(card, getB(rows, "4-8"), "subhead");
     addLine(card, getB(rows, "4-9"), "subhead");
+
     addPeople(card, rows, ["4-10", "4-11", "4-12"]);
   }
+
 
   // 목요일
   {
     const card = addCard(container, getB(rows, "5-1"));
+
     addLeader(card, getC(rows, "5-1"));
 
     addLine(card, getB(rows, "5-2"), "subhead");
     addLine(card, getB(rows, "5-3"), "subhead");
+
     addPeople(card, rows, ["5-4", "5-5", "5-6", "5-7"]);
 
     addLine(card, getB(rows, "5-8"), "subhead");
     addLine(card, getB(rows, "5-9"));
   }
 
+
   // 금요일
   {
     const card = makeElement("section", "schedule-card friday-card", "");
+
     const header = makeElement("div", "friday-header", "");
 
     header.appendChild(
@@ -755,19 +756,35 @@ function renderAllSchedules(rows) {
 
     card.appendChild(header);
 
-    addFridayPart(card, rows, "6-2", "6-3", ["6-4", "6-5", "6-6", "6-7"]);
-    addFridayPart(card, rows, "6-8", "6-9", ["6-10", "6-11", "6-12"]);
+    addFridayPart(
+      card,
+      rows,
+      "6-2",
+      "6-3",
+      ["6-4", "6-5", "6-6", "6-7"]
+    );
+
+    addFridayPart(
+      card,
+      rows,
+      "6-8",
+      "6-9",
+      ["6-10", "6-11", "6-12"]
+    );
 
     container.appendChild(card);
   }
 
+
   // 토요일
   {
     const card = addCard(container, getB(rows, "7-1"));
+
     addLeader(card, getC(rows, "7-1"));
 
     addLine(card, getB(rows, "7-2"), "subhead");
     addLine(card, getB(rows, "7-3"), "subhead");
+
     addPeople(card, rows, ["7-4", "7-5", "7-6", "7-7"]);
 
     addLine(card, getB(rows, "7-8"), "subhead");
@@ -776,32 +793,51 @@ function renderAllSchedules(rows) {
     addLine(card, getB(rows, "7-11"));
   }
 
+
   // 일요일
   {
     const card = addCard(container, getB(rows, "8-1"));
+
     addLeader(card, getC(rows, "8-1"));
 
     addLine(card, getB(rows, "8-2"), "subhead");
     addLine(card, getB(rows, "8-3"), "subhead");
+
     addPeople(card, rows, ["8-4", "8-5", "8-6", "8-7"]);
 
     addLine(card, getB(rows, "8-8"), "subhead");
     addLine(card, getB(rows, "8-9"));
   }
 
+
   // 점심 식사 및 교제
   {
     const card = addCard(container, getB(rows, "9-1"));
+
     const people = makeElement("div", "people", "");
 
     ["9-2", "9-3", "9-4", "9-5", "9-6"].forEach(function(symbol) {
-      people.appendChild(makeElement("span", "", getB(rows, symbol)));
-      people.appendChild(makeElement("span", "", getC(rows, symbol)));
+
+      const left = getB(rows, symbol);
+      const right = getC(rows, symbol);
+
+      if (left) {
+        people.appendChild(
+          makeElement("span", "", left)
+        );
+      }
+
+      if (right) {
+        people.appendChild(
+          makeElement("span", "", right)
+        );
+      }
     });
 
     card.appendChild(people);
   }
 }
+
 
 loadFridaySchedule();
 
