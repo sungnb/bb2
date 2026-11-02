@@ -829,6 +829,7 @@ body.dark-mode .schedule-people span {
 
 /* 오후 봉사 마련 없음 */
 .thursday-afternoon {
+  gap: 8px;
   min-height: 58px;
   margin: 6px 6px;
   padding: 10px 8px;
@@ -1380,10 +1381,21 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
     card.appendChild(people);
 
     // 오후
-    addLine(card, getB(rows, "5-8"), "thursday-afternoon");
-    addLine(card, getB(rows, "5-9"));
-  }
+const afternoon = makeElement("div", "thursday-afternoon", "");
 
+afternoon.appendChild(
+  makeElement("span", "", getB(rows, "5-8") || "오후 :")
+);
+
+afternoon.appendChild(
+  makeElement("span", "", getC(rows, "5-8") || "봉사 마련 없음")
+);
+
+card.appendChild(afternoon);
+
+// 다음 항목
+addLine(card, getB(rows, "5-9"));
+  }
 
 
   // 금요일
