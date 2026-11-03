@@ -593,8 +593,8 @@ body.dark-mode .lunch-people span {
   font-weight: 800;
 }
 
-/* ===== 수요일 버튼 디자인 ===== */
-
+/* ===== 수요일 전용 디자인 ===== */
+  
 /* 오전 봉사 마련 없음 - 한 줄 버튼 */
 .wednesday-morning {
   width: 100%;
@@ -653,7 +653,7 @@ body.dark-mode .lunch-people span {
   border-radius: 7px;
 }
 
-/* 순회 감독자 부부 - 금색 버튼 */
+/* 순회 감독자 부부 버튼 */
 .schedule-people.wednesday-supervisor {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -678,7 +678,7 @@ body.dark-mode .lunch-people span {
   overflow-wrap: anywhere;
 }
 
-/* 일반 신청인 - 연한 파란색 버튼 */
+/* 일반 신청인 버튼 */
 .schedule-people.wednesday-people {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -719,7 +719,7 @@ body.dark-mode .schedule-people.wednesday-people span {
   color: #18324a;
 }
 
-/* 이름: 각각 독립된 버튼 */
+/* 일반 신청인 버튼 */
 .people,
 .friday-people,
 .schedule-people {
@@ -755,7 +755,7 @@ body.dark-mode .schedule-people span {
   color: #fff;
 }
   
-/* ===== 목요일 버튼 디자인 ===== */
+/* ===== 목요일 전용 디자인 ===== */
 
 /* 오전 [AM 9:45] */
 .thursday-morning {
@@ -789,7 +789,7 @@ body.dark-mode .schedule-people span {
   border-radius: 7px;
 }
 
-/* 일반 신청인 - 연한 파란색 버튼 */
+/* 일반 신청인 버튼 */
 .schedule-people.thursday-people {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -813,7 +813,7 @@ body.dark-mode .schedule-people span {
   overflow-wrap: anywhere;
 }
 
-/* 순회 감독자 부부 - 금색 버튼 */
+/* 순회 감독자 부부 버튼 */
 .schedule-people.thursday-people span.thursday-supervisor {
   grid-column: auto;
   min-height: 52px;
@@ -822,7 +822,7 @@ body.dark-mode .schedule-people span {
   background: #F3D9A5;
 }
 
-/* 일반 신청인 - 연한 파란색 버튼 */
+/* 일반 신청인 버튼 */
 .schedule-people.thursday-people span.thursday-applicant {
   background: #e6f2fb;
 }
@@ -887,7 +887,7 @@ body.dark-mode .schedule-people span {
   border-radius: 7px;
 }
 
-/* 일반 신청인 - 연한 파란색 버튼 */
+/* 일반 신청인 버튼 */
 .friday-card .friday-people {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -909,7 +909,7 @@ body.dark-mode .schedule-people span {
   border-radius: 7px;
 }
 
-/* 순회 감독자 부부 - 금색 버튼 */
+/* 순회 감독자 부부 버튼 */
 .friday-card .friday-people span.friday-supervisor {
   grid-column: auto;
   min-height: 52px;
@@ -953,7 +953,7 @@ body.dark-mode .schedule-people span {
   border-radius: 7px;
 }
 
-/* 인도자 부부와 일반 신청자 */
+/* 일반 신청인 버튼 */
 .saturday-people {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -977,7 +977,7 @@ body.dark-mode .schedule-people span {
   overflow-wrap: anywhere;
 }
 
-/* 윤재원 형제·박여송 자매 */
+/* 순회 감독자 부부 버튼 */
 .saturday-people span.saturday-supervisor {
   min-height: 52px;
   font-size: 22px;
@@ -1033,8 +1033,6 @@ body.dark-mode .saturday-afternoon {
 
 /* ===== 일요일 전용 디자인 ===== */
 
-/* ===== 일요일 전용 디자인 ===== */
-
 /* 오전 [AM 9:45] */
 .sunday-time {
   min-height: 58px;
@@ -1067,7 +1065,7 @@ body.dark-mode .saturday-afternoon {
   border-radius: 7px;
 }
 
-/* 인도자 부부와 일반 신청자 */
+/* 순회 감독자 부부 버튼 */
 .sunday-people {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1091,7 +1089,7 @@ body.dark-mode .saturday-afternoon {
   overflow-wrap: anywhere;
 }
 
-/* 윤재원 형제·박여송 자매 */
+/* 순회 감독자 부부 버튼 */
 .sunday-people span.sunday-supervisor {
   min-height: 52px;
   font-size: 22px;
@@ -1679,7 +1677,8 @@ addLine(card, getB(rows, "5-9"));
   }
 
   
-   // 토요일
+  
+  // 토요일
   {
     const card = addCard(
       container,
@@ -1688,13 +1687,13 @@ addLine(card, getB(rows, "5-9"));
     );
 
     // 오전 [AM 9:45]
-    addLine(card, getB(rows, "7-2"), "weekend-time");
+    addLine(card, getB(rows, "7-2"), "saturday-time");
 
     // 호별 방문
-    addLine(card, getB(rows, "7-3"), "weekend-activity");
+    addLine(card, getB(rows, "7-3"), "saturday-activity");
 
     // 인도자 부부와 일반 신청자
-    const people = makeElement("div", "weekend-people", "");
+    const people = makeElement("div", "saturday-people", "");
 
     ["7-4", "7-5", "7-6", "7-7"].forEach(function(symbol) {
       [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
@@ -1705,7 +1704,7 @@ addLine(card, getB(rows, "5-9"));
         people.appendChild(
           makeElement(
             "span",
-            isSupervisor ? "weekend-supervisor" : "",
+            isSupervisor ? "saturday-supervisor" : "",
             name
           )
         );
@@ -1717,7 +1716,7 @@ addLine(card, getB(rows, "5-9"));
     }
 
     // 오후 : 봉사 마련 없음
-    const afternoon = makeElement("div", "weekend-afternoon", "");
+    const afternoon = makeElement("div", "saturday-afternoon", "");
 
     afternoon.appendChild(
       makeElement("span", "", getB(rows, "7-8") || "오후 :")
@@ -1730,17 +1729,18 @@ addLine(card, getB(rows, "5-9"));
     card.appendChild(afternoon);
 
     // 파이오니아 모임
-    addLine(card, getB(rows, "7-9"), "weekend-meeting");
+    addLine(card, getB(rows, "7-9"), "saturday-meeting");
 
     // 장로 봉사의 종 모임
-    addLine(card, getB(rows, "7-10"), "weekend-meeting");
+    addLine(card, getB(rows, "7-10"), "saturday-meeting");
 
     // 주말 집회
-    addLine(card, getB(rows, "7-11"), "weekend-meeting");
+    addLine(card, getB(rows, "7-11"), "saturday-meeting");
   }
 
 
-   // 일요일
+ 
+  // 일요일
   {
     const card = addCard(
       container,
@@ -1749,13 +1749,13 @@ addLine(card, getB(rows, "5-9"));
     );
 
     // 오전 [AM 9:45]
-    addLine(card, getB(rows, "8-2"), "weekend-time");
+    addLine(card, getB(rows, "8-2"), "sunday-time");
 
     // 호별 방문
-    addLine(card, getB(rows, "8-3"), "weekend-activity");
+    addLine(card, getB(rows, "8-3"), "sunday-activity");
 
     // 인도자 부부와 일반 신청자
-    const people = makeElement("div", "weekend-people", "");
+    const people = makeElement("div", "sunday-people", "");
 
     ["8-4", "8-5", "8-6", "8-7"].forEach(function(symbol) {
       [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
@@ -1766,7 +1766,7 @@ addLine(card, getB(rows, "5-9"));
         people.appendChild(
           makeElement(
             "span",
-            isSupervisor ? "weekend-supervisor" : "",
+            isSupervisor ? "sunday-supervisor" : "",
             name
           )
         );
@@ -1778,7 +1778,7 @@ addLine(card, getB(rows, "5-9"));
     }
 
     // 오후 : 봉사 마련 없음
-    const afternoon = makeElement("div", "weekend-afternoon", "");
+    const afternoon = makeElement("div", "sunday-afternoon", "");
 
     afternoon.appendChild(
       makeElement("span", "", getB(rows, "8-8") || "오후 :")
@@ -1794,6 +1794,7 @@ addLine(card, getB(rows, "5-9"));
     addLine(card, getB(rows, "8-9"), "service-activity-button");
   }
 
+  
   // 점심 식사 및 교제
   {
     const card = addCard(container, getB(rows, "9-1"));
