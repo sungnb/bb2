@@ -917,6 +917,216 @@ body.dark-mode .schedule-people span {
   font-weight: 900;
   background: #F3D9A5;
 }
+
+
+/* ===== 토요일 전용 디자인 ===== */
+
+/* 오전 [AM 9:45] */
+.saturday-time {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #8BB6D5;
+  border-radius: 7px;
+}
+
+/* 호별 방문 */
+.saturday-activity {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #B5D2E7;
+  border-radius: 7px;
+}
+
+/* 인도자 부부와 일반 신청자 */
+.saturday-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.saturday-people span {
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: #18324a;
+  background: #e6f2fb;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+/* 윤재원 형제·박여송 자매 */
+.saturday-people span.saturday-supervisor {
+  min-height: 52px;
+  font-size: 22px;
+  font-weight: 900;
+  background: #F3D9A5;
+}
+
+/* 오후 봉사 마련 없음 */
+.saturday-afternoon {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: red;
+  background: transparent;
+  white-space: nowrap;
+}
+
+/* 토요일 오후 모임 */
+.saturday-meeting {
+  min-height: 42px;
+  margin: 6px 6px 0;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: #18324a;
+  background: transparent;
+  border: 0;
+}
+
+/* 어두운 모드 */
+body.dark-mode .saturday-time,
+body.dark-mode .saturday-activity,
+body.dark-mode .saturday-people span,
+body.dark-mode .saturday-meeting {
+  color: #18324a;
+}
+
+body.dark-mode .saturday-afternoon {
+  color: red;
+}
+
+
+/* ===== 일요일 전용 디자인 ===== */
+
+/* ===== 일요일 전용 디자인 ===== */
+
+/* 오전 [AM 9:45] */
+.sunday-time {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #8BB6D5;
+  border-radius: 7px;
+}
+
+/* 호별 방문 */
+.sunday-activity {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: #18324a;
+  background: #B5D2E7;
+  border-radius: 7px;
+}
+
+/* 인도자 부부와 일반 신청자 */
+.sunday-people {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.sunday-people span {
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: #18324a;
+  background: #e6f2fb;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+/* 윤재원 형제·박여송 자매 */
+.sunday-people span.sunday-supervisor {
+  min-height: 52px;
+  font-size: 22px;
+  font-weight: 900;
+  background: #F3D9A5;
+}
+
+/* 오후 봉사 마련 없음 */
+.sunday-afternoon {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: red;
+  background: transparent;
+  white-space: nowrap;
+}
+
+/* 어두운 모드 */
+body.dark-mode .sunday-time,
+body.dark-mode .sunday-activity,
+body.dark-mode .sunday-people span {
+  color: #18324a;
+}
+
+body.dark-mode .sunday-afternoon {
+  color: red;
+}
+
   
 </style>
 </head>
@@ -1469,42 +1679,120 @@ addLine(card, getB(rows, "5-9"));
   }
 
   
-  // 토요일
+   // 토요일
   {
     const card = addCard(
-  container,
-  getB(rows, "7-1"),
-  getC(rows, "7-1")
-);
+      container,
+      getB(rows, "7-1"),
+      getC(rows, "7-1")
+    );
 
-    addLine(card, getB(rows, "7-2"), "subhead");
-    addLine(card, getB(rows, "7-3"), "subhead");
+    // 오전 [AM 9:45]
+    addLine(card, getB(rows, "7-2"), "weekend-time");
 
-    addPeople(card, rows, ["7-4", "7-5", "7-6", "7-7"]);
+    // 호별 방문
+    addLine(card, getB(rows, "7-3"), "weekend-activity");
 
-    addLine(card, getB(rows, "7-8"), "subhead");
-    addLine(card, getB(rows, "7-9"), "service-activity-button");
-    addLine(card, getB(rows, "7-10"));
-    addLine(card, getB(rows, "7-11"));
+    // 인도자 부부와 일반 신청자
+    const people = makeElement("div", "weekend-people", "");
+
+    ["7-4", "7-5", "7-6", "7-7"].forEach(function(symbol) {
+      [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+        if (!name) return;
+
+        const isSupervisor = symbol === "7-4";
+
+        people.appendChild(
+          makeElement(
+            "span",
+            isSupervisor ? "weekend-supervisor" : "",
+            name
+          )
+        );
+      });
+    });
+
+    if (people.children.length) {
+      card.appendChild(people);
+    }
+
+    // 오후 : 봉사 마련 없음
+    const afternoon = makeElement("div", "weekend-afternoon", "");
+
+    afternoon.appendChild(
+      makeElement("span", "", getB(rows, "7-8") || "오후 :")
+    );
+
+    afternoon.appendChild(
+      makeElement("span", "", getC(rows, "7-8") || "봉사 마련 없음")
+    );
+
+    card.appendChild(afternoon);
+
+    // 파이오니아 모임
+    addLine(card, getB(rows, "7-9"), "weekend-meeting");
+
+    // 장로 봉사의 종 모임
+    addLine(card, getB(rows, "7-10"), "weekend-meeting");
+
+    // 주말 집회
+    addLine(card, getB(rows, "7-11"), "weekend-meeting");
   }
 
 
-  // 일요일
+   // 일요일
   {
     const card = addCard(
-  container,
-  getB(rows, "8-1"),
-  getC(rows, "8-1")
-);
-    addLine(card, getB(rows, "8-2"), "subhead");
-    addLine(card, getB(rows, "8-3"), "subhead");
+      container,
+      getB(rows, "8-1"),
+      getC(rows, "8-1")
+    );
 
-    addPeople(card, rows, ["8-4", "8-5", "8-6", "8-7"]);
+    // 오전 [AM 9:45]
+    addLine(card, getB(rows, "8-2"), "weekend-time");
 
-    addLine(card, getB(rows, "8-8"), "subhead");
+    // 호별 방문
+    addLine(card, getB(rows, "8-3"), "weekend-activity");
+
+    // 인도자 부부와 일반 신청자
+    const people = makeElement("div", "weekend-people", "");
+
+    ["8-4", "8-5", "8-6", "8-7"].forEach(function(symbol) {
+      [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+        if (!name) return;
+
+        const isSupervisor = symbol === "8-4";
+
+        people.appendChild(
+          makeElement(
+            "span",
+            isSupervisor ? "weekend-supervisor" : "",
+            name
+          )
+        );
+      });
+    });
+
+    if (people.children.length) {
+      card.appendChild(people);
+    }
+
+    // 오후 : 봉사 마련 없음
+    const afternoon = makeElement("div", "weekend-afternoon", "");
+
+    afternoon.appendChild(
+      makeElement("span", "", getB(rows, "8-8") || "오후 :")
+    );
+
+    afternoon.appendChild(
+      makeElement("span", "", getC(rows, "8-8") || "봉사 마련 없음")
+    );
+
+    card.appendChild(afternoon);
+
+    // 기존 일요일 추가 항목은 유지
     addLine(card, getB(rows, "8-9"), "service-activity-button");
   }
-
 
   // 점심 식사 및 교제
   {
