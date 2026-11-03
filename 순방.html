@@ -442,7 +442,7 @@ body.dark-mode .schedule-card .schedule-activity {
 }
 
 body.dark-mode .friday-people span,
-body.dark-mode .schedule-people:not(.thursday-people) span {
+body.dark-mode .schedule-people:not(.thursday-people):not(.wednesday-supervisor):not(.wednesday-people) span {
   background: #292D31;
   color: #fff;
 }
@@ -762,7 +762,7 @@ body.dark-mode .schedule-people.wednesday-people span {
 /* 어두운 모드에서도 이름 버튼을 구분 */
 body.dark-mode .people span,
 body.dark-mode .friday-people span,
-body.dark-mode .schedule-people:not(.thursday-people) span {
+body.dark-mode .schedule-people:not(.thursday-people):not(.wednesday-supervisor):not(.wednesday-people) span {
   background: #394F63;
   color: #fff;
 }
