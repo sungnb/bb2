@@ -442,7 +442,7 @@ body.dark-mode .schedule-card .schedule-activity {
 }
 
 body.dark-mode .friday-people span,
-body.dark-mode .schedule-people span {
+body.dark-mode .schedule-people:not(.thursday-people) span {
   background: #292D31;
   color: #fff;
 }
@@ -705,19 +705,29 @@ body.dark-mode .lunch-people span {
   overflow-wrap: anywhere;
 }
 
-/* 수요일 다크모드 */
+/* 어두운 모드 수요일 */
 body.dark-mode .wednesday-morning,
-body.dark-mode .wednesday-time,
-body.dark-mode .wednesday-activity {
-  color: #18324a;
-}
-
 body.dark-mode .wednesday-morning span {
+  color: red;
+}
+
+body.dark-mode .wednesday-time {
+  background: #8BB6D5;
   color: #18324a;
 }
 
-body.dark-mode .schedule-people.wednesday-supervisor span,
+body.dark-mode .wednesday-activity {
+  background: #B5D2E7;
+  color: #18324a;
+}
+
+body.dark-mode .schedule-people.wednesday-supervisor span {
+  background: #F3D9A5;
+  color: #18324a;
+}
+
 body.dark-mode .schedule-people.wednesday-people span {
+  background: #e6f2fb;
   color: #18324a;
 }
 
@@ -752,7 +762,7 @@ body.dark-mode .schedule-people.wednesday-people span {
 /* 어두운 모드에서도 이름 버튼을 구분 */
 body.dark-mode .people span,
 body.dark-mode .friday-people span,
-body.dark-mode .schedule-people span {
+body.dark-mode .schedule-people:not(.thursday-people) span {
   background: #394F63;
   color: #fff;
 }
