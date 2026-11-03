@@ -342,11 +342,35 @@ body.dark-mode #content > .section-card:has(.stats-grid) .stat-value {
 #content > .section-card:has(.stats-grid) .stat-item:last-child {
   border-bottom: none;
 }
- .group-heading {
+/* 집단 및 부서 상단 버튼 3개 */
+.group-top-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.group-top-buttons button {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 4px;
+  border: none;
+  border-radius: 6px;
+  background: #3374A9;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.group-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-   gap: 8px; /* 제목과 79명 사이 간격 */
+  gap: 8px; /* 제목과 79명 사이 간격 */
   width: 100%;
   margin-top: 10px; /* 상단 사이 간격 */
   margin-bottom: 5px; /* 하단 사이 간격 */
@@ -1267,23 +1291,22 @@ body.dark-mode .settings-panel {
           return `
   <div id="outdoorGroupsSection">
 
-    <div style="margin-bottom:10px;">
+   
+    <div class="group-top-buttons">
       <button
-  type="button"
-  onclick="location.href='순방.html'"
-  style="
-    height:40px;
-    padding:0 18px;
-    font-size:22px;
-    font-weight:700;
-    line-height:40px;
-    border:none;
-    border-radius:6px;
-    background:#3374A9;
-    color:#fff;
-    cursor:pointer;
-  "
->순회 방문</button>
+        type="button"
+        onclick="location.href='순방.html'"
+      >순회 방문</button>
+
+      <button
+        type="button"
+        onclick="location.href='편지.html'"
+      >편지</button>
+
+      <button
+        type="button"
+        onclick="location.href='예비.html'"
+      >예비</button>
     </div>
 
     <div class="group-heading">
