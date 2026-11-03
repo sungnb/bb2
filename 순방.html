@@ -894,7 +894,7 @@ body.dark-mode .schedule-people span {
   padding: 6px;
 }
 
-.friday-card .friday-people span {
+.friday-card .friday-people-no-border span {
   min-height: 48px;
   padding: 10px 4px;
   display: flex;
@@ -905,6 +905,7 @@ body.dark-mode .schedule-people span {
   font-weight: 800;
   color: #18324a;
   background: #e6f2fb;
+  border: 0;
   border-radius: 7px;
 }
 
@@ -1646,7 +1647,7 @@ addLine(card, getB(rows, "5-9"));
         );
       }
 
-      const people = makeElement("div", "friday-people", "");
+      const people = makeElement("div", "friday-people friday-people-no-border", "");
 
      peopleSymbols.forEach(function(symbol) {
   [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
