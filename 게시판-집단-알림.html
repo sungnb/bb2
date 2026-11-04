@@ -242,9 +242,137 @@ body.dark-mode .settings-panel .theme-btn.active {
 
   </header>
 
+  <!-- 설정창 -->
+  <div id="settingsPanel" class="settings-panel">
+
+    <!-- 밝게 / 어둡게 -->
+    <div class="settings-theme-row">
+
+      <button type="button"
+        id="lightBtn"
+        class="theme-btn"
+        onclick="setTheme('light')">
+        ☀ 밝게
+      </button>
+
+      <button type="button"
+        id="darkBtn"
+        class="theme-btn"
+        onclick="setTheme('dark')">
+        🌙 어둡게
+      </button>
+
+    </div>
+
+    <!-- 글자 크기 -->
+    <div class="settings-font-row">
+
+      <button type="button"
+        class="font-btn"
+        onclick="changeFont(-10)"
+        aria-label="글자 작게">−</button>
+
+      <div id="fontSize" class="font-size">100%</div>
+
+      <button type="button"
+        class="font-btn"
+        onclick="changeFont(10)"
+        aria-label="글자 크게">＋</button>
+
+    </div>
+
+  </div>
+
   <main id="content">
     <!-- 기존 알림 내용 -->
   </main>
+  
+<script>
+
+/* 설정창 열기 / 닫기 */
+function toggleSettings() {
+  document.getElementById("settingsPanel")
+    .classList.toggle("show");
+}
+
+/* 글자 크기 */
+let fontPercent = 100;
+
+/* 테마 설정 */
+function setTheme(theme) {
+
+  const isLight = theme === "light";
+
+  document.body.classList.toggle(
+    "dark-mode",
+    !isLight
+  );
+
+  document.getElementById("lightBtn")
+    .classList.toggle("active", isLight);
+
+  document.getElementById("darkBtn")
+    .classList.toggle("active", !isLight);
+
+  localStorage.setItem(
+    "northBoardTheme",
+    theme
+  );
+}
+
+/* 글자 크기 설정 */
+function setFontPercent(percent) {
+
+  fontPercent = Math.max(
+    80,
+    Math.min(150, percent)
+  );
+
+  document.getElementById("fontSize")
+    .textContent = fontPercent + "%";
+
+  document.querySelector("main").style.zoom =
+    fontPercent + "%";
+
+  localStorage.setItem(
+    "northBoardFontPercent",
+    String(fontPercent)
+  );
+}
+
+/* 글자 크기 변경 */
+function changeFont(amount) {
+
+  setFontPercent(fontPercent + amount);
+
+}
+
+/* 저장된 설정 불러오기 */
+(function restoreSettings() {
+
+  const savedTheme =
+    localStorage.getItem("northBoardTheme");
+
+  const savedFont =
+    Number(localStorage.getItem("northBoardFontPercent"));
+
+  setTheme(
+    savedTheme === "light"
+      ? "light"
+      : "dark"
+  );
+
+  setFontPercent(
+    Number.isFinite(savedFont) &&
+    savedFont >= 80 &&
+    savedFont <= 150
+      ? savedFont
+      : 100
+  );
+
+})();
+
+</script>
 
 </body>
 </html>
