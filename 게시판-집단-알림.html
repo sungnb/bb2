@@ -16,6 +16,18 @@ body {
   margin: 0;
 }
 
+/* 위아래 이동 막대 숨기기 */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
 
 /* =====================================
    상단 고정 메뉴
