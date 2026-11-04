@@ -1,14 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<header class="fixed-header">
-  <button type="button"
-    class="top-button back-button"
-    onclick="location.href='index.html'"
-    aria-label="홈으로">‹</button>
+  <title>준비중입니다!</title>
 
-  <div class="main-title">준비중 입니다</div>
+  <style>
 
-  <button type="button"
-    class="top-button settings-button"
-    onclick="toggleSettings()"
-    aria-label="설정">⚙</button>
-</header>
+/* =====================================
+   상단 고정 메뉴
+===================================== */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 62px;
+  padding: 0 12px;
+
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  gap: 10px;
+
+  background: #18324a;
+  color: #ffffff;
+
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+/* 상단 버튼 공통 */
+.top-button {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: #234563;
+  color: #ffffff;
+
+  border: 1px solid #9db2c4;
+  border-radius: 8px;
+
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* 뒤로가기 버튼 */
+.back-button {
+  font-size: 25px;
+  font-weight: 400;
+}
+
+/* 가운데 제목 */
+.main-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+/* 설정 버튼 */
+.settings-button {
+  width: 42px;
+  height: 42px;
+
+  justify-self: end;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =====================================
+   설정창
+===================================== */
+.settings-panel {
+  display: none;
+
+  position: fixed;
+  top: 70px;
+  right: 10px;
+
+  width: 230px;
+  max-width: calc(100vw - 20px);
+
+  padding: 12px;
+
+  z-index: 1100;
+
+  border: 1px solid #dedfe5;
+  border-radius: 16px;
+
+  background: #ffffff;
+  color: #222222;
+
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+
+  box-sizing: border-box;
+}
+
+.settings-panel.show {
+  display: block;
+}
+
+/* 밝게 / 어둡게 */
+.settings-theme-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 7px;
+}
+
+/* 테마 버튼 */
+.theme-btn {
+  min-width: 0;
+  height: 42px;
+
+  padding: 0 4px;
+
+  border: 1px solid #dce0e7;
+  border-radius: 11px;
+
+  background: #f5f6f8;
+  color: #222222;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.theme-btn.active {
+  background: #eeeaff;
+  border-color: #7566ff;
+  color: #40348d;
+}
+
+/* 글자 크기 */
+.settings-font-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+  gap: 7px;
+  align-items: center;
+}
+
+/* 글자 크기 버튼 및 표시 */
+.font-btn,
+.font-size {
+  height: 42px;
+  min-width: 0;
+
+  border: 1px solid #dce0e7;
+  border-radius: 11px;
+
+  background: #f5f6f8;
+  color: #222222;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 900;
+}
+
+/* 글자 작게 / 크게 */
+.font-btn {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* 글자 크기 표시 */
+.font-size {
+  font-size: 15px;
+}
+
+/* =====================================
+   어두운 모드
+===================================== */
+body.dark-mode {
+  background: #202124;
+  color: #f1f3f4;
+}
+
+/* 어두운 모드 설정창 */
+body.dark-mode .settings-panel {
+  background: #202020;
+  color: #f5f5f5;
+  border-color: #404040;
+}
+
+/* 어두운 모드 버튼 */
+body.dark-mode .settings-panel .theme-btn,
+body.dark-mode .settings-panel .font-btn,
+body.dark-mode .settings-panel .font-size {
+  background: #202020;
+  color: #eeeeee;
+  border-color: #505050;
+}
+
+/* 어두운 모드 선택 테마 */
+body.dark-mode .settings-panel .theme-btn.active {
+  background: #302b50;
+  border-color: #7566ff;
+  color: #ffffff;
+}
+  </style>
+</head>
+
+<body>
+
+  <header class="fixed-header">
+
+    <!-- 뒤로가기 -->
+    <button type="button"
+      class="top-button back-button"
+      onclick="history.back()"
+      aria-label="뒤로가기">‹</button>
+
+    <!-- 가운데 제목 -->
+    <div class="main-title">알림</div>
+
+    <!-- 설정 -->
+    <button type="button"
+      class="top-button settings-button"
+      onclick="toggleSettings()"
+      aria-label="설정">⚙</button>
+
+  </header>
+
+  <!-- 설정창 -->
+  <div id="settingsPanel" class="settings-panel">
+
+    <!-- 밝게 / 어둡게 -->
+    <div class="settings-theme-row">
+
+      <button type="button"
+        id="lightBtn"
+        class="theme-btn"
+        onclick="setTheme('light')">
+        ☀ 밝게
+      </button>
+
+      <button type="button"
+        id="darkBtn"
+        class="theme-btn"
+        onclick="setTheme('dark')">
+        🌙 어둡게
+      </button>
+
+    </div>
+
+    <!-- 글자 크기 -->
+    <div class="settings-font-row">
+
+      <button type="button"
+        class="font-btn"
+        onclick="changeFont(-10)"
+        aria-label="글자 작게">−</button>
+
+      <div id="fontSize" class="font-size">100%</div>
+
+      <button type="button"
+        class="font-btn"
+        onclick="changeFont(10)"
+        aria-label="글자 크게">＋</button>
+
+    </div>
+
+  </div>
+
+  <main id="content">
+    <!-- 기존 알림 내용 -->
+  </main>
+  
+<script>
+
+/* 설정창 열기 / 닫기 */
+function toggleSettings() {
+  document.getElementById("settingsPanel")
+    .classList.toggle("show");
+}
+
+/* 글자 크기 */
+let fontPercent = 100;
+
+/* 테마 설정 */
+function setTheme(theme) {
+
+  const isLight = theme === "light";
+
+  document.body.classList.toggle(
+    "dark-mode",
+    !isLight
+  );
+
+  document.getElementById("lightBtn")
+    .classList.toggle("active", isLight);
+
+  document.getElementById("darkBtn")
+    .classList.toggle("active", !isLight);
+
+  localStorage.setItem(
+    "northBoardTheme",
+    theme
+  );
+}
+
+/* 글자 크기 설정 */
+function setFontPercent(percent) {
+
+  fontPercent = Math.max(
+    80,
+    Math.min(150, percent)
+  );
+
+  document.getElementById("fontSize")
+    .textContent = fontPercent + "%";
+
+  document.querySelector("main").style.zoom =
+    fontPercent + "%";
+
+  localStorage.setItem(
+    "northBoardFontPercent",
+    String(fontPercent)
+  );
+}
+
+/* 글자 크기 변경 */
+function changeFont(amount) {
+
+  setFontPercent(fontPercent + amount);
+
+}
+
+/* 저장된 설정 불러오기 */
+(function restoreSettings() {
+
+  const savedTheme =
+    localStorage.getItem("northBoardTheme");
+
+  const savedFont =
+    Number(localStorage.getItem("northBoardFontPercent"));
+
+  setTheme(
+    savedTheme === "light"
+      ? "light"
+      : "dark"
+  );
+
+  setFontPercent(
+    Number.isFinite(savedFont) &&
+    savedFont >= 80 &&
+    savedFont <= 150
+      ? savedFont
+      : 100
+  );
+
+})();
+
+</script>
+
+</body>
+</html>
