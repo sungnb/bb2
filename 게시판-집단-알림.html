@@ -221,7 +221,60 @@ body.dark-mode .settings-panel .theme-btn.active {
   border-color: #7566ff;
   color: #ffffff;
 }
-  </style>
+
+/* =====================================
+   월별 알림
+===================================== */
+
+#content {
+  padding: 82px 12px 24px;
+  box-sizing: border-box;
+}
+
+.notice-month {
+  margin-bottom: 20px;
+  padding: 14px;
+  border: 1px solid #aeb6bf;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #18324a;
+}
+
+.notice-month-title {
+  margin: 0 0 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #18324a;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.notice-section-title {
+  margin: 12px 0 8px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.notice-text {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* 어두운 모드 */
+body.dark-mode .notice-month {
+  background: #292d32;
+  color: #f1f3f4;
+  border-color: #555b63;
+}
+
+body.dark-mode .notice-month-title {
+  background: #39434d;
+  color: #ffffff;
+}
+</style>
 </head>
 
 <body>
@@ -375,59 +428,7 @@ function changeFont(amount) {
 
 })();
 
- /* =====================================
-   월별 알림
-===================================== */
-
-#content {
-  padding: 82px 12px 24px;
-  box-sizing: border-box;
-}
-
-.notice-month {
-  margin-bottom: 20px;
-  padding: 14px;
-  border: 1px solid #aeb6bf;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #18324a;
-}
-
-.notice-month-title {
-  margin: 0 0 14px;
-  padding: 10px;
-  border-radius: 8px;
-  background: #18324a;
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 900;
-}
-
-.notice-section-title {
-  margin: 12px 0 8px;
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.notice-text {
-  margin: 0 0 8px;
-  font-size: 16px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-
-/* 어두운 모드 */
-body.dark-mode .notice-month {
-  background: #292d32;
-  color: #f1f3f4;
-  border-color: #555b63;
-}
-
-body.dark-mode .notice-month-title {
-  background: #39434d;
-  color: #ffffff;
-} 
-  
+ 
 /* =====================================
    월별 알림 불러오기
 ===================================== */
