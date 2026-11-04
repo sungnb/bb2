@@ -31,22 +31,16 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 
 .page{
   position:fixed;
-  top:62px;
-  bottom:62px;
-  left:8px !important;
-  right:8px !important;
-  width:auto !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:15px 0 20px !important;
-  min-height:0;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  touch-action:pan-y;
-  overscroll-behavior-y:contain;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding-top:62px;
+  overflow:hidden;
+  background:transparent;
 }
 
 .page::-webkit-scrollbar{
@@ -55,9 +49,30 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 }
   
 #content{
+  position:absolute;
+  top:62px;
+  bottom:60px;
+  left:0;
+  right:0;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  padding:15px 8px 20px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  overscroll-behavior-y:contain;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
   font-size:calc(16px * var(--scale));
 }
 
+#content::-webkit-scrollbar{
+  display:none;
+  width:0;
+}
+  
 #content .program-line,
 #content .program-line div,
 #content .program-line span,
@@ -197,7 +212,7 @@ body.dark-mode .settings-panel button{
 }
 
 @media(max-width:520px){
-  .page{padding:10px 0 15px}
+  #content{padding:10px 8px 15px}
   .program-card{padding:12px;border-width:5px;border-radius:16px}
   .date-title{margin:4px 0 16px;padding:12px 8px;font-size:25px}
   .section-title{font-size:25px}
