@@ -30,7 +30,15 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
 .settings-button{right:10px}
 
 .page{
-  position:fixed;top:62px;bottom:62px;left:8px;right:8px;
+  position:fixed;
+  top:62px;
+  bottom:62px;
+  left:8px !important;
+  right:8px !important;
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:15px 0 20px !important;
   min-height:0;
   overflow-y:auto;
   overflow-x:hidden;
@@ -39,7 +47,6 @@ body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:#f3f4f6;co
   overscroll-behavior-y:contain;
   scrollbar-width:none;
   -ms-overflow-style:none;
-  padding:15px 0 20px;max-width:none;width:auto;margin:0;
 }
 
 .page::-webkit-scrollbar{
