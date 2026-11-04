@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
  <meta name="viewport"
   content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>알림</title>
+ <title>알림</title>
+
+<style>
+
 html {
   touch-action: pan-x pan-y pinch-zoom;
 }
-  <style>
 
 /* =====================================
    상단 고정 메뉴
@@ -494,7 +496,52 @@ function changeFont(amount) {
 const NOTICE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbw9sb0RrJiyi_4vz-Qzt1SYWjmTTrSOy6DDpyySLSNmZQpkOFLyC3gkPFiG7A4Qnd5g/exec";
 
+/* 날짜 추출 */
+function getLatestNoticeDate(text) {
+
+  const value = String(text || "");
+  const dates = [];
+
+  const regex =
+    /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g;
+
+  let match;
+
+  while ((match = regex.exec(value)) !== null) {
+
+    const year = Number(match[1]);
+    const month = Number(match[2]);
+    const day = Number(match[3]);
+
+    const date = new Date(year, month - 1, day);
+
+    if (
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    ) {
+      dates.push(date.getTime());
+    }
+  }
+
+  return dates.length ? Math.max(...dates) : null;
+}
+
+/* 월 제목 정렬 기준 */
+function getMonthOrder(monthText) {
+
+  const match = String(monthText || "").match(
+    /(\d{4})\s*년\s*(\d{1,2})\s*월/
+  );
+
+  return match
+    ? Number(match[1]) * 100 + Number(match[2])
+    : 0;
+}
+
+/* 월별 알림 불러오기 */
 function loadNotices(data) {
+
   const content = document.getElementById("content");
   content.innerHTML = "";
 
@@ -503,7 +550,13 @@ function loadNotices(data) {
     return;
   }
 
-  data.forEach(monthData => {
+  // 월별 최신순 정렬
+  const sortedMonths = [...data].sort((a, b) =>
+    getMonthOrder(b.month) - getMonthOrder(a.month)
+  );
+
+  sortedMonths.forEach(monthData => {
+
     const monthBox = document.createElement("section");
     monthBox.className = "notice-month";
 
@@ -513,20 +566,44 @@ function loadNotices(data) {
     monthBox.appendChild(monthTitle);
 
     (monthData.sections || []).forEach(section => {
+
       const sectionTitle = document.createElement("h3");
       sectionTitle.className = "notice-section-title";
       sectionTitle.textContent = section.title;
       monthBox.appendChild(sectionTitle);
 
-      (section.contents || []).forEach(text => {
+      // 개별 알림 최신 날짜순 정렬
+      const sortedContents = (section.contents || [])
+        .map((text, index) => ({
+          text,
+          date: getLatestNoticeDate(text),
+          index
+        }))
+        .sort((a, b) => {
+
+          if (a.date === null && b.date !== null) return 1;
+          if (a.date !== null && b.date === null) return -1;
+
+          if (a.date === null && b.date === null) {
+            return a.index - b.index;
+          }
+
+          return b.date - a.date;
+        });
+
+      sortedContents.forEach(item => {
+
         const paragraph = document.createElement("p");
         paragraph.className = "notice-text";
-        paragraph.textContent = text;
+        paragraph.textContent = item.text;
         monthBox.appendChild(paragraph);
+
       });
+
     });
 
     content.appendChild(monthBox);
+
   });
 }
 
