@@ -2,9 +2,8 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
+ <meta name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>알림</title>
 
   <style>
@@ -227,14 +226,15 @@ body.dark-mode .settings-panel .theme-btn.active {
 ===================================== */
 
 #content {
-  padding: 82px 12px 24px;
+  padding: 82px 8px 24px;
+  width: 100%;
   box-sizing: border-box;
 }
 
 /* 월별 전체 박스 - 공강 박스와 동일 */
 .notice-month {
   width: 100%;
-  max-width: 680px;
+  max-width: none;
   min-width: 0;
   margin: 0 auto 22px;
   padding: 16px;
