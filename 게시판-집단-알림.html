@@ -231,49 +231,105 @@ body.dark-mode .settings-panel .theme-btn.active {
   box-sizing: border-box;
 }
 
+/* 월별 전체 박스 - 공강 박스와 동일 */
 .notice-month {
-  margin-bottom: 20px;
-  padding: 14px;
-  border: 1px solid #aeb6bf;
-  border-radius: 12px;
-  background: #ffffff;
+  width: 100%;
+  max-width: 680px;
+  min-width: 0;
+  margin: 0 auto 22px;
+  padding: 16px;
+
+  border: 5px solid #AEB6BF;
+  border-radius: 22px;
+
+  box-sizing: border-box;
+
+  background: linear-gradient(145deg, #ffffff, #f7faff);
+
+  box-shadow: 0 6px 18px rgba(24, 50, 74, 0.08);
+
   color: #18324a;
 }
 
+/* 월 제목 */
 .notice-month-title {
-  margin: 0 0 14px;
-  padding: 10px;
-  border-radius: 8px;
-  background: #18324a;
+  margin: 4px 0 20px;
+  padding: 14px 10px;
+
+  border-radius: 14px;
+
+  background: #68717D;
   color: #ffffff;
-  font-size: 22px;
-  font-weight: 900;
+
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-align: center;
+
+  overflow-wrap: anywhere;
+
+  box-shadow: 0 3px 8px rgba(24, 50, 74, 0.12);
 }
 
+/* 회중용 제목 */
 .notice-section-title {
   margin: 12px 0 8px;
+
   font-size: 18px;
   font-weight: 900;
+  color: #183b5c;
 }
 
+/* 알림 내용 */
 .notice-text {
   margin: 0 0 8px;
+
   font-size: 16px;
   line-height: 1.7;
+
+  color: #243b53;
+
   overflow-wrap: anywhere;
 }
 
-/* 어두운 모드 */
-body.dark-mode .notice-month {
-  background: #292d32;
-  color: #f1f3f4;
-  border-color: #555b63;
+/* 휴대폰 화면 */
+@media (max-width: 600px) {
+
+  .notice-month {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .notice-month-title {
+    margin: 4px 0 16px;
+    padding: 12px 8px;
+    font-size: 25px;
+    line-height: 1.4;
+  }
 }
 
-body.dark-mode .notice-month-title {
-  background: #39434d;
+/* =====================================
+   어두운 모드
+===================================== */
+
+body.dark-mode #content .notice-month {
+  background: #303134;
+  border-color: #858585;
+  color: #f1f3f4;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #content .notice-month-title {
+  background: #68717D;
   color: #ffffff;
 }
+
+body.dark-mode #content .notice-section-title,
+body.dark-mode #content .notice-text {
+  color: #f1f3f4;
+}
+    
 </style>
 </head>
 
