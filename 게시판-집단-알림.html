@@ -567,10 +567,8 @@ function loadNotices(data) {
     return;
   }
 
-  // 월별 최신순 정렬
-  const sortedMonths = [...data].sort((a, b) =>
-    getMonthOrder(b.month) - getMonthOrder(a.month)
-  );
+  // 시트에 작성된 순서대로 가져오기
+  const sortedMonths = data;
 
   sortedMonths.forEach(monthData => {
 
@@ -589,34 +587,17 @@ function loadNotices(data) {
       sectionTitle.textContent = section.title;
       monthBox.appendChild(sectionTitle);
 
-      // 개별 알림 최신 날짜순 정렬
-      const sortedContents = (section.contents || [])
-        .map((text, index) => ({
-          text,
-          date: getLatestNoticeDate(text),
-          index
-        }))
-        .sort((a, b) => {
+           // 시트에 작성된 순서대로 알림 가져오기
+      const sortedContents = section.contents || [];
 
-          if (a.date === null && b.date !== null) return 1;
-          if (a.date !== null && b.date === null) return -1;
-
-          if (a.date === null && b.date === null) {
-            return a.index - b.index;
-          }
-
-          return b.date - a.date;
-        });
-
-      sortedContents.forEach(item => {
+      sortedContents.forEach(text => {
 
         const paragraph = document.createElement("p");
         paragraph.className = "notice-text";
-        paragraph.textContent = item.text;
+        paragraph.textContent = text;
         monthBox.appendChild(paragraph);
 
       });
-
     });
 
     content.appendChild(monthBox);
