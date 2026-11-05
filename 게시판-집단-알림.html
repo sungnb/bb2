@@ -565,51 +565,7 @@ function getMonthOrder(monthText) {
     : 0;
 }
 
-/* 월별 알림 불러오기 */
-function loadNotices(data) {
 
-  const content = document.getElementById("content");
-  content.innerHTML = "";
-
-  if (!Array.isArray(data) || data.length === 0) {
-    content.textContent = "등록된 알림이 없습니다.";
-    return;
-  }
-
-  // 시트에 작성된 순서대로 가져오기
-  const sortedMonths = data;
-
-  sortedMonths.forEach(monthData => {
-
-    const monthBox = document.createElement("section");
-    monthBox.className = "notice-month";
-
-    const monthTitle = document.createElement("h2");
-    monthTitle.className = "notice-month-title";
-    monthTitle.textContent = monthData.month;
-    monthBox.appendChild(monthTitle);
-
-    (monthData.sections || []).forEach(section => {
-
-      const sectionTitle = document.createElement("h3");
-      sectionTitle.className = "notice-section-title";
-      sectionTitle.textContent = section.title;
-      monthBox.appendChild(sectionTitle);
-
-// 시트에 작성된 순서대로 알림 가져오기
-const sortedContents = section.contents || [];
-
-sortedContents.forEach(text => {
-
-  // 빈 내용은 표시하지 않음
-  if (!String(text || "").trim()) {
-    return;
-  }
-
-  const paragraph = document.createElement("p");
-  paragraph.className = "notice-text";
-
- 
 /* 날짜별 알림 불러오기 */
 function loadNotices(data) {
 
@@ -631,7 +587,7 @@ function loadNotices(data) {
     // 날짜 제목
     const monthTitle = document.createElement("h2");
     monthTitle.className = "notice-month-title";
-    monthTitle.textContent = dateData.month;
+    monthTitle.textContent = dateData.month || "";
 
     monthBox.appendChild(monthTitle);
 
@@ -641,7 +597,7 @@ function loadNotices(data) {
       // 회중용 등 제목 표시
       const sectionTitle = document.createElement("h3");
       sectionTitle.className = "notice-section-title";
-      sectionTitle.textContent = section.title;
+      sectionTitle.textContent = section.title || "";
 
       monthBox.appendChild(sectionTitle);
 
@@ -656,10 +612,10 @@ function loadNotices(data) {
         const paragraph = document.createElement("p");
         paragraph.className = "notice-text";
 
-        // 본문 줄바꿈 및 내용 유지
+        // 본문 내용 유지
         paragraph.textContent = String(text);
 
-        // 2번, 3번 등 번호가 시작되는 본문에 간격 적용
+        // 2번, 3번 등 번호가 시작되는 본문에 간격 추가
         const numberMatch = String(text)
           .trim()
           .match(/^(\d+)\s*[.)]/);
@@ -680,7 +636,6 @@ function loadNotices(data) {
   });
 
 }
-
 
 function loadNoticesError() {
   document.getElementById("content").textContent =
