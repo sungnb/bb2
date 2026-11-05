@@ -609,25 +609,78 @@ sortedContents.forEach(text => {
   const paragraph = document.createElement("p");
   paragraph.className = "notice-text";
 
-  // 시트에 기록된 본문 내용 적용
-  paragraph.textContent = String(text);
+ 
+/* 날짜별 알림 불러오기 */
+function loadNotices(data) {
 
-  // 본문이 2번, 3번 등으로 시작하면 위에 간격 추가
-  const numberMatch = String(text).trim().match(/^(\d+)\s*[.)]/);
+  const content = document.getElementById("content");
+  content.innerHTML = "";
 
-  if (numberMatch && Number(numberMatch[1]) >= 2) {
-    paragraph.classList.add("numbered-notice");
+  if (!Array.isArray(data) || data.length === 0) {
+    content.textContent = "등록된 알림이 없습니다.";
+    return;
   }
 
-  monthBox.appendChild(paragraph);
+  // 시트에 작성된 순서 그대로 표시
+  data.forEach(dateData => {
 
-});
+    // 날짜별 알림 박스 생성
+    const monthBox = document.createElement("section");
+    monthBox.className = "notice-month";
+
+    // 날짜 제목
+    const monthTitle = document.createElement("h2");
+    monthTitle.className = "notice-month-title";
+    monthTitle.textContent = dateData.month;
+
+    monthBox.appendChild(monthTitle);
+
+    // 해당 날짜의 제목과 본문
+    (dateData.sections || []).forEach(section => {
+
+      // 회중용 등 제목 표시
+      const sectionTitle = document.createElement("h3");
+      sectionTitle.className = "notice-section-title";
+      sectionTitle.textContent = section.title;
+
+      monthBox.appendChild(sectionTitle);
+
+      // 본문을 시트 순서대로 표시
+      (section.contents || []).forEach(text => {
+
+        // 빈 내용은 표시하지 않음
+        if (!String(text || "").trim()) {
+          return;
+        }
+
+        const paragraph = document.createElement("p");
+        paragraph.className = "notice-text";
+
+        // 본문 줄바꿈 및 내용 유지
+        paragraph.textContent = String(text);
+
+        // 2번, 3번 등 번호가 시작되는 본문에 간격 적용
+        const numberMatch = String(text)
+          .trim()
+          .match(/^(\d+)\s*[.)]/);
+
+        if (numberMatch && Number(numberMatch[1]) >= 2) {
+          paragraph.classList.add("numbered-notice");
+        }
+
+        monthBox.appendChild(paragraph);
+
+      });
+
     });
 
+    // 날짜별 박스를 시트 순서대로 추가
     content.appendChild(monthBox);
 
   });
+
 }
+
 
 function loadNoticesError() {
   document.getElementById("content").textContent =
