@@ -311,7 +311,10 @@ body.dark-mode .settings-panel .theme-btn.active {
 
   color: #243b53;
 
+  /* 기록된 본문 줄바꿈 적용 */
+  white-space: pre-line;
 
+  /* 긴 문장 자동 줄바꿈 */
   overflow-wrap: anywhere;
 }
 
@@ -588,12 +591,12 @@ function loadNotices(data) {
       sectionTitle.textContent = section.title;
       monthBox.appendChild(sectionTitle);
 
-           // 시트에 작성된 순서대로 알림 가져오기
-      const sortedContents = section.contents || [];
+// 시트에 작성된 순서대로 알림 가져오기
+const sortedContents = section.contents || [];
 
-     sortedContents.forEach(text => {
+sortedContents.forEach(text => {
 
-  // 기록되지 않은 빈 내용은 제외
+  // 빈 내용은 표시하지 않음
   if (!String(text || "").trim()) {
     return;
   }
@@ -601,7 +604,7 @@ function loadNotices(data) {
   const paragraph = document.createElement("p");
   paragraph.className = "notice-text";
 
-  // 본문에 기록된 줄바꿈만 적용
+  // 시트에 기록된 본문 내용 적용
   paragraph.textContent = String(text);
 
   monthBox.appendChild(paragraph);
