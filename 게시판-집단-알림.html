@@ -318,6 +318,11 @@ body.dark-mode .settings-panel .theme-btn.active {
   overflow-wrap: anywhere;
 }
 
+/* 2번, 3번 등 다음 번호 본문 위에 한 줄 간격 */
+.notice-text.numbered-notice {
+  margin-top: 1.7em;
+}
+
 /* 휴대폰 화면 */
 @media (max-width: 600px) {
 
@@ -606,6 +611,13 @@ sortedContents.forEach(text => {
 
   // 시트에 기록된 본문 내용 적용
   paragraph.textContent = String(text);
+
+  // 본문이 2번, 3번 등으로 시작하면 위에 간격 추가
+  const numberMatch = String(text).trim().match(/^(\d+)\s*[.)]/);
+
+  if (numberMatch && Number(numberMatch[1]) >= 2) {
+    paragraph.classList.add("numbered-notice");
+  }
 
   monthBox.appendChild(paragraph);
 
