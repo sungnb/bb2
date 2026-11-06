@@ -2398,22 +2398,14 @@ async function addManualApplicant() {
     name.trim();
 
   if (!trimmedName) {
-
     alert("이름을 입력해 주세요.");
-
     return;
-
   }
-
 
   if (applicants.includes(trimmedName)) {
-
     alert("이미 신청자 목록에 있습니다.");
-
     return;
-
   }
-
 
   try {
 
@@ -2427,8 +2419,8 @@ async function addManualApplicant() {
               "text/plain;charset=utf-8"
           },
           body: JSON.stringify({
-            name: trimmedName,
-            checked: true
+            action: "manualAdd",
+            name: trimmedName
           })
         }
       );
@@ -2436,20 +2428,20 @@ async function addManualApplicant() {
     const data =
       await response.json();
 
-
     if (!data.success) {
-
       throw new Error(
         data.message ||
         "신청자 추가에 실패했습니다."
       );
-
     }
 
-
-    applicants.push(trimmedName);
+    if (!applicants.includes(trimmedName)) {
+      applicants.push(trimmedName);
+    }
 
     selectedApplicants = [trimmedName];
+
+    replacementApplicant = "";
 
     renderAdmin();
 
@@ -2464,7 +2456,6 @@ async function addManualApplicant() {
   }
 
 }
-
 
 /* =========================================================
    그룹 불러오기
