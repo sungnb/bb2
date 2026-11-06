@@ -2383,6 +2383,8 @@ async function confirmSelectedGroup() {
 
 /* =========================================================
    관리자 직접 신청자 추가
+   - 기존 신청자는 기존 행에 신청 기록
+   - 없는 이름은 신청용 A100부터 새로 기록
 ========================================================= */
 
 async function addManualApplicant() {
@@ -2405,16 +2407,6 @@ async function addManualApplicant() {
 
   }
 
-
-  if (applicants.includes(trimmedName)) {
-
-    alert("이미 신청자 목록에 있습니다.");
-
-    return;
-
-  }
-
-
   try {
 
     const response =
@@ -2427,8 +2419,8 @@ async function addManualApplicant() {
               "text/plain;charset=utf-8"
           },
           body: JSON.stringify({
-            name: trimmedName,
-            checked: true
+            action: "manualAdd",
+            name: trimmedName
           })
         }
       );
@@ -2447,9 +2439,19 @@ async function addManualApplicant() {
     }
 
 
-    applicants.push(trimmedName);
+    /*
+      기존 신청자라면 중복으로 추가하지 않습니다.
+      새로운 이름이라면 신청자 목록에 추가합니다.
+    */
+    if (!applicants.includes(trimmedName)) {
+
+      applicants.push(trimmedName);
+
+    }
 
     selectedApplicants = [trimmedName];
+
+    replacementApplicant = "";
 
     renderAdmin();
 
@@ -2464,8 +2466,7 @@ async function addManualApplicant() {
   }
 
 }
-
-
+   
 /* =========================================================
    그룹 불러오기
 ========================================================= */
