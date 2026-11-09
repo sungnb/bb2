@@ -235,6 +235,12 @@ let meetings = [];
 let groupedMeetings = [];
 let googleAuthFinished = false;
 
+// 현재 인증된 Google 계정의 인증 정보
+let currentGoogleCredential = "";
+
+// 현재 선택된 회의록 연도
+let currentMeetingYear = "2026";
+
 /* =========================================================
    시작
 ========================================================= */
@@ -402,33 +408,50 @@ function closeAccountChange() {
 }
 
 async function handleGoogleCredential(response) {
-  const message = document.getElementById("authMessage");
-  const error = document.getElementById("authError");
+
+  const message =
+    document.getElementById("authMessage");
+
+  const error =
+    document.getElementById("authError");
 
   if (!response || !response.credential) {
-    error.textContent = "Google 인증 정보를 받지 못했습니다.";
+
+    error.textContent =
+      "Google 인증 정보를 받지 못했습니다.";
+
     renderGoogleButton();
     return;
   }
 
-  message.textContent = "인증된 Google 계정을 확인하고 있습니다...";
+  message.textContent =
+    "인증된 Google 계정을 확인하고 있습니다...";
+
   error.textContent = "";
 
   try {
+
+    const credential =
+      response.credential;
+
     const body =
       "credential=" +
-      encodeURIComponent(response.credential);
+      encodeURIComponent(credential);
 
     const result = await fetch(API_URL, {
+
       method: "POST",
+
       headers: {
         "Content-Type":
           "application/x-www-form-urlencoded;charset=UTF-8"
       },
+
       body: body
     });
 
     if (!result.ok) {
+
       throw new Error(
         "인증 서버 응답 오류: " + result.status
       );
@@ -442,6 +465,7 @@ async function handleGoogleCredential(response) {
       !data ||
       data.authenticated !== true
     ) {
+
       throw new Error(
         data?.message ||
         "Google 인증에 실패했습니다."
@@ -449,73 +473,108 @@ async function handleGoogleCredential(response) {
     }
 
     if (data.authorized !== true) {
+
       googleAuthFinished = true;
+
       if (accountChangeMode) {
-        const changeMessage = document.getElementById("accountChangeMessage");
+
+        const changeMessage =
+          document.getElementById("accountChangeMessage");
+
         if (changeMessage) {
+
           changeMessage.textContent =
-            (data.email ? "현재 선택된 계정: " + data.email + "\n\n" : "") +
-            (data.message || "이 Google 계정은 회의록 열람 권한이 없습니다.");
+            (data.email
+              ? "현재 선택된 계정: " + data.email + "\n\n"
+              : "") +
+            (data.message ||
+              "이 Google 계정은 회의록 열람 권한이 없습니다.");
         }
       }
+
       message.textContent = data.email
         ? `선택한 계정: ${data.email}`
         : "접근 권한이 없습니다.";
+
       error.textContent =
         data.message ||
         "이 Google 계정은 회의록 열람 권한이 없습니다.";
+
       renderGoogleButton();
       return;
     }
 
+    // 인증 성공
     googleAuthFinished = true;
-    currentGoogleEmail = data.email || "";
+
+    currentGoogleCredential = credential;
+
+    currentGoogleEmail =
+      data.email || "";
 
     if (accountChangeMode) {
-      accountChangeMode = false;
-      const gate = document.getElementById("accountChangeGate");
-      if (gate) gate.style.display = "none";
 
+      accountChangeMode = false;
+
+      const gate =
+        document.getElementById("accountChangeGate");
+
+      if (gate) {
+        gate.style.display = "none";
+      }
     }
 
-    /*
-     * 인증 성공 후에만 회의록 데이터를 사용합니다.
-     * 여기서 반환된 meetings만 화면에 넣습니다.
-     */
+    // 서버에서 전달한 연도 목록 표시
+    populateYearSelect(
+      data.years || [],
+      data.year || "2026"
+    );
+
+    // 회의록 데이터 처리
     let rows = [];
 
     if (Array.isArray(data.rows)) {
       rows = data.rows;
+
     } else if (Array.isArray(data.meetings)) {
       rows = data.meetings;
+
     } else if (Array.isArray(data.records)) {
       rows = data.records;
+
     } else if (Array.isArray(data.data)) {
       rows = data.data;
+
     } else if (Array.isArray(data.values)) {
       rows = data.values;
     }
 
-    meetings = normalizeRows(rows);
-    groupedMeetings = buildMeetings(meetings);
+    meetings =
+      normalizeRows(rows);
 
-    if (meetings.length === 0) {
-      throw new Error(
-        "번호가 있는 회의록 자료를 찾지 못했습니다."
-      );
-    }
+    groupedMeetings =
+      buildMeetings(meetings);
 
-    message.textContent = "인증이 완료되었습니다.";
+    currentMeetingYear =
+      data.year || "2026";
+
+    message.textContent =
+      "인증이 완료되었습니다.";
 
     document.getElementById("status").textContent =
       "회의록을 불러오는 중입니다...";
 
-    document.getElementById("authGate").style.display = "none";
+    document.getElementById("authGate").style.display =
+      "none";
 
     render();
 
   } catch (err) {
-    console.error("Google 인증/회의록 오류:", err);
+
+    console.error(
+      "Google 인증/회의록 오류:",
+      err
+    );
 
     message.textContent =
       "인증 또는 회의록 불러오기에 실패했습니다.";
@@ -527,7 +586,183 @@ async function handleGoogleCredential(response) {
     renderGoogleButton();
   }
 }
+  
+/************************************************************
+ * 연도 선택창 구성
+ ************************************************************/
+function populateYearSelect(years, selectedYear) {
 
+  const select =
+    document.getElementById("yearSelect");
+
+  if (!select) return;
+
+  select.innerHTML = "";
+
+  years.forEach(function(year) {
+
+    const option =
+      document.createElement("option");
+
+    option.value = String(year);
+    option.textContent = String(year) + "년";
+
+    select.appendChild(option);
+  });
+
+  if (years.includes(String(selectedYear))) {
+
+    select.value = String(selectedYear);
+
+  } else if (years.length > 0) {
+
+    select.value = String(years[0]);
+  }
+
+  currentMeetingYear =
+    select.value || String(selectedYear);
+}
+
+
+/************************************************************
+ * 선택한 연도의 회의록 다시 불러오기
+ ************************************************************/
+async function changeMeetingYear() {
+
+  const select =
+    document.getElementById("yearSelect");
+
+  const status =
+    document.getElementById("status");
+
+  if (
+    !select ||
+    !currentGoogleCredential
+  ) {
+    return;
+  }
+
+  const selectedYear =
+    select.value;
+
+  if (!selectedYear) return;
+
+  status.textContent =
+    selectedYear + "년 회의록을 불러오는 중입니다...";
+
+  select.disabled = true;
+
+  try {
+
+    const body =
+      "credential=" +
+      encodeURIComponent(currentGoogleCredential) +
+      "&year=" +
+      encodeURIComponent(selectedYear);
+
+    const result = await fetch(API_URL, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type":
+          "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+
+      body: body
+    });
+
+    if (!result.ok) {
+
+      throw new Error(
+        "회의록 서버 응답 오류: " + result.status
+      );
+    }
+
+    const data = await result.json();
+
+    console.log(
+      "연도별 회의록 결과:",
+      data
+    );
+
+    if (
+      !data ||
+      data.authenticated !== true ||
+      data.authorized !== true
+    ) {
+
+      throw new Error(
+        data?.message ||
+        "회의록을 불러올 권한이 없습니다."
+      );
+    }
+
+    if (data.success !== true) {
+
+      throw new Error(
+        data.message ||
+        selectedYear + "년 회의록을 불러오지 못했습니다."
+      );
+    }
+
+    // 회의록 데이터 반영
+    let rows = [];
+
+    if (Array.isArray(data.meetings)) {
+      rows = data.meetings;
+
+    } else if (Array.isArray(data.rows)) {
+      rows = data.rows;
+
+    } else if (Array.isArray(data.records)) {
+      rows = data.records;
+
+    } else if (Array.isArray(data.data)) {
+      rows = data.data;
+
+    } else if (Array.isArray(data.values)) {
+      rows = data.values;
+    }
+
+    meetings =
+      normalizeRows(rows);
+
+    groupedMeetings =
+      buildMeetings(meetings);
+
+    currentMeetingYear =
+      data.year || selectedYear;
+
+    // 서버에서 최신 연도 목록을 다시 받아 선택창 갱신
+    populateYearSelect(
+      data.years || [],
+      currentMeetingYear
+    );
+
+    render();
+
+  } catch (err) {
+
+    console.error(
+      "연도별 회의록 오류:",
+      err
+    );
+
+    status.textContent =
+      err.message ||
+      "회의록을 불러오지 못했습니다.";
+
+    // 선택창을 실제로 불러온 연도로 복구
+    select.value =
+      currentMeetingYear;
+
+  } finally {
+
+    select.disabled = false;
+  }
+}
+  
 /* =========================================================
    행 하나를 회의록 데이터로 변환
 ========================================================= */
