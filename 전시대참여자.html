@@ -568,111 +568,279 @@ body {
 
 /* =========================================================
    밝게
+   외부 안내 봉사 안내.html 밝은 스타일과 동일한 색상 기준
 ========================================================= */
 
 body.light {
-  color: #222222;
-  background: #18324a;
+  color: #172331;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #f4f7fa 0%,
+      #dfe8ef 70%
+    );
 }
+
+
+/* =========================================================
+   상단
+   외부 안내 봉사와 동일하게 상단은 남색 유지
+========================================================= */
 
 body.light .header {
   background: #18324a;
-  border-bottom-color: rgba(0,0,0,0.08);
+
+  border-bottom-color: #18324a;
 }
 
 
-/* 상단 제목 / 부제목은 밝게에서도 흰색 */
+/* 상단 제목 / 기준일 */
+
 body.light .header h1,
 body.light .reference-date {
   color: #ffffff;
 }
 
 
-/* 밝게 모드의 본문 섹션 제목은
-   어두운 배경 위에서 보이도록 흰색 */
-body.light .section-title h2,
-body.light .total-count {
-  color: #ffffff;
+/* =========================================================
+   본문 섹션 제목
+========================================================= */
+
+body.light .section-title h2 {
+  color: #172331;
 }
 
+
+/* =========================================================
+   인원수
+========================================================= */
+
+body.light .total-count {
+  color: #172331;
+
+  background: #dce6ee;
+}
+
+
+/* =========================================================
+   섹션 구분선
+========================================================= */
+
+body.light .section-title {
+  border-bottom-color: #ccd7e0;
+}
+
+
+/* =========================================================
+   버튼
+========================================================= */
 
 body.light .action-button {
-  color: #222222;
-  background: rgba(0,0,0,0.07);
+  color: #172331;
+
+  background: #dce6ee;
 }
 
-body.light .settings-button {
-  color: #ffffff;
-  background: #234563;
+
+body.light .action-button:hover {
+  background: #ccd9e3;
 }
 
-body.light .action-button:hover,
-body.light .settings-button:hover {
-  background: rgba(0,0,0,0.12);
-}
+
+/* =========================================================
+   집단 카드 / 타 회중 카드 / 참고사항 카드
+========================================================= */
 
 body.light .group-card,
 body.light .other-card,
 body.light .reference-card {
-  border-color: rgba(0,0,0,0.14);
-  background: rgba(255,255,255,0.90);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border-color: #cbd7e1;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08);
 }
+
+
+/* 집단 카드 */
 
 body.light .group-card {
-  border-color: rgba(0,0,0,0.20);
+  border-color: #cbd7e1;
 }
+
+
+/* =========================================================
+   집단 카드 제목
+========================================================= */
 
 body.light .group-header {
-  background: rgba(0,0,0,0.04);
-  border-bottom-color: rgba(0,0,0,0.08);
+  background: #dce6ee;
+
+  border-bottom-color: #ccd7e0;
 }
+
+
+/* 집단 이름 */
+
+body.light .group-name {
+  color: #172331;
+}
+
+
+/* 집단별 인원수 */
+
+body.light .group-count {
+  color: #435466;
+}
+
+
+/* =========================================================
+   이름 목록 영역
+========================================================= */
+
+body.light .name-list {
+  background: #f7f9fb;
+}
+
+
+/* 이름 */
 
 body.light .name {
-  background: rgba(0,0,0,0.04);
-  border-color: rgba(0,0,0,0.12);
+  color: #172331;
+
+  background: #dce6ee;
+
+  border-color: #ccd7e0;
 }
 
-body.light .total-count {
-  background: rgba(0,0,0,0.06);
+
+/* =========================================================
+   빈 데이터
+========================================================= */
+
+body.light .empty-message {
+  color: #435466;
 }
 
-body.light .section-title {
-  border-bottom-color: rgba(255,255,255,0.15);
+
+/* =========================================================
+   로딩 / 오류
+========================================================= */
+
+body.light .loading {
+  color: #435466;
 }
 
-body.light .empty-message,
-body.light .loading,
+
 body.light .error {
-  color: rgba(0,0,0,0.55);
+  color: #8a3030;
 }
+
+
+/* =========================================================
+   참고사항
+========================================================= */
 
 body.light .reference-item {
-  border-bottom-color: rgba(0,0,0,0.12);
+  color: #172331;
+
+  border-bottom-color: #ccd7e0;
 }
 
+
+/* =========================================================
+   설정창
+========================================================= */
+
 body.light .settings-panel {
-  background: rgba(255,255,255,0.98);
-  border-color: rgba(0,0,0,0.10);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  color: #222222;
+  background: rgba(255, 255, 255, 0.96);
+
+  border-color: #cbd7e1;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08);
+
+  color: #172331;
 }
+
+
+/* 설정창 제목 */
+
+body.light .settings-title {
+  color: #172331;
+}
+
+
+/* 설정 버튼 */
 
 body.light .settings-row button,
 body.light .font-size-row button {
-  color: #222222;
-  background: rgba(0,0,0,0.06);
+  color: #172331;
+
+  background: #dce6ee;
 }
 
+
+/* 설정 버튼 선택 */
+
 body.light .settings-row button.active {
-  background: rgba(0,0,0,0.13);
+  background: #ccd9e3;
 }
+
+
+/* 설정 버튼 hover */
+
+body.light .settings-row button:hover,
+body.light .font-size-row button:hover {
+  background: #ccd9e3;
+}
+
+
+/* 글자 크기 */
+
+body.light .font-size-value {
+  color: #172331;
+}
+
+
+/* =========================================================
+   설정 아이콘
+   외부 안내 봉사와 동일하게 남색 버튼 유지
+========================================================= */
 
 body.light .settings-button {
   background: #234563;
+
   color: #ffffff;
 }
 
+
+/* 설정 아이콘 hover */
+
+body.light .settings-button:hover {
+  background: #234563;
+}
+
+
+/* =========================================================
+   뒤로가기
+   외부 안내 봉사와 동일하게 남색 버튼 유지
+========================================================= */
+
+body.light .title-back-button {
+  background: #234563;
+
+  color: #ffffff;
+}
+
+
+/* 뒤로가기 hover */
+
+body.light .title-back-button:hover {
+  background: #234563;
+}
 
 /* =========================================================
    모바일 상단 버튼
