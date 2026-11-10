@@ -957,7 +957,22 @@ body.dark-mode .thursday-people span {
   font-weight: 900;
   background: #F3D9A5;
 }
-
+/* 금요일 오후 봉사 마련 없음 */
+.friday-afternoon {
+  min-height: 58px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  color: red;
+  background: transparent;
+}
+  
 /* 어두운 모드 금요일 */
 body.dark-mode .friday-time {
   background: #8BB6D5;
@@ -1758,8 +1773,21 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
       }
     }
 
+     // 오전 일정
     addFridayStyledPart("6-2", "6-3", ["6-4", "6-5", "6-6", "6-7"]);
-    addFridayStyledPart("6-8", "6-9", ["6-10", "6-11", "6-12"]);
+
+    // 오후 : 봉사 마련 없음
+    const afternoon = makeElement("div", "friday-afternoon", "");
+
+    afternoon.appendChild(
+      makeElement("span", "", getB(rows, "6-8") || "오후 :")
+    );
+
+    afternoon.appendChild(
+      makeElement("span", "", getC(rows, "6-8") || "봉사 마련 없음")
+    );
+
+    card.appendChild(afternoon);
 
     container.appendChild(card);
   }
