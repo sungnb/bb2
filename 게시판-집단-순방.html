@@ -1622,7 +1622,7 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   addPeople(card, rows, ["4-13"], "schedule-people wednesday-people");
 }
  
-  // 목요일
+   // 목요일
   {
     const card = addCard(
       container,
@@ -1630,52 +1630,67 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
       getC(rows, "5-1")
     );
 
-    // 오전
+    // 오전 9:45
     addLine(card, getB(rows, "5-2"), "thursday-morning");
 
-    // 공개 증거 (전시대)
+    // 공개증거 (전시대)
     addLine(card, getB(rows, "5-3"), "thursday-activity");
 
-    // 순회 감독자 부부와 일반 신청인
-    const people = makeElement(
+    // 첫 번째 신청자 그룹
+    const morningPeople = makeElement(
       "div",
       "schedule-people thursday-people",
       ""
     );
 
-  ["5-4", "5-5", "5-6", "5-7"].forEach(function(symbol) {
-  [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
-    if (!name) return;
+    ["5-4", "5-5", "5-6", "5-7"].forEach(function(symbol) {
+      [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+        if (!name) return;
 
-    const isSupervisor = symbol === "5-4";
+        const isSupervisor = symbol === "5-4";
 
-    people.appendChild(
-      makeElement(
-        "span",
-        isSupervisor ? "thursday-supervisor" : "thursday-applicant",
-        name
-      )
+        morningPeople.appendChild(
+          makeElement(
+            "span",
+            isSupervisor ? "thursday-supervisor" : "thursday-applicant",
+            name
+          )
+        );
+      });
+    });
+
+    card.appendChild(morningPeople);
+
+    // 오후 1:30 봉사 모임 장소
+    addLine(card, getB(rows, "5-8"), "thursday-morning");
+
+    // 재방문 / 성서 연구
+    addLine(card, getB(rows, "5-9"), "thursday-activity");
+
+    // 두 번째 신청자 그룹
+    const afternoonPeople = makeElement(
+      "div",
+      "schedule-people thursday-people",
+      ""
     );
-  });
-});
 
-    card.appendChild(people);
+    ["5-10", "5-11", "5-12"].forEach(function(symbol) {
+      [getB(rows, symbol), getC(rows, symbol)].forEach(function(name) {
+        if (!name) return;
 
-    // 오후
-const afternoon = makeElement("div", "thursday-afternoon", "");
+        const isSupervisor = symbol === "5-10";
 
-afternoon.appendChild(
-  makeElement("span", "", getB(rows, "5-8") || "오후 :")
-);
+        afternoonPeople.appendChild(
+          makeElement(
+            "span",
+            isSupervisor ? "thursday-supervisor" : "thursday-applicant",
+            name
+          )
+        );
+      });
+    });
 
-afternoon.appendChild(
-  makeElement("span", "", getC(rows, "5-8") || "봉사 마련 없음")
-);
-
-card.appendChild(afternoon);
-
-// 다음 항목
-addLine(card, getB(rows, "5-9"));
+    card.appendChild(afternoonPeople);
   }
 
 
