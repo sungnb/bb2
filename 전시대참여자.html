@@ -2,22 +2,12 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
       content="width=device-width,
                initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no,
                viewport-fit=cover">
 
-<meta name="theme-color"
-      content="#18324a">
-
-<meta name="apple-mobile-web-app-capable"
-      content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent">
+<meta name="theme-color" content="#18324a">
 
 <title>전시대 참여자</title>
 <style>
@@ -30,20 +20,9 @@
   box-sizing: border-box;
 }
 
-/* 휴대폰 상태 표시줄 배경 */
-
-html {
-  min-height: 100%;
-
-  background: #18324a;
-}
-
-/* 페이지 배경 */
-
 body {
   margin: 0;
   min-height: 100vh;
-
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -59,12 +38,9 @@ body {
       #16222e,
       #263b4a
     );
-
-  /* 아이폰 상단 안전 영역 */
-
-  padding-top: env(safe-area-inset-top);
 }
-      
+
+
 /* =========================================================
    상단
 ========================================================= */
@@ -595,28 +571,20 @@ body {
 
 /* =========================================================
    밝게
+   외부 안내 봉사 안내.html 밝은 스타일과 동일한 색상 기준
 ========================================================= */
 
 body.light {
-  color: #222222;
+  color: #172331;
 
-  background: #18324a;
+  background:
+    radial-gradient(
+      circle at top,
+      #f4f7fa 0%,
+      #dfe8ef 70%
+    );
 }
 
-body.light .header {
-  background: #18324a;
-
-  border-bottom-color:
-    rgba(0,0,0,0.08);
-}
-
-/* 상태 표시줄 배경은 항상 동일 */
-
-html,
-body,
-body.light {
-  background-color: #18324a;
-}
 
 /* =========================================================
    상단
@@ -1655,13 +1623,6 @@ function goBack() {
 const SETTINGS_THEME_KEY = "전시대참여자_theme";
 const SETTINGS_FONT_KEY = "전시대참여자_fontSize";
 
-/* =========================================================
-   설정 적용
-   - 밝게 / 어둡게
-   - 글자 크기
-   - 상태 표시줄 배경색 항상 동일
-========================================================= */
-
 function applySettings() {
 
   const theme =
@@ -1670,34 +1631,10 @@ function applySettings() {
   const fontSize =
     Number(localStorage.getItem(SETTINGS_FONT_KEY)) || 100;
 
-
-  /* =========================================================
-     밝게 / 어둡게 적용
-  ========================================================= */
-
   document.body.classList.toggle(
     "light",
     theme === "light"
   );
-
-
-  /* =========================================================
-     상태 표시줄 배경색
-     - 아이폰
-     - 갤럭시
-     - 밝게 / 어둡게 동일
-  ========================================================= */
-
-  document.documentElement.style.backgroundColor =
-    "#18324a";
-
-  document.body.style.backgroundColor =
-    "#18324a";
-
-
-  /* =========================================================
-     글자 크기
-  ========================================================= */
 
   document.body.style.setProperty(
     "--font-scale",
@@ -1707,18 +1644,8 @@ function applySettings() {
   document.body.style.zoom =
     String(fontSize / 100);
 
-
-  /* =========================================================
-     글자 크기 표시
-  ========================================================= */
-
   document.getElementById("fontSizeValue").textContent =
     fontSize + "%";
-
-
-  /* =========================================================
-     설정 버튼 표시
-  ========================================================= */
 
   document.getElementById("darkButton").classList.toggle(
     "active",
@@ -1729,7 +1656,6 @@ function applySettings() {
     "active",
     theme === "light"
   );
-
 }
 
 function setTheme(theme) {
