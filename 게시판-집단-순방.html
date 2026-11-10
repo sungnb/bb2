@@ -1594,7 +1594,7 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   // 재방문 / 성서 연구
   addLine(card, getB(rows, "4-4"), "wednesday-activity");
 
-  // 순감 부부
+ 
   addPeople(card, rows, ["4-5"], "schedule-people wednesday-supervisor");
 
   // 신청인
@@ -1606,18 +1606,32 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   // 재방문 / 성서 연구
   addLine(card, getB(rows, "4-8"), "wednesday-activity");
 
-  // 순감 부부
-  addPeople(card, rows, ["4-9"], "schedule-people wednesday-supervisor");
+   // 순감 부부
+   addPeople(card, rows, ["4-5"], "schedule-people wednesday-supervisor");
 
-  // 신청인
-  addPeople(card, rows, ["4-10"], "schedule-people wednesday-people");
+   // 신청인
+   addPeople(card, rows, ["4-6"], "schedule-people wednesday-people");
 
-  // 신청인
-  addPeople(card, rows, ["4-11"], "schedule-people wednesday-people");
+   // 추가 신청인 (한 줄 추가)
+   addPeople(card, rows, ["4-7"], "schedule-people wednesday-people");
 
-  // 신청인
-  addPeople(card, rows, ["4-12"], "schedule-people wednesday-people");
-}
+   // 오후 3:00 봉사 모임 장소
+   addLine(card, getB(rows, "4-8"), "wednesday-time");
+
+   // 호별 방문
+   addLine(card, getB(rows, "4-9"), "wednesday-activity");
+
+   // 순감 부부
+   addPeople(card, rows, ["4-10"], "schedule-people wednesday-supervisor");
+
+   // 신청인
+   addPeople(card, rows, ["4-11"], "schedule-people wednesday-people");
+
+   // 신청인
+   addPeople(card, rows, ["4-12"], "schedule-people wednesday-people");
+
+   // 순감 부부
+   addPeople(card, rows, ["4-13"], "schedule-people wednesday-supervisor");
 
  
   // 목요일
