@@ -6352,6 +6352,10 @@ function showStopReason() {
      순회 방문 주간
     </option>
 
+     <option value="특별 모임 입니다">
+     특별 모임
+    </option>
+
     <option value="삭제">
       중단 이유 삭제
     </option>
