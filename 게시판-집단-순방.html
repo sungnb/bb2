@@ -1734,13 +1734,23 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
     function addFridayStyledPart(timeSymbol, activitySymbol, peopleSymbols) {
       const timeText = getB(rows, timeSymbol);
 
-      if (timeText) {
-        const time = makeElement("div", "friday-time", "");
-        time.appendChild(
-          makeElement("span", "time-label", timeText.replace(/봉사\s*모임장소/g, "").trim())
-        );
-        card.appendChild(time);
-      }
+    if (timeText) {
+  const time = makeElement("div", "friday-time", "");
+
+  time.appendChild(
+    makeElement(
+      "span",
+      "time-label",
+      timeText.replace(/봉사\s*모임\s*장소/g, "").trim()
+    )
+  );
+
+  time.appendChild(
+    makeElement("span", "place-label", "봉사 모임 장소")
+  );
+
+  card.appendChild(time);
+}
 
       const activityText = getB(rows, activitySymbol);
       if (activityText) {
