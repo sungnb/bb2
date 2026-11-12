@@ -1211,6 +1211,55 @@ body.dark-mode .sunday-afternoon {
   color: red;
 }
 
+/* ===== 오전·오후 시간과 장소를 한 버튼에 위아래 두 줄로 표시 ===== */
+
+.schedule-time,
+.wednesday-time,
+.thursday-morning,
+.friday-card .friday-time,
+.saturday-time,
+.sunday-time {
+  width: calc(100% - 12px);
+  min-height: 68px;
+  margin: 6px 6px 0;
+  padding: 10px 8px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 7px;
+}
+
+.schedule-time .time-label,
+.wednesday-time .time-label,
+.thursday-morning .time-label,
+.friday-card .friday-time .time-label,
+.saturday-time .time-label,
+.sunday-time .time-label {
+  flex-shrink: 0;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.schedule-time .place-label,
+.wednesday-time .place-label,
+.thursday-morning .place-label,
+.friday-card .friday-time .place-label,
+.saturday-time .place-label,
+.sunday-time .place-label {
+  flex-shrink: 0;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
   
 </style>
 </head>
@@ -1382,6 +1431,41 @@ function makeElement(tag, className, text) {
   return element;
 }
 
+/* ===== 시간 + 장소 한 줄 버튼 ===== */
+
+function addTimeButton(parent, timeText, placeText, className) {
+
+  if (!timeText) return;
+
+  const button = makeElement("div", className, "");
+
+  button.appendChild(
+    makeElement(
+      "span",
+      "time-label",
+      String(timeText).trim()
+    )
+  );
+
+  if (placeText && String(placeText).trim()) {
+
+    let place = String(placeText).trim();
+
+    if (!place.startsWith("장소:")) {
+      place = "장소:" + place.replace(/\s+/g, "");
+    }
+
+    button.appendChild(
+      makeElement(
+        "span",
+        "place-label",
+        place
+      )
+    );
+  }
+
+  parent.appendChild(button);
+}  
 
 function addLine(
   parent,
@@ -1603,8 +1687,13 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
 
   card.appendChild(morning);
 
-  // 오후 1:30
-  addLine(card, getB(rows, "4-3"), "wednesday-time");
+ // 오후 1:30 + 봉사 모임 장소
+addTimeButton(
+  card,
+  getB(rows, "4-3"),
+  getC(rows, "4-3"),
+  "wednesday-time"
+);
 
   // 재방문 / 성서 연구
   addLine(card, getB(rows, "4-4"), "wednesday-activity");
@@ -1618,8 +1707,13 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
   // 한카이더 추가
   addPeople(card, rows, ["4-7"], "schedule-people wednesday-people");
 
-  // 오후 3:00 봉사 모임 장소
-  addLine(card, getB(rows, "4-8"), "wednesday-time");
+ // 오후 3:00 + 봉사 모임 장소
+addTimeButton(
+  card,
+  getB(rows, "4-8"),
+  getC(rows, "4-8"),
+  "wednesday-time"
+);
 
   // 호별 방문
   addLine(card, getB(rows, "4-9"), "wednesday-activity");
@@ -1645,8 +1739,13 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
       getC(rows, "5-1")
     );
 
-    // 오전 9:45
-    addLine(card, getB(rows, "5-2"), "thursday-morning");
+   // 오전 9:45 + 봉사 모임 장소
+addTimeButton(
+  card,
+  getB(rows, "5-2"),
+  getC(rows, "5-2"),
+  "thursday-morning"
+);
 
     // 공개증거 (전시대)
     addLine(card, getB(rows, "5-3"), "thursday-activity");
@@ -1676,8 +1775,13 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
 
     card.appendChild(morningPeople);
 
-    // 오후 1:30 봉사 모임 장소
-    addLine(card, getB(rows, "5-8"), "thursday-morning");
+   // 오후 1:30 + 봉사 모임 장소
+addTimeButton(
+  card,
+  getB(rows, "5-8"),
+  getC(rows, "5-8"),
+  "thursday-morning"
+);
 
     // 재방문 / 성서 연구
     addLine(card, getB(rows, "5-9"), "thursday-activity");
@@ -1731,20 +1835,22 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
 
     card.appendChild(header);
 
-    function addFridayStyledPart(timeSymbol, activitySymbol, peopleSymbols) {
-      const timeText = getB(rows, timeSymbol);
+   function addFridayStyledPart(timeSymbol, activitySymbol, peopleSymbols) {
 
-   if (timeText) {
-  const time = makeElement("div", "friday-time", "");
+  const timeText = getB(rows, timeSymbol);
+  const placeText = getC(rows, timeSymbol);
 
-  time.appendChild(
-    makeElement("span", "time-label", timeText)
-  );
+  if (timeText) {
 
-  card.appendChild(time);
-}
+    addTimeButton(
+      card,
+      timeText,
+      placeText,
+      "friday-time"
+    );
+  }
 
-      const activityText = getB(rows, activitySymbol);
+  const activityText = getB(rows, activitySymbol);
       if (activityText) {
         card.appendChild(
           makeElement("div", "friday-activity-button", activityText)
@@ -1804,8 +1910,13 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
       getC(rows, "7-1")
     );
 
-    // 오전 [AM 9:45]
-    addLine(card, getB(rows, "7-2"), "saturday-time");
+  // 오전 [AM 9:45] + 봉사 모임 장소
+addTimeButton(
+  card,
+  getB(rows, "7-2"),
+  getC(rows, "7-2"),
+  "saturday-time"
+);
 
     // 호별 방문
     addLine(card, getB(rows, "7-3"), "saturday-activity");
@@ -1866,8 +1977,13 @@ addLine(card, getB(rows, "3-3"), "schedule-activity");
       getC(rows, "8-1")
     );
 
-    // 오전 [AM 9:45]
-    addLine(card, getB(rows, "8-2"), "sunday-time");
+   // 오전 [AM 9:45] + 봉사 모임 장소
+addTimeButton(
+  card,
+  getB(rows, "8-2"),
+  getC(rows, "8-2"),
+  "sunday-time"
+);
 
     // 호별 방문
     addLine(card, getB(rows, "8-3"), "sunday-activity");
