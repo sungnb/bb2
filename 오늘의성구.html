@@ -705,20 +705,15 @@ function applyFontSize() {
 }
 
 
+
 function renderContent() {
   $("verseContent").innerHTML =
     `<div class="verse"></div>
-     <div class="reference"></div>
-     <div class="commentary-section">
-       <div class="section-title">오늘의 성구 해설</div>
-       <div class="commentary"></div>
-     </div>`;
+     <div class="commentary"></div>`;
 
   $("verseContent").querySelector(".verse").textContent =
-    verseText;
-
-  $("verseContent").querySelector(".reference").textContent =
-    referenceText ? "— " + referenceText : "";
+    verseText +
+    (referenceText ? " — " + referenceText : "");
 
   $("verseContent").querySelector(".commentary").textContent =
     commentaryText;
