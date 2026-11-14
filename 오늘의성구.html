@@ -561,12 +561,11 @@ const $ = id => document.getElementById(id);
 let verseText = "";
 let commentaryText = "";
 let referenceText = "";
-let readMode = "verse";
+let readMode = "all";
 let utterances = [];
 let currentIndex = 0;
 let isPaused = false;
 let selectedVoice = null;
-
 const now = new Date();
 
 const kst = new Date(now.toLocaleString("en-US", {
