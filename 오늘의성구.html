@@ -611,60 +611,90 @@ function cleanMarkdown(s) {
     .trim();
 }
 
+
 function parseDailyPage(markdown, date) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  const lines = markdown.replace(/\r/g,"")
-    .split("\n").map(x=>x.trim());
+  const lines = markdown.replace(/\r/g, "")
+    .split("\n")
+    .map(x => x.trim());
 
   const headingPattern = new RegExp(
-    "^#{1,6}\\s*" + month + "월\\s*" + day + "일(?:\\s|$)"
+    "^#{1,6}\\s*" + month + "월\\s*" + day +
+    "일(?:\\s+[월화수목금토일]요일)?\\s*$"
   );
 
-  let start = lines.findIndex(line => headingPattern.test(line));
+  let start = lines.findIndex(line =>
+    headingPattern.test(line)
+  );
 
   if (start < 0) {
-    start = lines.findIndex(line =>
-      new RegExp("^" + month + "월\\s*" + day +
-      "일\\s*[월화수목금토일]요일?$").test(line)
+    throw new Error(
+      month + "월 " + day + "일 날짜 제목을 찾지 못했습니다."
     );
-  }
-
-  if (start < 0) {
-    throw new Error("오늘 날짜의 성구를 찾지 못했습니다.");
   }
 
   const section = [];
 
-  for (let i=start+1;i<lines.length;i++) {
-    if (/^#{1,6}\s*\d{1,2}월\s*\d{1,2}일/.test(lines[i])) break;
-    if (/날마다 성경을 검토함/.test(lines[i])) break;
-    if (lines[i]) section.push(lines[i]);
+  for (let i = start + 1; i < lines.length; i++) {
+    if (/^#{1,6}\s*\d{1,2}월\s*\d{1,2}일/.test(lines[i])) {
+      break;
+    }
+
+    if (/날마다 성경을 검토함/.test(lines[i])) {
+      break;
+    }
+
+    if (lines[i]) {
+      section.push(lines[i]);
+    }
   }
 
-  const verseLineIndex = section.findIndex(x =>
-    /【\d+†/.test(x) || /—\s*[【\[]/.test(x)
+  const verseLineIndex = section.findIndex(line =>
+    /【\d+†/.test(line) ||
+    /—\s*\[/.test(line)
   );
 
   if (verseLineIndex < 0) {
-    throw new Error("성구 본문을 구분하지 못했습니다.");
+    throw new Error("해당 날짜의 성구 본문을 찾지 못했습니다.");
   }
 
   const rawVerse = section[verseLineIndex];
-  const refMatch = rawVerse.match(/【\d+†([^】]+)】/);
 
-  referenceText = refMatch ? cleanMarkdown(refMatch[1]) : "";
-
-  verseText = cleanMarkdown(
-    rawVerse.replace(/—\s*【\d+†[^】]+】\.?/g,"")
+  const refMatch = rawVerse.match(
+    /【\d+†([^】]+)】/
   );
 
-  commentaryText = section.slice(verseLineIndex+1)
-    .map(cleanMarkdown).filter(Boolean).join("\n\n");
+  const markdownRefMatch = rawVerse.match(
+    /—\s*\[([^\]]+)\]\((https?:\/\/[^)]+)\)/
+  );
+
+  referenceText = refMatch
+    ? cleanMarkdown(refMatch[1])
+    : markdownRefMatch
+      ? markdownRefMatch[1]
+      : "";
+
+  verseText = cleanMarkdown(
+    rawVerse
+      .replace(/—\s*【\d+†[^】]+】\.?/g, "")
+      .replace(/—\s*\[[^\]]+\]\(https?:\/\/[^)]+\)\.?/g, "")
+  );
+
+  commentaryText = section
+    .slice(verseLineIndex + 1)
+    .map(cleanMarkdown)
+    .filter(Boolean)
+    .join("\n\n");
+
+  if (!verseText || !commentaryText) {
+    throw new Error("성구 또는 해설을 완전히 추출하지 못했습니다.");
+  }
 
   renderContent();
 }
+
 
 function applyFontSize() {
   const verse = $("verseContent").querySelector(".verse");
