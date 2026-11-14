@@ -612,6 +612,7 @@ function cleanMarkdown(s) {
 }
 
 
+
 function parseDailyPage(markdown, date) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -652,8 +653,7 @@ function parseDailyPage(markdown, date) {
   }
 
   const verseLineIndex = section.findIndex(line =>
-    /【\d+†/.test(line) ||
-    /—\s*\[/.test(line)
+    /—\s*_?\[/.test(line)
   );
 
   if (verseLineIndex < 0) {
@@ -662,24 +662,19 @@ function parseDailyPage(markdown, date) {
 
   const rawVerse = section[verseLineIndex];
 
-  const refMatch = rawVerse.match(
-    /【\d+†([^】]+)】/
-  );
-
   const markdownRefMatch = rawVerse.match(
-    /—\s*\[([^\]]+)\]\((https?:\/\/[^)]+)\)/
+    /—\s*_?\[_?([^\]]+?)_?\]\((https?:\/\/[^)]+)\)/
   );
 
-  referenceText = refMatch
-    ? cleanMarkdown(refMatch[1])
-    : markdownRefMatch
-      ? markdownRefMatch[1]
-      : "";
+  referenceText = markdownRefMatch
+    ? cleanMarkdown(markdownRefMatch[1])
+    : "";
 
   verseText = cleanMarkdown(
-    rawVerse
-      .replace(/—\s*【\d+†[^】]+】\.?/g, "")
-      .replace(/—\s*\[[^\]]+\]\(https?:\/\/[^)]+\)\.?/g, "")
+    rawVerse.replace(
+      /—\s*_?\[_?[^\]]+?_?\]\(https?:\/\/[^)]+\)_?\.?/g,
+      ""
+    )
   );
 
   commentaryText = section
@@ -694,6 +689,7 @@ function parseDailyPage(markdown, date) {
 
   renderContent();
 }
+
 
 
 function applyFontSize() {
