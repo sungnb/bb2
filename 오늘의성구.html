@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#18324a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>오늘의 성구 읽기</title>
+<style>
+html {
+  background: #18324a;
+}
+
+:root{
+  --navy:#18324a;--bg:#f2f5f8;--card:#fff;
+  --text:#203246;--muted:#6b7b8b;--line:#e1e7ed;
+  --accent:#2e6f9e;--soft:#eaf2f8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  line-height:1.65;
+
+  /* 화면 전체 높이 고정 */
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  height:100dvh;
+
+  /* 화면 전체 스크롤 방지 */
+  overflow:hidden;
+}
+  
+body.dark{
+  --bg:#101820;--card:#1b2833;--text:#edf3f8;
+  --muted:#aab8c5;--line:#344452;--accent:#8fc5ed;--soft:#263b4c;
+}
+  
+header{
+  position:relative;
+  z-index:10;
+  flex-shrink:0;
+
+  background:#18324a !important;
+  color:white;
+  padding:calc(env(safe-area-inset-top) + 6px) 16px 6px;
+}
+  
+.head-inner{
+  max-width:760px;margin:auto;display:flex;
+  align-items:center;justify-content:space-between
+}
+.brand{font-size:19px;font-weight:800}
+.head-actions{display:flex;gap:8px}
+.icon-btn{
+  width:42px;height:42px;border:1px solid #ffffff40;
+  border-radius:12px;background:#ffffff19;color:white;
+  font-size:19px;cursor:pointer
+}
+main{
+  width:min(100% - 24px,700px);
+  margin:0 auto;
+
+  /* 남는 화면을 본문 영역으로 사용 */
+  flex:1;
+  min-height:0;
+
+  /* 본문에서만 스크롤 */
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+
+  padding-top:2px;
+  padding-bottom:calc(80px + env(safe-area-inset-bottom));
+}
+.date-line{
+  display:flex;justify-content:space-between;
+  margin:0 2px 14px;color:var(--muted);
+  font-size:14px;font-weight:650
+}
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:18px;padding:20px 18px;margin-bottom:14px;
+  box-shadow:0 5px 20px #19365012
+}
+.kicker{
+  display:inline-block;background:var(--soft);color:var(--accent);
+  border-radius:999px;padding:5px 11px;font-size:12px;font-weight:800
+}
+h1{font-size:24px;line-height:1.35;margin:13px 0 10px}
+.verse{
+  font-size:23px;line-height:1.85;font-weight:700;
+  white-space:pre-wrap;word-break:keep-all
+}
+.reference{margin-top:13px;color:var(--accent);font-size:15px;font-weight:750}
+.section-title{font-size:17px;font-weight:850;margin:0 0 14px}
+.commentary{font-size:19px;line-height:1.95;white-space:pre-wrap}
+.player-main{
+  display:flex;align-items:center;justify-content:center;
+  gap:20px;margin:10px 0 12px
+}
+.play-btn{
+  width:72px;height:72px;border:0;border-radius:50%;
+  background:var(--navy);color:white;font-size:29px;cursor:pointer
+}
+.small-control{
+  width:48px;height:48px;border:1px solid var(--line);
+  border-radius:50%;background:var(--soft);color:var(--text);
+  font-size:20px;cursor:pointer
+}
+.player-label{text-align:center;color:var(--muted);font-size:13px;margin-bottom:14px}
+.mode-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode-btn{
+  min-height:46px;border:1px solid var(--line);
+  border-radius:12px;background:var(--card);
+  color:var(--text);font-size:14px;font-weight:750
+}
+.mode-btn.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.speed-top{display:flex;justify-content:space-between;font-size:14px;font-weight:700}
+.speed-wrap{margin-top:17px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.speed-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.action-row{display:flex;gap:9px;margin-top:15px}
+.action-btn{
+  flex:1;min-height:46px;border:1px solid var(--line);
+  border-radius:12px;background:var(--soft);
+  color:var(--text);font-weight:750;font-size:14px
+}
+.action-btn.primary{background:var(--navy);color:white}
+.settings{display:none;margin-top:12px}
+.settings.open{display:block}
+.setting-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 0;border-top:1px solid var(--line);font-size:14px
+}
+select{
+  max-width:60%;padding:9px;border:1px solid var(--line);
+  border-radius:9px;background:var(--bg);color:var(--text)
+}
+.note{color:var(--muted);font-size:12px;line-height:1.65}
+.error{
+  background:#fff4f2;color:#9c392c;border:1px solid #f1d1ca;
+  border-radius:13px;padding:14px;font-size:14px
+}
+body.dark .error{background:#422b2b;color:#ffd7d1}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:10px 0 24px}
+@media(min-width:600px){
+  main{margin-top:26px}
+  .verse{font-size:25px}
+}
+
+/* ===== 상단 헤더 ===== */
+
+.head-inner {
+  position: relative;
+  max-width: 760px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+}
+
+.brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.icon-btn {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #9db2c4;
+  border-radius: 10px;
+  background: #234563;
+  color: #ffffff;
+  font-size: 25px;
+}
+
+/* ===== 날짜 이동 ===== */
+
+.date-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+  padding: 10px 4px;
+}
+
+.date-navigation button {
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 30px;
+  font-weight: 750;
+  padding: 8px 4px;
+}
+
+#selectedDateLabel {
+  font-size: 30px;
+  font-weight: 850;
+  color: var(--text);
+}
+
+#selectedDateLabel.is-today {
+  font-size: 30px;
+  font-weight: 900;
+}
+  
+/* ===== 성구 본문 ===== */
+
+.verse-card {
+  min-height: 180px;
+  padding: 22px 18px;
+}
+
+.verse {
+ font-size: var(--verse-font-size, 23px);
+  line-height: 1.9;
+  font-weight: 700;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.reference {
+  margin-top: 18px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+/* ===== 하단 고정 음성 버튼 ===== */
+
+.bottom-player {
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+
+  height: calc(42px + env(safe-area-inset-bottom));
+  padding: 6px 16px;
+  padding-bottom: calc(6px + env(safe-area-inset-bottom));
+
+  background: #18324a !important;
+  border-top: 1px solid #ffffff40;
+}
+
+.bottom-player button {
+  box-sizing: border-box;
+  border: 1px solid #ffffff40;
+  background: #ffffff19;
+  color: white;
+  flex-shrink: 0;
+}
+
+.bottom-player .play-btn {
+  width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  background: #ffffff19;
+  color: white;
+  font-size: 18px;
+}
+
+.bottom-player .small-control {
+  width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  background: #ffffff19;
+  color: white;
+  font-size: 18px;
+}
+
+/* ===== 설정 팝업 ===== */
+
+.settings-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  background: #0009;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.settings-overlay.open {
+  display: flex;
+}
+
+.settings-popup {
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+
+  padding: 22px 20px;
+  border-radius: 20px;
+
+  background: var(--card);
+  color: var(--text);
+
+  box-shadow: 0 12px 40px #0004;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  font-size: 18px;
+}
+
+.settings-header button {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 22px;
+}
+
+.setting-title {
+  font-size: 15px;
+  font-weight: 850;
+  margin: 20px 0 10px;
+}
+
+.voice-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.setting-btn,
+.speed-btn {
+  min-height: 45px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--soft);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.setting-btn.active,
+.speed-btn.active {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+
+.speed-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.speed-btn {
+  padding: 8px 2px;
+}
+
+/* 글자 크기 버튼 간격 */
+.settings-popup .font-btn {
+  font-size: 13px;
+  padding: 8px 2px;
+}
+
+/* 설정창 하단 닫기 버튼 */
+.close-settings-bottom {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 11px;
+  background: #c49a3a;
+  color: white;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+/* ===== 어두운 화면 ===== */
+
+body.dark .settings-popup {
+  background: var(--card);
+  color: var(--text);
+}
+
+body.dark .setting-btn.active,
+body.dark .speed-btn.active {
+  background: #315d7a;
+  border-color: #315d7a;
+  color: white;
+}
+
+
+/* ===== 작은 화면 ===== */
+
+@media(max-width:360px) {
+  .brand {
+    font-size: 17px;
+  }
+
+  .bottom-player {
+    gap: 22px;
+  }
+
+  .verse {
+    font-size: 21px;
+  }
+}  
+  
+</style>
+</head>
+
+<body>
+<header>
+  <div class="head-inner">
+    <button class="icon-btn" id="backBtn" aria-label="뒤로가기">
+      ‹
+    </button>
+
+    <div class="brand">오늘의 성구</div>
+
+    <button class="icon-btn" id="settingsBtn" aria-label="설정">
+      ⚙
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <div class="date-navigation">
+
+   <button id="prevDateBtn">‹</button>
+
+<button id="selectedDateLabel" type="button">
+  오늘
+</button>
+
+<button id="nextDateBtn">›</button>
+
+  </div>
+
+  <section class="card verse-card">
+    <div id="verseContent">
+      오늘의 성구를 불러오고 있습니다.
+    </div>
+  </section>
+
+  <div id="errorArea"></div>
+
+</main>
+
+<!-- 하단 고정 음성 버튼 -->
+<div class="bottom-player">
+
+  <button class="small-control" id="restartBtn">
+    ↺
+  </button>
+
+  <button class="play-btn" id="playBtn">
+    ▶
+  </button>
+
+  <button class="small-control" id="stopBtn">
+    ■
+  </button>
+
+</div>
+  
+<!-- 설정 팝업 -->
+<div class="settings-overlay" id="settingsOverlay">
+
+  <div class="settings-popup">
+
+    <div class="voice-buttons">
+      <button class="setting-btn active" id="maleVoiceBtn">
+        남성
+      </button>
+
+      <button class="setting-btn" id="femaleVoiceBtn">
+        여성
+      </button>
+    </div>
+
+    <div class="setting-title">읽기 속도</div>
+
+    <div class="speed-buttons">
+      <button class="speed-btn" data-speed="0.5">0.5</button>
+      <button class="speed-btn" data-speed="0.8">0.8</button>
+      <button class="speed-btn active" data-speed="1.0">1.0</button>
+      <button class="speed-btn" data-speed="1.2">1.2</button>
+      <button class="speed-btn" data-speed="1.5">1.5</button>
+    </div>
+
+    <div class="voice-buttons">
+      <button class="setting-btn" id="lightBtn">
+        ☀ 밝게
+      </button>
+
+      <button class="setting-btn" id="darkBtn">
+        ☾ 어둡게
+      </button>
+    </div>
+
+    <div class="setting-title">글자 크기</div>
+
+    <div class="speed-buttons">
+      <button class="speed-btn font-btn" data-size="17">작게</button>
+      <button class="speed-btn font-btn active" data-size="19">보통</button>
+      <button class="speed-btn font-btn" data-size="21">크게</button>
+      <button class="speed-btn font-btn" data-size="23">아주 크게</button>
+    </div>
+
+    <button id="closeSettingsBottomBtn" class="close-settings-bottom">
+      닫기
+    </button>
+
+  </div>
+
+</div>
+  
+<script>
+(() => {
+"use strict";
+
+function getWolUrl(date) {
+  const y = date.getFullYear();
+  const m = date.getMonth()+1;
+  const d = date.getDate();
+
+  return `https://wol.jw.org/ko/wol/dt/r8/lp-ko/${y}/${m}/${d}`;
+}
+
+function getReaderUrl(date) {
+  return "https://r.jina.ai/" + getWolUrl(date);
+}
+const $ = id => document.getElementById(id);
+
+let verseText = "";
+let commentaryText = "";
+let referenceText = "";
+let readMode = "verse";
+let utterances = [];
+let currentIndex = 0;
+let isPaused = false;
+let selectedVoice = null;
+
+const now = new Date();
+
+const kst = new Date(now.toLocaleString("en-US", {
+  timeZone:"Asia/Seoul"
+}));
+
+const selectedDate = new Date(kst);
+
+const weekdays = ["일","월","화","수","목","금","토"];
+
+function formatDate(date) {
+  return `${date.getFullYear()}년 ${
+    date.getMonth()+1
+  }월 ${date.getDate()}일 ${weekdays[date.getDay()]}요일`;
+}
+
+function renderDateNavigation() {
+  const isToday =
+    selectedDate.toDateString() === kst.toDateString();
+
+  $("prevDateBtn").textContent = "‹";
+
+  $("selectedDateLabel").textContent =
+    isToday ? "오늘" : formatDate(selectedDate);
+
+  $("selectedDateLabel").classList.toggle(
+    "is-today",
+    isToday
+  );
+
+  $("nextDateBtn").textContent = "›";
+}
+renderDateNavigation();
+
+function cleanMarkdown(s) {
+  return s
+    .replace(/!\[[^\]]*\]\([^)]*\)/g,"")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g,"$1")
+    .replace(/【\d+†([^】]+)】/g,"$1")
+    .replace(/[*_`#]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function parseDailyPage(markdown, date) {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  const lines = markdown.replace(/\r/g,"")
+    .split("\n").map(x=>x.trim());
+
+  const headingPattern = new RegExp(
+    "^#{1,6}\\s*" + month + "월\\s*" + day + "일(?:\\s|$)"
+  );
+
+  let start = lines.findIndex(line => headingPattern.test(line));
+
+  if (start < 0) {
+    start = lines.findIndex(line =>
+      new RegExp("^" + month + "월\\s*" + day +
+      "일\\s*[월화수목금토일]요일?$").test(line)
+    );
+  }
+
+  if (start < 0) {
+    throw new Error("오늘 날짜의 성구를 찾지 못했습니다.");
+  }
+
+  const section = [];
+
+  for (let i=start+1;i<lines.length;i++) {
+    if (/^#{1,6}\s*\d{1,2}월\s*\d{1,2}일/.test(lines[i])) break;
+    if (/날마다 성경을 검토함/.test(lines[i])) break;
+    if (lines[i]) section.push(lines[i]);
+  }
+
+  const verseLineIndex = section.findIndex(x =>
+    /【\d+†/.test(x) || /—\s*[【\[]/.test(x)
+  );
+
+  if (verseLineIndex < 0) {
+    throw new Error("성구 본문을 구분하지 못했습니다.");
+  }
+
+  const rawVerse = section[verseLineIndex];
+  const refMatch = rawVerse.match(/【\d+†([^】]+)】/);
+
+  referenceText = refMatch ? cleanMarkdown(refMatch[1]) : "";
+
+  verseText = cleanMarkdown(
+    rawVerse.replace(/—\s*【\d+†[^】]+】\.?/g,"")
+  );
+
+  commentaryText = section.slice(verseLineIndex+1)
+    .map(cleanMarkdown).filter(Boolean).join("\n\n");
+
+  renderContent();
+}
+
+function applyFontSize() {
+  const verse = $("verseContent").querySelector(".verse");
+
+  const selectedButton =
+    document.querySelector(".font-btn.active");
+
+  if (verse && selectedButton) {
+    verse.style.fontSize =
+      selectedButton.dataset.size + "px";
+  }
+}
+
+function renderContent() {
+  $("verseContent").innerHTML =
+    `<div class="verse"></div>
+     <div class="reference"></div>`;
+
+  $("verseContent").querySelector(".verse").textContent =
+    verseText;
+
+  $("verseContent").querySelector(".reference").textContent =
+    referenceText ? "— " + referenceText : "";
+
+  applyFontSize();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+async function loadDaily() {
+  try {
+    $("errorArea").innerHTML = "";
+
+    $("verseContent").textContent =
+      "성구를 불러오는 중입니다.";
+
+    const response = await fetch(
+      getReaderUrl(selectedDate),
+      {cache:"no-store"}
+    );
+
+    if (!response.ok) {
+      throw new Error("자료 서버 응답 오류");
+    }
+
+    const text = await response.text();
+
+    parseDailyPage(text, selectedDate);
+
+  } catch(err) {
+
+    $("errorArea").innerHTML =
+      `<div class="error">
+        성구를 불러오지 못했습니다.<br>
+        ${escapeHtml(err.message)}<br><br>
+        <a href="${getWolUrl(selectedDate)}"
+           target="_blank">
+          원본 페이지 확인하기 ↗
+        </a>
+      </div>`;
+  }
+}
+
+let selectedGender = "male";
+let readSpeed = 1.0;
+
+function loadVoices() {
+  if (!("speechSynthesis" in window)) return;
+
+  const voices = speechSynthesis.getVoices();
+
+  // 음성 목록이 준비되었는지만 확인합니다.
+  // 페이지를 처음 열 때는 남성 음성을 선택하지 않습니다.
+  if (!voices.length) return;
+}
+function selectVoice(gender) {
+  const voices = speechSynthesis.getVoices();
+
+  const korean = voices.filter(v =>
+    /^ko([-_]|$)/i.test(v.lang)
+  );
+
+  if (!korean.length) {
+    selectedVoice = null;
+    alert("기기에서 한국어 음성을 찾지 못했습니다.");
+    return;
+  }
+
+  const malePattern =
+    /male|man|남성|injoon|inho|minjun/i;
+
+  const femalePattern =
+    /female|woman|여성|sunhi|heami|yuna|seoyeon/i;
+
+  const pattern = gender === "male"
+    ? malePattern
+    : femalePattern;
+
+  const candidates = korean.filter(v =>
+    pattern.test(v.name)
+  );
+
+  if (!candidates.length) {
+    selectedVoice = null;
+
+    alert(
+      gender === "male"
+        ? "남성 한국어 음성을 찾지 못했습니다."
+        : "여성 한국어 음성을 찾지 못했습니다."
+    );
+
+    return;
+  }
+
+  selectedVoice = candidates[0];
+  selectedGender = gender;
+}
+  function getReadText() {
+  if (readMode === "verse") return verseText;
+  return [verseText,commentaryText].filter(Boolean).join("\n\n");
+}
+
+function speakNext() {
+ if (currentIndex >= utterances.length) {
+  $("playBtn").textContent = "▶";
+  isPaused = false;
+  return;
+}
+
+  const u = new SpeechSynthesisUtterance(utterances[currentIndex]);
+
+  u.lang = "ko-KR";
+ u.rate = readSpeed;
+  u.pitch = 1;
+
+  if (selectedVoice) u.voice = selectedVoice;
+
+  u.onend = () => {
+    if (!isPaused) {
+      currentIndex++;
+      speakNext();
+    }
+  };
+
+u.onerror = e => {
+  $("playBtn").textContent = "▶";
+  isPaused = false;
+  console.error("음성 재생 오류:", e.error);
+};
+
+speechSynthesis.speak(u);
+}
+
+function speakFrom(index=0) {
+  if (!("speechSynthesis" in window)) {
+    return;
+  }
+
+  const text = getReadText();
+
+  if (!text) {
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  utterances = text.split(/(?<=[.!?。？！])\s+/)
+    .map(s=>s.trim()).filter(Boolean);
+
+  currentIndex = index;
+  isPaused = false;
+
+  $("playBtn").textContent = "Ⅱ";
+
+  speakNext();
+}
+
+function stopSpeech() {
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+
+  isPaused = false;
+  $("playBtn").textContent = "▶";
+}
+
+// 재생 버튼
+$("playBtn").onclick = () => {
+  if (!verseText) return;
+
+  if (speechSynthesis.speaking && !speechSynthesis.paused) {
+    speechSynthesis.pause();
+    isPaused = true;
+    $("playBtn").textContent = "▶";
+  } else if (speechSynthesis.paused) {
+    speechSynthesis.resume();
+    isPaused = false;
+    $("playBtn").textContent = "Ⅱ";
+  } else {
+    speakFrom(0);
+  }
+};
+
+// 처음부터 다시 읽기
+$("restartBtn").onclick = () => {
+  speakFrom(0);
+};
+
+// 정지
+$("stopBtn").onclick = stopSpeech;
+
+// 뒤로가기
+$("backBtn").onclick = () => {
+  history.back();
+};
+// 어제 날짜로 이동
+$("prevDateBtn").onclick = () => {
+  stopSpeech();
+
+  selectedDate.setDate(selectedDate.getDate() - 1);
+
+  renderDateNavigation();
+  loadDaily();
+};
+
+// 내일 날짜로 이동
+$("nextDateBtn").onclick = () => {
+  stopSpeech();
+
+  selectedDate.setDate(selectedDate.getDate() + 1);
+
+  renderDateNavigation();
+  loadDaily();
+};
+
+// 오늘 날짜로 돌아오기
+$("selectedDateLabel").onclick = () => {
+  stopSpeech();
+
+  selectedDate.setTime(kst.getTime());
+
+  renderDateNavigation();
+  loadDaily();
+};
+  
+// 읽기 속도 선택
+document.querySelectorAll(".speed-btn[data-speed]").forEach(btn => {
+  btn.onclick = () => {
+    readSpeed = Number(btn.dataset.speed);
+
+    document.querySelectorAll(".speed-btn[data-speed]")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+  };
+});
+
+// 글자 크기 선택
+document.querySelectorAll(".font-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".font-btn")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    applyFontSize();
+  };
+});
+
+// 설정창 열기
+$("settingsBtn").onclick = () => {
+  $("settingsOverlay").classList.add("open");
+};
+
+// 설정창 닫기
+$("closeSettingsBottomBtn").onclick = () => {
+  $("settingsOverlay").classList.remove("open");
+};
+
+// 남성 음성 선택
+$("maleVoiceBtn").onclick = () => {
+  stopSpeech();
+  selectVoice("male");
+
+  if (selectedVoice) {
+    $("maleVoiceBtn").classList.add("active");
+    $("femaleVoiceBtn").classList.remove("active");
+  }
+};
+
+// 여성 음성 선택
+$("femaleVoiceBtn").onclick = () => {
+  stopSpeech();
+  selectVoice("female");
+
+  if (selectedVoice) {
+    $("femaleVoiceBtn").classList.add("active");
+    $("maleVoiceBtn").classList.remove("active");
+  }
+};
+
+// 밝은 화면
+$("lightBtn").onclick = () => {
+  document.body.classList.remove("dark");
+  $("lightBtn").classList.add("active");
+  $("darkBtn").classList.remove("active");
+};
+
+// 어두운 화면
+$("darkBtn").onclick = () => {
+  document.body.classList.add("dark");
+  $("darkBtn").classList.add("active");
+  $("lightBtn").classList.remove("active");
+};
+
+// 글자 크기는 글자 크기 버튼에서 직접 변경합니다.
+  
+// 음성 불러오기
+if ("speechSynthesis" in window) {
+  speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+}
+
+// 오늘의 성구 불러오기
+loadDaily();
+
+})();
+</script>
+</body>
+</html>
