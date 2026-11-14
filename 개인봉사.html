@@ -1464,6 +1464,99 @@ function load(){
 
 }
 
+/* ==========================================
+   휴대폰에서 136번을 앱 화면 안에 표시
+========================================== */
+
+function open136InsideApp(event){
+
+  event.preventDefault();
+
+  if(document.getElementById("card136Overlay")){
+    return;
+  }
+
+  const previousOverflow =
+    document.body.style.overflow;
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.id = "card136Overlay";
+
+  overlay.style.cssText =
+    "position:fixed;" +
+    "inset:0;" +
+    "width:100%;" +
+    "height:100%;" +
+    "z-index:2147483000;" +
+    "background:#0f1115;";
+
+  const frame =
+    document.createElement("iframe");
+
+  frame.src =
+    "https://bukbu.github.io/100/136.html";
+
+  frame.title = "136번 개인구역";
+
+  frame.style.cssText =
+    "display:block;" +
+    "width:100%;" +
+    "height:100%;" +
+    "height:100dvh;" +
+    "border:0;" +
+    "background:#0f1115;";
+
+  function close136(){
+
+    overlay.remove();
+
+    document.body.style.overflow =
+      previousOverflow;
+
+  }
+
+  overlay.appendChild(frame);
+
+  document.body.appendChild(overlay);
+
+  document.body.style.overflow = "hidden";
+
+  frame.addEventListener("load", function(){
+
+    try{
+
+      const backButton =
+        frame.contentDocument.querySelector(".home-btn");
+
+      if(backButton){
+
+        backButton.onclick = function(e){
+
+          e.preventDefault();
+
+          close136();
+
+        };
+
+        backButton.setAttribute(
+          "aria-label",
+          "개인봉사로 돌아가기"
+        );
+
+      }
+
+    }catch(error){
+
+      console.error("136번 화면 연결 오류:", error);
+
+    }
+
+  });
+
+}
+
 
 /* ==========================================
    RENDER
@@ -1539,7 +1632,7 @@ function render(result){
         "https://docs.google.com/spreadsheets/d/13iF9EDGobrhQC63Jiqwsjk8qU_KTSwUSSgvVP24herw/edit?usp=drive_link",
 
       "136":
-        "https://docs.google.com/spreadsheets/d/1zfMZhKyUjqcGLcCrxk7TBpXktbMjmTR68JveiyZOtpM/edit?gid=77788459",
+           "https://bukbu.github.io/100/136.html",
 
       "301":
         "https://docs.google.com/spreadsheets/d/1PSkImH6xXoFGDsEw-Vt1FOn8WZ7jXXniFNssQsfDf7U/edit?gid=77788459",
@@ -1565,17 +1658,17 @@ function render(result){
     };
 
 
-    const numberKey =
-      String(x.number ?? "").trim();
+   const numberKey =
+  String(x.number ?? "").trim();
 
 
-    const numClass = "num";
+const numClass = "num";
 
 
-    const numberLink =
-      x.linkUrl ||
-      actualLinks[numberKey] ||
-      "";
+const numberLink =
+  actualLinks[numberKey] ||
+  x.linkUrl ||
+  "";
 
 
     html += `
@@ -1586,15 +1679,12 @@ function render(result){
 
           <div class="${numClass}">
 
-            <a
-              href="${esc(numberLink)}"
-              target="_blank"
-              rel="noopener">
+           <a
+              href="${esc(numberLink)}">
 
               ${number}
 
             </a>
-
           </div>
 
 
@@ -1669,9 +1759,28 @@ function render(result){
   }
 
 
-  app.className = "";
+   app.className = "";
 
   app.innerHTML = html;
+
+  // 휴대폰에서 136번만 앱 내부 화면으로 열기
+  if(window.matchMedia("(max-width: 767px)").matches){
+
+    const link136 =
+      app.querySelector(
+        'a[href="https://bukbu.github.io/100/136.html"]'
+      );
+
+    if(link136){
+
+      link136.addEventListener(
+        "click",
+        open136InsideApp
+      );
+
+    }
+
+  }
 
 }
 
