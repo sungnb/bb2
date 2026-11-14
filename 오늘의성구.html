@@ -745,9 +745,12 @@ async function loadDaily() {
       throw new Error("자료 서버 응답 오류");
     }
 
-    const text = await response.text();
+   const text = await response.text();
 
-    parseDailyPage(text, selectedDate);
+console.log("선택 날짜:", formatDate(selectedDate));
+console.log("원본 페이지 내용:", text);
+
+parseDailyPage(text, selectedDate);
 
   } catch(err) {
 
