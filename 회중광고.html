@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <title>회중광고</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+      color: #222;
+      background: #f3f4f6;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding-top: 62px;
+      padding-bottom: 24px;
+      background: #fff;
+    }
+
+    /* 상단 고정 메뉴 */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 62px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      background: #193650;
+      color: #fff;
+      text-align: center;
+    }
+
+    .main-title {
+      margin: 0;
+      padding: 0;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 40px;
+      white-space: nowrap;
+    }
+
+    .top-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 10px;
+      background: transparent;
+      color: #fff;
+      font-size: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .back-button {
+      left: 10px;
+    }
+
+    .settings-button {
+      right: 10px;
+    }
+
+    /* 본문 */
+   #content {
+  width: 100%;
+  padding: 18px 10px 80px;
+}
+
+    /* 월별 광고 박스 */
+    .notice-month {
+      margin: 0 0 18px;
+      padding: 12px 10px;
+      border: 5px solid #AEB6BF;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .notice-month-title {
+      margin: 0 0 12px;
+      padding: 8px 4px;
+      border-bottom: 2px solid #193650;
+      color: #193650;
+      font-size: 25px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .notice-section {
+      margin: 0 0 14px;
+      padding: 0;
+    }
+
+    .notice-section-title {
+      margin: 0 0 8px;
+      padding: 8px 10px;
+      border-radius: 7px;
+      background: #edf2f7;
+      color: #193650;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .notice-text {
+      margin: 0;
+      padding: 5px 8px;
+      color: #222;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.7;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    .numbered-notice {
+      padding-left: 8px;
+    }
+
+/* =========================================================
+   하단 메뉴 - 일요일과 동일한 디자인
+========================================================= */
+
+.group-top-buttons {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 60px;
+  z-index: 1000;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  background: #18324a;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.group-top-buttons button {
+  border: 0;
+  background: transparent;
+  color: #fff;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.group-top-buttons button:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,.25);
+}
+
+    /* 설정창 */
+    .settings-panel {
+      display: none;
+      position: fixed;
+      top: 85px;
+      right: 14px;
+      width: 328px;
+      max-width: calc(100vw - 20px);
+      padding: 17px;
+      z-index: 1100;
+      border: 1px solid #dedfe5;
+      border-radius: 22px;
+      background: #fff;
+      color: #222;
+      box-shadow: 0 14px 32px rgba(0,0,0,.18);
+    }
+
+    .settings-panel.show {
+      display: block;
+    }
+
+    .settings-theme-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .theme-btn {
+      min-width: 0;
+      height: 59px;
+      padding: 0 6px;
+      border: 1px solid #dce0e7;
+      border-radius: 16px;
+      background: #f5f6f8;
+      color: #222;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .theme-btn.active {
+      background: #eeeaff;
+      border-color: #7566ff;
+      color: #40348d;
+    }
+
+    .settings-font-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 72px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .font-btn,
+    .font-size {
+      height: 59px;
+      min-width: 0;
+      border: 1px solid #dce0e7;
+      border-radius: 16px;
+      background: #f5f6f8;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .font-btn {
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .font-size {
+      font-size: 21px;
+    }
+
+    /* 어두운 모드 */
+    body.dark-mode {
+      background: #202124;
+      color: #f1f3f4;
+    }
+
+    body.dark-mode .page {
+      background: #303134;
+    }
+
+    body.dark-mode #content,
+    body.dark-mode #content * {
+      color: #fff;
+    }
+
+    body.dark-mode .notice-month {
+      background: #292d31;
+      border-color: #858585;
+    }
+
+    body.dark-mode .notice-month-title {
+      border-color: #7898b8;
+    }
+
+    body.dark-mode .notice-section-title {
+      background: #39434d;
+    }
+
+    body.dark-mode .settings-panel {
+      background: #202020;
+      color: #f5f5f5;
+      border-color: #404040;
+    }
+
+    body.dark-mode .settings-panel .theme-btn,
+    body.dark-mode .settings-panel .font-btn,
+    body.dark-mode .settings-panel .font-size {
+      background: #202020;
+      color: #eee;
+      border-color: #505050;
+    }
+
+    body.dark-mode .settings-panel .theme-btn.active {
+      background: #302b50;
+      border-color: #7566ff;
+      color: #fff;
+    }
+
+    @media (max-width: 360px) {
+      .main-title {
+        font-size: 26px;
+      }
+
+      .group-top-buttons button {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- 상단 고정 메뉴 -->
+    <header class="fixed-header">
+
+      <button type="button"
+        class="top-button back-button"
+        onclick="location.href='index.html'"
+        aria-label="홈으로">‹</button>
+
+      <div class="main-title">회중광고</div>
+
+      <button type="button"
+        class="top-button settings-button"
+        onclick="toggleSettings()"
+        aria-label="설정">⚙</button>
+
+    </header>
+
+    <!-- 광고 내용 -->
+    <main id="content">
+
+      <div class="loading-message">
+        회중 광고를 불러오는 중입니다...
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- 설정창 -->
+  <div id="settingsPanel" class="settings-panel">
+
+    <div class="settings-theme-row">
+
+      <button type="button"
+        id="lightBtn"
+        class="theme-btn"
+        onclick="setTheme('light')">
+        ☀ 밝게
+      </button>
+
+      <button type="button"
+        id="darkBtn"
+        class="theme-btn"
+        onclick="setTheme('dark')">
+        🌙 어둡게
+      </button>
+
+    </div>
+
+    <div class="settings-font-row">
+
+      <button type="button"
+        class="font-btn"
+        onclick="changeFont(-10)"
+        aria-label="글자 작게">−</button>
+
+      <div id="fontSize" class="font-size">120%</div>
+
+      <button type="button"
+        class="font-btn"
+        onclick="changeFont(10)"
+        aria-label="글자 크게">＋</button>
+
+    </div>
+
+  </div>
+
+  <script>
+    /* =========================================
+       광고 Apps Script 주소
+    ========================================= */
+
+    const NOTICE_SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbw9sb0RrJiyi_4vz-Qzt1SYWjmTTrSOy6DDpyySLSNmZQpkOFLyC3gkPFiG7A4Qnd5g/exec";
+
+
+    /* =========================================
+       설정
+    ========================================= */
+
+    function toggleSettings() {
+      document.getElementById("settingsPanel")
+        .classList.toggle("show");
+    }
+
+    function setTheme(theme) {
+      const isLight = theme === "light";
+
+      document.body.classList.toggle(
+        "dark-mode",
+        !isLight
+      );
+
+      document.body.style.background =
+        isLight ? "#f3f4f6" : "#202124";
+
+      document.querySelector(".page").style.background =
+        isLight ? "#fff" : "#303134";
+
+      document.getElementById("lightBtn")
+        .classList.toggle("active", isLight);
+
+      document.getElementById("darkBtn")
+        .classList.toggle("active", !isLight);
+
+      localStorage.setItem("northBoardTheme", theme);
+    }
+
+    let fontPercent = 120;
+
+    function setFontPercent(percent) {
+      fontPercent = Math.max(
+        80,
+        Math.min(150, percent)
+      );
+
+      document.getElementById("fontSize").textContent =
+        fontPercent + "%";
+
+      document.getElementById("content").style.zoom =
+        fontPercent + "%";
+
+      localStorage.setItem(
+        "northBoardFontPercent",
+        String(fontPercent)
+      );
+    }
+
+    function changeFont(amount) {
+      setFontPercent(fontPercent + amount);
+    }
+
+
+    /* =========================================
+       기존 설정 복원
+    ========================================= */
+
+    (function restoreSettings() {
+
+      const savedTheme =
+        localStorage.getItem("northBoardTheme");
+
+      const savedFont = Number(
+        localStorage.getItem("northBoardFontPercent")
+      );
+
+      setTheme(
+        savedTheme === "light" ? "light" : "dark"
+      );
+
+      setFontPercent(
+        Number.isFinite(savedFont) &&
+        savedFont >= 80 &&
+        savedFont <= 150
+          ? savedFont
+          : 120
+      );
+
+    })();
+
+
+    /* =========================================
+       광고 자료 불러오기
+    ========================================= */
+
+    function requestNotices() {
+
+      const oldScript =
+        document.getElementById("noticeJsonpScript");
+
+      if (oldScript) {
+        oldScript.remove();
+      }
+
+      const script = document.createElement("script");
+
+      script.id = "noticeJsonpScript";
+
+      script.src =
+        NOTICE_SCRIPT_URL +
+        "?prefix=loadNotices&v=" + Date.now();
+
+      script.onerror = loadNoticesError;
+
+      document.body.appendChild(script);
+    }
+
+
+    /* =========================================
+       HTML 특수문자 처리
+    ========================================= */
+
+    function escapeHTML(value) {
+
+      return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+
+    /* =========================================
+       광고 내용 표시
+    ========================================= */
+
+    function loadNotices(data) {
+
+      const content =
+        document.getElementById("content");
+
+      if (!Array.isArray(data) || !data.length) {
+
+        content.innerHTML = `
+          <div class="empty-message">
+            표시할 회중 광고가 없습니다.
+          </div>
+          ${makeTopButtons()}
+        `;
+
+        return;
+      }
+
+      let html = "";
+
+      data.forEach(dateData => {
+
+        html += `
+          <section class="notice-month">
+
+            <h2 class="notice-month-title">
+              ${escapeHTML(dateData.month || "")}
+            </h2>
+        `;
+
+        const sections =
+          Array.isArray(dateData.sections)
+            ? dateData.sections
+            : [];
+
+        sections.forEach(section => {
+
+          html += `
+            <div class="notice-section">
+
+              <h3 class="notice-section-title">
+                ${escapeHTML(section.title || "")}
+              </h3>
+          `;
+
+          const contents =
+            Array.isArray(section.contents)
+              ? section.contents
+              : [];
+
+          contents.forEach(item => {
+
+            const text = String(
+              item == null ? "" : item
+            );
+
+            const isNumbered =
+              /^\s*\d+[.)、]/.test(text);
+
+            html += `
+              <div class="notice-text ${
+                isNumbered ? "numbered-notice" : ""
+              }">${escapeHTML(text)}</div>
+            `;
+
+          });
+
+          html += `
+            </div>
+          `;
+
+        });
+
+        html += `
+          </section>
+        `;
+
+      });
+
+      content.innerHTML =
+        html + makeTopButtons();
+
+    }
+
+
+    /* =========================================
+       광고 아래 버튼 3개
+    ========================================= */
+
+function makeTopButtons() {
+
+  return `
+    <div class="group-top-buttons">
+
+      <button type="button"
+        onclick="location.href='게시판-회중-광고.html'">
+        광고
+      </button>
+
+      <button type="button"
+        onclick="location.href='게시판-회중-순방.html'">
+        순회방문
+      </button>
+
+      <button type="button"
+        onclick="location.href='게시판-회중-예비.html'">
+        예비
+      </button>
+
+    </div>
+  `;
+}
+
+
+    /* =========================================
+       광고 불러오기 오류
+    ========================================= */
+
+    function loadNoticesError() {
+
+      const content =
+        document.getElementById("content");
+
+      content.innerHTML = `
+        <div class="error-message">
+          회중 광고를 불러오지 못했습니다.
+          <br>
+          인터넷 연결이나 광고 자료 서버를 확인해 주세요.
+        </div>
+
+        <button type="button"
+          class="refresh-button"
+          onclick="requestNotices()">
+          다시 불러오기
+        </button>
+
+        ${makeTopButtons()}
+      `;
+
+    }
+
+
+    /* 처음 실행 */
+    requestNotices();
+
+  </script>
+
+</body>
+</html>
