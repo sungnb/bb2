@@ -351,6 +351,11 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:10px 0 24px}
   gap: 9px;
 }
 
+/* 밝기 버튼 아래 간격 */
+.settings-theme-row {
+  margin-bottom: 10px;
+}
+
 .setting-btn,
 .speed-btn {
   min-height: 45px;
@@ -489,11 +494,23 @@ body.dark .speed-btn.active {
 
 </div>
   
+
 <!-- 설정 팝업 -->
 <div class="settings-overlay" id="settingsOverlay">
-
   <div class="settings-popup">
 
+    <!-- 밝기 설정: 맨 위 -->
+    <div class="voice-buttons settings-theme-row">
+      <button class="setting-btn" id="lightBtn">
+        ☀ 밝게
+      </button>
+
+      <button class="setting-btn" id="darkBtn">
+        ☾ 어둡게
+      </button>
+    </div>
+
+    <!-- 음성 선택 -->
     <div class="voice-buttons">
       <button class="setting-btn active" id="maleVoiceBtn">
         남성
@@ -504,26 +521,18 @@ body.dark .speed-btn.active {
       </button>
     </div>
 
+    <!-- 읽기 속도 -->
     <div class="setting-title">읽기 속도</div>
 
     <div class="speed-buttons">
+      <button class="speed-btn" data-speed="0.3">0.3</button>
       <button class="speed-btn" data-speed="0.5">0.5</button>
       <button class="speed-btn" data-speed="0.8">0.8</button>
       <button class="speed-btn active" data-speed="1.0">1.0</button>
       <button class="speed-btn" data-speed="1.2">1.2</button>
-      <button class="speed-btn" data-speed="1.5">1.5</button>
     </div>
 
-    <div class="voice-buttons">
-      <button class="setting-btn" id="lightBtn">
-        ☀ 밝게
-      </button>
-
-      <button class="setting-btn" id="darkBtn">
-        ☾ 어둡게
-      </button>
-    </div>
-
+    <!-- 글자 크기 -->
     <div class="setting-title">글자 크기</div>
 
     <div class="speed-buttons">
@@ -533,13 +542,15 @@ body.dark .speed-btn.active {
       <button class="speed-btn font-btn" data-size="23">아주 크게</button>
     </div>
 
-    <button id="closeSettingsBottomBtn" class="close-settings-bottom">
+    <!-- 닫기 -->
+    <button id="closeSettingsBottomBtn"
+            class="close-settings-bottom">
       닫기
     </button>
 
   </div>
-
 </div>
+
   
 <script>
 (() => {
@@ -767,16 +778,109 @@ parseDailyPage(text, selectedDate);
 let selectedGender = "male";
 let readSpeed = 1.0;
 
+const SETTINGS_KEY = "todayVerseSettings";
+
+// 설정 저장
+function saveSettings() {
+  const fontBtn = document.querySelector(".font-btn.active");
+
+  const settings = {
+    gender: selectedGender,
+    speed: readSpeed,
+    fontSize: fontBtn ? fontBtn.dataset.size : "19",
+    dark: document.body.classList.contains("dark")
+  };
+
+  try {
+    localStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify(settings)
+    );
+  } catch (e) {
+    console.error("설정 저장 실패:", e);
+  }
+}
+
+// 저장된 설정 불러오기
+function restoreSettings() {
+  let settings = {};
+
+  try {
+    settings = JSON.parse(
+      localStorage.getItem(SETTINGS_KEY) || "{}"
+    );
+  } catch (e) {
+    settings = {};
+  }
+
+  // 음성 선택
+  selectedGender =
+    settings.gender === "female" ? "female" : "male";
+
+  $("maleVoiceBtn").classList.toggle(
+    "active", selectedGender === "male"
+  );
+
+  $("femaleVoiceBtn").classList.toggle(
+    "active", selectedGender === "female"
+  );
+
+  // 읽기 속도
+  const savedSpeed = ["0.3", "0.5", "0.8", "1.0", "1.2"]
+    .includes(String(settings.speed))
+      ? Number(settings.speed)
+      : 1.0;
+
+  readSpeed = savedSpeed;
+
+  document.querySelectorAll(".speed-btn[data-speed]")
+    .forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        Number(btn.dataset.speed) === readSpeed
+      );
+    });
+
+  // 글자 크기
+  const savedSize = ["17", "19", "21", "23"]
+    .includes(String(settings.fontSize))
+      ? String(settings.fontSize)
+      : "19";
+
+  document.querySelectorAll(".font-btn")
+    .forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.size === savedSize
+      );
+    });
+
+  // 화면 밝기
+  document.body.classList.toggle(
+    "dark",
+    settings.dark === true
+  );
+
+  $("darkBtn").classList.toggle(
+    "active", settings.dark === true
+  );
+
+  $("lightBtn").classList.toggle(
+    "active", settings.dark !== true
+  );
+}
+
 function loadVoices() {
   if (!("speechSynthesis" in window)) return;
 
   const voices = speechSynthesis.getVoices();
 
-  // 음성 목록이 준비되었는지만 확인합니다.
-  // 페이지를 처음 열 때는 남성 음성을 선택하지 않습니다.
   if (!voices.length) return;
+
+  // 저장된 성별 음성 복원
+  selectVoice(selectedGender, false);
 }
-function selectVoice(gender) {
+function selectVoice(gender, showAlert = true) {
   const voices = speechSynthesis.getVoices();
 
   const korean = voices.filter(v =>
@@ -785,7 +889,10 @@ function selectVoice(gender) {
 
   if (!korean.length) {
     selectedVoice = null;
-    alert("기기에서 한국어 음성을 찾지 못했습니다.");
+
+    if (showAlert) {
+      alert("기기에서 한국어 음성을 찾지 못했습니다.");
+    }
     return;
   }
 
@@ -806,11 +913,15 @@ function selectVoice(gender) {
   if (!candidates.length) {
     selectedVoice = null;
 
-    alert(
-      gender === "male"
-        ? "남성 한국어 음성을 찾지 못했습니다."
-        : "여성 한국어 음성을 찾지 못했습니다."
-    );
+    if (!showAlert) {
+      selectedGender = gender;
+    } else {
+      alert(
+        gender === "male"
+          ? "남성 한국어 음성을 찾지 못했습니다."
+          : "여성 한국어 음성을 찾지 못했습니다."
+      );
+    }
 
     return;
   }
@@ -944,7 +1055,7 @@ $("selectedDateLabel").onclick = () => {
   loadDaily();
 };
   
-// 읽기 속도 선택
+// 읽기 속도 선택 및 저장
 document.querySelectorAll(".speed-btn[data-speed]").forEach(btn => {
   btn.onclick = () => {
     readSpeed = Number(btn.dataset.speed);
@@ -953,10 +1064,12 @@ document.querySelectorAll(".speed-btn[data-speed]").forEach(btn => {
       .forEach(b => b.classList.remove("active"));
 
     btn.classList.add("active");
+
+    saveSettings();
   };
 });
-
-// 글자 크기 선택
+  
+// 글자 크기 선택 및 저장
 document.querySelectorAll(".font-btn").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll(".font-btn")
@@ -965,6 +1078,8 @@ document.querySelectorAll(".font-btn").forEach(btn => {
     btn.classList.add("active");
 
     applyFontSize();
+
+    saveSettings();
   };
 });
 
@@ -986,6 +1101,8 @@ $("maleVoiceBtn").onclick = () => {
   if (selectedVoice) {
     $("maleVoiceBtn").classList.add("active");
     $("femaleVoiceBtn").classList.remove("active");
+
+    saveSettings();
   }
 };
 
@@ -997,25 +1114,36 @@ $("femaleVoiceBtn").onclick = () => {
   if (selectedVoice) {
     $("femaleVoiceBtn").classList.add("active");
     $("maleVoiceBtn").classList.remove("active");
+
+    saveSettings();
   }
 };
 
 // 밝은 화면
 $("lightBtn").onclick = () => {
   document.body.classList.remove("dark");
+
   $("lightBtn").classList.add("active");
   $("darkBtn").classList.remove("active");
-};
 
+  saveSettings();
+};
+  
 // 어두운 화면
 $("darkBtn").onclick = () => {
   document.body.classList.add("dark");
+
   $("darkBtn").classList.add("active");
   $("lightBtn").classList.remove("active");
+
+  saveSettings();
 };
 
 // 글자 크기는 글자 크기 버튼에서 직접 변경합니다.
   
+// 저장된 설정 복원
+restoreSettings();
+
 // 음성 불러오기
 if ("speechSynthesis" in window) {
   speechSynthesis.onvoiceschanged = loadVoices;
