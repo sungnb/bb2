@@ -376,7 +376,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:10px 0 24px}
 
 .speed-buttons {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
 }
 
@@ -525,22 +525,21 @@ body.dark .speed-btn.active {
     <div class="setting-title">읽기 속도</div>
 
     <div class="speed-buttons">
-      <button class="speed-btn" data-speed="0.3">0.3</button>
-      <button class="speed-btn" data-speed="0.5">0.5</button>
-      <button class="speed-btn" data-speed="0.8">0.8</button>
-      <button class="speed-btn active" data-speed="1.0">1.0</button>
-      <button class="speed-btn" data-speed="1.2">1.2</button>
-    </div>
+  <button class="speed-btn" data-speed="0.5">0.5</button>
+  <button class="speed-btn" data-speed="0.8">0.8</button>
+  <button class="speed-btn active" data-speed="1.0">1.0</button>
+  <button class="speed-btn" data-speed="1.2">1.2</button>
+</div>
 
     <!-- 글자 크기 -->
     <div class="setting-title">글자 크기</div>
 
     <div class="speed-buttons">
-      <button class="speed-btn font-btn" data-size="17">작게</button>
-      <button class="speed-btn font-btn active" data-size="19">보통</button>
-      <button class="speed-btn font-btn" data-size="21">크게</button>
-      <button class="speed-btn font-btn" data-size="23">아주 크게</button>
-    </div>
+  <button class="speed-btn font-btn" data-size="15">작게</button>
+  <button class="speed-btn font-btn active" data-size="20">보통</button>
+  <button class="speed-btn font-btn" data-size="25">크게</button>
+  <button class="speed-btn font-btn" data-size="30">아주 크게</button>
+</div>
 
     <!-- 닫기 -->
     <button id="closeSettingsBottomBtn"
@@ -701,13 +700,21 @@ function parseDailyPage(markdown, date) {
 
 function applyFontSize() {
   const verse = $("verseContent").querySelector(".verse");
+  const commentary = $("verseContent").querySelector(".commentary");
 
   const selectedButton =
     document.querySelector(".font-btn.active");
 
-  if (verse && selectedButton) {
-    verse.style.fontSize =
-      selectedButton.dataset.size + "px";
+  if (selectedButton) {
+    const fontSize = selectedButton.dataset.size + "px";
+
+    if (verse) {
+      verse.style.fontSize = fontSize;
+    }
+
+    if (commentary) {
+      commentary.style.fontSize = fontSize;
+    }
   }
 }
 
@@ -843,7 +850,7 @@ $("maleVoiceBtn").classList.toggle(
   );
 
   // 읽기 속도
-  const savedSpeed = ["0.3", "0.5", "0.8", "1.0", "1.2"]
+   const savedSpeed = ["0.5", "0.8", "1.0", "1.2"]
     .includes(String(settings.speed))
       ? Number(settings.speed)
       : 1.0;
@@ -859,10 +866,10 @@ $("maleVoiceBtn").classList.toggle(
     });
 
   // 글자 크기
-  const savedSize = ["17", "19", "21", "23"]
+  const savedSize = ["15", "20", "25", "30"]
     .includes(String(settings.fontSize))
       ? String(settings.fontSize)
-      : "19";
+      : "20";
 
   document.querySelectorAll(".font-btn")
     .forEach(btn => {
