@@ -573,10 +573,7 @@ let verseText = "";
 let commentaryText = "";
 let referenceText = "";
 let readMode = "all";
-let utterances = [];
-let currentIndex = 0;
-let isPaused = false;
-let selectedVoice = null;
+
 const now = new Date();
 
 const kst = new Date(now.toLocaleString("en-US", {
@@ -739,6 +736,9 @@ function escapeHtml(s) {
 }
 
 async function loadDaily() {
+
+  audioReady = false;
+
   try {
     $("errorArea").innerHTML = "";
 
@@ -778,6 +778,20 @@ parseDailyPage(text, selectedDate);
 let selectedGender = "male";
 let readSpeed = 1.0;
 
+let selectedVoiceId = "M1";
+
+let ttsHelper = null;
+let ttsEngine = null;
+
+let voiceStyleCache = new Map();
+
+let currentAudioUrl = null;
+let audioReady = false;
+let isGenerating = false;
+let generationToken = 0;
+
+const speechAudio = new Audio();
+
 const SETTINGS_KEY = "todayVerseSettings";
 
 // 설정 저장
@@ -813,13 +827,16 @@ function restoreSettings() {
     settings = {};
   }
 
-  // 음성 선택
-  selectedGender =
-    settings.gender === "female" ? "female" : "male";
+ // 음성 선택
+selectedGender =
+  settings.gender === "female" ? "female" : "male";
 
-  $("maleVoiceBtn").classList.toggle(
-    "active", selectedGender === "male"
-  );
+selectedVoiceId =
+  selectedGender === "female" ? "F1" : "M1";
+
+$("maleVoiceBtn").classList.toggle(
+  "active", selectedGender === "male"
+);
 
   $("femaleVoiceBtn").classList.toggle(
     "active", selectedGender === "female"
@@ -870,155 +887,316 @@ function restoreSettings() {
   );
 }
 
-function loadVoices() {
-  if (!("speechSynthesis" in window)) return;
+// ========================================
+// 무료 Supertonic 한국어 음성 합성
+// ========================================
 
-  const voices = speechSynthesis.getVoices();
+const TTS_MODEL_BASE =
+  "https://huggingface.co/Supertone/supertonic-3/resolve/main";
 
-  if (!voices.length) return;
+const TTS_ONNX_BASE =
+  TTS_MODEL_BASE + "/onnx";
 
-  // 저장된 성별 음성 복원
-  selectVoice(selectedGender, false);
-}
-function selectVoice(gender, showAlert = true) {
-  const voices = speechSynthesis.getVoices();
+const ORT_CDN_BASE =
+  "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/";
 
-  const korean = voices.filter(v =>
-    /^ko([-_]|$)/i.test(v.lang)
-  );
 
-  if (!korean.length) {
-    selectedVoice = null;
+// 음성 모델 불러오기
+async function ensureTtsReady() {
 
-    if (showAlert) {
-      alert("기기에서 한국어 음성을 찾지 못했습니다.");
+  if (ttsEngine) return;
+
+  $("playBtn").textContent = "…";
+
+  try {
+
+    ttsHelper = await import(
+      "https://cdn.jsdelivr.net/gh/cskwork/supertonic-tts@main/app/helper.js"
+    );
+
+    let ort;
+    let result;
+
+    // WebGPU 우선 사용
+    if (navigator.gpu) {
+
+      try {
+
+        ort = await import(
+          ORT_CDN_BASE + "ort.webgpu.min.mjs"
+        );
+
+        ort.env.wasm.wasmPaths = ORT_CDN_BASE;
+
+        ttsHelper.configureOrt(ort);
+
+        result = await ttsHelper.loadTextToSpeech(
+          TTS_ONNX_BASE,
+          {
+            executionProviders: ["webgpu"],
+            graphOptimizationLevel: "all"
+          }
+        );
+
+      } catch (error) {
+
+        console.warn(
+          "WebGPU 사용 불가. WASM으로 전환합니다.",
+          error
+        );
+
+      }
     }
-    return;
-  }
 
-  const malePattern =
-    /male|man|남성|injoon|inho|minjun/i;
+    // WebGPU를 사용할 수 없으면 WASM 사용
+    if (!result) {
 
-  const femalePattern =
-    /female|woman|여성|sunhi|heami|yuna|seoyeon/i;
-
-  const pattern = gender === "male"
-    ? malePattern
-    : femalePattern;
-
-  const candidates = korean.filter(v =>
-    pattern.test(v.name)
-  );
-
-  if (!candidates.length) {
-    selectedVoice = null;
-
-    if (!showAlert) {
-      selectedGender = gender;
-    } else {
-      alert(
-        gender === "male"
-          ? "남성 한국어 음성을 찾지 못했습니다."
-          : "여성 한국어 음성을 찾지 못했습니다."
+      ort = await import(
+        ORT_CDN_BASE + "ort.min.mjs"
       );
+
+      ort.env.wasm.wasmPaths = ORT_CDN_BASE;
+      ort.env.wasm.numThreads = 1;
+
+      ttsHelper.configureOrt(ort);
+
+      result = await ttsHelper.loadTextToSpeech(
+        TTS_ONNX_BASE,
+        {
+          executionProviders: ["wasm"],
+          graphOptimizationLevel: "all"
+        }
+      );
+
     }
 
-    return;
+    ttsEngine = result.textToSpeech;
+
+  } catch (error) {
+
+    throw new Error(
+      "무료 음성 모델을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요. " +
+      error.message
+    );
+
+  }
+}
+
+
+// 남성·여성 음성 스타일 불러오기
+async function ensureVoiceStyle(voiceId) {
+
+  if (voiceStyleCache.has(voiceId)) {
+    return voiceStyleCache.get(voiceId);
   }
 
-  selectedVoice = candidates[0];
-  selectedGender = gender;
-}
-  function getReadText() {
-  if (readMode === "verse") return verseText;
-  return [verseText,commentaryText].filter(Boolean).join("\n\n");
-}
+  const styleUrl =
+    TTS_MODEL_BASE +
+    "/voice_styles/" +
+    voiceId +
+    ".json";
 
-function speakNext() {
- if (currentIndex >= utterances.length) {
-  $("playBtn").textContent = "▶";
-  isPaused = false;
-  return;
-}
+  const style = await ttsHelper.loadVoiceStyle(
+    [styleUrl],
+    false
+  );
 
-  const u = new SpeechSynthesisUtterance(utterances[currentIndex]);
+  voiceStyleCache.set(voiceId, style);
 
-  u.lang = "ko-KR";
- u.rate = readSpeed;
-  u.pitch = 1;
-
-  if (selectedVoice) u.voice = selectedVoice;
-
-  u.onend = () => {
-    if (!isPaused) {
-      currentIndex++;
-      speakNext();
-    }
-  };
-
-u.onerror = e => {
-  $("playBtn").textContent = "▶";
-  isPaused = false;
-  console.error("음성 재생 오류:", e.error);
-};
-
-speechSynthesis.speak(u);
+  return style;
 }
 
-function speakFrom(index=0) {
-  if (!("speechSynthesis" in window)) {
-    return;
+
+// 읽을 내용 가져오기
+function getReadText() {
+
+  if (readMode === "verse") {
+    return verseText;
   }
+
+  return [
+    verseText,
+    commentaryText
+  ].filter(Boolean).join("\n\n");
+
+}
+
+
+// 재생 버튼 표시 변경
+function updatePlayButton() {
+
+  $("playBtn").textContent =
+    !speechAudio.paused && !speechAudio.ended
+      ? "Ⅱ"
+      : "▶";
+
+}
+
+speechAudio.addEventListener(
+  "play",
+  updatePlayButton
+);
+
+speechAudio.addEventListener(
+  "pause",
+  updatePlayButton
+);
+
+speechAudio.addEventListener(
+  "ended",
+  updatePlayButton
+);
+
+
+// 음성 생성 및 재생
+async function speakFrom() {
 
   const text = getReadText();
 
-  if (!text) {
-    return;
-  }
+  if (!text) return;
 
-  speechSynthesis.cancel();
+  stopSpeech();
 
-  utterances = text.split(/(?<=[.!?。？！])\s+/)
-    .map(s=>s.trim()).filter(Boolean);
+  const thisGeneration = generationToken;
 
-  currentIndex = index;
-  isPaused = false;
+  isGenerating = true;
 
-  $("playBtn").textContent = "Ⅱ";
+  $("playBtn").textContent = "…";
 
-  speakNext();
-}
+  try {
 
-function stopSpeech() {
-  if ("speechSynthesis" in window) speechSynthesis.cancel();
+    await ensureTtsReady();
 
-  isPaused = false;
-  $("playBtn").textContent = "▶";
-}
+    if (thisGeneration !== generationToken) return;
 
-// 재생 버튼
-$("playBtn").onclick = () => {
-  if (!verseText) return;
+    const style = await ensureVoiceStyle(
+      selectedVoiceId
+    );
 
-  if (speechSynthesis.speaking && !speechSynthesis.paused) {
-    speechSynthesis.pause();
-    isPaused = true;
+    if (thisGeneration !== generationToken) return;
+
+    const result = await ttsEngine.call(
+      text,
+      "ko",
+      style,
+      8,
+      1.05,
+      0.3
+    );
+
+    if (thisGeneration !== generationToken) return;
+
+    const wavLength = Math.floor(
+      ttsEngine.sampleRate * result.duration[0]
+    );
+
+    const wavBuffer = ttsHelper.writeWavFile(
+      result.wav.slice(0, wavLength),
+      ttsEngine.sampleRate
+    );
+
+    if (currentAudioUrl) {
+      URL.revokeObjectURL(currentAudioUrl);
+    }
+
+    currentAudioUrl = URL.createObjectURL(
+      new Blob(
+        [wavBuffer],
+        { type: "audio/wav" }
+      )
+    );
+
+    speechAudio.src = currentAudioUrl;
+
+    speechAudio.playbackRate = readSpeed;
+    speechAudio.preservesPitch = true;
+
+    speechAudio.currentTime = 0;
+
+    audioReady = true;
+
+    await speechAudio.play();
+
+  } catch (error) {
+
+    console.error("음성 생성 오류:", error);
+
+    alert(error.message);
+
     $("playBtn").textContent = "▶";
-  } else if (speechSynthesis.paused) {
-    speechSynthesis.resume();
-    isPaused = false;
-    $("playBtn").textContent = "Ⅱ";
-  } else {
-    speakFrom(0);
+
+  } finally {
+
+    if (thisGeneration === generationToken) {
+      isGenerating = false;
+    }
+
   }
+
+}
+
+
+// 정지
+function stopSpeech() {
+
+  generationToken++;
+
+  isGenerating = false;
+
+  speechAudio.pause();
+
+  if (speechAudio.src) {
+    speechAudio.currentTime = 0;
+  }
+
+  $("playBtn").textContent = "▶";
+
+}
+
+
+// 재생 / 일시 정지
+$("playBtn").onclick = async () => {
+
+  if (!verseText || isGenerating) return;
+
+  if (audioReady && speechAudio.src) {
+
+    if (speechAudio.paused || speechAudio.ended) {
+
+      if (speechAudio.ended) {
+        speechAudio.currentTime = 0;
+      }
+
+      speechAudio.playbackRate = readSpeed;
+
+      speechAudio.play().catch(error => {
+        console.error("재생 오류:", error);
+      });
+
+    } else {
+
+      speechAudio.pause();
+
+    }
+
+  } else {
+
+    await speakFrom();
+
+  }
+
 };
+
 
 // 처음부터 다시 읽기
 $("restartBtn").onclick = () => {
-  speakFrom(0);
+
+  speakFrom();
+
 };
 
-// 정지
+
+// 정지 버튼
 $("stopBtn").onclick = stopSpeech;
 
 // 뒤로가기
@@ -1058,6 +1236,7 @@ $("selectedDateLabel").onclick = () => {
 // 읽기 속도 선택 및 저장
 document.querySelectorAll(".speed-btn[data-speed]").forEach(btn => {
   btn.onclick = () => {
+
     readSpeed = Number(btn.dataset.speed);
 
     document.querySelectorAll(".speed-btn[data-speed]")
@@ -1065,7 +1244,10 @@ document.querySelectorAll(".speed-btn[data-speed]").forEach(btn => {
 
     btn.classList.add("active");
 
+    speechAudio.playbackRate = readSpeed;
+
     saveSettings();
+
   };
 });
   
@@ -1095,28 +1277,37 @@ $("closeSettingsBottomBtn").onclick = () => {
 
 // 남성 음성 선택
 $("maleVoiceBtn").onclick = () => {
+
   stopSpeech();
-  selectVoice("male");
 
-  if (selectedVoice) {
-    $("maleVoiceBtn").classList.add("active");
-    $("femaleVoiceBtn").classList.remove("active");
+  selectedGender = "male";
+  selectedVoiceId = "M1";
 
-    saveSettings();
-  }
+  audioReady = false;
+
+  $("maleVoiceBtn").classList.add("active");
+  $("femaleVoiceBtn").classList.remove("active");
+
+  saveSettings();
+
 };
+
 
 // 여성 음성 선택
 $("femaleVoiceBtn").onclick = () => {
+
   stopSpeech();
-  selectVoice("female");
 
-  if (selectedVoice) {
-    $("femaleVoiceBtn").classList.add("active");
-    $("maleVoiceBtn").classList.remove("active");
+  selectedGender = "female";
+  selectedVoiceId = "F1";
 
-    saveSettings();
-  }
+  audioReady = false;
+
+  $("femaleVoiceBtn").classList.add("active");
+  $("maleVoiceBtn").classList.remove("active");
+
+  saveSettings();
+
 };
 
 // 밝은 화면
@@ -1143,12 +1334,6 @@ $("darkBtn").onclick = () => {
   
 // 저장된 설정 복원
 restoreSettings();
-
-// 음성 불러오기
-if ("speechSynthesis" in window) {
-  speechSynthesis.onvoiceschanged = loadVoices;
-  loadVoices();
-}
 
 // 오늘의 성구 불러오기
 loadDaily();
