@@ -744,8 +744,6 @@ function escapeHtml(s) {
 
 async function loadDaily() {
 
-  audioReady = false;
-
   try {
     $("errorArea").innerHTML = "";
 
@@ -785,7 +783,8 @@ parseDailyPage(text, selectedDate);
 let selectedGender = "male";
 let readSpeed = 1.0;
 
-let selectedVoiceId = "M1";
+selectedVoiceId =
+  selectedGender === "female" ? "F1" : "M1";
 
 let ttsHelper = null;
 let ttsEngine = null;
@@ -894,251 +893,118 @@ $("maleVoiceBtn").classList.toggle(
   );
 }
 
+
 // ========================================
-// 무료 Supertonic 한국어 음성 합성
+// 휴대폰 내장 한국어 음성 사용
+// 외부 음성 모델 다운로드 없음
 // ========================================
 
-const TTS_MODEL_BASE =
-  "https://huggingface.co/Supertone/supertonic-3/resolve/main";
+let speechToken = 0;
+let speechQueue = [];
+let speechIndex = 0;
+let isSpeaking = false;
 
-const TTS_ONNX_BASE =
-  TTS_MODEL_BASE + "/onnx";
-
-const ORT_CDN_BASE =
-  "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/";
+const nativeSpeech = window.speechSynthesis;
 
 
-// 음성 모델 불러오기
-async function ensureTtsReady() {
+// 한국어 음성 목록
+function getKoreanVoices() {
 
-  if (ttsEngine) return;
-
-  $("playBtn").textContent = "…";
-
-  try {
-
-    ttsHelper = await import(
-      "https://cdn.jsdelivr.net/gh/cskwork/supertonic-tts@main/app/helper.js"
-    );
-
-    let ort;
-    let result;
-
-    // WebGPU 우선 사용
-    if (navigator.gpu) {
-
-      try {
-
-        ort = await import(
-          ORT_CDN_BASE + "ort.webgpu.min.mjs"
-        );
-
-        ort.env.wasm.wasmPaths = ORT_CDN_BASE;
-
-        ttsHelper.configureOrt(ort);
-
-        result = await ttsHelper.loadTextToSpeech(
-          TTS_ONNX_BASE,
-          {
-            executionProviders: ["webgpu"],
-            graphOptimizationLevel: "all"
-          }
-        );
-
-      } catch (error) {
-
-        console.warn(
-          "WebGPU 사용 불가. WASM으로 전환합니다.",
-          error
-        );
-
-      }
-    }
-
-    // WebGPU를 사용할 수 없으면 WASM 사용
-    if (!result) {
-
-      ort = await import(
-        ORT_CDN_BASE + "ort.min.mjs"
-      );
-
-      ort.env.wasm.wasmPaths = ORT_CDN_BASE;
-      ort.env.wasm.numThreads = 1;
-
-      ttsHelper.configureOrt(ort);
-
-      result = await ttsHelper.loadTextToSpeech(
-        TTS_ONNX_BASE,
-        {
-          executionProviders: ["wasm"],
-          graphOptimizationLevel: "all"
-        }
-      );
-
-    }
-
-    ttsEngine = result.textToSpeech;
-
-  } catch (error) {
-
-    throw new Error(
-      "무료 음성 모델을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요. " +
-      error.message
-    );
-
-  }
-}
-
-
-// 남성·여성 음성 스타일 불러오기
-async function ensureVoiceStyle(voiceId) {
-
-  if (voiceStyleCache.has(voiceId)) {
-    return voiceStyleCache.get(voiceId);
-  }
-
-  const styleUrl =
-    TTS_MODEL_BASE +
-    "/voice_styles/" +
-    voiceId +
-    ".json";
-
-  const style = await ttsHelper.loadVoiceStyle(
-    [styleUrl],
-    false
+  return nativeSpeech.getVoices().filter(voice =>
+    voice.lang.toLowerCase().startsWith("ko")
   );
 
-  voiceStyleCache.set(voiceId, style);
-
-  return style;
 }
 
 
-// 읽을 내용 가져오기
-function getReadText() {
+// 남성·여성 음성 선택
+function findNativeVoice(gender) {
 
-  if (readMode === "verse") {
-    return verseText;
-  }
+  const voices = getKoreanVoices();
 
-  return [
-    verseText,
-    commentaryText
-  ].filter(Boolean).join("\n\n");
+  if (!voices.length) return null;
+
+  const maleNames =
+    /남성|male|man|injoon|인준|민준/i;
+
+  const femaleNames =
+    /여성|female|woman|yuna|유나|sora|소라|sunhi|순희|heami|해미/i;
+
+  const pattern =
+    gender === "male" ? maleNames : femaleNames;
+
+  return voices.find(voice =>
+    pattern.test(voice.name)
+  ) || voices[0];
 
 }
 
 
-// 재생 버튼 표시 변경
+// 재생 버튼 표시
 function updatePlayButton() {
 
   $("playBtn").textContent =
-    !speechAudio.paused && !speechAudio.ended
+    nativeSpeech.speaking && !nativeSpeech.paused
       ? "Ⅱ"
       : "▶";
 
 }
 
-speechAudio.addEventListener(
-  "play",
-  updatePlayButton
-);
 
-speechAudio.addEventListener(
-  "pause",
-  updatePlayButton
-);
+// 음성 재생
+function speakNext(token) {
 
-speechAudio.addEventListener(
-  "ended",
-  updatePlayButton
-);
+  if (token !== speechToken) return;
 
+  if (speechIndex >= speechQueue.length) {
 
-// 음성 생성 및 재생
-async function speakFrom() {
-
-  const text = getReadText();
-
-  if (!text) return;
-
-  stopSpeech();
-
-  const thisGeneration = generationToken;
-
-  isGenerating = true;
-
-  $("playBtn").textContent = "…";
-
-  try {
-
-    await ensureTtsReady();
-
-    if (thisGeneration !== generationToken) return;
-
-    const style = await ensureVoiceStyle(
-      selectedVoiceId
-    );
-
-    if (thisGeneration !== generationToken) return;
-
-    const result = await ttsEngine.call(
-      text,
-      "ko",
-      style,
-      8,
-      1.05,
-      0.3
-    );
-
-    if (thisGeneration !== generationToken) return;
-
-    const wavLength = Math.floor(
-      ttsEngine.sampleRate * result.duration[0]
-    );
-
-    const wavBuffer = ttsHelper.writeWavFile(
-      result.wav.slice(0, wavLength),
-      ttsEngine.sampleRate
-    );
-
-    if (currentAudioUrl) {
-      URL.revokeObjectURL(currentAudioUrl);
-    }
-
-    currentAudioUrl = URL.createObjectURL(
-      new Blob(
-        [wavBuffer],
-        { type: "audio/wav" }
-      )
-    );
-
-    speechAudio.src = currentAudioUrl;
-
-    speechAudio.playbackRate = readSpeed;
-    speechAudio.preservesPitch = true;
-
-    speechAudio.currentTime = 0;
-
-    audioReady = true;
-
-    await speechAudio.play();
-
-  } catch (error) {
-
-    console.error("음성 생성 오류:", error);
-
-    alert(error.message);
-
-    $("playBtn").textContent = "▶";
-
-  } finally {
-
-    if (thisGeneration === generationToken) {
-      isGenerating = false;
-    }
+    isSpeaking = false;
+    updatePlayButton();
+    return;
 
   }
+
+  const text = speechQueue[speechIndex++];
+
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  utterance.lang = "ko-KR";
+
+  utterance.rate = readSpeed;
+
+  const voice = findNativeVoice(selectedGender);
+
+  if (voice) {
+    utterance.voice = voice;
+  }
+
+  utterance.onend = () => {
+
+    if (token === speechToken) {
+      speakNext(token);
+    }
+
+  };
+
+  utterance.onerror = (event) => {
+
+    if (token !== speechToken) return;
+
+    if (event.error === "canceled" ||
+        event.error === "interrupted") {
+      return;
+    }
+
+    console.error("음성 재생 오류:", event.error);
+
+    isSpeaking = false;
+    updatePlayButton();
+
+  };
+
+  nativeSpeech.speak(utterance);
+
+  updatePlayButton();
 
 }
 
@@ -1146,51 +1012,70 @@ async function speakFrom() {
 // 정지
 function stopSpeech() {
 
-  generationToken++;
+  speechToken++;
 
-  isGenerating = false;
+  nativeSpeech.cancel();
 
-  speechAudio.pause();
+  speechQueue = [];
+  speechIndex = 0;
 
-  if (speechAudio.src) {
-    speechAudio.currentTime = 0;
-  }
+  isSpeaking = false;
 
-  $("playBtn").textContent = "▶";
+  updatePlayButton();
 
 }
 
 
-// 재생 / 일시 정지
-$("playBtn").onclick = async () => {
+// 처음부터 읽기
+function speakFrom() {
 
-  if (!verseText || isGenerating) return;
+  const text = getReadText();
 
-  if (audioReady && speechAudio.src) {
+  if (!text) return;
 
-    if (speechAudio.paused || speechAudio.ended) {
+  stopSpeech();
 
-      if (speechAudio.ended) {
-        speechAudio.currentTime = 0;
-      }
+  const token = speechToken;
 
-      speechAudio.playbackRate = readSpeed;
+  // 문단 단위로 나누어 재생
+  speechQueue = text
+    .split(/\n+/)
+    .map(s => s.trim())
+    .filter(Boolean);
 
-      speechAudio.play().catch(error => {
-        console.error("재생 오류:", error);
-      });
+  speechIndex = 0;
+
+  isSpeaking = true;
+
+  speakNext(token);
+
+}
+
+
+// 재생 / 일시정지
+$("playBtn").onclick = () => {
+
+  if (nativeSpeech.speaking) {
+
+    if (nativeSpeech.paused) {
+
+      nativeSpeech.resume();
 
     } else {
 
-      speechAudio.pause();
+      nativeSpeech.pause();
 
     }
 
-  } else {
+    updatePlayButton();
 
-    await speakFrom();
+    return;
 
   }
+
+  if (isSpeaking) return;
+
+  speakFrom();
 
 };
 
@@ -1205,6 +1090,13 @@ $("restartBtn").onclick = () => {
 
 // 정지 버튼
 $("stopBtn").onclick = stopSpeech;
+
+
+// 음성 목록 변경 감지
+nativeSpeech.addEventListener(
+  "voiceschanged",
+  updatePlayButton
+);
 
 // 뒤로가기
 $("backBtn").onclick = () => {
@@ -1251,7 +1143,7 @@ document.querySelectorAll(".speed-btn[data-speed]").forEach(btn => {
 
     btn.classList.add("active");
 
-    speechAudio.playbackRate = readSpeed;
+   // 휴대폰 내장 음성의 다음 재생부터 속도 적용
 
     saveSettings();
 
@@ -1288,9 +1180,6 @@ $("maleVoiceBtn").onclick = () => {
   stopSpeech();
 
   selectedGender = "male";
-  selectedVoiceId = "M1";
-
-  audioReady = false;
 
   $("maleVoiceBtn").classList.add("active");
   $("femaleVoiceBtn").classList.remove("active");
@@ -1306,9 +1195,6 @@ $("femaleVoiceBtn").onclick = () => {
   stopSpeech();
 
   selectedGender = "female";
-  selectedVoiceId = "F1";
-
-  audioReady = false;
 
   $("femaleVoiceBtn").classList.add("active");
   $("maleVoiceBtn").classList.remove("active");
@@ -1316,7 +1202,6 @@ $("femaleVoiceBtn").onclick = () => {
   saveSettings();
 
 };
-
 // 밝은 화면
 $("lightBtn").onclick = () => {
   document.body.classList.remove("dark");
