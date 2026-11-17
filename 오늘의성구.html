@@ -934,19 +934,18 @@ function populateVoiceSelect() {
 
   if (!select) return;
 
-  select.innerHTML = "";
-
   if (!voices.length) {
 
-    const option = document.createElement("option");
-
-    option.value = "";
-    option.textContent = "사용 가능한 한국어 음성이 없습니다.";
-
-    select.appendChild(option);
+    select.innerHTML = `
+      <option value="">
+        한국어 음성을 확인하고 있습니다.
+      </option>
+    `;
 
     return;
   }
+
+  select.innerHTML = "";
 
   voices.forEach(voice => {
 
@@ -961,12 +960,10 @@ function populateVoiceSelect() {
 
   });
 
-  // 저장된 음성이 있으면 선택
   let selectedVoice = voices.find(voice =>
     (voice.voiceURI || voice.name) === selectedVoiceURI
   );
 
-  // 저장된 음성이 없으면 기본 음성 또는 첫 번째 음성
   if (!selectedVoice) {
 
     selectedVoice =
@@ -974,6 +971,8 @@ function populateVoiceSelect() {
 
     selectedVoiceURI =
       selectedVoice.voiceURI || selectedVoice.name;
+
+    saveSettings();
 
   }
 
@@ -1297,6 +1296,11 @@ restoreSettings();
 
 // 기기의 한국어 음성 목록 불러오기
 populateVoiceSelect();
+
+// 음성 목록이 늦게 준비되는 기기 대응
+setTimeout(populateVoiceSelect, 500);
+setTimeout(populateVoiceSelect, 1500);
+setTimeout(populateVoiceSelect, 3000);
 
 // 오늘의 성구 불러오기
 loadDaily();
