@@ -44,12 +44,15 @@ body.dark{
 }
   
 header{
-  position:relative;
-  z-index:10;
-  flex-shrink:0;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
 
   background:#18324a !important;
   color:white;
+
   padding:calc(env(safe-area-inset-top) + 6px) 16px 6px;
 }
   
@@ -64,9 +67,10 @@ header{
   border-radius:12px;background:#ffffff19;color:white;
   font-size:19px;cursor:pointer
 }
+  
 main{
   width:min(100% - 24px,700px);
-  margin:0 auto;
+  margin:62px auto 0;
 
   /* 남는 화면을 본문 영역으로 사용 */
   flex:1;
