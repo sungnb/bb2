@@ -323,6 +323,32 @@ body.dark-mode .settings-panel .theme-btn.active {
   margin-top: 1.7em;
 }
 
+/* 광고별 음성 재생 버튼 */
+.notice-play-button {
+  display: block;
+  width: 100%;
+  height: 46px;
+  margin-top: 16px;
+
+  border: 1px solid #9db2c4;
+  border-radius: 10px;
+
+  background: #234563;
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+/* 어두운 모드에서도 동일하게 표시 */
+body.dark-mode .notice-play-button {
+  background: #234563;
+  color: #ffffff;
+  border-color: #9db2c4;
+}
+
 /* 휴대폰 화면 */
 @media (max-width: 600px) {
 
@@ -626,7 +652,61 @@ function getMonthOrder(monthText) {
 }
 
 
-/* 날짜별 알림 불러오기 */
+/* =====================================
+   광고별 음성 읽기
+===================================== */
+
+let currentNoticeButton = null;
+
+/* 광고 읽기 시작 / 멈춤 */
+function toggleNoticeSpeech(button, text) {
+
+  // 현재 읽고 있는 광고의 멈춤 버튼을 누른 경우
+  if (
+    currentNoticeButton === button &&
+    window.speechSynthesis.speaking
+  ) {
+    window.speechSynthesis.cancel();
+
+    button.textContent = "▶ 재생";
+    currentNoticeButton = null;
+    return;
+  }
+
+  // 이전 광고 읽기 중단
+  window.speechSynthesis.cancel();
+
+  if (currentNoticeButton) {
+    currentNoticeButton.textContent = "▶ 재생";
+  }
+
+  // 읽을 내용 생성
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  utterance.lang = "ko-KR";
+
+  currentNoticeButton = button;
+  button.textContent = "■ 멈춤";
+
+  // 읽기 완료 또는 오류 시 버튼 원상복구
+  function resetButton() {
+    if (currentNoticeButton === button) {
+      button.textContent = "▶ 재생";
+      currentNoticeButton = null;
+    }
+  }
+
+  utterance.onend = resetButton;
+  utterance.onerror = resetButton;
+
+  window.speechSynthesis.speak(utterance);
+}
+
+
+/* =====================================
+   날짜별 알림 불러오기
+===================================== */
+
 function loadNotices(data) {
 
   const content = document.getElementById("content");
@@ -689,6 +769,21 @@ function loadNotices(data) {
       });
 
     });
+
+    // 광고 박스의 제목과 본문만 음성으로 읽기
+    const speechText = monthBox.innerText;
+
+    // 광고별 재생 버튼
+    const playButton = document.createElement("button");
+    playButton.type = "button";
+    playButton.className = "notice-play-button";
+    playButton.textContent = "▶ 재생";
+
+    playButton.onclick = function() {
+      toggleNoticeSpeech(playButton, speechText);
+    };
+
+    monthBox.appendChild(playButton);
 
     // 날짜별 박스를 시트 순서대로 추가
     content.appendChild(monthBox);
