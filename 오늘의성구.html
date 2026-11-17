@@ -783,9 +783,6 @@ parseDailyPage(text, selectedDate);
 let selectedGender = "male";
 let readSpeed = 1.0;
 
-selectedVoiceId =
-  selectedGender === "female" ? "F1" : "M1";
-
 let ttsHelper = null;
 let ttsEngine = null;
 
@@ -833,12 +830,9 @@ function restoreSettings() {
     settings = {};
   }
 
- // 음성 선택
+// 음성 선택
 selectedGender =
   settings.gender === "female" ? "female" : "male";
-
-selectedVoiceId =
-  selectedGender === "female" ? "F1" : "M1";
 
 $("maleVoiceBtn").classList.toggle(
   "active", selectedGender === "male"
