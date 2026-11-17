@@ -223,6 +223,50 @@ body.dark-mode .settings-panel .theme-btn.active {
   border-color: #7566ff;
   color: #ffffff;
 }
+
+/* =====================================
+   하단 고정 메뉴 3개
+===================================== */
+#content {
+  padding-bottom: 84px;
+  box-sizing: border-box;
+}
+
+.group-top-buttons {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  z-index: 1000;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  background: #18324a;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.group-top-buttons button {
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.group-top-buttons button:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,.25);
+}
+
+/* 현재 페이지 버튼 */
+.group-top-buttons button.active {
+  background: #35536d;
+}
+  </style>
   </style>
 </head>
 
@@ -291,7 +335,29 @@ body.dark-mode .settings-panel .theme-btn.active {
   <main id="content">
     <!-- 기존 알림 내용 -->
   </main>
-  
+
+  <!-- 하단 고정 메뉴 -->
+  <div class="group-top-buttons">
+
+    <button type="button"
+      onclick="location.href='게시판-회중-광고.html'">
+      광고
+    </button>
+
+    <button type="button"
+      onclick="location.href='게시판-회중-순방.html'">
+      순회방문
+    </button>
+
+    <button type="button"
+      class="active"
+      aria-current="page"
+      onclick="location.href='게시판-회중-예비.html'">
+      예비
+    </button>
+
+  </div>
+
 <script>
 
 /* 설정창 열기 / 닫기 */
