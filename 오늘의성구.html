@@ -139,8 +139,28 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   padding:11px 0;border-top:1px solid var(--line);font-size:14px
 }
 select{
-  max-width:60%;padding:9px;border:1px solid var(--line);
-  border-radius:9px;background:var(--bg);color:var(--text)
+  max-width:60%;
+  padding:9px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* ===== 음성 선택 드롭다운 ===== */
+
+#voiceSelect{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-height:48px;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+  font-weight:700;
 }
 .note{color:var(--muted);font-size:12px;line-height:1.65}
 .error{
@@ -510,16 +530,17 @@ body.dark .speed-btn.active {
       </button>
     </div>
 
-    <!-- 음성 선택 -->
-    <div class="voice-buttons">
-      <button class="setting-btn active" id="maleVoiceBtn">
-        남성
-      </button>
+  <!-- 음성 선택 -->
+<div class="setting-title">읽을 음성 선택</div>
 
-      <button class="setting-btn" id="femaleVoiceBtn">
-        여성
-      </button>
-    </div>
+<select id="voiceSelect">
+  <option value="">음성 목록을 불러오는 중입니다.</option>
+</select>
+
+<div class="note" style="margin-top:8px;">
+  이 기기에서 사용할 수 있는 한국어 음성을 표시합니다.
+  원하는 음성을 선택하세요.
+</div>
 
     <!-- 읽기 속도 -->
     <div class="setting-title">읽기 속도</div>
@@ -780,7 +801,7 @@ parseDailyPage(text, selectedDate);
   }
 }
 
-let selectedGender = "male";
+let selectedVoiceURI = "";
 let readSpeed = 1.0;
 
 let ttsHelper = null;
@@ -801,12 +822,12 @@ const SETTINGS_KEY = "todayVerseSettings";
 function saveSettings() {
   const fontBtn = document.querySelector(".font-btn.active");
 
-  const settings = {
-    gender: selectedGender,
-    speed: readSpeed,
-    fontSize: fontBtn ? fontBtn.dataset.size : "19",
-    dark: document.body.classList.contains("dark")
-  };
+ const settings = {
+  voiceURI: selectedVoiceURI,
+  speed: readSpeed,
+  fontSize: fontBtn ? fontBtn.dataset.size : "19",
+  dark: document.body.classList.contains("dark")
+};
 
   try {
     localStorage.setItem(
@@ -830,17 +851,11 @@ function restoreSettings() {
     settings = {};
   }
 
-// 음성 선택
-selectedGender =
-  settings.gender === "female" ? "female" : "male";
-
-$("maleVoiceBtn").classList.toggle(
-  "active", selectedGender === "male"
-);
-
-  $("femaleVoiceBtn").classList.toggle(
-    "active", selectedGender === "female"
-  );
+// 저장된 음성 선택 복원
+selectedVoiceURI =
+  typeof settings.voiceURI === "string"
+    ? settings.voiceURI
+    : "";
 
   // 읽기 속도
    const savedSpeed = ["0.5", "0.8", "1.0", "1.2"]
@@ -901,38 +916,85 @@ let isSpeaking = false;
 const nativeSpeech = window.speechSynthesis;
 
 
-// 한국어 음성 목록
+// 기기에서 사용할 수 있는 한국어 음성 목록
 function getKoreanVoices() {
 
   return nativeSpeech.getVoices().filter(voice =>
-    voice.lang.toLowerCase().startsWith("ko")
+    /^ko(?:-|$)/i.test(voice.lang)
   );
 
 }
 
 
-// 남성·여성 음성 선택
-function findNativeVoice(gender) {
+// 드롭다운에 한국어 음성 표시
+function populateVoiceSelect() {
+
+  const select = $("voiceSelect");
+  const voices = getKoreanVoices();
+
+  if (!select) return;
+
+  select.innerHTML = "";
+
+  if (!voices.length) {
+
+    const option = document.createElement("option");
+
+    option.value = "";
+    option.textContent = "사용 가능한 한국어 음성이 없습니다.";
+
+    select.appendChild(option);
+
+    return;
+  }
+
+  voices.forEach(voice => {
+
+    const option = document.createElement("option");
+
+    option.value = voice.voiceURI || voice.name;
+
+    option.textContent =
+      voice.name + " (" + voice.lang + ")";
+
+    select.appendChild(option);
+
+  });
+
+  // 저장된 음성이 있으면 선택
+  let selectedVoice = voices.find(voice =>
+    (voice.voiceURI || voice.name) === selectedVoiceURI
+  );
+
+  // 저장된 음성이 없으면 기본 음성 또는 첫 번째 음성
+  if (!selectedVoice) {
+
+    selectedVoice =
+      voices.find(voice => voice.default) || voices[0];
+
+    selectedVoiceURI =
+      selectedVoice.voiceURI || selectedVoice.name;
+
+  }
+
+  select.value =
+    selectedVoice.voiceURI || selectedVoice.name;
+
+}
+
+
+// 선택한 음성 가져오기
+function findNativeVoice() {
 
   const voices = getKoreanVoices();
 
   if (!voices.length) return null;
 
-  const maleNames =
-    /남성|male|man|injoon|인준|민준/i;
-
-  const femaleNames =
-    /여성|female|woman|yuna|유나|sora|소라|sunhi|순희|heami|해미/i;
-
-  const pattern =
-    gender === "male" ? maleNames : femaleNames;
-
   return voices.find(voice =>
-    pattern.test(voice.name)
-  ) || voices[0];
+    (voice.voiceURI || voice.name) === selectedVoiceURI
+  ) || voices.find(voice => voice.default) || voices[0];
 
 }
-
 
 // 재생 버튼 표시
 function updatePlayButton() {
@@ -966,8 +1028,7 @@ function speakNext(token) {
 
   utterance.rate = readSpeed;
 
-  const voice = findNativeVoice(selectedGender);
-
+const voice = findNativeVoice();
   if (voice) {
     utterance.voice = voice;
   }
@@ -1115,13 +1176,17 @@ $("stopBtn").onclick = stopSpeech;
 // 음성 목록 변경 감지
 nativeSpeech.addEventListener(
   "voiceschanged",
-  updatePlayButton
+  () => {
+    populateVoiceSelect();
+    updatePlayButton();
+  }
 );
 
 // 뒤로가기
 $("backBtn").onclick = () => {
   history.back();
 };
+  
 // 어제 날짜로 이동
 $("prevDateBtn").onclick = () => {
   stopSpeech();
@@ -1194,34 +1259,17 @@ $("closeSettingsBottomBtn").onclick = () => {
   $("settingsOverlay").classList.remove("open");
 };
 
-// 남성 음성 선택
-$("maleVoiceBtn").onclick = () => {
+// 드롭다운에서 음성 선택 및 저장
+$("voiceSelect").onchange = () => {
 
   stopSpeech();
 
-  selectedGender = "male";
-
-  $("maleVoiceBtn").classList.add("active");
-  $("femaleVoiceBtn").classList.remove("active");
+  selectedVoiceURI = $("voiceSelect").value;
 
   saveSettings();
 
 };
 
-
-// 여성 음성 선택
-$("femaleVoiceBtn").onclick = () => {
-
-  stopSpeech();
-
-  selectedGender = "female";
-
-  $("femaleVoiceBtn").classList.add("active");
-  $("maleVoiceBtn").classList.remove("active");
-
-  saveSettings();
-
-};
 // 밝은 화면
 $("lightBtn").onclick = () => {
   document.body.classList.remove("dark");
@@ -1246,6 +1294,9 @@ $("darkBtn").onclick = () => {
   
 // 저장된 설정 복원
 restoreSettings();
+
+// 기기의 한국어 음성 목록 불러오기
+populateVoiceSelect();
 
 // 오늘의 성구 불러오기
 loadDaily();
