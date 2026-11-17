@@ -1110,11 +1110,23 @@ function convertSpeechReferences(text) {
 
   let result = String(text);
 
-  // 파수대 표기 변환
+  // 파수대 연도와 월 변환
   result = result.replace(
-    /파\s*(\d{2})\.(\d{1,2})\s*」?\s*(\d+)\s*-\s*(\d+)\s*면\s*(\d+)\s*-\s*(\d+)\s*항/g,
-    (_, year, month, page1, page2, para1, para2) =>
-      `파 ${year}년 ${Number(month)}월 ${page1}에서 ${page2}면 ${para1}에서 ${para2}항`
+    /파\s*(\d{2})\.(\d{1,2})/g,
+    (_, year, month) =>
+      `파 ${year}년 ${Number(month)}월`
+  );
+
+  // 면 범위 변환
+  result = result.replace(
+    /(\d+)\s*-\s*(\d+)\s*면/g,
+    "$1에서 $2면"
+  );
+
+  // 항 범위 변환
+  result = result.replace(
+    /(\d+)\s*-\s*(\d+)\s*항/g,
+    "$1에서 $2항"
   );
 
   // 성경 책 이름
@@ -1139,7 +1151,9 @@ function convertSpeechReferences(text) {
 
   bibleBooks.sort((a, b) => b.length - a.length);
 
-  const bookPattern = bibleBooks.join("|");
+  const bookPattern = bibleBooks
+    .map(book => book.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|");
 
   const referencePattern = new RegExp(
     `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
@@ -1173,7 +1187,6 @@ function convertSpeechReferences(text) {
 
   return result;
 }
-
 
 // 처음부터 읽기
 function speakFrom() {
