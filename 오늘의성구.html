@@ -1106,10 +1106,10 @@ function getReadText() {
 
 
 
+
 // ========================================
 // 음성 읽기용 성구 및 출판물 표기 변환
 // ========================================
-
 
 function convertSpeechReferences(text) {
 
@@ -1149,7 +1149,6 @@ function convertSpeechReferences(text) {
         for (let i = 0; i < 4; i++) {
 
           const digit = Number(groupDigits[i]);
-
           const unitIndex = 3 - i;
 
           if (digit === 0) continue;
@@ -1194,11 +1193,12 @@ function convertSpeechReferences(text) {
   );
 
   // 성경 책 이름
+  // '시'도 시편으로 인식하도록 추가
   const bibleBooks = [
     "창세기", "출애굽기", "레위기", "민수기", "신명기",
     "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
     "열왕기상", "열왕기하", "역대기상", "역대기하",
-    "에스라", "느헤미야", "에스더", "욥기", "시편",
+    "에스라", "느헤미야", "에스더", "욥기", "시편", "시",
     "잠언", "전도서", "솔로몬의 노래", "이사야",
     "예레미야 애가", "예레미야", "에스겔", "다니엘",
     "호세아", "요엘", "아모스", "오바댜", "요나",
@@ -1224,37 +1224,48 @@ function convertSpeechReferences(text) {
     "g"
   );
 
-  // 성경 구절을 한자어 숫자로 변환
+  // 성경 구절을 한자어 숫자와 명확한 띄어쓰기로 변환
   result = result.replace(
     referencePattern,
     (match, book, chapter, verse, endVerse, commaVerses) => {
 
+      // '시'와 '시편' 모두 '시편'으로 통일
+      const bookName =
+        book === "시" ? "시편" : book;
+
+      // 시편은 반드시 '편', 나머지는 '장'
       const chapterUnit =
-        book === "시편" ? "편" : "장";
+        bookName === "시편" ? "편" : "장";
 
-      const chapterText = koreanNumber(Number(chapter));
-      const verseText = koreanNumber(Number(verse));
+      const chapterText =
+        koreanNumber(Number(chapter));
 
+      const verseText =
+        koreanNumber(Number(verse));
+
+      // 장과 절 사이에 명확한 공백 적용
       if (endVerse) {
-        return `${book} ${chapterText}${chapterUnit} ${verseText}절부터 ${koreanNumber(Number(endVerse))}절`;
+        return `${bookName} ${chapterText} ${chapterUnit} ${verseText} 절부터 ${koreanNumber(Number(endVerse))} 절`;
       }
 
       if (commaVerses) {
+
         const additionalVerses = commaVerses.replace(
           /,\s*(\d+)/g,
           (_, number) =>
-            `, ${koreanNumber(Number(number))}절`
+            `, ${koreanNumber(Number(number))} 절`
         );
 
-        return `${book} ${chapterText}${chapterUnit} ${verseText}절${additionalVerses}`;
+        return `${bookName} ${chapterText} ${chapterUnit} ${verseText} 절${additionalVerses}`;
       }
 
-      return `${book} ${chapterText}${chapterUnit} ${verseText}절`;
+      return `${bookName} ${chapterText} ${chapterUnit} ${verseText} 절`;
     }
   );
 
   return result;
 }
+
 
 
 // 처음부터 읽기
