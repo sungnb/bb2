@@ -1110,9 +1110,69 @@ function getReadText() {
 // 음성 읽기용 성구 및 출판물 표기 변환
 // ========================================
 
+
 function convertSpeechReferences(text) {
 
   let result = String(text);
+
+  // 한자어 숫자로 변환
+  function koreanNumber(num) {
+
+    const digits = [
+      "영", "일", "이", "삼", "사",
+      "오", "육", "칠", "팔", "구"
+    ];
+
+    const units = ["", "십", "백", "천"];
+
+    const largeUnits = [
+      "", "만", "억", "조"
+    ];
+
+    if (num === 0) return "영";
+
+    let number = Number(num);
+    let result = "";
+    let groupIndex = 0;
+
+    while (number > 0) {
+
+      const group = number % 10000;
+
+      if (group > 0) {
+
+        let groupText = "";
+
+        const groupDigits = String(group)
+          .padStart(4, "0");
+
+        for (let i = 0; i < 4; i++) {
+
+          const digit = Number(groupDigits[i]);
+
+          const unitIndex = 3 - i;
+
+          if (digit === 0) continue;
+
+          if (unitIndex === 1 && digit === 1) {
+            groupText += "십";
+          } else {
+            groupText += digits[digit] + units[unitIndex];
+          }
+        }
+
+        result =
+          groupText +
+          largeUnits[groupIndex] +
+          result;
+      }
+
+      number = Math.floor(number / 10000);
+      groupIndex++;
+    }
+
+    return result;
+  }
 
   // 파수대 연도와 월 변환
   result = result.replace(
@@ -1164,7 +1224,7 @@ function convertSpeechReferences(text) {
     "g"
   );
 
-  // 성경 구절 변환
+  // 성경 구절을 한자어 숫자로 변환
   result = result.replace(
     referencePattern,
     (match, book, chapter, verse, endVerse, commaVerses) => {
@@ -1172,25 +1232,30 @@ function convertSpeechReferences(text) {
       const chapterUnit =
         book === "시편" ? "편" : "장";
 
+      const chapterText = koreanNumber(Number(chapter));
+      const verseText = koreanNumber(Number(verse));
+
       if (endVerse) {
-        return `${book} ${chapter}${chapterUnit} ${verse}절부터 ${endVerse}절`;
+        return `${book} ${chapterText}${chapterUnit} ${verseText}절부터 ${koreanNumber(Number(endVerse))}절`;
       }
 
       if (commaVerses) {
         const additionalVerses = commaVerses.replace(
           /,\s*(\d+)/g,
-          ", $1절"
+          (_, number) =>
+            `, ${koreanNumber(Number(number))}절`
         );
 
-        return `${book} ${chapter}${chapterUnit} ${verse}절${additionalVerses}`;
+        return `${book} ${chapterText}${chapterUnit} ${verseText}절${additionalVerses}`;
       }
 
-      return `${book} ${chapter}${chapterUnit} ${verse}절`;
+      return `${book} ${chapterText}${chapterUnit} ${verseText}절`;
     }
   );
 
   return result;
 }
+
 
 // 처음부터 읽기
 function speakFrom() {
