@@ -1101,6 +1101,374 @@ function getReadText() {
 }
 
 
+
+// ========================================
+// 음성 읽기용 성구 및 출판물 표기 변환
+// ========================================
+
+function convertSpeechReferences(text) {
+
+  let result = String(text);
+
+  // 파수대 표기 변환
+  result = result.replace(
+    /파\s*(\d{2})\.(\d{1,2})\s*」?\s*(\d+)\s*-\s*(\d+)\s*면\s*(\d+)\s*-\s*(\d+)\s*항/g,
+    (_, year, month, page1, page2, para1, para2) =>
+      `파 ${year}년 ${Number(month)}월 ${page1}에서 ${page2}면 ${para1}에서 ${para2}항`
+  );
+
+  // 성경 책 이름
+  const bibleBooks = [
+    "창세기", "출애굽기", "레위기", "민수기", "신명기",
+    "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
+    "열왕기상", "열왕기하", "역대기상", "역대기하",
+    "에스라", "느헤미야", "에스더", "욥기", "시편",
+    "잠언", "전도서", "솔로몬의 노래", "이사야",
+    "예레미야 애가", "예레미야", "에스겔", "다니엘",
+    "호세아", "요엘", "아모스", "오바댜", "요나",
+    "미가", "나훔", "하박국", "스바냐", "학개",
+    "스가랴", "말라기", "마태", "마가", "누가",
+    "요한 1서", "요한 2서", "요한 3서", "요한",
+    "사도", "로마", "고린도 전서", "고린도 후서",
+    "갈라디아", "에베소", "빌립보", "골로새",
+    "데살로니가 전서", "데살로니가 후서",
+    "디모데 전서", "디모데 후서", "디도", "빌레몬",
+    "히브리", "야고보", "베드로 전서", "베드로 후서",
+    "유다", "계시록"
+  ];
+
+  bibleBooks.sort((a, b) => b.length - a.length);
+
+  const bookPattern = bibleBooks.join("|");
+
+  const referencePattern = new RegExp(
+    `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
+    "g"
+  );
+
+  // 성경 구절 변환
+  result = result.replace(
+    referencePattern,
+    (match, book, chapter, verse, endVerse, commaVerses) => {
+
+      const chapterUnit =
+        book === "시편" ? "편" : "장";
+
+      if (endVerse) {
+        return `${book} ${chapter}${chapterUnit} ${verse}절부터 ${endVerse}절`;
+      }
+
+      if (commaVerses) {
+        const additionalVerses = commaVerses.replace(
+          /,\s*(\d+)/g,
+          ", $1절"
+        );
+
+        return `${book} ${chapter}${chapterUnit} ${verse}절${additionalVerses}`;
+      }
+
+      return `${book} ${chapter}${chapterUnit} ${verse}절`;
+    }
+  );
+
+  return result;
+}
+
+
+
+// ========================================
+// 음성 읽기용 성구 및 출판물 표기 변환
+// ========================================
+
+function convertSpeechReferences(text) {
+
+  let result = String(text);
+
+  // 파수대 표기 변환
+  result = result.replace(
+    /파\s*(\d{2})\.(\d{1,2})\s*」?\s*(\d+)\s*-\s*(\d+)\s*면\s*(\d+)\s*-\s*(\d+)\s*항/g,
+    (_, year, month, page1, page2, para1, para2) =>
+      `파 ${year}년 ${Number(month)}월 ${page1}에서 ${page2}면 ${para1}에서 ${para2}항`
+  );
+
+  // 성경 책 이름
+  const bibleBooks = [
+    "창세기", "출애굽기", "레위기", "민수기", "신명기",
+    "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
+    "열왕기상", "열왕기하", "역대기상", "역대기하",
+    "에스라", "느헤미야", "에스더", "욥기", "시편",
+    "잠언", "전도서", "솔로몬의 노래", "이사야",
+    "예레미야 애가", "예레미야", "에스겔", "다니엘",
+    "호세아", "요엘", "아모스", "오바댜", "요나",
+    "미가", "나훔", "하박국", "스바냐", "학개",
+    "스가랴", "말라기", "마태", "마가", "누가",
+    "요한 1서", "요한 2서", "요한 3서", "요한",
+    "사도", "로마", "고린도 전서", "고린도 후서",
+    "갈라디아", "에베소", "빌립보", "골로새",
+    "데살로니가 전서", "데살로니가 후서",
+    "디모데 전서", "디모데 후서", "디도", "빌레몬",
+    "히브리", "야고보", "베드로 전서", "베드로 후서",
+    "유다", "계시록"
+  ];
+
+  bibleBooks.sort((a, b) => b.length - a.length);
+
+  const bookPattern = bibleBooks.join("|");
+
+  const referencePattern = new RegExp(
+    `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
+    "g"
+  );
+
+  // 성경 구절 변환
+  result = result.replace(
+    referencePattern,
+    (match, book, chapter, verse, endVerse, commaVerses) => {
+
+      const chapterUnit =
+        book === "시편" ? "편" : "장";
+
+      if (endVerse) {
+        return `${book} ${chapter}${chapterUnit} ${verse}절부터 ${endVerse}절`;
+      }
+
+      if (commaVerses) {
+        const additionalVerses = commaVerses.replace(
+          /,\s*(\d+)/g,
+          ", $1절"
+        );
+
+        return `${book} ${chapter}${chapterUnit} ${verse}절${additionalVerses}`;
+      }
+
+      return `${book} ${chapter}${chapterUnit} ${verse}절`;
+    }
+  );
+
+  return result;
+}
+
+
+
+// ========================================
+// 음성 읽기용 성구 및 출판물 표기 변환
+// ========================================
+
+function convertSpeechReferences(text) {
+
+  let result = String(text);
+
+  // 파수대 표기 변환
+  result = result.replace(
+    /파\s*(\d{2})\.(\d{1,2})\s*」?\s*(\d+)\s*-\s*(\d+)\s*면\s*(\d+)\s*-\s*(\d+)\s*항/g,
+    (_, year, month, page1, page2, para1, para2) =>
+      `파 ${year}년 ${Number(month)}월 ${page1}에서 ${page2}면 ${para1}에서 ${para2}항`
+  );
+
+  // 성경 책 이름
+  const bibleBooks = [
+    "창세기", "출애굽기", "레위기", "민수기", "신명기",
+    "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
+    "열왕기상", "열왕기하", "역대기상", "역대기하",
+    "에스라", "느헤미야", "에스더", "욥기", "시편",
+    "잠언", "전도서", "솔로몬의 노래", "이사야",
+    "예레미야 애가", "예레미야", "에스겔", "다니엘",
+    "호세아", "요엘", "아모스", "오바댜", "요나",
+    "미가", "나훔", "하박국", "스바냐", "학개",
+    "스가랴", "말라기", "마태", "마가", "누가",
+    "요한 1서", "요한 2서", "요한 3서", "요한",
+    "사도", "로마", "고린도 전서", "고린도 후서",
+    "갈라디아", "에베소", "빌립보", "골로새",
+    "데살로니가 전서", "데살로니가 후서",
+    "디모데 전서", "디모데 후서", "디도", "빌레몬",
+    "히브리", "야고보", "베드로 전서", "베드로 후서",
+    "유다", "계시록"
+  ];
+
+  bibleBooks.sort((a, b) => b.length - a.length);
+
+  const bookPattern = bibleBooks.join("|");
+
+  const referencePattern = new RegExp(
+    `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
+    "g"
+  );
+
+  // 성경 구절 변환
+  result = result.replace(
+    referencePattern,
+    (match, book, chapter, verse, endVerse, commaVerses) => {
+
+      const chapterUnit =
+        book === "시편" ? "편" : "장";
+
+      if (endVerse) {
+        return `${book} ${chapter}${chapterUnit} ${verse}절부터 ${endVerse}절`;
+      }
+
+      if (commaVerses) {
+        const additionalVerses = commaVerses.replace(
+          /,\s*(\d+)/g,
+          ", $1절"
+        );
+
+        return `${book} ${chapter}${chapterUnit} ${verse}절${additionalVerses}`;
+      }
+
+      return `${book} ${chapter}${chapterUnit} ${verse}절`;
+    }
+  );
+
+  return result;
+}
+
+
+// ========================================
+// 음성 읽기용 성구 및 출판물 표기 변환
+// ========================================
+
+function convertSpeechReferences(text) {
+
+  let result = String(text);
+
+  // 파수대 표기 변환
+  result = result.replace(
+    /파\s*(\d{2})\.(\d{1,2})\s*」?\s*(\d+)\s*-\s*(\d+)\s*면\s*(\d+)\s*-\s*(\d+)\s*항/g,
+    (_, year, month, page1, page2, para1, para2) =>
+      `파 ${year}년 ${Number(month)}월 ${page1}에서 ${page2}면 ${para1}에서 ${para2}항`
+  );
+
+  // 성경 책 이름
+  const bibleBooks = [
+    "창세기", "출애굽기", "레위기", "민수기", "신명기",
+    "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
+    "열왕기상", "열왕기하", "역대기상", "역대기하",
+    "에스라", "느헤미야", "에스더", "욥기", "시편",
+    "잠언", "전도서", "솔로몬의 노래", "이사야",
+    "예레미야 애가", "예레미야", "에스겔", "다니엘",
+    "호세아", "요엘", "아모스", "오바댜", "요나",
+    "미가", "나훔", "하박국", "스바냐", "학개",
+    "스가랴", "말라기", "마태", "마가", "누가",
+    "요한 1서", "요한 2서", "요한 3서", "요한",
+    "사도", "로마", "고린도 전서", "고린도 후서",
+    "갈라디아", "에베소", "빌립보", "골로새",
+    "데살로니가 전서", "데살로니가 후서",
+    "디모데 전서", "디모데 후서", "디도", "빌레몬",
+    "히브리", "야고보", "베드로 전서", "베드로 후서",
+    "유다", "계시록"
+  ];
+
+  bibleBooks.sort((a, b) => b.length - a.length);
+
+  const bookPattern = bibleBooks.join("|");
+
+  const referencePattern = new RegExp(
+    `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
+    "g"
+  );
+
+  // 성경 구절 변환
+  result = result.replace(
+    referencePattern,
+    (match, book, chapter, verse, endVerse, commaVerses) => {
+
+      const chapterUnit =
+        book === "시편" ? "편" : "장";
+
+      if (endVerse) {
+        return `${book} ${chapter}${chapterUnit} ${verse}절부터 ${endVerse}절`;
+      }
+
+      if (commaVerses) {
+        const additionalVerses = commaVerses.replace(
+          /,\s*(\d+)/g,
+          ", $1절"
+        );
+
+        return `${book} ${chapter}${chapterUnit} ${verse}절${additionalVerses}`;
+      }
+
+      return `${book} ${chapter}${chapterUnit} ${verse}절`;
+    }
+  );
+
+  return result;
+}
+
+
+// ========================================
+// 음성 읽기용 성구 및 출판물 표기 변환
+// ========================================
+
+function convertSpeechReferences(text) {
+
+  let result = String(text);
+
+  // 파수대 표기 변환
+  result = result.replace(
+    /파\s*(\d{2})\.(\d{1,2})\s*」?\s*(\d+)\s*-\s*(\d+)\s*면\s*(\d+)\s*-\s*(\d+)\s*항/g,
+    (_, year, month, page1, page2, para1, para2) =>
+      `파 ${year}년 ${Number(month)}월 ${page1}에서 ${page2}면 ${para1}에서 ${para2}항`
+  );
+
+  // 성경 책 이름
+  const bibleBooks = [
+    "창세기", "출애굽기", "레위기", "민수기", "신명기",
+    "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
+    "열왕기상", "열왕기하", "역대기상", "역대기하",
+    "에스라", "느헤미야", "에스더", "욥기", "시편",
+    "잠언", "전도서", "솔로몬의 노래", "이사야",
+    "예레미야 애가", "예레미야", "에스겔", "다니엘",
+    "호세아", "요엘", "아모스", "오바댜", "요나",
+    "미가", "나훔", "하박국", "스바냐", "학개",
+    "스가랴", "말라기", "마태", "마가", "누가",
+    "요한 1서", "요한 2서", "요한 3서", "요한",
+    "사도", "로마", "고린도 전서", "고린도 후서",
+    "갈라디아", "에베소", "빌립보", "골로새",
+    "데살로니가 전서", "데살로니가 후서",
+    "디모데 전서", "디모데 후서", "디도", "빌레몬",
+    "히브리", "야고보", "베드로 전서", "베드로 후서",
+    "유다", "계시록"
+  ];
+
+  bibleBooks.sort((a, b) => b.length - a.length);
+
+  const bookPattern = bibleBooks.join("|");
+
+  const referencePattern = new RegExp(
+    `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
+    "g"
+  );
+
+  // 성경 구절 변환
+  result = result.replace(
+    referencePattern,
+    (match, book, chapter, verse, endVerse, commaVerses) => {
+
+      const chapterUnit =
+        book === "시편" ? "편" : "장";
+
+      if (endVerse) {
+        return `${book} ${chapter}${chapterUnit} ${verse}절부터 ${endVerse}절`;
+      }
+
+      if (commaVerses) {
+        const additionalVerses = commaVerses.replace(
+          /,\s*(\d+)/g,
+          ", $1절"
+        );
+
+        return `${book} ${chapter}${chapterUnit} ${verse}절${additionalVerses}`;
+      }
+
+      return `${book} ${chapter}${chapterUnit} ${verse}절`;
+    }
+  );
+
+  return result;
+}
+
+
 // 처음부터 읽기
 function speakFrom() {
 
@@ -1112,8 +1480,11 @@ function speakFrom() {
 
   const token = speechToken;
 
+  // 음성으로 읽기 전에 성구 표기 변환
+  const speechText = convertSpeechReferences(text);
+
   // 문단 단위로 나누어 재생
-  speechQueue = text
+  speechQueue = speechText
     .split(/\n+/)
     .map(s => s.trim())
     .filter(Boolean);
@@ -1125,8 +1496,7 @@ function speakFrom() {
   speakNext(token);
 
 }
-
-
+  
 // 재생 / 일시정지
 $("playBtn").onclick = () => {
 
