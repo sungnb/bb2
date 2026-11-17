@@ -1020,6 +1020,27 @@ function stopSpeech() {
 }
 
 
+// 읽을 성구와 해설 가져오기
+function getReadText() {
+
+  const verse =
+    verseText +
+    (referenceText ? " — " + referenceText : "");
+
+  if (readMode === "verse") {
+    return verse;
+  }
+
+  if (readMode === "commentary") {
+    return commentaryText;
+  }
+
+  return [verse, commentaryText]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+
 // 처음부터 읽기
 function speakFrom() {
 
@@ -1049,27 +1070,32 @@ function speakFrom() {
 // 재생 / 일시정지
 $("playBtn").onclick = () => {
 
-  if (nativeSpeech.speaking) {
+  // 일시정지 상태라면 다시 재생
+  if (nativeSpeech.paused) {
 
-    if (nativeSpeech.paused) {
-
-      nativeSpeech.resume();
-
-    } else {
-
-      nativeSpeech.pause();
-
-    }
+    nativeSpeech.resume();
 
     updatePlayButton();
 
     return;
-
   }
 
-  if (isSpeaking) return;
+  // 재생 중이라면 일시정지
+  if (nativeSpeech.speaking) {
 
-  speakFrom();
+    nativeSpeech.pause();
+
+    updatePlayButton();
+
+    return;
+  }
+
+  // 정지 상태라면 처음부터 재생
+  if (!isSpeaking) {
+
+    speakFrom();
+
+  }
 
 };
 
