@@ -1157,7 +1157,10 @@ function convertSpeechReferences(text) {
 
   // 4. 대시로 시작하는 성구 참조 제외
   // 예: —히브리 11:1,6.
+  // 예: — 히브리 13:9
   // 예: -사도 10:28.
+  // 예: - 사도 10:28.
+
   const dashReferencePattern = new RegExp(
     `(?:^|\\s)[—–-]\\s*(?:${bookPattern})\\s*\\d+\\s*:\\s*\\d+(?:\\s*[-–]\\s*\\d+)?(?:\\s*,\\s*\\d+)*(?:\\.)?`,
     "g"
