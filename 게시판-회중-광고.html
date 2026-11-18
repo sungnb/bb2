@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport"
   content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
- <title>알림</title>
+ <title>회중광고</title>
 
 <style>
 
@@ -558,7 +558,7 @@ body.dark-mode #content .notice-text {
       aria-label="뒤로가기">‹</button>
 
     <!-- 가운데 제목 -->
-    <div class="main-title">알림</div>
+   <div class="main-title">회중광고</div>
 
     <!-- 설정 -->
     <button type="button"
@@ -781,11 +781,8 @@ let currentNoticeButton = null;
 /* 광고 읽기 시작 / 멈춤 */
 function toggleNoticeSpeech(button, text) {
 
-  // 현재 읽고 있는 광고의 멈춤 버튼을 누른 경우
-  if (
-    currentNoticeButton === button &&
-    window.speechSynthesis.speaking
-  ) {
+  // 현재 광고의 멈춤 버튼을 누른 경우
+  if (currentNoticeButton === button) {
     window.speechSynthesis.cancel();
 
     button.textContent = "▶ 재생";
@@ -851,15 +848,21 @@ function loadNotices(data) {
 
     monthBox.appendChild(monthTitle);
 
-    // 해당 날짜의 제목과 본문
+    // 해당 날짜의 광고들
     (dateData.sections || []).forEach(section => {
 
-      // 회중용 등 제목 표시
+      // 광고 하나를 담는 별도 영역
+      const noticeBox = document.createElement("div");
+
+      // 광고 제목
       const sectionTitle = document.createElement("h3");
       sectionTitle.className = "notice-section-title";
       sectionTitle.textContent = section.title || "";
 
-      monthBox.appendChild(sectionTitle);
+      noticeBox.appendChild(sectionTitle);
+
+      // 해당 광고의 음성 읽기 내용
+      let speechText = section.title || "";
 
       // 본문을 시트 순서대로 표시
       (section.contents || []).forEach(text => {
@@ -875,7 +878,7 @@ function loadNotices(data) {
         // 본문 내용 유지
         paragraph.textContent = String(text);
 
-        // 2번, 3번 등 번호가 시작되는 본문에 간격 추가
+        // 2번, 3번 등 번호가 시작되는 본문 위에 간격 추가
         const numberMatch = String(text)
           .trim()
           .match(/^(\d+)\s*[.)]/);
@@ -884,26 +887,29 @@ function loadNotices(data) {
           paragraph.classList.add("numbered-notice");
         }
 
-        monthBox.appendChild(paragraph);
+        noticeBox.appendChild(paragraph);
+
+        // 음성 읽기 내용에 추가
+        speechText += "\n" + String(text);
 
       });
 
+      // 광고별 재생 버튼
+      const playButton = document.createElement("button");
+      playButton.type = "button";
+      playButton.className = "notice-play-button";
+      playButton.textContent = "▶ 재생";
+
+      playButton.onclick = function() {
+        toggleNoticeSpeech(playButton, speechText);
+      };
+
+      noticeBox.appendChild(playButton);
+
+      // 광고 하나를 날짜별 박스에 추가
+      monthBox.appendChild(noticeBox);
+
     });
-
-    // 광고 박스의 제목과 본문만 음성으로 읽기
-    const speechText = monthBox.innerText;
-
-    // 광고별 재생 버튼
-    const playButton = document.createElement("button");
-    playButton.type = "button";
-    playButton.className = "notice-play-button";
-    playButton.textContent = "▶ 재생";
-
-    playButton.onclick = function() {
-      toggleNoticeSpeech(playButton, speechText);
-    };
-
-    monthBox.appendChild(playButton);
 
     // 날짜별 박스를 시트 순서대로 추가
     content.appendChild(monthBox);
@@ -911,7 +917,6 @@ function loadNotices(data) {
   });
 
 }
-
 function loadNoticesError() {
   document.getElementById("content").textContent =
     "알림을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.";
@@ -927,8 +932,7 @@ function requestNotices() {
   document.body.appendChild(script);
 }
 
-requestNotices();
-  
+requestNotices(); 
 </script>
 
 </body>
