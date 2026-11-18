@@ -323,25 +323,145 @@ body.dark-mode .settings-panel .theme-btn.active {
   margin-top: 1.7em;
 }
 
-/* 광고별 음성 재생 버튼 */
-.notice-play-button {
-  display: block;
-  width: 100%;
-  height: 46px;
-  margin-top: 16px;
+/* =====================================
+   광고별 음성 읽기
+===================================== */
 
-  border: 1px solid #9db2c4;
-  border-radius: 10px;
+let currentNoticeButton = null;
 
-  background: #234563;
-  color: #ffffff;
+function toggleNoticeSpeech(button, text) {
 
-  font-size: 18px;
-  font-weight: 800;
+  // 현재 광고를 읽는 중이면 멈춤
+  if (currentNoticeButton === button) {
+    window.speechSynthesis.cancel();
 
-  cursor: pointer;
+    button.textContent = "▶ 재생";
+    currentNoticeButton = null;
+    return;
+  }
+
+  // 다른 광고가 읽는 중이면 중단
+  window.speechSynthesis.cancel();
+
+  if (currentNoticeButton) {
+    currentNoticeButton.textContent = "▶ 재생";
+  }
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "ko-KR";
+
+  currentNoticeButton = button;
+  button.textContent = "■ 멈춤";
+
+  utterance.onend = function() {
+    if (currentNoticeButton === button) {
+      button.textContent = "▶ 재생";
+      currentNoticeButton = null;
+    }
+  };
+
+  utterance.onerror = function() {
+    if (currentNoticeButton === button) {
+      button.textContent = "▶ 재생";
+      currentNoticeButton = null;
+    }
+  };
+
+  window.speechSynthesis.speak(utterance);
 }
 
+
+/* =====================================
+   날짜별 알림 불러오기
+===================================== */
+
+function loadNotices(data) {
+
+  const content = document.getElementById("content");
+  content.innerHTML = "";
+
+  if (!Array.isArray(data) || data.length === 0) {
+    content.textContent = "등록된 알림이 없습니다.";
+    return;
+  }
+
+  // 시트에 작성된 순서 그대로 표시
+  data.forEach(dateData => {
+
+    // 날짜별 알림 박스 생성
+    const monthBox = document.createElement("section");
+    monthBox.className = "notice-month";
+
+    // 날짜 제목
+    const monthTitle = document.createElement("h2");
+    monthTitle.className = "notice-month-title";
+    monthTitle.textContent = dateData.month || "";
+
+    monthBox.appendChild(monthTitle);
+
+    // 해당 날짜의 광고들
+    (dateData.sections || []).forEach(section => {
+
+      // 광고 하나를 담는 별도 영역
+      const noticeBox = document.createElement("div");
+
+      // 광고 제목
+      const sectionTitle = document.createElement("h3");
+      sectionTitle.className = "notice-section-title";
+      sectionTitle.textContent = section.title || "";
+
+      noticeBox.appendChild(sectionTitle);
+
+      // 해당 광고의 음성 읽기 내용
+      let speechText = section.title || "";
+
+      // 광고 본문
+      (section.contents || []).forEach(text => {
+
+        if (!String(text || "").trim()) {
+          return;
+        }
+
+        const paragraph = document.createElement("p");
+        paragraph.className = "notice-text";
+        paragraph.textContent = String(text);
+
+        // 번호가 시작되는 본문에 간격 추가
+        const numberMatch = String(text)
+          .trim()
+          .match(/^(\d+)\s*[.)]/);
+
+        if (numberMatch && Number(numberMatch[1]) >= 2) {
+          paragraph.classList.add("numbered-notice");
+        }
+
+        noticeBox.appendChild(paragraph);
+
+        speechText += "\n" + String(text);
+      });
+
+      // 이 광고에만 해당하는 재생 버튼
+      const playButton = document.createElement("button");
+      playButton.type = "button";
+      playButton.className = "notice-play-button";
+      playButton.textContent = "▶ 재생";
+
+      playButton.addEventListener("click", function() {
+        toggleNoticeSpeech(playButton, speechText);
+      });
+
+      noticeBox.appendChild(playButton);
+
+      // 광고와 버튼을 월별 박스에 추가
+      monthBox.appendChild(noticeBox);
+
+    });
+
+    content.appendChild(monthBox);
+
+  });
+
+}
 /* 어두운 모드에서도 동일하게 표시 */
 body.dark-mode .notice-play-button {
   background: #234563;
