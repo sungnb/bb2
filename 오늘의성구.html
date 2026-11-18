@@ -1102,96 +1102,23 @@ function getReadText() {
     .join("\n\n");
 }
 
-
-
-
 // ========================================
-// 음성 읽기용 성구 및 출판물 표기 변환
+// 음성 읽기에서 모든 성구 및 파수대 참조 제외
 // ========================================
 
 function convertSpeechReferences(text) {
 
   let result = String(text);
 
-  // 한자어 숫자로 변환
-  function koreanNumber(num) {
-
-    const digits = [
-      "영", "일", "이", "삼", "사",
-      "오", "육", "칠", "팔", "구"
-    ];
-
-    const units = ["", "십", "백", "천"];
-
-    const largeUnits = [
-      "", "만", "억", "조"
-    ];
-
-    if (num === 0) return "영";
-
-    let number = Number(num);
-    let result = "";
-    let groupIndex = 0;
-
-    while (number > 0) {
-
-      const group = number % 10000;
-
-      if (group > 0) {
-
-        let groupText = "";
-
-        const groupDigits = String(group)
-          .padStart(4, "0");
-
-        for (let i = 0; i < 4; i++) {
-
-          const digit = Number(groupDigits[i]);
-          const unitIndex = 3 - i;
-
-          if (digit === 0) continue;
-
-          if (unitIndex === 1 && digit === 1) {
-            groupText += "십";
-          } else {
-            groupText += digits[digit] + units[unitIndex];
-          }
-        }
-
-        result =
-          groupText +
-          largeUnits[groupIndex] +
-          result;
-      }
-
-      number = Math.floor(number / 10000);
-      groupIndex++;
-    }
-
-    return result;
-  }
-
-  // 파수대 연도와 월 변환
+  // 1. 파수대 참조 제외
+  // 예: 파24.09 10면 7-8항 참조
+  // 예: 파24.09 10면 참조
   result = result.replace(
-    /파\s*(\d{2})\.(\d{1,2})/g,
-    (_, year, month) =>
-      `파 ${year}년 ${Number(month)}월`
+    /파\s*\d{2}\.\d{1,2}\s*\d+\s*면(?:\s*\d+\s*-\s*\d+\s*항)?\s*참조?/g,
+    ""
   );
 
-  // 면 범위 변환
-  result = result.replace(
-    /(\d+)\s*-\s*(\d+)\s*면/g,
-    "$1에서 $2면"
-  );
-
-  // 항 범위 변환
-  result = result.replace(
-    /(\d+)\s*-\s*(\d+)\s*항/g,
-    "$1에서 $2항"
-  );
-
-  // 성경 책 이름
-  // '시'도 시편으로 인식하도록 추가
+  // 2. 모든 성경 책 이름
   const bibleBooks = [
     "창세기", "출애굽기", "레위기", "민수기", "신명기",
     "여호수아", "사사기", "룻기", "사무엘상", "사무엘하",
@@ -1217,53 +1144,22 @@ function convertSpeechReferences(text) {
     .map(book => book.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
     .join("|");
 
+  // 3. 성경 책 이름 + 장:절 전체 제외
   const referencePattern = new RegExp(
-    `(${bookPattern})\\s*(\\d+)\\s*:\\s*(\\d+)(?:\\s*-\\s*(\\d+)|((?:\\s*,\\s*\\d+)+))?`,
+    `(?:${bookPattern})\\s*\\d+\\s*:\\s*\\d+(?:\\s*-\\s*\\d+)?(?:\\s*,\\s*\\d+)*`,
     "g"
   );
 
-  // 성경 구절을 한자어 숫자와 명확한 띄어쓰기로 변환
-  result = result.replace(
-    referencePattern,
-    (match, book, chapter, verse, endVerse, commaVerses) => {
+  result = result.replace(referencePattern, "");
 
-      // '시'와 '시편' 모두 '시편'으로 통일
-      const bookName =
-        book === "시" ? "시편" : book;
-
-      // 시편은 반드시 '편', 나머지는 '장'
-      const chapterUnit =
-        bookName === "시편" ? "편" : "장";
-
-      const chapterText =
-        koreanNumber(Number(chapter));
-
-      const verseText =
-        koreanNumber(Number(verse));
-
-      // 장과 절 사이에 명확한 공백 적용
-      if (endVerse) {
-        return `${bookName} ${chapterText} ${chapterUnit} ${verseText} 절부터 ${koreanNumber(Number(endVerse))} 절`;
-      }
-
-      if (commaVerses) {
-
-        const additionalVerses = commaVerses.replace(
-          /,\s*(\d+)/g,
-          (_, number) =>
-            `, ${koreanNumber(Number(number))} 절`
-        );
-
-        return `${bookName} ${chapterText} ${chapterUnit} ${verseText} 절${additionalVerses}`;
-      }
-
-      return `${bookName} ${chapterText} ${chapterUnit} ${verseText} 절`;
-    }
-  );
+  // 4. 남은 공백 정리
+  result = result
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
   return result;
 }
-
 
 
 // 처음부터 읽기
