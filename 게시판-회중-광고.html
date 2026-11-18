@@ -683,9 +683,8 @@ function toggleNoticeSpeech(button, text) {
 
   // 읽을 내용 생성
   const utterance = new SpeechSynthesisUtterance(text);
-
   utterance.lang = "ko-KR";
-
+  utterance.rate = 0.8;
   currentNoticeButton = button;
   button.textContent = "■ 멈춤";
 
