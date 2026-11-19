@@ -3190,7 +3190,7 @@ function showView(view) {
 
     document
       .getElementById("topTitle")
-      .textContent = "전시대";
+      .textContent = "공개 증거";
 
     setActiveNav("navNotice");
 
