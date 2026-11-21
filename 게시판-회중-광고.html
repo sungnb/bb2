@@ -717,8 +717,15 @@ function loadNotices(data) {
     return;
   }
 
-  // 시트에 작성된 순서 그대로 표시
-  data.forEach(dateData => {
+  // 최신 날짜 순으로 정렬하고 최근 4개만 표시
+  const recentDateData = [...data]
+    .sort((a, b) =>
+      (getLatestNoticeDate(b.month) || 0) -
+      (getLatestNoticeDate(a.month) || 0)
+    )
+    .slice(0, 4);
+
+  recentDateData.forEach(dateData => {
 
     // 날짜별 알림 박스 생성
     const monthBox = document.createElement("section");
@@ -794,12 +801,13 @@ function loadNotices(data) {
 
     });
 
-    // 날짜별 박스를 시트 순서대로 추가
+    // 날짜별 박스 추가
     content.appendChild(monthBox);
 
   });
 
 }
+
 function loadNoticesError() {
   document.getElementById("content").textContent =
     "알림을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.";
