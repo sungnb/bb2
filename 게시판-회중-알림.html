@@ -266,6 +266,11 @@ body {
   margin-bottom: 3px;
 }
 
+/* 알림 내용 줄바꿈 */
+.notice-detail {
+  white-space: pre-line;
+}
+
 /* =====================================
    어두운 모드
 ===================================== */
@@ -427,98 +432,9 @@ body.dark-mode .settings-panel .theme-btn.active {
   <!-- 알림 내용 -->
   <main id="content">
 
-    <div class="notice-list">
-
-      <!-- 알림 1 -->
-      <section class="notice-card">
-
-        <div class="notice-title">
-          순회 감독자와 함께하는 순회 대회
-        </div>
-
-        <div class="notice-body">
-
-          <div class="notice-date">
-            2026년 11월 29일 (일)
-          </div>
-
-          <div class="notice-detail">
-장소 : 퇴계원 대회 회관
-청중석 입장 시간 : 노약자와 1명의 보호자 오전 8시
-모든 참석자 : 오전 8시 15분 부터 입장
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- 알림 2 -->
-      <section class="notice-card">
-
-        <div class="notice-title">
-          순회 감독자의 회중 방문
-        </div>
-
-        <div class="notice-body">
-
-          <div class="notice-date">
-            2026년 12월 15일 (화)
-          </div>
-
-          <div class="notice-detail">
-순회 감독자 : 윤재원 형제, 박여송 자매
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- 알림 3 -->
-      <section class="notice-card">
-
-        <div class="notice-title">
-          지부 대표자와 함께하는 순회 대회
-        </div>
-
-        <div class="notice-body">
-
-          <div class="notice-date">
-            2027년 2월 27일 (토)
-          </div>
-
-          <div class="notice-detail">
-장소 : 퇴계원 대회 회관
-청중석 입장 시간 : 노약자와 1명의 보호자 오전 8시
-모든 참석자 : 오전 8시 15분 부터 입장
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- 알림 4 -->
-      <section class="notice-card">
-
-        <div class="notice-title">
-          기념식
-        </div>
-
-        <div class="notice-body">
-
-          <div class="notice-date">
-            2027년 3월 22일 (월)
-          </div>
-
-          <div class="notice-detail">
-장소 :
-시간 :
-          </div>
-
-        </div>
-
-      </section>
-
-    </div>
+    <div class="notice-list" id="noticeList">
+  <!-- Apps Script에서 알림을 불러옵니다. -->
+</div>
 
   </main>
 
@@ -628,36 +544,92 @@ function changeFont(amount) {
 })();
 
 /* =====================================
-   날짜가 지난 알림 숨기기
+   Apps Script에서 알림 불러오기
 ===================================== */
-(function hideExpiredNotices() {
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+const NOTICE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbw8L_EsIAt0LbXwYwdrIJI0gihxH9M93NtTg7cUjVPgtRZaWqGwabq5UBsCfeDUJ8SFDA/exec";
 
-  document.querySelectorAll(".notice-card").forEach(card => {
+async function loadNotices() {
 
-    const dateText = card.querySelector(".notice-date")?.textContent || "";
+  const noticeList = document.getElementById("noticeList");
 
-    const match = dateText.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
+  try {
 
-    if (!match) return;
+    const response = await fetch(NOTICE_SCRIPT_URL);
+    const notices = await response.json();
 
-    const noticeDate = new Date(
-      Number(match[1]),
-      Number(match[2]) - 1,
-      Number(match[3])
-    );
+    noticeList.innerHTML = "";
 
-    noticeDate.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    if (noticeDate < today) {
-      card.style.display = "none";
-    }
+    notices.forEach(notice => {
 
-  });
+      // 날짜 확인
+      const match = String(notice.date).match(
+        /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/
+      );
 
-})();
+      // 날짜가 지난 알림 숨기기
+      if (match) {
+        const noticeDate = new Date(
+          Number(match[1]),
+          Number(match[2]) - 1,
+          Number(match[3])
+        );
+
+        noticeDate.setHours(0, 0, 0, 0);
+
+        if (noticeDate < today) {
+          return;
+        }
+      }
+
+      // 알림 카드 생성
+      const card = document.createElement("section");
+      card.className = "notice-card";
+
+      // 제목
+      const title = document.createElement("div");
+      title.className = "notice-title";
+      title.textContent = notice.title || "";
+
+      // 카드 내용
+      const body = document.createElement("div");
+      body.className = "notice-body";
+
+      // 날짜
+      const date = document.createElement("div");
+      date.className = "notice-date";
+      date.textContent = notice.date || "";
+
+      // 상세 내용
+      const detail = document.createElement("div");
+      detail.className = "notice-detail";
+      detail.textContent = (notice.details || []).join("\n");
+
+      body.appendChild(date);
+      body.appendChild(detail);
+
+      card.appendChild(title);
+      card.appendChild(body);
+
+      noticeList.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    noticeList.textContent = "알림을 불러오지 못했습니다.";
+    console.error("알림 불러오기 오류:", error);
+
+  }
+
+}
+
+// 실행
+loadNotices();
 
 </script>
 
