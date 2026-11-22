@@ -2,14 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
- <meta name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
   <title>알림</title>
+
+  <style>
 html {
   touch-action: pan-x pan-y pinch-zoom;
 }
-  <style>
+
+body {
+  margin: 0;
+  padding-top: 82px;
+  background: #f2f4f7;
+  color: #222222;
+  font-family: Arial, sans-serif;
+}
 
 /* =====================================
    상단 고정 메뉴
@@ -194,11 +203,104 @@ html {
 }
 
 /* =====================================
+   알림 카드
+===================================== */
+#content {
+  padding: 12px 14px 84px;
+  box-sizing: border-box;
+}
+
+/* 카드 목록 */
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 알림 하나 */
+.notice-card {
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid #d4dbe3;
+  border-radius: 13px;
+
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.07);
+}
+
+/* 알림 제목 */
+.notice-title {
+  padding: 13px 15px;
+
+  background: #392078;
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.45;
+
+  word-break: keep-all;
+}
+
+/* 알림 내용 */
+.notice-body {
+  padding: 13px 15px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  font-size: 18px;
+  line-height: 1.6;
+
+  word-break: keep-all;
+}
+
+/* 날짜 */
+.notice-date {
+  color: #174b80;
+  font-size: 19px;
+  font-weight: 800;
+
+  margin-bottom: 3px;
+}
+
+/* 세부 내용 */
+.notice-detail {
+  white-space: pre-line;
+}
+
+/* =====================================
    어두운 모드
 ===================================== */
 body.dark-mode {
   background: #202124;
   color: #f1f3f4;
+}
+
+/* 어두운 모드 카드 */
+body.dark-mode .notice-card {
+  background: #292929;
+  border-color: #484848;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.25);
+}
+
+/* 어두운 모드 제목 */
+body.dark-mode .notice-title {
+  background: #30205e;
+  color: #ffffff;
+}
+
+/* 어두운 모드 카드 내용 */
+body.dark-mode .notice-body {
+  color: #eeeeee;
+}
+
+/* 어두운 모드 날짜 */
+body.dark-mode .notice-date {
+  color: #9dcaff;
 }
 
 /* 어두운 모드 설정창 */
@@ -227,11 +329,6 @@ body.dark-mode .settings-panel .theme-btn.active {
 /* =====================================
    하단 고정 메뉴 3개
 ===================================== */
-#content {
-  padding-bottom: 84px;
-  box-sizing: border-box;
-}
-
 .group-top-buttons {
   position: fixed;
   left: 0;
@@ -266,22 +363,54 @@ body.dark-mode .settings-panel .theme-btn.active {
 .group-top-buttons button.active {
   background: #35536d;
 }
-  </style>
+
+/* =====================================
+   작은 화면
+===================================== */
+@media (max-width: 430px) {
+  #content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .notice-list {
+    gap: 13px;
+  }
+
+  .notice-title {
+    font-size: 19px;
+    padding: 12px;
+  }
+
+  .notice-body {
+    padding: 12px;
+    font-size: 17px;
+  }
+
+  .notice-date {
+    font-size: 18px;
+  }
+
+  .group-top-buttons button {
+    font-size: 18px;
+  }
+}
   </style>
 </head>
 
 <body>
 
+  <!-- 상단 메뉴 -->
   <header class="fixed-header">
 
-<!-- 홈으로 이동 -->
-<button type="button"
-  class="top-button back-button"
-  onclick="window.location.replace('./index.html')"
-  aria-label="홈으로">‹</button>
+    <!-- 홈으로 이동 -->
+    <button type="button"
+      class="top-button back-button"
+      onclick="window.location.replace('./index.html')"
+      aria-label="홈으로">‹</button>
 
     <!-- 가운데 제목 -->
-   <div class="main-title">회중 알림</div>
+    <div class="main-title">회중 알림</div>
 
     <!-- 설정 -->
     <button type="button"
@@ -332,8 +461,102 @@ body.dark-mode .settings-panel .theme-btn.active {
 
   </div>
 
+  <!-- 알림 내용 -->
   <main id="content">
-    <!-- 기존 알림 내용 -->
+
+    <div class="notice-list">
+
+      <!-- 알림 1 -->
+      <section class="notice-card">
+
+        <div class="notice-title">
+          순회 감독자와 함께하는 순회 대회
+        </div>
+
+        <div class="notice-body">
+
+          <div class="notice-date">
+            2026년 11월 29일 (일)
+          </div>
+
+          <div class="notice-detail">
+장소 : 퇴계원 대회 회관
+청중석 입장 시간 : 노약자와 1명의 보호자 오전 8시
+모든 참석자 : 오전 8시 15분 부터 입장
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- 알림 2 -->
+      <section class="notice-card">
+
+        <div class="notice-title">
+          순회 감독자의 회중 방문
+        </div>
+
+        <div class="notice-body">
+
+          <div class="notice-date">
+            2026년 12월 15일 (화)
+          </div>
+
+          <div class="notice-detail">
+순회 감독자 : 윤재원 형제, 박여송 자매
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- 알림 3 -->
+      <section class="notice-card">
+
+        <div class="notice-title">
+          지부 대표자와 함께하는 순회 대회
+        </div>
+
+        <div class="notice-body">
+
+          <div class="notice-date">
+            2027년 2월 27일 (토)
+          </div>
+
+          <div class="notice-detail">
+장소 : 퇴계원 대회 회관
+청중석 입장 시간 : 노약자와 1명의 보호자 오전 8시
+모든 참석자 : 오전 8시 15분 부터 입장
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- 알림 4 -->
+      <section class="notice-card">
+
+        <div class="notice-title">
+          기념식
+        </div>
+
+        <div class="notice-body">
+
+          <div class="notice-date">
+            2027년 3월 22일 (월)
+          </div>
+
+          <div class="notice-detail">
+장소 :
+시간 :
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
   </main>
 
   <!-- 하단 고정 메뉴 -->
@@ -350,11 +573,12 @@ body.dark-mode .settings-panel .theme-btn.active {
     </button>
 
     <button type="button"
-  class="active"
-  aria-current="page"
-  onclick="location.href='게시판-회중-알림.html'">
-  알림
-</button>
+      class="active"
+      aria-current="page"
+      onclick="location.href='게시판-회중-알림.html'">
+      알림
+    </button>
+
   </div>
 
 <script>
@@ -412,9 +636,7 @@ function setFontPercent(percent) {
 
 /* 글자 크기 변경 */
 function changeFont(amount) {
-
   setFontPercent(fontPercent + amount);
-
 }
 
 /* 저장된 설정 불러오기 */
