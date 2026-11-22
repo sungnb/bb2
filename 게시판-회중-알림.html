@@ -206,7 +206,7 @@ body {
    알림 카드
 ===================================== */
 #content {
-  padding: 12px 8px 84px;
+  padding: 12px 0 84px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -215,8 +215,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 100%;
-  margin: 0;
+  width: calc(100% - 16px);
+  margin: 0 8px;
   box-sizing: border-box;
 }
 
@@ -270,56 +270,56 @@ body {
    어두운 모드
 ===================================== */
 body.dark-mode {
-  background: #202124;
-  color: #f1f3f4;
+  background: #181D24;
+  color: #E1E6ED;
 }
 
 /* 어두운 모드 카드 */
 body.dark-mode .notice-card {
-  background: #292929;
-  border-color: #484848;
+  background: #242C36;
+  border-color: #3B4654;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.25);
 }
 
 /* 어두운 모드 제목 */
 body.dark-mode .notice-title {
-  background: #30205e;
-  color: #ffffff;
+  background: #34445C;
+  color: #FFFFFF;
 }
 
 /* 어두운 모드 카드 내용 */
 body.dark-mode .notice-body {
-  color: #eeeeee;
+  color: #E1E6ED;
 }
 
 /* 어두운 모드 날짜 */
 body.dark-mode .notice-date {
-  color: #9dcaff;
+  color: #A9CEFF;
 }
 
 /* 어두운 모드 설정창 */
 body.dark-mode .settings-panel {
-  background: #202020;
-  color: #f5f5f5;
-  border-color: #404040;
+  background: #242C36;
+  color: #E1E6ED;
+  border-color: #3B4654;
 }
 
 /* 어두운 모드 버튼 */
 body.dark-mode .settings-panel .theme-btn,
 body.dark-mode .settings-panel .font-btn,
 body.dark-mode .settings-panel .font-size {
-  background: #202020;
-  color: #eeeeee;
-  border-color: #505050;
+  background: #242C36;
+  color: #E1E6ED;
+  border-color: #3B4654;
 }
 
 /* 어두운 모드 선택 테마 */
 body.dark-mode .settings-panel .theme-btn.active {
-  background: #302b50;
-  border-color: #7566ff;
-  color: #ffffff;
+  background: #34445C;
+  border-color: #A9CEFF;
+  color: #FFFFFF;
 }
-
+    
 /* =====================================
    하단 고정 메뉴 3개
 ===================================== */
