@@ -627,6 +627,38 @@ function changeFont(amount) {
 
 })();
 
+/* =====================================
+   날짜가 지난 알림 숨기기
+===================================== */
+(function hideExpiredNotices() {
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  document.querySelectorAll(".notice-card").forEach(card => {
+
+    const dateText = card.querySelector(".notice-date")?.textContent || "";
+
+    const match = dateText.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
+
+    if (!match) return;
+
+    const noticeDate = new Date(
+      Number(match[1]),
+      Number(match[2]) - 1,
+      Number(match[3])
+    );
+
+    noticeDate.setHours(0, 0, 0, 0);
+
+    if (noticeDate < today) {
+      card.style.display = "none";
+    }
+
+  });
+
+})();
+
 </script>
 
 </body>
